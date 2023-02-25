@@ -1,4 +1,6 @@
 using back.Data;
+using back.Models;
+using back.Services;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -10,8 +12,15 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+//sqlite connection
 builder.Services.AddDbContext<GamesDbContext>(options =>
 options.UseSqlite(builder.Configuration.GetConnectionString("GamesConnectionString")));
+
+//mongodb connection
+builder.Services.Configure<booksDbSettings>(
+    builder.Configuration.GetSection("booksDatabase"));
+
+builder.Services.AddSingleton<BooksService>();
 
 var app = builder.Build();
 
