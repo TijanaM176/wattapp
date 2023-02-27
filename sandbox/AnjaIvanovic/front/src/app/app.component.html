@@ -1,0 +1,49 @@
+<div class="container">
+  <div class="view">
+      <div class="header">
+        <span>Game</span>
+        <span>Developer</span>
+        <span>Genre</span>
+        <span>Description</span>
+        <span>Price</span>
+      </div>
+      <div class="gameList" *ngFor="let game of games">
+        <div class="game">
+          <span>{{game.name}}</span>
+          <span>{{game.developer}}</span>
+          <span>{{game.genre}}</span>
+          <span>{{game.description}}</span>
+          <span>{{game.price}}</span>
+          <button (click)="deleteGame(game.id)">Delete</button>
+        </div>
+      </div>
+  </div>
+  <div class="formDiv">
+    <h1>Insert new game</h1>
+    <form method="post" #form="ngForm" (ngSubmit)="addGame()">
+      <label>Game</label><input type="text" name="gameName" [(ngModel)]="game.name"><br>
+      <label>Developer</label><input type="text" name="gameDeveloper" [(ngModel)]="game.developer"><br>
+      <label>Genre</label><input type="text" name="gameGenre" [(ngModel)]="game.genre"><br>
+      <label>Description</label><input type="text" name="gameDescription" [(ngModel)]="game.description"><br>
+      <label>Price</label><input type="number" name="gamePrice" [(ngModel)]="game.price"><br>
+      <input type="submit" value="Insert">
+    </form>
+  </div>
+  <div class="formDiv">
+    <h1>Edit existing game</h1>
+    <form #form="ngForm" (ngSubmit)="updateGame()">
+      <label>Game</label>
+      <select name="combo" [(ngModel)]="gameU.id">
+        <option *ngFor="let gameU of games" value="{{gameU.id}}" name="updateName">{{gameU.name}}</option>
+      </select><br>
+      <label>Developer</label><input type="text" name="updateDeveloper" [(ngModel)]="gameU.developer"><br>
+      <label>Genre</label><input type="text" name="updateGenre" [(ngModel)]="gameU.genre"><br>
+      <label>Description</label><input type="text" name="updateDescription" [(ngModel)]="gameU.description"><br>
+      <label>Price</label><input type="number" name="updatePrice" [(ngModel)]="gameU.price"><br>
+      <input type="submit" value="Update">
+    </form>
+  </div>
+</div>
+<div class="container">
+
+</div>

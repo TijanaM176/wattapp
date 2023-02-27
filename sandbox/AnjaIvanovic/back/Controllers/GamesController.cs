@@ -50,7 +50,6 @@ namespace back.Controllers
             var game = await gamesDbContext.Games.FirstOrDefaultAsync(x => x.Id == id);
             if (game != null)
             {
-                game.Name = gameUpdate.Name;
                 game.Developer = gameUpdate.Developer;
                 game.Genre = gameUpdate.Genre;
                 game.Description = gameUpdate.Description;
