@@ -4,6 +4,9 @@ import { Injectable } from '@angular/core';
 
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs'; //used to handle sync requests and responses
+import { IWorker } from './models/worker.model';
+import { IDepartment } from './models/department.model';
+import { INewWorker } from './models/newWorker.model';
 
 @Injectable({
   providedIn: 'root'
@@ -13,33 +16,33 @@ export class SharedServiceService {
 
   constructor(private http:HttpClient) { }
 
-  getDepartmentList():Observable<any[]>
+  getDepartmentList():Observable<IDepartment[]>
   {
-    return this.http.get<any>(this.APIUrl+'/Departments');
+    return this.http.get<IDepartment[]>(this.APIUrl+'/Departments');
   }
 
-  getWorkersList():Observable<any[]>
+  getWorkersList():Observable<IWorker[]>
   {
-    return this.http.get<any>(this.APIUrl+'/Workers');
+    return this.http.get<IWorker[]>(this.APIUrl+'/Workers');
   }
 
-  getWorker(val:any):Observable<any>
+  getWorker(val:any):Observable<IWorker>
   {
-    return this.http.get<any>(this.APIUrl+'/Workers/'+val);
+    return this.http.get<IWorker>(this.APIUrl+'/Workers/'+val);
   }
 
-  addWorker(val:any)
+  addWorker(val:INewWorker)
   {
     return this.http.post(this.APIUrl+'/Workers',val);
   }
 
-  updateWorker(val:any)
+  updateWorker(id:any,val:INewWorker)
   {
-    return this.http.put(this.APIUrl+'/Workers',val);
+    return this.http.put(this.APIUrl+'/Workers/'+id,val);
   }
 
-  deleteWorker(val:any)
+  deleteWorker(id:any)
   {
-    return this.http.delete(this.APIUrl+'/Workers/'+val);
+    return this.http.delete(this.APIUrl+'/Workers/'+id);
   }
 }
