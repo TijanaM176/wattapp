@@ -8,6 +8,12 @@ import { ShowWorkersComponent } from './workers/show-workers/show-workers.compon
 import { AddEditWorkersComponent } from './workers/add-edit-workers/add-edit-workers.component';
 import { SharedServiceService } from './shared-service.service';
 
+//register http client
+import {HttpClientModule} from '@angular/common/http';
+
+//import other modules
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -17,7 +23,10 @@ import { SharedServiceService } from './shared-service.service';
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    HttpClientModule,
+    FormsModule,
+    ReactiveFormsModule
   ],
   providers: [SharedServiceService],
   bootstrap: [AppComponent]
