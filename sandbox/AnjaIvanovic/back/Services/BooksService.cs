@@ -30,7 +30,9 @@ namespace back.Services
         }
 
         public async Task UpdateBookAsync(string id, Book updatedBook)
-        { 
+        {
+            Book b = await booksCollection.Find(x => x.Id == id).FirstOrDefaultAsync();
+            updatedBook.Title = b.Title;
             await booksCollection.ReplaceOneAsync(x => x.Id == id, updatedBook);
         }
 

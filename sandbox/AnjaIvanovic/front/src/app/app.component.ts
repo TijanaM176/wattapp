@@ -37,6 +37,14 @@ export class AppComponent implements OnInit{
     description: "",
     price: 0
   }
+  bookU : Book = {
+    id: "",
+    title: "",
+    author: "",
+    genre: "",
+    description: "",
+    price: 0
+  }
 
   constructor(private gamesService: GamesService, private booksService: BooksService){
 
@@ -59,12 +67,27 @@ export class AppComponent implements OnInit{
   }
 
   addGame(){
-    this.gamesService.addGame(this.game).subscribe( response =>{
+    this.gamesService.addGame(this.game).subscribe(response =>{
       this.getGames();
       this.game = {
         id: "",
         name: "",
         developer: "",
+        genre: "",
+        description: "",
+        price: 0
+      }
+    })
+  }
+
+  addBook()
+  {
+    this.booksService.addBook(this.book).subscribe(response =>{
+      this.getBooks();
+      this.book = {
+        id: "",
+        title: "",
+        author: "",
         genre: "",
         description: "",
         price: 0
@@ -86,6 +109,21 @@ export class AppComponent implements OnInit{
     })
   }
 
+  updateBook()
+  {
+    this.booksService.updateBook(this.bookU).subscribe(response => {
+      this.getBooks();
+      this.bookU = {
+        id: "",
+        title: "",
+        author: "",
+        genre: "",
+        description: "",
+        price: 0
+      }
+    })
+  }
+
   deleteGame(id: string)
   {
     this.gamesService.deleteGame(id).subscribe(response =>{
@@ -99,5 +137,20 @@ export class AppComponent implements OnInit{
         price: 0
       }
     });
+  }
+
+  deleteBook(id: string)
+  {
+    this.booksService.deleteBook(id).subscribe(response =>{
+      this.getBooks();
+      this.book = {
+        id: "",
+        title: "",
+        author: "",
+        genre: "",
+        description: "",
+        price: 0
+      }
+    })
   }
 }

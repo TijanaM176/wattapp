@@ -14,4 +14,16 @@ export class BooksService {
   getAllBooks() : Observable<Book[]>{
     return this.http.get<Book[]>(this.baseUrl);
   }
+
+  addBook(book: Book) : Observable<Book>{
+    return this.http.post<Book>(this.baseUrl, book);
+  }
+
+  updateBook(book: Book) : Observable<Book>{
+    return this.http.put<Book>(this.baseUrl + "/" + book.id, book);
+  }
+
+  deleteBook(id: String) : Observable<Book>{
+    return this.http.delete<Book>(this.baseUrl + "/" + id);
+  }
 }
