@@ -15,6 +15,7 @@ export class AppComponent implements OnInit{
   }
   ngOnInit(): void {
     this.getAllWorkers();
+    //this.getAllDeps(); samo za proveru
   }
 
   getAllWorkers()
@@ -26,4 +27,13 @@ export class AppComponent implements OnInit{
       }
     );
   }
+  /*getAllDeps()
+  {
+    this.service.getDepartmentList()
+    .subscribe(
+      responce =>{
+        console.log(responce);
+      }
+    );
+  }*/
 }
