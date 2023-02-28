@@ -2,7 +2,7 @@
   <h1 class="mb-3">Edit New Employee</h1>
   <div class="row">
     <div class="col-6">
-      <form #form="ngForm">
+      <form #form="ngForm" (ngSubmit)="updateEmployee()">
         <div class="mb-3">
           <label for="id" class="form-label">Id</label>
           <input
@@ -31,7 +31,7 @@
             class="form-control"
             id="email"
             name="email"
-            [(ngModel)]="employeeDetails.id"
+            [(ngModel)]="employeeDetails.email"
           />
         </div>
         <div class="mb-3">

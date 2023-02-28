@@ -24,4 +24,14 @@ export class EmployeesService {
   getEmployee(id: string): Observable<Employee> {
     return this.http.get<Employee>('http://localhost:5063/api/employees/' + id);
   }
+
+  updateEmployee(
+    id: string,
+    updateEmployeeRequest: Employee
+  ): Observable<Employee> {
+    return this.http.put<Employee>(
+      'http://localhost:5063/api/employees/' + id,
+      updateEmployeeRequest
+    );
+  }
 }
