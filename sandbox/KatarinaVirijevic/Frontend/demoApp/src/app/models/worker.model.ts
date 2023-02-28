@@ -1,7 +1,7 @@
 export interface IWorker
 {
-    Id : string,
-    Name : string,
-    Department : string,
-    Age : number
+    id : string,
+    name : string,
+    department : string,
+    age : number
 }

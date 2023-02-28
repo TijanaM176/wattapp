@@ -13,10 +13,10 @@ export class AppComponent implements OnInit{
   workers : IWorker[] = [];
 
   worker : IWorker = {
-    Id : '',
-    Name : '',
-    Department : '',
-    Age : 0
+    id : '',
+    name : '',
+    department : '',
+    age : 0
   }; //used to populate form and save info we provided in it
 
   newWorker : INewWorker = {
@@ -47,11 +47,11 @@ export class AppComponent implements OnInit{
 
   addUpdateWorker()
   {
-    if(this.worker.Id === '') //if id is empty, we're adding a new worker
+    if(this.worker.id === '') //if id is empty, we're adding a new worker
     {
-      this.newWorker.Name = this.worker.Name;
-      this.newWorker.Department = this.worker.Department;
-      this.newWorker.Age = this.worker.Age;
+      this.newWorker.Name = this.worker.name;
+      this.newWorker.Department = this.worker.department;
+      this.newWorker.Age = this.worker.age;
 
       this.service.addWorker(this.newWorker)
       .subscribe(
@@ -69,10 +69,11 @@ export class AppComponent implements OnInit{
     }
     else
     {
-      this.newWorker.Name = this.worker.Name;
-      this.newWorker.Department = this.worker.Department;
-      this.newWorker.Age = this.worker.Age;
-      this.service.updateWorker(this.worker.Id, this.newWorker)
+      this.newWorker.Name = this.worker.name;
+      this.newWorker.Department = this.worker.department;
+      this.newWorker.Age = this.worker.age;
+
+      this.service.updateWorker(this.worker.id, this.newWorker)
       .subscribe(
         responce => {
           console.log(responce);

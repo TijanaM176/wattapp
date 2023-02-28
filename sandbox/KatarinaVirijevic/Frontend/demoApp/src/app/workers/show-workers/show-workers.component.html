@@ -1,1 +1,26 @@
-<p>show-workers works!</p>
+
+
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>WorkerID</th>
+            <th>Name</th>
+            <th>Department</th>
+            <th>Age</th>
+            <th>Options</th>
+        </tr>
+    </thead>
+    <tbody>
+          <tr *ngFor='let item of workers'>
+            <td>{{item.id}}</td>
+            <td>{{item.name}}</td>
+            <td>{{item.department}}</td>
+            <td>{{item.age}}</td>
+            <td>
+                <button type="button" class="btn btn-dark mr-1">Edit</button>
+                <button type="button" class="btn btn-dark mr-1">Delete</button>
+            </td>
+          </tr>  
+    </tbody>
+</table>
