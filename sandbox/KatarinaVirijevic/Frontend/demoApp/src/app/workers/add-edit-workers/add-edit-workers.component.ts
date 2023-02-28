@@ -34,9 +34,7 @@ export class AddEditWorkersComponent implements OnInit{
     this.service.addWorker(newWorker)
     .subscribe(
       response =>{
-        if(response.length!=0){
-          alert("Employee successfully added!");
-        }
+        console.log(response);
       }
     );
   }
@@ -51,10 +49,8 @@ export class AddEditWorkersComponent implements OnInit{
     this.service.updateWorker(this.workerId,updateWorker)
     .subscribe(
       response =>{
-        if(response.length!=0){
-          alert("Employee successfully edited!");
+          console.log(response);
         }
-      }
     );
   }
 

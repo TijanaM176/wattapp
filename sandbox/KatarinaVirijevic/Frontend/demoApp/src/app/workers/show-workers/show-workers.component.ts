@@ -45,6 +45,20 @@ export class ShowWorkersComponent implements OnInit {
     this.ActivateAddEditWorkersComp = true;
   }
 
+  deleteClick(item:any)
+  {
+    if(confirm("Are you sure?"))
+    {
+      this.service.deleteWorker(item.id)
+      .subscribe(
+        response =>{
+          console.log(response);
+          this.getAllWorkers();
+        }
+      );
+    }
+  }
+
   getAllWorkers()
   {
     this.service.getWorkersList()

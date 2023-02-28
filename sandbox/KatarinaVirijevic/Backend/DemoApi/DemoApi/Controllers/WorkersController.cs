@@ -33,7 +33,7 @@ namespace DemoApi.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<List<Worker>>> AddWorker([FromBody] newWorker addWorker)
+        public async Task<ActionResult<string>> AddWorker([FromBody] newWorker addWorker)
         {
             Worker toAdd = new Worker();
             toAdd.Name = addWorker.Name;
@@ -41,11 +41,15 @@ namespace DemoApi.Controllers
             toAdd.Department = addWorker.Department;
 
             await _services.Create(toAdd);
-            return Ok(await _services.Get());
+            return Ok(new
+            {
+                error = false,
+                message = "Employee Successfully Added!"
+            });
         }
 
         [HttpPut("{id}")]
-        public async Task<ActionResult<List<Worker>>> UpdateWorker(string id, [FromBody] newWorker updateWorker)
+        public async Task<ActionResult<string>> UpdateWorker(string id, [FromBody] newWorker updateWorker)
         {
             Worker toUpdate = new Worker();
             toUpdate.Id = id;
@@ -54,19 +58,31 @@ namespace DemoApi.Controllers
             toUpdate.Department = updateWorker.Department;
 
             await _services.Update(id, toUpdate);
-            return Ok(await _services.Get());
+            return Ok(new
+            {
+                error = false,
+                message = "Employee Successfully Updated!"
+            });
         }
 
         [HttpDelete("{id}")]
-        public async Task<ActionResult<List<Worker>>> DeleteWorker(string id)
+        public async Task<ActionResult<string>> DeleteWorker(string id)
         {
             var toDelete = await _services.Get(id);
             if(toDelete is null)
             {
-                return BadRequest("Employee not found");
+                return BadRequest(new
+                {
+                    error = true,
+                    message = "Employee Not Found!"
+                });
             }
             await _services.Remove(id);
-            return Ok(await _services.Get());
+            return Ok(new
+            {
+                error = false,
+                message = "Employee Successfully Deleted!"
+            });
         }
     }
 }
