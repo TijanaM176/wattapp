@@ -34,4 +34,9 @@ export class EmployeesService {
       updateEmployeeRequest
     );
   }
+  deleteEmployee(id: string): Observable<Employee> {
+    return this.http.delete<Employee>(
+      'http://localhost:5063/api/employees/' + id
+    );
+  }
 }

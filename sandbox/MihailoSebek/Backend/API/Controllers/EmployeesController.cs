@@ -69,5 +69,21 @@ public class EmployeesController:Controller
         return Ok(employee);
 
     }
-    
+
+    [HttpDelete]
+    [Route("{id:Guid}")]
+
+    public async Task<IActionResult> DeleteEmployee([FromRoute] Guid id)
+    {
+        var employee= await _crudDbContext.Employees.FindAsync((id));
+
+        if (employee == null)
+        {
+            return NotFound();
+        }
+
+        _crudDbContext.Employees.Remove(employee);
+        await _crudDbContext.SaveChangesAsync();
+        return Ok(employee);
+    }
 }
