@@ -63,9 +63,9 @@ export class ShowWorkersComponent implements OnInit {
   {
     this.service.getWorkersList()
     .subscribe(
-      responce => {
+      response => {
         //console.log(responce);
-        this.workers = responce;
+        this.workers = response;
         //console.log(this.workers);
       }
     );

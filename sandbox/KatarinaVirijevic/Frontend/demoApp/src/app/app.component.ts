@@ -38,9 +38,9 @@ export class AppComponent implements OnInit{
   {
     this.service.getWorkersList()
     .subscribe(
-      responce => {
+      response => {
         //console.log(responce);
-        this.workers = responce;
+        this.workers = response;
       }
     );
   }
@@ -75,8 +75,8 @@ export class AppComponent implements OnInit{
 
       this.service.updateWorker(this.worker.id, this.newWorker)
       .subscribe(
-        responce => {
-          console.log(responce);
+        response => {
+          console.log(response);
           /*this.getAllWorkers();
           this.newWorker = {
             Name : '',
@@ -98,8 +98,8 @@ export class AppComponent implements OnInit{
   {
     this.service.deleteWorker(id)
     .subscribe(
-      responce => {
-        console.log(responce);
+      response => {
+        console.log(response);
         //this.getAllWorkers();
       }
     );
@@ -108,8 +108,8 @@ export class AppComponent implements OnInit{
   {
     this.service.getDepartmentList()
     .subscribe(
-      responce =>{
-        console.log(responce);
+      response =>{
+        console.log(response);
       }
     );
   }*/
