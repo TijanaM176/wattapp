@@ -20,4 +20,8 @@ export class EmployeesService {
       addEmployeeRequest
     );
   }
+
+  getEmployee(id: string): Observable<Employee> {
+    return this.http.get<Employee>('http://localhost:5063/api/employees/' + id);
+  }
 }

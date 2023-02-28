@@ -8,9 +8,10 @@ import { HttpClientModule } from '@angular/common/http';
 import { EmployeesService } from './services/employees.service';
 import { AddEmployeeComponent } from './components/employees/add-employee/add-employee.component';
 import { FormsModule } from '@angular/forms';
+import { EditEmployeeComponent } from './edit-employee/edit-employee.component';
 
 @NgModule({
-  declarations: [AppComponent, EmployeesListComponent, AddEmployeeComponent],
+  declarations: [AppComponent, EmployeesListComponent, AddEmployeeComponent, EditEmployeeComponent],
   imports: [BrowserModule, AppRoutingModule, HttpClientModule, FormsModule],
   providers: [EmployeesService],
   bootstrap: [AppComponent],
