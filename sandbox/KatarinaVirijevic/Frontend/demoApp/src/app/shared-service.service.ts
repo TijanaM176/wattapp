@@ -31,18 +31,18 @@ export class SharedServiceService {
     return this.http.get<IWorker>(this.APIUrl+'/Workers/'+val);
   }
 
-  addWorker(val:INewWorker)
+  addWorker(val:INewWorker):Observable<IWorker[]>
   {
-    return this.http.post(this.APIUrl+'/Workers',val);
+    return this.http.post<IWorker[]>(this.APIUrl+'/Workers',val);
   }
 
-  updateWorker(id:any,val:INewWorker)
+  updateWorker(id:any,val:INewWorker):Observable<IWorker[]>
   {
-    return this.http.put(this.APIUrl+'/Workers/'+id,val);
+    return this.http.put<IWorker[]>(this.APIUrl+'/Workers/'+id,val);
   }
 
-  deleteWorker(id:any)
+  deleteWorker(id:any):Observable<IWorker[]>
   {
-    return this.http.delete(this.APIUrl+'/Workers/'+id);
+    return this.http.delete<IWorker[]>(this.APIUrl+'/Workers/'+id);
   }
 }
