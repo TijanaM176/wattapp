@@ -1,6 +1,24 @@
-
-
-
+<br> 
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-primary float-right m-2" data-bs-toggle="modal" data-bs-target="#staticBackdrop" (click)="addClick()">
+    Add Employee
+  </button>
+  
+  <!-- Modal -->
+  <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="staticBackdropLabel">{{ModalTitle}}</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="closeClick()"></button>
+        </div>
+        <div class="modal-body">
+          <app-add-edit-workers [empl]="empl" *ngIf="ActivateAddEditWorkersComp"></app-add-edit-workers>
+        </div>
+      </div>
+    </div>
+  </div>
+<br><br>
 <table class="table table-striped">
     <thead>
         <tr>
@@ -18,7 +36,8 @@
             <td>{{item.department}}</td>
             <td>{{item.age}}</td>
             <td>
-                <button type="button" class="btn btn-dark mr-1">Edit</button>
+                <button type="button" class="btn btn-dark mr-1" data-bs-toggle="modal" data-bs-target="#staticBackdrop" (click)="editClick(item)">Edit</button>
+                &nbsp;
                 <button type="button" class="btn btn-dark mr-1">Delete</button>
             </td>
           </tr>  

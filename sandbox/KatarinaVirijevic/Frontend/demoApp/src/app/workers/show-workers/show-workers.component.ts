@@ -12,9 +12,37 @@ export class ShowWorkersComponent implements OnInit {
   constructor(private service : SharedServiceService) {}
 
   workers : IWorker[] = [];
+  ModalTitle : string='';
+  ActivateAddEditWorkersComp : boolean =false;
+  empl: any;
 
   ngOnInit(): void {
     this.getAllWorkers();
+  }
+
+  addClick()
+  {
+    this.empl={
+      id:0,
+      name:"",
+      department:"",
+      age:0
+    }
+    this.ModalTitle = "Add Employee";
+    this.ActivateAddEditWorkersComp = true;
+  }
+
+  closeClick()
+  {
+    this.ActivateAddEditWorkersComp = false;
+    this.getAllWorkers();
+  }
+
+  editClick(item:any)
+  {
+    this.empl = item;
+    this.ModalTitle = "Edit Employee";
+    this.ActivateAddEditWorkersComp = true;
   }
 
   getAllWorkers()
@@ -24,7 +52,7 @@ export class ShowWorkersComponent implements OnInit {
       responce => {
         //console.log(responce);
         this.workers = responce;
-        console.log(this.workers);
+        //console.log(this.workers);
       }
     );
   }
