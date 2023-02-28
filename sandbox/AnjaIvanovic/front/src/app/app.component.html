@@ -1,92 +1,82 @@
 <div class="container">
-  <div class="view">
-      <div class="header">
-        <span>Game</span>
-        <span>Developer</span>
-        <span>Genre</span>
-        <span>Description</span>
-        <span>Price</span>
-      </div>
-      <div class="gameList" *ngFor="let game of games">
-        <div class="game">
-          <span>{{game.name}}</span>
-          <span>{{game.developer}}</span>
-          <span>{{game.genre}}</span>
-          <span>{{game.description}}</span>
-          <span>{{game.price}}</span>
-          <button (click)="deleteGame(game.id)">Delete</button>
-        </div>
-      </div>
-  </div>
+  <h1>Games</h1>
   <div class="formDiv">
-    <h1>Insert new game</h1>
+    <h2>Insert new game</h2>
     <form method="post" #form="ngForm" (ngSubmit)="addGame()">
-      <label>Game</label><input type="text" name="gameName" [(ngModel)]="game.name"><br>
-      <label>Developer</label><input type="text" name="gameDeveloper" [(ngModel)]="game.developer"><br>
-      <label>Genre</label><input type="text" name="gameGenre" [(ngModel)]="game.genre"><br>
-      <label>Description</label><input type="text" name="gameDescription" [(ngModel)]="game.description"><br>
-      <label>Price</label><input type="number" name="gamePrice" [(ngModel)]="game.price"><br>
-      <input type="submit" value="Insert">
+      <input placeholder="Game" type="text" name="gameName" [(ngModel)]="game.name"><br>
+      <input placeholder="Developer" type="text" name="gameDeveloper" [(ngModel)]="game.developer"><br>
+      <input placeholder="Genre" type="text" name="gameGenre" [(ngModel)]="game.genre"><br>
+      <input placeholder="Description" type="text" name="gameDescription" [(ngModel)]="game.description"><br>
+      <input placeholder="Price" type="number" name="gamePrice" [(ngModel)]="game.price"><br>
+      <input type="submit" value="Insert game">
     </form>
   </div>
   <div class="formDiv">
-    <h1>Edit existing game</h1>
+    <h2>Edit existing game</h2>
     <form #form="ngForm" (ngSubmit)="updateGame()">
-      <label>Game</label>
+      <span><label>Select game: </label>
       <select name="combo" [(ngModel)]="gameU.id">
         <option *ngFor="let gameU of games" value="{{gameU.id}}" name="updateName">{{gameU.name}}</option>
-      </select><br>
-      <label>Developer</label><input type="text" name="updateDeveloper" [(ngModel)]="gameU.developer"><br>
-      <label>Genre</label><input type="text" name="updateGenre" [(ngModel)]="gameU.genre"><br>
-      <label>Description</label><input type="text" name="updateDescription" [(ngModel)]="gameU.description"><br>
-      <label>Price</label><input type="number" name="updatePrice" [(ngModel)]="gameU.price"><br>
-      <input type="submit" value="Update">
+      </select></span><br>
+      <input placeholder="Developer" type="text" name="updateDeveloper" [(ngModel)]="gameU.developer"><br>
+      <input placeholder="Genre" type="text" name="updateGenre" [(ngModel)]="gameU.genre"><br>
+      <input placeholder="Description" type="text" name="updateDescription" [(ngModel)]="gameU.description"><br>
+      <input placeholder="Price" type="number" name="updatePrice" [(ngModel)]="gameU.price"><br>
+      <input type="submit" value="Update game">
     </form>
+  </div>
+  <div class="clear"></div>
+  <div class="view">
+    <div class="list" *ngFor="let game of games">
+      <div class="item">
+        <h2>{{game.name}}</h2>
+        <h3>{{game.developer}}</h3>
+        <span>{{game.genre}}</span>
+        <p>{{game.description}}</p>
+        <span>Price: {{game.price}}$</span><br>
+        <button (click)="deleteGame(game.id)">Remove from list</button>
+      </div>
+    </div>
   </div>
 </div>
 <div class="container">
-  <div class="view">
-      <div class="header">
-        <span>Title</span>
-        <span>Author</span>
-        <span>Genre</span>
-        <span>Description</span>
-        <span>Price</span>
-      </div>
-      <div class="gameList" *ngFor="let book of books">
-        <div class="game">
-          <span>{{book.title}}</span>
-          <span>{{book.author}}</span>
-          <span>{{book.genre}}</span>
-          <span>{{book.description}}</span>
-          <span>{{book.price}}</span>
-          <button (click)="deleteBook(book.id)">Delete</button>
-        </div>
-      </div>
-  </div>
+  <h1>Books</h1>
   <div class="formDiv">
-    <h1>Insert new book</h1>
+    <h2>Insert new book</h2>
     <form method="post" #form="ngForm" (ngSubmit)="addBook()">
-      <label>Title</label><input type="text" name="bookTitle" [(ngModel)]="book.title"><br>
-      <label>Author</label><input type="text" name="bookAuthor" [(ngModel)]="book.author"><br>
-      <label>Genre</label><input type="text" name="bookGenre" [(ngModel)]="book.genre"><br>
-      <label>Description</label><input type="text" name="bookDescription" [(ngModel)]="book.description"><br>
-      <label>Price</label><input type="number" name="bookPrice" [(ngModel)]="book.price"><br>
-      <input type="submit" value="Insert">
+      <input placeholder="Title" type="text" name="bookTitle" [(ngModel)]="book.title"><br>
+      <input placeholder="Author" type="text" name="bookAuthor" [(ngModel)]="book.author"><br>
+      <input placeholder="Genre" type="text" name="bookGenre" [(ngModel)]="book.genre"><br>
+      <input placeholder="Description" type="text" name="bookDescription" [(ngModel)]="book.description"><br>
+      <input placeholder="Price" type="number" name="bookPrice" [(ngModel)]="book.price"><br>
+      <input type="submit" value="Insert book">
     </form>
   </div>
   <div class="formDiv">
-    <h1>Edit existing book</h1>
+    <h2>Edit existing book</h2>
     <form #form="ngForm" (ngSubmit)="updateBook()">
-      <label>Book</label>
+      <span><label>Select book: </label>
       <select name="combo" [(ngModel)]="bookU.id">
         <option *ngFor="let bookU of books" value="{{bookU.id}}" name="updateTitle">{{bookU.title}}</option>
-      </select><br>
-      <label>Author</label><input type="text" name="updateAuthor" [(ngModel)]="bookU.author"><br>
-      <label>Genre</label><input type="text" name="updateBGenre" [(ngModel)]="bookU.genre"><br>
-      <label>Description</label><input type="text" name="updateBDescription" [(ngModel)]="bookU.description"><br>
-      <label>Price</label><input type="number" name="updateBPrice" [(ngModel)]="bookU.price"><br>
-      <input type="submit" value="Update">
+      </select></span><br>
+      <input placeholder="Author" type="text" name="updateAuthor" [(ngModel)]="bookU.author"><br>
+      <input placeholder="Genre" type="text" name="updateBGenre" [(ngModel)]="bookU.genre"><br>
+      <input placeholder="Description" type="text" name="updateBDescription" [(ngModel)]="bookU.description"><br>
+      <input placeholder="Price" type="number" name="updateBPrice" [(ngModel)]="bookU.price"><br>
+      <input type="submit" value="Update book">
     </form>
+  </div>
+  <div class="clear"></div>
+  <div class="view">
+    <div class="list" *ngFor="let book of books">
+      <div class="item">
+        <h2>{{book.title}}</h2>
+        <h3>{{book.author}}</h3>
+        <span>{{book.genre}}</span>
+        <p>{{book.description}}</p>
+        <span>Price: {{book.price}}$</span><br>
+        <button (click)="deleteBook(book.id)">Remove from list</button>
+      </div>
+    </div>
   </div>
 </div>

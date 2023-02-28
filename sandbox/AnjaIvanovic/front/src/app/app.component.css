@@ -1,0 +1,87 @@
+
+
+.container{
+    float: left;
+    width: 40%;
+    padding: 2.5%;
+    margin: 2.5%;
+    text-align: justify;
+    background-color: white;
+}
+
+.formDiv{
+    text-align: center;
+    width: 40%;
+    padding-left: 2.5%;
+    padding-right: 2.5%;
+    padding-bottom: 2.5%;
+    margin-left: 2.5%;
+    margin-right: 2.5%;
+    float: left;
+    background-color: rgba(0, 10, 150, 0.7);
+}
+
+table{
+    border: 5px solid black;
+}
+
+form{
+    text-align: center;
+    width: 100%;
+}
+
+h1{
+    font-size: 30px;
+    text-align: center;
+    color: rgba(0, 10, 150, 0.5);
+    margin-bottom: 7%;
+}
+
+input{
+    width: 80%;
+    margin-left: 10%;
+    margin-right: 10%;
+    margin-bottom: 3%;
+    padding: 2%;
+}
+
+form span{
+    width: 100%;
+}
+
+label{
+    width: 40%;
+}
+
+select{
+    width: 40%;
+    margin-bottom: 3%;
+    padding: 2%;
+}
+
+h2{
+    font-size: 25px;
+}
+
+h3{
+    font-size: 20px;
+}
+
+.clear{
+    clear: both;
+}
+
+.item{
+    width: 90%;
+    padding-left: 5%;
+    padding-right: 5%;
+    padding-top: 2.5%;
+    padding-bottom: 2.5%;
+    margin-top: 5%;
+    background-color: rgba(0, 10, 150, 0.5);
+}
+
+button{
+    margin-top: 5%;
+    padding: 2%;
+}
