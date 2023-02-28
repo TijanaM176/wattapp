@@ -7,6 +7,7 @@ import {Observable} from 'rxjs'; //used to handle sync requests and responses
 import { IWorker } from './models/worker.model';
 import { IDepartment } from './models/department.model';
 import { INewWorker } from './models/newWorker.model';
+import { IDefaultResponce } from './models/defaultResponce';
 
 @Injectable({
   providedIn: 'root'
@@ -31,18 +32,18 @@ export class SharedServiceService {
     return this.http.get<IWorker>(this.APIUrl+'/Workers/'+val);
   }
 
-  addWorker(val:INewWorker):Observable<IWorker[]>
+  addWorker(val:INewWorker):Observable<IDefaultResponce>
   {
-    return this.http.post<IWorker[]>(this.APIUrl+'/Workers',val);
+    return this.http.post<IDefaultResponce>(this.APIUrl+'/Workers',val);
   }
 
-  updateWorker(id:any,val:INewWorker):Observable<IWorker[]>
+  updateWorker(id:any,val:INewWorker):Observable<IDefaultResponce>
   {
-    return this.http.put<IWorker[]>(this.APIUrl+'/Workers/'+id,val);
+    return this.http.put<IDefaultResponce>(this.APIUrl+'/Workers/'+id,val);
   }
 
-  deleteWorker(id:any):Observable<IWorker[]>
+  deleteWorker(id:any):Observable<IDefaultResponce>
   {
-    return this.http.delete<IWorker[]>(this.APIUrl+'/Workers/'+id);
+    return this.http.delete<IDefaultResponce>(this.APIUrl+'/Workers/'+id);
   }
 }

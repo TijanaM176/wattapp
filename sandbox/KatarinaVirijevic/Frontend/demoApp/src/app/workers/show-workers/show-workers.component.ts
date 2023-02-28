@@ -52,7 +52,7 @@ export class ShowWorkersComponent implements OnInit {
       this.service.deleteWorker(item.id)
       .subscribe(
         response =>{
-          console.log(response);
+          alert(response.message);
           this.getAllWorkers();
         }
       );

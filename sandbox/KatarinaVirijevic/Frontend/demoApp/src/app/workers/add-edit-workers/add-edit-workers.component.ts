@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { IDefaultResponce } from 'src/app/models/defaultResponce';
 import { INewWorker } from 'src/app/models/newWorker.model';
 import { SharedServiceService } from 'src/app/shared-service.service';
 
@@ -34,7 +35,7 @@ export class AddEditWorkersComponent implements OnInit{
     this.service.addWorker(newWorker)
     .subscribe(
       response =>{
-        console.log(response);
+        alert(response.message);
       }
     );
   }
@@ -49,7 +50,7 @@ export class AddEditWorkersComponent implements OnInit{
     this.service.updateWorker(this.workerId,updateWorker)
     .subscribe(
       response =>{
-          console.log(response);
+        alert(response.message);
         }
     );
   }
