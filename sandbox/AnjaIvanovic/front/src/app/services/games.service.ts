@@ -31,4 +31,8 @@ export class GamesService {
   {
     return this.http.delete<Game>(this.baseUrl + "/" + id);
   }
+
+  getGame(id: string) : Observable<Game>{
+    return this.http.get<Game>(this.baseUrl + "/" + id);
+  }
 }

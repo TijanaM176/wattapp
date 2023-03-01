@@ -153,4 +153,34 @@ export class AppComponent implements OnInit{
       }
     })
   }
+
+  fillGameForm(id: string)
+  {
+    this.gamesService.getGame(id).subscribe(response =>{
+      this.gameU = {
+        id: response.id,
+        name: response.name,
+        developer: response.developer,
+        genre: response.genre,
+        description: response.description,
+        price: response.price
+      }
+    })
+  }
+
+  fillBookForm(id:string)
+  {
+    console.log("pozvana");
+    this.booksService.getBook(id).subscribe(response =>{
+      this.bookU = {
+        id: response.id,
+        title: response.title,
+        author: response.author,
+        genre: response.genre,
+        description: response.description,
+        price: response.price
+      }
+    })
+  }
+
 }
