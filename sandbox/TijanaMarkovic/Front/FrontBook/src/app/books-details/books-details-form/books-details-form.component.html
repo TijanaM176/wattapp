@@ -1,0 +1,33 @@
+<form novalidate autocomplete="off" #form="ngForm" (submit)="onSubmit(form)" >
+    <input type="hidden" name="BookID"
+    [value]="service.formData.bookID"/>
+    <div class="form-group">
+      <label>Naziv</label>
+      <input class="form-control form-control-lg" placeholder="Naziv"  name=" Naziv"
+          #Naziv="ngModel" [(ngModel)]="service.formData.naziv" required [class.invalid]="Naziv.invalid && Naziv.touched" >
+    </div>
+  
+    <div class="form-group">
+      <label>Autor</label>
+      <input class="form-control form-control-lg" placeholder="Autor"  name="Autor"
+          #Autor="ngModel" [(ngModel)]="service.formData.autor" required [class.invalid]="Autor.invalid && Autor.touched">
+    </div>
+  
+  
+    <div class="form-group">
+      <label>Godina</label>
+      <input class="form-control form-control-lg" placeholder="Godina"  name="Godina"
+          #Godina="ngModel" [(ngModel)]="service.formData.godina" required [class.invalid]="Godina.invalid && Godina.touched">
+    </div>
+  
+    
+  <br><br>
+    <div class="form-group">
+      <button class="btn btn-info btn-lg btn-block" type="submit" [disabled]="form.invalid" >
+        SUBMIT
+      </button>
+      
+    </div>
+  
+  </form>
+  
