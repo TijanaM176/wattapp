@@ -14,10 +14,9 @@
   <div class="formDiv">
     <h2>Edit existing game</h2>
     <form #form="ngForm" (ngSubmit)="updateGame()">
-      <span><label>Select game: </label>
       <select name="combo" [(ngModel)]="gameU.id">
         <option *ngFor="let gameU of games" value="{{gameU.id}}" name="updateName">{{gameU.name}}</option>
-      </select></span><br>
+      </select>
       <input placeholder="Developer" type="text" name="updateDeveloper" [(ngModel)]="gameU.developer"><br>
       <input placeholder="Genre" type="text" name="updateGenre" [(ngModel)]="gameU.genre"><br>
       <input placeholder="Description" type="text" name="updateDescription" [(ngModel)]="gameU.description"><br>
@@ -55,10 +54,9 @@
   <div class="formDiv">
     <h2>Edit existing book</h2>
     <form #form="ngForm" (ngSubmit)="updateBook()">
-      <span><label>Select book: </label>
       <select name="combo" [(ngModel)]="bookU.id">
         <option *ngFor="let bookU of books" value="{{bookU.id}}" name="updateTitle">{{bookU.title}}</option>
-      </select></span><br>
+      </select>
       <input placeholder="Author" type="text" name="updateAuthor" [(ngModel)]="bookU.author"><br>
       <input placeholder="Genre" type="text" name="updateBGenre" [(ngModel)]="bookU.genre"><br>
       <input placeholder="Description" type="text" name="updateBDescription" [(ngModel)]="bookU.description"><br>

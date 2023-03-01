@@ -6,7 +6,8 @@
     padding: 2.5%;
     margin: 2.5%;
     text-align: justify;
-    background-color: white;
+    background-color: rgba(255, 255, 255, 0.85);
+    border-radius: 20px;
 }
 
 .formDiv{
@@ -18,7 +19,8 @@
     margin-left: 2.5%;
     margin-right: 2.5%;
     float: left;
-    background-color: rgba(0, 10, 150, 0.7);
+    background-color: rgba(0, 80, 200, 0.7);
+    border-radius: 20px;
 }
 
 table{
@@ -33,28 +35,20 @@ form{
 h1{
     font-size: 30px;
     text-align: center;
-    color: rgba(0, 10, 150, 0.5);
+    color: rgba(0, 80, 200, 0.5);
     margin-bottom: 7%;
 }
 
 input{
-    width: 80%;
+    width: 76%;
     margin-left: 10%;
     margin-right: 10%;
     margin-bottom: 3%;
     padding: 2%;
 }
 
-form span{
-    width: 100%;
-}
-
-label{
-    width: 40%;
-}
-
 select{
-    width: 40%;
+    width: 76%;
     margin-bottom: 3%;
     padding: 2%;
 }
@@ -78,7 +72,8 @@ h3{
     padding-top: 2.5%;
     padding-bottom: 2.5%;
     margin-top: 5%;
-    background-color: rgba(0, 10, 150, 0.5);
+    background-color: rgba(0, 80, 200, 0.5);
+    border-radius: 20px;
 }
 
 button{
