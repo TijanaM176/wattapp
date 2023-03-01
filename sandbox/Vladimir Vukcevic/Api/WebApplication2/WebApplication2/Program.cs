@@ -14,6 +14,13 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<CardsDbContext>(options =>
 options.UseSqlite(builder.Configuration.GetConnectionString("CardsDbConnectioNString")));
 
+builder.Services.AddCors((setup) =>
+{
+    setup.AddPolicy("default", (options) =>
+    {
+        options.AllowAnyMethod().AllowAnyHeader().AllowAnyOrigin();
+    });
+});
 
 var app = builder.Build();
 
@@ -23,6 +30,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseCors("default");
 
 app.UseHttpsRedirection();
 
