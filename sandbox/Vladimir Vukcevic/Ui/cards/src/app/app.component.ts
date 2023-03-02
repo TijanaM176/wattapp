@@ -15,7 +15,7 @@ export class AppComponent implements OnInit {
   card: Card={
     id: '',
     cardNumber: '',
-    cardHolderName: '',
+    cardholderName: '',
     cvc: '',
     expiryMonth: '',
     expiryYear: ''
@@ -34,11 +34,51 @@ export class AppComponent implements OnInit {
     .subscribe(
        response => {
          this.cards=response;
-      }
+       }
       );
   }
   onSubmit(){
-    console.log(this.card);
+
+    if(this.card.id ===''){
+      this.cardsService.addCard(this.card)
+    .subscribe(
+      response =>{
+        this.getAllCards() ;
+        this.card={ id: '',
+         cardNumber: '',
+         cardholderName: '',
+         cvc: '',
+         expiryMonth: '',
+         expiryYear: ''
+      };
+        
+      }
+      
+    );
+    }else{
+      this.updateCard(this.card);
+    }
+
+    
+  }
+  deleteCard(id: string){
+    this.cardsService.deleteCard(id)
+    .subscribe(
+      response=>{
+        this.getAllCards();
+      }
+    )
   }
 
+  populateForm(card: Card){
+    this.card=card;
+
+  }
+  updateCard(card: Card){
+    this.cardsService.updateCard(card).subscribe(
+      response =>{
+        this.getAllCards;
+      }
+    );
+  }
 }
