@@ -1,0 +1,152 @@
+@import url("https://fonts.googleapis.com/css2?family=Audiowide&display=swap");
+
+.pozadina {
+  margin: 0 0;
+  width: 100%;
+  height: 100vh;
+  background: linear-gradient(
+    to right,
+    white 0%,
+    white 40%,
+    #5875a1 40%,
+    #5875a1 100%
+  );
+}
+#okvir {
+  margin: 0;
+  padding: 0;
+  font-family: "Audiowide", cursive;
+  box-sizing: border-box;
+  position: absolute;
+  width: 70%;
+  height: 80%;
+  left: 15%;
+  display: flex;
+  top: 10vh;
+  background-color: #e8f3f8;
+  box-shadow: 1px 5px 5px 7px rgba(0, 0, 0, 0.25);
+}
+#levi {
+  position: relative;
+  width: 35.75%;
+  height: 100%;
+  background: #ffffff;
+  /* box-shadow: inset 0px 4px 4px rgba(0, 0, 0, 0.25); */
+}
+#desni {
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  width: 64.25%;
+  position: relative;
+  height: 100%;
+  background: #e8f3f8;
+  /* box-shadow: inset 0px 4px 4px rgba(0, 0, 0, 0.25); */
+}
+
+#logo {
+  position: relative;
+  left: 5%;
+  top: 40%;
+  width: 90%;
+  height: 20%;
+}
+
+#content {
+  width: 80%;
+  text-align: center;
+  justify-content: center;
+}
+
+#content h1 {
+  margin-bottom: 10%;
+  margin-top: 5%;
+  display: inline-block;
+  letter-spacing: 1px;
+  font-weight: 600;
+  line-height: 150%;
+  font-size: 50px;
+  color: #474f5b;
+  text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+#form {
+  position: relative;
+  width: 100%;
+  text-align: center;
+}
+
+#forgot {
+  float: right;
+  opacity: 0.98;
+  text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  color: #474f5b;
+  font-style: italic;
+  margin-top: 0.5%;
+  font-size: 15px;
+}
+
+.password {
+  text-align: left;
+}
+
+.input {
+  margin-bottom: 5%;
+  text-align: left;
+}
+.input span {
+  color: #474f5b;
+  text-align: left;
+  font-weight: 400;
+  font-size: 20px;
+  display: inline-block;
+  letter-spacing: 1px;
+  opacity: 0.98;
+  /* text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25); */
+}
+
+.input input {
+  text-align: center;
+  justify-content: center;
+  width: 92%;
+  padding: 2% 4%;
+  outline: none;
+  font-weight: 400;
+  font-size: 16px;
+  letter-spacing: 1px;
+  background: white;
+  border-radius: 10px;
+}
+
+.password span {
+  opacity: 0.98;
+  /* text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25); */
+  color: #474f5b;
+  text-align: left;
+  display: inline-block;
+  font-weight: 400;
+  font-size: 20px;
+  letter-spacing: 1px;
+}
+
+.password input {
+  width: 92%;
+  padding: 2% 4%;
+  outline: none;
+  font-weight: 400;
+  font-size: 16px;
+  letter-spacing: 1px;
+  background: white;
+  border-radius: 10px;
+  /* box-shadow: 0px 4px 4px rgba(0.25, 0.25, 0.25, 0.25); */
+}
+
+#submit {
+  margin-top: 5%;
+  width: 50%;
+  margin-left: 25%;
+  margin-right: 25%;
+  background-color: #5875a1;
+  color: white;
+  font-family: "Audiowide", cursive;
+  font-size: larger;
+}
