@@ -76,10 +76,10 @@ namespace API.Controllers
         [HttpPost("login")]
         public async Task<ActionResult<string>> Login(ProsumerLogin request)
         {
-            Prosumer prosumer = getProsumer(request.Username);  //ako postoji, uzmi prosumera iz baze
+            Prosumer prosumer = getProsumer(request.UsernameOrEmail);  //ako postoji, uzmi prosumera iz baze
 
             if (prosumer == null)
-                return BadRequest("This username does not exist.");
+                return BadRequest("This username/email does not exist.");
 
             if (!verifyPassword(request.Password, prosumer.SaltPassword, prosumer.HashPassword))    //provera sifre
                 return BadRequest("Wrong password.");
@@ -116,9 +116,9 @@ namespace API.Controllers
             }
         }
 
-        private Prosumer getProsumer(string username)
+        private Prosumer getProsumer(string usernameOrEmail)
         {
-            return _contextProsumerReg.Prosumers.FirstOrDefault(x => x.Username == username);
+            return _contextProsumerReg.Prosumers.FirstOrDefault(x => x.Username == usernameOrEmail || x.Email == usernameOrEmail);
         }
 
         // jason web token samo sam napisao
