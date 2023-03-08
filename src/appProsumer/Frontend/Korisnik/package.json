@@ -1,5 +1,5 @@
 {
-  "name": "korisnik",
+  "name": "prosumer-log-in",
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
@@ -23,8 +23,8 @@
     "zone.js": "~0.12.0"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "^15.2.1",
-    "@angular/cli": "~15.2.1",
+    "@angular-devkit/build-angular": "^15.2.0",
+    "@angular/cli": "~15.2.0",
     "@angular/compiler-cli": "^15.2.0",
     "@types/jasmine": "~4.3.0",
     "jasmine-core": "~4.5.0",
