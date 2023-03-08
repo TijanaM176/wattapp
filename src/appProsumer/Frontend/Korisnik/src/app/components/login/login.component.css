@@ -1,0 +1,201 @@
+@import url("https://fonts.googleapis.com/css2?family=Audiowide&display=swap");
+#container {
+  margin: 0;
+  width: 100%;
+  height: 100vh;
+  background: linear-gradient(
+    to right,
+    #EEE9DA 0%,
+    #EEE9DA 40%,
+    #5885AF 40%,
+    #5885AF 100%
+  );
+}
+#levo{
+  background: #FFFFFF;
+  position: relative;
+  width: 35.75%;
+  height: 100%;
+}
+#desno {
+  display: flex;
+  background: #EEE9DA;
+  position: relative;
+  height: 100%;
+  width: 64.25%;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+}
+#logo {
+  position: relative;
+  width: 90%;
+  height: 20%;
+  left: 5%;
+  top: 40%;
+}
+#login {
+  position: absolute;
+  background-color: #EEE9DA;
+  font-family: "Audiowide", cursive;
+  width: 70%;
+  height: 80%;
+  margin: 0px;
+  padding: 0;
+  display: flex;
+  box-shadow: 1px 4px 4px 6px rgba(0, 0, 0, 0.25);
+  box-sizing: border-box;
+  left: 15%;
+  top: 10vh;
+}
+
+#loginf {
+  width: 80%;
+  text-align: center;
+  justify-content: center;
+}
+
+#loginf h1 {
+  margin-bottom: 10%;
+  margin-top: 5%;
+  display: inline-block;
+  text-align: center;/**/
+  font-weight: 600;
+  line-height: 150%;
+  font-size: 50px;
+  color: #474F5B;
+  letter-spacing: 1px;
+  text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+#forma {
+  position: relative;
+  width: 100%;
+  text-align: center;
+}
+#username {
+  margin-bottom: 5%;
+  text-align: left;
+}
+#username span {
+  color: #474F5B;
+  text-align: left;
+  font-weight: 400;
+  font-size: 20px;
+  display: inline-block;
+  letter-spacing: 1px;
+  opacity: 95%;
+  
+}
+
+#username input {
+  background: white;
+  border-radius: 10px;
+  width: 92%;
+  font-weight: 400;
+  font-size: 16px;
+  /*font-family: "Audiowide", cursive;*/
+  padding: 2% 4%;
+  text-align: center;
+  outline: none;
+  letter-spacing: 1px;
+  justify-content: center;
+}
+
+#password {
+  text-align: left;
+}
+
+#password span {
+  color: #474F5B;
+  text-align: left;
+  /*font-family: "Audiowide", cursive;*/
+  display: inline-block;
+  font-weight: 400;
+  font-size: 20px;
+  letter-spacing: 1px;
+  opacity: 95%;
+}
+
+#password input {
+  width: 92%;
+  padding: 2% 4%;
+  outline: none;
+  /*font-family: "Audiowide", cursive;*/
+  font-weight: 400;
+  font-size: 16px;
+  letter-spacing: 1px;
+  background: white;
+  border-radius: 10px;
+}
+#forgotpass {
+  color: #4B576C;
+  font-style: italic;
+  float: right;
+  font-size: 15px;
+  margin-top: 0.5%;
+  opacity: 95%;
+  /*text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);*/
+}
+
+
+#dugme{
+  font-family: "Audiowide", cursive;
+  background-color:#5885AF;
+  color: white;
+  letter-spacing: 1px;
+  margin-top: 10px;
+  height:46px;
+  width: 50%;
+  margin-left: 25%;
+  margin-right: 25%;
+  font-size: larger;
+  cursor: pointer;
+  border-radius: 10px;
+  border: 2px solid black;
+}
+
+
+#dugme :hover {
+  background-color: #5885AF;
+}
+
+@media (max-width: 800px) {
+  #levo {
+    position: absolute;
+    width: 64.25%;
+    height: 100%;
+   
+  }
+
+  #desno {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1;
+  }
+  #dugme{
+    width: 100%;
+    margin-left:0;
+    margin-right: 0;
+  }
+}
+/* @media (min-width: 320px) and (max-width: 1000px) {
+    #levo {
+    position: absolute
+    width: 64.25%;
+    height: 100%;
+   
+  }
+
+  #desno {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+  }
+   }
+   */
+
