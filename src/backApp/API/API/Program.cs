@@ -1,3 +1,8 @@
+global using Microsoft.EntityFrameworkCore;
+global using API.Models;
+using System.Text.Json.Serialization;
+using API.Controllers;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -7,7 +12,16 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+//add dbContext
+builder.Services.AddDbContext<ProsumerRegContext>();
+
+
+
+
 var app = builder.Build();
+
+
+
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
