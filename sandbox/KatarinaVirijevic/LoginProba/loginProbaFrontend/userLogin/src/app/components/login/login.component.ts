@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Route, Router } from '@angular/router';
+import { AuthServiceService } from 'src/app/services/auth-service.service';
 
 @Component({
   selector: 'app-login',
@@ -12,7 +14,8 @@ export class LoginComponent implements OnInit{
   isText: boolean = false;
   eyeIcon: string = "fa-eye-slash";
   loginForm!: FormGroup;
-  constructor(private fb: FormBuilder) { }
+
+  constructor(private fb: FormBuilder, private auth: AuthServiceService, private router: Router) { }
   
   ngOnInit(): void {
     this.loginForm = this.fb.group({
@@ -34,6 +37,24 @@ export class LoginComponent implements OnInit{
     {
       console.log(this.loginForm.value);
       //poslati beku
+
+      this.auth.login(this.loginForm.value)
+      .subscribe(
+        /*response => {
+          alert(response.message);
+          //this.getAllWorkers();
+        }*/
+        {
+          next:(res)=>{
+            //alert(res.message);
+            this.loginForm.reset();
+            this.router.navigate(['dashboard']);
+          },
+          error:(err)=>{
+            alert(err.error.message);
+          }
+        }
+      );
     }
     else
     {

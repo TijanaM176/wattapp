@@ -74,7 +74,7 @@ namespace loginProbaBackend.Controllers
             }
             catch(Exception e)
             {
-                return BadRequest(new
+                return Ok(new
                 {
                     error = true,
                     message = "Error Occurred!"
