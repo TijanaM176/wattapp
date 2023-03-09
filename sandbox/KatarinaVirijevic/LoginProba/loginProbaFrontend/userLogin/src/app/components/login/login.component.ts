@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { Route, Router } from '@angular/router';
+import { Router } from '@angular/router';
+import { NgToastService } from 'ng-angular-popup';
 import { AuthServiceService } from 'src/app/services/auth-service.service';
 
 @Component({
@@ -15,7 +16,7 @@ export class LoginComponent implements OnInit{
   eyeIcon: string = "fa-eye-slash";
   loginForm!: FormGroup;
 
-  constructor(private fb: FormBuilder, private auth: AuthServiceService, private router: Router) { }
+  constructor(private fb: FormBuilder, private auth: AuthServiceService, private router: Router, private toast: NgToastService) { }
   
   ngOnInit(): void {
     this.loginForm = this.fb.group({
@@ -48,10 +49,12 @@ export class LoginComponent implements OnInit{
           next:(res)=>{
             //alert(res.message);
             this.loginForm.reset();
+            this.toast.success({detail:"Successful Login!",duration: 2000});
             this.router.navigate(['dashboard']);
           },
           error:(err)=>{
-            alert(err.error.message);
+            //alert(err.error.message);
+            this.toast.error({detail:"ERROR", summary: err.error.message,duration: 3000});
           }
         }
       );
