@@ -1,0 +1,17 @@
+Korisnik aplikacija
+
+1. Promeniti izgled navigacije
+2. Napraviti legende i nazive za grafike
+3. Promeniti polukruzne  grafike za prozivodnju i potrosnju
+4. Izbaciti kosu crtu iz kwh
+5. Popuniti sve placeholdere
+6. Dodati ikonice za uredjaje
+7. Odvojena stranica za uredjaj
+8. Napraviti predefinisane uredjaje sa default informacijama
+9. Can access da upali i view device
+
+DSO aplikacija
+
+1. View details za grafik da bude overlay a ne posebna strana
+2. Omoguciti na mapi zoom i pomeranje
+3. 
