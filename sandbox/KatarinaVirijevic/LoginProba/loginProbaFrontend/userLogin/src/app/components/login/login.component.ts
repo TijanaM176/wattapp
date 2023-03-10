@@ -3,6 +3,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { Router } from '@angular/router';
 import { NgToastService } from 'ng-angular-popup';
 import { AuthServiceService } from 'src/app/services/auth-service.service';
+import { CookieService } from 'ngx-cookie-service';
 
 @Component({
   selector: 'app-login',
@@ -16,7 +17,7 @@ export class LoginComponent implements OnInit{
   eyeIcon: string = "fa-eye-slash";
   loginForm!: FormGroup;
 
-  constructor(private fb: FormBuilder, private auth: AuthServiceService, private router: Router, private toast: NgToastService) { }
+  constructor(private fb: FormBuilder, private auth: AuthServiceService, private router: Router, private toast: NgToastService, private cookie: CookieService) { }
   
   ngOnInit(): void {
     this.loginForm = this.fb.group({
@@ -49,8 +50,9 @@ export class LoginComponent implements OnInit{
           next:(res)=>{
             //alert(res.message);
             this.loginForm.reset();
+            this.cookie.set("token",res.token);
             this.toast.success({detail:"Successful Login!",duration: 2000});
-            this.router.navigate(['dashboard']);
+            this.router.navigate([""]);
           },
           error:(err)=>{
             //alert(err.error.message);

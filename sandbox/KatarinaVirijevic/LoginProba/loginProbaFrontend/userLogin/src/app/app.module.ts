@@ -8,6 +8,7 @@ import { AppComponent } from './app.component';
 import { LoginComponent } from './components/login/login.component';
 import { DasboardComponent } from './components/dashboard/dasboard/dasboard.component';
 import { NgToastModule } from 'ng-angular-popup';
+import { CookieService } from 'ngx-cookie-service';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,7 @@ import { NgToastModule } from 'ng-angular-popup';
     HttpClientModule,
     NgToastModule
   ],
-  providers: [],
+  providers: [CookieService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

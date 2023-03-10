@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
+import { CookieService } from 'ngx-cookie-service';
 
 @Component({
   selector: 'app-dasboard',
@@ -7,4 +9,15 @@ import { Component } from '@angular/core';
 })
 export class DasboardComponent {
 
+  /**
+   *
+   */
+  constructor(private router: Router, private cookie: CookieService) {
+    
+  }
+  LogOut()
+  {
+    this.cookie.delete("token");
+    this.router.navigate(["login"]);
+  }
 }
