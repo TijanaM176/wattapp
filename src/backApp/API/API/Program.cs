@@ -2,6 +2,7 @@ global using Microsoft.EntityFrameworkCore;
 global using API.Models;
 using System.Text.Json.Serialization;
 using API.Controllers;
+using API.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,7 +16,7 @@ builder.Services.AddSwaggerGen();
 //add dbContext
 builder.Services.AddDbContext<ProsumerRegContext>();
 
-
+builder.Services.AddScoped<AuthService>();
 
 
 var app = builder.Build();
