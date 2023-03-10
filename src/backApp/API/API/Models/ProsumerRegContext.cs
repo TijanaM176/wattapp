@@ -18,6 +18,7 @@ public partial class ProsumerRegContext : DbContext
     public virtual DbSet<Neigborhood> Neigborhoods { get; set; }
 
     public virtual DbSet<Prosumer> Prosumers { get; set; }
+    public virtual DbSet<DSO> DSOs { get; set; }
 
     public virtual DbSet<Region> Regions { get; set; }
 
@@ -60,6 +61,28 @@ public partial class ProsumerRegContext : DbContext
             entity.HasOne(d => d.Region).WithMany(p => p.Prosumers).HasForeignKey(d => d.RegionId);
 
             entity.HasOne(d => d.Role).WithMany(p => p.Prosumers).HasForeignKey(d => d.RoleId);
+        });
+
+        modelBuilder.Entity<DSO>(entity =>
+        {
+            entity.ToTable("DSO");
+
+            entity.HasIndex(e => e.Username, "IX_DSO_Username").IsUnique();
+
+            entity.Property(e => e.Email).HasColumnType("nvarchar(20)");
+            entity.Property(e => e.FirstName).HasColumnType("nvarchar(10)");
+            entity.Property(e => e.HashPassword).HasColumnType("varbinary(2048)");
+            entity.Property(e => e.Image).HasColumnType("VARCHAR(200)");
+            entity.Property(e => e.LastName).HasColumnType("nvarchar(20)");
+            entity.Property(e => e.RegionId).HasColumnName("RegionID");
+            entity.Property(e => e.RoleId).HasColumnName("RoleID");
+            entity.Property(e => e.SaltPassword).HasColumnType("varbinary(2048)");
+            entity.Property(e => e.Username).HasColumnType("nvarchar(30)");
+
+
+            entity.HasOne(d => d.Region).WithMany(p => p.DSOs).HasForeignKey(d => d.RegionId);
+
+            entity.HasOne(d => d.Role).WithMany(p => p.DSOs).HasForeignKey(d => d.RoleId);
         });
 
         modelBuilder.Entity<Region>(entity =>
