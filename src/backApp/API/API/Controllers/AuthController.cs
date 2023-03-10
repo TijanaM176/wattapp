@@ -88,6 +88,22 @@ namespace API.Controllers
             
         }
 
+        [HttpPost("DSOLogin")]
+        public async Task<ActionResult<string>> DSOLogin(UserLogin request)
+        {
+            DSO dso = authService.GetDSO(request.UsernameOrEmail);  //ako postoji, uzmi prosumera iz baze
+
+            if (dso == null)
+                return BadRequest("This username/email does not exist.");
+
+            if (!authService.VerifyPassword(request.Password, dso.SaltPassword, dso.HashPassword))    //provera sifre
+                return BadRequest("Wrong password.");
+
+            string token = authService.CreateToken(dso);
+            authService.SaveToken(dso, token);
+            return Ok(token);
+        }
+
         [HttpGet("UsersProsumer")]
         public async Task<ActionResult<List<Prosumer>>> ListRegisterProsumer()
         {

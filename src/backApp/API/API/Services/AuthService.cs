@@ -99,11 +99,16 @@ namespace API.Services
             return _context.Prosumers.FirstOrDefault(x => x.Username == usernameOrEmail || x.Email == usernameOrEmail);
         }
 
-        public string CreateToken(Prosumer prosumer)
+        public DSO GetDSO(string usernameOrEmail)
+        {
+            return _context.DSOs.FirstOrDefault(x => x.Username == usernameOrEmail || x.Email == usernameOrEmail);
+        }
+
+        public string CreateToken(User user)
         {
             List<Claim> claims = new List<Claim>
             {
-                new Claim(ClaimTypes.Name, prosumer.Username)
+                new Claim(ClaimTypes.Name, user.Username)
             };
 
             var key = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(_config.GetSection("AppSettings:Token").Value));
@@ -114,9 +119,9 @@ namespace API.Services
             return jwt;
         }
 
-        public void SaveToken(Prosumer prosumer, string token)
+        public void SaveToken(User user, string token)
         {
-            prosumer.Token = token;
+            user.Token = token;
             _context.SaveChangesAsync();
         }
 

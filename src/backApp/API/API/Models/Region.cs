@@ -10,4 +10,5 @@ public partial class Region
     public string RegionName { get; set; } = null!;
 
     public virtual ICollection<Prosumer> Prosumers { get; } = new List<Prosumer>();
+    public virtual ICollection<DSO> DSOs { get; } = new List<DSO>();
 }
