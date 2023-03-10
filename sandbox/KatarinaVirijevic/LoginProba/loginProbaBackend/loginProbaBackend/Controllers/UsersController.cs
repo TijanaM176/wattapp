@@ -2,6 +2,11 @@
 using loginProbaBackend.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.IdentityModel.Tokens.Jwt;
+using System;
+using System.Text;
+using System.Security.Claims;
+using Microsoft.IdentityModel.Tokens;
 
 namespace loginProbaBackend.Controllers
 {
@@ -38,10 +43,12 @@ namespace loginProbaBackend.Controllers
             {
                 if(user.Password==loginUser.password) 
                 {
+                    var userToken = createJWT(user); //trebalo bi u bazi da se cuva ali to nisam ovde implementirala jer samo zbog fronta pravim ovaj backend
                     return Ok(new
                     {
                         error = false,
-                        message = loginUser.username
+                        message = loginUser.username,
+                        token = userToken
                     });
                 }
                 return BadRequest(new
@@ -82,5 +89,26 @@ namespace loginProbaBackend.Controllers
             }
         }
 
+        private string createJWT(User user) 
+        {
+            var jwtTokenHandler = new JwtSecurityTokenHandler();
+            var key = Encoding.ASCII.GetBytes("itsasecretabigbigbigsecret...");
+            var identity = new ClaimsIdentity(new Claim[]
+            {
+                //new Claim(ClaimTypes.Role, user.Role)
+                new Claim(ClaimTypes.Name, user.Name)
+            });
+            var credentials = new SigningCredentials(new SymmetricSecurityKey(key),SecurityAlgorithms.HmacSha256); //ovo drugo je algoritam koji koristimo za kreiranje tokena
+
+            var tokenDescriptor = new SecurityTokenDescriptor
+            {
+                Subject = identity,
+                Expires = DateTime.Now.AddDays(3),
+                SigningCredentials = credentials
+            };
+
+            var token = jwtTokenHandler.CreateToken(tokenDescriptor);
+            return jwtTokenHandler.WriteToken(token);
+        }
     }
 }
