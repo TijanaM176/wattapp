@@ -1,7 +1,13 @@
-﻿namespace API.Models
+﻿using System;
+using System.Collections.Generic;
+
+namespace API.Models;
+
+public partial class Dso : User
 {
-    public partial class DSO : User
-    {
-        
-    }
+
+
+    public long? Salary { get; set; }
+
+    public string? DateCreate { get; set; }
 }
