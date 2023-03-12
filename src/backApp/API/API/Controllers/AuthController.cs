@@ -17,6 +17,7 @@ using System.IdentityModel.Tokens;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using API.Services;
+using Microsoft.AspNetCore.Authorization;
 
 namespace API.Controllers
 {
