@@ -46,6 +46,12 @@ namespace API.Services
 
             return null;
         }
+
+        public string getRoleName(long? id)
+        {
+            return _context.Roles.FirstOrDefault(x => x.Id == id).RoleName;
+        }
+
         public string CheckUserName(ProsumerDto request)
         {
             List<Prosumer> listaProsumer = _context.Prosumers.ToList();
@@ -172,12 +178,14 @@ namespace API.Services
         {
             List<Claim> claims = new List<Claim>
             {
-                new Claim(ClaimTypes.Name, user.Username)
+                new Claim(ClaimTypes.Name, user.Username),
+                new Claim(ClaimTypes.Role, getRoleName(user.RoleId))
+           
             };
 
-            var key = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(_config.GetSection("AppSettings:Token").Value));
+            var key = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(_config.GetSection("AppSettings:Key").Value));
             var cred = new SigningCredentials(key, SecurityAlgorithms.HmacSha256Signature);
-            var token = new JwtSecurityToken(claims: claims, expires: DateTime.Now.AddDays(1), signingCredentials: cred);
+            var token = new JwtSecurityToken(claims: claims, expires: DateTime.Now.AddMinutes(int.Parse(_config.GetSection("AppSettings:TokenValidity").Value)), signingCredentials: cred);
             var jwt = new JwtSecurityTokenHandler().WriteToken(token);
 
             return jwt;
