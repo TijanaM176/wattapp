@@ -18,6 +18,13 @@ builder.Services.AddDbContext<ProsumerRegContext>();
 
 builder.Services.AddScoped<AuthService>();
 
+builder.Services.AddCors((setup) =>
+{
+    setup.AddPolicy("default", (options) =>
+    {
+        options.AllowAnyMethod().AllowAnyHeader().AllowAnyOrigin();
+    });
+}); //this way we are not blocking any ui trying to communicate with api
 
 var app = builder.Build();
 
@@ -30,6 +37,10 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseCors("default");
+
+app.UseAuthentication();
 
 app.UseHttpsRedirection();
 

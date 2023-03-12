@@ -77,15 +77,27 @@ namespace API.Controllers
             Prosumer prosumer = authService.GetProsumer(request.UsernameOrEmail);  //ako postoji, uzmi prosumera iz baze
 
             if (prosumer == null)
-                return BadRequest("This username/email does not exist.");
+                return BadRequest(new
+                {
+                    error = true,
+                    message = "This username/email does not exist."
+                });
 
             if (!authService.VerifyPassword(request.Password, prosumer.SaltPassword, prosumer.HashPassword))    //provera sifre
-                return BadRequest("Wrong password.");
+                return BadRequest(new
+                {
+                    error = true,
+                    message = "Wrong password."
+                });
 
-            string token = authService.CreateToken(prosumer);
-            authService.SaveToken(prosumer, token);
-            return Ok(token);
-            
+            string userToken = authService.CreateToken(prosumer);
+            authService.SaveToken(prosumer, userToken);
+            return Ok(new
+            {
+                error = false,
+                token = userToken
+            });
+
         }
 
         [HttpPost("DSOLogin")]
