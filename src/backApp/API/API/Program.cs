@@ -14,7 +14,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 //add dbContext
-builder.Services.AddDbContext<ProsumerRegContext>();
+builder.Services.AddDbContext<RegContext>();
 
 builder.Services.AddScoped<AuthService>();
 
@@ -25,6 +25,13 @@ builder.Services.AddCors((setup) =>
         options.AllowAnyMethod().AllowAnyHeader().AllowAnyOrigin();
     });
 }); //this way we are not blocking any ui trying to communicate with api
+
+// sada radi uz ovo getIdRole("korisnik")
+builder.Services.AddControllersWithViews()
+    .AddJsonOptions(options =>
+    options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles
+);
+
 
 var app = builder.Build();
 
