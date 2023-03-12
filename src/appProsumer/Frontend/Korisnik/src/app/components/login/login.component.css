@@ -5,10 +5,10 @@
   height: 100vh;
   background: linear-gradient(
     to right,
-    #EEE9DA 0%,
-    #EEE9DA 40%,
-    #5885AF 40%,
-    #5885AF 100%
+    #C1DFD5 0%,
+    #C1DFD5 40%,
+    #466471 40%,
+    #466471 100%
   );
 }
 #levo{
@@ -19,7 +19,7 @@
 }
 #desno {
   display: flex;
-  background: #EEE9DA;
+  background: #C1DFD5;
   position: relative;
   height: 100%;
   width: 64.25%;
@@ -63,101 +63,25 @@
   font-weight: 600;
   line-height: 150%;
   font-size: 50px;
-  color: #474F5B;
+  color: #08376B;
   letter-spacing: 1px;
   text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 }
-#forma {
-  position: relative;
-  width: 100%;
-  text-align: center;
-}
-#username {
-  margin-bottom: 5%;
-  text-align: left;
-}
-#username span {
-  color: #474F5B;
-  text-align: left;
-  font-weight: 400;
-  font-size: 20px;
-  display: inline-block;
-  letter-spacing: 1px;
-  opacity: 95%;
-  
+
+.input-field{
+  align-items: center;
+  cursor: pointer;
 }
 
-#username input {
-  background: white;
-  border-radius: 10px;
-  width: 92%;
-  font-weight: 400;
-  font-size: 16px;
-  /*font-family: "Audiowide", cursive;*/
-  padding: 2% 4%;
-  text-align: center;
-  outline: none;
-  letter-spacing: 1px;
-  justify-content: center;
-}
-
-#password {
-  text-align: left;
-}
-
-#password span {
-  color: #474F5B;
-  text-align: left;
-  /*font-family: "Audiowide", cursive;*/
-  display: inline-block;
-  font-weight: 400;
-  font-size: 20px;
-  letter-spacing: 1px;
-  opacity: 95%;
-}
-
-#password input {
-  width: 92%;
-  padding: 2% 4%;
-  outline: none;
-  /*font-family: "Audiowide", cursive;*/
-  font-weight: 400;
-  font-size: 16px;
-  letter-spacing: 1px;
-  background: white;
-  border-radius: 10px;
-}
 #forgotpass {
   color: #4B576C;
   font-style: italic;
   float: right;
   font-size: 15px;
   margin-top: 0.5%;
-  opacity: 95%;
+  opacity: 85%;
+  margin-right: 5px;
   /*text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);*/
-}
-
-
-#dugme{
-  font-family: "Audiowide", cursive;
-  background-color:#5885AF;
-  color: white;
-  letter-spacing: 1px;
-  margin-top: 30px;
-  height:46px;
-  width: 50%;
-  margin-left: 25%;
-  margin-right: 25%;
-  font-size: larger;
-  cursor: pointer;
-  border-radius: 10px;
-  border: 2px solid black;
-
-}
-
-
-#dugme :hover {
-  background-color: #5885AF;
 }
 
 @media (max-width: 800px) {
@@ -175,11 +99,6 @@
     justify-content: center;
     align-items: center;
     z-index: 1;
-  }
-  #dugme{
-    width: 100%;
-    margin-left:0;
-    margin-right: 0;
   }
 }
 /* @media (min-width: 320px) and (max-width: 1000px) {
@@ -199,4 +118,44 @@
   }
    }
    */
+   .btn{
+    margin-top: 20px;
+    border-radius: 10px;
+    background-color: #466471;
+    color: #FFFFFF;
+  }
+  .input-field{
+    border-radius: 10px;
+    padding: 5px;
+    padding-top: 8px;
+    padding-bottom: 8px;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    border: 1px solid #ddd;
+    color: #466471;
+    background-color: #FFFFFF;
+}
 
+.input-field.error{
+    border: 1px solid red;
+    color: red;
+}
+
+input[type='text'],
+input[type='password']{
+    border: none;
+    outline: none;
+    box-shadow: none;
+    width: 100%;
+}
+
+.fa-eye-slash.btn{
+  border: none;
+  outline: none;
+  box-shadow: none;
+}
+
+#forma{
+  text-align: start;
+}

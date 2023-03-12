@@ -7,22 +7,29 @@
       <div id="desno">
         <div id="loginf">
           <h1>Log In</h1>
-          <form id="forma">
-            <div id="username">
-              <span>Email or Username</span>
-              <input type="text" name="username" />
+          <form [formGroup]="loginForm" id="forma">
+            <div class="form-group pt-3">
+                <div class="input-field" [class.error]="loginForm.controls['username'].dirty && loginForm.hasError('required','username')">
+                    <span class="fa fa-user p-2"></span>
+                    <input formControlName="username" type="text" placeholder="Username">
+                </div>
             </div>
-            <div id="password">
-              <span>Password</span>
-              <input type="password" name="password" />
+            <small *ngIf="loginForm.controls['username'].dirty && loginForm.hasError('required','username')" class="text-danger">* Username is required</small>
+            <div class="form-group pt-3">
+                <div class="input-field" [class.error]="loginForm.controls['password'].dirty && loginForm.hasError('required','password')">
+                    <span class="fa fa-lock p-2"></span>
+                    <input formControlName="password" [type]="type" placeholder="Password">
+                    <span class="fa {{eyeIcon}}"(click)="hideShowPass()"></span>
+                </div>
             </div>
+            <small *ngIf="loginForm.controls['password'].dirty && loginForm.hasError('required','password')" class="text-danger">* Password is required</small>
             <div id="fp">
               <label id="forgotpass">forgot password?</label>
             </div>
-            <div id="prijava">
-              <input id="dugme" type="submit" value="Log In" name="prijavise" />
+            <div>
+              <br><button (click)="onSubmit()" type="submit" class="btn btn-block mt-4 w-100">Login</button>
             </div>
-          </form>
+        </form>
         </div>
       </div>
     </section>
