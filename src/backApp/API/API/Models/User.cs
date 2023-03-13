@@ -1,4 +1,6 @@
-﻿namespace API.Models
+﻿using System.Text.Json.Serialization;
+
+namespace API.Models
 {
     public class User
     {
@@ -29,5 +31,7 @@
         public virtual Region? Region { get; set; }
 
         public virtual Role? Role { get; set; }
+
+        public RefreshToken? RefreshToken { get; set; }
     }
 }
