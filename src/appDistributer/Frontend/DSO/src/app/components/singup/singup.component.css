@@ -1,0 +1,78 @@
+@import url("https://fonts.googleapis.com/css2?family=Audiowide&display=swap");
+.outer{
+    margin: 0 0;
+    width: 100%;
+    height: 100%;
+}
+.container{
+    margin: 5% 0;
+    padding: 0;
+    width: 100%;
+    height: 95%;
+}
+.row{
+    margin: 0;
+    padding: 0;
+    position: absolute;
+    width: 100%;
+    height: 90%;
+    display: flex;
+    margin-top: 0%;
+    background-color: white;
+    box-shadow: 1px 5px 5px 7px rgba(0, 0, 0, 0.25);
+}
+.levo{
+    position: relative;
+    width: 22%;
+    height: 100%;
+    background: #5875A1;
+}
+#text{
+   
+    font-size: 40px;
+    font-family: "Audiowide", cursive;
+   
+    color:white;
+    text-justify: center;
+    justify-content: center;
+    margin-left:10%;
+    margin-top:90%;
+}
+.desno{
+justify-content: center;
+  align-items: center;
+  display: flex;
+  width: 64.25%;
+  position: relative;
+  height: 100%;
+  background: white;
+  margin-left:100px;
+}
+.lbl{
+    font-family: "Audiowide", cursive;
+    font-size: 24px;
+    color:#5875A1;
+}
+.polje input{
+    width:400px;
+    height:45px;
+    background-color: #E8F3F8;
+    border-radius: 10px;
+    border: none;
+    
+}
+::placeholder {
+    color:#08376B;
+    padding-left:10px;
+font-weight:600px;
+font-size:20px;
+}
+.btn{
+    background-color: #5875A1;
+    color:white;
+    font-size: 24px;
+    margin-top:20px;
+    margin-left:60px;
+    width:250px;
+    height:50px;
+}
