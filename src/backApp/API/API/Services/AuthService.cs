@@ -6,6 +6,7 @@ using System.Text.RegularExpressions;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using API.Models;
+
 namespace API.Services
 {
     public class AuthService
@@ -174,32 +175,42 @@ namespace API.Services
             return _context.Dsos.FirstOrDefault(x => x.Username == usernameOrEmail || x.Email == usernameOrEmail);
         }
 
+
         public string CreateToken(User user)
         {
             List<Claim> claims = new List<Claim>
             {
                 new Claim(ClaimTypes.Name, user.Username),
                 new Claim(ClaimTypes.Role, getRoleName(user.RoleId))
-           
+
             };
 
             var key = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(_config.GetSection("AppSettings:Key").Value));
             var cred = new SigningCredentials(key, SecurityAlgorithms.HmacSha256Signature);
-            var token = new JwtSecurityToken(claims: claims, expires: DateTime.Now.AddMinutes(int.Parse(_config.GetSection("AppSettings:TokenValidity").Value)), signingCredentials: cred);
+            var token = new JwtSecurityToken(
+                issuer: _config.GetSection("AppSettings:Issuer").Value,
+                audience: _config.GetSection("AppSettings:Audience").Value,
+                claims: claims, expires: DateTime.Now.AddMinutes(int.Parse(_config.GetSection("AppSettings:AccessTokenValidity").Value)),
+                signingCredentials: cred
+            );
             var jwt = new JwtSecurityTokenHandler().WriteToken(token);
 
             return jwt;
         }
 
-        public void SaveToken(User user, string token)
-        {
-            user.Token = token;
-            _context.SaveChangesAsync();
-        }
-
         public async Task<List<Prosumer>> GetAllProsumers()
         {
             return await _context.Prosumers.ToListAsync();
+        }
+
+        public RefreshToken GenerateRefreshToken()
+        {
+            return new RefreshToken
+            {
+                Token = Convert.ToBase64String(RandomNumberGenerator.GetBytes(64)),
+                Created = DateTime.Now,
+                Expires = DateTime.Now.AddMinutes(int.Parse(_config.GetSection("AppSettings:RefreshTokenValidity").Value))
+            };
         }
     }
 }

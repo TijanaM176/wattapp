@@ -35,6 +35,7 @@ builder.Services.AddControllersWithViews()
     options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles
 );
 
+//autentikacija za jwt
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options => { 
     options.TokenValidationParameters = new TokenValidationParameters
     {
@@ -49,7 +50,6 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJw
 });
 
 builder.Services.AddAuthorization();
-
 
 var app = builder.Build();
 

@@ -27,6 +27,7 @@ namespace API.Controllers
     {
       
         private readonly AuthService authService;
+        private static User user = new User();
 
         public AuthController(AuthService serv)
         {
@@ -114,6 +115,7 @@ namespace API.Controllers
         public async Task<ActionResult<string>> ProsumerLogin(UserLogin request) // skratiti i ovo (1)
         {
             Prosumer prosumer = authService.GetProsumer(request.UsernameOrEmail);  //ako postoji, uzmi prosumera iz baze
+            
 
             if (prosumer == null)
                 return BadRequest(new
@@ -121,7 +123,7 @@ namespace API.Controllers
                     error = true,
                     message = "This username/email does not exist."
                 });
-
+            
             if (!authService.VerifyPassword(request.Password, prosumer.SaltPassword, prosumer.HashPassword))    //provera sifre
                 return BadRequest(new
                 {
@@ -130,25 +132,33 @@ namespace API.Controllers
                 });
 
             string userToken = authService.CreateToken(prosumer);
-            authService.SaveToken(prosumer, userToken);
+            //authService.SaveToken(prosumer, userToken); mislim da je nepotrebno da se cuva u bazi token
+
+            var refreshToken = authService.GenerateRefreshToken();
+            //setovanje refresh tokena
+            var cookieOptions = new CookieOptions
+            {
+                HttpOnly = true,
+                Expires = refreshToken.Expires
+            };
+            Response.Cookies.Append("refreshToken", refreshToken.Token, cookieOptions);
+
+            user = prosumer;
+            user.RefreshToken = refreshToken;
             return Ok(new
             {
                 error = false,
-                token = userToken
+                token = userToken,
+                refreshToken = refreshToken
             });
 
-            string token = authService.CreateToken(prosumer);
-            authService.SaveToken(prosumer, token);
-            return Ok(token);
-            
-  
         }
 
         [HttpPost("DSOLogin")]
         public async Task<ActionResult<string>> DSOLogin(UserLogin request) // skratiti i ovo (2)
         {
             Dso dso = authService.GetDSO(request.UsernameOrEmail);  //ako postoji, uzmi prosumera iz baze
-
+            
             if (dso == null)
                 return BadRequest("This username/email does not exist.");
 
@@ -156,8 +166,25 @@ namespace API.Controllers
                 return BadRequest("Wrong password.");
 
             string token = authService.CreateToken(dso);
-            authService.SaveToken(dso, token);
-            return Ok(token);
+            //authService.SaveToken(dso, token);
+
+            var refreshToken = authService.GenerateRefreshToken();
+            //setovanje refresh tokena
+            var cookieOptions = new CookieOptions
+            {
+                HttpOnly = true,
+                Expires = refreshToken.Expires
+            };
+            Response.Cookies.Append("refreshToken", refreshToken.Token, cookieOptions);
+            
+            user = dso;
+            user.RefreshToken = refreshToken;
+            return Ok(new
+            {
+                token,
+                refreshToken = refreshToken,
+                user = user
+            }) ;
         }
 
         [HttpGet("UsersProsumer")]
@@ -166,6 +193,29 @@ namespace API.Controllers
             return Ok(authService.GetAllProsumers());
         }
 
-      
+        [HttpPost("refreshToken")]
+        public async Task<ActionResult<string>> RefreshToken()
+        {
+            var refreshToken = Request.Cookies["refreshToken"];
+
+            if (!user.RefreshToken.Token.Equals(refreshToken))
+                return Unauthorized("Invalid Refresh Token.");
+            else if (user.RefreshToken.Expires < DateTime.Now)
+                return Unauthorized("Expired Token.");
+
+            string token = authService.CreateToken(user);
+            var updatedRefreshToken = authService.GenerateRefreshToken();
+
+            var cookieOptions = new CookieOptions
+            {
+                HttpOnly = true,
+                Expires = updatedRefreshToken.Expires
+            };
+            Response.Cookies.Append("refreshToken", updatedRefreshToken.Token, cookieOptions);
+            user.RefreshToken = updatedRefreshToken;
+
+            return Ok(token);
+
+        }
     }
 }

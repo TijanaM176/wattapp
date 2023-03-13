@@ -31,6 +31,10 @@ public partial class RegContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        //ovo je rucno dodato da ne bi cuvalo u bazu deo za refresh tokene
+        modelBuilder.Entity<Prosumer>().Ignore(x => x.RefreshToken);
+        modelBuilder.Entity<Dso>().Ignore(x => x.RefreshToken);
+
         modelBuilder.Entity<Dso>(entity =>
         {
             entity.ToTable("DSO");
