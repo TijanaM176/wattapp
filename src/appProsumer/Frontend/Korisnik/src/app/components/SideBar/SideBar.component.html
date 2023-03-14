@@ -1,32 +1,36 @@
-<div class="app" style="display: flex; height: 100vh; overflow: scroll initial">
-  <CDBSidebar textColor="#ffffff" backgroundColor="#333333">
-    <CDBSidebarHeader [prefix]="icon">
-      <ng-template #icon class="m-0">
-        <i class="fa fa-bars fa-large"></i>
+<div
+  class="app"
+  style="display: flex; height: 88.2vh; overflow: scroll initial"
+>
+  <CDBSidebar textColor="#ffffff" backgroundColor="#59747F" style="margin: 0">
+    <CDBSidebarHeader [prefix]="icon" style="font-weight: 600">
+      <ng-template #icon>
+        <i class="fa fa-lg fa-bars" style="font-size: 1.5"></i>
       </ng-template>
-    </CDBSidebarHeader>
+      Menu</CDBSidebarHeader
+    >
 
     <CDBSidebarContent>
       <CDBSidebarMenu class="sidebar-content">
-        <CDBSidebarMenuItem link="/" icon="columns">
-          Dashboard
+        <CDBSidebarMenuItem link="/" icon="fa-lg fa-home">
+          <strong>Home </strong></CDBSidebarMenuItem
+        >
+        <CDBSidebarMenuItem link="/view" icon="fa-lg fa-list">
+          <strong>View All Devices</strong>
         </CDBSidebarMenuItem>
-        <CDBSidebarMenuItem link="/tables" icon="table">
-          Tables
+        <CDBSidebarMenuItem href="/add" icon="fa-lg fa-plus">
+          <span><strong>Add New Device</strong></span>
         </CDBSidebarMenuItem>
         <CDBSidebarMenuItem link="/profile" icon="user">
-          Profile
-        </CDBSidebarMenuItem>
-        <CDBSidebarMenuItem href="/404" icon="exclamation-circle">
-          <span style="margin-left: 5px">404 Page</span>
+          <strong>Profile</strong>
         </CDBSidebarMenuItem>
       </CDBSidebarMenu>
     </CDBSidebarContent>
     <div class="mt-auto">
-      <CDBSidebarFooter style="text-align: center; margin-top: auto">
-        <div class="sidebar-btn-wrapper" style="padding: 20px 5px">
-          Sidebar Footer
-        </div>
+      <CDBSidebarFooter>
+        <CDBSidebarMenuItem link="/login" icon="sign-out">
+          <strong>Log Out</strong>
+        </CDBSidebarMenuItem>
       </CDBSidebarFooter>
     </div>
   </CDBSidebar>

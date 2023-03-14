@@ -38,6 +38,6 @@ import { PocetnaComponent } from './components/Pocetna/Pocetna.component';
     CookieService,
     { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true },
   ],
-  bootstrap: [AppComponent, NavBarComponent],
+  bootstrap: [AppComponent],
 })
 export class AppModule {}
