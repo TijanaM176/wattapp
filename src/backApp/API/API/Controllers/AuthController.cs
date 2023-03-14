@@ -160,12 +160,20 @@ namespace API.Controllers
             Dso dso = authService.GetDSO(request.UsernameOrEmail);  //ako postoji, uzmi prosumera iz baze
             
             if (dso == null)
-                return BadRequest("This username/email does not exist.");
+                return BadRequest(new
+                {
+                    error = true,
+                    message = "This username/email does not exist."
+                });
 
             if (!authService.VerifyPassword(request.Password, dso.SaltPassword, dso.HashPassword))    //provera sifre
-                return BadRequest("Wrong password.");
+                return BadRequest(new
+                {
+                    error = true,
+                    message = "Wrong password."
+                });
 
-            string token = authService.CreateToken(dso);
+            string dsoToken = authService.CreateToken(dso);
             //authService.SaveToken(dso, token);
 
             var refreshToken = authService.GenerateRefreshToken();
@@ -181,7 +189,7 @@ namespace API.Controllers
             user.RefreshToken = refreshToken;
             return Ok(new
             {
-                token,
+                token = dsoToken,
                 refreshToken = refreshToken,
                 user = user
             }) ;

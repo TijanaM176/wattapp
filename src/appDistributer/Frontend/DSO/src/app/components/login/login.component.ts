@@ -3,6 +3,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { Router } from '@angular/router';
 import { NgToastService } from 'ng-angular-popup';
 import { CookieService } from 'ngx-cookie-service';
+import { AuthServiceService } from 'src/app/services/auth-service.service';
 
 @Component({
   selector: 'app-login',
@@ -16,7 +17,7 @@ export class LoginComponent implements OnInit {
   type: string ="password";
   eyeIcon: string = "fa-eye-slash";
   
-  constructor(private fb: FormBuilder, private router: Router, private toast: NgToastService, private cookie: CookieService) {
+  constructor(private fb: FormBuilder, private router: Router, private toast: NgToastService, private cookie: CookieService,private auth: AuthServiceService) {
     
   }
 
@@ -51,7 +52,7 @@ export class LoginComponent implements OnInit {
 
   onSubmit()
   {
-    /*if(this.loginForm.valid)
+    if(this.loginForm.valid)
     {
       console.log(this.loginForm.value);
       //poslati beku
@@ -62,7 +63,7 @@ export class LoginComponent implements OnInit {
           alert(response.message);
           //this.getAllWorkers();
         }*/
-       /* {
+        {
           next:(res)=>{
             //alert(res.message);
             this.loginForm.reset();
@@ -82,7 +83,7 @@ export class LoginComponent implements OnInit {
       //console.log("Form is not valid!");
       this.validateAllFormFields(this.loginForm);
       //alert("Your form is invalid!");
-    }*/
+    }
   }
 
 }
