@@ -34,14 +34,15 @@
   /* box-shadow: inset 0px 4px 4px rgba(0, 0, 0, 0.25); */
 }
 #desni {
-  justify-content: center;
-  align-items: center;
   display: flex;
-  width: 64.25%;
+  background: #e8f3f8;
   position: relative;
   height: 100%;
-  background: #e8f3f8;
-  /* box-shadow: inset 0px 4px 4px rgba(0, 0, 0, 0.25); */
+  width: 64.25%;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+  /* box-shadow: inset 0px 4px 4px rgba(0, 0, 0, 0.25);*/
 }
 
 #logo {
@@ -69,16 +70,11 @@
   color: #474f5b;
   text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 }
-#form {
-  position: relative;
-  width: 100%;
-  text-align: center;
-}
 
-#forgot {
+#forgotpass {
   float: right;
   opacity: 0.98;
-  text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  /*text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);*/
   color: #474f5b;
   font-style: italic;
   margin-top: 0.5%;
@@ -87,72 +83,6 @@
 
 .password {
   text-align: left;
-}
-
-.input {
-  margin-bottom: 5%;
-  text-align: left;
-}
-.input span {
-  color: #474f5b;
-  text-align: left;
-  font-weight: 400;
-  font-size: 20px;
-  display: inline-block;
-  letter-spacing: 1px;
-  opacity: 0.98;
-  /* text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25); */
-}
-
-.input input {
-  text-align: center;
-  justify-content: center;
-  width: 92%;
-  padding: 2% 4%;
-  outline: none;
-  font-weight: 400;
-  font-size: 16px;
-  letter-spacing: 1px;
-  background: white;
-  border-radius: 10px;
-}
-
-.password span {
-  opacity: 0.98;
-  /* text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25); */
-  color: #474f5b;
-  text-align: left;
-  display: inline-block;
-  font-weight: 400;
-  font-size: 20px;
-  letter-spacing: 1px;
-}
-
-.password input {
-  width: 92%;
-  padding: 2% 4%;
-  outline: none;
-  font-weight: 400;
-  font-size: 16px;
-  letter-spacing: 1px;
-  background: white;
-  border-radius: 10px;
-  /* box-shadow: 0px 4px 4px rgba(0.25, 0.25, 0.25, 0.25); */
-}
-
-.input input[type="submit"] {
-  margin-top: 5%;
-  width: 50%;
-  margin-left: 25%;
-  margin-right: 25%;
-  background-color: #5875a1;
-  color: white;
-  font-family: "Audiowide", cursive;
-  font-size: larger;
-  cursor: pointer;
-}
-.input input[type="submit"]:hover {
-  background-color: #5870a1;
 }
 
 @media (max-width: 800px) {
@@ -172,4 +102,46 @@
     height: 100%;
     z-index: 1;
   }
+}
+
+.btn{
+  margin-top: 20px;
+  border-radius: 10px;
+  background-color: #466471;
+  color: #FFFFFF;
+}
+.input-field{
+  border-radius: 10px;
+  padding: 5px;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  border: 1px solid #ddd;
+  color: #466471;
+  background-color: #FFFFFF;
+}
+
+.input-field.error{
+  border: 1px solid red;
+  color: red;
+}
+
+input[type='text'],
+input[type='password']{
+  border: none;
+  outline: none;
+  box-shadow: none;
+  width: 100%;
+}
+
+.fa-eye-slash.btn{
+border: none;
+outline: none;
+box-shadow: none;
+}
+
+#forma{
+text-align: start;
 }

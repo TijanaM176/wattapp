@@ -6,22 +6,29 @@
     <div id="desni">
       <div id="content">
         <h1>Log In</h1>
-        <form id="form">
-          <div class="input">
-            <span>Username</span>
-            <input type="text" name="username" />
+        <form id="forma">
+          <div class="form-group pt-3">
+              <div class="input-field">
+                  <span class="fa fa-user p-2"></span>
+                  <input formControlName="usernameOrEmail" type="text" placeholder="Username">
+              </div>
           </div>
-          <div class="password">
-            <span>Password</span>
-            <input type="password" name="password" />
+          <small >* Username is required</small>
+          <div class="form-group pt-3">
+              <div class="input-field" >
+                  <span class="fa fa-lock p-2"></span>
+                  <input formControlName="password" type="text" placeholder="Password">
+                  <span class="fa fa-eye-slash"></span>
+              </div>
           </div>
-          <div class="input">
-            <label id="forgot">Forgot password?</label>
+          <small >* Password is required</small>
+          <div id="fp">
+            <label id="forgotpass">forgot password?</label>
           </div>
-          <div class="input">
-            <input type="submit" value="Log In" name="password" />
+          <div>
+            <br><button type="submit" class="btn btn-block mt-4 w-100">Login</button>
           </div>
-        </form>
+      </form>
       </div>
     </div>
   </section>
