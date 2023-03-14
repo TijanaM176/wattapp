@@ -1,60 +1,62 @@
-<div class="outer">
-    <div class="container">
-        <div class="row">
-            <div class="levo">
-                <label id="text">Register New User</label>
-            </div>
+
+   <div class="row">
+            
             <div class="desno">
                 <div class="panelbor">
                     <div class="panel-body">
-                        <form>                               
+                        <form [formGroup]="singupForm">                               
                              <div class="form-group pt-3">
-                                    <div class="input-field">
+                                    <div class="input-field" [class.error]="singupForm.controls['name'].dirty && singupForm.hasError('required','name')">
                                         <label class="lbl">Name:</label>
                                         <br>
-                                        <span class="polje">
+                                        <span class="polje"></span>
                                             
-                                            <input type="text" placeholder="First and Last name">
-                                        </span>
+                                            <input  formControlName="name" type="text" placeholder="First and Last name">
+                                        
                                     </div>
                                 </div>
+                                <small *ngIf="singupForm.controls['name'].dirty && singupForm.hasError('required','name')"  class="text-danger">*Name is required</small>
                                 <div class="form-group pt-3">
-                                    <div class="input-field">
+                                    <div class="input-field" [class.error]="singupForm.controls['username'].dirty && singupForm.hasError('required','username')">
                                         <label class="lbl">Username:</label>
                                         <br>
-                                        <span class="polje">
-                                            <input type="text" placeholder="Username">
-                                        </span>
+                                        <span class="polje"></span>
+                                            <input formControlName="username" type="text" placeholder="Username">
+                                        
                                     </div>
                                 </div>
+                                <small *ngIf="singupForm.controls['username'].dirty && singupForm.hasError('required','username')" class="text-danger">*Username is required</small>
                                 <div class="form-group pt-3">
-                                    <div class="input-field">
+                                    <div class="input-field" [class.error]="singupForm.controls['email'].dirty && singupForm.hasError('required','email')">
                                         <label class="lbl">E-mail:</label>
                                         <br>
-                                        <span class="polje">
-                                            <input type="text" placeholder="User E-mail Address">
-                                        </span>
+                                        <span class="polje"></span>
+                                            <input formControlName="email" type="text" placeholder="User E-mail Address">
+                                       
                                     </div>
                                 </div>
+                                <small *ngIf="singupForm.controls['email'].dirty && singupForm.hasError('required','email')" class="text-danger">*Email is required</small>
                                 <div class="form-group pt-3">
-                                    <div class="input-field">
+                                    <div class="input-field" [class.error]="singupForm.controls['address'].dirty && singupForm.hasError('required','address')">
                                         <label class="lbl">Address:</label>
                                         <br>
-                                        <span class="polje">
-                                            <input type="text" placeholder="User Address">
-                                        </span>
+                                        <span class="polje"></span>
+                                            <input formControlName="address" type="text" placeholder="User Address">
+                                        
                                     </div>
                                 </div>
+                                <small *ngIf="singupForm.controls['address'].dirty && singupForm.hasError('required','address')" class="text-danger">*Email is required</small>
                                 <div class="form-group pt-3">
-                                    <div class="input-field">
+                                    <div class="input-field" [class.error]="singupForm.controls['neighborhood'].dirty && singupForm.hasError('required','neighborhood')">
                                         <label class="lbl">Neighborhood:</label>
                                         <br>
-                                        <span class="polje">
-                                            <input type="text" placeholder="Neighborhood">
-                                        </span>
+                                        <span class="polje"></span>
+                                            <input formControlName="neighborhood" type="text" placeholder="Neighborhood">
+                                        
                                     </div>
                                 </div>
-                            <button type="submit" class="btn">
+                                <small *ngIf="singupForm.controls['neighborhood'].dirty && singupForm.hasError('required','neighborhood')" class="text-danger">*Neighborhood is required</small>
+                            <button type="submit" class="btn col-md-5" (click)="onSignUp();">
                                 Confirm
                             </button>
                         </form>
@@ -62,5 +64,3 @@
                 </div>
             </div>
         </div>
-    </div>
-</div>
