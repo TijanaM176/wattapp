@@ -6,27 +6,27 @@
     <div id="desni">
       <div id="content">
         <h1>Log In</h1>
-        <form id="forma">
+        <form [formGroup]="loginForm" id="forma">
           <div class="form-group pt-3">
-              <div class="input-field">
+              <div class="input-field" [class.error]="loginForm.controls['usernameOrEmail'].dirty && loginForm.hasError('required','usernameOrEmail')">
                   <span class="fa fa-user p-2"></span>
                   <input formControlName="usernameOrEmail" type="text" placeholder="Username">
               </div>
           </div>
-          <small >* Username is required</small>
+          <small *ngIf="loginForm.controls['usernameOrEmail'].dirty && loginForm.hasError('required','usernameOrEmail')" class="text-danger">* Username is required</small>
           <div class="form-group pt-3">
-              <div class="input-field" >
+              <div class="input-field" [class.error]="loginForm.controls['password'].dirty && loginForm.hasError('required','password')">
                   <span class="fa fa-lock p-2"></span>
-                  <input formControlName="password" type="text" placeholder="Password">
-                  <span class="fa fa-eye-slash"></span>
+                  <input formControlName="password" [type]="type" placeholder="Password">
+                  <span class="fa {{eyeIcon}}"(click)="hideShowPass()"></span>
               </div>
           </div>
-          <small >* Password is required</small>
+          <small *ngIf="loginForm.controls['password'].dirty && loginForm.hasError('required','password')" class="text-danger">* Password is required</small>
           <div id="fp">
             <label id="forgotpass">forgot password?</label>
           </div>
           <div>
-            <br><button type="submit" class="btn btn-block mt-4 w-100">Login</button>
+            <br><button (click)="onSubmit()" type="submit" class="btn btn-block mt-4 w-100">Login</button>
           </div>
       </form>
       </div>

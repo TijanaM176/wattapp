@@ -3,17 +3,20 @@ import { BrowserModule } from '@angular/platform-browser';
 import { ReactiveFormsModule } from '@angular/forms';
 
 import { AppRoutingModule } from './app-routing.module';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { NgToastModule } from 'ng-angular-popup';
 import { CookieService } from 'ngx-cookie-service';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './components/login/login.component';
+import { DashboardComponent } from './components/dashboard/dashboard.component';
+import { TokenInterceptor } from './interceptors/token.interceptor';
 
 @NgModule({
   declarations: [
     AppComponent, 
-    LoginComponent
+    LoginComponent, 
+    DashboardComponent
   ],
   imports: [
     BrowserModule, 
@@ -23,7 +26,7 @@ import { LoginComponent } from './components/login/login.component';
     ReactiveFormsModule,
     NgToastModule
   ],
-  providers: [CookieService],
+  providers: [CookieService,{provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi:true}],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
