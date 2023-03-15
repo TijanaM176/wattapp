@@ -193,5 +193,24 @@ namespace API.Services
         {
             return await _context.Prosumers.ToListAsync();
         }
+
+        // random token!
+        public string CreateRandomToken()
+        {
+
+            return Convert.ToHexString(RandomNumberGenerator.GetBytes(64));
+        }
+
+        public Prosumer GetProsumerWithToken(string token)
+        {
+            return _context.Prosumers.FirstOrDefault(x => x.Token == token);
+        }
+
+        public Dso GetDSOWithToken(string token)
+        {
+            return _context.Dsos.FirstOrDefault(x => x.Token == token);
+        }
+
+
     }
 }

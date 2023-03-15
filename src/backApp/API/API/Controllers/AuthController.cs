@@ -21,6 +21,9 @@ using API.Models;
 using MimeKit;
 using MailKit.Net.Smtp;
 using MailKit.Security;
+using System.Reflection.Emit;
+using System.Xml.Linq;
+
 
 namespace API.Controllers
 {
@@ -160,11 +163,16 @@ namespace API.Controllers
 
         public IActionResult SendEmail(string emailUser,string messagetoClient) 
         {
+
+           // string html="a";
+          
             var message = new MimeMessage(); // Mime.Kit
             message.From.Add(MailboxAddress.Parse("VoltaDSO@gmail.com")); 
             message.To.Add(MailboxAddress.Parse(emailUser));//email how forgot a password
-            message.Body = new TextPart(MimeKit.Text.TextFormat.Text)
+            message.Body = new TextPart(MimeKit.Text.TextFormat.Html)
             {
+                
+
                 Text = messagetoClient
 
             }; // koristimo html
@@ -181,15 +189,46 @@ namespace API.Controllers
         }
 
         //forgot passw
-        /*
+        
         [HttpPost("forgot_password")]
 
-        public async Task<ActionResult> Forgot_Password(string email)
+        public async Task<ActionResult> ForgotPassword(string email)// mora da se napravi trenutni token  i datum kada istice 
         {
             //saljemo email 
-            var user = 
+            var prosumer =  authService.GetProsumer(email);
+
+            if(prosumer == null)
+            {
+
+                return BadRequest("Prosumer is not found with that email");
+            }
+            
+            authService.SaveToken(prosumer, authService.CreateRandomToken()); // kreiramo random token za prosumer-a koji ce da koristi za sesiju
+            return Ok("User found!");
         }
-      
-    }*/
+
+        //reset password
+        [HttpPost("reset_password")]
+        public async Task<ActionResult> ResetPassword(ResetPassworkForm reset) // mora da se napravi trenutni token  i datum kada istice 
+        {
+            //
+            var prosumer = authService.GetProsumerWithToken(reset.Token);
+
+            if (prosumer == null)
+            {
+
+                return BadRequest("Prosumer is not found");
+            }
+            authService.CreatePasswordHash(reset.Password, out byte[] passwordHash, out byte[] passwordSalt);
+            
+            prosumer.HashPassword = passwordHash;
+            prosumer.SaltPassword = passwordSalt;
+            prosumer.Token = null; //trenutno!
+
+            authService.SaveToken(prosumer, authService.CreateRandomToken()); // kreiramo random token za prosumer-a
+            return Ok("Password reset!");
+        }
+
+
     }
 }
