@@ -18,6 +18,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using API.Services;
 using API.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace API.Controllers
 {
@@ -195,10 +196,11 @@ namespace API.Controllers
             }) ;
         }
 
+        [Authorize(Roles = "korisnik")]
         [HttpGet("UsersProsumer")]
-        public async Task<ActionResult<List<Prosumer>>> ListRegisterProsumer()
+        public async Task<IActionResult> ListRegisterProsumer()
         {
-            return Ok(authService.GetAllProsumers());
+            return Ok(await authService.GetAllProsumers());
         }
 
         [HttpPost("refreshToken")]

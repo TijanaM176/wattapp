@@ -66,6 +66,7 @@ export class LoginComponent implements OnInit{
             //alert(res.message);
             this.loginForm.reset();
             this.cookie.set("token",res.token);
+            this.cookie.set("refreshToken",res.refreshToken);
             this.toast.success({detail:"Successful Login!",duration: 2000});
             this.router.navigate([""]);
           },
