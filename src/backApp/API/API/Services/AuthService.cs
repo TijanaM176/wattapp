@@ -6,6 +6,7 @@ using System.Text.RegularExpressions;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using API.Models;
+using System.Web;
 namespace API.Services
 {
     public class AuthService
@@ -211,6 +212,22 @@ namespace API.Services
             return _context.Dsos.FirstOrDefault(x => x.Token == token);
         }
 
-
+       /* public string CreateBody()
+        {
+            string filePath = @"ImpView\sendmail.html";
+            string html = string.Empty;
+            if (File.Exists(filePath))
+            {
+                using (FileStream fileStream = new FileStream(filePath, FileMode.Open, FileAccess.Read))
+                {
+                    using (StreamReader streamReader = new StreamReader(fileStream, Encoding.UTF8))
+                    {
+                        html = streamReader.ReadToEnd();
+                    }
+                }
+            }
+            return html;
+        }
+       */ //ne koristi se, samo radi probe!!!
     }
 }
