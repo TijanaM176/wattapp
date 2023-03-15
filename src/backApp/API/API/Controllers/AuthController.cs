@@ -18,6 +18,9 @@ using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using API.Services;
 using API.Models;
+using MimeKit;
+using MailKit.Net.Smtp;
+using MailKit.Security;
 
 namespace API.Controllers
 {
@@ -25,7 +28,7 @@ namespace API.Controllers
     [ApiController]
     public class AuthController : Controller
     {
-      
+
         private readonly AuthService authService;
         private static User user = new User();
 
@@ -34,7 +37,7 @@ namespace API.Controllers
             authService = serv;
         }
 
-        
+
         [HttpPost("registerProsumer")]
         public async Task<ActionResult<Prosumer>> Register(ProsumerDto request)
         {
@@ -42,7 +45,7 @@ namespace API.Controllers
 
             Prosumer prosumer = new Prosumer(); // pravimo novog prosumer-a
 
-            
+
             Guid id = Guid.NewGuid(); // proizvodimo novi id 
             string username = authService.CheckUserName(request);
 
@@ -72,7 +75,7 @@ namespace API.Controllers
             {
                 return BadRequest("Email nije validan ili vec postoji takav!");
             }
-            }
+        }
         [HttpPost("registerDsoWorker")]
         public async Task<ActionResult<Dso>> Register(DsoWorkerDto request)
         {
@@ -111,7 +114,7 @@ namespace API.Controllers
         }
 
         [HttpPost("prosumerLogin")]
-      
+
         public async Task<ActionResult<string>> ProsumerLogin(UserLogin request) // skratiti i ovo (1)
         {
             Prosumer prosumer = authService.GetProsumer(request.UsernameOrEmail);  //ako postoji, uzmi prosumera iz baze
@@ -225,5 +228,43 @@ namespace API.Controllers
             return Ok(token);
 
         }
+
+
+
+        [HttpPost("Send_E-mail")]
+
+        public IActionResult SendEmail(string emailUser,string messagetoClient) 
+        {
+            var message = new MimeMessage(); // Mime.Kit
+            message.From.Add(MailboxAddress.Parse("VoltaDSO@gmail.com")); 
+            message.To.Add(MailboxAddress.Parse(emailUser));//email how forgot a password
+            message.Body = new TextPart(MimeKit.Text.TextFormat.Text)
+            {
+                Text = messagetoClient
+
+            }; // koristimo html
+            message.Subject = "USER "+emailUser +" has forgotten his password!";
+
+            var smtp = new SmtpClient(); //using MailKit.Net.Smtp;
+            smtp.Connect("smtp.gmail.com", 587, SecureSocketOptions.StartTls); // za gmail , 587 je port, using MailKit.Security
+            smtp.Authenticate("VoltaDSO@gmail.com", "qdbfwrmrgkrzkbdx");
+            smtp.Send(message);
+            smtp.Disconnect(true);
+
+
+            return Ok();
+        }
+
+        //forgot passw
+        /*
+        [HttpPost("forgot_password")]
+
+        public async Task<ActionResult> Forgot_Password(string email)
+        {
+            //saljemo email 
+            var user = 
+        }
+      
+    }*/
     }
 }
