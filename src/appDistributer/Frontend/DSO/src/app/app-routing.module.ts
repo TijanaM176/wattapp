@@ -4,6 +4,7 @@ import { AppComponent } from './app.component';
 
 
 import { LoginComponent } from './components/login/login.component';
+import { SignupWorkerComponent } from './components/signup-worker/signup-worker.component';
 
 import { SignupComponent } from './components/signup/signup.component';
 
@@ -16,6 +17,10 @@ const routes: Routes = [
   {
     path: 'signup',
     component:SignupComponent,
+  },
+  {
+    path: 'signupWorker',
+    component:SignupWorkerComponent,
   }
 ];
 @NgModule({
