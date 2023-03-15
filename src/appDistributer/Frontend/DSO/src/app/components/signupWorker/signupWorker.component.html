@@ -1,0 +1,66 @@
+
+   <div class="row">
+           
+            <div class="desno">
+                <div class="panelbor">
+                    <div class="panel-body">
+                        <form [formGroup]="signupWorkerForm">                               
+                             <div class="form-group pt-3">
+                                    <div class="input-field" [class.error]="signupWorkerForm.controls['Firstname'].dirty && signupWorkerForm.hasError('required','Firstname')">
+                                        <label class="lbl">FirstName:</label>
+                                        <br>
+                                        <span class="polje"></span>
+                                            
+                                            <input  formControlName="Firstname" type="text" placeholder="Enter first name">
+                                        
+                                    </div>
+                                </div>
+                                <small *ngIf="signupWorkerForm.controls['Firstname'].dirty && signupWorkerForm.hasError('required','Firstname')"  class="text-danger">*FirstName is required</small>
+                                <div class="form-group pt-3">
+                                    <div class="input-field" [class.error]="signupWorkerForm.controls['Lastname'].dirty && signupWorkerForm.hasError('required','Lastname')">
+                                        <label class="lbl">LastName:</label>
+                                        <br>
+                                        <span class="polje"></span>
+                                            <input formControlName="Lastname" type="text" placeholder="Enter last Name">
+                                        
+                                    </div>
+                                </div>
+                                <small *ngIf="signupWorkerForm.controls['Lastname'].dirty && signupWorkerForm.hasError('required','Lastname')" class="text-danger">*LastName is required</small>
+                                <div class="form-group pt-3">
+                                    <div class="input-field" [class.error]="signupWorkerForm.controls['Password'].dirty && signupWorkerForm.hasError('required','Password')">
+                                        <label class="lbl">Password:</label>
+                                        <br>
+                                        <span class="polje"></span>
+                                            <input formControlName="Password" type="password" placeholder="   Enter password">
+                                       
+                                    </div>
+                                </div>
+                                <small *ngIf="signupWorkerForm.controls['Password'].dirty && signupWorkerForm.hasError('required','Password')" class="text-danger">*Password is required</small>
+                                <div class="form-group pt-3">
+                                    <div class="input-field" [class.error]="signupWorkerForm.controls['Address'].dirty && signupWorkerForm.hasError('required','Address')">
+                                        <label class="lbl">Address:</label>
+                                        <br>
+                                        <span class="polje"></span>
+                                            <input formControlName="Address" type="text" placeholder="Enter address">
+                                        
+                                    </div>
+                                </div>
+                                <small *ngIf="signupWorkerForm.controls['Address'].dirty && signupWorkerForm.hasError('required','Address')" class="text-danger">*Adress is required</small>
+                                <div class="form-group pt-3">
+                                    <div class="input-field" [class.error]="signupWorkerForm.controls['Salary'].dirty && signupWorkerForm.hasError('required','Salary')">
+                                        <label class="lbl">Salary:</label>
+                                        <br>
+                                        <span class="polje"></span>
+                                            <input formControlName="Salary" type="text" placeholder="Enter salary">
+                                        
+                                    </div>
+                                </div>
+                                <small *ngIf="signupWorkerForm.controls['Salary'].dirty && signupWorkerForm.hasError('required','Salary')" class="text-danger">*Salary is required</small>
+                            <button type="submit" class="btn col-md-5" (click)="onSignUp();">
+                                Confirm
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
