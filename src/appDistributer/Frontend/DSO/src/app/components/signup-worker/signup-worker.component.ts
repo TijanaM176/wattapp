@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-
+import { AuthService } from 'src/app/services/auth.service';
 @Component({
   selector: 'app-signup-worker',
   templateUrl: './signup-worker.component.html',
@@ -9,15 +9,16 @@ import { Router } from '@angular/router';
 })
 export class SignupWorkerComponent  implements OnInit{
   signupWorkerForm!:FormGroup;
-  constructor(private fb:FormBuilder,private router : Router){}
+  constructor(private fb:FormBuilder,private router : Router,private auth:AuthService){}
   ngOnInit(): void {
     this.signupWorkerForm=this.fb.group({
-      Firstname:['',Validators.required],
-      Lastname:['',Validators.required],
-      Password:['',Validators.required],
-      Address:['',Validators.required],
-      Salary:['',Validators.required],
-      Image:['',Validators.required]
+      firstName:['',Validators.required],
+      lastName:['',Validators.required],
+      password:['',Validators.required],
+      email:['',Validators.required],
+      address:['',Validators.required],
+      salary:['',Validators.required],
+      image:['',Validators.required]
     })
   }
   get fields(){
@@ -43,12 +44,24 @@ export class SignupWorkerComponent  implements OnInit{
     })
   }
   onSubmit(){
-    //this.submitted = true;
-    //if(this.singupForm.invalid){
-      //return;
-    //}else if(this.singupForm.valid){
-      //this.router.navigate(['home']);
-    //}
-    
+    if(this.signupWorkerForm.valid){
+      this.auth.signUp(this.signupWorkerForm.value)
+      .subscribe({
+        next:(res=>{
+          alert(res);
+          this.signupWorkerForm.reset();
+          this.router.navigate(['']);
+        })
+        ,error:(err=>{
+          alert(err?.error)
+        })
+      })
+      console.log(this.signupWorkerForm.value);
+    }
+    else{
+      this.validateAllFormFields(this.signupWorkerForm)
+    }
   }
+    
+  
 }

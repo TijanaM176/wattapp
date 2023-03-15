@@ -9,4 +9,8 @@ export class AuthService {
   signUp(userObj:any){
     return this.http.post<any>(`${this.baseUrl}registerProsumer`,userObj);
   }
+  signupWorker(workerDto: any)
+  {
+    return this.http.post<any>(`${this.baseUrl}registerDsoWorker`,workerDto);
+  }
 }
