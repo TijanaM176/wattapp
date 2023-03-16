@@ -8,15 +8,17 @@ using Microsoft.IdentityModel.Tokens;
 using API.Models;
 
 using System.Web;
+using API.Repositories;
+
 namespace API.Services
 {
-    public class AuthService
+    public class AuthService: IAuthService
     {
-        private readonly RegContext _context;
+        private readonly IUserRepository _repository;
         private readonly IConfiguration _config;
-        public AuthService(RegContext context, IConfiguration config)
+        public AuthService(IUserRepository repository, IConfiguration config)
         {
-            _context = context;
+            _repository = repository;
             _config = config;
         }
 
@@ -30,33 +32,28 @@ namespace API.Services
                 passwordSalt = hmac.Key;
 
                 passwordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(password)); // using System.Text;   to je property Encoding.UTF8
-
-
             }
-
         }
 
-        public Role getRole(string naziv)
+        //sta bi trebalo da vracam ako je null??
+        public async Task<Role> getRole(string naziv)
         {
-            List<Role> Roles = _context.Roles.ToList();
-
-            foreach (var item in Roles)
-            {
-                if (item.RoleName.Equals(naziv))
-                    return item;
-            }
+            var role = await _repository.getRole(naziv);
+            if (role!= null)  return role;
 
             return null;
         }
-
-        public string getRoleName(long? id)
+        public async Task<string> getRoleName(long? id)
         {
-            return _context.Roles.FirstOrDefault(x => x.Id == id).RoleName;
+            var roleName = await _repository.getRoleName(id);
+            if (roleName!= null) return roleName;
+
+            return null; 
         }
-
-        public string CheckUserName(ProsumerDto request)
+        
+        public async Task<string> CheckUserName(ProsumerDto request)
         {
-            List<Prosumer> listaProsumer = _context.Prosumers.ToList();
+            List<Prosumer> listaProsumer = await _repository.GetAllProsumers();
             List<String> listaUsername = new List<String>();
             string username = "";
             Boolean check = true;
@@ -74,13 +71,12 @@ namespace API.Services
                     check = false;
             }
 
-
-
             return username;
         }
-        public Boolean checkEmail(ProsumerDto request)
+
+        public async Task<Boolean> checkEmail(ProsumerDto request)
         {
-            List<Prosumer> listaProsumer = _context.Prosumers.ToList();
+            List<Prosumer> listaProsumer = await _repository.GetAllProsumers();
             List<String> listaEmail = new List<String>();
          
             foreach (var item in listaProsumer)
@@ -102,21 +98,20 @@ namespace API.Services
 
             return emailRegex.IsMatch(email);
         }
-
+        
         public async void InsertProsumer(Prosumer prosumer)
         {
-            _context.Prosumers.Add(prosumer);
-            await _context.SaveChangesAsync(); // sacuvaj promene
+            _repository.InsertProsumer(prosumer);
         }
-
+        
         public async void InsertDSOWorker(Dso DSO_Worker)
         {
-            _context.Dsos.Add(DSO_Worker);
-            await _context.SaveChangesAsync(); // sacuvaj promene
+            _repository.InsertDSOWorker(DSO_Worker);
         }
-        public string CheckUserNameDSO(DsoWorkerDto request) // moze da se optimizuje bzv ovako
+        
+        public async Task<string> CheckUserNameDSO(DsoWorkerDto request) // moze da se optimizuje bzv ovako
         {
-            List<Dso> listaDSOWorkers = _context.Dsos.ToList();
+            List<Dso> listaDSOWorkers = await _repository.GetAllDsos();
             List<String> listaUsername = new List<String>();
             string username = "";
             Boolean check = true;
@@ -134,20 +129,17 @@ namespace API.Services
                     check = false;
             }
 
-
-
             return username;
         }
-        public Boolean checkEmail(DsoWorkerDto request) // // moze da se optimizuje bzv ovako isto
+        public async Task<Boolean> checkEmail(DsoWorkerDto request) // // moze da se optimizuje bzv ovako isto
         {
-            List<Dso> istaDSOWorkers = _context.Dsos.ToList();
+            List<Dso> listaDSOWorkers = await _repository.GetAllDsos();
             List<String> listaEmail = new List<String>();
 
-            foreach (var item in istaDSOWorkers)
+            foreach (var item in listaDSOWorkers)
             {
                 listaEmail.Add(item.Email);
             }
-
 
             if (listaEmail.Contains(request.Email))
                 return false;
@@ -166,23 +158,31 @@ namespace API.Services
             }
         }
 
-        public Prosumer GetProsumer(string usernameOrEmail)
+        
+        public async Task<Prosumer> GetProsumer(string usernameOrEmail)
         {
-            return _context.Prosumers.FirstOrDefault(x => x.Username == usernameOrEmail || x.Email == usernameOrEmail);
+            var prosumer = await _repository.GetProsumer(usernameOrEmail);
+            if (prosumer != null) return prosumer;
+
+            return null;
         }
 
-        public Dso GetDSO(string usernameOrEmail)
+        public async Task<Dso> GetDSO(string usernameOrEmail)
         {
-            return _context.Dsos.FirstOrDefault(x => x.Username == usernameOrEmail || x.Email == usernameOrEmail);
+            var dso = await _repository.GetDSO(usernameOrEmail);
+            if (dso != null) return dso;
+
+            return null;
         }
+        
 
-
-        public string CreateToken(User user)
+        public async Task<string> CreateToken(User user)
         {
+            string roleName = await _repository.getRoleName(user.RoleId);
             List<Claim> claims = new List<Claim>
             {
                 new Claim(ClaimTypes.Name, user.Username),
-                new Claim(ClaimTypes.Role, getRoleName(user.RoleId))
+                new Claim(ClaimTypes.Role, roleName)
 
             };
 
@@ -198,12 +198,20 @@ namespace API.Services
 
             return jwt;
         }
-
+        
+        public void SaveToken(User user, string token)
+        {
+            _repository.SaveToken(user, token);
+        }
+        
         public async Task<List<Prosumer>> GetAllProsumers()
         {
-            return await _context.Prosumers.ToListAsync();
-        }
+            var prosumers = await _repository.GetAllProsumers();
+            if (prosumers != null) return prosumers;
 
+            return null;
+        }
+        
         public RefreshToken GenerateRefreshToken()
         {
             return new RefreshToken
@@ -219,18 +227,25 @@ namespace API.Services
 
             return Convert.ToHexString(RandomNumberGenerator.GetBytes(64));
         }
-
-        public Prosumer GetProsumerWithToken(string token)
+        
+        public async Task<Prosumer> GetProsumerWithToken(string token)
         {
-            return _context.Prosumers.FirstOrDefault(x => x.Token == token);
+            var prosumer = await _repository.GetProsumerWithToken(token);
+            if (prosumer != null) return prosumer;
+
+            return null;
         }
 
-        public Dso GetDSOWithToken(string token)
+        public async Task<Dso> GetDSOWithToken(string token)
         {
-            return _context.Dsos.FirstOrDefault(x => x.Token == token);
+            var dso = await _repository.GetDSOWithToken(token);
+            if (dso != null) return dso;
+
+            return null;
         }
 
-       /* public string CreateBody()
+        /*
+        public string CreateBody()
         {
             string filePath = @"ImpView\sendmail.html";
             string html = string.Empty;

@@ -32,10 +32,10 @@ namespace API.Controllers
     public class AuthController : Controller
     {
 
-        private readonly AuthService authService;
+        private readonly IAuthService authService;
         private static User user = new User();
 
-        public AuthController(AuthService serv)
+        public AuthController(IAuthService serv)
         {
             authService = serv;
         }
@@ -50,9 +50,9 @@ namespace API.Controllers
 
 
             Guid id = Guid.NewGuid(); // proizvodimo novi id 
-            string username = authService.CheckUserName(request);
+            string username = await authService.CheckUserName(request);
 
-            if (authService.IsValidEmail(request.Email) && authService.checkEmail(request))
+            if (authService.IsValidEmail(request.Email) && await authService.checkEmail(request))
             {
                 prosumer.Id = id.ToString();
                 prosumer.FirstName = request.FirstName;
@@ -69,7 +69,7 @@ namespace API.Controllers
                 prosumer.RegionId = "trenutno"; // ovo je trenutno dok se ne napravi Dso, Pa cemo da vracamo iz dso-a
                 prosumer.NeigborhoodId = "trenutno"; // ovo isto vazi kao i za RegionId
                 prosumer.DateCreate = DateTime.Now.ToString("MM/dd/yyyy");
-                prosumer.Role = authService.getRole("korisnik");
+                prosumer.Role = await authService.getRole("korisnik");
                 authService.InsertProsumer(prosumer); // sacuvaju se i izmene
 
                 return Ok(prosumer);
@@ -88,9 +88,9 @@ namespace API.Controllers
 
 
             Guid id = Guid.NewGuid(); // proizvodimo novi id 
-            string username = authService.CheckUserNameDSO(request);
+            string username = await authService.CheckUserNameDSO(request);
 
-            if (authService.IsValidEmail(request.Email) && authService.checkEmail(request))
+            if (authService.IsValidEmail(request.Email) && await authService.checkEmail(request))
             {
                 workerDSO.Id = id.ToString();
                 workerDSO.FirstName = request.FirstName;
@@ -105,7 +105,7 @@ namespace API.Controllers
                 workerDSO.SaltPassword = passwordSalt;
                 workerDSO.RegionId = "trenutno"; // ovo je trenutno dok se ne napravi Dso, Pa cemo da vracamo iz dso-a
                 workerDSO.DateCreate = DateTime.Now.ToString("MM/dd/yyyy");
-                workerDSO.Role = authService.getRole("WorkerDso");
+                workerDSO.Role = await authService.getRole("WorkerDso");
                 authService.InsertDSOWorker(workerDSO); // sacuvaju se i izmene
 
                 return Ok(workerDSO);
@@ -120,7 +120,7 @@ namespace API.Controllers
 
         public async Task<ActionResult<string>> ProsumerLogin(UserLogin request) // skratiti i ovo (1)
         {
-            Prosumer prosumer = authService.GetProsumer(request.UsernameOrEmail);  //ako postoji, uzmi prosumera iz baze
+            Prosumer prosumer = await authService.GetProsumer(request.UsernameOrEmail);  //ako postoji, uzmi prosumera iz baze
             
 
             if (prosumer == null)
@@ -137,7 +137,7 @@ namespace API.Controllers
                     message = "Wrong password."
                 });
 
-            string userToken = authService.CreateToken(prosumer);
+            string userToken = await authService.CreateToken(prosumer);
             //authService.SaveToken(prosumer, userToken); mislim da je nepotrebno da se cuva u bazi token
 
             var refreshToken = authService.GenerateRefreshToken();
@@ -163,7 +163,7 @@ namespace API.Controllers
         [HttpPost("DSOLogin")]
         public async Task<ActionResult<string>> DSOLogin(UserLogin request) // skratiti i ovo (2)
         {
-            Dso dso = authService.GetDSO(request.UsernameOrEmail);  //ako postoji, uzmi prosumera iz baze
+            Dso dso = await authService.GetDSO(request.UsernameOrEmail);  //ako postoji, uzmi prosumera iz baze
             
             if (dso == null)
                 return BadRequest(new
@@ -179,7 +179,7 @@ namespace API.Controllers
                     message = "Wrong password."
                 });
 
-            string dsoToken = authService.CreateToken(dso);
+            string dsoToken = await authService.CreateToken(dso);
             //authService.SaveToken(dso, token);
 
             var refreshToken = authService.GenerateRefreshToken();
@@ -217,7 +217,7 @@ namespace API.Controllers
             else if (user.RefreshToken.Expires < DateTime.Now)
                 return Unauthorized("Expired Token.");
 
-            string token = authService.CreateToken(user);
+            string token = await authService.CreateToken(user);
             var updatedRefreshToken = authService.GenerateRefreshToken();
 
             var cookieOptions = new CookieOptions
@@ -280,7 +280,7 @@ namespace API.Controllers
         {
             //saljemo email 
            
-            var prosumer =  authService.GetProsumer(email);
+            var prosumer = await authService.GetProsumer(email);
                 
             if (prosumer == null)
             {
@@ -300,7 +300,7 @@ namespace API.Controllers
         public async Task<ActionResult> ForgotPasswordWorker(string email)// mora da se napravi trenutni token  i datum kada istice 
         {
             //saljemo email 
-            var worker = authService.GetDSO(email);
+            var worker = await authService.GetDSO(email);
 
             if (worker == null)
             {
@@ -310,9 +310,6 @@ namespace API.Controllers
 
             authService.SaveToken(worker, authService.CreateRandomToken()); // kreiramo random token za prosumer-a koji ce da koristi za sesiju
 
-
-
-
             return Ok("Worker DSO found!");
         }
         //reset password
@@ -320,7 +317,7 @@ namespace API.Controllers
         public async Task<ActionResult> ResetPasswordProsumer(ResetPassworkForm reset) // mora da se napravi trenutni token  i datum kada istice 
         {
             //
-            var prosumer = authService.GetProsumerWithToken(reset.Token);
+            var prosumer = await authService.GetProsumerWithToken(reset.Token);
             
 
             if (prosumer == null)
@@ -341,7 +338,7 @@ namespace API.Controllers
         public async Task<ActionResult> ResetPasswordWorker(ResetPassworkForm reset) // mora da se napravi trenutni token  i datum kada istice 
         {
            
-            var worker = authService.GetDSOWithToken(reset.Token);
+            var worker = await authService.GetDSOWithToken(reset.Token);
 
 
             if (worker == null)
