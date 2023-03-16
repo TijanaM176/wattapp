@@ -1,0 +1,102 @@
+<header>
+  <CDBNavbar
+    style="background-color: #e8f3f8"
+    [dark]="true"
+    expand="lg"
+    [scrolling]="true"
+  >
+    <CDBNavBrand href="/">
+      <img src="assets/images/logo.png" height="75" alt="" />
+    </CDBNavBrand>
+    <CDBNavToggle
+      (click)="content.toggleCollapse()"
+      style="background-color: #5875a1"
+      [right]="true"
+    ></CDBNavToggle>
+    <CDBCollapse #content class="w-100" [navbar]="true" expand="lg">
+      <CDBNavbarNav [right]="true" class="align-items-center">
+        <CDBNavItem [active]="true">
+          <CDBBtn
+            [flat]="true"
+            color="dark"
+            style="
+              padding: 0;
+              background-color: #5875a1;
+              border: 0;
+              font-weight: bold;
+
+              border-radius: 20px;
+              width: 120px;
+              vertical-align: middle;
+            "
+          >
+            <CDBNavLink to="/" style="color: white">
+              <CDBIcon class="mr-2" icon="home"></CDBIcon> Home
+            </CDBNavLink>
+          </CDBBtn>
+        </CDBNavItem>
+        <CDBNavItem>
+          <CDBBtn
+            [flat]="true"
+            color="dark"
+            style="
+              padding: 0;
+              background-color: #e8f3f8;
+              border: 0;
+              font-weight: bold;
+              border-radius: 20px;
+              width: 120px;
+              vertical-align: middle;
+            "
+          >
+            <CDBNavLink to="#" style="color: #5875a1">
+              <CDBIcon class="mr-2" icon="feather"></CDBIcon> Features
+            </CDBNavLink>
+          </CDBBtn>
+        </CDBNavItem>
+        <CDBNavItem>
+          <CDBBtn
+            [flat]="true"
+            color="dark"
+            style="
+              padding: 0;
+              background-color: #e8f3f8;
+              border: 0;
+              font-weight: bold;
+              border-radius: 20px;
+              width: 120px;
+              vertical-align: middle;
+            "
+          >
+            <CDBNavLink to="#" style="color: #5875a1">
+              <CDBIcon class="mr-2" icon="dollar-sign"></CDBIcon>
+              Pricing
+            </CDBNavLink>
+          </CDBBtn>
+        </CDBNavItem>
+        <CDBNavItem>
+          <CDBDropDown style="padding: 0; background-color: #e8f3f8">
+            <CDBDropDownToggle
+              [caretDropDown]="true"
+              style="
+                padding: 0;
+                background-color: #e8f3f8;
+                color: #5875a1;
+                font-weight: bold;
+                border-radius: 20px;
+                width: 120px;
+                vertical-align: middle;
+              "
+              (click)="menu.toggleDropdown($event)"
+            >
+              <CDBIcon class="mr-2" icon="cogs"></CDBIcon> Options
+            </CDBDropDownToggle>
+            <CDBDropDownMenu #menu="cdbDropdownMenu" placement="bottom">
+              Coming soon #pleaseStayUpdated.
+            </CDBDropDownMenu>
+          </CDBDropDown>
+        </CDBNavItem>
+      </CDBNavbarNav>
+    </CDBCollapse>
+  </CDBNavbar>
+</header>
