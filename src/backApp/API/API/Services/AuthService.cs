@@ -7,6 +7,7 @@ using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using API.Models;
 
+using System.Web;
 namespace API.Services
 {
     public class AuthService
@@ -212,5 +213,39 @@ namespace API.Services
                 Expires = DateTime.Now.AddMinutes(int.Parse(_config.GetSection("AppSettings:RefreshTokenValidity").Value))
             };
         }
+        // random token!
+        public string CreateRandomToken()
+        {
+
+            return Convert.ToHexString(RandomNumberGenerator.GetBytes(64));
+        }
+
+        public Prosumer GetProsumerWithToken(string token)
+        {
+            return _context.Prosumers.FirstOrDefault(x => x.Token == token);
+        }
+
+        public Dso GetDSOWithToken(string token)
+        {
+            return _context.Dsos.FirstOrDefault(x => x.Token == token);
+        }
+
+       /* public string CreateBody()
+        {
+            string filePath = @"ImpView\sendmail.html";
+            string html = string.Empty;
+            if (File.Exists(filePath))
+            {
+                using (FileStream fileStream = new FileStream(filePath, FileMode.Open, FileAccess.Read))
+                {
+                    using (StreamReader streamReader = new StreamReader(fileStream, Encoding.UTF8))
+                    {
+                        html = streamReader.ReadToEnd();
+                    }
+                }
+            }
+            return html;
+        }
+       */ //ne koristi se, samo radi probe!!!
     }
 }
