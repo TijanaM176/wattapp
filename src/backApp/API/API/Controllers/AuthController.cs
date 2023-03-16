@@ -88,7 +88,7 @@ namespace API.Controllers
 
 
             Guid id = Guid.NewGuid(); // proizvodimo novi id 
-            string username = await authService.CheckUserNameDSO(request);
+            string username = await authService.CheckUserName(request);
 
             if (authService.IsValidEmail(request.Email) && await authService.checkEmail(request))
             {

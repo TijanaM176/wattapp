@@ -22,36 +22,9 @@ namespace API.Services
             _config = config;
         }
 
-        //REGISTER Prosumer
-
         
-        public void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)
-        {
-            using (var hmac = new HMACSHA512()) // System.Security.Cryptography; Computes a Hash-based Message Authentication Code (HMAC) using the SHA512 hash function.
-            {
-                passwordSalt = hmac.Key;
-
-                passwordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(password)); // using System.Text;   to je property Encoding.UTF8
-            }
-        }
-
-        //sta bi trebalo da vracam ako je null??
-        public async Task<Role> getRole(string naziv)
-        {
-            var role = await _repository.getRole(naziv);
-            if (role!= null)  return role;
-
-            return null;
-        }
-        public async Task<string> getRoleName(long? id)
-        {
-            var roleName = await _repository.getRoleName(id);
-            if (roleName!= null) return roleName;
-
-            return null; 
-        }
         
-        public async Task<string> CheckUserName(ProsumerDto request)
+        public async Task<string> CheckUserName(UserDto request)
         {
             List<Prosumer> listaProsumer = await _repository.GetAllProsumers();
             List<String> listaUsername = new List<String>();
@@ -74,7 +47,7 @@ namespace API.Services
             return username;
         }
 
-        public async Task<Boolean> checkEmail(ProsumerDto request)
+        public async Task<Boolean> checkEmail(UserDto request)
         {
             List<Prosumer> listaProsumer = await _repository.GetAllProsumers();
             List<String> listaEmail = new List<String>();
@@ -91,14 +64,22 @@ namespace API.Services
             return true;
         }
 
-
         public bool IsValidEmail(string email)
         {
             Regex emailRegex = new Regex(@"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$", RegexOptions.IgnoreCase);
 
             return emailRegex.IsMatch(email);
         }
-        
+
+        public void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)
+        {
+            using (var hmac = new HMACSHA512()) // System.Security.Cryptography; Computes a Hash-based Message Authentication Code (HMAC) using the SHA512 hash function.
+            {
+                passwordSalt = hmac.Key;
+                passwordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(password)); // using System.Text;   to je property Encoding.UTF8
+            }
+        }
+
         public async void InsertProsumer(Prosumer prosumer)
         {
             _repository.InsertProsumer(prosumer);
@@ -109,45 +90,7 @@ namespace API.Services
             _repository.InsertDSOWorker(DSO_Worker);
         }
         
-        public async Task<string> CheckUserNameDSO(DsoWorkerDto request) // moze da se optimizuje bzv ovako
-        {
-            List<Dso> listaDSOWorkers = await _repository.GetAllDsos();
-            List<String> listaUsername = new List<String>();
-            string username = "";
-            Boolean check = true;
-            int count = 1;
-            foreach (var item in listaDSOWorkers)
-            {
-                listaUsername.Add(item.Username);
-            }
 
-            while (check)
-            {
-                if (listaUsername.Contains(username = request.getUsername(count++)))
-                    check = true;
-                else
-                    check = false;
-            }
-
-            return username;
-        }
-        public async Task<Boolean> checkEmail(DsoWorkerDto request) // // moze da se optimizuje bzv ovako isto
-        {
-            List<Dso> listaDSOWorkers = await _repository.GetAllDsos();
-            List<String> listaEmail = new List<String>();
-
-            foreach (var item in listaDSOWorkers)
-            {
-                listaEmail.Add(item.Email);
-            }
-
-            if (listaEmail.Contains(request.Email))
-                return false;
-
-            return true;
-        }
-
-        //LOGIN 
         public bool VerifyPassword(string reqPassword, byte[] passwordSalt, byte[] passwordHash)
         {
             using (var hmac = new HMACSHA512(passwordSalt))
@@ -158,7 +101,22 @@ namespace API.Services
             }
         }
 
-        
+        //sta bi trebalo da vracam ako je null??
+        public async Task<Role> getRole(string naziv)
+        {
+            var role = await _repository.getRole(naziv);
+            if (role != null) return role;
+
+            return null;
+        }
+        public async Task<string> getRoleName(long? id)
+        {
+            var roleName = await _repository.getRoleName(id);
+            if (roleName != null) return roleName;
+
+            return null;
+        }
+
         public async Task<Prosumer> GetProsumer(string usernameOrEmail)
         {
             var prosumer = await _repository.GetProsumer(usernameOrEmail);
