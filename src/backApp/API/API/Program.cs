@@ -53,6 +53,9 @@ builder.Services.AddAuthorization();
 
 var app = builder.Build();
 
+
+app.UseCors("default");
+
 app.UseAuthentication();
 app.UseAuthorization();
 
@@ -63,8 +66,6 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
-app.UseCors("default");
 
 app.UseAuthentication();
 

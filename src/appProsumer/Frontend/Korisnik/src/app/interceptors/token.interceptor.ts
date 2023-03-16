@@ -16,6 +16,7 @@ import { RefreshTokenDto } from '../models/refreshTokenDto';
 @Injectable()
 export class TokenInterceptor implements HttpInterceptor {
 
+  counter = 0
   constructor(private cookie: CookieService, private toast: NgToastService, private router: Router, private auth: AuthServiceService) {}
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
@@ -32,12 +33,21 @@ export class TokenInterceptor implements HttpInterceptor {
     }
     return next.handle(request).pipe(
       catchError((err:any)=>{
-        alert(err.status)
+        //alert(err.status)
         if(err instanceof HttpErrorResponse)
         {
-          if(err.status==401)
+          if(err.status==401 && this.counter==0)
           {
+            this.counter =1;
+            //alert(err.status)
             return this.handleAuth(request,next);
+          }
+          else
+          {
+            this.counter=0;
+            this.toast.warning({detail:"Warning", summary: err.error,duration: 3000});
+            this.cookie.deleteAll();
+            this.router.navigate(['login']);
           }
         }
         return throwError(()=> new Error("Some other error occurred"));
@@ -51,6 +61,7 @@ export class TokenInterceptor implements HttpInterceptor {
     .pipe(
       switchMap((data: string)=>
       {
+        alert(data);
         this.cookie.set("token",data);
         //this.cookie.set("refreshToken",data.refreshToken);
         alert(this.cookie.get("token"));

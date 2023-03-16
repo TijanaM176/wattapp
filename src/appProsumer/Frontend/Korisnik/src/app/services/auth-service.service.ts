@@ -22,8 +22,8 @@ export class AuthServiceService {
     return this.http.get<any>(this.baseUrl+'UsersProsumer');
   }
 
-  refreshToken()
+  refreshToken():Observable<any>
   {
-    return this.http.get<any>(this.baseUrl+'refreshToken');
+    return this.http.post<any>(this.baseUrl+'refreshToken',null);
   }
 }
