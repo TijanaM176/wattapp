@@ -6,6 +6,7 @@ using System.Text;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using static Org.BouncyCastle.Math.EC.ECCurve;
+using Microsoft.AspNetCore.Mvc;
 
 namespace API.Services
 {
@@ -30,5 +31,7 @@ namespace API.Services
         public string CreateRandomToken();
         public Task<Prosumer> GetProsumerWithToken(string token);
         public Task<Dso> GetDSOWithToken(string token);
+        public Task<Prosumer> Register(ProsumerDto request);
+        public Task<Dso> Register(DsoWorkerDto request);
     }
 }

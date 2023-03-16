@@ -9,6 +9,7 @@ using API.Models;
 
 using System.Web;
 using API.Repositories;
+using Microsoft.AspNetCore.Mvc;
 
 namespace API.Services
 {
@@ -200,6 +201,83 @@ namespace API.Services
             if (dso != null) return dso;
 
             return null;
+        }
+
+        //REGISTER
+
+        public async Task<Prosumer> Register(ProsumerDto request)
+        {
+            CreatePasswordHash(request.Password, out byte[] passwordHash, out byte[] passwordSalt); // vracamo dve vrednosti!
+
+            Prosumer prosumer = new Prosumer(); // pravimo novog prosumer-a
+
+
+            Guid id = Guid.NewGuid(); // proizvodimo novi id 
+            string username = await CheckUserName(request);
+
+            if (IsValidEmail(request.Email) && await checkEmail(request))
+            {
+                prosumer.Id = id.ToString();
+                prosumer.FirstName = request.FirstName;
+                prosumer.LastName = request.LastName;
+                prosumer.Username = username; // proveri validnost username 
+                prosumer.Email = request.Email; // validnost email-a
+                
+                prosumer.Token = null; // to je trenutno posle ide komunikacija
+                prosumer.RoleId = getRole("korisnik").Id; // -------  vratiIDRole("korisnik"); kada ga hardkodujem ne vraca gresku wtf?Morao sam ovako, izmeni sledeci put-------
+                //prosumer.Role = vratiIDRole("korisnik");// ---ne radi fun ne znam zasto?
+                prosumer.HashPassword = passwordHash;
+                prosumer.SaltPassword = passwordSalt;
+                prosumer.RegionId = "trenutno"; // ovo je trenutno dok se ne napravi Dso, Pa cemo da vracamo iz dso-a
+                
+                prosumer.DateCreate = DateTime.Now.ToString("MM/dd/yyyy");
+                prosumer.Role = await getRole("korisnik");
+
+                //prosumer only
+                prosumer.NeigborhoodId = "trenutno"; // ovo isto vazi kao i za RegionId
+                prosumer.Address = request.address;
+                prosumer.Image = request.Image;
+
+                InsertProsumer(prosumer); // sacuvaju se i izmene
+
+                return prosumer;
+            }
+
+            return null;
+        }
+
+        public async Task<Dso> Register(DsoWorkerDto request)
+        {
+            CreatePasswordHash(request.Password, out byte[] passwordHash, out byte[] passwordSalt); // vracamo dve vrednosti!
+
+            Dso workerDSO = new Dso(); // pravimo novog DSO
+
+
+            Guid id = Guid.NewGuid(); // proizvodimo novi id 
+            string username = await CheckUserName(request);
+
+            if (IsValidEmail(request.Email) && await checkEmail(request))
+            {
+                workerDSO.Id = id.ToString();
+                workerDSO.FirstName = request.FirstName;
+                workerDSO.LastName = request.LastName;
+                workerDSO.Username = username; // proveri validnost username 
+                workerDSO.Email = request.Email; // validnost email-a
+                workerDSO.Image = request.Image;
+                workerDSO.Salary = request.Salary;
+                workerDSO.Token = null; // to je trenutno posle ide komunikacija
+                workerDSO.RoleId = getRole("WorkerDso").Id;
+                workerDSO.HashPassword = passwordHash;
+                workerDSO.SaltPassword = passwordSalt;
+                workerDSO.RegionId = "trenutno"; // ovo je trenutno dok se ne napravi Dso, Pa cemo da vracamo iz dso-a
+                workerDSO.DateCreate = DateTime.Now.ToString("MM/dd/yyyy");
+                workerDSO.Role = await getRole("WorkerDso");
+                InsertDSOWorker(workerDSO); // sacuvaju se i izmene
+
+                return workerDSO;
+            }
+            else
+                return null;
         }
 
         /*
