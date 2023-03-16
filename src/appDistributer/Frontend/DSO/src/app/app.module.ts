@@ -12,21 +12,29 @@ import { LoginComponent } from './components/login/login.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { TokenInterceptor } from './interceptors/token.interceptor';
 
+import { SignupComponent } from './components/signup/signup.component';
+import { SignupWorkerComponent } from './components/signup-worker/signup-worker.component';
+
 @NgModule({
   declarations: [
-    AppComponent, 
-    LoginComponent, 
-    DashboardComponent
+    AppComponent,
+    LoginComponent,
+    DashboardComponent,
+    SignupComponent,
+    SignupWorkerComponent,
   ],
   imports: [
-    BrowserModule, 
-    HttpClientModule, 
-    FormsModule, 
+    BrowserModule,
+    HttpClientModule,
+    FormsModule,
     AppRoutingModule,
     ReactiveFormsModule,
-    NgToastModule
+    NgToastModule,
   ],
-  providers: [CookieService,{provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi:true}],
+  providers: [
+    CookieService,
+    { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true },
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

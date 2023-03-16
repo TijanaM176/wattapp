@@ -1,0 +1,93 @@
+<div class="row">
+           
+    <div class="desno">
+        <div class="panelbor">
+            <div class="panel-body">
+                <form [formGroup]="signupWorkerForm">                               
+                     <div class="form-group pt-3">
+                            <div class="input-field" [class.error]="signupWorkerForm.controls['firstName'].dirty && signupWorkerForm.hasError('required','firstName')">
+                                <label class="lbl">FirstName:</label>
+                                <br>
+                                <span class="polje"></span>
+                                    
+                                    <input  formControlName="firstName" type="text" placeholder="Enter first name">
+                                
+                            </div>
+                        </div>
+                        <small *ngIf="signupWorkerForm.controls['firstName'].dirty && signupWorkerForm.hasError('required','firstName')"  class="text-danger">*FirstName is required</small>
+                        <div class="form-group pt-3">
+                            <div class="input-field" [class.error]="signupWorkerForm.controls['lastName'].dirty && signupWorkerForm.hasError('required','lastName')">
+                                <label class="lbl">LastName:</label>
+                                <br>
+                                <span class="polje"></span>
+                                    <input formControlName="lastName" type="text" placeholder="Enter last Name">
+                                
+                            </div>
+                        </div>
+                        <small *ngIf="signupWorkerForm.controls['lastName'].dirty && signupWorkerForm.hasError('required','lastName')" class="text-danger">*LastName is required</small>
+                        <div class="form-group pt-3">
+                            <div class="input-field" [class.error]="signupWorkerForm.controls['password'].dirty && signupWorkerForm.hasError('required','password')">
+                                <label class="lbl">Password:</label>
+                                <br>
+                                <span class="polje"></span>
+                                    <input formControlName="password" type="password" placeholder="   Enter password">
+                               
+                            </div>
+                        </div>
+                        <small *ngIf="signupWorkerForm.controls['password'].dirty && signupWorkerForm.hasError('required','password')" class="text-danger">*Password is required</small>
+
+                        <div class="form-group pt-3">
+                            <div class="input-field" [class.error]="signupWorkerForm.controls['email'].dirty && signupWorkerForm.hasError('required','email')">
+                                <label class="lbl">Email:</label>
+                                <br>
+                                <span class="polje"></span>
+                                    <input formControlName="email" type="text" placeholder="Enter email">
+                                
+                            </div>
+                        </div>
+                        <small *ngIf="signupWorkerForm.controls['email'].dirty && signupWorkerForm.hasError('required','email')" class="text-danger">*Email is empty</small>
+                        
+                        
+                        
+                        <div class="form-group pt-3">
+                            <div class="input-field" [class.error]="signupWorkerForm.controls['address'].dirty && signupWorkerForm.hasError('required','address')">
+                                <label class="lbl">Address:</label>
+                                <br>
+                                <span class="polje"></span>
+                                    <input formControlName="address" type="text" placeholder="Enter address">
+                                
+                            </div>
+                        </div>
+                        <small *ngIf="signupWorkerForm.controls['address'].dirty && signupWorkerForm.hasError('required','address')" class="text-danger">*Adress is required</small>
+                        <div class="form-group pt-3">
+                            <div class="input-field" [class.error]="signupWorkerForm.controls['salary'].dirty && signupWorkerForm.hasError('required','salary')">
+                                <label class="lbl">Salary:</label>
+                                <br>
+                                <span class="polje"></span>
+                                    <input formControlName="salary" type="text" placeholder="Enter salary">
+                                
+                            </div>
+                        </div>
+                        <small *ngIf="signupWorkerForm.controls['salary'].dirty && signupWorkerForm.hasError('required','salary')" class="text-danger">*Salary is required</small>
+                        
+                        
+                        <div class="form-group pt-3">
+                            <div class="input-field" [class.error]="signupWorkerForm.controls['image'].dirty && signupWorkerForm.hasError('required','image')">
+                                <label class="lbl">Image:</label>
+                                <br>
+                                <span class="polje"></span>
+                                    <input formControlName="image" type="text" placeholder="Enter image">
+                                
+                            </div>
+                        </div>
+                        <small *ngIf="signupWorkerForm.controls['image'].dirty && signupWorkerForm.hasError('required','image')" class="text-danger">*Salary is required</small>
+                   
+                   
+                        <button type="submit" class="btn col-md-5" (click)="onSubmit();">
+                        Confirm
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
