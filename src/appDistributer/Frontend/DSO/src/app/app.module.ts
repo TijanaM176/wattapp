@@ -14,6 +14,18 @@ import { TokenInterceptor } from './interceptors/token.interceptor';
 
 import { SignupComponent } from './components/signup/signup.component';
 import { SignupWorkerComponent } from './components/signup-worker/signup-worker.component';
+import { NavBarComponent } from './components/navBar/navBar.component';
+import {
+  NavbarModule,
+  DropdownModule,
+  IconModule,
+  CollapseModule,
+  ButtonModule,
+  SidebarModule,
+} from 'ng-cdbangular';
+import { HomeComponent } from './components/Home/Home.component';
+import { SidebarComponent } from './components/sidebar/sidebar.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -22,14 +34,25 @@ import { SignupWorkerComponent } from './components/signup-worker/signup-worker.
     DashboardComponent,
     SignupComponent,
     SignupWorkerComponent,
+    NavBarComponent,
+    HomeComponent,
+    SidebarComponent,
   ],
   imports: [
+    BrowserAnimationsModule,
+    NavbarModule,
     BrowserModule,
     HttpClientModule,
     FormsModule,
     AppRoutingModule,
     ReactiveFormsModule,
     NgToastModule,
+    DropdownModule,
+    IconModule,
+    CollapseModule,
+    ButtonModule,
+    BrowserModule,
+    SidebarModule,
   ],
   providers: [
     CookieService,
