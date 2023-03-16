@@ -21,4 +21,9 @@ export class AuthServiceService {
   {
     return this.http.get<any>(this.baseUrl+'UsersProsumer');
   }
+
+  refreshToken()
+  {
+    return this.http.get<any>(this.baseUrl+'refreshToken');
+  }
 }
