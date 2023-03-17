@@ -12,6 +12,7 @@ import { NgToastService } from 'ng-angular-popup';
 import { Router } from '@angular/router';
 import { AuthServiceService } from 'src/app/services/auth-service.service';
 import { RefreshTokenDto } from '../models/refreshTokenDto';
+import { SendRefreshToken } from '../models/sendRefreshToken';
 
 @Injectable()
 export class TokenInterceptor implements HttpInterceptor {
@@ -33,16 +34,14 @@ export class TokenInterceptor implements HttpInterceptor {
     }
     return next.handle(request).pipe(
       catchError((err:any)=>{
-        //alert(err.status)
-        if(err instanceof HttpErrorResponse)
+        if(err instanceof HttpErrorResponse && err.status==401)
         {
-          if(err.status==401 && this.counter==0)
+          if(this.counter==0)
           {
             this.counter =1;
-            //alert(err.status)
             return this.handleAuth(request,next);
           }
-          else
+          else if(this.counter==1)
           {
             this.counter=0;
             this.toast.warning({detail:"Warning", summary: err.error,duration: 3000});
@@ -50,22 +49,22 @@ export class TokenInterceptor implements HttpInterceptor {
             this.router.navigate(['login']);
           }
         }
-        return throwError(()=> new Error("Some other error occurred"));
+        return throwError(()=> err);
       })
     );
   }
 
   handleAuth(request : HttpRequest<any>, next: HttpHandler)
   {
-    return this.auth.refreshToken()
+    let refreshDto = new SendRefreshToken();
+    var refresh = this.cookie.get("refreshToken");
+    refreshDto.refreshToken = refresh;
+    return this.auth.refreshToken(refreshDto)
     .pipe(
-      switchMap((data: string)=>
+      switchMap((data: RefreshTokenDto)=>
       {
-        alert(data);
-        this.cookie.set("token",data);
-        //this.cookie.set("refreshToken",data.refreshToken);
-        alert(this.cookie.get("token"));
-        //alert(this.cookie.get("refreshToken"));
+        this.cookie.set("token",data.token);
+        this.cookie.set("refreshToken",data.refreshToken);
         request = request.clone(
           {
             setHeaders: {Authorization: "Bearer "+this.cookie.get("token")}
@@ -75,6 +74,7 @@ export class TokenInterceptor implements HttpInterceptor {
       catchError((err)=>{
         return throwError(()=>{
           this.toast.warning({detail:"Warning", summary: err.error,duration: 3000});
+          console.log(err.error);
           this.cookie.deleteAll();
           this.router.navigate(['login']);
         })

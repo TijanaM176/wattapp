@@ -32,7 +32,7 @@ export class DashboardComponent implements OnInit{
       .subscribe(
         {
           next:(res)=>{
-            console.log(res);
+            //console.log(res);
             this.users=res;
           },
           error:(err)=>{

@@ -2,6 +2,9 @@ import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http
 import { Injectable } from '@angular/core';
 import { catchError, map, Observable, throwError } from 'rxjs';
 import { NgToastService } from 'ng-angular-popup';
+import { CookieService } from 'ngx-cookie-service';
+import { RefreshTokenDto } from '../models/refreshTokenDto';
+import { SendRefreshToken } from '../models/sendRefreshToken';
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +13,7 @@ export class AuthServiceService {
 
   private baseUrl: string ="https://localhost:7156/api/Auth/";
 
-  constructor(private http: HttpClient, private toast: NgToastService) { }
+  constructor(private http: HttpClient, private toast: NgToastService, private cookie: CookieService) { }
 
   login(loginDto: any)
   {
@@ -22,8 +25,8 @@ export class AuthServiceService {
     return this.http.get<any>(this.baseUrl+'UsersProsumer');
   }
 
-  refreshToken():Observable<any>
+  refreshToken(refreshToken : SendRefreshToken)
   {
-    return this.http.post<any>(this.baseUrl+'refreshToken',null);
+    return this.http.post<RefreshTokenDto>(this.baseUrl+'refreshToken', refreshToken);
   }
 }

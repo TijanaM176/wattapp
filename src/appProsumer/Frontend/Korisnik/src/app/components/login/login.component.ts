@@ -52,18 +52,11 @@ export class LoginComponent implements OnInit{
   {
     if(this.loginForm.valid)
     {
-      console.log(this.loginForm.value);
       //poslati beku
-
       this.auth.login(this.loginForm.value)
       .subscribe(
-        /*response => {
-          alert(response.message);
-          //this.getAllWorkers();
-        }*/
         {
           next:(res)=>{
-            //alert(res.message);
             this.loginForm.reset();
             this.cookie.set("token",res.token);
             this.cookie.set("refreshToken",res.refreshToken);
@@ -71,7 +64,6 @@ export class LoginComponent implements OnInit{
             this.router.navigate([""]);
           },
           error:(err)=>{
-            //alert(err.error.message);
             this.toast.error({detail:"ERROR", summary: err.error.message,duration: 3000});
           }
         }
@@ -79,9 +71,7 @@ export class LoginComponent implements OnInit{
     }
     else
     {
-      //console.log("Form is not valid!");
       this.validateAllFormFields(this.loginForm);
-      //alert("Your form is invalid!");
     }
   }
 }

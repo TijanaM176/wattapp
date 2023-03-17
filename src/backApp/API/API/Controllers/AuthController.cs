@@ -137,12 +137,12 @@ namespace API.Controllers
 
             var refreshToken = authService.GenerateRefreshToken();
             //setovanje refresh tokena
-            var cookieOptions = new CookieOptions
+            /*var cookieOptions = new CookieOptions
             {
                 HttpOnly = true,
                 Expires = refreshToken.Expires
-            };
-            Response.Cookies.Append("refreshToken", refreshToken.Token, cookieOptions);
+            };*/
+            //Response.Cookies.Append("refreshToken", refreshToken.Token, cookieOptions);
 
             user = prosumer;
             user.RefreshToken = refreshToken;
@@ -150,7 +150,7 @@ namespace API.Controllers
             {
                 error = false,
                 token = userToken,
-                refreshToken = refreshToken
+                refreshToken = refreshToken.Token
             });
 
         }
@@ -179,19 +179,19 @@ namespace API.Controllers
 
             var refreshToken = authService.GenerateRefreshToken();
             //setovanje refresh tokena
-            var cookieOptions = new CookieOptions
+            /*var cookieOptions = new CookieOptions
             {
                 HttpOnly = true,
                 Expires = refreshToken.Expires
             };
-            Response.Cookies.Append("refreshToken", refreshToken.Token, cookieOptions);
+            Response.Cookies.Append("refreshToken", refreshToken.Token, cookieOptions);*/
             
             user = dso;
             user.RefreshToken = refreshToken;
             return Ok(new
             {
                 token = dsoToken,
-                refreshToken = refreshToken,
+                refreshToken = refreshToken.Token,
                 user = user
             }) ;
         }
@@ -204,11 +204,11 @@ namespace API.Controllers
         }
 
         [HttpPost("refreshToken")]
-        public async Task<ActionResult<string>> RefreshToken()
+        public async Task<ActionResult> RefreshToken([FromBody] ReceiveRefreshToken refreshToken)
         {
-            var refreshToken = Request.Cookies["refreshToken"];
+            //var refreshToken = Request.Cookies["refreshToken"];
 
-            if (!user.RefreshToken.Token.Equals(refreshToken))
+            if (!user.RefreshToken.Token.Equals(refreshToken.refreshToken))
                 return Unauthorized("Invalid Refresh Token.");
             else if (user.RefreshToken.Expires < DateTime.Now)
                 return Unauthorized("Expired Token.");
@@ -216,15 +216,19 @@ namespace API.Controllers
             string token = authService.CreateToken(user);
             var updatedRefreshToken = authService.GenerateRefreshToken();
 
-            var cookieOptions = new CookieOptions
+            /*var cookieOptions = new CookieOptions
             {
                 HttpOnly = true,
                 Expires = updatedRefreshToken.Expires
             };
-            Response.Cookies.Append("refreshToken", updatedRefreshToken.Token, cookieOptions);
+            Response.Cookies.Append("refreshToken", updatedRefreshToken.Token, cookieOptions);*/
             user.RefreshToken = updatedRefreshToken;
 
-            return Ok(token);
+            return Ok(new
+            {
+                token = token,
+                refreshToken = updatedRefreshToken.Token
+            });
 
         }
     }
