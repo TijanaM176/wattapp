@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { SendRefreshToken } from '../models/sendRefreshToken';
+import { RefreshTokenDto } from '../models/refreshTokenDto';
 
 @Injectable({
   providedIn: 'root'
@@ -14,5 +16,15 @@ export class AuthServiceService {
   login(loginDto: any)
   {
     return this.http.post<any>(this.baseUrl+'DSOLogin', loginDto);
+  }
+  
+  getUsers(): Observable<any[]>
+  {
+    return this.http.get<any>(this.baseUrl+'UsersProsumer');
+  }
+
+  refreshToken(refreshToken : SendRefreshToken)
+  {
+    return this.http.post<RefreshTokenDto>(this.baseUrl+'refreshToken', refreshToken);
   }
 }
