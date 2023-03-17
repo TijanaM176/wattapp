@@ -150,7 +150,7 @@ namespace API.Services
             var token = new JwtSecurityToken(
                 issuer: _config.GetSection("AppSettings:Issuer").Value,
                 audience: _config.GetSection("AppSettings:Audience").Value,
-                claims: claims, expires: DateTime.Now.AddMinutes(int.Parse(_config.GetSection("AppSettings:AccessTokenValidity").Value)),
+                claims: claims, expires: DateTime.Now.AddMinutes(1), //int.Parse(_config.GetSection("AppSettings:AccessTokenValidity").Value)
                 signingCredentials: cred
             );
             var jwt = new JwtSecurityTokenHandler().WriteToken(token);

@@ -26,6 +26,7 @@ using System.Xml.Linq;
 using System.ComponentModel;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System.Security.Principal;
+using Microsoft.AspNetCore.Authorization;
 
 namespace API.Controllers
 {
@@ -98,6 +99,13 @@ namespace API.Controllers
 
             var refreshToken = authService.GenerateRefreshToken();
             SetRefreshToken(refreshToken);
+            //setovanje refresh tokena
+            /*var cookieOptions = new CookieOptions
+            {
+                HttpOnly = true,
+                Expires = refreshToken.Expires
+            };*/
+            //Response.Cookies.Append("refreshToken", refreshToken.Token, cookieOptions);
 
             user = prosumer;
             user.RefreshToken = refreshToken;
@@ -105,7 +113,7 @@ namespace API.Controllers
             {
                 error = false,
                 token = userToken,
-                refreshToken = refreshToken
+                refreshToken = refreshToken.Token
             });
 
         }        
@@ -134,17 +142,25 @@ namespace API.Controllers
 
             var refreshToken = authService.GenerateRefreshToken();
             SetRefreshToken(refreshToken);
+            //setovanje refresh tokena
+            /*var cookieOptions = new CookieOptions
+            {
+                HttpOnly = true,
+                Expires = refreshToken.Expires
+            };
+            Response.Cookies.Append("refreshToken", refreshToken.Token, cookieOptions);*/
             
             user = dso;
             user.RefreshToken = refreshToken;
             return Ok(new
             {
                 token = dsoToken,
-                refreshToken = refreshToken,
+                refreshToken = refreshToken.Token,
                 user = user
             }) ;
         }
 
+        [Authorize(Roles = "korisnik")]
         [HttpGet("UsersProsumer")]
         public async Task<IActionResult> ListRegisterProsumer()
         {
@@ -152,11 +168,11 @@ namespace API.Controllers
         }
 
         [HttpPost("refreshToken")]
-        public async Task<ActionResult<string>> RefreshToken()
+        public async Task<ActionResult> RefreshToken([FromBody] ReceiveRefreshToken refreshToken)
         {
-            var refreshToken = Request.Cookies["refreshToken"];
+            //var refreshToken = Request.Cookies["refreshToken"];
 
-            if (!user.RefreshToken.Token.Equals(refreshToken))
+            if (!user.RefreshToken.Token.Equals(refreshToken.refreshToken))
                 return Unauthorized("Invalid Refresh Token.");
             else if (user.RefreshToken.Expires < DateTime.Now)
                 return Unauthorized("Expired Token.");
@@ -168,6 +184,21 @@ namespace API.Controllers
             user.RefreshToken = updatedRefreshToken;
 
             return Ok(token);
+
+            /*var cookieOptions = new CookieOptions
+            {
+                HttpOnly = true,
+                Expires = updatedRefreshToken.Expires
+            };
+            Response.Cookies.Append("refreshToken", updatedRefreshToken.Token, cookieOptions);*/
+            user.RefreshToken = updatedRefreshToken;
+
+            return Ok(new
+            {
+                token = token,
+                refreshToken = updatedRefreshToken.Token
+            });
+
         }
 
         [HttpPost("Send_E-mail")]
