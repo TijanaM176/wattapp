@@ -1,21 +1,31 @@
 <header>
   <CDBNavbar
-    style="background-color: #e8f3f8"
+    style="
+      background-color: #e8f3f8;
+      display: flex;
+      justify-content: space-between;
+    "
     [dark]="true"
     expand="lg"
     [scrolling]="true"
   >
     <CDBNavBrand href="/">
-      <img src="assets/images/logo.png" height="75" alt="" />
+      <img id="logo" src="assets/images/logo.png" height="75" alt="" />
     </CDBNavBrand>
     <CDBNavToggle
       (click)="content.toggleCollapse()"
       style="background-color: #5875a1"
-      [right]="true"
     ></CDBNavToggle>
-    <CDBCollapse #content class="w-100" [navbar]="true" expand="lg">
-      <CDBNavbarNav [right]="true" class="align-items-center">
-        <CDBNavItem [active]="true">
+    <CDBCollapse
+      id="myClass"
+      #content
+      class="w-100"
+      class="myClass"
+      [navbar]="true"
+      expand="lg"
+    >
+      <CDBNavbarNav class="d-flex align-items-center">
+        <CDBNavItem [active]="true" style="width: 140px">
           <CDBBtn
             [flat]="true"
             color="dark"
@@ -26,16 +36,14 @@
               font-weight: bold;
 
               border-radius: 20px;
-              width: 120px;
+              width: 90%;
               vertical-align: middle;
             "
           >
-            <CDBNavLink to="/" style="color: white">
-              <CDBIcon class="mr-2" icon="home"></CDBIcon> Home
-            </CDBNavLink>
+            <CDBNavLink to="/" style="color: white"> Home </CDBNavLink>
           </CDBBtn>
         </CDBNavItem>
-        <CDBNavItem>
+        <CDBNavItem style="width: 140px">
           <CDBBtn
             [flat]="true"
             color="dark"
@@ -45,16 +53,14 @@
               border: 0;
               font-weight: bold;
               border-radius: 20px;
-              width: 120px;
+              width: 90%;
               vertical-align: middle;
             "
           >
-            <CDBNavLink to="#" style="color: #5875a1">
-              <CDBIcon class="mr-2" icon="feather"></CDBIcon> Features
-            </CDBNavLink>
+            <CDBNavLink to="#" style="color: #5875a1">Users </CDBNavLink>
           </CDBBtn>
         </CDBNavItem>
-        <CDBNavItem>
+        <CDBNavItem style="width: 140px">
           <CDBBtn
             [flat]="true"
             color="dark"
@@ -64,35 +70,44 @@
               border: 0;
               font-weight: bold;
               border-radius: 20px;
-              width: 120px;
+              width: 90%;
               vertical-align: middle;
             "
           >
-            <CDBNavLink to="#" style="color: #5875a1">
-              <CDBIcon class="mr-2" icon="dollar-sign"></CDBIcon>
-              Pricing
-            </CDBNavLink>
+            <CDBNavLink to="#" style="color: #5875a1"> Employees </CDBNavLink>
           </CDBBtn>
         </CDBNavItem>
         <CDBNavItem>
-          <CDBDropDown style="padding: 0; background-color: #e8f3f8">
+          <CDBDropDown
+            class="nav-link"
+            style="padding: 0; background-color: #e8f3f8"
+          >
             <CDBDropDownToggle
-              [caretDropDown]="true"
               style="
                 padding: 0;
                 background-color: #e8f3f8;
                 color: #5875a1;
                 font-weight: bold;
                 border-radius: 20px;
-                width: 120px;
                 vertical-align: middle;
+                margin: 0;
               "
               (click)="menu.toggleDropdown($event)"
             >
-              <CDBIcon class="mr-2" icon="cogs"></CDBIcon> Options
+              <div class="navbar-profile-picture me-2">
+                <img
+                  src="assets/images/user.png"
+                  alt="User Profile Picture"
+                  class="rounded-circle"
+                  width="40"
+                  height="40"
+                />
+              </div>
             </CDBDropDownToggle>
             <CDBDropDownMenu #menu="cdbDropdownMenu" placement="bottom">
-              Coming soon #pleaseStayUpdated.
+              <CDBDropDownItem routerLink="home">Cold place</CDBDropDownItem>
+              <CDBDropDownItem routerLink="home">Second</CDBDropDownItem>
+              <CDBDropDownItem routerLink="home">Last</CDBDropDownItem>
             </CDBDropDownMenu>
           </CDBDropDown>
         </CDBNavItem>
