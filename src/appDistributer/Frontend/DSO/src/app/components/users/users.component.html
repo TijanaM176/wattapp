@@ -46,7 +46,7 @@
                             <div class="search-box">
                                 <div class="input-group" style="width: 240px;">
                                     <span class="input-group-addon"><i class="material-icons" style="margin-left:2%;"></i></span>
-                                    <input type="text" [(ngModel)]="searchName" (input)="onSearchName()" style="background-color: #F8F8FA;border-radius: 10px;" class="form-control" placeholder="Search By Username">
+                                    <input type="text" [(ngModel)]="searchName"  style="background-color: #F8F8FA;border-radius: 10px;" class="form-control" placeholder="Search By Username">
                                 </div>
                             </div>
                         </div>
@@ -54,7 +54,7 @@
                             <div class="search-box">
                                 <div class="input-group" style="width: 240px;">
                                     <span class="input-group-addon"><i class="material-icons" style="margin-left:2%;"></i></span>
-                                    <input type="text" [(ngModel)]="searchAddress" (input)="onSearchAddress()" style="background-color: #F8F8FA;border-radius: 10px;" class="form-control" placeholder="Search By Address">
+                                    <input type="text" [(ngModel)]="searchAddress" style="background-color: #F8F8FA;border-radius: 10px;" class="form-control" placeholder="Search By Address">
                                 </div>
                             </div>
                         </div>
@@ -73,7 +73,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr *ngFor="let item of items | filter:searchName">
+                        <tr *ngFor="let item of Items | search:searchName | searchaddress:searchAddress">
                             <td>{{item.Username}}</td>
                             <td>{{item.Address}}</td>
                            

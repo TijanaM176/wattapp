@@ -28,6 +28,9 @@ import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { UsersComponent } from './components/users/users.component';
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
+import { SearchPipe } from './components/search.pipe';
+import { SearchaddressPipe } from './components/searchaddress.pipe';
+
 
 @NgModule({
   declarations: [
@@ -40,6 +43,9 @@ import { Ng2SearchPipeModule } from 'ng2-search-filter';
     HomeComponent,
     SidebarComponent,
     UsersComponent,
+    SearchPipe,
+    SearchaddressPipe,
+ 
   ],
   imports: [
     BrowserAnimationsModule,
