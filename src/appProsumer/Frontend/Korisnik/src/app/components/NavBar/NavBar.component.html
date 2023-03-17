@@ -1,7 +1,16 @@
-<nav class="navbar navbar-expand-lg navbar-light #C1DFD5">
-  <div class="container-fluid p-1">
-    <a class="navbar-brand">
-      <img class="img-fluid" id="logo" src="assets/logo.png" />
-    </a>
-  </div>
-</nav>
+<header>
+  <CDBNavbar
+    style="
+      background-color: #c1dfd5;
+      display: flex;
+      justify-content: space-between;
+    "
+    [dark]="true"
+    expand="lg"
+    [scrolling]="true"
+  >
+    <CDBNavBrand href="/">
+      <img id="logo" src="assets/logo.png" height="75" alt="" />
+    </CDBNavBrand>
+  </CDBNavbar>
+</header>
