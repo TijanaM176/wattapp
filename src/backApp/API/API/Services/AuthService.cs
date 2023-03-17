@@ -280,6 +280,13 @@ namespace API.Services
                 return null;
         }
 
+        public async Task<Prosumer> GetProsumerById(string id)
+        {
+            var prosumer = await _repository.GetProsumerById(id);
+            return prosumer;
+
+        }
+
         /*
         public string CreateBody()
         {

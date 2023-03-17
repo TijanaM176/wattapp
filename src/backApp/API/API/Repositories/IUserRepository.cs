@@ -15,5 +15,7 @@ namespace API.Repositories
         public void InsertProsumer(Prosumer prosumer);
         public void InsertDSOWorker(Dso DSO_Worker);
         public void SaveToken(User user, string token);
+
+        public Task<Prosumer> GetProsumerById(string id);
     }
 }

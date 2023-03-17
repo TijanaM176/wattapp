@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.Runtime.InteropServices;
 
 namespace API.Repositories
 {
@@ -62,6 +63,13 @@ namespace API.Repositories
         {
             user.Token = token;
             await _context.SaveChangesAsync();
+        }
+
+        public async Task<Prosumer> GetProsumerById(string id)
+        {
+         
+
+            return await _context.Prosumers.FirstOrDefaultAsync(x => x.Id == id);
         }
     }
 }

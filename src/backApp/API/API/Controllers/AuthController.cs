@@ -61,7 +61,7 @@ namespace API.Controllers
             else
                 return BadRequest("Email nije validan ili vec postoji takav!");
         }
-
+        [HttpPost("SetRefreshToken")]
         public void SetRefreshToken(RefreshToken refreshToken)
         {
             var cookieOptions = new CookieOptions
@@ -145,7 +145,7 @@ namespace API.Controllers
             }) ;
         }
 
-        [HttpGet("UsersProsumer")]
+        [HttpGet("AllProsumers")]
         public async Task<IActionResult> ListRegisterProsumer()
         {
             return Ok(await authService.GetAllProsumers());
@@ -290,6 +290,15 @@ namespace API.Controllers
             authService.SaveToken(worker, authService.CreateRandomToken()); // kreiramo random token za workera-a
             return Ok("Password reset!");
         }
+        [HttpGet("getProsumerByID")]
+        public async Task<IActionResult> getProsumerByID(string id)
+        {
+            var prosumer = authService.GetProsumerById(id);
+            if(prosumer == null)
+                return BadRequest("Prosumer with id "+id+" is not found");
 
+            return Ok(await prosumer);
+        }
+        
     }
 }
