@@ -8,9 +8,9 @@ import * as L from 'leaflet';
 })
 export class MapComponent { // implements AfterViewInit
   
-  //private map: any;
+  /*private map: any;
 
-  /*constructor() {}
+  constructor() {}
   
   ngAfterViewInit(): void {
     this.initMap();
@@ -19,12 +19,12 @@ export class MapComponent { // implements AfterViewInit
   private initMap(){
     this.map = L.map('map').setView([44.618680,20.268950],15);
 
-  }
+  }*/
 
   options: L.MapOptions = {
     layers: this.getLayers(),
     zoom: 12,
-    center: new L.LatLng(44.618680, 20.268950)
+    center: new L.LatLng(44.012794, 20.911423)
   };
 
   getLayers (): L.Layer[] {
@@ -33,6 +33,6 @@ export class MapComponent { // implements AfterViewInit
         attribution: '&copy; OpenStreetMap contributors'
       } as L.TileLayerOptions),
     ] as L.Layer[];
-  };*/
+  };
 }
 

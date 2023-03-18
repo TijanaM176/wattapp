@@ -31,7 +31,7 @@ import { Ng2SearchPipeModule } from 'ng2-search-filter';
 import { SearchPipe } from './components/search.pipe';
 import { SearchaddressPipe } from './components/searchaddress.pipe';
 import { MapComponent } from './components/map/map.component';
-
+import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 
 @NgModule({
   declarations: [
@@ -64,7 +64,8 @@ import { MapComponent } from './components/map/map.component';
     ButtonModule,
     BrowserModule,
     SidebarModule,
-    Ng2SearchPipeModule
+    Ng2SearchPipeModule,
+    LeafletModule
   ],
   providers: [
     CookieService,
