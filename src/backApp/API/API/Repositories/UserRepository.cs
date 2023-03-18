@@ -2,7 +2,7 @@
 
 namespace API.Repositories
 {
-    public class UserRepository: IUserRepository
+    public class UserRepository : IUserRepository
     {
         RegContext _context;
         public UserRepository(RegContext context) {
@@ -47,21 +47,43 @@ namespace API.Repositories
             return await _context.Dsos.FirstOrDefaultAsync(x => x.Token == token);
         }
 
-        public async void InsertProsumer(Prosumer prosumer)
+        public async Task InsertProsumer(Prosumer prosumer)
         {
             _context.Prosumers.Add(prosumer);
             await _context.SaveChangesAsync(); // sacuvaj promene
         }
 
-        public async void InsertDSOWorker(Dso DSO_Worker)
+        public async Task InsertDSOWorker(Dso DSO_Worker)
         {
             _context.Dsos.Add(DSO_Worker);
             await _context.SaveChangesAsync(); // sacuvaj promene
         }
-        public async void SaveToken(User user, string token)
+        public async Task SaveToken(User user, string token)
         {
             user.Token = token;
             await _context.SaveChangesAsync();
         }
+
+        public async Task<Dso> GetDsoWorkerById(string id)
+        {
+            return await _context.Dsos.FirstOrDefaultAsync(x => x.Id == id);
+        }
+
+        public Task<Dso> EditDsoWorker(string id, DsoEdit newValues)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task DeleteDsoWorker(string id)
+        {
+            _context.Dsos.Remove(await GetDsoWorkerById(id));
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task Save()
+        {
+            await _context.SaveChangesAsync();
+        }
+
     }
 }

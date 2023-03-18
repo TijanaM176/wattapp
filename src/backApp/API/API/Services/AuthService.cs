@@ -81,14 +81,31 @@ namespace API.Services
             }
         }
 
-        public async void InsertProsumer(Prosumer prosumer)
+        public async Task<bool> InsertProsumer(Prosumer prosumer)
         {
-            _repository.InsertProsumer(prosumer);
+            try
+            {
+                await _repository.InsertProsumer(prosumer);
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+            
         }
         
-        public async void InsertDSOWorker(Dso DSO_Worker)
+        public async Task<bool> InsertDSOWorker(Dso DSO_Worker)
         {
-            _repository.InsertDSOWorker(DSO_Worker);
+            try
+            {
+                await _repository.InsertDSOWorker(DSO_Worker);
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
         }
         
 
@@ -102,42 +119,54 @@ namespace API.Services
             }
         }
 
-        //sta bi trebalo da vracam ako je null??
         public async Task<Role> getRole(string naziv)
         {
-            var role = await _repository.getRole(naziv);
-            if (role != null) return role;
-
-            return null;
+            try
+            {
+                var role = await _repository.getRole(naziv);
+                return role;
+            }
+            catch (NullReferenceException)
+            {
+                throw;
+            }                
         }
         public async Task<string> getRoleName(long? id)
         {
             var roleName = await _repository.getRoleName(id);
-            if (roleName != null) return roleName;
+            if (roleName == null) throw new ArgumentException("No role with this id!");
 
-            return null;
+            return roleName;
         }
 
         public async Task<Prosumer> GetProsumer(string usernameOrEmail)
         {
             var prosumer = await _repository.GetProsumer(usernameOrEmail);
-            if (prosumer != null) return prosumer;
+            if (prosumer == null) throw new ArgumentException("No prosumer found with this username or email!");
 
-            return null;
+            return prosumer;
         }
 
         public async Task<Dso> GetDSO(string usernameOrEmail)
         {
             var dso = await _repository.GetDSO(usernameOrEmail);
-            if (dso != null) return dso;
+            if (dso == null) throw new ArgumentException("No dso found with this username or email!");
 
-            return null;
+            return dso;
         }
-        
 
-        public async Task<string> CreateToken(User user)
+            public async Task<string> CreateToken(User user)
         {
-            string roleName = await _repository.getRoleName(user.RoleId);
+            string roleName;
+            try
+            {
+                roleName = await _repository.getRoleName(user.RoleId);
+            }
+            catch (Exception e)
+            {
+                //Console.Write(e.Message);
+                return null;
+            }
             List<Claim> claims = new List<Claim>
             {
                 new Claim(ClaimTypes.Name, user.Username),
@@ -158,19 +187,36 @@ namespace API.Services
             return jwt;
         }
         
-        public void SaveToken(User user, string token)
+        public async Task<bool> SaveToken(User user, string token)
         {
-            _repository.SaveToken(user, token);
+            try
+            {
+                await _repository.SaveToken(user, token);
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+            
         }
         
         public async Task<List<Prosumer>> GetAllProsumers()
         {
             var prosumers = await _repository.GetAllProsumers();
-            if (prosumers != null) return prosumers;
+            if (prosumers == null) throw new ArgumentException("No prosumers in database!");
 
-            return null;
+            return prosumers;
         }
-        
+
+        public async Task<List<Dso>> GetAllDsos()
+        {
+            var dsos = await _repository.GetAllDsos();
+            if (dsos == null) throw new ArgumentException("No prosumers in database!");
+
+            return dsos;
+        }
+
         public RefreshToken GenerateRefreshToken()
         {
             return new RefreshToken
@@ -190,17 +236,17 @@ namespace API.Services
         public async Task<Prosumer> GetProsumerWithToken(string token)
         {
             var prosumer = await _repository.GetProsumerWithToken(token);
-            if (prosumer != null) return prosumer;
+            if (prosumer == null) throw new ArgumentException("No prosumer with that token!");
 
-            return null;
+            return prosumer;
         }
 
         public async Task<Dso> GetDSOWithToken(string token)
         {
             var dso = await _repository.GetDSOWithToken(token);
-            if (dso != null) return dso;
+            if (dso == null) throw new ArgumentException("No dso with that token");
 
-            return null;
+            return dso;
         }
 
         //REGISTER
@@ -238,11 +284,9 @@ namespace API.Services
                 prosumer.Address = request.address;
                 prosumer.Image = request.Image;
 
-                InsertProsumer(prosumer); // sacuvaju se i izmene
+                if (await InsertProsumer(prosumer)) return prosumer; // sacuvaju se i 
 
-                return prosumer;
             }
-
             return null;
         }
 
@@ -272,12 +316,62 @@ namespace API.Services
                 workerDSO.RegionId = "trenutno"; // ovo je trenutno dok se ne napravi Dso, Pa cemo da vracamo iz dso-a
                 workerDSO.DateCreate = DateTime.Now.ToString("MM/dd/yyyy");
                 workerDSO.Role = await getRole("WorkerDso");
-                InsertDSOWorker(workerDSO); // sacuvaju se i izmene
+                if (await InsertDSOWorker(workerDSO)) return workerDSO;   // sacuvaju se i izmene
 
-                return workerDSO;
             }
-            else
-                return null;
+            return null;
+        }
+
+        public async Task<bool> DeleteDsoWorker(string id)
+        {
+            try
+            {
+                await _repository.DeleteDsoWorker(id);
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
+        public async Task<Dso> GetDsoWorkerById(string id)
+        {
+            var dso = await _repository.GetDsoWorkerById(id);
+            if (dso == null) throw new ArgumentException("No dso found with this id!");
+
+            return dso;
+        }
+
+        public async Task<bool> EditDsoWorker(string id, DsoEdit newValues)
+        {
+            Dso dso;
+            try
+            {
+                dso = await GetDsoWorkerById(id);
+            }
+            catch (Exception)
+            {
+                return false;       //ako ne moze da ga nadje, nije editovan
+            }
+
+            dso.FirstName = newValues.FirstName;
+            dso.LastName = newValues.LastName;
+            dso.Salary = newValues.Salary;
+            dso.RoleId = newValues.RoleId;
+            dso.RegionId = newValues.RegionId;
+
+            try
+            {
+                await _repository.Save();
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+                
+           
         }
 
         /*
