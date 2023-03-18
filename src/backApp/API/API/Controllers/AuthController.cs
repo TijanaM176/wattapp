@@ -161,7 +161,15 @@ namespace API.Controllers
         [HttpGet("UsersProsumer")]
         public async Task<IActionResult> ListRegisterProsumer()
         {
-            return Ok(await authService.GetAllProsumers());
+            try
+            {
+                return Ok(await authService.GetAllProsumers());
+            }
+            catch (Exception)
+            {
+                return BadRequest("No Prosumers found!");
+            }
+            
         }
 
         [HttpPost("refreshToken")]
@@ -347,6 +355,20 @@ namespace API.Controllers
             if (!await authService.EditDsoWorker(id, newValues)) return BadRequest("User could not be updated!");
             return Ok("User updated successfully!");
 
+        }
+
+        [HttpGet("GetAllDsoWorkers")]
+        public async Task<ActionResult> GetAllDsoWorkers()
+        {
+            try
+            {
+                return Ok(await authService.GetAllDsos());
+            }
+            catch (Exception)
+            {
+                return BadRequest("No DSO Workers found!");
+            }
+            
         }
     }
 }

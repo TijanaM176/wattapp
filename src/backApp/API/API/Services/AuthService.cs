@@ -208,7 +208,15 @@ namespace API.Services
 
             return prosumers;
         }
-        
+
+        public async Task<List<Dso>> GetAllDsos()
+        {
+            var dsos = await _repository.GetAllDsos();
+            if (dsos == null) throw new ArgumentException("No prosumers in database!");
+
+            return dsos;
+        }
+
         public RefreshToken GenerateRefreshToken()
         {
             return new RefreshToken
