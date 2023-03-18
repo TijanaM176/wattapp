@@ -316,6 +316,21 @@ namespace API.Controllers
             return Ok("Password reset!");
         }
 
+        [HttpGet("GetDsoById")]
+        public async Task<ActionResult<Dso>> GetDsoWorkerById(string id)
+        {
+            Dso worker;
+            try
+            {
+                worker = await authService.GetDsoWorkerById(id);
+                return Ok(worker);
+            }
+            catch (Exception)
+            {
+                return BadRequest("No DSO Worker with that id!");
+            }
+        }
+
         [HttpDelete("DeleteDsoWorker")]
         public async Task<ActionResult> DeleteDsoWorker(string id)
         {

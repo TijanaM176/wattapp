@@ -327,6 +327,14 @@ namespace API.Services
             }
         }
 
+        public async Task<Dso> GetDsoWorkerById(string id)
+        {
+            var dso = await _repository.GetDsoWorkerById(id);
+            if (dso == null) throw new ArgumentException("No dso found with this id!");
+
+            return dso;
+        }
+
         /*
         public string CreateBody()
         {
