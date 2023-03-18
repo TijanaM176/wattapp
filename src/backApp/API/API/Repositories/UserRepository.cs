@@ -63,5 +63,21 @@ namespace API.Repositories
             user.Token = token;
             await _context.SaveChangesAsync();
         }
+
+        public async Task<Dso> GetDsoWorkerById(string id)
+        {
+            return await _context.Dsos.FirstOrDefaultAsync(x => x.Id == id);
+        }
+
+        public Task<Dso> EditDsoWorker(string id, DsoEdit newValues)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task DeleteDsoWorker(string id)
+        {
+            _context.Dsos.Remove(await GetDsoWorkerById(id));
+            await _context.SaveChangesAsync();
+        }
     }
 }

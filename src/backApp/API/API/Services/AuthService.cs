@@ -314,6 +314,19 @@ namespace API.Services
             return null;
         }
 
+        public async Task<bool> DeleteDsoWorker(string id)
+        {
+            try
+            {
+                await _repository.DeleteDsoWorker(id);
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
         /*
         public string CreateBody()
         {

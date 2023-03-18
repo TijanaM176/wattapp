@@ -316,5 +316,13 @@ namespace API.Controllers
             return Ok("Password reset!");
         }
 
+        [HttpDelete("DeleteDsoWorker")]
+        public async Task<ActionResult> DeleteDsoWorker(string id)
+        {
+            if(await authService.DeleteDsoWorker(id)) return Ok("Successfully deleted user!");
+
+            return BadRequest("Could not remove user!");
+        }
+
     }
 }

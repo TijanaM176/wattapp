@@ -33,5 +33,6 @@ namespace API.Services
         public Task<Dso> GetDSOWithToken(string token);
         public Task<Prosumer> Register(ProsumerDto request);
         public Task<Dso> Register(DsoWorkerDto request);
+        public Task<bool> DeleteDsoWorker(string id);
     }
 }
