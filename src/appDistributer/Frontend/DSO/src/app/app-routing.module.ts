@@ -8,6 +8,7 @@ import { SignupWorkerComponent } from './components/signup-worker/signup-worker.
 
 import { SignupComponent } from './components/signup/signup.component';
 import { HomeComponent } from './components/Home/Home.component';
+import { UsersComponent } from './components/users/users.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -29,6 +30,10 @@ const routes: Routes = [
     path: 'home',
     component: HomeComponent,
   },
+  {
+    path:'users',
+    component:UsersComponent,
+  }
 ];
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
