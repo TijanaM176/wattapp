@@ -1,4 +1,12 @@
-.CDBBtn {
-  height: 50px;
-  width: 50px;
+@media (max-width: 900px) {
+  #myClass {
+    width: 100%;
+    display: flex;
+  }
+}
+#myClass {
+  margin-right: 1%;
+}
+header {
+  height: 10%;
 }

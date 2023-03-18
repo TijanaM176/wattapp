@@ -49,13 +49,24 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJw
         ValidateIssuerSigningKey = true,
         ValidIssuer = builder.Configuration["AppSettings:Issuer"],
         ValidAudience = builder.Configuration["AppSettings:Audience"],
-        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["AppSettings:Key"]))
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["AppSettings:Key"])),
+        ClockSkew = TimeSpan.Zero
     };
 });
 
 builder.Services.AddAuthorization();
 
 var app = builder.Build();
+
+/*var tokenValidationParameters = new TokenValidationParameters
+{
+    //...your setting
+
+    // set ClockSkew is zero
+    ClockSkew = TimeSpan.Zero
+};*/
+
+app.UseCors("default");
 
 app.UseAuthentication();
 app.UseAuthorization();
@@ -67,8 +78,6 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
-app.UseCors("default");
 
 app.UseAuthentication();
 

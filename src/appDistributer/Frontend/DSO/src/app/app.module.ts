@@ -26,6 +26,11 @@ import {
 import { HomeComponent } from './components/Home/Home.component';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { UsersComponent } from './components/users/users.component';
+import { Ng2SearchPipeModule } from 'ng2-search-filter';
+import { SearchPipe } from './components/search.pipe';
+import { SearchaddressPipe } from './components/searchaddress.pipe';
+
 
 @NgModule({
   declarations: [
@@ -37,6 +42,10 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     NavBarComponent,
     HomeComponent,
     SidebarComponent,
+    UsersComponent,
+    SearchPipe,
+    SearchaddressPipe,
+ 
   ],
   imports: [
     BrowserAnimationsModule,
@@ -53,6 +62,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     ButtonModule,
     BrowserModule,
     SidebarModule,
+    Ng2SearchPipeModule
   ],
   providers: [
     CookieService,

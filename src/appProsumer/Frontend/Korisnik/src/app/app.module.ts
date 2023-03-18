@@ -12,7 +12,7 @@ import { CookieService } from 'ngx-cookie-service';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { TokenInterceptor } from './interceptors/token.interceptor';
 import { NavBarComponent } from './components/NavBar/NavBar.component';
-import { SidebarModule } from 'ng-cdbangular';
+import { NavbarModule, SidebarModule } from 'ng-cdbangular';
 import { SideBarComponent } from './components/SideBar/SideBar.component';
 import { PocetnaComponent } from './components/Pocetna/Pocetna.component';
 
@@ -29,6 +29,7 @@ import { PocetnaComponent } from './components/Pocetna/Pocetna.component';
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
+    NavbarModule,
     FormsModule,
     ReactiveFormsModule,
     NgToastModule,
