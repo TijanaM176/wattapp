@@ -2,7 +2,7 @@
 
 namespace API.Repositories
 {
-    public class UserRepository: IUserRepository
+    public class UserRepository : IUserRepository
     {
         RegContext _context;
         public UserRepository(RegContext context) {
@@ -79,5 +79,11 @@ namespace API.Repositories
             _context.Dsos.Remove(await GetDsoWorkerById(id));
             await _context.SaveChangesAsync();
         }
+
+        public async Task Save()
+        {
+            await _context.SaveChangesAsync();
+        }
+
     }
 }

@@ -35,5 +35,6 @@ namespace API.Services
         public Task<Dso> Register(DsoWorkerDto request);
         public Task<bool> DeleteDsoWorker(string id);
         public Task<Dso> GetDsoWorkerById(string id);
+        public Task<bool> EditDsoWorker(string id, DsoEdit newValues);
     }
 }

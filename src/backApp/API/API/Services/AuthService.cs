@@ -335,6 +335,37 @@ namespace API.Services
             return dso;
         }
 
+        public async Task<bool> EditDsoWorker(string id, DsoEdit newValues)
+        {
+            Dso dso;
+            try
+            {
+                dso = await GetDsoWorkerById(id);
+            }
+            catch (Exception)
+            {
+                return false;       //ako ne moze da ga nadje, nije editovan
+            }
+
+            dso.FirstName = newValues.FirstName;
+            dso.LastName = newValues.LastName;
+            dso.Salary = newValues.Salary;
+            dso.RoleId = newValues.RoleId;
+            dso.RegionId = newValues.RegionId;
+
+            try
+            {
+                await _repository.Save();
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+                
+           
+        }
+
         /*
         public string CreateBody()
         {

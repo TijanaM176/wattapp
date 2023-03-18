@@ -332,6 +332,7 @@ namespace API.Controllers
         }
 
         [HttpDelete("DeleteDsoWorker")]
+        [Authorize(Roles = "admin")]
         public async Task<ActionResult> DeleteDsoWorker(string id)
         {
             if(await authService.DeleteDsoWorker(id)) return Ok("Successfully deleted user!");
@@ -339,5 +340,13 @@ namespace API.Controllers
             return BadRequest("Could not remove user!");
         }
 
+        [HttpPut("UpdateDsoWorker")]
+        [Authorize(Roles = "admin")]
+        public async Task<ActionResult> EditDsoWorker(string id, DsoEdit newValues)
+        {
+            if (!await authService.EditDsoWorker(id, newValues)) return BadRequest("User could not be updated!");
+            return Ok("User updated successfully!");
+
+        }
     }
 }
