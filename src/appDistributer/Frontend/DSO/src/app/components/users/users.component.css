@@ -75,6 +75,9 @@ table.table tr th, table.table tr td {
     text-align: center;
     
 }
+table.table td{
+    background-color:#fafcfd;
+}
 table.table th{
     background-color: #566787;
     color:white;
