@@ -62,7 +62,8 @@ namespace API.Controllers
             else
                 return BadRequest("Email nije validan ili vec postoji takav!");
         }
-        [HttpPost("SetRefreshToken")]
+
+        [HttpPost("setRefreshToken")]
         public void SetRefreshToken(RefreshToken refreshToken)
         {
             var cookieOptions = new CookieOptions
@@ -78,15 +79,20 @@ namespace API.Controllers
 
         public async Task<ActionResult<string>> ProsumerLogin(UserLogin request) // skratiti i ovo (1)
         {
-            Prosumer prosumer = await authService.GetProsumer(request.UsernameOrEmail);  //ako postoji, uzmi prosumera iz baze
-            
-            if (prosumer == null)
+            Prosumer prosumer;
+            try
+            {
+                prosumer = await authService.GetProsumer(request.UsernameOrEmail);  //ako postoji, uzmi prosumera iz baze
+            }
+            catch (ArgumentException)
+            {
                 return BadRequest(new
                 {
                     error = true,
                     message = "This username/email does not exist."
                 });
-            
+            }
+                     
             if (!authService.VerifyPassword(request.Password, prosumer.SaltPassword, prosumer.HashPassword))    //provera sifre
                 return BadRequest(new
                 {
@@ -95,17 +101,10 @@ namespace API.Controllers
                 });
 
             string userToken = await authService.CreateToken(prosumer);
-            //authService.SaveToken(prosumer, userToken); mislim da je nepotrebno da se cuva u bazi token
+            if (!await authService.SaveToken(prosumer, userToken)) return Problem("Unable to save token");
 
             var refreshToken = authService.GenerateRefreshToken();
             SetRefreshToken(refreshToken);
-            //setovanje refresh tokena
-            /*var cookieOptions = new CookieOptions
-            {
-                HttpOnly = true,
-                Expires = refreshToken.Expires
-            };*/
-            //Response.Cookies.Append("refreshToken", refreshToken.Token, cookieOptions);
 
             user = prosumer;
             user.RefreshToken = refreshToken;
@@ -121,14 +120,19 @@ namespace API.Controllers
         [HttpPost("DSOLogin")]
         public async Task<ActionResult<string>> DSOLogin(UserLogin request) // skratiti i ovo (2)
         {
-            Dso dso = await authService.GetDSO(request.UsernameOrEmail);  //ako postoji, uzmi prosumera iz baze
-            
-            if (dso == null)
+            Dso dso;
+            try
+            {
+                dso = await authService.GetDSO(request.UsernameOrEmail);  //ako postoji, uzmi prosumera iz baze
+            }
+            catch (Exception)
+            {
                 return BadRequest(new
                 {
                     error = true,
                     message = "This username/email does not exist."
                 });
+            }
 
             if (!authService.VerifyPassword(request.Password, dso.SaltPassword, dso.HashPassword))    //provera sifre
                 return BadRequest(new
@@ -138,17 +142,10 @@ namespace API.Controllers
                 });
 
             string dsoToken = await authService.CreateToken(dso);
-            //authService.SaveToken(dso, token);
+            if (!await authService.SaveToken(dso, dsoToken)) return Problem("Unable to save token");
 
             var refreshToken = authService.GenerateRefreshToken();
             SetRefreshToken(refreshToken);
-            //setovanje refresh tokena
-            /*var cookieOptions = new CookieOptions
-            {
-                HttpOnly = true,
-                Expires = refreshToken.Expires
-            };
-            Response.Cookies.Append("refreshToken", refreshToken.Token, cookieOptions);*/
             
             user = dso;
             user.RefreshToken = refreshToken;
@@ -158,6 +155,21 @@ namespace API.Controllers
                 refreshToken = refreshToken.Token,
                 user = user
             }) ;
+        }
+
+        [Authorize(Roles = "Dso")]
+        [HttpGet("UsersProsumer")]
+        public async Task<IActionResult> ListRegisterProsumer()
+        {
+            try
+            {
+                return Ok(await authService.GetAllProsumers());
+            }
+            catch (Exception)
+            {
+                return BadRequest("No Prosumers found!");
+            }
+            
         }
 
         [HttpPost("refreshToken")]
@@ -173,19 +185,9 @@ namespace API.Controllers
             string token = await authService.CreateToken(user);
             var updatedRefreshToken = authService.GenerateRefreshToken();
             SetRefreshToken(updatedRefreshToken);
+
+            user.RefreshToken = updatedRefreshToken;
             
-            user.RefreshToken = updatedRefreshToken;
-
-            return Ok(token);
-
-            /*var cookieOptions = new CookieOptions
-            {
-                HttpOnly = true,
-                Expires = updatedRefreshToken.Expires
-            };
-            Response.Cookies.Append("refreshToken", updatedRefreshToken.Token, cookieOptions);*/
-            user.RefreshToken = updatedRefreshToken;
-
             return Ok(new
             {
                 token = token,
@@ -238,19 +240,20 @@ namespace API.Controllers
         public async Task<ActionResult> ForgotPasswordProsumer(string email)// mora da se napravi trenutni token  i datum kada istice 
         {
             //saljemo email 
-           
-            var prosumer = await authService.GetProsumer(email);
-                
-            if (prosumer == null)
-            {
 
+            Prosumer prosumer;
+
+            try
+            {
+                prosumer = await authService.GetProsumer(email);
+            }
+            catch (Exception)
+            {
                 return BadRequest("Prosumer is not found with that email");
             }
             
-            authService.SaveToken(prosumer, authService.CreateRandomToken()); // kreiramo random token za prosumer-a koji ce da koristi za sesiju
+            if (!await authService.SaveToken(prosumer, authService.CreateRandomToken())) return BadRequest("Token could not be saved"); // kreiramo random token za prosumer-a koji ce da koristi za sesiju
    
-         
-           
 
             return Ok("User found!");
         }
@@ -259,15 +262,17 @@ namespace API.Controllers
         public async Task<ActionResult> ForgotPasswordWorker(string email)// mora da se napravi trenutni token  i datum kada istice 
         {
             //saljemo email 
-            var worker = await authService.GetDSO(email);
-
-            if (worker == null)
+            Dso worker;
+            try
             {
-
+                worker = await authService.GetDSO(email);
+            }
+            catch (Exception)
+            {
                 return BadRequest("Worker is not found with that email");
             }
 
-            authService.SaveToken(worker, authService.CreateRandomToken()); // kreiramo random token za prosumer-a koji ce da koristi za sesiju
+            if (!await authService.SaveToken(worker, authService.CreateRandomToken())) return BadRequest("Token could not be saved"); // kreiramo random token za prosumer-a koji ce da koristi za sesiju
 
             return Ok("Worker DSO found!");
         }
@@ -276,46 +281,94 @@ namespace API.Controllers
         public async Task<ActionResult> ResetPasswordProsumer(ResetPassworkForm reset) // mora da se napravi trenutni token  i datum kada istice 
         {
             //
-            var prosumer = await authService.GetProsumerWithToken(reset.Token);
-            
-
-            if (prosumer == null)
+            Prosumer prosumer;
+            try
             {
-
+                prosumer = await authService.GetProsumerWithToken(reset.Token);
+            }
+            catch (Exception)
+            {
                 return BadRequest("Prosumer is not found");
             }
+ 
             authService.CreatePasswordHash(reset.Password, out byte[] passwordHash, out byte[] passwordSalt);
             
             prosumer.HashPassword = passwordHash;
             prosumer.SaltPassword = passwordSalt;
             prosumer.Token = null; //trenutno!
 
-            authService.SaveToken(prosumer, authService.CreateRandomToken()); // kreiramo random token za prosumer-a
+            if (!await authService.SaveToken(prosumer, authService.CreateRandomToken())) return BadRequest("Token could not be saved"); // kreiramo random token za prosumer-a
             return Ok("Password reset!");
         }
         [HttpPost("reset_passwordWorker")]
         public async Task<ActionResult> ResetPasswordWorker(ResetPassworkForm reset) // mora da se napravi trenutni token  i datum kada istice 
         {
-           
-            var worker = await authService.GetDSOWithToken(reset.Token);
 
-
-            if (worker == null)
+            Dso worker;
+            try
             {
-
+                worker = await authService.GetDSOWithToken(reset.Token);
+            }
+            catch (Exception)
+            {
                 return BadRequest("Worker is not found");
             }
+
             authService.CreatePasswordHash(reset.Password, out byte[] passwordHash, out byte[] passwordSalt);
 
             worker.HashPassword = passwordHash;
             worker.SaltPassword = passwordSalt;
             worker.Token = null; //trenutno!
 
-            authService.SaveToken(worker, authService.CreateRandomToken()); // kreiramo random token za workera-a
+            if (!await authService.SaveToken(worker, authService.CreateRandomToken())) return BadRequest("Token could not be saved"); // kreiramo random token za workera-a
             return Ok("Password reset!");
         }
-        
-        
-        
+
+        [HttpGet("GetDsoById")]
+        public async Task<ActionResult<Dso>> GetDsoWorkerById(string id)
+        {
+            Dso worker;
+            try
+            {
+                worker = await authService.GetDsoWorkerById(id);
+                return Ok(worker);
+            }
+            catch (Exception)
+            {
+                return BadRequest("No DSO Worker with that id!");
+            }
+        }
+
+        [HttpDelete("DeleteDsoWorker")]
+        [Authorize(Roles = "admin")]
+        public async Task<ActionResult> DeleteDsoWorker(string id)
+        {
+            if(await authService.DeleteDsoWorker(id)) return Ok("Successfully deleted user!");
+
+            return BadRequest("Could not remove user!");
+        }
+
+        [HttpPut("UpdateDsoWorker")]
+        [Authorize(Roles = "admin")]
+        public async Task<ActionResult> EditDsoWorker(string id, DsoEdit newValues)
+        {
+            if (!await authService.EditDsoWorker(id, newValues)) return BadRequest("User could not be updated!");
+            return Ok("User updated successfully!");
+
+        }
+
+        [HttpGet("GetAllDsoWorkers")]
+        public async Task<ActionResult> GetAllDsoWorkers()
+        {
+            try
+            {
+                return Ok(await authService.GetAllDsos());
+            }
+            catch (Exception)
+            {
+                return BadRequest("No DSO Workers found!");
+            }
+            
+        }
     }
 }

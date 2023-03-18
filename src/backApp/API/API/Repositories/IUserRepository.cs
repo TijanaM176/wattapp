@@ -20,5 +20,11 @@ namespace API.Repositories
 
         Task<PagedList<Prosumer>> GetProsumers(ProsumerParameters prosumerParameters);
 
+        public Task InsertProsumer(Prosumer prosumer);
+        public Task InsertDSOWorker(Dso DSO_Worker);
+        public Task SaveToken(User user, string token);
+        public Task<Dso> GetDsoWorkerById(string id);
+        public Task DeleteDsoWorker(string id);
+        public Task Save();
     }
 }
