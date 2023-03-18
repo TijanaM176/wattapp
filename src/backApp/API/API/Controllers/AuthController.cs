@@ -145,12 +145,6 @@ namespace API.Controllers
             }) ;
         }
 
-        [HttpGet("AllProsumers")]
-        public async Task<IActionResult> ListRegisterProsumer()
-        {
-            return Ok(await authService.GetAllProsumers());
-        }
-
         [HttpPost("refreshToken")]
         public async Task<ActionResult<string>> RefreshToken()
         {
@@ -290,15 +284,8 @@ namespace API.Controllers
             authService.SaveToken(worker, authService.CreateRandomToken()); // kreiramo random token za workera-a
             return Ok("Password reset!");
         }
-        [HttpGet("getProsumerByID")]
-        public async Task<IActionResult> getProsumerByID(string id)
-        {
-            var prosumer = authService.GetProsumerById(id);
-            if(prosumer == null)
-                return BadRequest("Prosumer with id "+id+" is not found");
-
-            return Ok(await prosumer);
-        }
+        
+        
         
     }
 }

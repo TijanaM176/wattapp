@@ -163,13 +163,7 @@ namespace API.Services
             _repository.SaveToken(user, token);
         }
         
-        public async Task<List<Prosumer>> GetAllProsumers()
-        {
-            var prosumers = await _repository.GetAllProsumers();
-            if (prosumers != null) return prosumers;
-
-            return null;
-        }
+        
         
         public RefreshToken GenerateRefreshToken()
         {
@@ -280,12 +274,7 @@ namespace API.Services
                 return null;
         }
 
-        public async Task<Prosumer> GetProsumerById(string id)
-        {
-            var prosumer = await _repository.GetProsumerById(id);
-            return prosumer;
-
-        }
+ 
 
         /*
         public string CreateBody()

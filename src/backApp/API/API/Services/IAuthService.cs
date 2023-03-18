@@ -26,13 +26,12 @@ namespace API.Services
         public Task<Dso> GetDSO(string usernameOrEmail);
         public Task<string> CreateToken(User user);
         public void SaveToken(User user, string token);
-        public Task<List<Prosumer>> GetAllProsumers();
         public RefreshToken GenerateRefreshToken();
         public string CreateRandomToken();
         public Task<Prosumer> GetProsumerWithToken(string token);
         public Task<Dso> GetDSOWithToken(string token);
         public Task<Prosumer> Register(ProsumerDto request);
         public Task<Dso> Register(DsoWorkerDto request);
-        public Task<Prosumer> GetProsumerById(string id);
+    
     }
 }

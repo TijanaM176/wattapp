@@ -22,6 +22,8 @@ builder.Services.AddDbContext<RegContext>();
 
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddScoped<IProsumerService, ProsumerService>();
+
 
 builder.Services.AddCors((setup) =>
 {

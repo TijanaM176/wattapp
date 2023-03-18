@@ -1,12 +1,15 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using API.Models.Paging;
+using Microsoft.EntityFrameworkCore;
 using System.Runtime.InteropServices;
 
 namespace API.Repositories
 {
-    public class UserRepository: IUserRepository
+    public class UserRepository: BaseRepository<Prosumer>, IUserRepository
     {
         RegContext _context;
-        public UserRepository(RegContext context) {
+
+        public UserRepository(RegContext context) : base(context)
+        {
             _context = context;
         }
 
@@ -71,5 +74,11 @@ namespace API.Repositories
 
             return await _context.Prosumers.FirstOrDefaultAsync(x => x.Id == id);
         }
+
+        public Task<PagedList<Prosumer>> GetProsumers(ProsumerParameters prosumerParameters)
+        {
+            return Task.FromResult(PagedList<Prosumer>.GetPagedList(FindAll().OrderBy(i => i.DateCreate), prosumerParameters.PageNumber, prosumerParameters.PageSize));
+        }
+        
     }
 }
