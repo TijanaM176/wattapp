@@ -25,7 +25,6 @@ namespace API.Services
         public Task<Prosumer> GetProsumer(string usernameOrEmail);
         public Task<Dso> GetDSO(string usernameOrEmail);
         public Task<string> CreateToken(User user);
-        public void SaveToken(User user, string token);
         public Task<bool> SaveToken(User user, string token);
         public Task<List<Prosumer>> GetAllProsumers();
         public RefreshToken GenerateRefreshToken();
