@@ -1,6 +1,7 @@
 ﻿using API.Models.Paging;
+using API.Models.Users;
 
-namespace API.Services
+namespace API.Services.ProsumerService
 {
     public interface IProsumerService
     {
@@ -8,5 +9,7 @@ namespace API.Services
         Task<PagedList<Prosumer>> GetProsumers(ProsumerParameters prosumerParameters);
         public Task<Prosumer> GetProsumerById(string id);
         public Task<List<Prosumer>> GetAllProsumers();
+        public Task<bool> DeleteProsumer(string id);
+        public Task<bool> EditProsumer(string id, ProsumerEdit newValues);
     }
 }

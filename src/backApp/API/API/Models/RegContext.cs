@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using API.Models.Users;
 using Microsoft.EntityFrameworkCore;
 
 namespace API.Models;

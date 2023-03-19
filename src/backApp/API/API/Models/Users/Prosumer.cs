@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace API.Models;
+namespace API.Models.Users;
 
 public partial class Prosumer : User
 {
-   
+
 
     public string? Address { get; set; }
 
