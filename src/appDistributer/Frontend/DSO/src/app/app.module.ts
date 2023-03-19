@@ -11,6 +11,7 @@ import { AppComponent } from './app.component';
 import { LoginComponent } from './components/login/login.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { TokenInterceptor } from './interceptors/token.interceptor';
+import { DropDownListModule } from '@syncfusion/ej2-angular-dropdowns';
 
 import { SignupComponent } from './components/signup/signup.component';
 import { SignupWorkerComponent } from './components/signup-worker/signup-worker.component';
@@ -30,11 +31,13 @@ import { UsersComponent } from './components/users/users.component';
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
 import { SearchPipe } from './components/search.pipe';
 import { SearchaddressPipe } from './components/searchaddress.pipe';
-
+import { NeighborhoodComponent } from './components/Filters/neighborhood/neighborhood.component';
+import { MininavbarComponent } from './components/mininavbar/mininavbar.component';
 
 @NgModule({
   declarations: [
     AppComponent,
+    MininavbarComponent,
     LoginComponent,
     DashboardComponent,
     SignupComponent,
@@ -45,9 +48,10 @@ import { SearchaddressPipe } from './components/searchaddress.pipe';
     UsersComponent,
     SearchPipe,
     SearchaddressPipe,
- 
+    NeighborhoodComponent,
   ],
   imports: [
+    DropDownListModule,
     BrowserAnimationsModule,
     NavbarModule,
     BrowserModule,
@@ -62,7 +66,7 @@ import { SearchaddressPipe } from './components/searchaddress.pipe';
     ButtonModule,
     BrowserModule,
     SidebarModule,
-    Ng2SearchPipeModule
+    Ng2SearchPipeModule,
   ],
   providers: [
     CookieService,

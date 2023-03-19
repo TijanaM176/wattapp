@@ -1,7 +1,14 @@
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
-
+import { enableProdMode } from '@angular/core';
 import { AppModule } from './app/app.module';
+import { registerLicense } from '@syncfusion/ej2-base';
 
+registerLicense(
+  'MTM3MjUxOEAzMjMwMmUzNDJlMzBZTE1xM0YrU1NRd09WUmJ2TVk0SEhhanduNkZwWDFuejJBN202M2NhUG9VPQ==;Mgo DSMBaFt/QHRqVVhkVFpHaV1EQmFJfFBmRGlad1R0c0UmHVdTRHRcQl5iQH9QdU1nXn9fc3U=;Mgo DSMBMAY9C3t2VVhkQlFacldJXnxLeEx0RWFab196d11MZFtBJAtUQF1hSn5Qd0xiWnxWdHNVRWBd;Mgo DSMBPh8sVXJ0S0J XE9AflRBQmFPYVF2R2BJflRzfF9CZ0wxOX1dQl9gSX1Sf0RgWndad3RRTmE=;MTM3MjUyMkAzMjMwMmUzNDJlMzBWVGpLcExyVGZOb09SWnRRWmVzUHdMSUFvYVJERjdFMExlT05lTzFvMFZnPQ==;NRAiBiAaIQQuGjN/V0Z WE9EaFtKVmBWfFVpR2NbfE5xflZOalhWVBYiSV9jS31TdURqWHxdeHBSRmhVUA==;ORg4AjUWIQA/Gnt2VVhkQlFacldJXnxLeEx0RWFab196d11MZFtBJAtUQF1hSn5Qd0xiWnxWdHNURmdd;MTM3MjUyNUAzMjMwMmUzNDJlMzBqNU9zU2J0d250YWFaUy9kbHF5MllQSnZCc1IxTTAySkY1aVBpOWl1YWxnPQ==;MTM3MjUyNkAzMjMwMmUzNDJlMzBhcW14R2lFZ0xRaHgrd1E3Tjk0RklVK2c1YkhWT2JEbVhtR2trcUZFNEowPQ==;MTM3MjUyN0AzMjMwMmUzNDJlMzBCM1FMSXhjdFhRWHFtcUhIZ1UzcUxHNDd4STJmUk1KZ2ZnbEtRZ1ZhZWNRPQ==;MTM3MjUyOEAzMjMwMmUzNDJlMzBDeVF3RXcyTDJ2V2tOUEdUTkxrYytQUTRrZlNFTS93S0FVb28vNkYybS84PQ==;MTM3MjUyOUAzMjMwMmUzNDJlMzBZTE1xM0YrU1NRd09WUmJ2TVk0SEhhanduNkZwWDFuejJBN202M2NhUG9VPQ== '
+);
 
-platformBrowserDynamic().bootstrapModule(AppModule)
-  .catch(err => console.error(err));
+enableProdMode();
+
+platformBrowserDynamic()
+  .bootstrapModule(AppModule)
+  .catch((err) => console.error(err));

@@ -9,7 +9,7 @@
     expand="lg"
     [scrolling]="true"
   >
-    <CDBNavBrand href="/">
+    <CDBNavBrand>
       <img id="logo" src="assets/images/logo.png" height="75" alt="" />
     </CDBNavBrand>
     <CDBNavToggle
@@ -40,7 +40,9 @@
               vertical-align: middle;
             "
           >
-            <CDBNavLink to="/" style="color: white"> Home </CDBNavLink>
+            <CDBNavLink routerLink="/home" style="color: white">
+              Home
+            </CDBNavLink>
           </CDBBtn>
         </CDBNavItem>
         <CDBNavItem style="width: 140px">
@@ -57,7 +59,9 @@
               vertical-align: middle;
             "
           >
-            <CDBNavLink to="#" style="color: #5875a1">Users </CDBNavLink>
+            <CDBNavLink routerLink="/users" style="color: #5875a1"
+              >Users
+            </CDBNavLink>
           </CDBBtn>
         </CDBNavItem>
         <CDBNavItem style="width: 140px">
@@ -74,7 +78,9 @@
               vertical-align: middle;
             "
           >
-            <CDBNavLink to="#" style="color: #5875a1"> Employees </CDBNavLink>
+            <CDBNavLink routerLink="/employees" style="color: #5875a1">
+              Employees
+            </CDBNavLink>
           </CDBBtn>
         </CDBNavItem>
         <CDBNavItem>
@@ -105,8 +111,10 @@
               </div>
             </CDBDropDownToggle>
             <CDBDropDownMenu #menu="cdbDropdownMenu" placement="bottom">
-              <CDBDropDownItem routerLink="home">Cold place</CDBDropDownItem>
-              <CDBDropDownItem routerLink="home">Second</CDBDropDownItem>
+              <CDBDropDownItem routerLink="../home/pocetna"
+                >Cold place</CDBDropDownItem
+              >
+              <CDBDropDownItem routerLink="../login">Second</CDBDropDownItem>
               <CDBDropDownItem routerLink="home">Last</CDBDropDownItem>
             </CDBDropDownMenu>
           </CDBDropDown>
