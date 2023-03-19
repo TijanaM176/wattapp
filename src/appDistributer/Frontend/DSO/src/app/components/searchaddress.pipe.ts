@@ -1,17 +1,19 @@
 import { Pipe, PipeTransform } from '@angular/core';
-
+import { UsersServiceService } from '../services/users-service.service';
+import { UsersComponent } from './users/users.component';
 @Pipe({
   name: 'searchaddress'
 })
 export class SearchaddressPipe implements PipeTransform {
-
-  transform(Items: any[], searchAddress:any): any {
-    if(!Items || !searchAddress) return Items;
-
+  
+  transform(prosumers: any[], searchAddress:any): any {
     
-    return Items.filter((item:any)=>
-      item.Address.toLocaleLowerCase().includes(searchAddress.toLocaleLowerCase()));
-
+    if(!prosumers || !searchAddress) return prosumers;
+    
+    return prosumers.filter((item:any)=>{
+    if(item.address!==null)
+       return item.address.toLocaleLowerCase().includes(searchAddress.toLocaleLowerCase())});
+      
   }
 
 }

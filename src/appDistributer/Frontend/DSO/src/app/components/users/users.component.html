@@ -32,6 +32,7 @@
     <body>
        
        <app-navBar></app-navBar>
+      
     <div class="container-xl">
         
         <div class="table-responsive">
@@ -63,6 +64,7 @@
                 <table class="table table-bordered">
                     <thead>
                         <tr>
+                            <th></th>
                             <th>Username<i class="fa fa-sort"></i></th>
                             <th>Address</th>
                             
@@ -73,13 +75,14 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr *ngFor="let item of Items | search:searchName | searchaddress:searchAddress">
-                            <td>{{item.Username}}</td>
-                            <td>{{item.Address}}</td>
+                        <tr *ngFor="let item of service.prosumers | search:searchName | searchaddress:searchAddress">
+                            <td><img src="assets/images/user.png" style="width:30px;height:30px;"></td>
+                            <td>{{item.username}}</td>
+                            <td>{{item.address}}</td>
                            
-                            <td>{{item.Consumption}}</td>
-                            <td>{{item.Production}}</td>
-                            <td>{{item.NumberOfDevices}}</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
                             <td>
                                 <button class="button-info"><b>info</b></button>
                               

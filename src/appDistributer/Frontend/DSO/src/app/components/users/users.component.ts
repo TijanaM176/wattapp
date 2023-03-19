@@ -1,5 +1,6 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-
+import{Observable} from 'rxjs'
+import { UsersServiceService } from 'src/app/services/users-service.service';
 @Component({
   selector: 'app-users',
   templateUrl: './users.component.html',
@@ -8,20 +9,11 @@ import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 export class UsersComponent implements OnInit{
   searchName:string='';
   searchAddress:string='';
-  Items=[
-    {Username:'mima',Address:'atinska',Consumption:10,Production:12,NumberOfDevices:7},
-    {Username:'anamarija',Address:'karadjordjeva',Consumption:10,Production:12,NumberOfDevices:7},
-    {Username:'ana',Address:'radoja domanovca',Consumption:10,Production:12,NumberOfDevices:7}
-  ];
-  constructor(){}
-
+  prosumers!:Observable<any[]>;
+  constructor(public service:UsersServiceService){}
   ngOnInit(): void {
-    this.Items=[
-      {Username:'mima',Address:'atinska',Consumption:10,Production:12,NumberOfDevices:7},
-      {Username:'anamarija',Address:'karadjordjeva',Consumption:10,Production:12,NumberOfDevices:7},
-      {Username:'ana',Address:'radoja domanovca',Consumption:10,Production:12,NumberOfDevices:7}
- 
-    ];
+    this.service.refreshList();
+    console.log(this.service.prosumers);
   }
 
 }
