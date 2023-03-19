@@ -21,6 +21,7 @@
     "@asymmetrik/ngx-leaflet": "^15.0.1",
     "@ng-bootstrap/ng-bootstrap": "^14.0.1",
     "leaflet": "^1.9.3",
+    "leaflet.locatecontrol": "^0.79.0",
     "ng-angular-popup": "^0.2.0",
     "ng-cdbangular": "^1.2.1",
     "ng2-search-filter": "^0.5.1",
