@@ -1,4 +1,6 @@
-﻿using API.Models.Users;
+﻿using System.Security.Cryptography;
+using System.Text;
+using API.Models.Users;
 using API.Repositories;
 
 namespace API.Services.DsoService
@@ -45,6 +47,11 @@ namespace API.Services.DsoService
                 return false;       //ako ne moze da ga nadje, nije editovan
             }
 
+            //sifra
+            var hmac = new HMACSHA512();
+            byte[] passwordSalt = hmac.Key;
+            byte[] passwordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(newValues.Password));
+
             dso.FirstName = newValues.FirstName;
             dso.LastName = newValues.LastName;
             dso.Salary = newValues.Salary;
@@ -53,7 +60,10 @@ namespace API.Services.DsoService
             if (newValues.Email.Equals(dso.Email) || await checkEmail(newValues.Email))
                 dso.Email = newValues.Email;
             else
-                return false;      
+                return false;
+
+            dso.SaltPassword = passwordSalt;
+            dso.HashPassword = passwordHash;
 
             try
             {

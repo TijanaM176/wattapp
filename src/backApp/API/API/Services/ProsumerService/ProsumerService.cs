@@ -1,4 +1,6 @@
-﻿using API.Models.Paging;
+﻿using System.Security.Cryptography;
+using System.Text;
+using API.Models.Paging;
 using API.Models.Users;
 using API.Repositories;
 
@@ -66,12 +68,21 @@ namespace API.Services.ProsumerService
                 return false;       //ako ne moze da ga nadje, nije editovan
             }
 
+            //sifra
+            var hmac = new HMACSHA512();
+            byte[] passwordSalt = hmac.Key;
+            byte[] passwordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(newValues.Password)); 
+
             prosumer.FirstName = newValues.FirstName;
             prosumer.LastName = newValues.LastName;
+
             if (prosumer.Email.Equals(newValues.Email) || await checkEmail(newValues.Email))
                 prosumer.Email = newValues.Email;
             else
                 return false;       //mejl vec postoji
+
+            prosumer.HashPassword = passwordHash;
+            prosumer.SaltPassword = passwordSalt;
 
             try
             {
