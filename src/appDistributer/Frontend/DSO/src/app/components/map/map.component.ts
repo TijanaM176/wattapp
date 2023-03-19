@@ -44,12 +44,12 @@ export class MapComponent implements AfterViewInit, OnInit {
         var marker = L.marker([e.latitude, e.longitude],{icon: defaultIcon}).bindPopup('Your are here');
         marker.addTo(this.map)
     })
-   .on('locationerror', function(e:any){
+   .on('locationerror', (e:any) =>{
         console.log(e);
-        alert("Location access denied.");
+        this.toast.error({detail:"ERROR", summary: "Location access denied.", duration: 3000});
+        //alert("Location access denied.");
     });
   }
-
   //drugi nacin
   /*options: L.MapOptions = {
     layers: this.getLayers(),
