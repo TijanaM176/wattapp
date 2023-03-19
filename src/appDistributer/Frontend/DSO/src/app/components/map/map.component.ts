@@ -34,12 +34,18 @@ export class MapComponent implements AfterViewInit, OnInit {
   }
 
   private initMap(){
-    this.map = L.map('map').setView([44.012794, 20.911423],15);
+    this.map = L.map('map').setView([44.012794, 20.911423],17);
     const tiles = new L.TileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
       } as L.TileLayerOptions)
-
     tiles.addTo(this.map);
+
+    if(this.currentLocationIsSet)
+    {
+      
+      this.map.removeLayer(this.currentLocation);
+    }
+
     const defaultIcon = L.icon({
       iconUrl: 'assets/images/location.svg',//'https://leafletjs.com/examples/custom-icons/leaf-green.png',
       //shadowUrl: 'https://leafletjs.com/examples/custom-icons/leaf-shadow.png',
@@ -50,7 +56,32 @@ export class MapComponent implements AfterViewInit, OnInit {
       popupAnchor:  [-8, -93]
     })
 
-    this.map.locate({setView: true, watch: true, enableHighAccuracy: true, timeout: 50}) /* This will return map so you can do chaining */
+    if ("geolocation" in navigator) {
+      navigator.geolocation.getCurrentPosition((position) => {
+        this.cookie.set('lat',position.coords.latitude.toString());
+        this.cookie.set('long',position.coords.longitude.toString());
+        this.map.setView([position.coords.latitude, position.coords.longitude], 17);
+        if(this.currentLocationIsSet)
+        {
+          this.map.removeLayer(this.currentLocation);
+        }
+        var acc = Number(position.coords.accuracy).toFixed(2);
+        this.currentLocation = L.marker([position.coords.latitude,position.coords.longitude],{icon: defaultIcon}).bindPopup('Your are here.<br>(within '+acc+' meters from this point)');
+        this.currentLocation.addTo(this.map);
+        this.currentLocationIsSet=true;
+      }, 
+      (error) => {
+        // If the user denies permission or an error occurs, handle it appropriately
+        console.error("Error getting user's location:", error);
+        this.toast.error({detail:"ERROR", summary: "Unable To Get Your Current Location.", duration: 3000});
+      },{ enableHighAccuracy: true, timeout:100 });
+    } 
+    else {
+      // If the browser does not support the Geolocation API, handle it appropriately
+      this.toast.error({detail:"ERROR", summary: "Geolocation is not supported by this browser.", duration: 3000});
+    }
+
+    this.map.locate({setView: true, watch: true, enableHighAccuracy: true, timeout: 60}) // This will return map so you can do chaining 
     .on('locationfound', (e:any) =>{
         //console.log(e);
         if(this.currentLocationIsSet)
@@ -61,6 +92,7 @@ export class MapComponent implements AfterViewInit, OnInit {
         this.cookie.set('lat',e.latitude);
         this.cookie.set('long',e.longitude);
         var acc = Number(e.accuracy).toFixed(2);
+        this.map.setView([Number(this.cookie.get('lat')), Number(this.cookie.get('long'))],17);
         this.currentLocation = L.marker([e.latitude,e.longitude],{icon: defaultIcon}).bindPopup('Your are here.<br>(within '+acc+' meters from this point)');
         this.currentLocation.addTo(this.map);
         this.currentLocationIsSet=true;
@@ -79,7 +111,7 @@ export class MapComponent implements AfterViewInit, OnInit {
         const button = L.DomUtil.create('button');
         button.innerHTML = '<span class="fa fa-crosshairs p-1"></span>';
         button.addEventListener('click', () => {
-          this.map.setView([this.cookie.get('lat'), this.cookie.get('long')],15);
+          this.map.setView([Number(this.cookie.get('lat')), Number(this.cookie.get('long'))],17);
         });
         return button;
       }
