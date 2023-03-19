@@ -109,7 +109,7 @@ export class MapComponent implements AfterViewInit, OnInit {
       },
       onAdd: () => {
         const button = L.DomUtil.create('button');
-        button.innerHTML = '<span class="fa fa-crosshairs p-1"></span>';
+        button.innerHTML = '<span class="fa fa-crosshairs p-1 pt-2 pb-2"></span>';
         button.addEventListener('click', () => {
           this.map.setView([Number(this.cookie.get('lat')), Number(this.cookie.get('long'))],17);
         });
