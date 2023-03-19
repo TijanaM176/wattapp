@@ -1,5 +1,4 @@
-﻿using API.Models;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration.UserSecrets;
 using System.Security.Cryptography;
@@ -16,8 +15,6 @@ using System.Security.Claims;
 using System.IdentityModel.Tokens;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
-using API.Services;
-using API.Models;
 using MimeKit;
 using MailKit.Net.Smtp;
 using MailKit.Security;
@@ -27,6 +24,8 @@ using System.ComponentModel;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System.Security.Principal;
 using Microsoft.AspNetCore.Authorization;
+using API.Models.Users;
+using API.Services.Auth;
 
 namespace API.Controllers
 {
@@ -157,6 +156,9 @@ namespace API.Controllers
             }) ;
         }
 
+        /*
+         ima u prosumer controlleru
+
         [Authorize(Roles = "Dso")]
         [HttpGet("UsersProsumer")]
         public async Task<IActionResult> ListRegisterProsumer()
@@ -171,7 +173,7 @@ namespace API.Controllers
             }
             
         }
-
+        */
         [HttpPost("refreshToken")]
         public async Task<ActionResult> RefreshToken([FromBody] ReceiveRefreshToken refreshToken)
         {
@@ -236,7 +238,6 @@ namespace API.Controllers
         //forgot passw
         
         [HttpPost("forgot_passwordProsumer")]
-
         public async Task<ActionResult> ForgotPasswordProsumer(string email)// mora da se napravi trenutni token  i datum kada istice 
         {
             //saljemo email 
@@ -257,8 +258,8 @@ namespace API.Controllers
 
             return Ok("User found!");
         }
-        [HttpPost("forgot_passwordWorker")]
 
+        [HttpPost("forgot_passwordWorker")]
         public async Task<ActionResult> ForgotPasswordWorker(string email)// mora da se napravi trenutni token  i datum kada istice 
         {
             //saljemo email 
@@ -276,6 +277,7 @@ namespace API.Controllers
 
             return Ok("Worker DSO found!");
         }
+
         //reset password
         [HttpPost("reset_passwordProsumer")]
         public async Task<ActionResult> ResetPasswordProsumer(ResetPassworkForm reset) // mora da se napravi trenutni token  i datum kada istice 
@@ -300,6 +302,7 @@ namespace API.Controllers
             if (!await authService.SaveToken(prosumer, authService.CreateRandomToken())) return BadRequest("Token could not be saved"); // kreiramo random token za prosumer-a
             return Ok("Password reset!");
         }
+
         [HttpPost("reset_passwordWorker")]
         public async Task<ActionResult> ResetPasswordWorker(ResetPassworkForm reset) // mora da se napravi trenutni token  i datum kada istice 
         {
@@ -322,53 +325,6 @@ namespace API.Controllers
 
             if (!await authService.SaveToken(worker, authService.CreateRandomToken())) return BadRequest("Token could not be saved"); // kreiramo random token za workera-a
             return Ok("Password reset!");
-        }
-
-        [HttpGet("GetDsoById")]
-        public async Task<ActionResult<Dso>> GetDsoWorkerById(string id)
-        {
-            Dso worker;
-            try
-            {
-                worker = await authService.GetDsoWorkerById(id);
-                return Ok(worker);
-            }
-            catch (Exception)
-            {
-                return BadRequest("No DSO Worker with that id!");
-            }
-        }
-
-        [HttpDelete("DeleteDsoWorker")]
-        [Authorize(Roles = "admin")]
-        public async Task<ActionResult> DeleteDsoWorker(string id)
-        {
-            if(await authService.DeleteDsoWorker(id)) return Ok("Successfully deleted user!");
-
-            return BadRequest("Could not remove user!");
-        }
-
-        [HttpPut("UpdateDsoWorker")]
-        [Authorize(Roles = "admin")]
-        public async Task<ActionResult> EditDsoWorker(string id, DsoEdit newValues)
-        {
-            if (!await authService.EditDsoWorker(id, newValues)) return BadRequest("User could not be updated!");
-            return Ok("User updated successfully!");
-
-        }
-
-        [HttpGet("GetAllDsoWorkers")]
-        public async Task<ActionResult> GetAllDsoWorkers()
-        {
-            try
-            {
-                return Ok(await authService.GetAllDsos());
-            }
-            catch (Exception)
-            {
-                return BadRequest("No DSO Workers found!");
-            }
-            
-        }
+        }        
     }
 }

@@ -2,11 +2,13 @@ global using Microsoft.EntityFrameworkCore;
 global using API.Models;
 using System.Text.Json.Serialization;
 using API.Controllers;
-using API.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using API.Repositories;
+using API.Services.Auth;
+using API.Services.ProsumerService;
+using API.Services.DsoService;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -23,6 +25,7 @@ builder.Services.AddDbContext<RegContext>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IProsumerService, ProsumerService>();
+builder.Services.AddScoped<IDsoService, DsoService>();
 
 
 builder.Services.AddCors((setup) =>
@@ -57,14 +60,6 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJw
 builder.Services.AddAuthorization();
 
 var app = builder.Build();
-
-/*var tokenValidationParameters = new TokenValidationParameters
-{
-    //...your setting
-
-    // set ClockSkew is zero
-    ClockSkew = TimeSpan.Zero
-};*/
 
 app.UseCors("default");
 

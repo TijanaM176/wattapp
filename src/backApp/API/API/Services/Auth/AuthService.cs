@@ -10,10 +10,11 @@ using API.Models;
 using System.Web;
 using API.Repositories;
 using Microsoft.AspNetCore.Mvc;
+using API.Models.Users;
 
-namespace API.Services
+namespace API.Services.Auth
 {
-    public class AuthService: IAuthService
+    public class AuthService : IAuthService
     {
         private readonly IUserRepository _repository;
         private readonly IConfiguration _config;
@@ -23,14 +24,12 @@ namespace API.Services
             _config = config;
         }
 
-        
-        
         public async Task<string> CheckUserName(UserDto request)
         {
             List<Prosumer> listaProsumer = await _repository.GetAllProsumers();
-            List<String> listaUsername = new List<String>();
+            List<string> listaUsername = new List<string>();
             string username = "";
-            Boolean check = true;
+            bool check = true;
             int count = 1;
             foreach (var item in listaProsumer)
             {
@@ -48,11 +47,11 @@ namespace API.Services
             return username;
         }
 
-        public async Task<Boolean> checkEmail(UserDto request)
+        public async Task<bool> checkEmail(UserDto request)
         {
             List<Prosumer> listaProsumer = await _repository.GetAllProsumers();
-            List<String> listaEmail = new List<String>();
-         
+            List<string> listaEmail = new List<string>();
+
             foreach (var item in listaProsumer)
             {
                 listaEmail.Add(item.Email);
@@ -61,7 +60,7 @@ namespace API.Services
 
             if (listaEmail.Contains(request.Email))
                 return false;
-            
+
             return true;
         }
 
@@ -92,9 +91,9 @@ namespace API.Services
             {
                 return false;
             }
-            
+
         }
-        
+
         public async Task<bool> InsertDSOWorker(Dso DSO_Worker)
         {
             try
@@ -107,7 +106,6 @@ namespace API.Services
                 return false;
             }
         }
-        
 
         public bool VerifyPassword(string reqPassword, byte[] passwordSalt, byte[] passwordHash)
         {
@@ -129,7 +127,7 @@ namespace API.Services
             catch (NullReferenceException)
             {
                 throw;
-            }                
+            }
         }
         public async Task<string> getRoleName(long? id)
         {
@@ -155,7 +153,7 @@ namespace API.Services
             return dso;
         }
 
-            public async Task<string> CreateToken(User user)
+        public async Task<string> CreateToken(User user)
         {
             string roleName;
             try
@@ -174,7 +172,7 @@ namespace API.Services
 
             };
 
-            var key = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(_config.GetSection("AppSettings:Key").Value));
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config.GetSection("AppSettings:Key").Value));
             var cred = new SigningCredentials(key, SecurityAlgorithms.HmacSha256Signature);
             var token = new JwtSecurityToken(
                 issuer: _config.GetSection("AppSettings:Issuer").Value,
@@ -186,7 +184,7 @@ namespace API.Services
 
             return jwt;
         }
-        
+
         public async Task<bool> SaveToken(User user, string token)
         {
             try
@@ -198,25 +196,7 @@ namespace API.Services
             {
                 return false;
             }
-            
-        }
-        
-        
-        
-        public async Task<List<Prosumer>> GetAllProsumers()
-        {
-            var prosumers = await _repository.GetAllProsumers();
-            if (prosumers == null) throw new ArgumentException("No prosumers in database!");
 
-            return prosumers;
-        }
-
-        public async Task<List<Dso>> GetAllDsos()
-        {
-            var dsos = await _repository.GetAllDsos();
-            if (dsos == null) throw new ArgumentException("No prosumers in database!");
-
-            return dsos;
         }
 
         public RefreshToken GenerateRefreshToken()
@@ -228,13 +208,14 @@ namespace API.Services
                 Expires = DateTime.Now.AddMinutes(int.Parse(_config.GetSection("AppSettings:RefreshTokenValidity").Value))
             };
         }
+
         // random token!
         public string CreateRandomToken()
         {
 
             return Convert.ToHexString(RandomNumberGenerator.GetBytes(64));
         }
-        
+
         public async Task<Prosumer> GetProsumerWithToken(string token)
         {
             var prosumer = await _repository.GetProsumerWithToken(token);
@@ -270,14 +251,14 @@ namespace API.Services
                 prosumer.LastName = request.LastName;
                 prosumer.Username = username; // proveri validnost username 
                 prosumer.Email = request.Email; // validnost email-a
-                
+
                 prosumer.Token = null; // to je trenutno posle ide komunikacija
                 prosumer.RoleId = getRole("korisnik").Id; // -------  vratiIDRole("korisnik"); kada ga hardkodujem ne vraca gresku wtf?Morao sam ovako, izmeni sledeci put-------
                 //prosumer.Role = vratiIDRole("korisnik");// ---ne radi fun ne znam zasto?
                 prosumer.HashPassword = passwordHash;
                 prosumer.SaltPassword = passwordSalt;
                 prosumer.RegionId = "trenutno"; // ovo je trenutno dok se ne napravi Dso, Pa cemo da vracamo iz dso-a
-                
+
                 prosumer.DateCreate = DateTime.Now.ToString("MM/dd/yyyy");
                 prosumer.Role = await getRole("korisnik");
 
@@ -323,60 +304,6 @@ namespace API.Services
             }
             return null;
         }
-
-        public async Task<bool> DeleteDsoWorker(string id)
-        {
-            try
-            {
-                await _repository.DeleteDsoWorker(id);
-                return true;
-            }
-            catch (Exception)
-            {
-                return false;
-            }
-        }
-
-        public async Task<Dso> GetDsoWorkerById(string id)
-        {
-            var dso = await _repository.GetDsoWorkerById(id);
-            if (dso == null) throw new ArgumentException("No dso found with this id!");
-
-            return dso;
-        }
-
-        public async Task<bool> EditDsoWorker(string id, DsoEdit newValues)
-        {
-            Dso dso;
-            try
-            {
-                dso = await GetDsoWorkerById(id);
-            }
-            catch (Exception)
-            {
-                return false;       //ako ne moze da ga nadje, nije editovan
-            }
-
-            dso.FirstName = newValues.FirstName;
-            dso.LastName = newValues.LastName;
-            dso.Salary = newValues.Salary;
-            dso.RoleId = newValues.RoleId;
-            dso.RegionId = newValues.RegionId;
-
-            try
-            {
-                await _repository.Save();
-                return true;
-            }
-            catch (Exception)
-            {
-                return false;
-            }
-                
-           
-        }
-
- 
 
         /*
         public string CreateBody()

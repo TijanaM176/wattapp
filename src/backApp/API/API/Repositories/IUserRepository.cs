@@ -1,4 +1,5 @@
 ﻿using API.Models.Paging;
+using API.Models.Users;
 using Microsoft.EntityFrameworkCore;
 
 namespace API.Repositories
@@ -14,14 +15,13 @@ namespace API.Repositories
         public Task<Prosumer> GetProsumerWithToken(string token);
         public Task<Dso> GetDSOWithToken(string token);
         public Task<Prosumer> GetProsumerById(string id);
-
         Task<PagedList<Prosumer>> GetProsumers(ProsumerParameters prosumerParameters);
-
         public Task InsertProsumer(Prosumer prosumer);
         public Task InsertDSOWorker(Dso DSO_Worker);
         public Task SaveToken(User user, string token);
         public Task<Dso> GetDsoWorkerById(string id);
         public Task DeleteDsoWorker(string id);
+        public Task DeleteProsumer(string id);
         public Task Save();
     }
 }

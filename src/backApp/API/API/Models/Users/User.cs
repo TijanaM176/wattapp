@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace API.Models
+namespace API.Models.Users
 {
     public class User
     {

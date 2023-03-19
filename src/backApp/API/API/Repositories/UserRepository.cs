@@ -1,4 +1,5 @@
 ﻿using API.Models.Paging;
+using API.Models.Users;
 using Microsoft.EntityFrameworkCore;
 using System.Runtime.InteropServices;
 
@@ -85,14 +86,15 @@ namespace API.Repositories
             return await _context.Dsos.FirstOrDefaultAsync(x => x.Id == id);
         }
 
-        public Task<Dso> EditDsoWorker(string id, DsoEdit newValues)
-        {
-            throw new NotImplementedException();
-        }
-
         public async Task DeleteDsoWorker(string id)
         {
             _context.Dsos.Remove(await GetDsoWorkerById(id));
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task DeleteProsumer(string id)
+        {
+            _context.Prosumers.Remove(await GetProsumerById(id));
             await _context.SaveChangesAsync();
         }
 

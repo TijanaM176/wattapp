@@ -1,4 +1,4 @@
-﻿namespace API.Models
+﻿namespace API.Models.Users
 {
     public class DsoEdit
     {
@@ -7,5 +7,7 @@
         public long Salary { get; set; }
         public int RoleId { get; set; }
         public string RegionId { get; set; }
+        public string Email { get; set; }
+        public string Password { get; set; }
     }
 }
