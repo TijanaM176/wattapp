@@ -7,12 +7,13 @@ import { UsersComponent } from './users/users.component';
 export class SearchaddressPipe implements PipeTransform {
   
   transform(prosumers: any[], searchAddress:any): any {
-    if(!prosumers || !searchAddress) return prosumers;
-
     
-    return prosumers.filter((item:any)=>
-      item.address.toLocaleLowerCase().includes(searchAddress.toLocaleLowerCase()));
-
+    if(!prosumers || !searchAddress) return prosumers;
+    
+    return prosumers.filter((item:any)=>{
+    if(item.address!==null)
+       return item.address.toLocaleLowerCase().includes(searchAddress.toLocaleLowerCase())});
+      
   }
 
 }
