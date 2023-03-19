@@ -8,11 +8,9 @@ namespace API.Services.ProsumerService
     {
 
         private readonly IUserRepository _repository;
-        private readonly IConfiguration _config;
-        public ProsumerService(IUserRepository repository, IConfiguration config)
+        public ProsumerService(IUserRepository repository)
         {
             _repository = repository;
-            _config = config;
         }
 
         public Task<PagedList<Prosumer>> GetProsumers(ProsumerParameters prosumerParameters) // to su sa parametrima page i size 
@@ -70,6 +68,10 @@ namespace API.Services.ProsumerService
 
             prosumer.FirstName = newValues.FirstName;
             prosumer.LastName = newValues.LastName;
+            if (prosumer.Email.Equals(newValues.Email) || await checkEmail(newValues.Email))
+                prosumer.Email = newValues.Email;
+            else
+                return false;       //mejl vec postoji
 
             try
             {
@@ -80,6 +82,29 @@ namespace API.Services.ProsumerService
             {
                 return false;
             }
+        }
+
+        public async Task<List<string>> getEmails()
+        {
+            List<string> emails = new List<string>();
+            var users = await _repository.GetAllProsumers();
+            foreach (var user in users)
+                emails.Add(user.Email);
+            var dsos = await _repository.GetAllDsos();
+            foreach (var dso in dsos)
+                emails.Add(dso.Email);
+
+            return emails;
+        }
+
+        public async Task<bool> checkEmail(string email)
+        {
+            var emails = await getEmails();
+            foreach (var e in emails)
+                if (e.Equals(email))
+                    return false;
+
+            return true;
         }
     }
 }

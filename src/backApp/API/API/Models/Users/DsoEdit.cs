@@ -7,5 +7,6 @@
         public long Salary { get; set; }
         public int RoleId { get; set; }
         public string RegionId { get; set; }
+        public string Email { get; set; }
     }
 }

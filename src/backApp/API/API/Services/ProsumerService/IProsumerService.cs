@@ -11,5 +11,7 @@ namespace API.Services.ProsumerService
         public Task<List<Prosumer>> GetAllProsumers();
         public Task<bool> DeleteProsumer(string id);
         public Task<bool> EditProsumer(string id, ProsumerEdit newValues);
+        public Task<List<string>> getEmails();
+        public Task<bool> checkEmail(string email);
     }
 }

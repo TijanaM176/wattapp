@@ -50,6 +50,10 @@ namespace API.Services.DsoService
             dso.Salary = newValues.Salary;
             dso.RoleId = newValues.RoleId;
             dso.RegionId = newValues.RegionId;
+            if (newValues.Email.Equals(dso.Email) || await checkEmail(newValues.Email))
+                dso.Email = newValues.Email;
+            else
+                return false;      
 
             try
             {
@@ -68,6 +72,29 @@ namespace API.Services.DsoService
             if (dsos == null) throw new ArgumentException("No dsos in database!");
 
             return dsos;
+        }
+
+        public async Task<List<string>> getEmails()
+        {
+            List<string> emails = new List<string>();
+            var users = await _repository.GetAllProsumers();
+            foreach (var user in users)
+                emails.Add(user.Email);
+            var dsos = await _repository.GetAllDsos();
+            foreach (var dso in dsos)
+                emails.Add(dso.Email);
+
+            return emails;
+        }
+
+        public async Task<bool> checkEmail(string email)
+        {
+            var emails = await getEmails();
+            foreach (var e in emails)
+                if (e.Equals(email))
+                    return false;
+
+            return true;
         }
     }
 }

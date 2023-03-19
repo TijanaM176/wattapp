@@ -58,7 +58,7 @@ namespace API.Controllers
         }
 
         [HttpDelete("DeleteProsumer")]
-        //[Authorize(Roles = "admin")]
+        [Authorize(Roles = "admin")]
         public async Task<ActionResult> DeleteProsumer(string id)
         {
             if (await prosumerService.DeleteProsumer(id)) return Ok("Successfully deleted user!");
@@ -67,7 +67,7 @@ namespace API.Controllers
         }
 
         [HttpPut("UpdateProsumer")]
-        //[Authorize(Roles = "admin")]
+        [Authorize]
         public async Task<ActionResult> EditProsumer(string id, ProsumerEdit newValues)
         {
             if (!await prosumerService.EditProsumer(id, newValues)) return BadRequest("User could not be updated!");
