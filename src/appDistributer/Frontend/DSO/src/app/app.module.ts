@@ -30,6 +30,7 @@ import { UsersComponent } from './components/users/users.component';
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
 import { SearchPipe } from './components/search.pipe';
 import { SearchaddressPipe } from './components/searchaddress.pipe';
+import { EmployeesComponent } from './components/employees/employees.component';
 
 
 @NgModule({
@@ -45,6 +46,7 @@ import { SearchaddressPipe } from './components/searchaddress.pipe';
     UsersComponent,
     SearchPipe,
     SearchaddressPipe,
+    EmployeesComponent,
  
   ],
   imports: [
