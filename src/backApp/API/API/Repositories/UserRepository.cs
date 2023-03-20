@@ -103,5 +103,10 @@ namespace API.Repositories
             await _context.SaveChangesAsync();
         }
 
+        public async Task<List<Neigborhood>> GetNeigborhoods()
+        {
+            return await _context.Neigborhoods.ToListAsync();
+        }
+
     }
 }
