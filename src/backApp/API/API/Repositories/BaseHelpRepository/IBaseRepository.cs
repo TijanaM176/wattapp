@@ -1,4 +1,4 @@
-﻿namespace API.Repositories
+﻿namespace API.Repositories.BaseHelpRepository
 {
     public interface IBaseRepository<Something>
     {

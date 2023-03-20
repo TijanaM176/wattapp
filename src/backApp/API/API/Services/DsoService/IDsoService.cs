@@ -1,4 +1,6 @@
-﻿using API.Models.Users;
+﻿using API.Models.Paging;
+using API.Models.Users;
+using Microsoft.AspNetCore.Mvc;
 
 namespace API.Services.DsoService
 {
@@ -10,5 +12,6 @@ namespace API.Services.DsoService
         public Task<List<Dso>> GetAllDsos();
         public Task<List<string>> getEmails();
         public Task<bool> checkEmail(string email);
+        Task<PagedList<Dso>> GetDsoWorkers(DsoWorkerParameters dsoWorkersParameters);
     }
 }

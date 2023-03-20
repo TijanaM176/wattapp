@@ -1,20 +1,86 @@
 ﻿using API.Models.Paging;
 using API.Models.Users;
+using API.Repositories.BaseHelpRepository;
+using API.Repositories.DsoRepository;
+using API.Repositories.ProsumerRepository;
 using Microsoft.EntityFrameworkCore;
-using System.Runtime.InteropServices;
 
 namespace API.Repositories
 {
-    public class UserRepository: BaseRepository<Prosumer>, IUserRepository
+    public class UserRepository : IUserRepository
     {
         RegContext _context;
-
-        public UserRepository(RegContext context) : base(context)
+        private readonly IDsoRepository dsoRepository;
+        private readonly IProsumerRepository prosumerRepository;
+        public UserRepository(RegContext context, IProsumerRepository prosumerRepository, IDsoRepository dsoRepository) 
         {
             _context = context;
+            this.prosumerRepository = prosumerRepository;
+            this.dsoRepository = dsoRepository;
+        
+        }
+        public Task DeleteDsoWorker(string id)
+        {
+            return dsoRepository.DeleteDsoWorker(id); 
         }
 
-        public async Task<Role> getRole(string naziv)   //skracena
+        public Task DeleteProsumer(string id)
+        {
+           return prosumerRepository.DeleteProsumer(id);
+        }
+
+
+        public Task<List<Dso>> GetAllDsos()
+        {
+            return dsoRepository.GetAllDsos();
+        }
+
+        public Task<List<Prosumer>> GetAllProsumers()
+        {
+            return prosumerRepository.GetAllProsumers();
+        }
+
+        public Task<Dso> GetDSO(string usernameOrEmail)
+        {
+            return dsoRepository.GetDSO(usernameOrEmail);
+        }
+
+        public Task<Dso> GetDSOWithToken(string token)
+        {
+            return dsoRepository.GetDSOWithToken(token);
+        }
+
+        public Task<Dso> GetDsoWorkerById(string id)
+        {
+            return dsoRepository.GetDsoWorkerById(id);
+        }
+
+        public Task<PagedList<Dso>> GetDsoWorkers(DsoWorkerParameters dsoWorkersParameters)
+        {
+            return dsoRepository.GetDsoWorkers(dsoWorkersParameters);
+        }
+
+        public Task<Prosumer> GetProsumer(string usernameOrEmail)
+        {
+            return prosumerRepository.GetProsumer(usernameOrEmail);
+        }
+
+        public Task<Prosumer> GetProsumerById(string id)
+        {
+            return prosumerRepository.GetProsumerById(id);
+        }
+
+        public Task<PagedList<Prosumer>> GetProsumers(ProsumerParameters prosumerParameters)
+        {
+            return prosumerRepository.GetProsumers(prosumerParameters);
+        }
+
+        public Task<Prosumer> GetProsumerWithToken(string token)
+        {
+            return prosumerRepository.GetProsumerWithToken(token);
+        }
+
+        public async Task<Role> getRole(string naziv)   
         {
             return await _context.Roles.FirstOrDefaultAsync(x => x.RoleName.Equals(naziv));
         }
@@ -24,78 +90,15 @@ namespace API.Repositories
             var role = await _context.Roles.FirstOrDefaultAsync(x => x.Id == id);
             return role.RoleName;
         }
-        public async Task<List<Prosumer>> GetAllProsumers()
+
+        public Task InsertDSOWorker(Dso DSO_Worker)
         {
-            return await _context.Prosumers.ToListAsync();
-        }
-        public async Task<List<Dso>> GetAllDsos()
-        {
-            return await _context.Dsos.ToListAsync();
+            return dsoRepository.InsertDSOWorker(DSO_Worker);
         }
 
-        public async Task<Prosumer> GetProsumer(string usernameOrEmail)
+        public Task InsertProsumer(Prosumer prosumer)
         {
-            return await _context.Prosumers.FirstOrDefaultAsync(x => x.Username == usernameOrEmail || x.Email == usernameOrEmail);
-        }
-
-        public async Task<Dso> GetDSO(string usernameOrEmail)
-        {
-            return await _context.Dsos.FirstOrDefaultAsync(x => x.Username == usernameOrEmail || x.Email == usernameOrEmail);
-        }
-        public async Task<Prosumer> GetProsumerWithToken(string token)
-        {
-            return await _context.Prosumers.FirstOrDefaultAsync(x => x.Token == token);
-        }
-
-        public async Task<Dso> GetDSOWithToken(string token)
-        {
-            return await _context.Dsos.FirstOrDefaultAsync(x => x.Token == token);
-        }
-
-        public async Task InsertProsumer(Prosumer prosumer)
-        {
-            _context.Prosumers.Add(prosumer);
-            await _context.SaveChangesAsync(); // sacuvaj promene
-        }
-
-        public async Task InsertDSOWorker(Dso DSO_Worker)
-        {
-            _context.Dsos.Add(DSO_Worker);
-            await _context.SaveChangesAsync(); // sacuvaj promene
-        }
-        public async Task SaveToken(User user, string token)
-        {
-            user.Token = token;
-            await _context.SaveChangesAsync();
-        }
-
-        public async Task<Prosumer> GetProsumerById(string id)
-        {
-         
-
-            return await _context.Prosumers.FirstOrDefaultAsync(x => x.Id == id);
-        }
-
-        public Task<PagedList<Prosumer>> GetProsumers(ProsumerParameters prosumerParameters)
-        {
-            return Task.FromResult(PagedList<Prosumer>.GetPagedList(FindAll().OrderBy(i => i.DateCreate), prosumerParameters.PageNumber, prosumerParameters.PageSize));
-        }
-        
-        public async Task<Dso> GetDsoWorkerById(string id)
-        {
-            return await _context.Dsos.FirstOrDefaultAsync(x => x.Id == id);
-        }
-
-        public async Task DeleteDsoWorker(string id)
-        {
-            _context.Dsos.Remove(await GetDsoWorkerById(id));
-            await _context.SaveChangesAsync();
-        }
-
-        public async Task DeleteProsumer(string id)
-        {
-            _context.Prosumers.Remove(await GetProsumerById(id));
-            await _context.SaveChangesAsync();
+            return prosumerRepository.InsertProsumer(prosumer);
         }
 
         public async Task Save()
@@ -103,5 +106,20 @@ namespace API.Repositories
             await _context.SaveChangesAsync();
         }
 
+        public async Task SaveToken(User user, string token)
+        {
+            user.Token = token;
+            await _context.SaveChangesAsync();
+        }
+
+        public IQueryable<Dso> FindAll()
+        {
+            return dsoRepository.FindAll();
+        }
+
+        IQueryable<Prosumer> IBaseRepository<Prosumer>.FindAll()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

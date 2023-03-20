@@ -1,5 +1,7 @@
-﻿using API.Models.Users;
+﻿using API.Models.Paging;
+using API.Models.Users;
 using API.Services.DsoService;
+using API.Services.ProsumerService;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -61,6 +63,12 @@ namespace API.Controllers
             {
                 return BadRequest("No DSO Workers found!");
             }
+        }
+        [HttpGet("GetDsoWorkerPaging")]
+        public async Task<ActionResult<IEnumerable<Dso>>> getProsumersPaging([FromQuery] DsoWorkerParameters dsoWorkersParameters)
+        {
+
+            return await dsoService.GetDsoWorkers(dsoWorkersParameters);
         }
     }
 }

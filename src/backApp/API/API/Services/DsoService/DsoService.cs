@@ -1,7 +1,11 @@
 ﻿using System.Security.Cryptography;
 using System.Text;
+using API.Models.Paging;
 using API.Models.Users;
 using API.Repositories;
+using API.Repositories.DsoRepository;
+using API.Repositories.ProsumerRepository;
+using Microsoft.AspNetCore.Mvc;
 
 namespace API.Services.DsoService
 {
@@ -12,8 +16,11 @@ namespace API.Services.DsoService
         public DsoService(IUserRepository repository)
         {
             _repository = repository;
+           
         }
 
+
+       
         public async Task<bool> DeleteDsoWorker(string id)
         {
             try
@@ -105,6 +112,11 @@ namespace API.Services.DsoService
                     return false;
 
             return true;
+        }
+
+        public Task<PagedList<Dso>> GetDsoWorkers(DsoWorkerParameters dsoWorkersParameters) // paging
+        {
+            return  _repository.GetDsoWorkers(dsoWorkersParameters);
         }
     }
 }

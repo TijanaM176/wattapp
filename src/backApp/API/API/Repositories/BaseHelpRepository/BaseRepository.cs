@@ -1,4 +1,4 @@
-﻿namespace API.Repositories
+﻿namespace API.Repositories.BaseHelpRepository
 {
     public class BaseRepository<Something> : IBaseRepository<Something> where Something : class
     {
@@ -13,6 +13,6 @@
             return _context.Set<Something>().AsNoTracking();
         }
 
-        
+
     }
 }
