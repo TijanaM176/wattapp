@@ -124,5 +124,13 @@ namespace API.Services.ProsumerService
 
             return neighborhoods;
         }
+
+        public async Task<List<Prosumer>> GetProsumersByNeighborhoodId(string id)
+        {
+            var prosumers = await _repository.GetProsumersByNeighborhoodId(id);
+            if (prosumers == null) throw new ArgumentException("No prosumers in that neighborhood!");
+
+            return prosumers;
+        }
     }
 }

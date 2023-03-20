@@ -86,5 +86,19 @@ namespace API.Controllers
                 return BadRequest("No neighborhoods found!");
             }
         }
+
+        [HttpGet("GetProsumersByNeighborhoodId")]
+        public async Task<IActionResult> GetProsumersByNeighborhoodId(string id)
+        {
+            try
+            {
+                return Ok(await prosumerService.GetProsumersByNeighborhoodId(id));
+            }
+            catch (Exception)
+            {
+                return BadRequest("No users found in that neighborhood!");
+            }
+        }
+
     }
 }

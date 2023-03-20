@@ -14,5 +14,6 @@ namespace API.Services.ProsumerService
         public Task<List<string>> getEmails();
         public Task<bool> checkEmail(string email);
         public Task<List<Neigborhood>> GetNeigborhoods();
+        public Task<List<Prosumer>> GetProsumersByNeighborhoodId(string id);
     }
 }
