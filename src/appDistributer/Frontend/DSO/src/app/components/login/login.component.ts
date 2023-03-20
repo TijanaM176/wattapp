@@ -22,6 +22,7 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.cookie.deleteAll();
     this.loginForm = this.fb.group({
       usernameOrEmail: ['',Validators.required],
       password: ['',Validators.required]

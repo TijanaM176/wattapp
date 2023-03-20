@@ -39,6 +39,8 @@ import { ConsumptionFilterComponent } from './components/Filters/consumptionFilt
 import { ProductionFilterComponent } from './components/Filters/productionFilter/productionFilter.component';
 import { NumberOfDevicesComponent } from './components/Filters/numberOfDevices/numberOfDevices.component';
 import { EmployeesComponent } from './components/employees/employees.component';
+import { MapComponent } from './components/map/map.component';
+import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 
 @NgModule({
   declarations: [
@@ -59,6 +61,7 @@ import { EmployeesComponent } from './components/employees/employees.component';
     ProductionFilterComponent,
     NumberOfDevicesComponent,
     EmployeesComponent,
+    MapComponent,
   ],
   imports: [
     Ng5SliderModule,
@@ -79,6 +82,7 @@ import { EmployeesComponent } from './components/employees/employees.component';
     SidebarModule,
     Ng2SearchPipeModule,
     NgxSliderModule,
+    LeafletModule,
   ],
   providers: [
     CookieService,

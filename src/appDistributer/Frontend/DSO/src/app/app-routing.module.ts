@@ -10,6 +10,7 @@ import { SignupComponent } from './components/signup/signup.component';
 import { HomeComponent } from './components/Home/Home.component';
 import { UsersComponent } from './components/users/users.component';
 import { EmployeesComponent } from './components/employees/employees.component';
+import { MapComponent } from './components/map/map.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -46,6 +47,10 @@ const routes: Routes = [
   {
     path: 'employees',
     component: EmployeesComponent,
+  },
+  {
+    path: 'map',
+    component: MapComponent,
   },
 ];
 @NgModule({
