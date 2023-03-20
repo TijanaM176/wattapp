@@ -12,6 +12,8 @@ import { LoginComponent } from './components/login/login.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { TokenInterceptor } from './interceptors/token.interceptor';
 import { DropDownListModule } from '@syncfusion/ej2-angular-dropdowns';
+import { NgxSliderModule } from '@angular-slider/ngx-slider';
+import { Ng5SliderModule } from 'ng5-slider';
 
 import { SignupComponent } from './components/signup/signup.component';
 import { SignupWorkerComponent } from './components/signup-worker/signup-worker.component';
@@ -33,6 +35,9 @@ import { SearchPipe } from './components/search.pipe';
 import { SearchaddressPipe } from './components/searchaddress.pipe';
 import { NeighborhoodComponent } from './components/Filters/neighborhood/neighborhood.component';
 import { MininavbarComponent } from './components/mininavbar/mininavbar.component';
+import { ConsumptionFilterComponent } from './components/Filters/consumptionFilter/consumptionFilter.component';
+import { ProductionFilterComponent } from './components/Filters/productionFilter/productionFilter.component';
+import { NumberOfDevicesComponent } from './components/Filters/numberOfDevices/numberOfDevices.component';
 
 @NgModule({
   declarations: [
@@ -49,8 +54,12 @@ import { MininavbarComponent } from './components/mininavbar/mininavbar.componen
     SearchPipe,
     SearchaddressPipe,
     NeighborhoodComponent,
+    ConsumptionFilterComponent,
+    ProductionFilterComponent,
+    NumberOfDevicesComponent,
   ],
   imports: [
+    Ng5SliderModule,
     DropDownListModule,
     BrowserAnimationsModule,
     NavbarModule,
@@ -67,6 +76,7 @@ import { MininavbarComponent } from './components/mininavbar/mininavbar.componen
     BrowserModule,
     SidebarModule,
     Ng2SearchPipeModule,
+    NgxSliderModule,
   ],
   providers: [
     CookieService,

@@ -46,38 +46,6 @@
           });
       });
     </script>
-<<<<<<< Updated upstream
-    </head>
-    <body>
-       
-       <app-navBar></app-navBar>
-    <div class="container-xl">
-        
-        <div class="table-responsive">
-            <div class="table-wrapper">			
-                <div class="table-title">
-                    <div class="row">
-                        
-                        <div class="col-sm-2">
-                            <h2 class="text-center" >User <b>Overview</b></h2>
-                        </div>
-                        <div class="col-sm-7">
-                            <div class="search-box">
-                                <div class="input-group" style="width: 240px;">
-                                    <span class="input-group-addon"><i class="material-icons" style="margin-left:2%;"></i></span>
-                                    <input type="text" [(ngModel)]="searchName"  style="background-color: #F8F8FA;border-radius: 10px;" class="form-control" placeholder="Search By Username">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-sm-3">
-                            <div class="search-box">
-                                <div class="input-group" style="width: 240px;">
-                                    <span class="input-group-addon"><i class="material-icons" style="margin-left:2%;"></i></span>
-                                    <input type="text" [(ngModel)]="searchAddress" style="background-color: #F8F8FA;border-radius: 10px;" class="form-control" placeholder="Search By Address">
-                                </div>
-                            </div>
-                        </div>
-=======
   </head>
   <body>
     <app-navBar></app-navBar>
@@ -109,7 +77,6 @@
                           placeholder="Search By Username"
                         />
                       </div>
->>>>>>> Stashed changes
                     </div>
                   </div>
                   <div class="col-sm-3">
@@ -131,104 +98,62 @@
                     </div>
                   </div>
                 </div>
-<<<<<<< Updated upstream
                 <table class="table table-bordered">
-                    <thead>
-                        <tr>
-                            <th>Username<i class="fa fa-sort"></i></th>
-                            <th>Address</th>
-                            
-                            <th>Consumption <i class="fa fa-sort"></i></th>
-                            <th>Production <i class="fa fa-sort"></i></th>
-                            <th>Number of devices <i class="fa fa-sort"></i></th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr *ngFor="let item of Items | search:searchName | searchaddress:searchAddress">
-                            <td>{{item.Username}}</td>
-                            <td>{{item.Address}}</td>
-                           
-                            <td>{{item.Consumption}}</td>
-                            <td>{{item.Production}}</td>
-                            <td>{{item.NumberOfDevices}}</td>
-                            <td>
-                                <button class="button-info"><b>info</b></button>
-                              
-                            </td>
-                        </tr>
-                          
-                    </tbody>
+                  <thead>
+                    <tr>
+                      <th>Username<i class="fa fa-sort"></i></th>
+                      <th>Address</th>
+
+                      <th>Consumption <i class="fa fa-sort"></i></th>
+                      <th>Production <i class="fa fa-sort"></i></th>
+                      <th>Number of devices <i class="fa fa-sort"></i></th>
+                      <th></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr
+                      *ngFor="
+                        let item of Items
+                          | search : searchName
+                          | searchaddress : searchAddress
+                      "
+                    >
+                      <td>{{ item.Username }}</td>
+                      <td>{{ item.Address }}</td>
+
+                      <td>{{ item.Consumption }}</td>
+                      <td>{{ item.Production }}</td>
+                      <td>{{ item.NumberOfDevices }}</td>
+                      <td>
+                        <button class="button-info"><b>info</b></button>
+                      </td>
+                    </tr>
+                  </tbody>
                 </table>
                 <div class="clearfix">
-                    
-                    <ul class="pagination">
-                        <li class="page-item disabled"><a href="#">Previous</a></li>
-                        <li class="page-item"><a href="#" class="page-link">1</a></li>
-                        <li class="page-item"><a href="#" class="page-link">2</a></li>
-                        <li class="page-item active"><a href="#" class="page-link">3</a></li>
-                        <li class="page-item"><a href="#" class="page-link">4</a></li>
-                        <li class="page-item"><a href="#" class="page-link">5</a></li>
-                        <li class="page-item"><a href="#" class="page-link">Next</a></li>
-                    </ul>
+                  <ul class="pagination">
+                    <li class="page-item disabled"><a href="#">Previous</a></li>
+                    <li class="page-item">
+                      <a href="#" class="page-link">1</a>
+                    </li>
+                    <li class="page-item">
+                      <a href="#" class="page-link">2</a>
+                    </li>
+                    <li class="page-item active">
+                      <a href="#" class="page-link">3</a>
+                    </li>
+                    <li class="page-item">
+                      <a href="#" class="page-link">4</a>
+                    </li>
+                    <li class="page-item">
+                      <a href="#" class="page-link">5</a>
+                    </li>
+                    <li class="page-item">
+                      <a href="#" class="page-link">Next</a>
+                    </li>
+                  </ul>
                 </div>
-=======
               </div>
-              <table class="table table-bordered">
-                <thead>
-                  <tr>
-                    <th></th>
-                    <th>Username<i class="fa fa-sort"></i></th>
-                    <th>Address</th>
-
-                    <th>Consumption <i class="fa fa-sort"></i></th>
-                    <th>Production <i class="fa fa-sort"></i></th>
-                    <th>Number of devices <i class="fa fa-sort"></i></th>
-                    <th></th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr
-                    *ngFor="
-                      let item of service.prosumers
-                        | search : searchName
-                        | searchaddress : searchAddress
-                    "
-                  >
-                    <td>
-                      <img
-                        src="assets/images/user.png"
-                        style="width: 30px; height: 30px"
-                      />
-                    </td>
-                    <td>{{ item.username }}</td>
-                    <td>{{ item.address }}</td>
-
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td>
-                      <button class="button-info"><b>info</b></button>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-              <div class="clearfix">
-                <ul class="pagination">
-                  <li class="page-item disabled"><a href="#">Previous</a></li>
-                  <li class="page-item"><a href="#" class="page-link">1</a></li>
-                  <li class="page-item"><a href="#" class="page-link">2</a></li>
-                  <li class="page-item active">
-                    <a href="#" class="page-link">3</a>
-                  </li>
-                  <li class="page-item"><a href="#" class="page-link">4</a></li>
-                  <li class="page-item"><a href="#" class="page-link">5</a></li>
-                  <li class="page-item">
-                    <a href="#" class="page-link">Next</a>
-                  </li>
-                </ul>
-              </div>
->>>>>>> Stashed changes
             </div>
           </div>
         </div>
