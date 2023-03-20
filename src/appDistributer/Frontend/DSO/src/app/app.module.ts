@@ -38,6 +38,7 @@ import { MininavbarComponent } from './components/mininavbar/mininavbar.componen
 import { ConsumptionFilterComponent } from './components/Filters/consumptionFilter/consumptionFilter.component';
 import { ProductionFilterComponent } from './components/Filters/productionFilter/productionFilter.component';
 import { NumberOfDevicesComponent } from './components/Filters/numberOfDevices/numberOfDevices.component';
+import { EmployeesComponent } from './components/employees/employees.component';
 
 @NgModule({
   declarations: [
@@ -57,6 +58,7 @@ import { NumberOfDevicesComponent } from './components/Filters/numberOfDevices/n
     ConsumptionFilterComponent,
     ProductionFilterComponent,
     NumberOfDevicesComponent,
+    EmployeesComponent,
   ],
   imports: [
     Ng5SliderModule,

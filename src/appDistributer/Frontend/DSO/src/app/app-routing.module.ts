@@ -9,6 +9,7 @@ import { SignupWorkerComponent } from './components/signup-worker/signup-worker.
 import { SignupComponent } from './components/signup/signup.component';
 import { HomeComponent } from './components/Home/Home.component';
 import { UsersComponent } from './components/users/users.component';
+import { EmployeesComponent } from './components/employees/employees.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -41,6 +42,10 @@ const routes: Routes = [
   {
     path: 'users/mapa',
     component: UsersComponent,
+  },
+  {
+    path: 'employees',
+    component: EmployeesComponent,
   },
 ];
 @NgModule({
