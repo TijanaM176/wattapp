@@ -1,7 +1,6 @@
-import { Component, OnInit, Query } from '@angular/core';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
-import { HttpClient } from '@angular/common/http';
+import { Component, OnInit } from '@angular/core';
+import { Neighborhood } from 'src/app/models/neighborhood';
+import { UsersServiceService } from 'src/app/services/users-service.service';
 
 @Component({
   selector: 'app-neighborhood',
@@ -9,21 +8,13 @@ import { HttpClient } from '@angular/common/http';
   styleUrls: ['./neighborhood.component.css'],
 })
 export class NeighborhoodComponent implements OnInit {
-  public data: Observable<any>;
-  constructor(private http: HttpClient) {
-    this.data = this.http
-      .get<{ [key: string]: object }[]>(
-        'https://services.odata.org/V4/Northwind/Northwind.svc/Customers'
-      )
-      .pipe(
-        map((results: { [key: string]: any }) => {
-          return results['value'];
-        })
-      );
+  Neighborhoods: Neighborhood[] = [];
+
+  constructor(private userService: UsersServiceService) {}
+
+  ngOnInit() {
+    this.userService.getAllNeighborhoods().subscribe((response) => {
+      this.Neighborhoods = response;
+    });
   }
-  public remoteFields: Object = { value: 'CustomerID' };
-
-  public remoteWaterMark: string = 'Select a customer';
-
-  ngOnInit() {}
 }

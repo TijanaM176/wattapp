@@ -1,9 +1,12 @@
-<ejs-dropdownlist
-  width="80%"
-  id="customers2"
-  formControlName="skillname"
-  name="skillname"
-  [dataSource]="data | async"
-  [fields]="remoteFields"
-  [placeholder]="remoteWaterMark"
-></ejs-dropdownlist>
+<label style="padding-left: 8%"> Neighborhood </label>
+<div class="col-sm-12">
+  <select name="Neighborhood" class="form-control">
+    <option>--Select--</option>
+    <option
+      [value]="neighborhood.Id"
+      *ngFor="let neighborhood of Neighborhoods"
+    >
+      {{ neighborhood.Name }}
+    </option>
+  </select>
+</div>

@@ -11,7 +11,6 @@ import { AppComponent } from './app.component';
 import { LoginComponent } from './components/login/login.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { TokenInterceptor } from './interceptors/token.interceptor';
-import { DropDownListModule } from '@syncfusion/ej2-angular-dropdowns';
 import { NgxSliderModule } from '@angular-slider/ngx-slider';
 import { Ng5SliderModule } from 'ng5-slider';
 
@@ -65,7 +64,6 @@ import { LeafletModule } from '@asymmetrik/ngx-leaflet';
   ],
   imports: [
     Ng5SliderModule,
-    DropDownListModule,
     BrowserAnimationsModule,
     NavbarModule,
     BrowserModule,
