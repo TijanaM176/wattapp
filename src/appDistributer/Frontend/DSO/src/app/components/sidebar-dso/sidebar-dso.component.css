@@ -1,0 +1,54 @@
+.veliki{
+    float: left;
+    background-color: #5875A1;
+}
+.sidebar {
+	background-color: #5875A1;
+	padding: 10px;
+	width: 230px;
+    height: 800px;
+	
+    font-family: "Roboto", cursive;
+    text-align:center;
+    color: white;
+}
+
+.sidebar h3 {
+	margin-top: 200px;
+}
+#dugme{
+   background-color: #5875A1;
+   color: white;
+   margin-left: 0px;
+
+}
+.sidebar ul {
+	list-style-type: none;
+	margin: 0;
+	padding: 3px;
+  
+   
+    border-radius: 3%;
+    
+    
+}
+
+.sidebar li a {
+	display: block;
+	color: #000;
+	padding: 8px 16px;
+	text-decoration: none;
+    color: white; border-bottom: 3px solid #5875A1;
+    
+    
+}
+
+.sidebar li a:hover {
+	background-color: #555;
+	color: #fff;
+}
+.opcije{
+    background-color:#7792ba;
+    height: 63%;
+    border-radius: 3%;
+}
