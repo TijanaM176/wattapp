@@ -34,7 +34,7 @@ export class MapComponent implements AfterViewInit, OnInit {
   }
 
   private initMap(){
-    this.map = L.map('map').setView([44.012794, 20.911423],17);
+    this.map = L.map('map').setView([44.012794, 20.911423],12);
     const tiles = new L.TileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
       } as L.TileLayerOptions)
@@ -60,7 +60,7 @@ export class MapComponent implements AfterViewInit, OnInit {
       navigator.geolocation.getCurrentPosition((position) => {
         this.cookie.set('lat',position.coords.latitude.toString());
         this.cookie.set('long',position.coords.longitude.toString());
-        this.map.setView([position.coords.latitude, position.coords.longitude], 17);
+        this.map.setView([position.coords.latitude, position.coords.longitude], 12);
         if(this.currentLocationIsSet)
         {
           this.map.removeLayer(this.currentLocation);
@@ -92,7 +92,7 @@ export class MapComponent implements AfterViewInit, OnInit {
         this.cookie.set('lat',e.latitude);
         this.cookie.set('long',e.longitude);
         var acc = Number(e.accuracy).toFixed(2);
-        this.map.setView([Number(this.cookie.get('lat')), Number(this.cookie.get('long'))],17);
+        this.map.setView([Number(this.cookie.get('lat')), Number(this.cookie.get('long'))],12);
         this.currentLocation = L.marker([e.latitude,e.longitude],{icon: defaultIcon}).bindPopup('Your are here.<br>(within '+acc+' meters from this point)');
         this.currentLocation.addTo(this.map);
         this.currentLocationIsSet=true;
@@ -111,7 +111,7 @@ export class MapComponent implements AfterViewInit, OnInit {
         const button = L.DomUtil.create('button');
         button.innerHTML = '<span class="fa fa-crosshairs p-1 pt-2 pb-2"></span>';
         button.addEventListener('click', () => {
-          this.map.setView([Number(this.cookie.get('lat')), Number(this.cookie.get('long'))],17);
+          this.map.setView([Number(this.cookie.get('lat')), Number(this.cookie.get('long'))],16);
         });
         return button;
       }
