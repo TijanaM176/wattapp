@@ -31,9 +31,17 @@ const routes: Routes = [
     component: HomeComponent,
   },
   {
-    path:'users',
-    component:UsersComponent,
-  }
+    path: 'users',
+    component: UsersComponent,
+  },
+  {
+    path: 'users/tabela',
+    component: UsersComponent,
+  },
+  {
+    path: 'users/mapa',
+    component: UsersComponent,
+  },
 ];
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

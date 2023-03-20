@@ -3,5 +3,17 @@
   style="display: flex; height: 89.1vh; overflow: scroll initial"
 >
   <CDBSidebar textColor="#ffffff" backgroundColor="#5875A1" style="margin: 0">
+    <CDBSidebarHeader>Filter</CDBSidebarHeader>
+    <CDBSidebarContent style="justify-content: center; text-align: center"
+      >Nighborhood<app-neighborhood></app-neighborhood><br />
+      Power Consumption
+      <app-consumptionFilter></app-consumptionFilter>
+      <br /><br /><br />
+      Power Production
+      <app-productionFilter></app-productionFilter>
+      <br /><br /><br />
+      Number of Devces
+      <app-numberOfDevices></app-numberOfDevices>
+    </CDBSidebarContent>
   </CDBSidebar>
 </div>
