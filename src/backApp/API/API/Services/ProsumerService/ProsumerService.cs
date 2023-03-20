@@ -117,5 +117,20 @@ namespace API.Services.ProsumerService
 
             return true;
         }
+        public async Task<List<Neigborhood>> GetNeigborhoods()
+        {
+            var neighborhoods = await _repository.GetNeigborhoods();
+            if (neighborhoods == null) throw new ArgumentException("No neighborhoods in database!");
+
+            return neighborhoods;
+        }
+
+        public async Task<List<Prosumer>> GetProsumersByNeighborhoodId(string id)
+        {
+            var prosumers = await _repository.GetProsumersByNeighborhoodId(id);
+            if (prosumers == null) throw new ArgumentException("No prosumers in that neighborhood!");
+
+            return prosumers;
+        }
     }
 }

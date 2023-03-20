@@ -23,5 +23,7 @@ namespace API.Repositories
         public Task DeleteDsoWorker(string id);
         public Task DeleteProsumer(string id);
         public Task Save();
+        public Task<List<Neigborhood>> GetNeigborhoods();
+        public Task<List<Prosumer>> GetProsumersByNeighborhoodId(string id);
     }
 }

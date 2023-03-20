@@ -73,5 +73,32 @@ namespace API.Controllers
             if (!await prosumerService.EditProsumer(id, newValues)) return BadRequest("User could not be updated!");
             return Ok("User updated successfully!");
         }
+
+        [HttpGet("GetAllNeighborhoods")]
+        public async Task<IActionResult> GetAllNeighborhoods()
+        {
+            try
+            {
+                return Ok(await prosumerService.GetNeigborhoods());
+            }
+            catch (Exception)
+            {
+                return BadRequest("No neighborhoods found!");
+            }
+        }
+
+        [HttpGet("GetProsumersByNeighborhoodId")]
+        public async Task<IActionResult> GetProsumersByNeighborhoodId(string id)
+        {
+            try
+            {
+                return Ok(await prosumerService.GetProsumersByNeighborhoodId(id));
+            }
+            catch (Exception)
+            {
+                return BadRequest("No users found in that neighborhood!");
+            }
+        }
+
     }
 }

@@ -103,5 +103,22 @@ namespace API.Repositories
             await _context.SaveChangesAsync();
         }
 
+        public async Task<List<Neigborhood>> GetNeigborhoods()
+        {
+            return await _context.Neigborhoods.ToListAsync();
+        }
+
+        public async Task<List<Prosumer>> GetProsumersByNeighborhoodId(string id)
+        {
+            var all = await _context.Prosumers.ToListAsync();
+            List<Prosumer> prosumers = new List<Prosumer>();
+            foreach (var item in all)
+            {
+                if (item.NeigborhoodId.Equals(id)) { prosumers.Add(item);}
+            }
+
+            return prosumers;
+        }
+
     }
 }
