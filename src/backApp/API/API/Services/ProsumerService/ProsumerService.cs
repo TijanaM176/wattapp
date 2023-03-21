@@ -3,6 +3,8 @@ using System.Text;
 using API.Models.Paging;
 using API.Models.Users;
 using API.Repositories;
+using API.Repositories.DsoRepository;
+using API.Repositories.ProsumerRepository;
 
 namespace API.Services.ProsumerService
 {
@@ -10,9 +12,11 @@ namespace API.Services.ProsumerService
     {
 
         private readonly IUserRepository _repository;
+    
         public ProsumerService(IUserRepository repository)
         {
             _repository = repository;
+          
         }
 
         public Task<PagedList<Prosumer>> GetProsumers(ProsumerParameters prosumerParameters) // to su sa parametrima page i size 

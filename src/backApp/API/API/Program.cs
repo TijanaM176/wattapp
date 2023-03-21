@@ -9,6 +9,8 @@ using API.Repositories;
 using API.Services.Auth;
 using API.Services.ProsumerService;
 using API.Services.DsoService;
+using API.Repositories.DsoRepository;
+using API.Repositories.ProsumerRepository;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -22,6 +24,8 @@ builder.Services.AddSwaggerGen();
 //add dbContext
 builder.Services.AddDbContext<RegContext>();
 
+builder.Services.AddScoped<IDsoRepository, DsoRepository>();
+builder.Services.AddScoped<IProsumerRepository, ProsumerRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IProsumerService, ProsumerService>();

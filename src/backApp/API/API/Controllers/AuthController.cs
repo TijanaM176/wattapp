@@ -158,6 +158,7 @@ namespace API.Controllers
         /*
         //[Authorize(Roles = "Dso")]
         /*[HttpGet("UsersProsumer")]
+        [HttpGet("UsersProsumer")]
         public async Task<IActionResult> ListRegisterProsumer()
         {
             try
