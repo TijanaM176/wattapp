@@ -10,7 +10,7 @@ export class UsersServiceService {
 
   
   constructor(private http : HttpClient) { }
-  private baseUrl: string = "https://localhost:7156/api/Auth/UsersProsumer";
+  private baseUrl: string = "https://localhost:7156/api/Prosumer/GetAllProsumers";
   prosumers!:Prosumer[];
   getAllData():Observable<any[]>{
     return this.http.get<any>(`${this.baseUrl}`);

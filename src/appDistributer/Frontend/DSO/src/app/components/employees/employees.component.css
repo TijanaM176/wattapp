@@ -8,14 +8,16 @@ body {
     width:100%;
     
 }
+
 .container-xl{
     width:100%;
     /*width: 100%;*/
     height: 90vh;
 }
 .table-responsive {
-    margin: 0px 0;
+    margin-top:0%;
 }
+
 .table-wrapper {
     /*min-width: 1000px;*/
     background: #fff;
@@ -35,6 +37,7 @@ body {
     margin: 5px 0 0;
     font-size: 24px;
 }
+
 .table-title .btn {
     color: #566787;
     float: right;
@@ -127,6 +130,10 @@ table.table th,tr,td{
 }
 .delete .material-icons{
     color:red;
+    cursor: pointer;
+}
+.material-icons{
+    cursor: pointer;
 }
 
 .status {
@@ -136,18 +143,7 @@ table.table th,tr,td{
     vertical-align: middle;
     line-height: 10px;
 }
-.text-success {
-    color: #10c469;
-}
-.text-info {
-    color: #62c9e8;
-}
-.text-warning {
-    color: #FFC107;
-}
-.text-danger {
-    color: #ff5b5b;
-}
+
 .pagination {
     justify-content: center;
     margin: 0 0 5px;

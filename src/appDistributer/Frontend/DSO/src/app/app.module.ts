@@ -32,6 +32,7 @@ import { SearchPipe } from './components/search.pipe';
 import { SearchaddressPipe } from './components/searchaddress.pipe';
 import { EmployeesComponent } from './components/employees/employees.component';
 import { EmployeedetailsComponent } from './components/employeedetails/employeedetails.component';
+import { SearchemployeenamePipe } from './components/searchemployeename.pipe';
 
 
 @NgModule({
@@ -49,6 +50,7 @@ import { EmployeedetailsComponent } from './components/employeedetails/employeed
     SearchaddressPipe,
     EmployeesComponent,
     EmployeedetailsComponent,
+    SearchemployeenamePipe,
   ],
   imports: [
     BrowserAnimationsModule,

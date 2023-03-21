@@ -12,15 +12,15 @@
   
     </head>
     <body>
-        
+      <app-navBar></app-navBar>
     <div style="display: flex">
-      
+     
       
     <div class="container-xl">
         <div class="table-responsive">
             <div class="table-wrapper">
                 <div class="table-title">
-                    <div class="row">
+                    <div class="row col-sm-12">
                         <div class="col-sm-9">
                             <h2>Employee <b>Overview</b></h2>
                         </div>
@@ -28,14 +28,14 @@
                             <div class="search-box">
                                 <div class="input-group" style="width: 240px;">
                                     <span class="input-group-addon"><i class="material-icons" style="margin-top:30%;margin-right: 10%;"></i></span>
-                                    <input type="text"  style="background-color: #F8F8FA;border-radius: 10px;" class="form-control" placeholder="Search By Username">
+                                    <input type="text" [(ngModel)]="searchName"  style="background-color: #F8F8FA;border-radius: 10px;" class="form-control" placeholder="Search By Username">
                                 </div>
                             </div>
                         </div>
                     </div>
                     
                 </div>
-                <table class="table">
+                <table class="table col-sm-12">
                     <thead>
                         <tr>
                             <th></th>
@@ -47,15 +47,15 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr *ngFor="let item of employees" key={item.id}>
+                        <tr *ngFor="let item of employees | searchemployeename:searchName">
                             <td><img src="assets/images/user.png" style="width:30px;height:30px;"></td>
                             <td>{{item.username}}</td>
                             <td>{{item.region}}</td>                        
                             <td>{{item.role}}</td>
                             <td>
                                 
-                                <a href="#" class="settings" title="" data-toggle="tooltip" data-original-title="Settings"><i class="material-icons" >info</i></a><button (click)="Details(item.id)">Info</button>
-                                <a href="#" class="delete" title="" data-toggle="tooltip" data-original-title="Delete"><i class="material-icons"  ></i></a><button (click)="onDelete(item.id)">Delete</button>
+                               <a class="link" (click)="Details(item.id)"><i class="material-icons">info</i></a>
+                                <a class="delete" (click)="onDelete(item.id)"><i class="material-icons">delete</i></a>
                             </td>
                         </tr>
                        
@@ -68,7 +68,7 @@
                         <li class="page-item disabled"><a href="#">Previous</a></li>
                         <li class="page-item"><a href="#" class="page-link">1</a></li>
                         <li class="page-item"><a href="#" class="page-link">2</a></li>
-                        <li class="page-item active"><a href="#" class="page-link">3</a></li>
+                        <li class="page-item"><a href="#" class="page-link">3</a></li>
                         <li class="page-item"><a href="#" class="page-link">4</a></li>
                         <li class="page-item"><a href="#" class="page-link">5</a></li>
                         <li class="page-item"><a href="#" class="page-link">Next</a></li>
