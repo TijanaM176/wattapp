@@ -12,9 +12,6 @@ export class UsersServiceService {
   private baseUrl: string =
     'https://localhost:7156/api/Prosumer/GetAllProsumers';
   prosumers!: Prosumer[];
-  getAllData(): Observable<any[]> {
-    return this.http.get<any>(`${this.baseUrl}`);
-  }
   refreshList() {
     lastValueFrom(this.http.get(this.baseUrl)).then(
       (res) => (this.prosumers = res as Prosumer[])
@@ -29,15 +26,8 @@ export class UsersServiceService {
 
   GetProsumersByNeighborhoodId(id: string): Observable<Prosumer[]> {
     return this.http.get<Prosumer[]>(
-      'https://localhost:7156/api/Prosumer/GetProsumersByNeighborhoodId'
+      'https://localhost:7156/api/Prosumer/GetProsumersByNeighborhoodId?id=' +
+        id
     );
-  }
-
-  refreshLis2() {
-    lastValueFrom(
-      this.http.get(
-        'https://localhost:7156/api/Prosumer/GetProsumersByNeighborhoodId'
-      )
-    ).then((res) => (this.prosumers = res as Prosumer[]));
   }
 }
