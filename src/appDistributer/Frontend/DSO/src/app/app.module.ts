@@ -42,6 +42,8 @@ import { MapComponent } from './components/map/map.component';
 import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 import { StranaUsersComponent } from './components/stranaUsers/stranaUsers.component';
 import { MatSliderModule } from '@angular/material/slider';
+import { EmployeedetailsComponent } from './components/employeedetails/employeedetails.component';
+import { SearchemployeenamePipe } from './components/searchemployeename.pipe';
 
 @NgModule({
   declarations: [
@@ -64,9 +66,9 @@ import { MatSliderModule } from '@angular/material/slider';
     NumberOfDevicesComponent,
     EmployeesComponent,
     MapComponent,
+    SearchemployeenamePipe,
   ],
   imports: [
-    Ng5SliderModule,
     MatSliderModule,
     BrowserAnimationsModule,
     NavbarModule,

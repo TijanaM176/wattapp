@@ -12,6 +12,7 @@ import { UsersComponent } from './components/users/users.component';
 import { EmployeesComponent } from './components/employees/employees.component';
 import { MapComponent } from './components/map/map.component';
 import { StranaUsersComponent } from './components/stranaUsers/stranaUsers.component';
+import { EmployeedetailsComponent } from './components/employeedetails/employeedetails.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -38,6 +39,10 @@ const routes: Routes = [
     component: UsersComponent,
   },
   {
+    path: 'users/tabela',
+    component: UsersComponent,
+  },
+  {
     path: 'users/mapa',
     component: UsersComponent,
   },
@@ -48,6 +53,10 @@ const routes: Routes = [
   {
     path: 'map',
     component: MapComponent,
+  },
+  {
+    path: 'employeedetails',
+    component: EmployeedetailsComponent,
   },
 ];
 @NgModule({

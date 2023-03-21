@@ -32,6 +32,7 @@
     "ng5-slider": "^1.2.6",
     "ngx-cookie-service": "^15.0.0",
     "ngx-leaflet": "^0.0.16",
+    "ngx-toastr": "^16.1.0",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.12.0"
