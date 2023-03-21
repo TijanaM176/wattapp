@@ -40,10 +40,13 @@ import { NumberOfDevicesComponent } from './components/Filters/numberOfDevices/n
 import { EmployeesComponent } from './components/employees/employees.component';
 import { MapComponent } from './components/map/map.component';
 import { LeafletModule } from '@asymmetrik/ngx-leaflet';
+import { StranaUsersComponent } from './components/stranaUsers/stranaUsers.component';
+import { MatSliderModule } from '@angular/material/slider';
 
 @NgModule({
   declarations: [
     AppComponent,
+    StranaUsersComponent,
     MininavbarComponent,
     LoginComponent,
     DashboardComponent,
@@ -64,6 +67,7 @@ import { LeafletModule } from '@asymmetrik/ngx-leaflet';
   ],
   imports: [
     Ng5SliderModule,
+    MatSliderModule,
     BrowserAnimationsModule,
     NavbarModule,
     BrowserModule,

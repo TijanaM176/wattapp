@@ -7,22 +7,12 @@ import { Options, LabelType } from '@angular-slider/ngx-slider';
   styleUrls: ['./productionFilter.component.css'],
 })
 export class ProductionFilterComponent implements OnInit {
-  value: number = 0;
-  highValue: number = 200;
-  options: Options = {
-    floor: 0,
-    ceil: 450,
-    translate: (value: number, label: LabelType): string => {
-      switch (label) {
-        case LabelType.Low:
-          return value + 'kwh';
-        case LabelType.High:
-          return value + 'kwh';
-        default:
-          return value + 'kwh';
-      }
-    },
-  };
+  disabled = false;
+  max = 100;
+  min = 0;
+  showTicks = false;
+  step = 1;
+  thumbLabel = true;
   constructor() {}
 
   ngOnInit() {}

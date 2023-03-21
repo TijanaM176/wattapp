@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { Neighborhood } from 'src/app/models/neighborhood';
-import { Prosumer } from 'src/app/models/userstable';
 import { UsersServiceService } from 'src/app/services/users-service.service';
 
 @Component({
