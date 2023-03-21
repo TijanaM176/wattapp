@@ -11,6 +11,9 @@ using API.Services.ProsumerService;
 using API.Services.DsoService;
 using API.Repositories.DsoRepository;
 using API.Repositories.ProsumerRepository;
+using API.Models.Devices;
+using API.Services.Devices;
+using Microsoft.Extensions.Options;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -23,6 +26,14 @@ builder.Services.AddSwaggerGen();
 
 //add dbContext
 builder.Services.AddDbContext<RegContext>();
+builder.Services.Configure<DevicesSettings>(builder.Configuration.GetSection("devicesDatabase"));
+
+// register DevicesContext
+builder.Services.AddSingleton(sp =>
+{
+    var options = sp.GetService<IOptions<DevicesSettings>>();
+    return new DevicesContext(options);
+});
 
 builder.Services.AddScoped<IDsoRepository, DsoRepository>();
 builder.Services.AddScoped<IProsumerRepository, ProsumerRepository>();
@@ -30,6 +41,9 @@ builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IProsumerService, ProsumerService>();
 builder.Services.AddScoped<IDsoService, DsoService>();
+builder.Services.AddScoped<IDeviceRepository, DeviceRepository>();
+builder.Services.AddScoped<IDevicesService, DevicesService>();
+
 
 
 builder.Services.AddCors((setup) =>
