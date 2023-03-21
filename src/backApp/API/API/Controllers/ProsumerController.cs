@@ -25,7 +25,8 @@ namespace API.Controllers
 
             return await prosumerService.GetProsumers(prosumerParameters);
         }
-
+        
+        [Authorize(Roles = "WorkerDso")]
         [HttpGet("GetAllProsumers")]
         public async Task<IActionResult> ListRegisterProsumer()
         {

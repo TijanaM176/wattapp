@@ -1,12 +1,17 @@
 <label style="padding-left: 8%"> Neighborhood </label>
 <div class="col-sm-12">
-  <select name="Neighborhood" class="form-control">
-    <option>--Select--</option>
+  <select
+    name="Neighborhood"
+    (change)="ChangeNeighborhood($event)"
+    class="form-control"
+    [(ngModel)]="neighborhood"
+  >
+    <option value="">--Select--</option>
     <option
-      [value]="neighborhood.Id"
       *ngFor="let neighborhood of Neighborhoods"
+      [value]="neighborhood.id"
     >
-      {{ neighborhood.Name }}
+      {{ neighborhood.neigbName }}
     </option>
   </select>
 </div>

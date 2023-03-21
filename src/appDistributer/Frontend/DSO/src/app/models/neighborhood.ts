@@ -1,4 +1,4 @@
 export interface Neighborhood {
-  Id: number;
-  Name: string;
+  id: string;
+  neigbName: string;
 }
