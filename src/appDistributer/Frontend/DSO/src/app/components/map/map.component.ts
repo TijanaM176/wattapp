@@ -22,10 +22,6 @@ export class MapComponent implements AfterViewInit, OnInit {
   ) {}
 
   ngOnInit(): void {
-    if (this.cookie.check('lat')) {
-      this.cookie.delete('lat');
-      this.cookie.delete('long');
-    }
     this.currentLocationIsSet = false;
     //this.getUsers();
   }
@@ -36,7 +32,7 @@ export class MapComponent implements AfterViewInit, OnInit {
   }
 
   private initMap() {
-    this.map = L.map('map').setView([44.012794, 20.911423], 15);
+    this.map = L.map('map',{minZoom: 8}).setView([44.012794, 20.911423], 15);
     const tiles = new L.TileLayer(
       'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
       {
@@ -51,8 +47,7 @@ export class MapComponent implements AfterViewInit, OnInit {
     }
 
     const defaultIcon = L.icon({
-      iconUrl: 'assets/images/location.svg', //'https://leafletjs.com/examples/custom-icons/leaf-green.png',
-      //shadowUrl: 'https://leafletjs.com/examples/custom-icons/leaf-shadow.png',
+      iconUrl: 'assets/images/location.svg',
       iconSize: [30, 30],
       shadowSize: [50, 64],
       iconAnchor: [22, 94],
@@ -60,50 +55,81 @@ export class MapComponent implements AfterViewInit, OnInit {
       popupAnchor: [-8, -93],
     });
 
-    if ('geolocation' in navigator) {
-      navigator.geolocation.getCurrentPosition(
-        (position) => {
-          this.cookie.set('lat', position.coords.latitude.toString());
-          this.cookie.set('long', position.coords.longitude.toString());
-          this.map.setView(
-            [position.coords.latitude, position.coords.longitude],
-            14
-          );
-          if (this.currentLocationIsSet) {
-            this.map.removeLayer(this.currentLocation);
-          }
-          var acc = Number(position.coords.accuracy).toFixed(2);
-          this.currentLocation = L.marker(
-            [position.coords.latitude, position.coords.longitude],
-            { icon: defaultIcon }
-          ).bindPopup(
-            'Your are here.<br>(within ' + acc + ' meters from this point)'
-          );
-          this.currentLocation.addTo(this.map);
-          this.currentLocationIsSet = true;
-        },
-        (error) => {
-          // If the user denies permission or an error occurs, handle it appropriately
-          console.error("Error getting user's location:", error);
-          this.toast.error({
-            detail: 'ERROR',
-            summary: 'Unable To Get Your Current Location.',
-            duration: 3000,
-          });
-        },
-        { enableHighAccuracy: true, timeout: 100 }
+    if (!this.cookie.check('lat')) //ukoliko nemamo koordinate dso zaposlenog
+    {
+      if ('geolocation' in navigator) {
+        navigator.geolocation.getCurrentPosition(
+          (position) => {
+            
+            this.cookie.set('lat', position.coords.latitude.toString());
+            this.cookie.set('long', position.coords.longitude.toString());
+            
+            var acc = Number(position.coords.accuracy).toFixed(2);
+            this.cookie.set('acc',acc);
+            
+            this.map.setView(
+              [position.coords.latitude, position.coords.longitude],
+              15
+            );
+            if (this.currentLocationIsSet) {
+              this.map.removeLayer(this.currentLocation);
+            }
+            this.currentLocation = L.marker(
+              [position.coords.latitude, position.coords.longitude],
+              { icon: defaultIcon }
+            ).bindPopup(
+              'Your are here.<br>(within ' + acc + ' meters from this point)'
+            );
+            this.currentLocation.addTo(this.map);
+            this.currentLocationIsSet = true;
+          },
+          (error) => {
+            // If the user denies permission or an error occurs, handle it appropriately
+            console.error("Error getting user's location:", error);
+            this.toast.error({
+              detail: 'ERROR',
+              summary: 'Unable To Get Your Current Location.',
+              duration: 3000,
+            });
+          },
+          { enableHighAccuracy: true, timeout: 100 }
+        );
+      } 
+      else {
+        // If the browser does not support the Geolocation API, handle it appropriately
+        this.toast.error({
+          detail: 'ERROR',
+          summary: 'Geolocation is not supported by this browser.',
+          duration: 3000,
+        });
+      }
+    }
+    else
+    {
+      var lat = this.cookie.get('lat');
+      var long = this.cookie.get('long');
+
+      this.map.setView(
+        [lat, long],
+        15
       );
-    } else {
-      // If the browser does not support the Geolocation API, handle it appropriately
-      this.toast.error({
-        detail: 'ERROR',
-        summary: 'Geolocation is not supported by this browser.',
-        duration: 3000,
-      });
+
+      if (this.currentLocationIsSet) {
+        this.map.removeLayer(this.currentLocation);
+      }
+
+      this.currentLocation = L.marker(
+        [Number(lat), Number(long)],
+        { icon: defaultIcon }
+      ).bindPopup(
+        'Your are here.<br>(within ' + this.cookie.get('acc') + ' meters from this point)'
+      );
+      this.currentLocation.addTo(this.map);
+      this.currentLocationIsSet = true;
     }
     
-    //lociranje dso zaposlenog
-    this.map
+    //lociranje dso zaposlenog - prati se njegovo kretanje (mozda moze i da se izbrise)
+    /*this.map
       .locate({
         setView: true,
         watch: true, //moze da se zakomentarise ukoliko ne zelimo da pratimo pomeranje korisnika
@@ -120,7 +146,7 @@ export class MapComponent implements AfterViewInit, OnInit {
         var acc = Number(e.accuracy).toFixed(2);
         this.map.setView(
           [Number(this.cookie.get('lat')), Number(this.cookie.get('long'))],
-          14
+          15
         );
         this.currentLocation = L.marker([e.latitude, e.longitude], {
           icon: defaultIcon,
@@ -137,7 +163,7 @@ export class MapComponent implements AfterViewInit, OnInit {
           summary: 'Unable To Update Your Current Location.',
           duration: 3000,
         });
-      });
+      });*/
 
     const findMeControl = L.Control.extend({
       options: {
@@ -185,20 +211,6 @@ export class MapComponent implements AfterViewInit, OnInit {
       });*/
 //-------------------------------------------------------------------------------------------------------------------------------------------------
   }
-  //drugi nacin
-  /*options: L.MapOptions = {
-    layers: this.getLayers(),
-    zoom: 12,
-    center: new L.LatLng(44.012794, 20.911423)
-  };
-
-  getLayers (): L.Layer[] {
-    return [
-      new L.TileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '&copy; OpenStreetMap contributors'
-      } as L.TileLayerOptions),
-    ] as L.Layer[];
-  };*/
 
   populateTheMap() {
     for (var user of this.users) {
