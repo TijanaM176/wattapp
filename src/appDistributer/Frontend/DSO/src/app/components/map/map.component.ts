@@ -36,7 +36,7 @@ export class MapComponent implements AfterViewInit, OnInit {
   }
 
   private initMap() {
-    this.map = L.map('map').setView([44.012794, 20.911423], 12);
+    this.map = L.map('map').setView([44.012794, 20.911423], 15);
     const tiles = new L.TileLayer(
       'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
       {
@@ -67,7 +67,7 @@ export class MapComponent implements AfterViewInit, OnInit {
           this.cookie.set('long', position.coords.longitude.toString());
           this.map.setView(
             [position.coords.latitude, position.coords.longitude],
-            12
+            14
           );
           if (this.currentLocationIsSet) {
             this.map.removeLayer(this.currentLocation);
@@ -101,18 +101,18 @@ export class MapComponent implements AfterViewInit, OnInit {
         duration: 3000,
       });
     }
-
+    
+    //lociranje dso zaposlenog
     this.map
       .locate({
         setView: true,
-        watch: true,
+        watch: true, //moze da se zakomentarise ukoliko ne zelimo da pratimo pomeranje korisnika
         enableHighAccuracy: true,
         timeout: 60,
       }) // This will return map so you can do chaining
       .on('locationfound', (e: any) => {
-        //console.log(e);
+        console.log(e);
         if (this.currentLocationIsSet) {
-          //console.log("izbrisana prethodna lokacija");
           this.map.removeLayer(this.currentLocation);
         }
         this.cookie.set('lat', e.latitude);
@@ -120,7 +120,7 @@ export class MapComponent implements AfterViewInit, OnInit {
         var acc = Number(e.accuracy).toFixed(2);
         this.map.setView(
           [Number(this.cookie.get('lat')), Number(this.cookie.get('long'))],
-          12
+          14
         );
         this.currentLocation = L.marker([e.latitude, e.longitude], {
           icon: defaultIcon,
@@ -137,7 +137,6 @@ export class MapComponent implements AfterViewInit, OnInit {
           summary: 'Unable To Update Your Current Location.',
           duration: 3000,
         });
-        //alert("Location access denied.");
       });
 
     const findMeControl = L.Control.extend({
@@ -158,8 +157,8 @@ export class MapComponent implements AfterViewInit, OnInit {
       },
     });
     this.map.addControl(new findMeControl());
-//-------------------------------------------------------------------------------------------------------------------------------------------------
-    var address = 'Atinska 18,Kragujevac,Serbia';
+//--------------------------------------------------Uzimanje koordinata iz adrese------------------------------------------------------------------
+   /* var address = 'Atinska 18,Kragujevac,Serbia';
     var key='Ag6ud46b-3wa0h7jHMiUPgiylN_ZXKQtL6OWJpl6eVTUR5CnuwbUF7BYjwSA4nZ_';
     var url = 'https://dev.virtualearth.net/REST/v1/Locations?query=' + encodeURIComponent(address)+ '&key=' + key;
     fetch(url)
@@ -183,7 +182,7 @@ export class MapComponent implements AfterViewInit, OnInit {
           duration: 3000,
         });
         console.error(`Error fetching location data: ${error}`);
-      });
+      });*/
 //-------------------------------------------------------------------------------------------------------------------------------------------------
   }
   //drugi nacin
