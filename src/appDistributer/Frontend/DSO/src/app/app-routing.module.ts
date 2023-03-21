@@ -10,6 +10,7 @@ import { SignupComponent } from './components/signup/signup.component';
 import { HomeComponent } from './components/Home/Home.component';
 import { UsersComponent } from './components/users/users.component';
 import { EmployeesComponent } from './components/employees/employees.component';
+import { EmployeedetailsComponent } from './components/employeedetails/employeedetails.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -36,8 +37,21 @@ const routes: Routes = [
     component:UsersComponent,
   },
   {
-    path:'employees',
-    component:EmployeesComponent,
+    path: 'users/tabela',
+    component: UsersComponent,
+  },
+  {
+    path: 'users/mapa',
+    component: UsersComponent,
+  },
+  {
+    path: 'employees',
+    component: EmployeesComponent,
+  },
+  {
+    path:'employeedetails',
+    component:EmployeedetailsComponent,
+
   }
 ];
 @NgModule({

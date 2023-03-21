@@ -31,6 +31,7 @@ import { Ng2SearchPipeModule } from 'ng2-search-filter';
 import { SearchPipe } from './components/search.pipe';
 import { SearchaddressPipe } from './components/searchaddress.pipe';
 import { EmployeesComponent } from './components/employees/employees.component';
+import { EmployeedetailsComponent } from './components/employeedetails/employeedetails.component';
 
 
 @NgModule({
@@ -47,7 +48,7 @@ import { EmployeesComponent } from './components/employees/employees.component';
     SearchPipe,
     SearchaddressPipe,
     EmployeesComponent,
- 
+    EmployeedetailsComponent,
   ],
   imports: [
     BrowserAnimationsModule,

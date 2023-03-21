@@ -10,14 +10,12 @@
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
   
-    <script>
-    $(document).ready(function(){
-        $('[data-toggle="tooltip"]').tooltip();
-    });
-    </script>
     </head>
     <body>
-        <app-navBar></app-navBar>
+        
+    <div style="display: flex">
+      
+      
     <div class="container-xl">
         <div class="table-responsive">
             <div class="table-wrapper">
@@ -37,27 +35,27 @@
                     </div>
                     
                 </div>
-                <table class="table ">
+                <table class="table">
                     <thead>
                         <tr>
                             <th></th>
                             <th>Username</th>						
-                            <th>Region</th>
+                            <th>City</th>
                             <th>Assigned Role</th>
                             <th>Options</th>
                             
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
+                        <tr *ngFor="let item of employees" key={item.id}>
                             <td><img src="assets/images/user.png" style="width:30px;height:30px;"></td>
-                            <td></td>
-                            <td></td>                        
-                            <td></td>
+                            <td>{{item.username}}</td>
+                            <td>{{item.region}}</td>                        
+                            <td>{{item.role}}</td>
                             <td>
                                 
-                                <a href="#" class="settings" title="" data-toggle="tooltip" data-original-title="Settings"><i class="material-icons">info</i></a>
-                                <a href="#" class="delete" title="" data-toggle="tooltip" data-original-title="Delete"><i class="material-icons"></i></a>
+                                <a href="#" class="settings" title="" data-toggle="tooltip" data-original-title="Settings"><i class="material-icons" >info</i></a>
+                                <a href="#" class="delete" title="" data-toggle="tooltip" data-original-title="Delete"><i class="material-icons" (click)="onDelete(item.id)" ></i></a>
                             </td>
                         </tr>
                        
@@ -79,5 +77,6 @@
             </div>
         </div>
     </div>     
-    
+      </div>
+      
     </body></html>
