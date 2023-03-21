@@ -158,6 +158,33 @@ export class MapComponent implements AfterViewInit, OnInit {
       },
     });
     this.map.addControl(new findMeControl());
+//-------------------------------------------------------------------------------------------------------------------------------------------------
+    var address = 'Atinska 18,Kragujevac,Serbia';
+    var key='Ag6ud46b-3wa0h7jHMiUPgiylN_ZXKQtL6OWJpl6eVTUR5CnuwbUF7BYjwSA4nZ_';
+    var url = 'https://dev.virtualearth.net/REST/v1/Locations?query=' + encodeURIComponent(address)+ '&key=' + key;
+    fetch(url)
+    .then(response => response.json())
+    .then(data => {
+      // Extract the latitude and longitude from the response
+      const location = data.resourceSets[0].resources[0].geocodePoints[0].coordinates;
+      const latitude = location[0];
+      const longitude = location[1];
+
+        // create a marker at the location
+        var markerUser = L.marker([latitude, longitude],{ icon: defaultIcon });
+
+        // center the map on the marker
+        markerUser.addTo(this.map);
+      })
+      .catch(error => {
+        this.toast.error({
+          detail: 'ERROR',
+          summary: 'Error fetching location data.',
+          duration: 3000,
+        });
+        console.error(`Error fetching location data: ${error}`);
+      });
+//-------------------------------------------------------------------------------------------------------------------------------------------------
   }
   //drugi nacin
   /*options: L.MapOptions = {
