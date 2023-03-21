@@ -11,13 +11,14 @@ import { HomeComponent } from './components/Home/Home.component';
 import { UsersComponent } from './components/users/users.component';
 import { EmployeesComponent } from './components/employees/employees.component';
 import { MapComponent } from './components/map/map.component';
+import { StranaUsersComponent } from './components/stranaUsers/stranaUsers.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
   {
     path: 'dashboard',
-    component: DashboardComponent,
+    component: HomeComponent,
     canActivate: [AuthGuard],
   },
   {
@@ -29,12 +30,8 @@ const routes: Routes = [
     component: SignupWorkerComponent,
   },
   {
-    path: 'home',
-    component: HomeComponent,
-  },
-  {
     path: 'users',
-    component: UsersComponent,
+    component: StranaUsersComponent,
   },
   {
     path: 'users/tabela',

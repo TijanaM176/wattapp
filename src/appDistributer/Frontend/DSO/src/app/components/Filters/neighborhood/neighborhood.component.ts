@@ -8,9 +8,24 @@ import { UsersServiceService } from 'src/app/services/users-service.service';
   styleUrls: ['./neighborhood.component.css'],
 })
 export class NeighborhoodComponent implements OnInit {
-  Neighborhoods: Neighborhood[] = [];
-
   constructor(private userService: UsersServiceService) {}
+  neighborhood: string = '';
+  Neighborhoods: Neighborhood[] = [];
+  dropDownNeigh: string = '';
+  ChangeNeighborhood(e: any) {
+    this.dropDownNeigh = e.target.value;
+    console.log(this.dropDownNeigh);
+    if (this.dropDownNeigh == '') {
+      this.userService.refreshList();
+    } else {
+      this.userService
+        .GetProsumersByNeighborhoodId(this.dropDownNeigh)
+        .subscribe((response) => {
+          console.log(response);
+          this.userService.prosumers = response;
+        });
+    }
+  }
 
   ngOnInit() {
     this.userService.getAllNeighborhoods().subscribe((response) => {

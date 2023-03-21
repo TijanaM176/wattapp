@@ -1,12 +1,19 @@
-<label style="padding-left: 8%"> Neighborhood </label>
 <div class="col-sm-12">
-  <select name="Neighborhood" class="form-control">
-    <option>--Select--</option>
+  <select
+    data-bs-toggle="dropdown"
+    class="dropdown dropdown-toggle"
+    style="width: 85%; margin: 0 auto"
+    name="Neighborhood"
+    (change)="ChangeNeighborhood($event)"
+    class="form-control"
+    [(ngModel)]="neighborhood"
+  >
+    <option value="">All</option>
     <option
-      [value]="neighborhood.Id"
       *ngFor="let neighborhood of Neighborhoods"
+      [value]="neighborhood.id"
     >
-      {{ neighborhood.Name }}
+      {{ neighborhood.neigbName }}
     </option>
   </select>
 </div>
