@@ -54,8 +54,8 @@
                             <td>{{item.role}}</td>
                             <td>
                                 
-                                <a href="#" class="settings" title="" data-toggle="tooltip" data-original-title="Settings"><i class="material-icons" >info</i></a>
-                                <a href="#" class="delete" title="" data-toggle="tooltip" data-original-title="Delete"><i class="material-icons" (click)="onDelete(item.id)" ></i></a>
+                                <a href="#" class="settings" title="" data-toggle="tooltip" data-original-title="Settings"><i class="material-icons" >info</i></a><button (click)="Details(item.id)">Info</button>
+                                <a href="#" class="delete" title="" data-toggle="tooltip" data-original-title="Delete"><i class="material-icons"  ></i></a><button (click)="onDelete(item.id)">Delete</button>
                             </td>
                         </tr>
                        

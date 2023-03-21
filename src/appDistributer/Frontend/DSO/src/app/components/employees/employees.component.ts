@@ -34,16 +34,18 @@ export class EmployeesComponent{
    this.service.detailsEmployee(id).subscribe(res=>{
     this.Data=res;
     if(this.Data!=null){
-      console.log(this.employees);
+      this.router.navigate(['/employeedetails']);
+      console.log(id);
     }
    });
   }
 
   onDelete(id:string){
     if(confirm("Do you want to delete ?")){
-      this.service.deleteEmployee(id).subscribe(res=>{
-        this.Ucitaj();
-      });
+      this.service.deleteEmployee(id)
+      /*.subscribe(res=>{
+        */this.Ucitaj();/*
+      });*/
     }
   }
   

@@ -1,15 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { BookDetail } from '../shared/book-detail.model';
 import { BookDetailService } from '../shared/book-detail.service';
-import { ToastrService } from 'ngx-toastr';
-import { Toast } from 'ngx-toastr';
+
 @Component({
   selector: 'app-books-details',
   templateUrl: './books-details.component.html',
   styleUrls: ['./books-details.component.css']
 })
 export class BooksDetailsComponent implements OnInit{
-  constructor(public service:BookDetailService,private toastr:ToastrService){}
+  constructor(public service:BookDetailService){}
 
   ngOnInit():void{
     this.service.refreshList();

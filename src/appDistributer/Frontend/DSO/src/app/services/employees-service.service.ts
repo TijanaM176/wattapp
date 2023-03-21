@@ -9,7 +9,7 @@ import{lastValueFrom} from "rxjs";
 export class EmployeesServiceService {
   constructor(private http : HttpClient) { }
   private baseUrl: string = "https://localhost:7156/api/Dso/GetAllDsoWorkers";
-  private baseUrl1: string = "https://localhost:7156/api/Dso/DeleteDsoWorkers";
+  private baseUrl1: string = "https://localhost:7156/api/Dso/DeleteDsoWorker";
   private baseUrl2: string = "https://localhost:7156/api/Dso/GetDsoById";
   
   employees!:Employee[];
@@ -20,11 +20,13 @@ export class EmployeesServiceService {
   
   deleteEmployee(id:string)/*:Observable<Employee>*/
   {
-    return this.http.delete(this.baseUrl1+'/'+id);
+    return this.http.delete(`${this.baseUrl1}`+`?id=`+id);
     //return this.http.delete<Employee>(this.baseUrl + "DeleteDsoWorker" + id);
   }
   detailsEmployee(id:string){
-    return this.http.get(this.baseUrl2);
+    
+    return this.http.get(`${this.baseUrl2}`+`?id=`+id);
+    
   }
   /*
   refreshList(){
