@@ -25,9 +25,9 @@ namespace API.Services.Devices
         */
 
 
-        public async Task<List<Timestamp>> proba()
+        public async Task<string> proba(string id)
         {
-            return await _repository.GetTimestamps();
+            return await _repository.GetDeviceName(id);
         }
     }
 }

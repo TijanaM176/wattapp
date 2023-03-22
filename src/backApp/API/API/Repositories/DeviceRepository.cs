@@ -11,11 +11,10 @@ namespace API.Repositories
             _context = context;
         }
 
-        public async Task<List<Timestamp>> GetTimestamps()
+        public async Task<string> GetDeviceName(string id)
         {
-            var dev = await _context.Devices.Find(x => x.Id == "641675fbe539a49febec1c3c").FirstOrDefaultAsync();
-            List<Timestamp> ts = dev.Timestamps.FindAll(x => DateTime.Parse(x.Date) > DateTime.Now);
-            return ts;
+            var dev = await _context.Consumers.Find(x => x.Id == id).FirstOrDefaultAsync();
+            return dev.DeviceName;
         }
 
     }

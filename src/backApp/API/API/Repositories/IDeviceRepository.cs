@@ -2,6 +2,6 @@
 {
     public interface IDeviceRepository
     {
-        public Task<List<Timestamp>> GetTimestamps();
+        public Task<string> GetDeviceName(string id);
     }
 }

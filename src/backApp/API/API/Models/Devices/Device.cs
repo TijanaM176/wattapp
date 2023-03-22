@@ -11,6 +11,15 @@ namespace API.Models.Devices
 
         [BsonElement("deviceName")]
         public string? DeviceName { get; set; }
+        
+        [BsonElement("deviceType")]
+        public string? DeviceType { get; set; }
+        
+        [BsonElement("manufacturer")]
+        public string? Manufacturer { get; set; }
+
+        [BsonElement("wattageInKWh")]
+        public double Wattage { get; set; }
 
         [BsonElement("timestamps")]
         public List<Timestamp> Timestamps { get; set; }

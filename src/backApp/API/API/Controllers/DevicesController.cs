@@ -12,9 +12,9 @@ namespace API.Controllers
         }
 
         [HttpGet("proba")]
-        public async Task<IActionResult> proba()
+        public async Task<IActionResult> proba(string id)
         {
-            var dev = await devService.proba();
+            var dev = await devService.proba(id);
             return Ok(dev);
         }
     }

@@ -2,6 +2,6 @@
 {
     public interface IDevicesService
     {
-        public Task<List<Timestamp>> proba();
+        public Task<string> proba(string id);
     }
 }
