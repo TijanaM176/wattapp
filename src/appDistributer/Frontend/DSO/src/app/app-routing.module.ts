@@ -42,24 +42,21 @@ const routes: Routes = [
   {
     path: 'users/tabela',
     component: StranaUsersComponent,
-  }
+  },
 
   {
     path: 'users/mapa',
-    component: UsersComponent,
-  }
+    component: MapComponent,
+  },
   {
     path: 'employees',
     component: EmployeesComponent,
   },
   {
-    path: 'map',
-    component: MapComponent,
-  },
-  {
     path: 'employeedetails',
     component: EmployeedetailsComponent,
-  },{
+  },
+  {
     path: 'sidebardso',
     component: SidebarDsoComponent,
   },

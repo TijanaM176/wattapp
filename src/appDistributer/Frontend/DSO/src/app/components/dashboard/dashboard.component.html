@@ -1,9 +1,5 @@
 <div class="content">
-    <app-navBar></app-navBar>
-    <router-outlet></router-outlet>
-    <button class="btn btn-primary m-4" (click)="LogOut()">Log Out</button>
-
-    <ul>
-        <li *ngFor="let user of users">{{user.username}}</li>
-    </ul>
+  <app-navBar></app-navBar>
+  <app-sidebar></app-sidebar>
+  <router-outlet></router-outlet>
 </div>

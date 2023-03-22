@@ -11,3 +11,48 @@ body {
 * {
   box-sizing: border-box;
 }
+
+.custom-slider .ngx-slider .ngx-slider-bar {
+  background: blue;
+  height: 2px;
+}
+.custom-slider .ngx-slider .ngx-slider-selection {
+  background: blue;
+}
+
+.custom-slider .ngx-slider .ngx-slider-pointer {
+  width: 8px;
+  height: 16px;
+  top: auto; /* to remove the default positioning */
+  bottom: 0;
+  background-color: blue;
+  border-top-left-radius: 3px;
+  border-top-right-radius: 3px;
+}
+
+.custom-slider .ngx-slider .ngx-slider-pointer:after {
+  display: none;
+}
+
+.custom-slider .ngx-slider .ngx-slider-bubble {
+  color: white;
+  bottom: 14px;
+}
+
+.custom-slider .ngx-slider .ngx-slider-limit {
+  font-weight: bold;
+  color: blue;
+}
+
+.custom-slider .ngx-slider .ngx-slider-tick {
+  width: 1px;
+  height: 10px;
+  margin-left: 4px;
+  border-radius: 0;
+  background: blue;
+  top: -1px;
+}
+
+.custom-slider .ngx-slider .ngx-slider-tick.ngx-slider-selected {
+  background: blue;
+}

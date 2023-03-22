@@ -111,11 +111,10 @@
               </div>
             </CDBDropDownToggle>
             <CDBDropDownMenu #menu="cdbDropdownMenu" placement="bottom">
-              <CDBDropDownItem routerLink="../home/pocetna"
-                >Cold place</CDBDropDownItem
+              <CDBDropDownItem routerLink="#">See profile</CDBDropDownItem>
+              <CDBDropDownItem routerLink="../login" (click)="LogOut()"
+                >Logout</CDBDropDownItem
               >
-              <CDBDropDownItem routerLink="../login">Second</CDBDropDownItem>
-              <CDBDropDownItem routerLink="home">Last</CDBDropDownItem>
             </CDBDropDownMenu>
           </CDBDropDown>
         </CDBNavItem>

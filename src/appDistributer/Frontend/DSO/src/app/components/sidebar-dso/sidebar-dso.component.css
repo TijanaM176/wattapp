@@ -1,84 +1,75 @@
-<<<<<<< Updated upstream
-.veliki{
-    float: left;
-    background-color: #5875A1;
+.veliki {
+  float: left;
+  background-color: #5875a1;
 }
 .sidebar {
-	background-color: #5875A1;
-	padding: 10px;
-	width: 230px;
-    height: 800px;
-	
-    font-family: "Roboto", cursive;
-    text-align:center;
-    color: white;
+  background-color: #5875a1;
+  padding: 10px;
+  width: 230px;
+  height: 800px;
+
+  font-family: "Roboto", cursive;
+  text-align: center;
+  color: white;
 }
 
 .sidebar h3 {
-	margin-top: 200px;
+  margin-top: 200px;
 }
-#dugme{
-   background-color: #5875A1;
-   color: white;
-   margin-left: 0px;
-
+#dugme {
+  background-color: #5875a1;
+  color: white;
+  margin-left: 0px;
 }
 .sidebar ul {
-	list-style-type: none;
-	margin: 0;
-	padding: 3px;
-  
-   
-    border-radius: 3%;
-    
-    
+  list-style-type: none;
+  margin: 0;
+  padding: 3px;
+
+  border-radius: 3%;
 }
 
 .sidebar li a {
-	display: block;
-	color: #000;
-	padding: 8px 16px;
-	text-decoration: none;
-    color: white; border-bottom: 3px solid #5875A1;
-    
-    
+  display: block;
+  color: #000;
+  padding: 8px 16px;
+  text-decoration: none;
+  color: white;
+  border-bottom: 3px solid #5875a1;
 }
 
 .sidebar li a:hover {
-	background-color: #555;
-	color: #fff;
+  background-color: #555;
+  color: #fff;
 }
-.opcije{
-    background-color:#7792ba;
-    height: 63%;
-    border-radius: 3%;
+.opcije {
+  background-color: #7792ba;
+  height: 63%;
+  border-radius: 3%;
 }
-=======
-.div1{
-    background-color: #7A99B6;
-    height: 110%;
-    margin: 10px;
-    margin-top: 20px;
-    border-radius: 10px;
+.div1 {
+  background-color: #7a99b6;
+  height: 110%;
+  margin: 10px;
+  margin-top: 20px;
+  border-radius: 10px;
 }
-.dugme{
-    width: 95%;
-    background-color: #7A99B6;
-    color: white;
-    border: 1px solid #5875A1;
-    height: 45px;
-    margin-top: 5px;
-    box-shadow: 0 8px 8px 0 rgba(0,0,0,0.2), 0 6px 8px 0 rgba(0,0,0,0.19);
-    font-size: 18px;
-    font-family: roboto;
-    border-radius: 5px;
+.dugme {
+  width: 95%;
+  background-color: #7a99b6;
+  color: white;
+  border: 1px solid #5875a1;
+  height: 45px;
+  margin-top: 5px;
+  box-shadow: 0 8px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 8px 0 rgba(0, 0, 0, 0.19);
+  font-size: 18px;
+  font-family: roboto;
+  border-radius: 5px;
 }
 
-#prvodugme{
-    margin-top: 20px;
+#prvodugme {
+  margin-top: 20px;
 }
-.informacije{
-   
-    text-align: center;
+.informacije {
+  text-align: center;
 }
->>>>>>> Stashed changes
