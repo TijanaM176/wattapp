@@ -13,6 +13,7 @@ import { EmployeesComponent } from './components/employees/employees.component';
 import { MapComponent } from './components/map/map.component';
 import { StranaUsersComponent } from './components/stranaUsers/stranaUsers.component';
 import { EmployeedetailsComponent } from './components/employeedetails/employeedetails.component';
+import { SidebarDsoComponent } from './components/sidebar-dso/sidebar-dso.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -45,6 +46,10 @@ const routes: Routes = [
   {
     path: 'users/mapa',
     component: UsersComponent,
+  },
+  {
+    path: 'sidebardso',
+    component: SidebarDsoComponent,
   },
   {
     path: 'employees',

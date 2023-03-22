@@ -44,6 +44,7 @@ import { StranaUsersComponent } from './components/stranaUsers/stranaUsers.compo
 import { MatSliderModule } from '@angular/material/slider';
 import { EmployeedetailsComponent } from './components/employeedetails/employeedetails.component';
 import { SearchemployeenamePipe } from './components/searchemployeename.pipe';
+import { SidebarDsoComponent } from './components/sidebar-dso/sidebar-dso.component';
 
 @NgModule({
   declarations: [
@@ -67,6 +68,7 @@ import { SearchemployeenamePipe } from './components/searchemployeename.pipe';
     EmployeesComponent,
     MapComponent,
     SearchemployeenamePipe,
+    SidebarDsoComponent,
   ],
   imports: [
     MatSliderModule,
