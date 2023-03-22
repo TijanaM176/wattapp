@@ -9,6 +9,9 @@ namespace API.Models.Devices
         [BsonRepresentation(BsonType.ObjectId)]
         public string Id { get; set; }
 
+        [BsonElement("ipAddress")]
+        public string? IpAddress { get; set; }
+
         [BsonElement("deviceName")]
         public string? DeviceName { get; set; }
         
