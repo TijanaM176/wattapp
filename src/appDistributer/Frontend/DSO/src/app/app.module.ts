@@ -68,6 +68,9 @@ import { SidebarDsoComponent } from './components/sidebar-dso/sidebar-dso.compon
     EmployeesComponent,
     MapComponent,
     SearchemployeenamePipe,
+    EmployeesComponent,
+    MapComponent,
+    SearchemployeenamePipe,
     SidebarDsoComponent,
   ],
   imports: [

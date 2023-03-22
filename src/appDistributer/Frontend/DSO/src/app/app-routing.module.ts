@@ -36,18 +36,30 @@ const routes: Routes = [
     component: StranaUsersComponent,
   },
   {
-    path: 'users/tabela',
+    path: 'users',
     component: UsersComponent,
   },
   {
     path: 'users/tabela',
-    component: UsersComponent,
-  },
+    component: StranaUsersComponent,
+  }
+
   {
     path: 'users/mapa',
     component: UsersComponent,
+  }
+  {
+    path: 'employees',
+    component: EmployeesComponent,
   },
   {
+    path: 'map',
+    component: MapComponent,
+  },
+  {
+    path: 'employeedetails',
+    component: EmployeedetailsComponent,
+  },{
     path: 'sidebardso',
     component: SidebarDsoComponent,
   },

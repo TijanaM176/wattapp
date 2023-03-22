@@ -16,7 +16,7 @@ export class SignupWorkerComponent  implements OnInit{
       lastName:['',Validators.required],
       password:['',Validators.required],
       email:['',Validators.required],
-      address:['',Validators.required],
+      // address:['',Validators.required],
       salary:['',Validators.required],
       image:['',Validators.required]
     })
@@ -45,7 +45,7 @@ export class SignupWorkerComponent  implements OnInit{
   }
   onSubmit(){
     if(this.signupWorkerForm.valid){
-      this.auth.signUp(this.signupWorkerForm.value)
+      this.auth. signupWorker(this.signupWorkerForm.value)
       .subscribe({
         next:(res=>{
           alert(res);

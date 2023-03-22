@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 .veliki{
     float: left;
     background-color: #5875A1;
@@ -52,3 +53,32 @@
     height: 63%;
     border-radius: 3%;
 }
+=======
+.div1{
+    background-color: #7A99B6;
+    height: 110%;
+    margin: 10px;
+    margin-top: 20px;
+    border-radius: 10px;
+}
+.dugme{
+    width: 95%;
+    background-color: #7A99B6;
+    color: white;
+    border: 1px solid #5875A1;
+    height: 45px;
+    margin-top: 5px;
+    box-shadow: 0 8px 8px 0 rgba(0,0,0,0.2), 0 6px 8px 0 rgba(0,0,0,0.19);
+    font-size: 18px;
+    font-family: roboto;
+    border-radius: 5px;
+}
+
+#prvodugme{
+    margin-top: 20px;
+}
+.informacije{
+   
+    text-align: center;
+}
+>>>>>>> Stashed changes
