@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Options, LabelType } from '@angular-slider/ngx-slider';
 
 @Component({
   selector: 'app-consumptionFilter',
@@ -8,6 +7,7 @@ import { Options, LabelType } from '@angular-slider/ngx-slider';
 })
 export class ConsumptionFilterComponent implements OnInit {
   disabled = false;
+  color = '#5875a1';
   max = 100;
   min = 0;
   showTicks = false;

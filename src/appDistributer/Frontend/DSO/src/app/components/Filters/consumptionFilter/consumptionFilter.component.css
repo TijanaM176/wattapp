@@ -9,3 +9,16 @@
   margin-right: 1%;
   text-align: center;
 }
+
+.mat-mdc-slider .mdc-slider__track--active_fill {
+  border-color: blue;
+}
+.mdc-slider__thumb-knob {
+  border-color: blue;
+}
+
+mat-slider .mat-mdc-slider .mdc-slider__thumb-knob {
+  border-color: none;
+  background-color: none;
+  border-color: var(--mdc-slider-handle-color, var(--mdc-theme-primary, blue));
+}

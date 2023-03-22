@@ -5,7 +5,7 @@ body {
   height: 100vh;
 }
 
-.container {
+.container-fluid {
   margin: 0 0;
   width: 100%;
 }
@@ -20,6 +20,7 @@ body {
   background: #fff;
   padding: 20px 20px 0 20px;
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
+  width: 100%;
 }
 .table-title {
   font-size: 15px;
@@ -41,11 +42,12 @@ body {
   margin-top: 7px;
 }
 .search-box {
+  width: 100%;
   position: relative;
   float: right;
 }
+
 .search-box .input-group {
-  min-width: 200px;
   position: absolute;
   right: 0;
 }
