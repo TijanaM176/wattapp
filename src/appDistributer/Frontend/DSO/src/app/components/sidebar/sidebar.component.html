@@ -1,35 +1,26 @@
-<div class="app" style="display: flex; height: 89.1vh">
-  <CDBSidebar textColor="#ffffff" backgroundColor="#5875A1" style="margin: 0">
-    <CDBSidebarHeader [prefix]="icon" style="font-weight: 600">
-      <ng-template #icon>
-        <i class="fa fa-lg fa-filter" style="font-size: 1.5"></i>
-      </ng-template>
-      Filters</CDBSidebarHeader
+<CDBSidebar textColor="#ffffff" backgroundColor="#5875A1" style="margin: 0">
+  <CDBSidebarHeader style="font-weight: 600">
+    <i class="fa fa-lg fa-filter" style="font-size: 1.5"></i>
+    Filters</CDBSidebarHeader
+  >
+  <CDBSidebarContent style="justify-content: center; text-align: center"
+    ><p><strong>Neighborhood</strong></p>
+    <app-neighborhood></app-neighborhood><br /><br />
+    <strong>Power Consumption</strong>
+    <app-consumptionFilter></app-consumptionFilter>
+    <br /><br /><br />
+    <strong>Power Production</strong>
+    <app-productionFilter></app-productionFilter>
+    <br /><br /><br />
+    <strong>Number of Devices</strong>
+    <app-numberOfDevices></app-numberOfDevices>
+    <br /><br />
+    <CDBBtn style="width: 80%; background-color: #e8f3f8; color: grey"
+      >Apply Filters</CDBBtn
     >
-    <CDBSidebarContent style="justify-content: center; text-align: center"
-      ><p><strong>Neighborhood</strong></p>
-      <app-neighborhood></app-neighborhood><br /><br />
-      <strong>Power Consumption</strong>
-      <app-consumptionFilter></app-consumptionFilter>
-      <br /><br /><br />
-      <strong>Power Production</strong>
-      <app-productionFilter></app-productionFilter>
-      <br /><br /><br />
-      <strong>Number of Devices</strong>
-      <app-numberOfDevices></app-numberOfDevices>
-      <br /><br /><br />
-      <CDBBtn style="width: 80%; background-color: #e8f3f8; color: grey"
-        >Apply Filters</CDBBtn
-      >
-      <CDBBtn
-        style="
-          width: 80%;
-          margin-top: 5%;
-          background-color: #e8f3f8;
-          color: grey;
-        "
-        >Reset Filters</CDBBtn
-      >
-    </CDBSidebarContent>
-  </CDBSidebar>
-</div>
+    <CDBBtn
+      style="width: 80%; margin-top: 3%; background-color: #e8f3f8; color: grey"
+      >Reset Filters</CDBBtn
+    >
+  </CDBSidebarContent>
+</CDBSidebar>
