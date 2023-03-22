@@ -12,6 +12,11 @@ import { UsersComponent } from './components/users/users.component';
 import { EmployeesComponent } from './components/employees/employees.component';
 import { MapComponent } from './components/map/map.component';
 
+import { StranaUsersComponent } from './components/stranaUsers/stranaUsers.component';
+import { EmployeedetailsComponent } from './components/employeedetails/employeedetails.component';
+import { ResetpasswordComponent } from './components/resetpassword/resetpassword.component';
+
+
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
@@ -52,6 +57,16 @@ const routes: Routes = [
     path: 'map',
     component: MapComponent,
   },
+
+  {
+    path: 'employeedetails',
+    component: EmployeedetailsComponent,
+  },
+  {
+    path:'resetpassword',
+    component:ResetpasswordComponent,
+  }
+
 ];
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

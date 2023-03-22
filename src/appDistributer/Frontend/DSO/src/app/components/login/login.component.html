@@ -23,7 +23,7 @@
           </div>
           <small *ngIf="loginForm.controls['password'].dirty && loginForm.hasError('required','password')" class="text-danger">* Password is required</small>
           <div id="fp">
-            <label id="forgotpass">forgot password?</label>
+            <a id="forgotpass"  data-bs-toggle="modal" data-bs-target="#exampleModal">forgot password?</a>
           </div>
           <div>
             <br><button (click)="onSubmit()" type="submit" class="btn btn-block mt-4 w-100">Login</button>
@@ -32,4 +32,35 @@
       </div>
     </div>
   </section>
+</div>
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <p class="modal-title" id="exampleModalLabel">
+          <span style="color: #026670; font-size: 25px; font-weight: 700;"> Forgot your password? </span><br>
+          <small>Enter your email and we will send you a link to reset your password.</small>
+        </p>
+
+        <button type="button" id="closeBtn" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+
+      </div>
+      <div class="modal-body">
+        <div class="form-group pt-3">
+              <div class="input-group form-group ">
+                
+                      <input [(ngModel)]="resetPasswordEmail" (ngModelChange)="checkValidEmail($event)" class="form-control" type="text" placeholder="Email" style=" width: 150px; height:30px; background-color: #e7e5e5;color:#466471; border-radius: 5px;">
+                      <span class="input-group-addon addon-icon" style="margin-left:5px;margin-top:2px;width:30px;height:40px;" ><i class="fa fa-user" style="font-size: 23px; color:#5875a1"></i></span>
+
+              </div>
+
+            </div>
+        <small *ngIf="!resetPasswordEmail"  class="text-danger">Email is required!</small>
+        <small *ngIf="!isValidEmail && resetPasswordEmail"  class="text-danger">Email is invalid!</small>
+    </div>
+        <div class="modal-footer">
+          <button type="button" (click)="confirmToSend()"   (click)="PrivremeniToken();" class="btn btn-primary" >Send</button>
+        </div>
+  </div>
+</div>
 </div>

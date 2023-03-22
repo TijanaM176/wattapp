@@ -30,7 +30,7 @@
                             <div class="search-box">
                                 <div class="input-group" style="width: 240px;">
                                     <span class="input-group-addon"><i class="material-icons" style="margin-top:30%;margin-right: 10%;"></i></span>
-                                    <input type="text"  style="background-color: #F8F8FA;border-radius: 10px;" class="form-control" placeholder="Search By Username">
+                                    <input type="text"  [(ngModel)]="searchName"  style="background-color: #F8F8FA;border-radius: 10px;" class="form-control" placeholder="Search By Username">
                                 </div>
                             </div>
                         </div>
@@ -49,11 +49,14 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
+                        <tr *ngFor="
+                        let item of employees
+                          | search : searchName
+                      ">
                             <td><img src="assets/images/user.png" style="width:30px;height:30px;"></td>
-                            <td></td>
-                            <td></td>                        
-                            <td></td>
+                            <td>{{item.username}}</td>
+                            <td>{{item.region}}</td>                        
+                            <td>{{item.role}}</td>
                             <td>
                                 
                                 <a href="#" class="settings" title="" data-toggle="tooltip" data-original-title="Settings"><i class="material-icons">info</i></a>

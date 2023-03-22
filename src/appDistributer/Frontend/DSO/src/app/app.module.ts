@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { ReactiveFormsModule } from '@angular/forms';
 
@@ -41,6 +41,13 @@ import { EmployeesComponent } from './components/employees/employees.component';
 import { MapComponent } from './components/map/map.component';
 import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 
+import { StranaUsersComponent } from './components/stranaUsers/stranaUsers.component';
+import { MatSliderModule } from '@angular/material/slider';
+import { EmployeedetailsComponent } from './components/employeedetails/employeedetails.component';
+import { SearchemployeenamePipe } from './components/searchemployeename.pipe';
+import { ResetpasswordComponent } from './components/resetpassword/resetpassword.component';
+
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -61,6 +68,11 @@ import { LeafletModule } from '@asymmetrik/ngx-leaflet';
     NumberOfDevicesComponent,
     EmployeesComponent,
     MapComponent,
+
+    SearchemployeenamePipe,
+    ResetpasswordComponent,
+   
+
   ],
   imports: [
     Ng5SliderModule,
@@ -80,12 +92,13 @@ import { LeafletModule } from '@asymmetrik/ngx-leaflet';
     SidebarModule,
     Ng2SearchPipeModule,
     NgxSliderModule,
-    LeafletModule,
+    LeafletModule
   ],
   providers: [
     CookieService,
     { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true },
   ],
+ 
   bootstrap: [AppComponent],
 })
 export class AppModule {}
