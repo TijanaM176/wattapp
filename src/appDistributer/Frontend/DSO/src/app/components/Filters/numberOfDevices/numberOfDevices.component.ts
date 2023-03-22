@@ -7,12 +7,22 @@ import { Options, LabelType } from '@angular-slider/ngx-slider';
   styleUrls: ['./numberOfDevices.component.css'],
 })
 export class NumberOfDevicesComponent implements OnInit {
-  disabled = false;
-  max = 100;
-  min = 0;
-  showTicks = false;
-  step = 1;
-  thumbLabel = true;
+  minValue: number = 10;
+  maxValue: number = 90;
+  options: Options = {
+    floor: 0,
+    ceil: 20,
+    translate: (value: number, label: LabelType): string => {
+      switch (label) {
+        case LabelType.Low:
+          return value + '';
+        case LabelType.High:
+          return value + '';
+        default:
+          return '' + value;
+      }
+    },
+  };
   constructor() {}
 
   ngOnInit() {}

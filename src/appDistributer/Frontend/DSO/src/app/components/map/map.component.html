@@ -1,14 +1,14 @@
-<!-- <app-navBar></app-navBar> -->
+<app-navBar></app-navBar>
 <section class="okvir">
-    <div class="levo"><app-sidebar></app-sidebar></div>
-    <div class="desno">
-        <div class="map-container">
-            <div class="map-frame">
-                <div id="map"> <!--[leafletOptions]="options" za primenu drugog nacina-->
-                </div>
-            </div>
+  <div class="levo"><app-sidebar></app-sidebar></div>
+  <div class="desno">
+    <app-mininavbar></app-mininavbar>
+    <div class="map-container">
+      <div class="map-frame">
+        <div id="map">
+          <!--[leafletOptions]="options" za primenu drugog nacina-->
         </div>
+      </div>
     </div>
+  </div>
 </section>
-
-

@@ -5,26 +5,27 @@ import { SendRefreshToken } from '../models/sendRefreshToken';
 import { RefreshTokenDto } from '../models/refreshTokenDto';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AuthServiceService {
+  private baseUrl: string = 'https://localhost:7156/api/Auth/';
 
-  private baseUrl: string ="https://localhost:7156/api/Auth/";
+  constructor(private http: HttpClient) {}
 
-  constructor(private http: HttpClient) { }
-
-  login(loginDto: any)
-  {
-    return this.http.post<any>(this.baseUrl+'DSOLogin', loginDto);
-  }
-  
-  getUsers(): Observable<any[]>
-  {
-    return this.http.get<any>(this.baseUrl+'UsersProsumer');
+  login(loginDto: any) {
+    return this.http.post<any>(this.baseUrl + 'DSOLogin', loginDto);
   }
 
-  refreshToken(refreshToken : SendRefreshToken)
-  {
-    return this.http.post<RefreshTokenDto>(this.baseUrl+'refreshToken', refreshToken);
+  getUsers(): Observable<any[]> {
+    return this.http.get<any>(
+      'https://localhost:7156/api/Prosumer/GetAllProsumers'
+    );
+  }
+
+  refreshToken(refreshToken: SendRefreshToken) {
+    return this.http.post<RefreshTokenDto>(
+      this.baseUrl + 'refreshToken',
+      refreshToken
+    );
   }
 }

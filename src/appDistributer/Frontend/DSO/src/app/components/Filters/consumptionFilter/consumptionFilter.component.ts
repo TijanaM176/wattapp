@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Options, LabelType } from '@angular-slider/ngx-slider';
 
 @Component({
   selector: 'app-consumptionFilter',
@@ -6,13 +7,22 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./consumptionFilter.component.css'],
 })
 export class ConsumptionFilterComponent implements OnInit {
-  disabled = false;
-  color = '#5875a1';
-  max = 100;
-  min = 0;
-  showTicks = false;
-  step = 1;
-  thumbLabel = true;
+  minValue: number = 10;
+  maxValue: number = 90;
+  options: Options = {
+    floor: 0,
+    ceil: 100,
+    translate: (value: number, label: LabelType): string => {
+      switch (label) {
+        case LabelType.Low:
+          return value + 'kwh';
+        case LabelType.High:
+          return value + 'kwh';
+        default:
+          return '' + value;
+      }
+    },
+  };
   constructor() {}
 
   ngOnInit() {}

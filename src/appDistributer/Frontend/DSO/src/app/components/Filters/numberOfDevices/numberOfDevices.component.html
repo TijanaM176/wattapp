@@ -1,16 +1,9 @@
-<mat-slider
-  style="width: 80%"
-  defaultColor="#5875a1"
-  min="min"
-  max="max"
-  [disabled]="disabled"
-  [step]="step"
-  [discrete]="thumbLabel"
-  [showTickMarks]="showTicks"
->
-  <input value="300" matSliderStartThumb [(ngModel)]="min" />
-  <input value="400" matSliderEndThumb [(ngModel)]="max" />
-</mat-slider>
-<br />
-min<input class="button1" type="text" [(ngModel)]="min" />
-<input class="button2" type="text" [(ngModel)]="max" />max
+<div class="custom-slider" style="width: 80%; margin: 0 auto">
+  <ngx-slider
+    [(value)]="minValue"
+    [(highValue)]="maxValue"
+    [options]="options"
+  ></ngx-slider>
+</div>
+min<input class="button1" type="text" [(ngModel)]="minValue" />
+<input class="button2" type="text" [(ngModel)]="maxValue" />max
