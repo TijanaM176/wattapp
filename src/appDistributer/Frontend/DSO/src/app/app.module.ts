@@ -38,6 +38,16 @@ import { MininavbarComponent } from './components/mininavbar/mininavbar.componen
 import { ConsumptionFilterComponent } from './components/Filters/consumptionFilter/consumptionFilter.component';
 import { ProductionFilterComponent } from './components/Filters/productionFilter/productionFilter.component';
 import { NumberOfDevicesComponent } from './components/Filters/numberOfDevices/numberOfDevices.component';
+<<<<<<< Updated upstream
+=======
+import { EmployeesComponent } from './components/employees/employees.component';
+import { MapComponent } from './components/map/map.component';
+import { LeafletModule } from '@asymmetrik/ngx-leaflet';
+import { StranaUsersComponent } from './components/stranaUsers/stranaUsers.component';
+import { MatSliderModule } from '@angular/material/slider';
+import { EmployeedetailsComponent } from './components/employeedetails/employeedetails.component';
+import { SearchemployeenamePipe } from './components/searchemployeename.pipe';
+>>>>>>> Stashed changes
 import { SidebarDsoComponent } from './components/sidebar-dso/sidebar-dso.component';
 
 @NgModule({
@@ -58,6 +68,12 @@ import { SidebarDsoComponent } from './components/sidebar-dso/sidebar-dso.compon
     ConsumptionFilterComponent,
     ProductionFilterComponent,
     NumberOfDevicesComponent,
+<<<<<<< Updated upstream
+=======
+    EmployeesComponent,
+    MapComponent,
+    SearchemployeenamePipe,
+>>>>>>> Stashed changes
     SidebarDsoComponent,
   ],
   imports: [

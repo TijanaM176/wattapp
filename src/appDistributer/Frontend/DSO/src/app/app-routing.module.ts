@@ -9,6 +9,13 @@ import { SignupWorkerComponent } from './components/signup-worker/signup-worker.
 import { SignupComponent } from './components/signup/signup.component';
 import { HomeComponent } from './components/Home/Home.component';
 import { UsersComponent } from './components/users/users.component';
+<<<<<<< Updated upstream
+=======
+import { EmployeesComponent } from './components/employees/employees.component';
+import { MapComponent } from './components/map/map.component';
+import { StranaUsersComponent } from './components/stranaUsers/stranaUsers.component';
+import { EmployeedetailsComponent } from './components/employeedetails/employeedetails.component';
+>>>>>>> Stashed changes
 import { SidebarDsoComponent } from './components/sidebar-dso/sidebar-dso.component';
 
 const routes: Routes = [
@@ -32,16 +39,38 @@ const routes: Routes = [
     component: HomeComponent,
   },
   {
+<<<<<<< Updated upstream
     path: 'users',
     component: UsersComponent,
   },
   {
     path: 'users/tabela',
     component: UsersComponent,
+=======
+    path: 'users/tabela',
+    component: StranaUsersComponent,
+>>>>>>> Stashed changes
   },
+ 
   {
     path: 'users/mapa',
+<<<<<<< Updated upstream
     component: UsersComponent,
+=======
+    component: StranaUsersComponent,
+  },
+  {
+    path: 'employees',
+    component: EmployeesComponent,
+  },
+  {
+    path: 'map',
+    component: MapComponent,
+  },
+  {
+    path: 'employeedetails',
+    component: EmployeedetailsComponent,
+>>>>>>> Stashed changes
   },{
     path: 'sidebardso',
     component: SidebarDsoComponent,
