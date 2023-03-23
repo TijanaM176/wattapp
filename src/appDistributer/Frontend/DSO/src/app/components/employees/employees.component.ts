@@ -5,49 +5,46 @@ import { ToastrService } from 'ngx-toastr';
 import { Toast } from 'ngx-toastr';
 import { Employee } from 'src/app/models/employeestable';
 import { Router } from '@angular/router';
+
 @Component({
   selector: 'app-employees',
   templateUrl: './employees.component.html',
-  styleUrls: ['./employees.component.css']
+  styleUrls: ['./employees.component.css'],
 })
-export class EmployeesComponent{
-  searchName:string='';
+export class EmployeesComponent {
+  searchName: string = '';
   //employees!:Observable<any[]>;
-  employees:any;
-  Data:any;
-  constructor(public service:EmployeesServiceService,private router:Router){
+  employees: any;
+  Data: any;
+  constructor(public service: EmployeesServiceService, private router: Router) {
     this.Ucitaj();
   }
-  
-  
-  ngOnInit():void{
-    
+
+  ngOnInit(): void {
     //console.log(this.service.employees);
   }
-  Ucitaj(){
-    this.service.getAllData().subscribe(res=>{
-      this.employees=res;
+  Ucitaj() {
+    this.service.getAllData().subscribe((res) => {
+      this.employees = res;
       console.log(this.employees);
-    })
+    });
   }
-  Details(id:string){
-   this.service.detailsEmployee(id).subscribe(res=>{
-    this.Data=res;
-    if(this.Data!=null){
-      this.router.navigate(['/employeedetails']);
-      console.log(id);
-    }
-   });
+  Details(id: string) {
+    this.service.detailsEmployee(id).subscribe((res) => {
+      this.Data = res;
+      if (this.Data != null) {
+        this.router.navigate(['/employeedetails']);
+        console.log(id);
+      }
+    });
   }
 
-  onDelete(id:string){
-    if(confirm("Do you want to delete ?")){
-      this.service.deleteEmployee(id)
+  onDelete(id: string) {
+    if (confirm('Do you want to delete ?')) {
+      this.service.deleteEmployee(id);
       /*.subscribe(res=>{
-        */this.Ucitaj();/*
+       */ this.Ucitaj(); /*
       });*/
     }
   }
-  
-  
 }

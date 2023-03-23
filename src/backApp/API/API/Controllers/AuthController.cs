@@ -252,9 +252,9 @@ namespace API.Controllers
             }
             
             if (!await authService.SaveToken(prosumer, authService.CreateRandomToken())) return BadRequest("Token could not be saved"); // kreiramo random token za prosumer-a koji ce da koristi za sesiju
-   
 
-            return Ok("User found!");
+
+            return Ok(new { error = false, resetToken = prosumer.Token });
         }
 
         [HttpPost("forgot_passwordWorker")]
@@ -273,7 +273,7 @@ namespace API.Controllers
 
             if (!await authService.SaveToken(worker, authService.CreateRandomToken())) return BadRequest("Token could not be saved"); // kreiramo random token za prosumer-a koji ce da koristi za sesiju
 
-            return Ok("Worker DSO found!");
+            return Ok(new { error = false, resetToken = worker.Token });
         }
 
         //reset password
@@ -288,7 +288,8 @@ namespace API.Controllers
             }
             catch (Exception)
             {
-                return BadRequest("Prosumer is not found");
+                
+                return Ok(new { error = true, message = "Prosumer is not found" });
             }
  
             authService.CreatePasswordHash(reset.Password, out byte[] passwordHash, out byte[] passwordSalt);
@@ -297,8 +298,8 @@ namespace API.Controllers
             prosumer.SaltPassword = passwordSalt;
             prosumer.Token = null; //trenutno!
 
-            if (!await authService.SaveToken(prosumer, authService.CreateRandomToken())) return BadRequest("Token could not be saved"); // kreiramo random token za prosumer-a
-            return Ok("Password reset!");
+            if (!await authService.SaveToken(prosumer, authService.CreateRandomToken())) Ok(new { error = true, message = "Token could not be saved" }); // kreiramo random token za prosumer-a
+            return Ok(new { error = false, message = "Password changed!" });
         }
 
         [HttpPost("reset_passwordWorker")]
@@ -312,7 +313,7 @@ namespace API.Controllers
             }
             catch (Exception)
             {
-                return BadRequest("Worker is not found");
+                return Ok(new { error = true, message = "Worker is not found" });
             }
 
             authService.CreatePasswordHash(reset.Password, out byte[] passwordHash, out byte[] passwordSalt);
@@ -321,8 +322,8 @@ namespace API.Controllers
             worker.SaltPassword = passwordSalt;
             worker.Token = null; //trenutno!
 
-            if (!await authService.SaveToken(worker, authService.CreateRandomToken())) return BadRequest("Token could not be saved"); // kreiramo random token za workera-a
-            return Ok("Password reset!");
+            if (!await authService.SaveToken(worker, authService.CreateRandomToken())) return Ok(new { error = true, message = "Token could not be saved" }); // kreiramo random token za workera-a
+            return Ok(new { error = false, message = "Password changed!"});
         }        
     }
 }

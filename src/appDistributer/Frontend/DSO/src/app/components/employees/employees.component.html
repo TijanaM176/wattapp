@@ -18,86 +18,94 @@
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
 
+<script>
+  $(document).ready(function () {
+    $('[data-toggle="tooltip"]').tooltip();
+  });
+</script>
 <app-navBar></app-navBar>
-<div style="display: flex">
-  <app-sidebar></app-sidebar>
-  <div class="container-fluid">
-    <div class="table-responsive">
-      <div class="table-wrapper">
-        <div class="table-title">
-          <div class="row col-sm-12">
-            <div class="col-sm-10">
-              <h2>Employee <b>Overview</b></h2>
-            </div>
-            <div class="col-sm-2">
-              <div class="search-box">
-                <div class="input-group">
-                  <span class="input-group-addon"
-                    ><i
-                      class="material-icons"
-                      style="margin-top: 30%; margin-right: 10%"
-                      ></i
-                    ></span
-                  >
-                  <input
-                    type="text"
-                    [(ngModel)]="searchName"
-                    style="background-color: #f8f8fa; border-radius: 10px"
-                    class="form-control"
-                    placeholder="Search By Username"
-                  />
-                </div>
+<div class="container-xl">
+  <div class="table-responsive">
+    <div class="table-wrapper">
+      <div class="table-title">
+        <div class="row">
+          <div class="col-sm-9">
+            <h2>Employee <b>Overview</b></h2>
+          </div>
+          <div class="col-sm-3">
+            <div class="search-box">
+              <div class="input-group" style="width: 240px">
+                <span class="input-group-addon"
+                  ><i
+                    class="material-icons"
+                    style="margin-top: 30%; margin-right: 10%"
+                    ></i
+                  ></span
+                >
+                <input
+                  type="text"
+                  [(ngModel)]="searchName"
+                  style="background-color: #f8f8fa; border-radius: 10px"
+                  class="form-control"
+                  placeholder="Search By Username"
+                />
               </div>
             </div>
           </div>
         </div>
-        <table class="table col-sm-12">
-          <thead>
-            <tr>
-              <th></th>
-              <th>Username</th>
-              <th>City</th>
-              <th>Assigned Role</th>
-              <th>Options</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr
-              *ngFor="let item of employees | searchemployeename : searchName"
-            >
-              <td>
-                <img
-                  src="assets/images/user.png"
-                  style="width: 30px; height: 30px"
-                />
-              </td>
-              <td>{{ item.username }}</td>
-              <td>{{ item.region }}</td>
-              <td>{{ item.role }}</td>
-              <td>
-                <a class="link" (click)="Details(item.id)"
-                  ><i class="material-icons">info</i></a
-                >
-                <a class="delete" (click)="onDelete(item.id)"
-                  ><i class="material-icons">delete</i></a
-                >
-              </td>
-            </tr>
-          </tbody>
-        </table>
-        <div class="clearfix">
-          <ul class="pagination">
-            <li class="page-item disabled"><a href="#">Previous</a></li>
-            <li class="page-item"><a href="#" class="page-link">1</a></li>
-            <li class="page-item"><a href="#" class="page-link">2</a></li>
-            <li class="page-item"><a href="#" class="page-link">3</a></li>
-            <li class="page-item"><a href="#" class="page-link">4</a></li>
-            <li class="page-item"><a href="#" class="page-link">5</a></li>
-            <li class="page-item">
-              <a href="#" class="page-link">Next</a>
-            </li>
-          </ul>
-        </div>
+      </div>
+      <table class="table">
+        <thead>
+          <tr>
+            <th></th>
+            <th>Username</th>
+            <th>Region</th>
+            <th>Assigned Role</th>
+            <th>Options</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of employees | search : searchName">
+            <td>
+              <img
+                src="assets/images/user.png"
+                style="width: 30px; height: 30px"
+              />
+            </td>
+            <td>{{ item.username }}</td>
+            <td>{{ item.region }}</td>
+            <td>{{ item.role }}</td>
+            <td>
+              <a
+                href="#"
+                class="settings"
+                title=""
+                data-toggle="tooltip"
+                data-original-title="Settings"
+                ><i class="material-icons">info</i></a
+              >
+              <a
+                href="#"
+                class="delete"
+                title=""
+                data-toggle="tooltip"
+                data-original-title="Delete"
+                ><i class="material-icons"></i></a
+              >
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="clearfix">
+        <ul class="pagination">
+          <li class="page-item disabled"><a href="#">Previous</a></li>
+          <li class="page-item"><a href="#" class="page-link">1</a></li>
+          <li class="page-item"><a href="#" class="page-link">2</a></li>
+          <li class="page-item active"><a href="#" class="page-link">3</a></li>
+          <li class="page-item"><a href="#" class="page-link">4</a></li>
+          <li class="page-item"><a href="#" class="page-link">5</a></li>
+          <li class="page-item"><a href="#" class="page-link">Next</a></li>
+        </ul>
       </div>
     </div>
   </div>

@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { ReactiveFormsModule } from '@angular/forms';
 
@@ -45,6 +45,7 @@ import { MatSliderModule } from '@angular/material/slider';
 import { EmployeedetailsComponent } from './components/employeedetails/employeedetails.component';
 import { SearchemployeenamePipe } from './components/searchemployeename.pipe';
 import { SidebarDsoComponent } from './components/sidebar-dso/sidebar-dso.component';
+import { ResetpasswordComponent } from './components/resetpassword/resetpassword.component';
 
 @NgModule({
   declarations: [
@@ -67,11 +68,12 @@ import { SidebarDsoComponent } from './components/sidebar-dso/sidebar-dso.compon
     NumberOfDevicesComponent,
     EmployeesComponent,
     MapComponent,
-    SearchemployeenamePipe,
     EmployeesComponent,
     MapComponent,
-    SearchemployeenamePipe,
     SidebarDsoComponent,
+    EmployeedetailsComponent,
+    SearchemployeenamePipe,
+    ResetpasswordComponent,
   ],
   imports: [
     MatSliderModule,
@@ -97,6 +99,7 @@ import { SidebarDsoComponent } from './components/sidebar-dso/sidebar-dso.compon
     CookieService,
     { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true },
   ],
+
   bootstrap: [AppComponent],
 })
 export class AppModule {}
