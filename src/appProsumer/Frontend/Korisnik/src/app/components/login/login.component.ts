@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { NgToastService } from 'ng-angular-popup';
 import { CookieService } from 'ngx-cookie-service';
 import { AuthServiceService } from 'src/app/services/auth-service.service';
+import { ResetPasswordService } from 'src/app/services/reset-password.service';
 
 @Component({
   selector: 'app-login',
@@ -16,8 +17,10 @@ export class LoginComponent implements OnInit{
   isText: boolean = false;
   type: string ="password";
   eyeIcon: string = "fa-eye-slash";
+  public resetPasswordEmail!:string;
+  public isValidEmail!:boolean;
 
-  constructor(private fb: FormBuilder, private router: Router, private toast: NgToastService, private cookie: CookieService, private auth: AuthServiceService) { }
+  constructor(private fb: FormBuilder,private reset:ResetPasswordService, private router: Router, private toast: NgToastService, private cookie: CookieService, private auth: AuthServiceService) { }
   
   ngOnInit(): void {
     this.loginForm = this.fb.group({
@@ -74,4 +77,56 @@ export class LoginComponent implements OnInit{
       this.validateAllFormFields(this.loginForm);
     }
   }
+  checkValidEmail(event:string){
+    const value=event;
+
+    const pattern=/^[\w-\.]+@([\w-]+\.)+[\w-]{2,3}$/;
+    this.isValidEmail=pattern.test(value);
+    return this.isValidEmail;
+  }
+  confirmToSend(){
+    if(this.checkValidEmail(this.resetPasswordEmail)){
+      console.log(this.resetPasswordEmail);
+      
+      this.reset.sendResetPasswordLink(this.resetPasswordEmail)
+      .subscribe({
+        next:(res:any)=>{
+          this.toast.success({
+            detail:'Success',
+            summary:'Reset Sucess!',
+            duration:3000,
+          });
+          this.resetPasswordEmail="";
+          const buttonRef=document.getElementById("closeBtn");
+          buttonRef?.click();
+        },
+        error:(err:any)=>{
+          this.toast.error({
+            detail:'ERROR',
+            summary:'Something went wrong',
+            duration:3000,
+          });
+        }
+      })
+    }
+  }
+  PrivremeniToken(){
+    //console.log(this.resetPasswordEmail);
+    this.reset.forgotPass(this.resetPasswordEmail)
+      .subscribe({
+        next:(res)=>{
+          //alert(res.message);
+          this.cookie.set('resetToken',res.resetToken);
+          //console.log(res);
+          //console.log(this.resetPasswordEmail);
+        },
+        error:(err)=>{
+          this.toast.error({detail:"ERROR", summary: err.error,duration: 3000});
+          console.log(err.error);
+        }
+      })
+  }
+
+
+
 }

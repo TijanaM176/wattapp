@@ -1,12 +1,11 @@
 import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
-import { ReactiveFormsModule } from '@angular/forms';
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './components/login/login.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import{BrowserModule} from '@angular/platform-browser';
+
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { FormsModule } from '@angular/forms';
 import { NgToastModule } from 'ng-angular-popup';
 import { CookieService } from 'ngx-cookie-service';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
@@ -15,6 +14,9 @@ import { NavBarComponent } from './components/NavBar/NavBar.component';
 import { NavbarModule, SidebarModule } from 'ng-cdbangular';
 import { SideBarComponent } from './components/SideBar/SideBar.component';
 import { PocetnaComponent } from './components/Pocetna/Pocetna.component';
+import { RouterModule } from '@angular/router';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ResetpasswordComponent } from './components/resetpassword/resetpassword.component';
 
 @NgModule({
   declarations: [
@@ -24,16 +26,22 @@ import { PocetnaComponent } from './components/Pocetna/Pocetna.component';
     NavBarComponent,
     SideBarComponent,
     PocetnaComponent,
+    ResetpasswordComponent
+    
   ],
   imports: [
-    BrowserModule,
+    BrowserAnimationsModule,
     AppRoutingModule,
     HttpClientModule,
     NavbarModule,
+    BrowserModule,
     FormsModule,
+    HttpClientModule,
     ReactiveFormsModule,
     NgToastModule,
     SidebarModule,
+    RouterModule,
+    
   ],
   providers: [
     CookieService,
