@@ -63,6 +63,7 @@ export class TokenInterceptor implements HttpInterceptor {
     .pipe(
       switchMap((data: RefreshTokenDto)=>
       {
+        this.counter = 0;
         this.cookie.set("token",data.token);
         this.cookie.set("refreshToken",data.refreshToken);
         request = request.clone(
