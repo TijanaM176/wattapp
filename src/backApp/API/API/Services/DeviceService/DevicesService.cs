@@ -14,17 +14,6 @@ namespace API.Services.Devices
             _repository = repository;
         }
 
-
-        /*
-        public DevicesService(IOptions<DevicesSettings> devicesDbSettings)
-        {
-            var mongoClient = new MongoClient(devicesDbSettings.Value.ConnectionString);
-            var mongoDatabase = mongoClient.GetDatabase(devicesDbSettings.Value.DatabaseName);
-            devicesCollection = mongoDatabase.GetCollection<Device>(devicesDbSettings.Value.CollectionName);
-        }
-        */
-
-
         public async Task<string> proba(string id)
         {
             return await _repository.GetDeviceName(id);

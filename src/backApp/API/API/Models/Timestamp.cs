@@ -5,10 +5,7 @@ namespace API.Models
     public class Timestamp
     {
         [BsonElement("date")]
-        public string Date { get; set; }
-
-        [BsonElement("time")]
-        public string Time { get; set; }
+        public DateTime Date { get; set; }
 
         [BsonElement("active_power")]
         public double ActivePower { get; set; }
