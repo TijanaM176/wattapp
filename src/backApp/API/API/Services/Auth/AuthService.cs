@@ -198,6 +198,19 @@ namespace API.Services.Auth
             }
 
         }
+        public async Task<bool> SaveToken(User user, string token, DateTime expiry)
+        {
+            try
+            {
+                await _repository.SaveToken(user, token, expiry);
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+
+        }
 
         public RefreshToken GenerateRefreshToken()
         {

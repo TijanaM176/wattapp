@@ -129,6 +129,13 @@ namespace API.Repositories
             await _context.SaveChangesAsync();
         }
 
+        public async Task SaveToken(User user, string token, DateTime expiry)
+        {
+            user.Token = token;
+            user.TokenExpiry = expiry;
+            await _context.SaveChangesAsync();
+        }
+
         public IQueryable<Dso> FindAll()
         {
             return dsoRepository.FindAll();
