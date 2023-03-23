@@ -218,7 +218,7 @@ namespace API.Services.Auth
             {
                 Token = Convert.ToBase64String(RandomNumberGenerator.GetBytes(64)),
                 Created = DateTime.Now,
-                Expires = DateTime.Now.AddMinutes(int.Parse(_config.GetSection("AppSettings:RefreshTokenValidity").Value))
+                Expires = DateTime.Now.AddDays(int.Parse(_config.GetSection("AppSettings:RefreshTokenValidity").Value))
             };
         }
 
