@@ -23,7 +23,7 @@ export class HomeComponent implements OnInit {
   }
 
   LogOut() {
-    this.cookie.delete('token');
+    this.cookie.deleteAll();
     this.router.navigate(['login']);
   }
 
