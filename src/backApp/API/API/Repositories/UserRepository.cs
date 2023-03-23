@@ -84,13 +84,22 @@ namespace API.Repositories
         {
             return await _context.Roles.FirstOrDefaultAsync(x => x.RoleName.Equals(naziv));
         }
+        public async Task<Region> getRegion(string naziv)
+        {
+            return await _context.Regions.FirstOrDefaultAsync(x => x.RegionName.Equals(naziv));
+        }
+        public async Task<Neigborhood> getNeigborhood(string naziv)
+        {
+            return await _context.Neigborhoods.FirstOrDefaultAsync(x => x.NeigbName.Equals(naziv));
+        }
+
 
         public async Task<string> getRoleName(long? id)
         {
             var role = await _context.Roles.FirstOrDefaultAsync(x => x.Id == id);
             return role.RoleName;
         }
-
+      
         public Task InsertDSOWorker(Dso DSO_Worker)
         {
             return dsoRepository.InsertDSOWorker(DSO_Worker);

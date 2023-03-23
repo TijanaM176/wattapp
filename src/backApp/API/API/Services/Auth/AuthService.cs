@@ -129,6 +129,32 @@ namespace API.Services.Auth
                 throw;
             }
         }
+        public async Task<Region> getRegion(string naziv)
+        {
+            try
+            {
+                var region = await _repository.getRegion(naziv);
+                return region;
+            }
+            catch (NullReferenceException)
+            {
+                throw;
+            }
+        }
+        public async Task<Neigborhood> getNeigborhood(string naziv)
+        {
+            try
+            {
+                var neigh = await _repository.getNeigborhood(naziv);
+                return neigh;
+            }
+            catch (NullReferenceException)
+            {
+                throw;
+            }
+        }
+
+
         public async Task<string> getRoleName(long? id)
         {
             var roleName = await _repository.getRoleName(id);
@@ -136,6 +162,8 @@ namespace API.Services.Auth
 
             return roleName;
         }
+
+
 
         public async Task<Prosumer> GetProsumer(string usernameOrEmail)
         {
@@ -257,15 +285,18 @@ namespace API.Services.Auth
                 //prosumer.Role = vratiIDRole("korisnik");// ---ne radi fun ne znam zasto?
                 prosumer.HashPassword = passwordHash;
                 prosumer.SaltPassword = passwordSalt;
-                prosumer.RegionId = "trenutno"; // ovo je trenutno dok se ne napravi Dso, Pa cemo da vracamo iz dso-a
+                prosumer.RegionId = (await getRegion("Sumadija")).Id;   //"trenutno"; // ovo je trenutno dok se ne napravi Dso, Pa cemo da vracamo iz dso-a
 
                 prosumer.DateCreate = DateTime.Now.ToString("MM/dd/yyyy");
-                prosumer.Role = await getRole("korisnik");
-
+                prosumer.Role = await getRole("Prosumer");
+                prosumer.Region = await getRegion("Sumadija");
                 //prosumer only
                 prosumer.NeigborhoodId = "trenutno"; // ovo isto vazi kao i za RegionId
+                prosumer.CityId = 1;
                 prosumer.Address = request.address;
                 prosumer.Image = request.Image;
+
+                
 
                 if (await InsertProsumer(prosumer)) return prosumer; // sacuvaju se i 
 
