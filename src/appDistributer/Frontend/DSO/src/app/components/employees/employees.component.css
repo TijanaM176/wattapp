@@ -135,15 +135,7 @@ table.table th,tr,td{
 .material-icons{
     cursor: pointer;
 }
-
-.status {
-    font-size: 30px;
-    margin: 2px 2px 0 0;
-    display: inline-block;
-    vertical-align: middle;
-    line-height: 10px;
-}
-
+/*
 .pagination {
     justify-content: center;
     margin: 0 0 5px;
@@ -155,7 +147,7 @@ table.table th,tr,td{
     min-height: 30px;
     color: #999;
     margin: 0 2px;
-    line-height: 30px;
+    
     border-radius: 2px !important;
     text-align: center;
     padding: 0 6px;
@@ -180,4 +172,7 @@ table.table th,tr,td{
     float: left;
     margin-top: 10px;
     font-size: 13px;
+}*/
+.deo{
+    margin-top:3%;
 }

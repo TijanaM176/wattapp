@@ -46,7 +46,8 @@ import { EmployeedetailsComponent } from './components/employeedetails/employeed
 import { SearchemployeenamePipe } from './components/searchemployeename.pipe';
 import { SidebarDsoComponent } from './components/sidebar-dso/sidebar-dso.component';
 import { ResetpasswordComponent } from './components/resetpassword/resetpassword.component';
-
+import{NgxPaginationModule} from  'ngx-pagination'
+import {MatPaginatorModule } from '@angular/material/paginator';
 @NgModule({
   declarations: [
     AppComponent,
@@ -94,6 +95,8 @@ import { ResetpasswordComponent } from './components/resetpassword/resetpassword
     Ng2SearchPipeModule,
     NgxSliderModule,
     LeafletModule,
+    NgxPaginationModule,
+    MatPaginatorModule
   ],
   providers: [
     CookieService,
