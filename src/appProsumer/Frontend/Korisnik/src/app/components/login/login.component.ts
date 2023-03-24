@@ -5,6 +5,7 @@ import { NgToastService } from 'ng-angular-popup';
 import { CookieService } from 'ngx-cookie-service';
 import { AuthServiceService } from 'src/app/services/auth-service.service';
 import { ResetPasswordService } from 'src/app/services/reset-password.service';
+import jwt_decode from 'jwt-decode';
 
 @Component({
   selector: 'app-login',
@@ -61,6 +62,11 @@ export class LoginComponent implements OnInit{
         {
           next:(res)=>{
             this.loginForm.reset();
+            var decodedToken:any = jwt_decode(res.token);
+            //console.log(decodedToken['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name']);
+            //console.log(decodedToken['http://schemas.microsoft.com/ws/2008/06/identity/claims/role']);
+            this.cookie.set('username',decodedToken['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name']);
+            this.cookie.set('role',decodedToken['http://schemas.microsoft.com/ws/2008/06/identity/claims/role']);
             this.cookie.set("token",res.token);
             this.cookie.set("refreshToken",res.refreshToken);
             this.toast.success({detail:"Successful Login!",duration: 2000});

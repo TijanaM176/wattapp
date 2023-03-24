@@ -24,6 +24,7 @@
     "@material/slider": "^14.0.0",
     "@ng-bootstrap/ng-bootstrap": "^14.0.1",
     "bootstrap-select": "^1.13.18",
+    "jwt-decode": "^3.1.2",
     "leaflet": "^1.9.3",
     "leaflet.locatecontrol": "^0.79.0",
     "ng-angular-popup": "^0.2.0",

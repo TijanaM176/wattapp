@@ -13,6 +13,7 @@ import { RefreshTokenDto } from '../models/refreshTokenDto';
 import { NgToastService } from 'ng-angular-popup';
 import { Router } from '@angular/router';
 import { AuthServiceService } from '../services/auth-service.service';
+import jwt_decode from 'jwt-decode';
 
 @Injectable()
 export class TokenInterceptor implements HttpInterceptor {
@@ -58,7 +59,9 @@ export class TokenInterceptor implements HttpInterceptor {
   {
     let refreshDto = new SendRefreshToken();
     var refresh = this.cookie.get("refreshToken");
+    var username = this.cookie.get('username');
     refreshDto.refreshToken = refresh;
+    refreshDto.username = username;
     return this.auth.refreshToken(refreshDto)
     .pipe(
       switchMap((data: RefreshTokenDto)=>
@@ -66,6 +69,9 @@ export class TokenInterceptor implements HttpInterceptor {
         this.counter = 0;
         this.cookie.set("token",data.token);
         this.cookie.set("refreshToken",data.refreshToken);
+        /*var decodedToken:any = jwt_decode(data.token);
+        this.cookie.set('username',decodedToken['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name']);
+        this.cookie.set('role',decodedToken['http://schemas.microsoft.com/ws/2008/06/identity/claims/role']);*/
         request = request.clone(
           {
             setHeaders: {Authorization: "Bearer "+this.cookie.get("token")}

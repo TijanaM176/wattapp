@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { NgToastService } from 'ng-angular-popup';
 import { AuthService } from 'src/app/services/auth.service';
 @Component({
   selector: 'app-signup-worker',
@@ -9,7 +10,7 @@ import { AuthService } from 'src/app/services/auth.service';
 })
 export class SignupWorkerComponent  implements OnInit{
   signupWorkerForm!:FormGroup;
-  constructor(private fb:FormBuilder,private router : Router,private auth:AuthService){}
+  constructor(private fb:FormBuilder,private router : Router,private auth:AuthService,private toast: NgToastService){}
   ngOnInit(): void {
     this.signupWorkerForm=this.fb.group({
       firstName:['',Validators.required],
@@ -48,12 +49,14 @@ export class SignupWorkerComponent  implements OnInit{
       this.auth. signupWorker(this.signupWorkerForm.value)
       .subscribe({
         next:(res=>{
-          alert(res);
+          //alert(res);
+          this.toast.success({detail:"Success!", summary:"New Employee Added",duration:2500});
           this.signupWorkerForm.reset();
-          this.router.navigate(['']);
+          //this.router.navigate(['']);
         })
         ,error:(err=>{
-          alert(err?.error)
+          //alert(err?.error)
+          this.toast.error({detail:"Error!", summary:err.error, duration:3000});
         })
       })
       console.log(this.signupWorkerForm.value);
