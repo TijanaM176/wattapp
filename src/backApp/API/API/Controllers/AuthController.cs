@@ -35,7 +35,6 @@ namespace API.Controllers
     {
 
         private readonly IAuthService authService;
-        private static User user = new User();
 
         public AuthController(IAuthService serv)
         {
@@ -100,13 +99,11 @@ namespace API.Controllers
                 });
 
             string userToken = await authService.CreateToken(prosumer);
-            if (!await authService.SaveToken(prosumer, userToken)) return Problem("Unable to save token");
-
             var refreshToken = authService.GenerateRefreshToken();
             SetRefreshToken(refreshToken);
 
-            user = prosumer;
-            user.RefreshToken = refreshToken;
+            if (!await authService.SaveToken(prosumer, refreshToken.Token, refreshToken.Expires)) return Problem("Unable to save token");
+
             return Ok(new
             {
                 error = false,
@@ -141,18 +138,14 @@ namespace API.Controllers
                 });
 
             string dsoToken = await authService.CreateToken(dso);
-            if (!await authService.SaveToken(dso, dsoToken)) return Problem("Unable to save token");
-
             var refreshToken = authService.GenerateRefreshToken();
             SetRefreshToken(refreshToken);
-            
-            user = dso;
-            user.RefreshToken = refreshToken;
+            if (!await authService.SaveToken(dso, refreshToken.Token, refreshToken.Expires)) return Problem("Unable to save token");
+
             return Ok(new
             {
                 token = dsoToken,
                 refreshToken = refreshToken.Token,
-                user = user
             }) ;
         }
         /*
@@ -173,20 +166,35 @@ namespace API.Controllers
         }
         */
         [HttpPost("refreshToken")]
-        public async Task<ActionResult> RefreshToken([FromBody] ReceiveRefreshToken refreshToken)
+        public async Task<ActionResult> RefreshToken([FromBody] ReceiveRefreshToken refreshToken, string username)
         {
             //var refreshToken = Request.Cookies["refreshToken"];
+            User user = null;
+            try
+            {
+               user = await authService.GetProsumer(username);
+            }
+            catch (Exception e) { }
 
-            if (!user.RefreshToken.Token.Equals(refreshToken.refreshToken))
+            if (user == null) {
+                try
+                {
+                    user = await authService.GetDSO(username);
+                }
+                catch (Exception e) { }
+            }
+
+            if (user == null) return BadRequest("Invalid username");
+
+            if (!user.Token.Equals(refreshToken.refreshToken))
                 return Unauthorized("Invalid Refresh Token.");
-            else if (user.RefreshToken.Expires < DateTime.Now)
+            else if (user.TokenExpiry < DateTime.Now)
                 return Unauthorized("Expired Token.");
 
             string token = await authService.CreateToken(user);
             var updatedRefreshToken = authService.GenerateRefreshToken();
             SetRefreshToken(updatedRefreshToken);
-
-            user.RefreshToken = updatedRefreshToken;
+            if (!await authService.SaveToken(user, token)) return BadRequest("Token could not be saved!");
             
             return Ok(new
             {

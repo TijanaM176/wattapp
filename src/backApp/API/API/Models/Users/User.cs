@@ -15,6 +15,7 @@ namespace API.Models.Users
         public string? Email { get; set; }
 
         public string? Token { get; set; }
+        public DateTime? TokenExpiry { get; set; }
 
         public long? RoleId { get; set; }
 

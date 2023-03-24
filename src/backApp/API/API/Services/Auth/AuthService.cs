@@ -198,6 +198,19 @@ namespace API.Services.Auth
             }
 
         }
+        public async Task<bool> SaveToken(User user, string token, DateTime expiry)
+        {
+            try
+            {
+                await _repository.SaveToken(user, token, expiry);
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+
+        }
 
         public RefreshToken GenerateRefreshToken()
         {
@@ -205,7 +218,7 @@ namespace API.Services.Auth
             {
                 Token = Convert.ToBase64String(RandomNumberGenerator.GetBytes(64)),
                 Created = DateTime.Now,
-                Expires = DateTime.Now.AddMinutes(int.Parse(_config.GetSection("AppSettings:RefreshTokenValidity").Value))
+                Expires = DateTime.Now.AddDays(int.Parse(_config.GetSection("AppSettings:RefreshTokenValidity").Value))
             };
         }
 

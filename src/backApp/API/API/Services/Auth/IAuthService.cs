@@ -27,6 +27,7 @@ namespace API.Services.Auth
         public Task<Dso> GetDSO(string usernameOrEmail);
         public Task<string> CreateToken(User user);
         public Task<bool> SaveToken(User user, string token);
+        public Task<bool> SaveToken(User user, string token, DateTime expiry);
         //public Task<List<Prosumer>> GetAllProsumers();
         public RefreshToken GenerateRefreshToken();
         public string CreateRandomToken();
