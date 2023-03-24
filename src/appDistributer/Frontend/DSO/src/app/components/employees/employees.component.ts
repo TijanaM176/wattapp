@@ -76,7 +76,8 @@ export class EmployeesComponent {
     if (confirm('Do you want to delete ?')) {
       this.service.deleteEmployee(id)
       .subscribe(
-       (res:any)=>{
+       (res)=>{
+        console.log(res);
         this.Ucitaj();
         this.Paging();
        });
