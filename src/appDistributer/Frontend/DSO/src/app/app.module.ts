@@ -48,6 +48,7 @@ import { SidebarDsoComponent } from './components/sidebar-dso/sidebar-dso.compon
 import { ResetpasswordComponent } from './components/resetpassword/resetpassword.component';
 import{NgxPaginationModule} from  'ngx-pagination'
 import {MatPaginatorModule } from '@angular/material/paginator';
+import { ProsumerinfoComponent } from './components/prosumerinfo/prosumerinfo.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -75,6 +76,7 @@ import {MatPaginatorModule } from '@angular/material/paginator';
     EmployeedetailsComponent,
     SearchemployeenamePipe,
     ResetpasswordComponent,
+    ProsumerinfoComponent,
   ],
   imports: [
     MatSliderModule,
