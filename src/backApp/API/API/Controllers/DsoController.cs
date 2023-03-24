@@ -38,7 +38,7 @@ namespace API.Controllers
         [Authorize(Roles = "admin")]
         public async Task<ActionResult> DeleteDsoWorker(string id)
         {
-            if (await dsoService.DeleteDsoWorker(id)) return Ok("Successfully deleted user!");
+            if (await dsoService.DeleteDsoWorker(id)) return Ok(new { error = true, message = "Successfuly deleted user" });
 
             return BadRequest("Could not remove user!");
         }
@@ -69,6 +69,7 @@ namespace API.Controllers
         {
 
             return await dsoService.GetDsoWorkers(dsoWorkersParameters);
+           
         }
     }
 }

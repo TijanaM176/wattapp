@@ -75,12 +75,19 @@ export class EmployeesComponent {
   onDelete(id: string) {
     if (confirm('Do you want to delete ?')) {
       this.service.deleteEmployee(id)
-      .subscribe(
-       (res)=>{
-        console.log(res);
-        this.Ucitaj();
-        this.Paging();
-       });
+      .subscribe({
+        next:(res)=>{
+          //alert(res.message);
+          this.Ucitaj();
+          this.Paging();
+          //console.log(res);
+          //console.log(this.resetPasswordEmail);
+        },
+        error:(err)=>{
+          
+          console.log(err.error);
+        }
+    });
     }
   }
 
