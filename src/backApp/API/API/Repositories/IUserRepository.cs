@@ -15,6 +15,11 @@ namespace API.Repositories
         public Task SaveToken(User user, string token, DateTime expiry);
         public Task<Role> getRole(string naziv);
         public Task<string> getRoleName(long? id);
+        public Task<Region> getRegion(string naziv);
+        public Task<Neigborhood> getNeigborhood(string naziv);
+        public Task<City> getCity(string naziv);
+
+
 
     }
 }

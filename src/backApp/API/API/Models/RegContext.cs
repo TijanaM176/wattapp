@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using API.Models.Users;
 using Microsoft.EntityFrameworkCore;
-
+using API.Models.Users;
 namespace API.Models;
 
 public partial class RegContext : DbContext
@@ -15,6 +14,8 @@ public partial class RegContext : DbContext
         : base(options)
     {
     }
+
+    public virtual DbSet<City> Cities { get; set; }
 
     public virtual DbSet<Dso> Dsos { get; set; }
 
@@ -32,9 +33,17 @@ public partial class RegContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        //ovo je rucno dodato da ne bi cuvalo u bazu deo za refresh tokene
+
+        // baza ignorise refreshTokene
         modelBuilder.Entity<Prosumer>().Ignore(x => x.RefreshToken);
         modelBuilder.Entity<Dso>().Ignore(x => x.RefreshToken);
+
+        modelBuilder.Entity<City>(entity =>
+        {
+            entity.ToTable("City");
+
+            entity.Property(e => e.Name).HasColumnType("nvarchar(20)");
+        });
 
         modelBuilder.Entity<Dso>(entity =>
         {
@@ -44,17 +53,19 @@ public partial class RegContext : DbContext
 
             entity.Property(e => e.FirstName).HasColumnType("nvarchar(10)");
             entity.Property(e => e.HashPassword).HasColumnType("varbinary(2048)");
-            entity.Property(e => e.Image).HasColumnType("VARCHAR(200)");
             entity.Property(e => e.LastName).HasColumnType("nvarchar(20)");
             entity.Property(e => e.SaltPassword).HasColumnType("varbinary(2048)");
             entity.Property(e => e.Username).HasColumnType("nvarchar(30)");
+
+            entity.HasOne(d => d.Region).WithMany(p => p.Dsos).HasForeignKey(d => d.RegionId);
+
+            entity.HasOne(d => d.Role).WithMany(p => p.Dsos).HasForeignKey(d => d.RoleId);
         });
 
         modelBuilder.Entity<Neigborhood>(entity =>
         {
             entity.ToTable("Neigborhood");
 
-            entity.Property(e => e.Id).HasColumnType("nvarchar(100)");
             entity.Property(e => e.NeigbName).HasColumnType("nvarchar(50)");
         });
 
@@ -65,16 +76,20 @@ public partial class RegContext : DbContext
             entity.HasIndex(e => e.Username, "IX_Prosumer_Username").IsUnique();
 
             entity.Property(e => e.Address).HasColumnType("VARCHAR(120)");
+            entity.Property(e => e.CityId).HasColumnName("CityID");
             entity.Property(e => e.Email).HasColumnType("nvarchar(20)");
             entity.Property(e => e.FirstName).HasColumnType("nvarchar(10)");
             entity.Property(e => e.HashPassword).HasColumnType("varbinary(2048)");
-            entity.Property(e => e.Image).HasColumnType("VARCHAR(200)");
             entity.Property(e => e.LastName).HasColumnType("nvarchar(20)");
+            entity.Property(e => e.Latitude).HasColumnType("nvarchar(10)");
+            entity.Property(e => e.Longitude).HasColumnType("nvarchar(10)");
             entity.Property(e => e.NeigborhoodId).HasColumnName("NeigborhoodID");
             entity.Property(e => e.RegionId).HasColumnName("RegionID");
             entity.Property(e => e.RoleId).HasColumnName("RoleID");
             entity.Property(e => e.SaltPassword).HasColumnType("varbinary(2048)");
             entity.Property(e => e.Username).HasColumnType("nvarchar(30)");
+
+            entity.HasOne(d => d.City).WithMany(p => p.Prosumers).HasForeignKey(d => d.CityId);
 
             entity.HasOne(d => d.Neigborhood).WithMany(p => p.Prosumers).HasForeignKey(d => d.NeigborhoodId);
 
@@ -89,7 +104,6 @@ public partial class RegContext : DbContext
 
             entity.HasIndex(e => e.RegionName, "IX_Region_RegionName").IsUnique();
 
-            entity.Property(e => e.Id).HasColumnType("nvarchar(100)");
             entity.Property(e => e.RegionName).HasColumnType("nvarchar(20)");
         });
 

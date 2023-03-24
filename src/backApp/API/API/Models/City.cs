@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using API.Models.Users;
 namespace API.Models;
 
-public partial class Neigborhood
+public partial class City
 {
-    public string Id { get; set; } = null!;
+    public long Id { get; set; }
 
-    public string NeigbName { get; set; } = null!;
+    public string? Name { get; set; }
 
     public virtual ICollection<Prosumer> Prosumers { get; } = new List<Prosumer>();
 }

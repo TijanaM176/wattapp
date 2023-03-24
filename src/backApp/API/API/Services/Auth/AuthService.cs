@@ -129,6 +129,43 @@ namespace API.Services.Auth
                 throw;
             }
         }
+        public async Task<Region> getRegion(string naziv)
+        {
+            try
+            {
+                var region = await _repository.getRegion(naziv);
+                return region;
+            }
+            catch (NullReferenceException)
+            {
+                throw;
+            }
+        }
+        public async Task<Neigborhood> getNeigborhood(string naziv)
+        {
+            try
+            {
+                var neigh = await _repository.getNeigborhood(naziv);
+                return neigh;
+            }
+            catch (NullReferenceException)
+            {
+                throw;
+            }
+        }
+        public async Task<City> getCity(string naziv)
+        {
+            try
+            {
+                var city = await _repository.getCity(naziv);
+                return city;
+            }
+            catch (NullReferenceException)
+            {
+                throw;
+            }
+        }
+
         public async Task<string> getRoleName(long? id)
         {
             var roleName = await _repository.getRoleName(id);
@@ -136,6 +173,8 @@ namespace API.Services.Auth
 
             return roleName;
         }
+
+
 
         public async Task<Prosumer> GetProsumer(string usernameOrEmail)
         {
@@ -259,26 +298,53 @@ namespace API.Services.Auth
 
             if (IsValidEmail(request.Email) && await checkEmail(request))
             {
+                //osnovni podaci
                 prosumer.Id = id.ToString();
                 prosumer.FirstName = request.FirstName;
                 prosumer.LastName = request.LastName;
-                prosumer.Username = username; // proveri validnost username 
-                prosumer.Email = request.Email; // validnost email-a
+                prosumer.Username = username; 
+                prosumer.Email = request.Email;
+                prosumer.Address = request.Address;
 
-                prosumer.Token = null; // to je trenutno posle ide komunikacija
-                prosumer.RoleId = getRole("korisnik").Id; // -------  vratiIDRole("korisnik"); kada ga hardkodujem ne vraca gresku wtf?Morao sam ovako, izmeni sledeci put-------
-                //prosumer.Role = vratiIDRole("korisnik");// ---ne radi fun ne znam zasto?
+                //sifre
                 prosumer.HashPassword = passwordHash;
                 prosumer.SaltPassword = passwordSalt;
-                prosumer.RegionId = "trenutno"; // ovo je trenutno dok se ne napravi Dso, Pa cemo da vracamo iz dso-a
 
+                //token 
+                prosumer.Token = null;
+             
+                
+                City city = await getCity(request.City);
+                Neigborhood neigborhood = await getNeigborhood(request.NeigbName);
+                
+                if (city == null || neigborhood == null) return null;
+
+
+                //rola, region, neiborhood, city
+                prosumer.Role = await getRole("Prosumer");
+                prosumer.Region = await getRegion("Sumadija");
+                prosumer.City = city;
+                prosumer.Neigborhood = neigborhood;
+
+                prosumer.RoleId = getRole("Prosumer").Id;
+                prosumer.RegionId = (await getRegion("Sumadija")).Id;
+                prosumer.NeigborhoodId = prosumer.Neigborhood.Id;
+                prosumer.CityId = prosumer.City.Id;
+
+                // kordinate
+
+                prosumer.Longitude = null;
+                prosumer.Latitude = null;
+                
+                //datum kreiranja
                 prosumer.DateCreate = DateTime.Now.ToString("MM/dd/yyyy");
-                prosumer.Role = await getRole("korisnik");
 
-                //prosumer only
-                prosumer.NeigborhoodId = "trenutno"; // ovo isto vazi kao i za RegionId
-                prosumer.Address = request.address;
+
+                //slika
                 prosumer.Image = request.Image;
+
+
+
 
                 if (await InsertProsumer(prosumer)) return prosumer; // sacuvaju se i 
 
@@ -298,20 +364,33 @@ namespace API.Services.Auth
 
             if (IsValidEmail(request.Email) && await checkEmail(request))
             {
+                //osnovni podaci
                 workerDSO.Id = id.ToString();
                 workerDSO.FirstName = request.FirstName;
                 workerDSO.LastName = request.LastName;
-                workerDSO.Username = username; // proveri validnost username 
-                workerDSO.Email = request.Email; // validnost email-a
+                workerDSO.Username = username; 
+                workerDSO.Email = request.Email; 
                 workerDSO.Image = request.Image;
                 workerDSO.Salary = request.Salary;
-                workerDSO.Token = null; // to je trenutno posle ide komunikacija
-                workerDSO.RoleId = getRole("WorkerDso").Id;
+                
+                //token
+                workerDSO.Token = null;
+
+               
+                workerDSO.Role = await getRole("WorkerDso");
+                workerDSO.Region = await getRegion("Sumadija");
+
+                workerDSO.RoleId = workerDSO.Role.Id;
+                workerDSO.RegionId = workerDSO.Region.Id;
+
+
+               //sifre
                 workerDSO.HashPassword = passwordHash;
                 workerDSO.SaltPassword = passwordSalt;
-                workerDSO.RegionId = "trenutno"; // ovo je trenutno dok se ne napravi Dso, Pa cemo da vracamo iz dso-a
+              
+                //datum kreiranja
                 workerDSO.DateCreate = DateTime.Now.ToString("MM/dd/yyyy");
-                workerDSO.Role = await getRole("WorkerDso");
+           
                 if (await InsertDSOWorker(workerDSO)) return workerDSO;   // sacuvaju se i izmene
 
             }
