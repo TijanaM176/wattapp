@@ -24,6 +24,7 @@ namespace API.Services.Auth
         public Task<Role> getRole(string naziv);
         public Task<Neigborhood> getNeigborhood(string naziv);
         public Task<Region> getRegion(string naziv);
+        public Task<City> getCity(string naziv);
         public Task<string> getRoleName(long? id);
         public Task<Prosumer> GetProsumer(string usernameOrEmail);
         public Task<Dso> GetDSO(string usernameOrEmail);

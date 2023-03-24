@@ -49,7 +49,7 @@ namespace API.Controllers
             if (prosumer != null)
                 return Ok(prosumer);
             else
-                return BadRequest("Email nije validan ili vec postoji!");
+                return BadRequest("Error!");
         }
 
         [HttpPost("registerDsoWorker")]
@@ -59,7 +59,7 @@ namespace API.Controllers
             if (dso != null)
                 return Ok(dso);
             else
-                return BadRequest("Email nije validan ili vec postoji takav!");
+                return BadRequest("Error!");
         }
 
         [HttpPost("setRefreshToken")]

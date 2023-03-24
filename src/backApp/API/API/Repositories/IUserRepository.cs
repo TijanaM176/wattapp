@@ -16,7 +16,9 @@ namespace API.Repositories
         public Task<string> getRoleName(long? id);
         public Task<Region> getRegion(string naziv);
         public Task<Neigborhood> getNeigborhood(string naziv);
-        
+        public Task<City> getCity(string naziv);
+
+
 
     }
 }

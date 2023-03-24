@@ -88,9 +88,13 @@ namespace API.Repositories
         {
             return await _context.Regions.FirstOrDefaultAsync(x => x.RegionName.Equals(naziv));
         }
+        public async Task<City> getCity(string naziv)
+        {
+            return await _context.Cities.FirstOrDefaultAsync(x => x.Name.ToLower().Equals(naziv.ToLower()));
+        }
         public async Task<Neigborhood> getNeigborhood(string naziv)
         {
-            return await _context.Neigborhoods.FirstOrDefaultAsync(x => x.NeigbName.Equals(naziv));
+            return await _context.Neigborhoods.FirstOrDefaultAsync(x => x.NeigbName.ToLower().Equals(naziv.ToLower()));
         }
 
 
