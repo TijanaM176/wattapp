@@ -12,10 +12,20 @@ export class UsersServiceService {
   private baseUrl: string =
     'https://localhost:7156/api/Prosumer/GetAllProsumers';
   prosumers!: Prosumer[];
+  private baseUrl2: string = "https://localhost:7156/api/Prosumer/getProsumerByID";
+  private baseUrlPage:string ="https://localhost:7156/api/Dso/GetProsumersPaging";
   refreshList() {
     lastValueFrom(this.http.get(this.baseUrl)).then(
       (res) => (this.prosumers = res as Prosumer[])
     );
+  }
+  detailsEmployee(id:string){
+    
+    return this.http.get(`${this.baseUrl2}`+`?id=`+id);
+    
+  }
+  Page(page:number,pagesize:number){
+    return this.http.get(`${this.baseUrlPage}?PageNumber=`+page+`&PageSize=`+pagesize);
   }
 
   getAllNeighborhoods(): Observable<Neighborhood[]> {

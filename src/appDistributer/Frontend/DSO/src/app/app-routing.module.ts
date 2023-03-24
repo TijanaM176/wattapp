@@ -15,6 +15,7 @@ import { StranaUsersComponent } from './components/stranaUsers/stranaUsers.compo
 import { EmployeedetailsComponent } from './components/employeedetails/employeedetails.component';
 import { SidebarDsoComponent } from './components/sidebar-dso/sidebar-dso.component';
 import { ResetpasswordComponent } from './components/resetpassword/resetpassword.component';
+import { ProsumerinfoComponent } from './components/prosumerinfo/prosumerinfo.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -78,6 +79,10 @@ const routes: Routes = [
     path: 'resetpassword',
     component: ResetpasswordComponent,
   },
+  {
+    path: 'prosumerinfo',
+    component:ProsumerinfoComponent
+  }
 ];
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
