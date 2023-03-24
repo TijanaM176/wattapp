@@ -194,7 +194,7 @@ namespace API.Controllers
             string token = await authService.CreateToken(user);
             var updatedRefreshToken = authService.GenerateRefreshToken();
             SetRefreshToken(updatedRefreshToken);
-            if (!await authService.SaveToken(user, token)) return BadRequest("Token could not be saved!");
+            if (!await authService.SaveToken(user, updatedRefreshToken.Token, updatedRefreshToken.Expires)) return BadRequest("Token could not be saved!");
             
             return Ok(new
             {
