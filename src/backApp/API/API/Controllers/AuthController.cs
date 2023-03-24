@@ -166,20 +166,20 @@ namespace API.Controllers
         }
         */
         [HttpPost("refreshToken")]
-        public async Task<ActionResult> RefreshToken([FromBody] ReceiveRefreshToken refreshToken, string username)
+        public async Task<ActionResult> RefreshToken([FromBody] ReceiveRefreshToken refreshToken)
         {
             //var refreshToken = Request.Cookies["refreshToken"];
             User user = null;
             try
             {
-               user = await authService.GetProsumer(username);
+               user = await authService.GetProsumer(refreshToken.username);
             }
             catch (Exception e) { }
 
             if (user == null) {
                 try
                 {
-                    user = await authService.GetDSO(username);
+                    user = await authService.GetDSO(refreshToken.username);
                 }
                 catch (Exception e) { }
             }

@@ -4,9 +4,9 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { Router } from '@angular/router';
 import { NgToastService } from 'ng-angular-popup';
 import { CookieService } from 'ngx-cookie-service';
-import { TokenInterceptor } from 'src/app/interceptors/token.interceptor';
 import { AuthServiceService } from 'src/app/services/auth-service.service';
 import { ResetPasswordService } from 'src/app/services/reset-password.service';
+import jwt_decode from 'jwt-decode';
 
 @Component({
   selector: 'app-login',
@@ -68,6 +68,10 @@ export class LoginComponent implements OnInit {
           next:(res)=>{
             //alert(res.message);
             this.loginForm.reset();
+            var decodedToken:any = jwt_decode(res.token);
+            console.log(decodedToken);
+            //this.cookie.set('username',decodedToken.username);
+            //this.cookie.set('role',decodedToken.role);
             this.cookie.set("token",res.token);
             this.cookie.set("refreshToken",res.refreshToken);
             this.toast.success({detail:"Successful Login!",duration: 2000});

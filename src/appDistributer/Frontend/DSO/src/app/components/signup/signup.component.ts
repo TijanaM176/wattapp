@@ -3,6 +3,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
 import { NgToastService } from 'ng-angular-popup';
+import { CookieService } from 'ngx-cookie-service';
 
 @Component({
   selector: 'app-signup',
@@ -18,7 +19,7 @@ export class SignupComponent implements OnInit{
   longitude: string = ''
 
   signupForm!:FormGroup;
-  constructor(private fb:FormBuilder,private auth : AuthService,private router:Router,private toast: NgToastService,){}
+  constructor(private fb:FormBuilder,private auth : AuthService,private router:Router,private toast: NgToastService){}
   ngOnInit(): void {
     this.signupForm=this.fb.group({
       firstName:['',Validators.required],
@@ -58,12 +59,14 @@ export class SignupComponent implements OnInit{
       this.auth.signUp(this.signupForm.value)
       .subscribe({
         next:(res=>{
-          alert(res);
+          //alert(res);
+          this.toast.success({detail:"Success!", summary:"New Prosumer Added",duration:2500});
           this.signupForm.reset();
           //this.router.navigate(['']);
         })
         ,error:(err=>{
-          alert(err?.error)
+          //alert(err?.error)
+          this.toast.error({detail:"Error!", summary:err.error, duration:3000});
         })
       })
       console.log(this.signupForm.value);
