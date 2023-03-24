@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
 import { NgToastService } from 'ng-angular-popup';
 import { CookieService } from 'ngx-cookie-service';
+import { RegisterProsumerDto } from 'src/app/models/registerProsumerDto';
 
 @Component({
   selector: 'app-signup',
@@ -17,6 +18,8 @@ export class SignupComponent implements OnInit{
   imageUrl:string="/assets/images/default-image.png";
   latitude: string = ''
   longitude: string = ''
+  image: string = 'slika'
+  address: string =''
 
   signupForm!:FormGroup;
   constructor(private fb:FormBuilder,private auth : AuthService,private router:Router,private toast: NgToastService){}
@@ -27,7 +30,8 @@ export class SignupComponent implements OnInit{
       password:['',Validators.required],
       email:['',Validators.required],
       address:['',Validators.required],
-      image:['',Validators.required],
+      neigbName:['',Validators.required],
+      city:['',Validators.required]
     })
   }
   /*
@@ -54,13 +58,15 @@ export class SignupComponent implements OnInit{
   
   onSignUp(){
     if(this.signupForm.valid){
-      //this.getCoordinates();
-      //uzete koordinate poslati beku zajedno sa formom - implementirati!!!
-      this.auth.signUp(this.signupForm.value)
+      var newProsumer : RegisterProsumerDto = this.makeDto();
+      console.log(newProsumer);
+      /*this.auth.signUp(newProsumer)
       .subscribe({
         next:(res=>{
           //alert(res);
           this.toast.success({detail:"Success!", summary:"New Prosumer Added",duration:2500});
+          
+          this.getCoordinates(this.address);
           this.signupForm.reset();
           //this.router.navigate(['']);
         })
@@ -69,12 +75,13 @@ export class SignupComponent implements OnInit{
           this.toast.error({detail:"Error!", summary:err.error, duration:3000});
         })
       })
-      console.log(this.signupForm.value);
+      console.log(this.signupForm.value);*/
     }
     else{
       this.validateAllFormFields(this.signupForm)
     }
   }
+
   private validateAllFormFields(formGroup:FormGroup){
     Object.keys(formGroup.controls).forEach(field=>{
       const control=formGroup.get(field);
@@ -87,9 +94,8 @@ export class SignupComponent implements OnInit{
     })
   }
 
-  private getCoordinates()
+  private getCoordinates(address:string)
   {
-    var address = 'Atinska 18,Kragujevac,Serbia'; //ulica i broj,grad,drzava - implementirat!!! (hardkodirano je trenutno)
     var key='Ag6ud46b-3wa0h7jHMiUPgiylN_ZXKQtL6OWJpl6eVTUR5CnuwbUF7BYjwSA4nZ_';
     var url = 'https://dev.virtualearth.net/REST/v1/Locations?query=' + encodeURIComponent(address)+ '&key=' + key;
     fetch(url)
@@ -99,12 +105,8 @@ export class SignupComponent implements OnInit{
       var location = data.resourceSets[0].resources[0].geocodePoints[0].coordinates;
       this.latitude = location[0];
       this.longitude = location[1];
-
-        // create a marker at the location
-        //var markerUser = L.marker([latitude, longitude],{ icon: defaultIcon });
-
-        // center the map on the marker
-        //markerUser.addTo(this.map);
+      //console.log(this.latitude);
+      //console.log(this.longitude);
       })
       .catch(error => {
         this.toast.error({
@@ -114,6 +116,22 @@ export class SignupComponent implements OnInit{
         });
         console.error(`Error fetching location data: ${error}`);
       });
+  }
+
+  private makeDto(): RegisterProsumerDto
+  {
+    let newProsumer = new RegisterProsumerDto();
+    newProsumer.firstName = this.signupForm.value.firstName;
+    newProsumer.lastName = this.signupForm.value.lastName;
+    newProsumer.password = this.signupForm.value.password;
+    newProsumer.email = this.signupForm.value.email;
+    newProsumer.address = this.signupForm.value.address;
+    newProsumer.neigbName = this.signupForm.value.neigbName;
+    newProsumer.city = this.signupForm.value.city;
+    newProsumer.image = this.image;
+
+    this.address = newProsumer.address.trim() + ',' + newProsumer.city.trim() + ',' + 'Serbia';
+    return newProsumer;
   }
   
 }

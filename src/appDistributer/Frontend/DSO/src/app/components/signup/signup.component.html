@@ -68,19 +68,27 @@
                         </div>
                         <div class="invalid">
                         <span *ngIf="signupForm.controls['address'].dirty && signupForm.hasError('required','address')" class="text-danger">*Address is required</span>
+
+                        <div class="form-group pt-3">
+                            <div class="input-field" [class.error]="signupForm.controls['neigbName'].dirty && signupForm.hasError('required','neigbName')">
+                                <span class="fa fa-home p-2" style="font-size:24px; margin-left:-7px;"></span>
+                                <input type="text" formControlName="neigbName" placeholder="Neighborhood">
+                            </div>
+                        </div>
+                        <span *ngIf="signupForm.controls['neigbName'].dirty && signupForm.hasError('required','neigbName')" class="text-danger">*Neighborhood is required</span>
                         
                         </div>
                         <div class="form-group pt-3">
-                            <div class="input-field" [class.error]="signupForm.controls['image'].dirty && signupForm.hasError('required','image')">
+                            <div class="input-field" [class.error]="signupForm.controls['city'].dirty && signupForm.hasError('required','city')">
                                
                                 <span class="fa fa-home p-2" style="font-size:24px; margin-left:-7px;"></span>
                                 
-                                    <input formControlName="image" type="text" placeholder="User Neighborhood">
+                                    <input formControlName="city" type="text" placeholder="City">
                                 
                             </div>
                         </div>
                         <div class="invalid">
-                        <span *ngIf="signupForm.controls['image'].dirty && signupForm.hasError('required','image')" class="text-danger">*Neighborhood is required</span>
+                        <span *ngIf="signupForm.controls['city'].dirty && signupForm.hasError('required','city')" class="text-danger">*City is required</span>
                         
                         </div>
                         <!--slika-->
