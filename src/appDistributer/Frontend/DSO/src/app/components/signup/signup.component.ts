@@ -103,10 +103,9 @@ export class SignupComponent implements OnInit{
     .then(data => {
       // Extract the latitude and longitude from the response
       var location = data.resourceSets[0].resources[0].geocodePoints[0].coordinates;
-      this.latitude = location[0];
-      this.longitude = location[1];
-      //console.log(this.latitude);
-      //console.log(this.longitude);
+      /*this.latitude = location[0];
+      this.longitude = location[1];*/
+      //ovde zahtev za cuvanje koordinata da pozovem
       })
       .catch(error => {
         this.toast.error({
