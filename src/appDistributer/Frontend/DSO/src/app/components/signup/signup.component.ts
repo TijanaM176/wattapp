@@ -32,7 +32,8 @@ export class SignupComponent implements OnInit {
   longitude: string = '';
   NeighborhoodId: string = '';
   address: string = '';
-  CityId: number = -1;
+  cityId: number = -1;
+  cityName: string = '';
 
   signupForm!: FormGroup;
   constructor(
@@ -53,21 +54,26 @@ export class SignupComponent implements OnInit {
       email: ['', Validators.required],
       neigbName: [this.neighName],
       address: ['', Validators.required],
-      city: [this.CityId],
+      city: [],
       image: [''],
+      s: [],
     });
   }
   getAllNeighborhoodById(e: any) {
-    this.CityId = e.target.value;
-    console.log(this.CityId);
+    this.cityId = e.target.value;
+    this.service.getCityNameById(this.cityId).subscribe((response) => {
+      this.cityName = response;
+    });
+    console.log(this.cityId);
     this.service
-      .getAllNeighborhoodByCityId(this.CityId)
+      .getAllNeighborhoodByCityId(this.cityId)
       .subscribe((response) => {
         this.neighborhoods = response;
       });
   }
   getNeighId(e: any) {
     this.neighName = e.target.value;
+    console.log(this.neighName);
   }
 
   hideShowPass() {

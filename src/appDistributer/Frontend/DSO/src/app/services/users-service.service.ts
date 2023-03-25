@@ -55,4 +55,11 @@ export class UsersServiceService {
       'https://localhost:7156/api/Prosumer/GetNeighborhoodsByCityId?id=' + id
     );
   }
+
+  getCityNameById(id: number): Observable<string> {
+    return this.http.get(
+      'https://localhost:7156/api/Prosumer/GetCityNameById?id=' + id,
+      { responseType: 'text' }
+    );
+  }
 }

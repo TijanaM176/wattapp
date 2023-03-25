@@ -126,8 +126,9 @@
           ></span>
 
           <select
-            [(ngModel)]="CityId"
-            formControlName="city"
+            [(ngModel)]="cityId"
+            formControlName="s"
+            [disabled]="true"
             (change)="getAllNeighborhoodById($event)"
           >
             <option value="-1" selected disabled>--Select City --</option>
@@ -172,8 +173,9 @@
           <input
             formControlName="address"
             type="text"
-            placeholder="User Address"
+            placeholder="User Address "
           />
+          <input type="hidden" formControlName="city" />
         </div>
       </div>
       <div class="invalid">
@@ -187,6 +189,7 @@
         >
       </div>
       <button type="submit" class="btn col-md-5">Confirm</button>
+      <input formControlName="city" type="hidden" [(ngModel)]="cityName" />
     </form>
   </div>
 </div>
