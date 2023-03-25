@@ -1,7 +1,12 @@
-﻿namespace API.Services.Devices
+﻿using API.Models.Devices;
+
+namespace API.Services.Devices
 {
     public interface IDevicesService
     {
         public Task<string> proba(string id);
+        public Task<List<Device>> GetAllConsumersForProsumer(string id);
+        public Task<List<Device>> GetAllProducersForProsumer(string id);
+        public Task<List<Device>> GetAllStorageForProsumer(string id);
     }
 }

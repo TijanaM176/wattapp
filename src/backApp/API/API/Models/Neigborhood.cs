@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using API.Models.Users;
+
 namespace API.Models;
 
 public partial class Neigborhood

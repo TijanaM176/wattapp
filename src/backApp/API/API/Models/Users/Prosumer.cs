@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text.Json.Serialization;
 using API.Models;
+using API.Models.Devices;
 
 namespace API.Models.Users;
 
@@ -23,5 +24,5 @@ public partial class Prosumer : User
 
     public virtual Neigborhood? Neigborhood { get; set; }
 
-  
+    public ICollection<ProsumerLink> Links{ get; set; }
 }

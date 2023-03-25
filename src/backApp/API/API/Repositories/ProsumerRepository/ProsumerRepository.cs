@@ -61,7 +61,10 @@ namespace API.Repositories.ProsumerRepository
             await _context.SaveChangesAsync();
         }
 
-      
+        public async Task<List<ProsumerLink>> AllLinks(string id)
+        {
+            return await _context.ProsumerLinks.ToListAsync();
+        }
 
     }
 

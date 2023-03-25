@@ -1,4 +1,5 @@
-﻿using API.Services.Devices;
+﻿using API.Models.Devices;
+using API.Services.Devices;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
@@ -16,6 +17,23 @@ namespace API.Controllers
         {
             var dev = await devService.proba(id);
             return Ok(dev);
+        }
+
+        [HttpGet("GetAllDevicesForProsumer")]
+        public async Task<IActionResult> GetAllDevicesForProsumer(string id)
+        {
+            try
+            {
+                return Ok(new
+                {
+                    consumers = await devService.GetAllConsumersForProsumer(id),
+                    producers = await devService.GetAllProducersForProsumer(id),
+                    storage = await devService.GetAllStorageForProsumer(id)
+                });
+            }catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
     }
 }

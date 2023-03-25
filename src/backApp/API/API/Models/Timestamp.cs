@@ -1,4 +1,5 @@
-﻿using MongoDB.Bson.Serialization.Attributes;
+﻿using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Attributes;
 
 namespace API.Models
 {
@@ -20,6 +21,8 @@ namespace API.Models
         [BsonElement("reactive_power")]
         public double ReactivePower { get; set; }
 
+        [BsonIgnoreIfDefault]
+        public ObjectId _id { get; set; }
     }
 
 }

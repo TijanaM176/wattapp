@@ -136,5 +136,13 @@ namespace API.Services.ProsumerService
 
             return prosumers;
         }
+
+        public async Task<List<ProsumerLink>> AllLinks(string id)
+        {
+            var prosumers = await _repository.AllLinks(id);
+            if (prosumers == null) throw new ArgumentException("No links for that prosumer!");
+
+            return prosumers;
+        }
     }
 }

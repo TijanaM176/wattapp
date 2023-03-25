@@ -19,7 +19,5 @@ namespace API.Repositories
         public Task<Neigborhood> getNeigborhood(string naziv);
         public Task<City> getCity(string naziv);
 
-
-
     }
 }

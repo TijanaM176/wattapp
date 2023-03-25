@@ -101,5 +101,11 @@ namespace API.Controllers
             }
         }
 
+        [HttpGet("AllLinks")]
+        public async Task<IActionResult> AllLinks(string id)
+        {
+            return Ok(prosumerService.AllLinks(id));
+        }
+
     }
 }

@@ -158,5 +158,10 @@ namespace API.Repositories
         {
             throw new NotImplementedException();
         }
+
+        public Task<List<ProsumerLink>> AllLinks(string id)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -18,5 +18,24 @@ namespace API.Services.Devices
         {
             return await _repository.GetDeviceName(id);
         }
+
+        public async Task<List<Device>> GetAllConsumersForProsumer(string id)
+        {
+            var devices = await _repository.GetAllConsumersForProsumer(id);
+            if (devices == null) throw new ArgumentException("No devices found!");
+            return devices;
+        }
+        public async Task<List<Device>> GetAllProducersForProsumer(string id)
+        {
+            var devices = await _repository.GetAllProducersForProsumer(id);
+            if (devices == null) throw new ArgumentException("No devices found!");
+            return devices;
+        }
+        public async Task<List<Device>> GetAllStorageForProsumer(string id)
+        {
+            var devices = await _repository.GetAllStorageForProsumer(id);
+            if (devices == null) throw new ArgumentException("No devices found!");
+            return devices;
+        }
     }
 }
