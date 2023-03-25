@@ -1,4 +1,5 @@
-﻿using API.Models.Paging;
+﻿using API.Models.HelpModels;
+using API.Models.Paging;
 using API.Models.Users;
 using API.Repositories.BaseHelpRepository;
 using API.Repositories.DsoRepository;
@@ -162,6 +163,19 @@ namespace API.Repositories
         public async Task<Boolean> SetCoordinates(SaveCoordsDto saveCoords) // nebitnaFunkcija!
         {
            return await prosumerRepository.SetCoordinates(saveCoords);
+        public Task<Neigborhood> GetNeigborhoodsByID(string id)
+        {
+            return  prosumerRepository.GetNeigborhoodsByID(id);
+        }
+
+        public Task<List<SelectedNeigborhood>> GetNeighborhoodByCityId(long CityId)
+        {
+            return prosumerRepository.GetNeighborhoodByCityId(CityId);
+        }
+
+        public Task<List<City>> GetCities()
+        {
+            return prosumerRepository.GetCities();
         }
     }
 }

@@ -40,6 +40,7 @@ public partial class RegContext : DbContext
         modelBuilder.Entity<Prosumer>().Ignore(x => x.TokenExpiry);
         modelBuilder.Entity<Dso>().Ignore(x => x.TokenExpiry);
 
+
         modelBuilder.Entity<City>(entity =>
         {
             entity.ToTable("City");

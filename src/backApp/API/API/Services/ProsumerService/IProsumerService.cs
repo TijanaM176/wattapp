@@ -1,4 +1,5 @@
-﻿using API.Models.Paging;
+﻿using API.Models.HelpModels;
+using API.Models.Paging;
 using API.Models.Users;
 
 namespace API.Services.ProsumerService
@@ -16,5 +17,8 @@ namespace API.Services.ProsumerService
         public Task<List<Neigborhood>> GetNeigborhoods();
         public Task<List<Prosumer>> GetProsumersByNeighborhoodId(string id);
         public Task<Boolean> SetCoordinates(SaveCoordsDto saveCoords);
+        public Task<List<City>> GetCities();
+        public Task<Neigborhood> GetNeigborhoodsByID(string id);
+        public Task<List<SelectedNeigborhood>> GetNeighborhoodByCityId(long CityId);
     }
 }

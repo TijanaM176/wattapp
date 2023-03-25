@@ -1,5 +1,6 @@
 ﻿using System.Security.Cryptography;
 using System.Text;
+using API.Models.HelpModels;
 using API.Models.Paging;
 using API.Models.Users;
 using API.Repositories;
@@ -150,6 +151,23 @@ namespace API.Services.ProsumerService
             {
                 return false;
             }
+        public async Task<List<City>> GetCities()
+        {
+            return await _repository.GetCities();
+        }
+
+        public async Task<Neigborhood> GetNeigborhoodsByID(string id)
+        {
+            return await _repository.GetNeigborhoodsByID(id);
+        }
+
+        public async Task<List<SelectedNeigborhood>> GetNeighborhoodByCityId(long CityId)
+        {
+            List<SelectedNeigborhood> neighborhoods = await _repository.GetNeighborhoodByCityId(CityId);
+            if (neighborhoods == null) throw new ArgumentException("No neighborhoods!");
+
+
+            return neighborhoods;
         }
     }
 }

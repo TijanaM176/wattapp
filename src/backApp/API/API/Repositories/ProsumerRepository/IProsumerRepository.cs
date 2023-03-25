@@ -1,6 +1,8 @@
-﻿using API.Models.Paging;
+﻿using API.Models.HelpModels;
+using API.Models.Paging;
 using API.Models.Users;
 using API.Repositories.BaseHelpRepository;
+using Microsoft.EntityFrameworkCore;
 
 namespace API.Repositories.ProsumerRepository
 {
@@ -23,6 +25,10 @@ namespace API.Repositories.ProsumerRepository
         public Task DeleteProsumer(string id);
 
         public Task<Boolean> SetCoordinates(SaveCoordsDto saveCoords);
+        public Task<List<City>> GetCities();
+        public Task<Neigborhood> GetNeigborhoodsByID(string id);
+
+        public Task<List<SelectedNeigborhood>> GetNeighborhoodByCityId(long CityId);
 
 
     }
