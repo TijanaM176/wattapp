@@ -14,7 +14,6 @@ export class NeighborhoodComponent implements OnInit {
   dropDownNeigh: string = '';
   ChangeNeighborhood(e: any) {
     this.dropDownNeigh = e.target.value;
-    console.log(this.dropDownNeigh);
     if (this.dropDownNeigh == '') {
       this.userService.refreshList();
     } else {

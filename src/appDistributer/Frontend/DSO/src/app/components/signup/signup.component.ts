@@ -13,6 +13,7 @@ import { RegisterProsumerDto } from 'src/app/models/registerProsumerDto';
 import { SetCoordsDto } from 'src/app/models/setCoordsDto';
 import { UsersServiceService } from 'src/app/services/users-service.service';
 import { Neighborhood } from 'src/app/models/neighborhood';
+import { City } from 'src/app/models/city';
 
 @Component({
   selector: 'app-signup',
@@ -20,16 +21,18 @@ import { Neighborhood } from 'src/app/models/neighborhood';
   styleUrls: ['./signup.component.css'],
 })
 export class SignupComponent implements OnInit {
-  cities: any = [];
+  neighName: string = '';
+  cities: City[] = [];
+  neighborhood: string = '';
   neighborhoods: Neighborhood[] = [];
   type: string = 'password';
   isText: boolean = false;
   eyeIcon: string = 'fa-eye-slash';
   latitude: string = '';
   longitude: string = '';
-  CityId: string = '';
   NeighborhoodId: string = '';
   address: string = '';
+  CityId: number = -1;
 
   signupForm!: FormGroup;
   constructor(
@@ -48,29 +51,25 @@ export class SignupComponent implements OnInit {
       lastName: ['', Validators.required],
       password: ['', Validators.required],
       email: ['', Validators.required],
+      neigbName: [this.neighName],
       address: ['', Validators.required],
+      city: [this.CityId],
+      image: [''],
     });
   }
-  getAllNeighborhoodById() {
+  getAllNeighborhoodById(e: any) {
+    this.CityId = e.target.value;
+    console.log(this.CityId);
     this.service
       .getAllNeighborhoodByCityId(this.CityId)
       .subscribe((response) => {
         this.neighborhoods = response;
       });
   }
-
-  /*
-  handleFileInput(event:any){
-
-    if(event.target.files[0]){
-      let reader=new FileReader();
-      reader.readAsDataURL(event.target.files[0]);
-      reader.onload=(event:any)=>{
-        this.imageUrl=event.target.result;
-      }
-    }
+  getNeighId(e: any) {
+    this.neighName = e.target.value;
   }
-  */
+
   hideShowPass() {
     this.isText = !this.isText;
     this.isText ? (this.eyeIcon = 'fa-eye') : (this.eyeIcon = 'fa-eye-slash');

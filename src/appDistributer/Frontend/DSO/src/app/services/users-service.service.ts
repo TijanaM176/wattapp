@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { Prosumer } from '../models/userstable';
 import { lastValueFrom } from 'rxjs';
 import { Neighborhood } from '../models/neighborhood';
+import { City } from '../models/city';
 @Injectable({
   providedIn: 'root',
 })
@@ -37,22 +38,21 @@ export class UsersServiceService {
   }
   GetProsumersByNeighborhoodId(id: string): Observable<Prosumer[]> {
     return this.http.get<Prosumer[]>(
-      'https://localhost:7156/api/Prosumer/GetProsumersByNeighborhoodId?id=' +
-        id
+      'https://localhost:7156/api/Prosumer/GetNeighborhoodsByCityId?id=' + id
     );
   }
 
   getAllProsumers(): Observable<any[]> {
     return this.http.get<any[]>(this.baseUrl);
   }
-  getAllCities(): Observable<Prosumer[]> {
-    return this.http.get<any[]>(
-      'https://localhost:7156/api/Prosumer/GetAllCities'
+  getAllCities(): Observable<City[]> {
+    return this.http.get<City[]>(
+      'https://localhost:7156/api/Prosumer/GetCities'
     );
   }
-  getAllNeighborhoodByCityId(id: string): Observable<Neighborhood[]> {
+  getAllNeighborhoodByCityId(id: number): Observable<Neighborhood[]> {
     return this.http.get<Neighborhood[]>(
-      'https://localhost:7156/api/Prosumer/GetAllNeighborhoodById?' + id
+      'https://localhost:7156/api/Prosumer/GetNeighborhoodsByCityId?id=' + id
     );
   }
 }
