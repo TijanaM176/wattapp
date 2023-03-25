@@ -20,10 +20,12 @@ nav a {
   padding: 10px 20px; /* add padding for clickable area */
   color: #5875a1; /* set text color */
   font-family: "Roboto", cursive;
+  text-decoration: none;
 }
 
 nav a:hover {
   background-color: #555; /* add background color on hover */
+  text-decoration: underline;
 }
 .pagination {
   justify-content: center;
