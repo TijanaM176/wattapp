@@ -1,8 +1,8 @@
 import { AfterViewInit, Component, OnInit } from '@angular/core';
 import * as L from 'leaflet';
-import { MapService } from 'src/app/services/map.service';
 import { NgToastService } from 'ng-angular-popup';
 import { CookieService } from 'ngx-cookie-service';
+import { UsersServiceService } from 'src/app/services/users-service.service';
 
 @Component({
   selector: 'app-map',
@@ -12,23 +12,26 @@ import { CookieService } from 'ngx-cookie-service';
 export class MapComponent implements AfterViewInit, OnInit {
   map: any;
   users: any;
+  markers!:any[];
   currentLocation: any;
   currentLocationIsSet = false;
 
   constructor(
-    private mapService: MapService,
+    private mapService: UsersServiceService,
     private toast: NgToastService,
     private cookie: CookieService
   ) {}
 
   ngOnInit(): void {
     this.currentLocationIsSet = false;
+    this.mapService.refreshList();
+    this.users = this.mapService.prosumers;
+    this.markers =[];
     //this.getUsers();
   }
 
   ngAfterViewInit(): void {
     this.initMap();
-    //this.populateTheMap();
   }
 
   private initMap() {
@@ -60,7 +63,7 @@ export class MapComponent implements AfterViewInit, OnInit {
       if ('geolocation' in navigator) {
         navigator.geolocation.getCurrentPosition(
           (position) => {
-            
+            console.log(position);
             this.cookie.set('lat', position.coords.latitude.toString());
             this.cookie.set('long', position.coords.longitude.toString());
             
@@ -127,43 +130,6 @@ export class MapComponent implements AfterViewInit, OnInit {
       this.currentLocation.addTo(this.map);
       this.currentLocationIsSet = true;
     }
-    
-    //lociranje dso zaposlenog - prati se njegovo kretanje (mozda moze i da se izbrise)
-    /*this.map
-      .locate({
-        setView: true,
-        watch: true, //moze da se zakomentarise ukoliko ne zelimo da pratimo pomeranje korisnika
-        enableHighAccuracy: true,
-        timeout: 60,
-      }) // This will return map so you can do chaining
-      .on('locationfound', (e: any) => {
-        console.log(e);
-        if (this.currentLocationIsSet) {
-          this.map.removeLayer(this.currentLocation);
-        }
-        this.cookie.set('lat', e.latitude);
-        this.cookie.set('long', e.longitude);
-        var acc = Number(e.accuracy).toFixed(2);
-        this.map.setView(
-          [Number(this.cookie.get('lat')), Number(this.cookie.get('long'))],
-          15
-        );
-        this.currentLocation = L.marker([e.latitude, e.longitude], {
-          icon: defaultIcon,
-        }).bindPopup(
-          'Your are here.<br>(within ' + acc + ' meters from this point)'
-        );
-        this.currentLocation.addTo(this.map);
-        this.currentLocationIsSet = true;
-      })
-      .on('locationerror', (e: any) => {
-        console.log(e);
-        this.toast.error({
-          detail: 'ERROR',
-          summary: 'Unable To Update Your Current Location.',
-          duration: 3000,
-        });
-      });*/
 
     const findMeControl = L.Control.extend({
       options: {
@@ -183,33 +149,7 @@ export class MapComponent implements AfterViewInit, OnInit {
       },
     });
     this.map.addControl(new findMeControl());
-//--------------------------------------------------Uzimanje koordinata iz adrese------------------------------------------------------------------
-   /* var address = 'Atinska 18,Kragujevac,Serbia';
-    var key='Ag6ud46b-3wa0h7jHMiUPgiylN_ZXKQtL6OWJpl6eVTUR5CnuwbUF7BYjwSA4nZ_';
-    var url = 'https://dev.virtualearth.net/REST/v1/Locations?query=' + encodeURIComponent(address)+ '&key=' + key;
-    fetch(url)
-    .then(response => response.json())
-    .then(data => {
-      // Extract the latitude and longitude from the response
-      const location = data.resourceSets[0].resources[0].geocodePoints[0].coordinates;
-      const latitude = location[0];
-      const longitude = location[1];
-
-        // create a marker at the location
-        var markerUser = L.marker([latitude, longitude],{ icon: defaultIcon });
-
-        // center the map on the marker
-        markerUser.addTo(this.map);
-      })
-      .catch(error => {
-        this.toast.error({
-          detail: 'ERROR',
-          summary: 'Error fetching location data.',
-          duration: 3000,
-        });
-        console.error(`Error fetching location data: ${error}`);
-      });*/
-//-------------------------------------------------------------------------------------------------------------------------------------------------
+    //this.populateTheMap();
   }
 
   populateTheMap() {
@@ -218,22 +158,15 @@ export class MapComponent implements AfterViewInit, OnInit {
       var lat = user.latitude;
       var marker = L.marker([lon, lat]).addTo(this.map);
       marker.bindPopup('<b>Basic User Info</b>');
+      this.markers.push(marker);
     }
   }
 
-  getUsers() {
-    this.mapService.getUsers().subscribe({
-      next: (res) => {
-        this.users = res;
-      },
-      error: (err) => {
-        //alert(err.error.message);
-        this.toast.error({
-          detail: 'ERROR',
-          summary: err.error,
-          duration: 3000,
-        });
-      },
-    });
+  deleteAllMarkers()
+  {
+    for (var marker of this.markers)
+    {
+      this.map.removeLayer(marker);
+    }
   }
 }
