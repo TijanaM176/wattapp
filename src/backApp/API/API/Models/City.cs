@@ -9,5 +9,6 @@ public partial class City
 
     public string? Name { get; set; }
 
+    public virtual ICollection<Neigborhood> Neighborhoods { get; } = new List<Neigborhood>();
     public virtual ICollection<Prosumer> Prosumers { get; } = new List<Prosumer>();
 }

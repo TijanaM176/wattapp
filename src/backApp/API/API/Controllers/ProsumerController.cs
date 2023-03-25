@@ -126,7 +126,21 @@ namespace API.Controllers
             }
 
         }
-       
+
+        [HttpGet("GetCityNameById")]
+        public async Task<IActionResult> GetCityNameById(long id)
+        {
+            try
+            {
+                return Ok(await prosumerService.GetCityNameById(id));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+
 
         [HttpPut("SetCoordinates")]
         public async Task<ActionResult> SetCoordinates(SaveCoordsDto prosumerCoords)
