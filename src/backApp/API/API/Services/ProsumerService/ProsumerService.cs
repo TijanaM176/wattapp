@@ -13,14 +13,15 @@ namespace API.Services.ProsumerService
     {
 
         private readonly IUserRepository _repository;
-    
+
         public ProsumerService(IUserRepository repository)
         {
             _repository = repository;
-          
+
         }
 
-        public Task<PagedList<Prosumer>> GetProsumers(ProsumerParameters prosumerParameters) // to su sa parametrima page i size 
+        public Task<PagedList<Prosumer>>
+            GetProsumers(ProsumerParameters prosumerParameters) // to su sa parametrima page i size 
         {
             return _repository.GetProsumers(prosumerParameters);
         }
@@ -31,6 +32,7 @@ namespace API.Services.ProsumerService
             return prosumer;
 
         }
+
         /*
         public async Task<List<Prosumer>> GetAllProsumers()
         {
@@ -70,13 +72,13 @@ namespace API.Services.ProsumerService
             }
             catch (Exception)
             {
-                return false;       //ako ne moze da ga nadje, nije editovan
+                return false; //ako ne moze da ga nadje, nije editovan
             }
 
             //sifra
             var hmac = new HMACSHA512();
             byte[] passwordSalt = hmac.Key;
-            byte[] passwordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(newValues.Password)); 
+            byte[] passwordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(newValues.Password));
 
             prosumer.FirstName = newValues.FirstName;
             prosumer.LastName = newValues.LastName;
@@ -84,7 +86,7 @@ namespace API.Services.ProsumerService
             if (prosumer.Email.Equals(newValues.Email) || await checkEmail(newValues.Email))
                 prosumer.Email = newValues.Email;
             else
-                return false;       //mejl vec postoji
+                return false; //mejl vec postoji
 
             prosumer.HashPassword = passwordHash;
             prosumer.SaltPassword = passwordSalt;
@@ -122,6 +124,7 @@ namespace API.Services.ProsumerService
 
             return true;
         }
+
         public async Task<List<Neigborhood>> GetNeigborhoods()
         {
             var neighborhoods = await _repository.GetNeigborhoods();
@@ -140,17 +143,20 @@ namespace API.Services.ProsumerService
 
         public async Task<Boolean> SetCoordinates(SaveCoordsDto saveCoords)
         {
-            
+
             try
             {
-                
-               return await _repository.SetCoordinates(saveCoords);
-                
+
+                return await _repository.SetCoordinates(saveCoords);
+
             }
             catch (Exception)
             {
                 return false;
             }
+
+           
+        }
         public async Task<List<City>> GetCities()
         {
             return await _repository.GetCities();

@@ -13,21 +13,23 @@ namespace API.Repositories
         RegContext _context;
         private readonly IDsoRepository dsoRepository;
         private readonly IProsumerRepository prosumerRepository;
-        public UserRepository(RegContext context, IProsumerRepository prosumerRepository, IDsoRepository dsoRepository) 
+
+        public UserRepository(RegContext context, IProsumerRepository prosumerRepository, IDsoRepository dsoRepository)
         {
             _context = context;
             this.prosumerRepository = prosumerRepository;
             this.dsoRepository = dsoRepository;
-        
+
         }
+
         public Task DeleteDsoWorker(string id)
         {
-            return dsoRepository.DeleteDsoWorker(id); 
+            return dsoRepository.DeleteDsoWorker(id);
         }
 
         public Task DeleteProsumer(string id)
         {
-           return prosumerRepository.DeleteProsumer(id);
+            return prosumerRepository.DeleteProsumer(id);
         }
 
 
@@ -81,18 +83,21 @@ namespace API.Repositories
             return prosumerRepository.GetProsumerWithToken(token);
         }
 
-        public async Task<Role> getRole(string naziv)   
+        public async Task<Role> getRole(string naziv)
         {
             return await _context.Roles.FirstOrDefaultAsync(x => x.RoleName.Equals(naziv));
         }
+
         public async Task<Region> getRegion(string naziv)
         {
             return await _context.Regions.FirstOrDefaultAsync(x => x.RegionName.Equals(naziv));
         }
+
         public async Task<City> getCity(string naziv)
         {
             return await _context.Cities.FirstOrDefaultAsync(x => x.Name.ToLower().Equals(naziv.ToLower()));
         }
+
         public async Task<Neigborhood> getNeigborhood(string naziv)
         {
             return await _context.Neigborhoods.FirstOrDefaultAsync(x => x.NeigbName.ToLower().Equals(naziv.ToLower()));
@@ -104,7 +109,7 @@ namespace API.Repositories
             var role = await _context.Roles.FirstOrDefaultAsync(x => x.Id == id);
             return role.RoleName;
         }
-      
+
         public Task InsertDSOWorker(Dso DSO_Worker)
         {
             return dsoRepository.InsertDSOWorker(DSO_Worker);
@@ -131,7 +136,10 @@ namespace API.Repositories
             List<Prosumer> prosumers = new List<Prosumer>();
             foreach (var item in all)
             {
-                if (item.NeigborhoodId.Equals(id)) { prosumers.Add(item);}
+                if (item.NeigborhoodId.Equals(id))
+                {
+                    prosumers.Add(item);
+                }
             }
 
             return prosumers;
@@ -162,10 +170,13 @@ namespace API.Repositories
 
         public async Task<Boolean> SetCoordinates(SaveCoordsDto saveCoords) // nebitnaFunkcija!
         {
-           return await prosumerRepository.SetCoordinates(saveCoords);
+            return await prosumerRepository.SetCoordinates(saveCoords);
+
+            
+        }
         public Task<Neigborhood> GetNeigborhoodsByID(string id)
         {
-            return  prosumerRepository.GetNeigborhoodsByID(id);
+            return prosumerRepository.GetNeigborhoodsByID(id);
         }
 
         public Task<List<SelectedNeigborhood>> GetNeighborhoodByCityId(long CityId)
