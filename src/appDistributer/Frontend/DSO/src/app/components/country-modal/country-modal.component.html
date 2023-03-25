@@ -1,0 +1,20 @@
+<!-- Modal -->
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true" *ngIf="showModal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="staticBackdropLabel">Error occurred!</h1>
+        </div>
+        <div class="modal-body">
+          <h3>Please enter coutry you work for:</h3>
+          <div class="input-group form-group ">
+            <input [(ngModel)]="currentCountry" class="form-control" type="text" placeholder="Country" style=" width: 150px; height:30px; background-color: #e7e5e5;color:#466471; border-radius: 5px;">
+          </div>
+          <small *ngIf="!currentCountry"  class="text-danger">Email is required!</small>
+        </div>
+      </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" (click)="SaveCountry()">Confirm</button>
+        </div>
+    </div>
+  </div>

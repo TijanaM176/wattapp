@@ -15,7 +15,6 @@ export class MapComponent implements AfterViewInit, OnInit {
   markers!:any[];
   currentLocation: any;
   currentLocationIsSet = false;
-
   constructor(
     private mapService: UsersServiceService,
     private toast: NgToastService,
@@ -27,7 +26,6 @@ export class MapComponent implements AfterViewInit, OnInit {
     this.mapService.refreshList();
     this.users = this.mapService.prosumers;
     this.markers =[];
-    //this.getUsers();
   }
 
   ngAfterViewInit(): void {
@@ -63,7 +61,6 @@ export class MapComponent implements AfterViewInit, OnInit {
       if ('geolocation' in navigator) {
         navigator.geolocation.getCurrentPosition(
           (position) => {
-            console.log(position);
             this.cookie.set('lat', position.coords.latitude.toString());
             this.cookie.set('long', position.coords.longitude.toString());
             

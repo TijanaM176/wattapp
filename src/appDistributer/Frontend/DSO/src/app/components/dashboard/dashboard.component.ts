@@ -1,9 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgToastService } from 'ng-angular-popup';
 import { CookieService } from 'ngx-cookie-service';
 import { AuthServiceService } from 'src/app/services/auth-service.service';
-import * as L from 'leaflet';
+import { CountryModalComponent } from '../country-modal/country-modal.component';
 
 @Component({
   selector: 'app-dashboard',
@@ -12,7 +12,7 @@ import * as L from 'leaflet';
 })
 export class DashboardComponent implements OnInit {
   users: any;
-
+  @ViewChild('countryModal') countryModal!: CountryModalComponent;
   constructor(
     private router: Router,
     private cookie: CookieService,
@@ -32,12 +32,14 @@ export class DashboardComponent implements OnInit {
           fetch(url)
           .then(response => response.json())
           .then(data => {
-            console.log(data);
+            console.log(data.address.country);
+            this.cookie.set('country',data.address.country);
           })
         },
         (error) => {
           // If the user denies permission or an error occurs, handle it appropriately
           console.error("Error getting user's location:", error);
+          this.countryModal.Open();
           this.toast.error({
             detail: 'ERROR',
             summary: 'Unable To Get Your Current Location.',
