@@ -170,7 +170,7 @@ export class MapComponent implements AfterViewInit, OnInit {
           if(lon != null && lat != null)
           {
             var marker = L.marker([Number(lat.toString()), Number(lon.toString())],{ icon: prosumerIcon }).addTo(map);
-            marker.bindPopup('<b>Basic User Info</b>');
+            marker.bindPopup('<h6><b>'+user.username+'</b></h6><p>'+user.address+'</p>');
             this.markers.push(marker);
           }
         }
