@@ -179,7 +179,7 @@ namespace API.Repositories
             return prosumerRepository.GetNeigborhoodsByID(id);
         }
 
-        public Task<List<SelectedNeigborhood>> GetNeighborhoodByCityId(long CityId)
+        public Task<List<Neigborhood>> GetNeighborhoodByCityId(long CityId)
         {
             return prosumerRepository.GetNeighborhoodByCityId(CityId);
         }

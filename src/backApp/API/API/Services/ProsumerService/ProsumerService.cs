@@ -167,13 +167,18 @@ namespace API.Services.ProsumerService
             return await _repository.GetNeigborhoodsByID(id);
         }
 
-        public async Task<List<SelectedNeigborhood>> GetNeighborhoodByCityId(long CityId)
+        public async Task<List<Neigborhood>> GetNeighborhoodByCityId(long CityId)
         {
-            List<SelectedNeigborhood> neighborhoods = await _repository.GetNeighborhoodByCityId(CityId);
+            List<Neigborhood> neighborhoods = await _repository.GetNeighborhoodByCityId(CityId);
             if (neighborhoods == null) throw new ArgumentException("No neighborhoods!");
-
 
             return neighborhoods;
         }
+
+        /*
+        public async Task<string> GetCityNameById(long id)
+        {
+
+        }*/
     }
 }

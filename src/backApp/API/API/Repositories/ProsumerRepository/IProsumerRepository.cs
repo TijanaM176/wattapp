@@ -27,8 +27,7 @@ namespace API.Repositories.ProsumerRepository
         public Task<Boolean> SetCoordinates(SaveCoordsDto saveCoords);
         public Task<List<City>> GetCities();
         public Task<Neigborhood> GetNeigborhoodsByID(string id);
-
-        public Task<List<SelectedNeigborhood>> GetNeighborhoodByCityId(long CityId);
+        public Task<List<Neigborhood>> GetNeighborhoodByCityId(long CityId);
 
 
     }
