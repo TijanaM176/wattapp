@@ -50,6 +50,7 @@ import{NgxPaginationModule} from  'ngx-pagination'
 import {MatPaginatorModule } from '@angular/material/paginator';
 import { ProsumerinfoComponent } from './components/prosumerinfo/prosumerinfo.component';
 import { SidebarPotrosnjaComponent } from './components/sidebar-potrosnja/sidebar-potrosnja.component';
+import { UserComponent } from './components/user/user.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -79,6 +80,7 @@ import { SidebarPotrosnjaComponent } from './components/sidebar-potrosnja/sideba
     ResetpasswordComponent,
     ProsumerinfoComponent,
     SidebarPotrosnjaComponent,
+    UserComponent,
   ],
   imports: [
     MatSliderModule,

@@ -17,6 +17,7 @@ import { SidebarDsoComponent } from './components/sidebar-dso/sidebar-dso.compon
 import { ResetpasswordComponent } from './components/resetpassword/resetpassword.component';
 import { ProsumerinfoComponent } from './components/prosumerinfo/prosumerinfo.component';
 import { SidebarPotrosnjaComponent } from './components/sidebar-potrosnja/sidebar-potrosnja.component';
+import { UserComponent } from './components/user/user.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -87,6 +88,10 @@ const routes: Routes = [
   {
     path: 'sidebarpotrosnja',
     component: SidebarPotrosnjaComponent,
+  },
+  {
+    path: 'user',
+    component: UserComponent,
   },
 ];
 @NgModule({
