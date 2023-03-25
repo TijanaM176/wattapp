@@ -58,11 +58,13 @@
                 let item of service.prosumers
                   | search : searchName
                   | searchaddress : searchAddress
-                  | paginate:{
-                    itemsPerPage:perPage,
-                    currentPage:page,
-                    totalItems:total
-                  }; let i=index
+                  | paginate
+                    : {
+                        itemsPerPage: perPage,
+                        currentPage: page,
+                        totalItems: total
+                      };
+                let i = index
               "
             >
               <td>
@@ -78,32 +80,55 @@
               <td></td>
               <td></td>
               <td>
-                <button class="button-info" (click)="Details(item.id)"><b>info</b></button>
+                <button class="button-info" (click)="Details(item.id)">
+                  <b>info</b>
+                </button>
               </td>
             </tr>
           </tbody>
         </table>
-        <div class="col-sm-3" style="float:left;border: none;color:#566787;font-weight: bold;background-color: #f8f8fa;
-        border-radius: 5px;margin-top:2%;">
-          <span style="font-size: 16px;width:10%;margin-right:20%;">Show: </span>
-          <select (change)="onTableSizeChange($event)" style="border:none;border-radius:5px;background-color: #f8f8fa;color:#566787;width:30%;height:30%;">
+        <div
+          class="col-sm-3"
+          style="
+            float: left;
+            border: none;
+            color: #566787;
+            font-weight: bold;
+            background-color: #f8f8fa;
+            border-radius: 5px;
+            margin-top: 2%;
+          "
+        >
+          <span style="font-size: 16px; width: 10%; margin-right: 20%"
+            >Show:
+          </span>
+          <select
+            (change)="onTableSizeChange($event)"
+            style="
+              border: none;
+              border-radius: 5px;
+              background-color: #f8f8fa;
+              color: #566787;
+              width: 30%;
+              height: 30%;
+            "
+          >
             <option *ngFor="let size of tableSizes">
-              {{size}}
+              {{ size }}
             </option>
-  
           </select>
-          
         </div>
-        <div class="col-sm-9" style="float:left;padding-left:20%;margin-top: 1.5%;">
-        <pagination-controls 
-                     previousLabel="Prev"
-                     nextLabel="Next"
-                      (pageChange)="onTableDataChange($event)"
-                      >
-  
-        </pagination-controls>
-      </div>
-        
+        <div
+          class="col-sm-9"
+          style="float: left; padding-left: 20%; margin-top: 1.5%"
+        >
+          <pagination-controls
+            previousLabel="Prev"
+            nextLabel="Next"
+            (pageChange)="onTableDataChange($event)"
+          >
+          </pagination-controls>
+        </div>
       </div>
     </div>
   </div>

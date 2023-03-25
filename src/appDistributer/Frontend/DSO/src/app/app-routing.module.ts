@@ -16,6 +16,7 @@ import { EmployeedetailsComponent } from './components/employeedetails/employeed
 import { SidebarDsoComponent } from './components/sidebar-dso/sidebar-dso.component';
 import { ResetpasswordComponent } from './components/resetpassword/resetpassword.component';
 import { ProsumerinfoComponent } from './components/prosumerinfo/prosumerinfo.component';
+import { AddProsumerComponent } from './components/AddProsumer/AddProsumer.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -27,7 +28,7 @@ const routes: Routes = [
   },
   {
     path: 'signup',
-    component: SignupComponent,
+    component: AddProsumerComponent,
   },
   {
     path: 'signupWorker',
@@ -81,8 +82,8 @@ const routes: Routes = [
   },
   {
     path: 'prosumerinfo',
-    component:ProsumerinfoComponent
-  }
+    component: ProsumerinfoComponent,
+  },
 ];
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
