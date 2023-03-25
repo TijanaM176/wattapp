@@ -118,6 +118,10 @@ namespace API.Repositories.ProsumerRepository
             return neighbourhoodsById;
         }
 
+        public async Task<string> GetCityNameById(long id)
+        {
+            return (await _context.Cities.FirstOrDefaultAsync(x => x.Id == id)).Name;
+        }
     }
     
 

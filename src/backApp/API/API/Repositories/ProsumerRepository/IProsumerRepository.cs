@@ -28,7 +28,7 @@ namespace API.Repositories.ProsumerRepository
         public Task<List<City>> GetCities();
         public Task<Neigborhood> GetNeigborhoodsByID(string id);
         public Task<List<Neigborhood>> GetNeighborhoodByCityId(long CityId);
-
+        public Task<string> GetCityNameById(long id);
 
     }
 }

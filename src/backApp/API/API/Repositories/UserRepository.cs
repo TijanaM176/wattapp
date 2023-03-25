@@ -188,5 +188,10 @@ namespace API.Repositories
         {
             return prosumerRepository.GetCities();
         }
+
+        public Task<string> GetCityNameById(long id)
+        {
+            return prosumerRepository.GetCityNameById(id);
+        }
     }
 }
