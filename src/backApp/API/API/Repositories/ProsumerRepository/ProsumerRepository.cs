@@ -1,4 +1,5 @@
-﻿using API.Models.Paging;
+﻿using API.Models.HelpModels;
+using API.Models.Paging;
 using API.Models.Users;
 using API.Repositories.BaseHelpRepository;
 
@@ -61,8 +62,34 @@ namespace API.Repositories.ProsumerRepository
             await _context.SaveChangesAsync();
         }
 
-      
+      public async Task<List<City>> GetCities()
+      {
 
+            return await _context.Cities.ToListAsync();
+      }
+      public async Task<Neigborhood> GetNeigborhoodsByID(string id)
+      {
+
+
+            return await _context.Neigborhoods.FirstOrDefaultAsync(x => x.Id == id);
+        }
+    public async Task<List<SelectedNeigborhood>> GetNeighborhoodByCityId(long CityId)
+    {
+            List<Prosumer> prosumers = await GetAllProsumers();     
+            List<SelectedNeigborhood> neigborhoodsByCityId = new List<SelectedNeigborhood>();
+
+            foreach (var prosumer in prosumers)
+            {
+                if(prosumer.CityId == CityId)
+                {
+                    Neigborhood neigborn =  (Neigborhood)await GetNeigborhoodsByID(prosumer.NeigborhoodId);
+
+                    neigborhoodsByCityId.Add(new SelectedNeigborhood(neigborn.Id, neigborn.NeigbName));
+                }
+            }
+
+            return neigborhoodsByCityId;
+    }
     }
 
 

@@ -37,6 +37,9 @@ public partial class RegContext : DbContext
         // baza ignorise refreshTokene
         modelBuilder.Entity<Prosumer>().Ignore(x => x.RefreshToken);
         modelBuilder.Entity<Dso>().Ignore(x => x.RefreshToken);
+        modelBuilder.Entity<Prosumer>().Ignore(x => x.TokenExpiry);
+        modelBuilder.Entity<Dso>().Ignore(x => x.TokenExpiry);
+
 
         modelBuilder.Entity<City>(entity =>
         {
