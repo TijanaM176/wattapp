@@ -46,7 +46,6 @@ import { EmployeedetailsComponent } from './components/employeedetails/employeed
 import { SearchemployeenamePipe } from './components/searchemployeename.pipe';
 import { SidebarDsoComponent } from './components/sidebar-dso/sidebar-dso.component';
 import { ResetpasswordComponent } from './components/resetpassword/resetpassword.component';
-import { CountryModalComponent } from './components/country-modal/country-modal.component';
 
 @NgModule({
   declarations: [
@@ -75,7 +74,6 @@ import { CountryModalComponent } from './components/country-modal/country-modal.
     EmployeedetailsComponent,
     SearchemployeenamePipe,
     ResetpasswordComponent,
-    CountryModalComponent,
   ],
   imports: [
     MatSliderModule,
