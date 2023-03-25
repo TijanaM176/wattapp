@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ElementRef, ViewChild  } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgToastService } from 'ng-angular-popup';
 import { CookieService } from 'ngx-cookie-service';
@@ -10,9 +10,14 @@ import { AuthServiceService } from 'src/app/services/auth-service.service';
   styleUrls: ['./Home.component.css'],
 })
 export class HomeComponent implements OnInit, AfterViewInit {
+
   users: any;
   showModal: boolean = false;
   currentCountry:string = '';
+  validInput: boolean = false;
+
+  @ViewChild('exampleModal', { static: false }) modal!: ElementRef;
+  @ViewChild('launchButton') launchButton!: ElementRef;
 
   constructor(
     private router: Router,
@@ -22,12 +27,12 @@ export class HomeComponent implements OnInit, AfterViewInit {
   ) {}
 
   ngAfterViewInit(): void {
+    this.showModal = false;
     this.getState();
   }
 
   ngOnInit(): void {
     this.getAllUsers();
-    this.showModal = false;
   }
 
   LogOut() {
@@ -55,29 +60,32 @@ export class HomeComponent implements OnInit, AfterViewInit {
   getState()
   {
     if ('geolocation' in navigator) {
-      navigator.geolocation.getCurrentPosition(
-        (position) => {
-          this.cookie.set('lat', position.coords.latitude.toString());
-          this.cookie.set('long', position.coords.longitude.toString());
-          var url = "https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=" + position.coords.latitude + "&lon=" + position.coords.longitude;
-          fetch(url)
-          .then(response => response.json())
-          .then(data => {
-            console.log(data.address.country);
-            this.cookie.set('country',data.address.country);
-          })
-        },
-        (error) => {
-          // If the user denies permission or an error occurs, handle it appropriately
-          console.error("Error getting user's location:", error);
-          this.showModal = true;
-          this.toast.error({
-            detail: 'ERROR',
-            summary: 'Unable To Get Your Current Location.',
-            duration: 3000,
-          });
-        },{ enableHighAccuracy: true, timeout: 100 }
-      )
+      if(!this.cookie.check('country'))
+      {
+        navigator.geolocation.getCurrentPosition(
+          (position) => {
+            this.cookie.set('lat', position.coords.latitude.toString());
+            this.cookie.set('long', position.coords.longitude.toString());
+            var url = "https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=" + position.coords.latitude + "&lon=" + position.coords.longitude;
+            fetch(url)
+            .then(response => response.json())
+            .then(data => {
+              console.log(data.address.country);
+              this.cookie.set('country',data.address.country);
+            })
+          },
+          (error) => {
+            // If the user denies permission or an error occurs, handle it appropriately
+            console.error("Error getting user's location:", error);
+            this.showModal = true;
+            this.toast.error({
+              detail: 'ERROR',
+              summary: 'Unable To Get Your Current Location.',
+              duration: 3000,
+            });
+          },{ enableHighAccuracy: true, timeout: 100 }
+        )
+      }
     }
     else {
       // If the browser does not support the Geolocation API, handle it appropriately
@@ -95,6 +103,14 @@ export class HomeComponent implements OnInit, AfterViewInit {
     if(this.currentCountry!="")
     {
       this.cookie.set('country',this.currentCountry);
+      this.showModal = false;
+    }
+  }
+  
+  Validate($event: any) {
+    if(this.currentCountry!="")
+    {
+      this.validInput=true;
       this.showModal = false;
     }
   }
