@@ -158,5 +158,10 @@ namespace API.Repositories
         {
             throw new NotImplementedException();
         }
+
+        public async Task<Boolean> SetCoordinates(SaveCoordsDto saveCoords) // nebitnaFunkcija!
+        {
+           return await prosumerRepository.SetCoordinates(saveCoords);
+        }
     }
 }

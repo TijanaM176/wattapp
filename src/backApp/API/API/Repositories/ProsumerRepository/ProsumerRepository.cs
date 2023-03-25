@@ -61,8 +61,18 @@ namespace API.Repositories.ProsumerRepository
             await _context.SaveChangesAsync();
         }
 
-      
+        public async Task<Boolean> SetCoordinates(SaveCoordsDto saveCoords)
+        {
+            Prosumer prosumer = await GetProsumer(saveCoords.Username);
+            
+            if (prosumer == null) return false;
 
+            prosumer.Latitude = saveCoords.Latitude;
+            prosumer.Longitude = saveCoords.Longitude;
+
+            await _context.SaveChangesAsync();
+            return true;
+        }
     }
 
 

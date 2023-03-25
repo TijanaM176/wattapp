@@ -101,5 +101,14 @@ namespace API.Controllers
             }
         }
 
+        [HttpPut("SetCoordinates")]
+        public async Task<ActionResult> SetCoordinates(SaveCoordsDto prosumerCoords)
+        {
+            if (await prosumerService.SetCoordinates(prosumerCoords)) return Ok("Coordinates are set!");
+
+            return BadRequest("No found Prosumer!");
+
+        }
+
     }
 }

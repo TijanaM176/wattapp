@@ -136,5 +136,20 @@ namespace API.Services.ProsumerService
 
             return prosumers;
         }
+
+        public async Task<Boolean> SetCoordinates(SaveCoordsDto saveCoords)
+        {
+            
+            try
+            {
+                
+               return await _repository.SetCoordinates(saveCoords);
+                
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
     }
 }

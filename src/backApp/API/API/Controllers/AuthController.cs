@@ -27,6 +27,7 @@ using Microsoft.AspNetCore.Authorization;
 using API.Models.Users;
 using API.Services.Auth;
 using API.Models;
+using API.Services.ProsumerService;
 
 namespace API.Controllers
 {
@@ -36,10 +37,11 @@ namespace API.Controllers
     {
 
         private readonly IAuthService authService;
-
+       
         public AuthController(IAuthService serv)
         {
             authService = serv;
+           
         }
 
         [HttpPost("registerProsumer")]
@@ -205,19 +207,7 @@ namespace API.Controllers
 
         }
 
-        /*[HttpPost('SaveUserCoordinates')]
-        public async Task<ActionResult> saveUserCoods(SaveCoordsDto userCorrds)
-        {
-            Prosumer user = null;
-            try
-            {
-                user = await authService.GetProsumer(userCorrds.username);
-            }
-            catch (Exception e) { }
-
-            if (user == null) return BadRequest("Invalid username");
-
-        }*/
+       
 
         [HttpPost("Send_E-mail")]
         public IActionResult SendEmail(string emailUser,string messagetoClientHTML)  // messagetoClinet mora biti HTML!!!

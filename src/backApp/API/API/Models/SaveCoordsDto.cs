@@ -2,8 +2,8 @@
 {
     public class SaveCoordsDto
     {
-        public string username { get; set; }
-        public string latitude { get; set; }
-        public string longitude { get; set; }
+        public string Username { get; set; }
+        public string Latitude { get; set; }
+        public string Longitude { get; set; }
     }
 }
