@@ -74,35 +74,56 @@ namespace API.Repositories.ProsumerRepository
             await _context.SaveChangesAsync();
             return true;
         }
-      public async Task<List<City>> GetCities()
-      {
+        public async Task<List<City>> GetCities()
+        {
 
-            return await _context.Cities.ToListAsync();
-      }
-      public async Task<Neigborhood> GetNeigborhoodsByID(string id)
-      {
-
-
-            return await _context.Neigborhoods.FirstOrDefaultAsync(x => x.Id == id);
+              return await _context.Cities.ToListAsync();
         }
-    public async Task<List<SelectedNeigborhood>> GetNeighborhoodByCityId(long CityId)
-    {
-            List<Prosumer> prosumers = await GetAllProsumers();     
-            List<SelectedNeigborhood> neigborhoodsByCityId = new List<SelectedNeigborhood>();
+        public async Task<Neigborhood> GetNeigborhoodsByID(string id)
+        {
+              return await _context.Neigborhoods.FirstOrDefaultAsync(x => x.Id == id);
+        }
 
-            foreach (var prosumer in prosumers)
-            {
-                if(prosumer.CityId == CityId)
+        /*
+        public async Task<List<SelectedNeigborhood>> GetNeighborhoodByCityId(long CityId)
+        {
+                List<Prosumer> prosumers = await GetAllProsumers();     
+                List<SelectedNeigborhood> neigborhoodsByCityId = new List<SelectedNeigborhood>();
+
+                foreach (var prosumer in prosumers)
                 {
-                    Neigborhood neigborn =  (Neigborhood)await GetNeigborhoodsByID(prosumer.NeigborhoodId);
+                    if(prosumer.CityId == CityId)
+                    {
+                        Neigborhood neigborn =  (Neigborhood)await GetNeigborhoodsByID(prosumer.NeigborhoodId);
 
-                    neigborhoodsByCityId.Add(new SelectedNeigborhood(neigborn.Id, neigborn.NeigbName));
+                        neigborhoodsByCityId.Add(new SelectedNeigborhood(neigborn.Id, neigborn.NeigbName));
+                    }
+                }
+
+                return neigborhoodsByCityId;
+        }*/
+
+        public async Task<List<Neigborhood>> GetNeighborhoodByCityId(long CityId)
+        {
+            List<Neigborhood> neighbourhoodsById = new List<Neigborhood>();
+            var all = await _context.Neigborhoods.ToListAsync();
+
+            foreach (var n in all)
+            {
+                if (n.CityId == CityId)
+                {
+                    neighbourhoodsById.Add(n);
                 }
             }
+            return neighbourhoodsById;
+        }
 
-            return neigborhoodsByCityId;
+        public async Task<string> GetCityNameById(long id)
+        {
+            return (await _context.Cities.FirstOrDefaultAsync(x => x.Id == id)).Name;
+        }
     }
-    }
+    
 
 
 }

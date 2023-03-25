@@ -46,6 +46,8 @@ public partial class RegContext : DbContext
             entity.ToTable("City");
 
             entity.Property(e => e.Name).HasColumnType("nvarchar(20)");
+
+            entity.HasMany(c => c.Neighborhoods).WithOne(n => n.City).HasForeignKey(n => n.CityId);
         });
 
         modelBuilder.Entity<Dso>(entity =>
@@ -70,6 +72,8 @@ public partial class RegContext : DbContext
             entity.ToTable("Neigborhood");
 
             entity.Property(e => e.NeigbName).HasColumnType("nvarchar(50)");
+
+            entity.HasMany(n => n.Prosumers).WithOne(p => p.Neigborhood).HasForeignKey(p => p.NeigborhoodId);
         });
 
         modelBuilder.Entity<Prosumer>(entity =>
