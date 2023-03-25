@@ -5,6 +5,7 @@ import { AuthService } from 'src/app/services/auth.service';
 import { NgToastService } from 'ng-angular-popup';
 import { CookieService } from 'ngx-cookie-service';
 import { RegisterProsumerDto } from 'src/app/models/registerProsumerDto';
+import { SetCoordsDto } from 'src/app/models/setCoordsDto';
 
 @Component({
   selector: 'app-signup',
@@ -16,10 +17,7 @@ export class SignupComponent implements OnInit{
   isText:boolean=false;
   eyeIcon: string = "fa-eye-slash";
   imageUrl:string="/assets/images/default-image.png";
-  latitude: string = ''
-  longitude: string = ''
-  image: string = 'slika'
-  address: string =''
+  address: string =""
 
   signupForm!:FormGroup;
   constructor(private fb:FormBuilder,private auth : AuthService,private router:Router,private toast: NgToastService){}
@@ -29,9 +27,10 @@ export class SignupComponent implements OnInit{
       lastName:['',Validators.required],
       password:['',Validators.required],
       email:['',Validators.required],
-      address:['',Validators.required],
       neigbName:['',Validators.required],
-      city:['',Validators.required]
+      address:['',Validators.required],
+      city:['',Validators.required],
+      image:['',Validators.required]
     })
   }
   /*
@@ -56,26 +55,29 @@ export class SignupComponent implements OnInit{
     return this.signupForm.controls;
   }
   
-  onSignUp(){
+  onSignUp()
+  {
     if(this.signupForm.valid){
-      var newProsumer : RegisterProsumerDto = this.makeDto();
-      console.log(newProsumer);
-      /*this.auth.signUp(newProsumer)
+
+      this.address = this.signupForm.value.address.trim() + ',' + this.signupForm.value.city.trim() + ',' + 'Serbia';
+      
+      this.auth.signUp(this.signupForm.value)
       .subscribe({
-        next:(res=>{
+        next:(res)=>{
           //alert(res);
           this.toast.success({detail:"Success!", summary:"New Prosumer Added",duration:2500});
           
-          this.getCoordinates(this.address);
+          this.getCoordinates(this.address, res.username);
+          console.log(res.username);
           this.signupForm.reset();
           //this.router.navigate(['']);
-        })
-        ,error:(err=>{
+        }
+        ,error:(err)=>{
           //alert(err?.error)
           this.toast.error({detail:"Error!", summary:err.error, duration:3000});
-        })
+        }
       })
-      console.log(this.signupForm.value);*/
+      console.log(this.signupForm.value);
     }
     else{
       this.validateAllFormFields(this.signupForm)
@@ -94,7 +96,7 @@ export class SignupComponent implements OnInit{
     })
   }
 
-  private getCoordinates(address:string)
+  private getCoordinates(address:string, username: string)
   {
     var key='Ag6ud46b-3wa0h7jHMiUPgiylN_ZXKQtL6OWJpl6eVTUR5CnuwbUF7BYjwSA4nZ_';
     var url = 'https://dev.virtualearth.net/REST/v1/Locations?query=' + encodeURIComponent(address)+ '&key=' + key;
@@ -105,7 +107,23 @@ export class SignupComponent implements OnInit{
       var location = data.resourceSets[0].resources[0].geocodePoints[0].coordinates;
       /*this.latitude = location[0];
       this.longitude = location[1];*/
-      //ovde zahtev za cuvanje koordinata da pozovem
+      let coordsDto = new SetCoordsDto();
+      coordsDto.username = username;
+      coordsDto.latitude = location[0];
+      coordsDto.longitude = location[1];
+      this.auth.setUserCoordinates(coordsDto)
+      .subscribe(
+        {
+          next:(res)=>
+          {
+            console.log(res.message);
+          },
+          error:(err)=>
+          {
+            this.toast.error({detail:"Error!", summary:err.error, duration:3000});
+          }
+        }
+      )
       })
       .catch(error => {
         this.toast.error({
@@ -115,22 +133,6 @@ export class SignupComponent implements OnInit{
         });
         console.error(`Error fetching location data: ${error}`);
       });
-  }
-
-  private makeDto(): RegisterProsumerDto
-  {
-    let newProsumer = new RegisterProsumerDto();
-    newProsumer.firstName = this.signupForm.value.firstName;
-    newProsumer.lastName = this.signupForm.value.lastName;
-    newProsumer.password = this.signupForm.value.password;
-    newProsumer.email = this.signupForm.value.email;
-    newProsumer.address = this.signupForm.value.address;
-    newProsumer.neigbName = this.signupForm.value.neigbName;
-    newProsumer.city = this.signupForm.value.city;
-    newProsumer.image = this.image;
-
-    this.address = newProsumer.address.trim() + ',' + newProsumer.city.trim() + ',' + 'Serbia';
-    return newProsumer;
   }
   
 }

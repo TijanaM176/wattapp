@@ -13,4 +13,8 @@ export class AuthService {
   signupWorker(workerDto: any) {
     return this.http.post<any>(`${this.baseUrl}registerDsoWorker`, workerDto);
   }
+  setUserCoordinates(coordDto : any)
+  {
+    return this.http.put<any>("https://localhost:7156/api/Prosumer/SetCoordinates", coordDto);
+  }
 }

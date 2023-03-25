@@ -20,7 +20,7 @@ export class DashboardComponent implements OnInit {
     private toast: NgToastService
   ) {}
   ngOnInit(): void {
-    this.getState();
+    //this.getState();
   }
 
   getState()
@@ -28,7 +28,12 @@ export class DashboardComponent implements OnInit {
     if ('geolocation' in navigator) {
       navigator.geolocation.getCurrentPosition(
         (position) => {
-          console.log(position);
+          var url = "https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=" + position.coords.latitude + "&lon=" + position.coords.longitude;
+          fetch(url)
+          .then(response => response.json())
+          .then(data => {
+            console.log(data);
+          })
         },
         (error) => {
           // If the user denies permission or an error occurs, handle it appropriately

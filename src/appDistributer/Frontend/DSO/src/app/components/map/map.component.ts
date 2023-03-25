@@ -156,9 +156,12 @@ export class MapComponent implements AfterViewInit, OnInit {
     for (var user of this.users) {
       var lon = user.longitude;
       var lat = user.latitude;
-      var marker = L.marker([lon, lat]).addTo(this.map);
-      marker.bindPopup('<b>Basic User Info</b>');
-      this.markers.push(marker);
+      if(lon != null && lat != null)
+      {
+        var marker = L.marker([Number(lon), Number(lat)]).addTo(this.map);
+        marker.bindPopup('<b>Basic User Info</b>');
+        this.markers.push(marker);
+      }
     }
   }
 

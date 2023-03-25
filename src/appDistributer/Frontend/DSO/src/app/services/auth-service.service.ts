@@ -8,12 +8,12 @@ import { RefreshTokenDto } from '../models/refreshTokenDto';
   providedIn: 'root',
 })
 export class AuthServiceService {
-  private baseUrl: string = 'https://localhost:7156/api/Auth/';
+  private baseUrl: string = 'https://localhost:7156/api/';
 
   constructor(private http: HttpClient) {}
 
   login(loginDto: any) {
-    return this.http.post<any>(this.baseUrl + 'DSOLogin', loginDto);
+    return this.http.post<any>(this.baseUrl + 'Auth/DSOLogin', loginDto);
   }
 
   getUsers(): Observable<any[]> {
