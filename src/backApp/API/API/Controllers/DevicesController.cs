@@ -35,5 +35,22 @@ namespace API.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+        [HttpGet("ConsumptionAndProductionByProsumer")]
+        public async Task<IActionResult> ConsumptionAndProductionByProsumer(string id)
+        {
+            try
+            {
+                return Ok(new
+                {
+                    consumption = await devService.CurrentConsumptionForProsumer(id),
+                    production = await devService.CurrentProductionForProsumer(id),
+                });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }

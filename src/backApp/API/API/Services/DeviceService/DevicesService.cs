@@ -37,5 +37,15 @@ namespace API.Services.Devices
             if (devices == null) throw new ArgumentException("No devices found!");
             return devices;
         }
+
+        public async Task<double> CurrentConsumptionForProsumer(string id)
+        {
+            return await _repository.CurrentConsumptionForProsumer(id);
+        }
+
+        public async Task<double> CurrentProductionForProsumer(string id)
+        {
+            return await _repository.CurrentProductionForProsumer(id);
+        }
     }
 }

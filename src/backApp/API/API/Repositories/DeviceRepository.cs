@@ -95,5 +95,29 @@ namespace API.Repositories
             return devicesWithCurrentConsumption.ToList();
         }
 
+        public async Task<double> CurrentConsumptionForProsumer(string id)
+        {
+            List<Device> devices = await GetAllConsumersForProsumer(id);
+            double currentConsumption = 0;
+            foreach ( var device in devices)
+            {
+                currentConsumption += device.Timestamps[0].ActivePower;
+                currentConsumption += device.Timestamps[0].ReactivePower;
+            }
+
+            return currentConsumption;
+        }
+        public async Task<double> CurrentProductionForProsumer(string id)
+        {
+            List<Device> devices = await GetAllProducersForProsumer(id);
+            double currentProduction = 0;
+            foreach (var device in devices)
+            {
+                currentProduction += device.Timestamps[0].ActivePower;
+            }
+
+            return currentProduction;
+        }
+
     }
 }
