@@ -10,8 +10,8 @@ import { UsersServiceService } from 'src/app/services/users-service.service';
   styleUrls: ['./map.component.css'],
 })
 export class MapComponent implements AfterViewInit, OnInit {
-  map: any;
-  users: any;
+  map: any = null;
+  users!: any[];
   markers!:any[];
   currentLocation: any;
   currentLocationIsSet = false;
@@ -24,7 +24,6 @@ export class MapComponent implements AfterViewInit, OnInit {
   ngOnInit(): void {
     this.currentLocationIsSet = false;
     this.mapService.refreshList();
-    this.users = this.mapService.prosumers;
     this.markers =[];
   }
 
@@ -145,20 +144,43 @@ export class MapComponent implements AfterViewInit, OnInit {
       },
     });
     this.map.addControl(new findMeControl());
-    //this.populateTheMap();
+    
+    while(this.map==null);
+    this.populateTheMap(this.map);
   }
 
-  populateTheMap() {
-    for (var user of this.users) {
-      var lon = user.longitude;
-      var lat = user.latitude;
-      if(lon != null && lat != null)
+  populateTheMap(map :any) {
+    this.mapService.getAllProsumers()
+    .subscribe({
+      next:(res)=>{
+        this.users = res;
+        console.log(this.users)
+        const prosumerIcon = L.icon({
+          iconUrl: 'assets/images/location-prosumer.svg',
+          iconSize: [65, 65],
+          shadowSize: [50, 64],
+          iconAnchor: [22, 94],
+          shadowAnchor: [4, 62],
+          popupAnchor: [11, -77],
+        });
+        for (var user of this.users) {
+          var lon = user.longitude;
+          var lat = user.latitude;
+          console.log(lon+","+lat);
+          if(lon != null && lat != null)
+          {
+            var marker = L.marker([Number(lat.toString()), Number(lon.toString())],{ icon: prosumerIcon }).addTo(map);
+            marker.bindPopup('<b>Basic User Info</b>');
+            this.markers.push(marker);
+          }
+        }
+      },
+      error:(err)=>
       {
-        var marker = L.marker([Number(lon), Number(lat)]).addTo(this.map);
-        marker.bindPopup('<b>Basic User Info</b>');
-        this.markers.push(marker);
+        this.toast.error({detail:"Error",summary:"Unable to retreive prosumer locations",duration:3000});
+        console.log(err.error);
       }
-    }
+    })
   }
 
   deleteAllMarkers()

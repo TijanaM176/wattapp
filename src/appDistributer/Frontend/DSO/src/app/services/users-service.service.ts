@@ -30,4 +30,9 @@ export class UsersServiceService {
         id
     );
   }
+
+  getAllProsumers() :Observable<any[]>
+  {
+    return this.http.get<any[]>(this.baseUrl);
+  }
 }
