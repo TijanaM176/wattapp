@@ -46,9 +46,10 @@ import { EmployeedetailsComponent } from './components/employeedetails/employeed
 import { SearchemployeenamePipe } from './components/searchemployeename.pipe';
 import { SidebarDsoComponent } from './components/sidebar-dso/sidebar-dso.component';
 import { ResetpasswordComponent } from './components/resetpassword/resetpassword.component';
-import{NgxPaginationModule} from  'ngx-pagination'
-import {MatPaginatorModule } from '@angular/material/paginator';
+import { NgxPaginationModule } from 'ngx-pagination';
+import { MatPaginatorModule } from '@angular/material/paginator';
 import { ProsumerinfoComponent } from './components/prosumerinfo/prosumerinfo.component';
+import { AddProsumerComponent } from './components/AddProsumer/AddProsumer.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -77,6 +78,7 @@ import { ProsumerinfoComponent } from './components/prosumerinfo/prosumerinfo.co
     SearchemployeenamePipe,
     ResetpasswordComponent,
     ProsumerinfoComponent,
+    AddProsumerComponent,
   ],
   imports: [
     MatSliderModule,
@@ -98,7 +100,7 @@ import { ProsumerinfoComponent } from './components/prosumerinfo/prosumerinfo.co
     NgxSliderModule,
     LeafletModule,
     NgxPaginationModule,
-    MatPaginatorModule
+    MatPaginatorModule,
   ],
   providers: [
     CookieService,
