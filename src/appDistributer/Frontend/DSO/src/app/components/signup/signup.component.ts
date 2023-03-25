@@ -109,8 +109,8 @@ export class SignupComponent implements OnInit{
       this.longitude = location[1];*/
       let coordsDto = new SetCoordsDto();
       coordsDto.username = username;
-      coordsDto.latitude = location[0];
-      coordsDto.longitude = location[1];
+      coordsDto.latitude = location[0].toString();
+      coordsDto.longitude = location[1].toString();
       this.auth.setUserCoordinates(coordsDto)
       .subscribe(
         {

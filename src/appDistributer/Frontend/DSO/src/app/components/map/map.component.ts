@@ -91,8 +91,7 @@ export class MapComponent implements AfterViewInit, OnInit {
               summary: 'Unable To Get Your Current Location.',
               duration: 3000,
             });
-          },
-          { enableHighAccuracy: true, timeout: 100 }
+          }
         );
       } 
       else {
