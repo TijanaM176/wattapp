@@ -4,6 +4,8 @@ import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
 import { NgToastService } from 'ng-angular-popup';
 import { CookieService } from 'ngx-cookie-service';
+import { RegisterProsumerDto } from 'src/app/models/registerProsumerDto';
+import { SetCoordsDto } from 'src/app/models/setCoordsDto';
 
 @Component({
   selector: 'app-signup',
@@ -15,8 +17,7 @@ export class SignupComponent implements OnInit{
   isText:boolean=false;
   eyeIcon: string = "fa-eye-slash";
   imageUrl:string="/assets/images/default-image.png";
-  latitude: string = ''
-  longitude: string = ''
+  address: string =""
 
   signupForm!:FormGroup;
   constructor(private fb:FormBuilder,private auth : AuthService,private router:Router,private toast: NgToastService){}
@@ -26,8 +27,10 @@ export class SignupComponent implements OnInit{
       lastName:['',Validators.required],
       password:['',Validators.required],
       email:['',Validators.required],
+      neigbName:['',Validators.required],
       address:['',Validators.required],
-      image:['',Validators.required],
+      city:['',Validators.required],
+      image:['',Validators.required]
     })
   }
   /*
@@ -52,22 +55,27 @@ export class SignupComponent implements OnInit{
     return this.signupForm.controls;
   }
   
-  onSignUp(){
+  onSignUp()
+  {
     if(this.signupForm.valid){
-      //this.getCoordinates();
-      //uzete koordinate poslati beku zajedno sa formom - implementirati!!!
+
+      this.address = this.signupForm.value.address.trim() + ',' + this.signupForm.value.city.trim() + ',' + 'Serbia';
+      
       this.auth.signUp(this.signupForm.value)
       .subscribe({
-        next:(res=>{
+        next:(res)=>{
           //alert(res);
           this.toast.success({detail:"Success!", summary:"New Prosumer Added",duration:2500});
+          
+          this.getCoordinates(this.address, res.username);
+          console.log(res.username);
           this.signupForm.reset();
           //this.router.navigate(['']);
-        })
-        ,error:(err=>{
+        }
+        ,error:(err)=>{
           //alert(err?.error)
           this.toast.error({detail:"Error!", summary:err.error, duration:3000});
-        })
+        }
       })
       console.log(this.signupForm.value);
     }
@@ -75,6 +83,7 @@ export class SignupComponent implements OnInit{
       this.validateAllFormFields(this.signupForm)
     }
   }
+
   private validateAllFormFields(formGroup:FormGroup){
     Object.keys(formGroup.controls).forEach(field=>{
       const control=formGroup.get(field);
@@ -87,9 +96,8 @@ export class SignupComponent implements OnInit{
     })
   }
 
-  private getCoordinates()
+  private getCoordinates(address:string, username: string)
   {
-    var address = 'Atinska 18,Kragujevac,Serbia'; //ulica i broj,grad,drzava - implementirat!!! (hardkodirano je trenutno)
     var key='Ag6ud46b-3wa0h7jHMiUPgiylN_ZXKQtL6OWJpl6eVTUR5CnuwbUF7BYjwSA4nZ_';
     var url = 'https://dev.virtualearth.net/REST/v1/Locations?query=' + encodeURIComponent(address)+ '&key=' + key;
     fetch(url)
@@ -97,14 +105,25 @@ export class SignupComponent implements OnInit{
     .then(data => {
       // Extract the latitude and longitude from the response
       var location = data.resourceSets[0].resources[0].geocodePoints[0].coordinates;
-      this.latitude = location[0];
-      this.longitude = location[1];
-
-        // create a marker at the location
-        //var markerUser = L.marker([latitude, longitude],{ icon: defaultIcon });
-
-        // center the map on the marker
-        //markerUser.addTo(this.map);
+      /*this.latitude = location[0];
+      this.longitude = location[1];*/
+      let coordsDto = new SetCoordsDto();
+      coordsDto.username = username;
+      coordsDto.latitude = location[0].toString();
+      coordsDto.longitude = location[1].toString();
+      this.auth.setUserCoordinates(coordsDto)
+      .subscribe(
+        {
+          next:(res)=>
+          {
+            console.log(res.message);
+          },
+          error:(err)=>
+          {
+            this.toast.error({detail:"Error!", summary:err.error, duration:3000});
+          }
+        }
+      )
       })
       .catch(error => {
         this.toast.error({

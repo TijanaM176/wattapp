@@ -26,6 +26,8 @@ using System.Security.Principal;
 using Microsoft.AspNetCore.Authorization;
 using API.Models.Users;
 using API.Services.Auth;
+using API.Models;
+using API.Services.ProsumerService;
 
 namespace API.Controllers
 {
@@ -35,10 +37,11 @@ namespace API.Controllers
     {
 
         private readonly IAuthService authService;
-
+       
         public AuthController(IAuthService serv)
         {
             authService = serv;
+           
         }
 
         [HttpPost("registerProsumer")]
@@ -203,6 +206,8 @@ namespace API.Controllers
             });
 
         }
+
+       
 
         [HttpPost("Send_E-mail")]
         public IActionResult SendEmail(string emailUser,string messagetoClientHTML)  // messagetoClinet mora biti HTML!!!

@@ -1,8 +1,8 @@
 import { AfterViewInit, Component, OnInit } from '@angular/core';
 import * as L from 'leaflet';
-import { MapService } from 'src/app/services/map.service';
 import { NgToastService } from 'ng-angular-popup';
 import { CookieService } from 'ngx-cookie-service';
+import { UsersServiceService } from 'src/app/services/users-service.service';
 
 @Component({
   selector: 'app-map',
@@ -10,25 +10,25 @@ import { CookieService } from 'ngx-cookie-service';
   styleUrls: ['./map.component.css'],
 })
 export class MapComponent implements AfterViewInit, OnInit {
-  map: any;
-  users: any;
+  map: any = null;
+  users!: any[];
+  markers!:any[];
   currentLocation: any;
   currentLocationIsSet = false;
-
   constructor(
-    private mapService: MapService,
+    private mapService: UsersServiceService,
     private toast: NgToastService,
     private cookie: CookieService
   ) {}
 
   ngOnInit(): void {
     this.currentLocationIsSet = false;
-    //this.getUsers();
+    this.mapService.refreshList();
+    this.markers =[];
   }
 
   ngAfterViewInit(): void {
     this.initMap();
-    //this.populateTheMap();
   }
 
   private initMap() {
@@ -60,7 +60,6 @@ export class MapComponent implements AfterViewInit, OnInit {
       if ('geolocation' in navigator) {
         navigator.geolocation.getCurrentPosition(
           (position) => {
-            
             this.cookie.set('lat', position.coords.latitude.toString());
             this.cookie.set('long', position.coords.longitude.toString());
             
@@ -91,8 +90,7 @@ export class MapComponent implements AfterViewInit, OnInit {
               summary: 'Unable To Get Your Current Location.',
               duration: 3000,
             });
-          },
-          { enableHighAccuracy: true, timeout: 100 }
+          }
         );
       } 
       else {
@@ -127,43 +125,6 @@ export class MapComponent implements AfterViewInit, OnInit {
       this.currentLocation.addTo(this.map);
       this.currentLocationIsSet = true;
     }
-    
-    //lociranje dso zaposlenog - prati se njegovo kretanje (mozda moze i da se izbrise)
-    /*this.map
-      .locate({
-        setView: true,
-        watch: true, //moze da se zakomentarise ukoliko ne zelimo da pratimo pomeranje korisnika
-        enableHighAccuracy: true,
-        timeout: 60,
-      }) // This will return map so you can do chaining
-      .on('locationfound', (e: any) => {
-        console.log(e);
-        if (this.currentLocationIsSet) {
-          this.map.removeLayer(this.currentLocation);
-        }
-        this.cookie.set('lat', e.latitude);
-        this.cookie.set('long', e.longitude);
-        var acc = Number(e.accuracy).toFixed(2);
-        this.map.setView(
-          [Number(this.cookie.get('lat')), Number(this.cookie.get('long'))],
-          15
-        );
-        this.currentLocation = L.marker([e.latitude, e.longitude], {
-          icon: defaultIcon,
-        }).bindPopup(
-          'Your are here.<br>(within ' + acc + ' meters from this point)'
-        );
-        this.currentLocation.addTo(this.map);
-        this.currentLocationIsSet = true;
-      })
-      .on('locationerror', (e: any) => {
-        console.log(e);
-        this.toast.error({
-          detail: 'ERROR',
-          summary: 'Unable To Update Your Current Location.',
-          duration: 3000,
-        });
-      });*/
 
     const findMeControl = L.Control.extend({
       options: {
@@ -183,57 +144,50 @@ export class MapComponent implements AfterViewInit, OnInit {
       },
     });
     this.map.addControl(new findMeControl());
-//--------------------------------------------------Uzimanje koordinata iz adrese------------------------------------------------------------------
-   /* var address = 'Atinska 18,Kragujevac,Serbia';
-    var key='Ag6ud46b-3wa0h7jHMiUPgiylN_ZXKQtL6OWJpl6eVTUR5CnuwbUF7BYjwSA4nZ_';
-    var url = 'https://dev.virtualearth.net/REST/v1/Locations?query=' + encodeURIComponent(address)+ '&key=' + key;
-    fetch(url)
-    .then(response => response.json())
-    .then(data => {
-      // Extract the latitude and longitude from the response
-      const location = data.resourceSets[0].resources[0].geocodePoints[0].coordinates;
-      const latitude = location[0];
-      const longitude = location[1];
-
-        // create a marker at the location
-        var markerUser = L.marker([latitude, longitude],{ icon: defaultIcon });
-
-        // center the map on the marker
-        markerUser.addTo(this.map);
-      })
-      .catch(error => {
-        this.toast.error({
-          detail: 'ERROR',
-          summary: 'Error fetching location data.',
-          duration: 3000,
-        });
-        console.error(`Error fetching location data: ${error}`);
-      });*/
-//-------------------------------------------------------------------------------------------------------------------------------------------------
+    
+    while(this.map==null);
+    this.populateTheMap(this.map);
   }
 
-  populateTheMap() {
-    for (var user of this.users) {
-      var lon = user.longitude;
-      var lat = user.latitude;
-      var marker = L.marker([lon, lat]).addTo(this.map);
-      marker.bindPopup('<b>Basic User Info</b>');
-    }
-  }
-
-  getUsers() {
-    this.mapService.getUsers().subscribe({
-      next: (res) => {
+  populateTheMap(map :any) {
+    this.mapService.getAllProsumers()
+    .subscribe({
+      next:(res)=>{
         this.users = res;
-      },
-      error: (err) => {
-        //alert(err.error.message);
-        this.toast.error({
-          detail: 'ERROR',
-          summary: err.error,
-          duration: 3000,
+        console.log(this.users)
+        const prosumerIcon = L.icon({
+          iconUrl: 'assets/images/location-prosumer.svg',
+          iconSize: [65, 65],
+          shadowSize: [50, 64],
+          iconAnchor: [22, 94],
+          shadowAnchor: [4, 62],
+          popupAnchor: [11, -77],
         });
+        for (var user of this.users) {
+          var lon = user.longitude;
+          var lat = user.latitude;
+          console.log(lon+","+lat);
+          if(lon != null && lat != null)
+          {
+            var marker = L.marker([Number(lat.toString()), Number(lon.toString())],{ icon: prosumerIcon }).addTo(map);
+            marker.bindPopup('<h6><b>'+user.username+'</b></h6><p>'+user.address+'</p>');
+            this.markers.push(marker);
+          }
+        }
       },
-    });
+      error:(err)=>
+      {
+        this.toast.error({detail:"Error",summary:"Unable to retreive prosumer locations",duration:3000});
+        console.log(err.error);
+      }
+    })
+  }
+
+  deleteAllMarkers()
+  {
+    for (var marker of this.markers)
+    {
+      this.map.removeLayer(marker);
+    }
   }
 }

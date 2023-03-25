@@ -15,5 +15,6 @@ namespace API.Services.ProsumerService
         public Task<bool> checkEmail(string email);
         public Task<List<Neigborhood>> GetNeigborhoods();
         public Task<List<Prosumer>> GetProsumersByNeighborhoodId(string id);
+        public Task<Boolean> SetCoordinates(SaveCoordsDto saveCoords);
     }
 }

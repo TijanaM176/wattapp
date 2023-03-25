@@ -21,6 +21,9 @@ namespace API.Repositories.ProsumerRepository
         //public Task<Dso> GetDsoWorkerById(string id);
         //public Task DeleteDsoWorker(string id);
         public Task DeleteProsumer(string id);
-   
+
+        public Task<Boolean> SetCoordinates(SaveCoordsDto saveCoords);
+
+
     }
 }
