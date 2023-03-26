@@ -1,4 +1,5 @@
-﻿using API.Models.HelpModels;
+﻿using API.Models;
+using API.Models.HelpModels;
 using API.Models.Paging;
 using API.Models.Users;
 using API.Repositories.BaseHelpRepository;
@@ -172,7 +173,7 @@ namespace API.Repositories
         {
             return await prosumerRepository.SetCoordinates(saveCoords);
 
-            
+
         }
         public Task<Neigborhood> GetNeigborhoodsByID(string id)
         {
@@ -192,9 +193,25 @@ namespace API.Repositories
         public Task<string> GetCityNameById(long id)
         {
             return prosumerRepository.GetCityNameById(id);
+        }
         public Task<List<ProsumerLink>> AllLinks(string id)
         {
             throw new NotImplementedException();
+        }
+
+        public Task<List<Dso>> GetDsoWorkersByRegionId(string RegionID)
+        {
+            return dsoRepository.GetDsoWorkersByRegionId(RegionID);
+        }
+
+        public Task<List<Dso>> GetWorkersbyRoleId(long RoleID)
+        {
+            return dsoRepository.GetWorkersbyRoleId(RoleID);
+        }
+
+        public Task<IEnumerable<Dso>> GetWorkerByFilter(string RegionID, long RoleID)
+        {
+            return dsoRepository.GetWorkerByFilter(RegionID, RoleID);
         }
     }
 }
