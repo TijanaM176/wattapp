@@ -45,6 +45,30 @@ namespace API.Repositories
             return devicesData.ToList();
         }
 
+        public async Task<List<Device>> GetDevicesByCategoryWeekly(string id, string catStr)
+        {
+            var links = await GetLinksForProsumer(id);
+            var cat = await GetDeviceCategory(catStr);
+            var usages = await _usageContext.PowerUsage.Find(x => links.Contains(x.DeviceId)).ToListAsync();
+            var specs = await _regContext.Devices.Where(x => x.CategoryId == cat && links.Contains(x.Id)).ToListAsync();
+            var devices = from usage in usages join spec in specs on usage.DeviceId equals spec.Id select new { Usage = usage, Spec = spec };
+            int count = devices.Count();
+
+            var devicesData = devices.Select(d => new Device
+            {
+                Id = d.Spec.Id,
+                IpAddress = d.Spec.IpAddress,
+                Name = d.Spec.Name,
+                Type = d.Spec.Type,
+                Manufacturer = d.Spec.Manufacturer,
+                Wattage = d.Spec.Wattage,
+                Timestamps = d.Usage.Timestamps.Where(t =>
+                    t.Date >= DateTime.Now.AddDays(-7) && t.Date <= DateTime.Now
+                ).ToList(),
+            });
+            return devicesData.ToList();
+        }
+
         public async Task<long> GetDeviceCategory(string name)
         {
             return (await _regContext.DeviceCategories.FirstOrDefaultAsync(x => x.Name == name)).Id;
@@ -78,18 +102,11 @@ namespace API.Repositories
 
         public async Task<double> ConsumptionForLastWeekForProsumer(string id)
         {
-            var devices = await GetDevicesByCategory(id, "Consumer");
-            
-            var dev = devices.Select(d => new Device
-            {
-                Timestamps = d.Timestamps.Where(t =>
-                    t.Date >= DateTime.Now.AddDays(-7) && t.Date <= DateTime.Now
-                ).ToList(),
-            });
+            List<Device> devices = await GetDevicesByCategoryWeekly(id, "Consumer");
 
             double consumption = 0;
 
-            foreach(var device in dev)
+            foreach(var device in devices)
             {
                 foreach (var ts in device.Timestamps)
                 { 
@@ -106,18 +123,11 @@ namespace API.Repositories
 
         public async Task<double> ProductionForLastWeekForProsumer(string id)
         {
-            var devices = await GetDevicesByCategory(id, "Producer");
-
-            var dev = devices.Select(d => new Device
-            {
-                Timestamps = d.Timestamps.Where(t =>
-                    t.Date >= DateTime.Now.AddDays(-7) && t.Date <= DateTime.Now
-                ).ToList(),
-            });
+            var devices = await GetDevicesByCategoryWeekly(id, "Producer");
 
             double production = 0;
 
-            foreach (var device in dev)
+            foreach (var device in devices)
             {
                 foreach (var ts in device.Timestamps)
                 {
