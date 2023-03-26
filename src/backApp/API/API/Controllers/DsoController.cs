@@ -48,7 +48,7 @@ namespace API.Controllers
         public async Task<ActionResult> EditDsoWorker(string id, DsoEdit newValues)
         {
             if (!await dsoService.EditDsoWorker(id, newValues)) return BadRequest("User could not be updated!");
-            return Ok("User updated successfully!");
+            return Ok(new { error = true, message = "User updated successfully!" });
 
         }
 

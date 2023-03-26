@@ -16,7 +16,7 @@ export class UsersServiceService {
   private baseUrl2: string =
     'https://localhost:7156/api/Prosumer/getProsumerByID';
   private baseUrlPage: string =
-    'https://localhost:7156/api/Dso/GetProsumersPaging';
+    'https://localhost:7156/api/Prosumer/GetProsumersPaging';
   refreshList() {
     lastValueFrom(this.http.get(this.baseUrl)).then(
       (res) => (this.prosumers = res as Prosumer[])

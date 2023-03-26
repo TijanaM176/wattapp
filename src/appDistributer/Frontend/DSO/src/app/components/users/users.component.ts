@@ -43,11 +43,11 @@ export class UsersComponent implements OnInit {
     console.log(this.page);
     this.Paging();
     
-  }
+  }/*
   onTableSizeChange(event:any):void
 {
   this.perPage=event.target.value;
   this.page=1;
   this.Paging();
-}  
+}  */
 }

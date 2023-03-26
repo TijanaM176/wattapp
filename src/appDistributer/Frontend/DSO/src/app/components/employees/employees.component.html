@@ -104,18 +104,8 @@
         </tbody>
       </table>
       
-      <div class="col-sm-3" style="float:left;border: none;color:#566787;font-weight: bold;background-color: #f8f8fa;
-      border-radius: 5px;margin-top:2%;">
-        <span style="font-size: 16px;margin-right: 25%;">Show: </span>
-        <select (change)="onTableSizeChange($event)" style="border:none;border-radius:5px;background-color: #f8f8fa;margin-top:-1%;color:#566787;width:30%;height:30%;">
-          <option *ngFor="let size of tableSizes">
-            {{size}}
-          </option>
-
-        </select>
-        
-      </div>
-      <div class="col-sm-9" style="float:left;padding-left:20%;margin-top: 1.5%;">
+      
+      <div style="float:left;padding-left:35%;text-align:center;margin-top: 1.5%;justify-content: center;">
       <pagination-controls 
                    previousLabel="Prev"
                    nextLabel="Next"
@@ -129,10 +119,10 @@
   
 </div>
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content" style="width:100%;">
+  <div class="modal-dialog modal-lg" style="width:60%;">
+    <div class="modal-content">
       <div class="modal-header">
-        <p class="modal-title" id="exampleModalLabel">
+        <p class="modal-title" id="exampleModalLabel" style="margin-left:44%;">
           <span style="color: #566787; font-size: 25px; font-weight: 700;">Info</span><br>
         </p>
 
@@ -142,9 +132,50 @@
       
       <div class="modal-body">
         <div class="slika">
-          <img src="assets/images/default-image.png" style="height:30%;width:30%;justify-content: center;margin-left:30%;">
-          <button style="background-color:#d6d9df;margin-left:10%;text-align:center;color:#566787;font-weight:bold;font-size:16px;border:none;width:100px;border-radius: 5px;"><span><i style="color:#566787;font-size: 16px;margin-top:5%;" class="material-icons">edit</i> Edit</span></button>
+          <img src="assets/images/default-image.png" style="height:15%;width:15%;justify-content: center;margin-left:40%;">
+          <div *ngIf="value==='admin'" style="margin-top:5%;margin-left:23%;margin-bottom: 3%;" ><!--*ngIf="value==='admin'"--> 
+          <button data-bs-target="#Modal2"  data-bs-toggle="modal" (click)="update(employee.id)" style="background-color:#d6d9df;margin-left:10%;text-align:center;color:#566787;font-weight:bold;font-size:16px;border:none;width:100px;border-radius: 5px;"><span><i style="color:#566787;font-size: 16px;margin-top:5%;" class="material-icons">edit</i> Edit</span></button>
+          <button (click)="onDelete(employee.id)" data-bs-dismiss="modal" style="background-color:#d6d9df;margin-left:10%;text-align:center;color:#566787;font-weight:bold;font-size:16px;border:none;width:100px;border-radius: 5px;"><span><i style="color:#566787;font-size: 16px;margin-top:5%;" class="material-icons">delete</i> Delete</span></button>
         </div>
+        </div>
+        <div>
+          <form [formGroup]="infoForm">
+            <span>
+          <div class="form-group"style="width:100%;float:left;">
+            <label style="width:90%;color:#566787;font-weight: bold;">First Name</label>
+            <input style="width:95%; color:#d6d9df;background-color: #566787;font-weight: bold;" type="text" class="form-control" formControlName="firstName"/>
+          </div>
+          <div class="form-group" style="width:100%;float:left;">
+            <label style="width:90%;color:#566787;font-weight: bold;">Last Name</label>
+            <input style="width:95%; color:#d6d9df;background-color: #566787;font-weight: bold;" type="text" class="form-control" formControlName="lastName"/>
+          </div>
+        </span>
+        <span>
+          <div class="form-group" style="width:50%;float:left;">
+            <label style="width:90%;color:#566787;font-weight: bold;">Starting date</label>
+            <input style="width:90%; color:#d6d9df;background-color: #566787;font-weight: bold;" type="text" class="form-control" formControlName="dateCreate"/>
+          </div>
+          <div class="form-group" style="width:50%;float:left;">
+            <label style="width:90%;color:#566787;font-weight: bold;">Salary</label>
+            <input style="width:90%; color:#d6d9df;background-color: #566787;font-weight: bold;" type="text" class="form-control" formControlName="salary"/>
+          </div>
+        </span>
+          <div class="form-group" style="width:50%;float:left;">
+            <label style="width:90%;color:#566787;font-weight: bold;">Role</label>
+            <input style="width:90%; color:#d6d9df;background-color: #566787;font-weight: bold;" type="text" class="form-control" formControlName="role"/>
+          </div>
+          <div class="form-group" style="width:50%;float:left;">
+            <label style="width:90%;color:#566787;font-weight: bold;">Region</label>
+            <input style="width:90%; color:#d6d9df;background-color: #566787;font-weight: bold;" type="text" class="form-control"  formControlName="region"/>
+          </div>
+          <div class="form-group" style="width:100%;">
+            <label style="width:90%;color:#566787;font-weight: bold;">Email</label>
+            <input style="width:95%;border-radius:5px; color:#d6d9df;background-color: #566787;font-weight: bold;" type="text" class="form-control" formControlName="email"/>
+          
+          </div>
+         </form>
+      </div>
+      <!--  
         <div class="deo">
           <label style="color:#566787;font-weight: bold;">First Name</label>
               <div class="div" style="background-color: #566787;padding-top:1%;font-weight:500;border-radius: 5px;height:20%;color:#F9F9F9;">
@@ -221,9 +252,75 @@
                         
                 </div>
   
-          </div>
+          </div>-->
     </div>
         
   </div>
 </div>
 </div>
+
+<div class="modal fade" id="Modal2"  tabindex="-1" aria-labelledby="Modal2Label" aria-hidden="true">
+  <div class="modal-dialog modal-lg"  style="width:60%;">
+    <div class="modal-content"  >
+      <div class="modal-header">
+        <p class="modal-title" id="Modal2Label" style="margin-left:38%;">
+          <span style="color: #566787; font-size: 25px; font-weight: 700;">Edit user profile</span><br>
+        </p>
+
+        <button type="button" id="closeBtn1" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+
+      </div>
+      
+      <div class="modal-body" style="background-color: white;">
+        <div class="slika" style="height:20%;margin-left:2%;">
+          <img src="assets/images/default-image.png" style="height:15%;width:15%;justify-content: center;margin-bottom: 2%;">
+         
+          <button  style="background-color:#566787;margin-left:10%;text-align:center;color:white;font-weight:bold;font-size:14px;border:none;width:20%;border-radius: 5px;"><span><i style="color:#d6d9df;font-size: 16px;margin-top:0%;" class="material-icons">edit</i> Change photo</span></button>
+      
+        </div>
+        <div>
+        <form [formGroup]="updateForm"  >
+          <span>
+        <div class="form-group"style="width:50%;float:left;">
+          <label style="width:90%;color:#566787;font-weight: bold;">First Name</label>
+          <input style="width:90%; border:1px solid #566787; color:#566787;background-color: #e8f3f8; font-weight: 600;" type="text" class="form-control" formControlName="firstName"/>
+        </div>
+        <div class="form-group" style="width:50%;float:left;">
+          <label style="width:90%;color:#566787;font-weight: bold;">Last Name</label>
+          <input style="width:90%;color:#566787;border:1px solid #566787;  background-color: #e8f3f8; font-weight: 600;" type="text" class="form-control" formControlName="lastName"/>
+        </div>
+      </span>
+      <span>
+        <div class="form-group" style="width:50%;float:left;">
+          <label style="width:90%;color:#566787;font-weight: bold;">Salary</label>
+          <input style="width:90%;color:#566787;border:1px solid #566787;  background-color: #e8f3f8; font-weight: 600;" type="text" class="form-control" formControlName="salary"/>
+        </div>
+        <div class="form-group" style="width:50%;float:left;">
+          <label style="width:90%;color:#566787;font-weight: bold;">Role Id</label>
+          <input style="width:90%;color:#566787;border:1px solid #566787;  background-color: #e8f3f8; font-weight: 600;" type="text" class="form-control" formControlName="roleId"/>
+        </div>
+      </span>
+        <div class="form-group" style="width:50%;float:left;">
+          <label style="width:90%;color:#566787;font-weight: bold;">Region Id</label>
+          <input style="width:90%;color:#566787;border:1px solid #566787;  background-color: #e8f3f8; font-weight: 600;" type="text" class="form-control" formControlName="regionId"/>
+        </div>
+        <div class="form-group" style="width:50%;float:left;">
+          <label style="width:90%;color:#566787;font-weight: bold;">Email</label>
+          <input style="width:90%;color:#566787;border:1px solid #566787;  background-color: #e8f3f8; font-weight: 600;" type="text" class="form-control" formControlName="email"/>
+        </div>
+        <div class="form-group" style="width:50%;">
+          <label style="width:90%;color:#566787;font-weight: bold;">Password</label>
+          <input style="width:90%;color:#566787;border:1px solid #566787; background-color: #e8f3f8; font-weight: 600;" type="text" class="form-control" formControlName="password"/>
+        
+        </div>
+        <br>
+        <button data-bs-target="#exampleModal"  data-bs-toggle="modal" data-bs-dismiss="modal" (click)="onUpdate(employee.id)" style="font-size:20px;background-color:#566787;border:none;color:white;width:30%;border-radius: 5px;margin-left:38%;" data-dismiss="modal" class="brn btn-update" type="submit">Submit</button>
+      </form>
+    </div>
+        
+         </div>
+        
+  </div>
+</div>
+</div>
+

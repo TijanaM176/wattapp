@@ -8,4 +8,7 @@ export class Employee{
     dateCreate!:string
     salary!:number
     email!:string
+    password!:string
+    roleId!:number
+    regionId!:string
 }
