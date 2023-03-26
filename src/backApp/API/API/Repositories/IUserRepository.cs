@@ -18,6 +18,8 @@ namespace API.Repositories
         public Task<Region> getRegion(string naziv);
         public Task<Neigborhood> getNeigborhood(string naziv);
         public Task<City> getCity(string naziv);
+        public Task<List<long>> GetRoleIds();
+        public Task<List<string>> GetRegionIds();
 
     }
 }
