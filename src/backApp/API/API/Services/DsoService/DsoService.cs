@@ -118,5 +118,28 @@ namespace API.Services.DsoService
         {
             return  _repository.GetDsoWorkers(dsoWorkersParameters);
         }
+
+        public async Task<List<Dso>> GetDsoWorkersByRegionId(string RegionID)
+        {
+            var dsoWorkers = await _repository.GetDsoWorkersByRegionId(RegionID);
+            if (dsoWorkers == null) throw new ArgumentException("No found worker for this Region!");
+
+            return dsoWorkers;
+        }
+        public async Task<List<Dso>> GetWorkersbyRoleId(long RoleID)
+        {
+            var dsoWorkers = await _repository.GetWorkersbyRoleId(RoleID);
+            if (dsoWorkers == null) throw new ArgumentException("No found worker for this Role!");
+
+            return dsoWorkers;
+        }
+        public async Task<IEnumerable<Dso>> GetWorkerByFilter(string RegionID, long RoleID)
+        {
+            var dsoWorkers = await _repository.GetWorkerByFilter(RegionID, RoleID);
+            if (dsoWorkers == null) throw new ArgumentException("No found worker for this Role and this Region!");
+
+            return dsoWorkers;
+
+        }
     }
 }

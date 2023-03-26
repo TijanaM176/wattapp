@@ -71,5 +71,49 @@ namespace API.Controllers
             return await dsoService.GetDsoWorkers(dsoWorkersParameters);
            
         }
+        [HttpGet("GetWorkersByRegionId")]
+        public async Task<ActionResult<List<Dso>>> GetWorkersByRegionId(string RegionID)
+        {
+            List<Dso> workers;
+            try
+            {
+                workers = await dsoService.GetDsoWorkersByRegionId(RegionID);
+                return Ok(workers);
+            }
+            catch (Exception)
+            {
+                return BadRequest("There is no workers for this region!");
+            }
+        }
+        [HttpGet("GetWorkersByRoleId")]
+        public async Task<ActionResult<List<Dso>>> GetWorkersbyRoleId(long RoleID)
+        {
+            List<Dso> workers;
+            try
+            {
+                workers = await dsoService.GetWorkersbyRoleId(RoleID);
+                return Ok(workers);
+            }
+            catch (Exception)
+            {
+                return BadRequest("There is no workers with this role!");
+            }
+        }
+        [HttpGet("GetWorkerByFilter")]
+        public async Task<ActionResult<IEnumerable<Dso>>> GetWorkerByFilter(string RegionID, long RoleID)
+        {
+            IEnumerable<Dso> workersFiler;
+            try
+            {
+                workersFiler = await dsoService.GetWorkerByFilter( RegionID, RoleID);
+
+                return Ok(workersFiler);
+            }
+            catch (Exception)
+            {
+                return BadRequest("There is no workers with this role!");
+            }
+
+        }
     }
 }

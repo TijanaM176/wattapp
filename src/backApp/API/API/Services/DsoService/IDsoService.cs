@@ -12,6 +12,9 @@ namespace API.Services.DsoService
         public Task<List<Dso>> GetAllDsos();
         public Task<List<string>> getEmails();
         public Task<bool> checkEmail(string email);
+        public Task<List<Dso>> GetDsoWorkersByRegionId(string RegionID);
+        public Task<List<Dso>> GetWorkersbyRoleId(long RoleID);
+        public Task<IEnumerable<Dso>> GetWorkerByFilter(string RegionID, long RoleID);
         Task<PagedList<Dso>> GetDsoWorkers(DsoWorkerParameters dsoWorkersParameters);
     }
 }
