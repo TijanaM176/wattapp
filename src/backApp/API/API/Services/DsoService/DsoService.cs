@@ -168,5 +168,17 @@ namespace API.Services.DsoService
             return dsoWorkers;
 
         }
+        public async Task<List<Role>> GetRoles()
+        {
+            var roles = await _repository.GetRoles();
+            if (roles == null) throw new ArgumentException("No roles in database!");
+            return roles;
+        }
+        public async Task<List<Region>> GetRegions()
+        {
+            var regions = await _repository.GetRegions();
+            if (regions == null) throw new ArgumentException("No regions in database!");
+            return regions;
+        }
     }
 }

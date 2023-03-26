@@ -17,5 +17,7 @@ namespace API.Repositories.DsoRepository
         public Task<List<Dso>> GetWorkersbyRoleId(long RoleID);
         public Task<IEnumerable<Dso>> GetWorkerByFilter(string RegionID, long RoleID);
         Task<PagedList<Dso>> GetDsoWorkers(DsoWorkerParameters dsoWorkersParameters); // izmeni parametre
+        public Task<List<Role>> GetRoles();
+        public Task<List<Region>> GetRegions();
     }
 }

@@ -223,5 +223,15 @@ namespace API.Repositories
         {
             return await _context.Regions.Select(x => x.Id).ToListAsync();
         }
+
+        public Task<List<Role>> GetRoles()
+        {
+            return dsoRepository.GetRoles();
+        }
+
+        public Task<List<Region>> GetRegions()
+        {
+            return dsoRepository.GetRegions();
+        }
     }
 }

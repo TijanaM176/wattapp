@@ -94,5 +94,14 @@ namespace API.Repositories.DsoRepository
             return workersByRegion.Intersect(workersByRole);
         }
 
+        public async Task<List<Role>> GetRoles()
+        {
+            return await _context.Roles.ToListAsync();
+        }
+
+        public async Task<List<Region>> GetRegions()
+        {
+            return await _context.Regions.ToListAsync();
+        }
     }
 }
