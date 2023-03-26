@@ -50,6 +50,9 @@ import { NgxPaginationModule } from 'ngx-pagination';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { ProsumerinfoComponent } from './components/prosumerinfo/prosumerinfo.component';
 import { AddProsumerComponent } from './components/AddProsumer/AddProsumer.component';
+import { EmployeeNavBarComponent } from './components/employee-nav-bar/employee-nav-bar.component';
+import { RegionComponent } from './components/Filters/region/region.component';
+import { RoleComponent } from './components/Filters/role/role.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -79,6 +82,9 @@ import { AddProsumerComponent } from './components/AddProsumer/AddProsumer.compo
     ResetpasswordComponent,
     ProsumerinfoComponent,
     AddProsumerComponent,
+    EmployeeNavBarComponent,
+    RegionComponent,
+    RoleComponent,
   ],
   imports: [
     MatSliderModule,

@@ -64,17 +64,8 @@ const routes: Routes = [
     component: SidebarDsoComponent,
   },
   {
-    path: 'employees',
-    component: EmployeesComponent,
-  },
-  {
     path: 'map',
     component: MapComponent,
-  },
-
-  {
-    path: 'employeedetails',
-    component: EmployeedetailsComponent,
   },
   {
     path: 'resetpassword',
