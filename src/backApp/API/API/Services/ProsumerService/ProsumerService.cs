@@ -181,6 +181,12 @@ namespace API.Services.ProsumerService
             string name = await _repository.GetCityNameById(id);
             if (name == null) throw new ArgumentException("No city for that id!");
             return name;
+        public async Task<List<ProsumerLink>> AllLinks(string id)
+        {
+            var prosumers = await _repository.AllLinks(id);
+            if (prosumers == null) throw new ArgumentException("No links for that prosumer!");
+
+            return prosumers;
         }
     }
 }

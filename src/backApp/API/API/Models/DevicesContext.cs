@@ -21,5 +21,21 @@ namespace API.Models
                 return db.GetCollection<Device>("Consumers");
             }
         }
+
+        public IMongoCollection<Device> Producers
+        {
+            get
+            {
+                return db.GetCollection<Device>("Producers");
+            }
+        }
+
+        public IMongoCollection<Device> Storage
+        {
+            get
+            {
+                return db.GetCollection<Device>("Storage");
+            }
+        }
     }
 }

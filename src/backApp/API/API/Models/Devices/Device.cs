@@ -1,5 +1,6 @@
 ﻿using MongoDB.Bson.Serialization.Attributes;
 using MongoDB.Bson;
+using API.Models.Users;
 
 namespace API.Models.Devices
 {
@@ -7,12 +8,12 @@ namespace API.Models.Devices
     {
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
-        public string Id { get; set; }
+        public string DeviceId { get; set; }
 
         [BsonElement("ipAddress")]
         public string? IpAddress { get; set; }
 
-        [BsonElement("deviceName")]
+        [BsonElement("device_name")]
         public string? DeviceName { get; set; }
         
         [BsonElement("deviceType")]
@@ -27,6 +28,8 @@ namespace API.Models.Devices
         [BsonElement("timestamps")]
         public List<Timestamp> Timestamps { get; set; }
 
+        public virtual ICollection<ProsumerLink> Links{ get; set; }
 
+        
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System.Text.Json.Serialization;
+using API.Models.Devices;
 
 namespace API.Models.Users
 {

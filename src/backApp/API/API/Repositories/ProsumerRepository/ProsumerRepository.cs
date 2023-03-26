@@ -67,6 +67,10 @@ namespace API.Repositories.ProsumerRepository
             Prosumer prosumer = await GetProsumer(saveCoords.Username);
             
             if (prosumer == null) return false;
+        public async Task<List<ProsumerLink>> AllLinks(string id)
+        {
+            return await _context.ProsumerLinks.ToListAsync();
+        }
 
             prosumer.Latitude = saveCoords.Latitude;
             prosumer.Longitude = saveCoords.Longitude;

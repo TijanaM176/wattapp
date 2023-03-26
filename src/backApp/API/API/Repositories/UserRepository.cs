@@ -192,6 +192,9 @@ namespace API.Repositories
         public Task<string> GetCityNameById(long id)
         {
             return prosumerRepository.GetCityNameById(id);
+        public Task<List<ProsumerLink>> AllLinks(string id)
+        {
+            throw new NotImplementedException();
         }
     }
 }
