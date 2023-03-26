@@ -3,22 +3,28 @@ import{HttpClient} from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Employee } from '../models/employeestable';
 import{lastValueFrom} from "rxjs";
+import { FormGroup } from '@angular/forms';
 
 
 @Injectable({
   providedIn: 'root'
 })
 export class EmployeesServiceService {
+  update$: any;
   constructor(private http : HttpClient) { }
   private baseUrl: string = "https://localhost:7156/api/Dso/GetAllDsoWorkers";
   private baseUrl1: string = "https://localhost:7156/api/Dso/DeleteDsoWorker";
   private baseUrl2: string = "https://localhost:7156/api/Dso/GetDsoById";
   private baseUrlPage:string ="https://localhost:7156/api/Dso/GetDsoWorkerPaging";
+  private basuUrlUpdate:string="https://localhost:7156/api/Dso/UpdateDsoWorker";
   employees!:Employee[];
   formData:Employee=new Employee();
 
   getAllData(){
     return this.http.get(this.baseUrl);
+  }
+  updateEmployee(id:string,formUpdate:any){
+    return this.http.put(`${this.basuUrlUpdate}`+`?id=`+id,formUpdate);
   }
   
   deleteEmployee(id:string)/*:Observable<Employee>*/
