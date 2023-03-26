@@ -13,8 +13,9 @@ namespace API.Repositories.DsoRepository
         public Task InsertDSOWorker(Dso DSO_Worker);
         public Task<Dso> GetDsoWorkerById(string id);
         public Task DeleteDsoWorker(string id);
-       
-     
+        public Task<List<Dso>> GetDsoWorkersByRegionId(string RegionID);
+        public Task<List<Dso>> GetWorkersbyRoleId(long RoleID);
+        public Task<IEnumerable<Dso>> GetWorkerByFilter(string RegionID, long RoleID);
         Task<PagedList<Dso>> GetDsoWorkers(DsoWorkerParameters dsoWorkersParameters); // izmeni parametre
     }
 }

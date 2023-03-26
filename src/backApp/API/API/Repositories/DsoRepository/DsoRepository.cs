@@ -13,7 +13,7 @@ namespace API.Repositories.DsoRepository
             _context = context;
         }
 
-        
+
 
         public async Task<List<Dso>> GetAllDsos()
         {
@@ -40,7 +40,7 @@ namespace API.Repositories.DsoRepository
             _context.Dsos.Add(DSO_Worker);
             await _context.SaveChangesAsync(); // sacuvaj promene
         }
-      
+
 
         public async Task<Dso> GetDsoWorkerById(string id)
         {
@@ -57,7 +57,42 @@ namespace API.Repositories.DsoRepository
         {
             return Task.FromResult(PagedList<Dso>.GetPagedList(FindAll().OrderBy(i => i.DateCreate), dsoWorkersParameters.PageNumber, dsoWorkersParameters.PageSize));
         }
+
+        public async Task<List<Dso>> GetDsoWorkersByRegionId(string RegionID)
+        {
+            List<Dso> workers = await GetAllDsos();
+            List<Dso> workersRegion = new List<Dso>();
+
+            foreach (var worker in workers)
+            {
+                if (worker.RegionId.Equals(RegionID))
+                    workersRegion.Add(worker);
+            }
+            return workersRegion;
+        }
+        public async Task<List<Dso>> GetWorkersbyRoleId(long RoleID)
+        {
+            List<Dso> workers = await GetAllDsos();
+            List<Dso> workersRole = new List<Dso>();
+
+            foreach (var worker in workers)
+            {
+                if (worker.RoleId == RoleID)
+                    workersRole.Add(worker);
+            }
+            return workersRole;
+        }
+
+        public async Task<IEnumerable<Dso>> GetWorkerByFilter(string RegionID, long RoleID)
+        {
+            List<Dso> workersByRegion = await GetDsoWorkersByRegionId(RegionID);
+            List<Dso> workersByRole = await GetWorkersbyRoleId(RoleID);
+
+            //IEnumerable<Dso> workersFiler = workersByRegion.Intersect(workersByRole);
+
+
+            return workersByRegion.Intersect(workersByRole);
+        }
+
     }
-
-
 }

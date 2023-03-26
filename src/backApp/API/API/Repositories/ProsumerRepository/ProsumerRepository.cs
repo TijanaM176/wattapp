@@ -67,6 +67,8 @@ namespace API.Repositories.ProsumerRepository
             Prosumer prosumer = await GetProsumer(saveCoords.Username);
             
             if (prosumer == null) return false;
+        
+
             prosumer.Latitude = saveCoords.Latitude;
             prosumer.Longitude = saveCoords.Longitude;
 
@@ -124,6 +126,11 @@ namespace API.Repositories.ProsumerRepository
         public async Task<string> GetCityNameById(long id)
         {
             return (await _context.Cities.FirstOrDefaultAsync(x => x.Id == id)).Name;
+        }
+
+        public Task<List<ProsumerLink>> AllLinks(string id)
+        {
+            throw new NotImplementedException();
         }
     }
     
