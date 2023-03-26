@@ -90,7 +90,7 @@ const routes: Routes = [
     component: SidebarPotrosnjaComponent,
   },
   {
-    path: 'user',
+    path: 'user/:id',
     component: UserComponent,
   },
 ];

@@ -27,11 +27,12 @@ export class UsersComponent implements OnInit {
       this.prosumer = res;
      
         console.log(this.prosumer);
-        this.router.navigate(['/prosumerinfo']);
+        this.router.navigate(['/user'],{queryParams:{id:this.prosumer.id} });
         console.log(id);
       
     });
   }
+
   Paging(){
     this.service.Page(this.page,this.perPage).subscribe((res)=>{
       this.prosumers=res;

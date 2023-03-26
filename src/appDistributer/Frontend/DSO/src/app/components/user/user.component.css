@@ -7,7 +7,20 @@ body {background-color: coral;}
 .div2{
     width: 40%;
     float: right;
-    background-color: blue;
+    background-color: rgb(255, 255, 255);
+   
+    
+}
+
+
+
+#dugme{
+    background-color: #5875A1;
+    border-radius: 7px;
+    width: 50%;
+    margin-left:0 px;
+    color: white;
+
 }
 .div3{
     width: 20%;
