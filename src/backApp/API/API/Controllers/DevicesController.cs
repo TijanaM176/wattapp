@@ -52,5 +52,22 @@ namespace API.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+        [HttpGet("LastWeeksConsumptionAndProduction")]
+        public async Task<IActionResult> LastWeeksConsumptionAndProduction(string id)
+        {
+            try
+            {
+                return Ok(new
+                {
+                    consumption = await devService.ConsumptionForLastWeekForProsumer(id),
+                    production = await devService.ProductionForLastWeekForProsumer(id)
+                }) ;
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }

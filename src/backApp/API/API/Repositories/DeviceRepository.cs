@@ -43,7 +43,6 @@ namespace API.Repositories
                     t.Date.Day == DateTime.Now.Day &&
                     t.Date.Hour == DateTime.Now.Hour
                 ).ToList(),
-                Links = d.Links
             });
             return devicesWithCurrentConsumption.ToList();
         }
@@ -53,7 +52,7 @@ namespace API.Repositories
             var links = await GetLinksForProsumer(id);
             var devices = await _context.Producers.Find(x => links.Contains(x.DeviceId)).ToListAsync();
 
-            var devicesWithCurrentConsumption = devices.Select(d => new Device
+            var devicesWithCurrentProduction = devices.Select(d => new Device
             {
                 DeviceId = d.DeviceId,
                 IpAddress = d.IpAddress,
@@ -67,16 +66,15 @@ namespace API.Repositories
                     t.Date.Day == DateTime.Now.Day &&
                     t.Date.Hour == DateTime.Now.Hour
                 ).ToList(),
-                Links = d.Links
             });
-            return devicesWithCurrentConsumption.ToList();
+            return devicesWithCurrentProduction.ToList();
         }
         public async Task<List<Device>> GetAllStorageForProsumer(string id)
         {
             var links = await GetLinksForProsumer(id);
             var devices = await _context.Storage.Find(x => links.Contains(x.DeviceId)).ToListAsync();
 
-            var devicesWithCurrentConsumption = devices.Select(d => new Device
+            var devicesWithCurrentStorage = devices.Select(d => new Device
             {
                 DeviceId = d.DeviceId,
                 IpAddress = d.IpAddress,
@@ -90,9 +88,8 @@ namespace API.Repositories
                     t.Date.Day == DateTime.Now.Day &&
                     t.Date.Hour == DateTime.Now.Hour
                 ).ToList(),
-                Links = d.Links
             });
-            return devicesWithCurrentConsumption.ToList();
+            return devicesWithCurrentStorage.ToList();
         }
 
         public async Task<double> CurrentConsumptionForProsumer(string id)
@@ -119,5 +116,59 @@ namespace API.Repositories
             return currentProduction;
         }
 
+        public async Task<double> ConsumptionForLastWeekForProsumer(string id)
+        {
+            var links = await GetLinksForProsumer(id);
+            var devices = await _context.Consumers.Find(x => links.Contains(x.DeviceId)).ToListAsync();
+            
+            var dev = devices.Select(d => new Device
+            {
+                Timestamps = d.Timestamps.Where(t =>
+                    t.Date >= DateTime.Now.AddDays(-7) && t.Date <= DateTime.Now
+                ).ToList(),
+            });
+
+            double consumption = 0;
+
+            foreach(var device in dev)
+            {
+                foreach (var ts in device.Timestamps)
+                { 
+                    if (ts.ActivePower != 0)
+                    { 
+                        consumption += ts.ActivePower;
+                        consumption += ts.ReactivePower;
+                    }
+                }
+            }
+
+            return consumption;
+        }
+
+        public async Task<double> ProductionForLastWeekForProsumer(string id)
+        {
+            var links = await GetLinksForProsumer(id);
+            var devices = await _context.Producers.Find(x => links.Contains(x.DeviceId)).ToListAsync();
+
+            var dev = devices.Select(d => new Device
+            {
+                Timestamps = d.Timestamps.Where(t =>
+                    t.Date >= DateTime.Now.AddDays(-7) && t.Date <= DateTime.Now
+                ).ToList(),
+            });
+
+            double production = 0;
+
+            foreach (var device in dev)
+            {
+                foreach (var ts in device.Timestamps)
+                {
+                    if (ts.ActivePower != 0)
+                        production += ts.ActivePower;
+                }
+            }
+
+            return production;
+        }
     }
 }
