@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Location } from '@angular/common';
 import {
   FormBuilder,
   FormControl,
@@ -36,12 +37,14 @@ export class SignupComponent implements OnInit {
   cityName: string = '';
 
   signupForm!: FormGroup;
+  signupFormValues!: FormGroup;
   constructor(
     private fb: FormBuilder,
     private auth: AuthService,
     private router: Router,
     private toast: NgToastService,
-    private service: UsersServiceService
+    private service: UsersServiceService,
+    private location1: Location
   ) {}
   ngOnInit(): void {
     this.service.getAllCities().subscribe((response) => {
@@ -54,10 +57,10 @@ export class SignupComponent implements OnInit {
       email: ['', Validators.required],
       neigbName: [this.neighName],
       address: ['', Validators.required],
-      city: [],
+      city: [''],
       image: [''],
-      s: [],
     });
+    this.signupForm.removeControl('s');
   }
   getAllNeighborhoodById(e: any) {
     this.cityId = e.target.value;
@@ -106,7 +109,11 @@ export class SignupComponent implements OnInit {
           this.getCoordinates(this.address, res.username);
           console.log(res.username);
           this.signupForm.reset();
-          //this.router.navigate(['']);
+          this.router
+            .navigateByUrl('/', { skipLocationChange: true })
+            .then(() => {
+              this.router.navigate(['/signup']);
+            });
         },
         error: (err) => {
           //alert(err?.error)
