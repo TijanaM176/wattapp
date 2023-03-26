@@ -54,23 +54,32 @@ namespace API.Services.DsoService
                 return false;       //ako ne moze da ga nadje, nije editovan
             }
 
+            if (newValues.Email.Length > 0)
+            {
+                if (dso.Email.Equals(newValues.Email) || await checkEmail(newValues.Email))
+                    dso.Email = newValues.Email;
+                else
+                    return false;
+            }
+
             //sifra
-            var hmac = new HMACSHA512();
-            byte[] passwordSalt = hmac.Key;
-            byte[] passwordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(newValues.Password));
+            if (newValues.Password.Length > 0)
+            {
+                var hmac = new HMACSHA512();
+                byte[] passwordSalt = hmac.Key;
+                byte[] passwordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(newValues.Password));
+                dso.SaltPassword = passwordSalt;
+                dso.HashPassword = passwordHash;
+            }
 
-            dso.FirstName = newValues.FirstName;
-            dso.LastName = newValues.LastName;
-            dso.Salary = newValues.Salary;
-            dso.RoleId = newValues.RoleId;
-            dso.RegionId = newValues.RegionId;
-            if (newValues.Email.Equals(dso.Email) || await checkEmail(newValues.Email))
-                dso.Email = newValues.Email;
-            else
-                return false;
+            if (newValues.FirstName.Length > 0) dso.FirstName = newValues.FirstName;
+            if (newValues.LastName.Length > 0) dso.LastName = newValues.LastName;
+            if (newValues.Salary > 0) dso.Salary = newValues.Salary;
 
-            dso.SaltPassword = passwordSalt;
-            dso.HashPassword = passwordHash;
+            var roles = await GetRoleIds();
+            var regions = await GetRegionIds();
+            if (roles.Contains(newValues.RoleId)) dso.RoleId = newValues.RoleId;
+            if (regions.Contains(newValues.RegionId)) dso.RegionId = newValues.RegionId;
 
             try
             {
@@ -81,6 +90,24 @@ namespace API.Services.DsoService
             {
                 return false;
             }
+        }
+
+        public async Task<List<long>> GetRoleIds()
+        {
+            var roles = await _repository.GetRoleIds();
+            if (roles == null) throw new ArgumentException("No roles in database!");
+
+            return roles;
+            
+        }
+
+        public async Task<List<string>> GetRegionIds()
+        {
+            var regions = await _repository.GetRegionIds();
+            if (regions == null) throw new ArgumentException("No regions in database!");
+
+            return regions;
+
         }
 
         public async Task<List<Dso>> GetAllDsos()
@@ -140,6 +167,18 @@ namespace API.Services.DsoService
 
             return dsoWorkers;
 
+        }
+        public async Task<List<Role>> GetRoles()
+        {
+            var roles = await _repository.GetRoles();
+            if (roles == null) throw new ArgumentException("No roles in database!");
+            return roles;
+        }
+        public async Task<List<Region>> GetRegions()
+        {
+            var regions = await _repository.GetRegions();
+            if (regions == null) throw new ArgumentException("No regions in database!");
+            return regions;
         }
     }
 }

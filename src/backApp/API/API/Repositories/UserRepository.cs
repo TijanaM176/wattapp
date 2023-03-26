@@ -214,5 +214,25 @@ namespace API.Repositories
         {
             return dsoRepository.GetWorkerByFilter(RegionID, RoleID);
         }
+
+        public async Task<List<long>> GetRoleIds()
+        {
+            return await _context.Roles.Select(x => x.Id).ToListAsync();
+        }
+
+        public async Task<List<string>> GetRegionIds()
+        {
+            return await _context.Regions.Select(x => x.Id).ToListAsync();
+        }
+
+        public Task<List<Role>> GetRoles()
+        {
+            return dsoRepository.GetRoles();
+        }
+
+        public Task<List<Region>> GetRegions()
+        {
+            return dsoRepository.GetRegions();
+        }
     }
 }

@@ -115,5 +115,33 @@ namespace API.Controllers
             }
 
         }
+
+        [HttpGet("GetRoles")]
+        [Authorize]
+        public async Task<IActionResult> GetRoles()
+        {
+            try
+            {
+                return Ok(await dsoService.GetRoles());
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet("GetRegions")]
+        [Authorize]
+        public async Task<IActionResult> GetRegions()
+        {
+            try
+            {
+                return Ok(await dsoService.GetRegions());
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }
