@@ -12,13 +12,6 @@ namespace API.Controllers
             this.devService = devService;
         }
 
-        [HttpGet("proba")]
-        public async Task<IActionResult> proba(string id)
-        {
-            var dev = await devService.proba(id);
-            return Ok(dev);
-        }
-
         [HttpGet("GetAllDevicesForProsumer")]
         public async Task<IActionResult> GetAllDevicesForProsumer(string id)
         {
@@ -26,11 +19,13 @@ namespace API.Controllers
             {
                 return Ok(new
                 {
-                    consumers = await devService.GetAllConsumersForProsumer(id),
-                    producers = await devService.GetAllProducersForProsumer(id),
-                    storage = await devService.GetAllStorageForProsumer(id)
+                    consumers = await devService.GetDevicesByCategory(id, "Consumer"),
+                    producers = await devService.GetDevicesByCategory(id, "Producer"),
+                    storage = await devService.GetDevicesByCategory(id, "Storage")
                 });
-            }catch (Exception ex)
+
+            }
+            catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }

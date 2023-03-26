@@ -5,96 +5,54 @@ namespace API.Repositories
 {
     public class DeviceRepository : IDeviceRepository
     {
-        private readonly DevicesContext _context;
-        private readonly RegContext _links;
-        public DeviceRepository(DevicesContext context, RegContext links)
+        private readonly DevicesContext _usageContext;
+        private readonly RegContext _regContext;
+        public DeviceRepository(DevicesContext usage, RegContext reg)
         {
-            _context = context;
-            _links = links;
-        }
-
-        public async Task<string> GetDeviceName(string id)
-        {
-            var dev = await _context.Consumers.Find(x => x.DeviceId == id).FirstOrDefaultAsync();
-            return dev.DeviceName;
+            _usageContext = usage;
+            _regContext = reg;
         }
 
         public async Task<List<string>> GetLinksForProsumer(string id)
         {
-            return await _links.ProsumerLinks.Where(x => x.ProsumerId == id).Select(x => x.DeviceId).ToListAsync();
+            return await _regContext.ProsumerLinks.Where(x => x.ProsumerId == id).Select(x => x.DeviceId).ToListAsync();
         }
 
-        public async Task<List<Device>> GetAllConsumersForProsumer(string id)
+        public async Task<List<Device>> GetDevicesByCategory(string id, string catStr)
         {
             var links = await GetLinksForProsumer(id);
-            var devices = await _context.Consumers.Find(x => links.Contains(x.DeviceId)).ToListAsync();
+            var cat = await GetDeviceCategory(catStr);
+            var usages = await _usageContext.PowerUsage.Find(x => links.Contains(x.DeviceId)).ToListAsync();
+            var specs = await _regContext.Devices.Where(x => x.CategoryId == cat && links.Contains(x.Id)).ToListAsync();
+            var devices = from usage in usages join spec in specs on usage.DeviceId equals spec.Id select new { Usage = usage, Spec = spec };
+            int count = devices.Count();
 
-            var devicesWithCurrentConsumption = devices.Select(d => new Device
+            var devicesData = devices.Select(d => new Device
             {
-                DeviceId = d.DeviceId,
-                IpAddress = d.IpAddress,
-                DeviceName = d.DeviceName,
-                DeviceType = d.DeviceType,
-                Manufacturer = d.Manufacturer,
-                Wattage = d.Wattage,
-                Timestamps = d.Timestamps.Where(t =>
+                Id = d.Spec.Id,
+                IpAddress = d.Spec.IpAddress,
+                Name = d.Spec.Name,
+                Type = d.Spec.Type,
+                Manufacturer = d.Spec.Manufacturer,
+                Wattage = d.Spec.Wattage,
+                Timestamps = d.Usage.Timestamps.Where(t =>
                     t.Date.Year == DateTime.Now.Year &&
                     t.Date.Month == DateTime.Now.Month &&
                     t.Date.Day == DateTime.Now.Day &&
                     t.Date.Hour == DateTime.Now.Hour
                 ).ToList(),
             });
-            return devicesWithCurrentConsumption.ToList();
+            return devicesData.ToList();
         }
 
-        public async Task<List<Device>> GetAllProducersForProsumer(string id)
+        public async Task<long> GetDeviceCategory(string name)
         {
-            var links = await GetLinksForProsumer(id);
-            var devices = await _context.Producers.Find(x => links.Contains(x.DeviceId)).ToListAsync();
-
-            var devicesWithCurrentProduction = devices.Select(d => new Device
-            {
-                DeviceId = d.DeviceId,
-                IpAddress = d.IpAddress,
-                DeviceName = d.DeviceName,
-                DeviceType = d.DeviceType,
-                Manufacturer = d.Manufacturer,
-                Wattage = d.Wattage,
-                Timestamps = d.Timestamps.Where(t =>
-                    t.Date.Year == DateTime.Now.Year &&
-                    t.Date.Month == DateTime.Now.Month &&
-                    t.Date.Day == DateTime.Now.Day &&
-                    t.Date.Hour == DateTime.Now.Hour
-                ).ToList(),
-            });
-            return devicesWithCurrentProduction.ToList();
-        }
-        public async Task<List<Device>> GetAllStorageForProsumer(string id)
-        {
-            var links = await GetLinksForProsumer(id);
-            var devices = await _context.Storage.Find(x => links.Contains(x.DeviceId)).ToListAsync();
-
-            var devicesWithCurrentStorage = devices.Select(d => new Device
-            {
-                DeviceId = d.DeviceId,
-                IpAddress = d.IpAddress,
-                DeviceName = d.DeviceName,
-                DeviceType = d.DeviceType,
-                Manufacturer = d.Manufacturer,
-                Wattage = d.Wattage,
-                Timestamps = d.Timestamps.Where(t =>
-                    t.Date.Year == DateTime.Now.Year &&
-                    t.Date.Month == DateTime.Now.Month &&
-                    t.Date.Day == DateTime.Now.Day &&
-                    t.Date.Hour == DateTime.Now.Hour
-                ).ToList(),
-            });
-            return devicesWithCurrentStorage.ToList();
+            return (await _regContext.DeviceCategories.FirstOrDefaultAsync(x => x.Name == name)).Id;
         }
 
         public async Task<double> CurrentConsumptionForProsumer(string id)
         {
-            List<Device> devices = await GetAllConsumersForProsumer(id);
+            List<Device> devices = await GetDevicesByCategory(id, "Consumer");
             double currentConsumption = 0;
             foreach ( var device in devices)
             {
@@ -106,7 +64,9 @@ namespace API.Repositories
         }
         public async Task<double> CurrentProductionForProsumer(string id)
         {
-            List<Device> devices = await GetAllProducersForProsumer(id);
+            List<Device> devices = await GetDevicesByCategory(id, "Producer");
+            var cat = await GetDeviceCategory("Producer");
+            devices = devices.Where(x => x.CategoryId == cat).ToList();
             double currentProduction = 0;
             foreach (var device in devices)
             {
@@ -118,8 +78,7 @@ namespace API.Repositories
 
         public async Task<double> ConsumptionForLastWeekForProsumer(string id)
         {
-            var links = await GetLinksForProsumer(id);
-            var devices = await _context.Consumers.Find(x => links.Contains(x.DeviceId)).ToListAsync();
+            var devices = await GetDevicesByCategory(id, "Consumer");
             
             var dev = devices.Select(d => new Device
             {
@@ -147,8 +106,7 @@ namespace API.Repositories
 
         public async Task<double> ProductionForLastWeekForProsumer(string id)
         {
-            var links = await GetLinksForProsumer(id);
-            var devices = await _context.Producers.Find(x => links.Contains(x.DeviceId)).ToListAsync();
+            var devices = await GetDevicesByCategory(id, "Producer");
 
             var dev = devices.Select(d => new Device
             {
