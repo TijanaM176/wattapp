@@ -14,27 +14,11 @@ namespace API.Models
             db = mongoClient.GetDatabase(configuration.Value.DatabaseName);
         }
 
-        public IMongoCollection<Device> Consumers
+        public IMongoCollection<DevicePower> PowerUsage
         {
             get
             {
-                return db.GetCollection<Device>("Consumers");
-            }
-        }
-
-        public IMongoCollection<Device> Producers
-        {
-            get
-            {
-                return db.GetCollection<Device>("Producers");
-            }
-        }
-
-        public IMongoCollection<Device> Storage
-        {
-            get
-            {
-                return db.GetCollection<Device>("Storage");
+                return db.GetCollection<DevicePower>("PowerUsage");
             }
         }
     }

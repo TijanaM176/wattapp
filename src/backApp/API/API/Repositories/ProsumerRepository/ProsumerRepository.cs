@@ -127,11 +127,6 @@ namespace API.Repositories.ProsumerRepository
         {
             return (await _context.Cities.FirstOrDefaultAsync(x => x.Id == id)).Name;
         }
-
-        public Task<List<ProsumerLink>> AllLinks(string id)
-        {
-            throw new NotImplementedException();
-        }
     }
     
 

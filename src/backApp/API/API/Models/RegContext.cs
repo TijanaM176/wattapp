@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using API.Models.Users;
+using API.Models.Devices;
+
 namespace API.Models;
 
 public partial class RegContext : DbContext
@@ -16,6 +18,12 @@ public partial class RegContext : DbContext
     }
 
     public virtual DbSet<City> Cities { get; set; }
+
+    public DbSet<DeviceInfo> Devices { get; set; }
+
+    public DbSet<DeviceType> DeviceTypes { get; set; }
+
+    public DbSet<DeviceCategory> DeviceCategories { get; set; }
 
     public virtual DbSet<Dso> Dsos { get; set; }
 
@@ -50,6 +58,36 @@ public partial class RegContext : DbContext
             entity.Property(e => e.Name).HasColumnType("nvarchar(20)");
 
             entity.HasMany(c => c.Neighborhoods).WithOne(n => n.City).HasForeignKey(n => n.CityId);
+        });
+
+        modelBuilder.Entity<DeviceInfo>(entity =>
+        {
+            entity.ToTable("DeviceInfo");
+
+            entity.HasKey(d => d.Id);
+            entity.Property(d => d.Id).ValueGeneratedOnAdd();
+            entity.Property(d => d.IpAddress).HasMaxLength(15);
+            entity.Property(d => d.Name).HasMaxLength(30);
+            entity.Property(d => d.Manufacturer).HasMaxLength(30);
+            entity.HasOne(d => d.Category).WithMany(c => c.Devices).HasForeignKey(d => d.CategoryId).OnDelete(DeleteBehavior.Cascade);
+            entity.HasOne(d => d.Type).WithMany(t => t.Devices).HasForeignKey(d => d.TypeId).OnDelete(DeleteBehavior.Cascade);
+        });
+
+        modelBuilder.Entity<DeviceType>(entity =>
+        {
+            entity.ToTable("DeviceType");
+            entity.HasKey(t => t.Id);
+            entity.Property(t => t.Id).ValueGeneratedOnAdd();
+            entity.Property(t => t.Name).HasMaxLength(30);
+            entity.HasOne(t => t.Category).WithMany(c => c.Types).HasForeignKey(t => t.CategoryId).OnDelete(DeleteBehavior.Cascade);
+        });
+
+        modelBuilder.Entity<DeviceCategory>(entity =>
+        {
+            entity.ToTable("DeviceCategory");
+            entity.HasKey(c => c.Id);
+            entity.Property(c => c.Id).ValueGeneratedOnAdd();
+            entity.Property(c => c.Name).HasMaxLength(100);
         });
 
         modelBuilder.Entity<Dso>(entity =>
