@@ -9,9 +9,8 @@ import { City } from '../models/city';
   providedIn: 'root',
 })
 export class UsersServiceService {
-
-  consumtion!:string;
-  production!:string;
+  consumtion!: string;
+  production!: string;
 
   constructor(private http: HttpClient) {}
 
@@ -22,10 +21,10 @@ export class UsersServiceService {
     'https://localhost:7156/api/Prosumer/getProsumerByID';
   private baseUrlPage: string =
     'https://localhost:7156/api/Prosumer/GetProsumersPaging';
-  
+
   private deviceBaseUrl: string = 'https://localhost:7156/';
-  
-    refreshList() {
+
+  refreshList() {
     lastValueFrom(this.http.get(this.baseUrl)).then(
       (res) => (this.prosumers = res as Prosumer[])
     );
@@ -71,8 +70,14 @@ export class UsersServiceService {
     );
   }
 
-  getUserProductionAndConsumption(id: string):Observable<any>
-  {
-    return this.http.get<any>(this.deviceBaseUrl+"ConsumptionAndProductionByProsumer?id="+id);
+  getUserProductionAndConsumption(id: string): Observable<any> {
+    return this.http.get<any>(
+      this.deviceBaseUrl + 'ConsumptionAndProductionByProsumer?id=' + id
+    );
+  }
+  getDevicesByProsumerId(id: string): Observable<any> {
+    return this.http.get<any>(
+      'https://localhost:7156/GetAllDevicesForProsumer?id=' + id
+    );
   }
 }

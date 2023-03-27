@@ -56,3 +56,25 @@ body {
 .custom-slider .ngx-slider .ngx-slider-tick.ngx-slider-selected {
   background: blue;
 }
+
+.mat-mdc-checkbox
+  .mdc-checkbox
+  .mdc-checkbox__native-control:enabled:checked
+  ~ .mdc-checkbox__background,
+.mat-mdc-checkbox
+  .mdc-checkbox
+  .mdc-checkbox__native-control:enabled:indeterminate
+  ~ .mdc-checkbox__background,
+.mat-mdc-checkbox
+  .mdc-checkbox
+  .mdc-checkbox__native-control[data-indeterminate="true"]:enabled
+  ~ .mdc-checkbox__background {
+  border-color: var(
+    --mdc-checkbox-selected-hover-icon-color,
+    var(--mdc-theme-secondary, #018786)
+  );
+  background-color: var(
+    --mdc-checkbox-selected-hover-icon-color,
+    var(--mdc-theme-secondary, white)
+  );
+}
