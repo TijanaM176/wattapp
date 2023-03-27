@@ -154,7 +154,7 @@ export class MapComponent implements AfterViewInit, OnInit {
     .subscribe({
       next:(res)=>{
         this.users = res;
-        console.log(this.users)
+        //console.log(this.users)
         const prosumerIcon = L.icon({
           iconUrl: 'assets/images/location-prosumer.svg',
           iconSize: [65, 65],
@@ -163,15 +163,33 @@ export class MapComponent implements AfterViewInit, OnInit {
           shadowAnchor: [4, 62],
           popupAnchor: [11, -77],
         });
-        for (var user of this.users) {
-          var lon = user.longitude;
-          var lat = user.latitude;
-          console.log(lon+","+lat);
+        for (let user of this.users) {
+          let lon = user.longitude;
+          let lat = user.latitude;
+          //console.log(lon+","+lat);
           if(lon != null && lat != null)
           {
-            var marker = L.marker([Number(lat.toString()), Number(lon.toString())],{ icon: prosumerIcon }).addTo(map);
-            marker.bindPopup('<h5><b>'+user.username+'</b></h5><h6><b>'+user.address+'</b></h6>Current consumption: <b>0 kw</b> <br> Current production: <b>0 kw</b>'+
-            "<br><br><a href='#'>View More</a>");
+            let marker = L.marker([Number(lat.toString()), Number(lon.toString())],{ icon: prosumerIcon }).addTo(map);
+            this.mapService.getUserProductionAndConsumption(user.id)
+            .subscribe({
+              next:(res)=>{
+                console.log(res.consumption+" "+res.production);
+                console.log(user.id);
+                
+                marker.bindPopup('<h5><b>'+user.username+'</b></h5><h6><b>'+user.address+'</b></h6>Current consumption: <b>'+res.consumption+
+                ' kw</b> <br> Current production: <b>'+res.production+' kw</b>'+
+                "<br><br><a href='prosumerinfo?id="+user.id+"'>View More</a>");
+                //console.log('dodat popup');
+              },
+              error:(err)=>
+              {
+                marker = L.marker([Number(lat.toString()), Number(lon.toString())],{ icon: prosumerIcon }).addTo(map);
+                marker.bindPopup('<h5><b>'+user.username+'</b></h5><h6><b>'+user.address+'</b></h6>Current consumption: <b>? kw</b> <br> Current production: <b>? kw</b>'+
+                "<br><br><a href='prosumerinfo?id="+user.id+"'>View More</a>");
+
+                console.log(err.error);
+              }
+            });
             this.markers.push(marker);
           }
         }

@@ -9,7 +9,12 @@ import { City } from '../models/city';
   providedIn: 'root',
 })
 export class UsersServiceService {
+
+  consumtion!:string;
+  production!:string;
+
   constructor(private http: HttpClient) {}
+
   private baseUrl: string =
     'https://localhost:7156/api/Prosumer/GetAllProsumers';
   prosumers!: Prosumer[];
@@ -17,6 +22,8 @@ export class UsersServiceService {
     'https://localhost:7156/api/Prosumer/getProsumerByID';
   private baseUrlPage: string =
     'https://localhost:7156/api/Prosumer/GetProsumersPaging';
+  
+  private deviceBaseUrl: string = 'https://localhost:7156/';
   
     refreshList() {
     lastValueFrom(this.http.get(this.baseUrl)).then(
@@ -62,5 +69,11 @@ export class UsersServiceService {
       'https://localhost:7156/api/Prosumer/GetCityNameById?id=' + id,
       { responseType: 'text' }
     );
+  }
+
+  getUserProductionAndConsumption(id: string):Observable<any>
+  {
+    //console.log(id);
+    return this.http.get<any>(this.deviceBaseUrl+"ConsumptionAndProductionByProsumer?id="+id);
   }
 }
