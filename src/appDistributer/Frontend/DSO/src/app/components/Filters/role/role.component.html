@@ -1,9 +1,17 @@
 <div class="col-sm-12">
-    <select
-      class="dropdown dropdown-toggle"
-      style="width: 85%; margin: 0 auto"
-      name="Role"
-      class="form-control">
-      <option value="">All</option>
-    </select>
-  </div>
+  <select
+    class="dropdown dropdown-toggle"
+    style="width: 85%; margin: 0 auto"
+    name="Region"
+    (change)="ChangeRole($event)"
+    class="form-control"
+    [(ngModel)]="role">
+    <option value="0">All</option>
+    <option
+    *ngFor="let role of roles"
+    [value]="role.id"
+  >
+    {{ role.roleName }}
+  </option>
+  </select>
+</div>

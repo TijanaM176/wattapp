@@ -53,14 +53,15 @@ export class EmployeesComponent {
     //console.log(this.service.employees);
   }
   Ucitaj() {
-    this.service.getAllData().subscribe((res) => {
+    this.service.getAllData();
+    this.employees = this.service.employees;/*.subscribe((res) => {
       this.employees = res;
       //console.log(this.employees);
       this.total=this.employees.length;
       this.pagenum=(this.total/this.perPage)+1;
       this.pagenum=Math.floor(this.pagenum);
       console.log(this.pagenum);
-    });
+    });*/
   }
   Paging(){
     this.service.Page(this.page,this.perPage).subscribe((res)=>{

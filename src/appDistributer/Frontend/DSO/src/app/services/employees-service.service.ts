@@ -17,11 +17,16 @@ export class EmployeesServiceService {
   private baseUrl2: string = "https://localhost:7156/api/Dso/GetDsoById";
   private baseUrlPage:string ="https://localhost:7156/api/Dso/GetDsoWorkerPaging";
   private basuUrlUpdate:string="https://localhost:7156/api/Dso/UpdateDsoWorker";
+  private baseUrlRegionRole: string="https://localhost:7156/api/Dso/";
+  region: string = "";
+  role!: number;
   employees!:Employee[];
   formData:Employee=new Employee();
 
   getAllData(){
-    return this.http.get(this.baseUrl);
+    return this.http.get(this.baseUrl)
+    .subscribe((res)=> this.employees = res as Employee[]);
+    console.log(this.employees);
   }
   updateEmployee(id:string,formUpdate:any){
     return this.http.put(`${this.basuUrlUpdate}`+`?id=`+id,formUpdate);
@@ -46,5 +51,72 @@ export class EmployeesServiceService {
     .then(res=>this.employees = res as Employee[] )
   }
  */
+  getAllRegions():Observable<any[]>
+  {
+    return this.http.get<any[]>(this.baseUrlRegionRole+"GetRegions");
+  }
 
+  getAllRoles(): Observable<any[]>
+  {
+    return this.http.get<any[]>(this.baseUrlRegionRole+"GetRoles");
+  }
+
+  filter()
+  {
+    if(this.role==0 && this.region=="")
+    {
+      this.getAllData();
+    }
+    else if(this.region!="" && this.role==0)
+    {
+      this.getWorkersByRegionId();
+    }
+    else if(this.region=="" && this.role!=0)
+    {
+      this.getWorkersByRoleId();
+    }
+    else
+    {
+      this.getWorkersByFilter();
+    }
+  }
+
+  getWorkersByFilter()
+  {
+    return this.http.get(this.baseUrlRegionRole+"GetWorkerByFilter?RegionID="+this.region+"&RoleID="+this.role)
+    .subscribe({
+      next:(res)=>{
+        this.employees = res as Employee[]
+      },
+      error:(err)=>{
+        this.employees = []
+      }
+    });
+  }
+
+  getWorkersByRegionId()
+  {
+    return this.http.get(this.baseUrlRegionRole+"GetWorkersByRegionId?RegionID="+this.region)
+    .subscribe({
+      next:(res)=>{
+        this.employees = res as Employee[]
+      },
+      error:(err)=>{
+        this.employees = []
+      }
+    });
+  }
+
+  getWorkersByRoleId()
+  {
+    return this.http.get(this.baseUrlRegionRole+"GetWorkersByRoleId?RoleID="+this.role)
+    .subscribe({
+      next:(res)=>{
+        this.employees = res as Employee[]
+      },
+      error:(err)=>{
+        this.employees = []
+      }
+    });
+  }
 }

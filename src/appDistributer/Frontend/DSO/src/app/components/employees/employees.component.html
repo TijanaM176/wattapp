@@ -67,7 +67,7 @@
         <tbody>
           <tr
             *ngFor="
-              let item of employees
+              let item of service.employees
                 | search : searchName
                 | paginate
                   : {

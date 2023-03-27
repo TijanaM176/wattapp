@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { EmployeesServiceService } from 'src/app/services/employees-service.service';
 
 @Component({
   selector: 'app-employee-nav-bar',
@@ -7,4 +8,16 @@ import { Component } from '@angular/core';
 })
 export class EmployeeNavBarComponent {
 
+  constructor(private employeeService : EmployeesServiceService) {}
+
+  getByFilet()
+  {
+    this.employeeService.filter();
+  }
+
+  loadAll()
+  {
+    this.employeeService.getAllData();
+    //console.log("reset filters");
+  }
 }
