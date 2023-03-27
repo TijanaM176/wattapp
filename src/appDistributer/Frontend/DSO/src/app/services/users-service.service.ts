@@ -11,6 +11,7 @@ export class UsersServiceService {
   constructor(private http: HttpClient) {}
   private baseUrl: string =
     'https://localhost:7156/api/Prosumer/GetAllProsumers';
+  private baseUrl3: string = "https://localhost:7156/api/Prosumer/UpdateProsumer";
   prosumers!: Prosumer[];
   private baseUrl2: string = "https://localhost:7156/api/Prosumer/getProsumerByID";
   private baseUrlPage:string ="https://localhost:7156/api/Dso/GetProsumersPaging";
@@ -39,5 +40,8 @@ export class UsersServiceService {
       'https://localhost:7156/api/Prosumer/GetProsumersByNeighborhoodId?id=' +
         id
     );
+  }
+  updateUserData(id:any,data:any){
+    return this.http.put(`${this.baseUrl3}`+`?id=`+id,data);
   }
 }
