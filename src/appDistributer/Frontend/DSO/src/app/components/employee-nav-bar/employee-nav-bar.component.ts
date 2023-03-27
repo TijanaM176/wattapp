@@ -12,7 +12,7 @@ export class EmployeeNavBarComponent {
 
   getByFilet()
   {
-    this.employeeService.getWorkersByFilter();
+    this.employeeService.filter();
   }
 
   loadAll()

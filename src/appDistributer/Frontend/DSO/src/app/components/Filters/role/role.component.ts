@@ -16,6 +16,7 @@ export class RoleComponent implements OnInit {
   constructor(private employeeService : EmployeesServiceService) {}
 
   ngOnInit(): void {
+    this.employeeService.role = this.role;
     this.employeeService.getAllRoles()
     .subscribe((response) => {
       //console.log(response);
@@ -26,7 +27,7 @@ export class RoleComponent implements OnInit {
 
   ChangeRole(e:any)
   {
-    console.log(this.role);
+    //console.log(this.role);
     this.employeeService.role = this.role;
   }
 

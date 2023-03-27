@@ -67,6 +67,14 @@ export class EmployeesServiceService {
     {
       this.getAllData();
     }
+    else if(this.region!="" && this.role==0)
+    {
+      this.getWorkersByRegionId();
+    }
+    else if(this.region=="" && this.role!=0)
+    {
+      this.getWorkersByRoleId();
+    }
     else
     {
       this.getWorkersByFilter();
@@ -76,6 +84,32 @@ export class EmployeesServiceService {
   getWorkersByFilter()
   {
     return this.http.get(this.baseUrlRegionRole+"GetWorkerByFilter?RegionID="+this.region+"&RoleID="+this.role)
+    .subscribe({
+      next:(res)=>{
+        this.employees = res as Employee[]
+      },
+      error:(err)=>{
+        this.employees = []
+      }
+    });
+  }
+
+  getWorkersByRegionId()
+  {
+    return this.http.get(this.baseUrlRegionRole+"GetWorkersByRegionId?RegionID="+this.region)
+    .subscribe({
+      next:(res)=>{
+        this.employees = res as Employee[]
+      },
+      error:(err)=>{
+        this.employees = []
+      }
+    });
+  }
+
+  getWorkersByRoleId()
+  {
+    return this.http.get(this.baseUrlRegionRole+"GetWorkersByRoleId?RoleID="+this.role)
     .subscribe({
       next:(res)=>{
         this.employees = res as Employee[]
