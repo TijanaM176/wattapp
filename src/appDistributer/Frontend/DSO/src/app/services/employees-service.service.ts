@@ -17,6 +17,8 @@ export class EmployeesServiceService {
   private baseUrl2: string = "https://localhost:7156/api/Dso/GetDsoById";
   private baseUrlPage:string ="https://localhost:7156/api/Dso/GetDsoWorkerPaging";
   private basuUrlUpdate:string="https://localhost:7156/api/Dso/UpdateDsoWorker";
+  private baseUrlRegion:string="https://localhost:7156/api/Dso/GetRegions";
+  private baseUrlRole:string="https://localhost:7156/api/Dso/GetRoles";
   employees!:Employee[];
   formData:Employee=new Employee();
 
@@ -39,6 +41,12 @@ export class EmployeesServiceService {
   }
   Page(page:number,pagesize:number){
     return this.http.get(`${this.baseUrlPage}?PageNumber=`+page+`&PageSize=`+pagesize);
+  }
+  getAllRegions(){
+    return this.http.get(`${this.baseUrlRegion}`);
+  }
+  getAllRoles(){
+    return this.http.get(`${this.baseUrlRole}`);
   }
   /*
   refreshList(){
