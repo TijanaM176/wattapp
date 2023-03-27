@@ -19,4 +19,6 @@ export class EmployeeNavBarComponent {
   {
     this.employeeService.getAllData();
   }
+
+  
 }
