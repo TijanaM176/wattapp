@@ -73,7 +73,6 @@ export class UsersServiceService {
 
   getUserProductionAndConsumption(id: string):Observable<any>
   {
-    //console.log(id);
     return this.http.get<any>(this.deviceBaseUrl+"ConsumptionAndProductionByProsumer?id="+id);
   }
 }

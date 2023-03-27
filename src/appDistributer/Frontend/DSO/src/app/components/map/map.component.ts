@@ -166,24 +166,18 @@ export class MapComponent implements AfterViewInit, OnInit {
         for (let user of this.users) {
           let lon = user.longitude;
           let lat = user.latitude;
-          //console.log(lon+","+lat);
           if(lon != null && lat != null)
           {
             let marker = L.marker([Number(lat.toString()), Number(lon.toString())],{ icon: prosumerIcon }).addTo(map);
             this.mapService.getUserProductionAndConsumption(user.id)
             .subscribe({
               next:(res)=>{
-                console.log(res.consumption+" "+res.production);
-                console.log(user.id);
-                
-                marker.bindPopup('<h5><b>'+user.username+'</b></h5><h6><b>'+user.address+'</b></h6>Current consumption: <b>'+res.consumption+
-                ' kw</b> <br> Current production: <b>'+res.production+' kw</b>'+
+                marker.bindPopup('<h5><b>'+user.username+'</b></h5><h6><b>'+user.address+'</b></h6>Current consumption: <b>'+res.consumption.toString()+
+                ' kw</b> <br> Current production: <b>'+res.production.toString()+' kw</b>'+
                 "<br><br><a href='prosumerinfo?id="+user.id+"'>View More</a>");
-                //console.log('dodat popup');
               },
               error:(err)=>
               {
-                marker = L.marker([Number(lat.toString()), Number(lon.toString())],{ icon: prosumerIcon }).addTo(map);
                 marker.bindPopup('<h5><b>'+user.username+'</b></h5><h6><b>'+user.address+'</b></h6>Current consumption: <b>? kw</b> <br> Current production: <b>? kw</b>'+
                 "<br><br><a href='prosumerinfo?id="+user.id+"'>View More</a>");
 
