@@ -9,7 +9,7 @@ import { EmployeesServiceService } from 'src/app/services/employees-service.serv
 })
 export class RoleComponent implements OnInit {
 
-  role!: number;
+  role: number=0;
   roles : Role[] = [];
   dropDownRole: string = '';
 
@@ -18,12 +18,15 @@ export class RoleComponent implements OnInit {
   ngOnInit(): void {
     this.employeeService.getAllRoles()
     .subscribe((response) => {
+      //console.log(response);
       this.roles = response;
+      //console.log(this.roles)
     });
   }
 
   ChangeRole(e:any)
   {
+    console.log(this.role);
     this.employeeService.role = this.role;
   }
 

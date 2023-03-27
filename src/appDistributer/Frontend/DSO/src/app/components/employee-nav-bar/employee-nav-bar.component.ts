@@ -18,7 +18,6 @@ export class EmployeeNavBarComponent {
   loadAll()
   {
     this.employeeService.getAllData();
+    //console.log("reset filters");
   }
-
-  
 }

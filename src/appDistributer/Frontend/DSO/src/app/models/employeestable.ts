@@ -11,4 +11,5 @@ export class Employee{
     password!:string
     roleId!:number
     regionId!:string
+    image!: string
 }

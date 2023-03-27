@@ -26,6 +26,7 @@ export class EmployeesServiceService {
   getAllData(){
     return this.http.get(this.baseUrl)
     .subscribe((res)=> this.employees = res as Employee[]);
+    console.log(this.employees);
   }
   updateEmployee(id:string,formUpdate:any){
     return this.http.put(`${this.basuUrlUpdate}`+`?id=`+id,formUpdate);
@@ -60,9 +61,28 @@ export class EmployeesServiceService {
     return this.http.get<any[]>(this.baseUrlRegionRole+"GetRoles");
   }
 
+  filter()
+  {
+    if(this.role==0 && this.region=="")
+    {
+      this.getAllData();
+    }
+    else
+    {
+      this.getWorkersByFilter();
+    }
+  }
+
   getWorkersByFilter()
   {
     return this.http.get(this.baseUrlRegionRole+"GetWorkerByFilter?RegionID="+this.region+"&RoleID="+this.role)
-    .subscribe((res)=> this.employees = res as Employee[]);
+    .subscribe({
+      next:(res)=>{
+        this.employees = res as Employee[]
+      },
+      error:(err)=>{
+        this.employees = []
+      }
+    });
   }
 }
