@@ -17,8 +17,8 @@ export class UsersServiceService {
     'https://localhost:7156/api/Prosumer/getProsumerByID';
   private baseUrlPage: string =
     'https://localhost:7156/api/Prosumer/GetProsumersPaging';
-  
-    refreshList() {
+
+  refreshList() {
     lastValueFrom(this.http.get(this.baseUrl)).then(
       (res) => (this.prosumers = res as Prosumer[])
     );
@@ -61,6 +61,12 @@ export class UsersServiceService {
     return this.http.get(
       'https://localhost:7156/api/Prosumer/GetCityNameById?id=' + id,
       { responseType: 'text' }
+    );
+  }
+
+  getDevicesByProsumerId(id: string): Observable<any> {
+    return this.http.get<any>(
+      'https://localhost:7156/GetAllDevicesForProsumer?id=' + id
     );
   }
 }

@@ -53,6 +53,11 @@ import { AddProsumerComponent } from './components/AddProsumer/AddProsumer.compo
 import { EmployeeNavBarComponent } from './components/employee-nav-bar/employee-nav-bar.component';
 import { RegionComponent } from './components/Filters/region/region.component';
 import { RoleComponent } from './components/Filters/role/role.component';
+import { TabelaUredjajaComponent } from './components/tabelaUredjaja/tabelaUredjaja.component';
+import { UserDevicesComponent } from './components/UserDevices/UserDevices.component';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -85,10 +90,14 @@ import { RoleComponent } from './components/Filters/role/role.component';
     EmployeeNavBarComponent,
     RegionComponent,
     RoleComponent,
+    TabelaUredjajaComponent,
+    UserDevicesComponent,
   ],
   imports: [
     MatSliderModule,
+    MatSlideToggleModule,
     BrowserAnimationsModule,
+    MatCheckboxModule,
     NavbarModule,
     BrowserModule,
     HttpClientModule,

@@ -17,6 +17,8 @@ import { SidebarDsoComponent } from './components/sidebar-dso/sidebar-dso.compon
 import { ResetpasswordComponent } from './components/resetpassword/resetpassword.component';
 import { ProsumerinfoComponent } from './components/prosumerinfo/prosumerinfo.component';
 import { AddProsumerComponent } from './components/AddProsumer/AddProsumer.component';
+import { TabelaUredjajaComponent } from './components/tabelaUredjaja/tabelaUredjaja.component';
+import { UserDevicesComponent } from './components/UserDevices/UserDevices.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -74,6 +76,10 @@ const routes: Routes = [
   {
     path: 'prosumerinfo',
     component: ProsumerinfoComponent,
+  },
+  {
+    path: 'prosumerDevices',
+    component: UserDevicesComponent,
   },
 ];
 @NgModule({
