@@ -3,7 +3,13 @@
       class="dropdown dropdown-toggle"
       style="width: 85%; margin: 0 auto"
       name="Role"
+      (change)="ChangeRole($event)"
       class="form-control">
       <option value="">All</option>
+      <option
+      *ngFor="let role of roles"
+      [value]="role.id">
+      {{ role.roleName }}
+    </option>
     </select>
   </div>

@@ -17,11 +17,15 @@ export class EmployeesServiceService {
   private baseUrl2: string = "https://localhost:7156/api/Dso/GetDsoById";
   private baseUrlPage:string ="https://localhost:7156/api/Dso/GetDsoWorkerPaging";
   private basuUrlUpdate:string="https://localhost:7156/api/Dso/UpdateDsoWorker";
+  private baseUrlRegionRole: string="https://localhost:7156/api/Dso/";
+  region: string = "";
+  role!: number;
   employees!:Employee[];
   formData:Employee=new Employee();
 
   getAllData(){
-    return this.http.get(this.baseUrl);
+    return this.http.get(this.baseUrl)
+    .subscribe((res)=> this.employees = res as Employee[]);
   }
   updateEmployee(id:string,formUpdate:any){
     return this.http.put(`${this.basuUrlUpdate}`+`?id=`+id,formUpdate);
@@ -46,5 +50,19 @@ export class EmployeesServiceService {
     .then(res=>this.employees = res as Employee[] )
   }
  */
+  getAllRegions():Observable<any[]>
+  {
+    return this.http.get<any[]>(this.baseUrlRegionRole+"GetRegions");
+  }
 
+  getAllRoles(): Observable<any[]>
+  {
+    return this.http.get<any[]>(this.baseUrlRegionRole+"GetRoles");
+  }
+
+  getWorkersByFilter()
+  {
+    return this.http.get(this.baseUrlRegionRole+"GetWorkerByFilter?RegionID="+this.region+"&RoleID="+this.role)
+    .subscribe((res)=> this.employees = res as Employee[]);
+  }
 }

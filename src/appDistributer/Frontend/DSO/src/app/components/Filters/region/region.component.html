@@ -3,7 +3,15 @@
       class="dropdown dropdown-toggle"
       style="width: 85%; margin: 0 auto"
       name="Region"
-      class="form-control">
+      (change)="ChangeRegion($event)"
+      class="form-control"
+      [(ngModel)]="region">
       <option value="">All</option>
+      <option
+      *ngFor="let region of regions"
+      [value]="region.id"
+    >
+      {{ region.regionName }}
+    </option>
     </select>
   </div>

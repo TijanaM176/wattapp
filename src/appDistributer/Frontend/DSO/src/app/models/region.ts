@@ -1,4 +1,4 @@
-export interface RegionComponent
+export interface Region
 {
     id:string,
     regionName: string
