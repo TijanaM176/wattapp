@@ -32,7 +32,8 @@ namespace API.Repositories
                 Id = d.Spec.Id,
                 IpAddress = d.Spec.IpAddress,
                 Name = d.Spec.Name,
-                Type = d.Spec.Type,
+                TypeId = d.Spec.TypeId,
+                CategoryId = d.Spec.CategoryId,
                 Manufacturer = d.Spec.Manufacturer,
                 Wattage = d.Spec.Wattage,
                 Timestamps = d.Usage.Timestamps.Where(t =>
@@ -59,7 +60,8 @@ namespace API.Repositories
                 Id = d.Spec.Id,
                 IpAddress = d.Spec.IpAddress,
                 Name = d.Spec.Name,
-                Type = d.Spec.Type,
+                TypeId = d.Spec.TypeId,
+                CategoryId = d.Spec.CategoryId,
                 Manufacturer = d.Spec.Manufacturer,
                 Wattage = d.Spec.Wattage,
                 Timestamps = d.Usage.Timestamps.Where(t =>
