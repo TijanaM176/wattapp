@@ -38,8 +38,8 @@ namespace API.Controllers
             {
                 return Ok(new
                 {
-                    consumption = await devService.CurrentConsumptionForProsumer(id),
-                    production = await devService.CurrentProductionForProsumer(id),
+                    consumption = (await devService.CurrentConsumptionForProsumer(id)).ToString(),
+                    production = (await devService.CurrentProductionForProsumer(id)).ToString()
                 });
             }
             catch (Exception ex)

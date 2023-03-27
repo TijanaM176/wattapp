@@ -78,11 +78,11 @@ export class HomeComponent implements OnInit, AfterViewInit {
             // If the user denies permission or an error occurs, handle it appropriately
             console.error("Error getting user's location:", error);
             this.showModal = true;
-            this.toast.error({
+            /*this.toast.error({
               detail: 'ERROR',
               summary: 'Unable To Get Your Current Location.',
               duration: 3000,
-            });
+            });*/
           },{ enableHighAccuracy: true, timeout: 100 }
         )
       }
