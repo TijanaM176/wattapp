@@ -180,5 +180,19 @@ namespace API.Services.DsoService
             if (regions == null) throw new ArgumentException("No regions in database!");
             return regions;
         }
+
+        public async Task<string> GetRoleName(long id)
+        {
+            var roleName = await _repository.getRoleName(id);
+            if (roleName == null) throw new ArgumentException("No role for that id!");
+            return roleName;
+        }
+
+        public async Task<string> GetRegionName(string id)
+        {
+            var roleName = await _repository.GetRegionName(id);
+            if (roleName == null) throw new ArgumentException("No region for that id!");
+            return roleName;
+        }
     }
 }

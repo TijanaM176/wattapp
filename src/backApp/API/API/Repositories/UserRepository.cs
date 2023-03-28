@@ -234,5 +234,10 @@ namespace API.Repositories
         {
             return dsoRepository.GetRegions();
         }
+
+        public async Task<string> GetRegionName(string id)
+        {
+            return (await _context.Regions.FirstOrDefaultAsync(x => x.Id == id)).RegionName;
+        }
     }
 }

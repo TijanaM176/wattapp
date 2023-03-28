@@ -143,5 +143,30 @@ namespace API.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+        [HttpGet("GetRoleName")]
+        public async Task<IActionResult> GetRoleName(long id)
+        {
+            try
+            {
+                return Ok(await dsoService.GetRoleName(id));
+            }catch(Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet("GetRegionName")]
+        public async Task<IActionResult> GetRegionName(string id)
+        {
+            try
+            {
+                return Ok(await dsoService.GetRegionName(id));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }

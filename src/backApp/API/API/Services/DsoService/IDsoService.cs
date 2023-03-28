@@ -18,5 +18,7 @@ namespace API.Services.DsoService
         Task<PagedList<Dso>> GetDsoWorkers(DsoWorkerParameters dsoWorkersParameters);
         public Task<List<Role>> GetRoles();
         public Task<List<Region>> GetRegions();
+        public Task<string> GetRoleName(long id);
+        public Task<string> GetRegionName(string id);
     }
 }
