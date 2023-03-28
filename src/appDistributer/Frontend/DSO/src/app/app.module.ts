@@ -12,7 +12,6 @@ import { LoginComponent } from './components/login/login.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { TokenInterceptor } from './interceptors/token.interceptor';
 import { NgxSliderModule } from '@angular-slider/ngx-slider';
-import { Ng5SliderModule } from 'ng5-slider';
 
 import { SignupComponent } from './components/signup/signup.component';
 import { SignupWorkerComponent } from './components/signup-worker/signup-worker.component';
@@ -46,8 +45,6 @@ import { EmployeedetailsComponent } from './components/employeedetails/employeed
 import { SearchemployeenamePipe } from './components/searchemployeename.pipe';
 import { SidebarDsoComponent } from './components/sidebar-dso/sidebar-dso.component';
 import { ResetpasswordComponent } from './components/resetpassword/resetpassword.component';
-import { NgxPaginationModule } from 'ngx-pagination';
-import { MatPaginatorModule } from '@angular/material/paginator';
 import { ProsumerinfoComponent } from './components/prosumerinfo/prosumerinfo.component';
 import { AddProsumerComponent } from './components/AddProsumer/AddProsumer.component';
 import { EmployeeNavBarComponent } from './components/employee-nav-bar/employee-nav-bar.component';
@@ -57,6 +54,8 @@ import { TabelaUredjajaComponent } from './components/tabelaUredjaja/tabelaUredj
 import { UserDevicesComponent } from './components/UserDevices/UserDevices.component';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { NgxPaginationModule } from 'ngx-pagination';
+import { PaginationModule } from 'ng-cdbangular';
 
 @NgModule({
   declarations: [
@@ -115,7 +114,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
     NgxSliderModule,
     LeafletModule,
     NgxPaginationModule,
-    MatPaginatorModule,
+    PaginationModule,
   ],
   providers: [
     CookieService,

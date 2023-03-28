@@ -18,15 +18,10 @@
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
 
-<script>
-  $(document).ready(function () {
-    $('[data-toggle="tooltip"]').tooltip();
-  });
-</script>
 <div class="container-xl">
   <div class="table-responsive">
     <div class="table-wrapper">
-      <h1 style="text-align: center; margin-bottom: 5%">User Devices</h1>
+      <h1 style="text-align: center; margin-bottom: 3%">User Devices</h1>
       <div class="table-title">
         <div class="row">
           <div class="col-sm-2" style="padding-top: 0.7%">
@@ -36,13 +31,10 @@
                   <input
                     class="form-check-input"
                     type="checkbox"
-                    [checked]="true"
-                    value=""
+                    value="1"
+                    (change)="filterDevices()"
                     id="flexCheckDefault"
                     [(ngModel)]="showConsumers"
-                    (change)="
-                      showTable = showConsumers || showProducers || showStorages
-                    "
                   />
                   <label class="form-check-label" for="flexCheckDefault">
                     Consumers
@@ -58,13 +50,10 @@
                   <input
                     class="form-check-input"
                     type="checkbox"
-                    [checked]="true"
-                    value=""
+                    value="2"
                     id="flexCheckDefaul1"
+                    (change)="filterDevices()"
                     [(ngModel)]="showProducers"
-                    (change)="
-                      showTable = showConsumers || showProducers || showStorages
-                    "
                   />
                   <label class="form-check-label" for="flexCheckDefaul1">
                     Producers
@@ -79,14 +68,11 @@
                 <div class="form-check">
                   <input
                     class="form-check-input"
-                    [checked]="true"
                     type="checkbox"
-                    value=""
+                    value="3"
                     [(ngModel)]="showStorages"
                     id="flexCheckDefault2"
-                    (change)="
-                      showTable = showConsumers || showProducers || showStorages
-                    "
+                    (change)="filterDevices()"
                   />
                   <label class="form-check-label" for="flexCheckDefault2">
                     Storages
@@ -106,6 +92,7 @@
                 <input
                   [(ngModel)]="searchName"
                   type="text"
+                  (input)="filterDevices()"
                   style="background-color: #f8f8fa; border-radius: 10px"
                   class="form-control"
                   placeholder="By Device Name"
@@ -126,72 +113,83 @@
             <th>Activity</th>
           </tr>
         </thead>
-        <tbody>
-          <ng-container *ngIf="showConsumers">
-            <tr *ngFor="let consumer of consumers">
-              <td [ngSwitch]="consumer.typeId">
-                <span *ngSwitchCase="'1'"
-                  ><i class="fa fa-refrigerator"></i
-                ></span>
-                <span *ngSwitchCase="'2'"><i class="fa fa-tv"></i></span>
-                <span *ngSwitchCase="'3'"><i class="fa fa-oven"></i></span>
-                <span *ngSwitchCase="'4'"><i class="fa fa-ac"></i></span>
-                <span *ngSwitchCase="'8'"><i class="fa fa-laptop"></i></span>
-              </td>
-              <td>{{ consumer.ipAddress }}</td>
-              <td>{{ consumer.name }}</td>
+        <tbody
+          *ngFor="
+            let device of devicesToShow
+              | slice
+                : (currentPage - 1) * itemsPerPage
+                : currentPage * itemsPerPage
+          "
+        >
+          <tr>
+            <td [ngSwitch]="device.typeId">
+              <span *ngSwitchCase="'1'"
+                ><i class="fa fa-refrigerator"></i
+              ></span>
+              <span *ngSwitchCase="'2'"><i class="fa fa-tv"></i></span>
+              <span *ngSwitchCase="'3'"><i class="fa fa-oven"></i></span>
+              <span *ngSwitchCase="'4'"><i class="fa fa-ac"></i></span>
+              <span *ngSwitchCase="'8'"><i class="fa fa-laptop"></i></span>
+            </td>
+            <td>{{ device.ipAddress }}</td>
+            <td>{{ device.name }}</td>
 
-              <td>{{ consumer.wattage }}kW</td>
-              <td>
-                <div *ngIf="'consumer.wattage' !== value; else offToggle">
-                  <div class="form-check form-switch">
-                    <input
-                      class="form-check-input"
-                      checked
-                      type="checkbox"
-                      role="switch"
-                      id="flexSwitchCheckDefault"
-                    />
-                    <label class="form-check-label" for="flexSwitchCheckDefault"
-                      >On</label
-                    >
-                  </div>
+            <td>{{ device.wattage }}kW</td>
+            <td>
+              <div *ngIf="'consumer.wattage' !== value; else offToggle">
+                <div class="form-check form-switch">
+                  <input
+                    class="form-check-input"
+                    checked
+                    type="checkbox"
+                    role="switch"
+                    id="flexSwitchCheckDefault"
+                  />
+                  <label class="form-check-label" for="flexSwitchCheckDefault"
+                    >On</label
+                  >
                 </div>
-                <ng-template #offToggle>
-                  <div class="form-check form-switch">
-                    <input
-                      class="form-check-input"
-                      checked
-                      type="checkbox"
-                      role="switch"
-                      id="flexSwitchCheckDefault"
-                    />
-                    <label class="form-check-label" for="flexSwitchCheckDefault"
-                      >On</label
-                    >
-                  </div>
-                </ng-template>
-              </td>
-            </tr>
-          </ng-container>
-          <ng-container *ngIf="showProducers">
-            <tr *ngFor="let producer of producers"></tr>
-          </ng-container>
-          <ng-container *ngIf="showStorages">
-            <tr *ngFor="let storage of storages"></tr>
-          </ng-container>
+              </div>
+              <ng-template #offToggle>
+                <div class="form-check form-switch">
+                  <input
+                    class="form-check-input"
+                    checked
+                    type="checkbox"
+                    role="switch"
+                    id="flexSwitchCheckDefault"
+                  />
+                  <label class="form-check-label" for="flexSwitchCheckDefault"
+                    >On</label
+                  >
+                </div>
+              </ng-template>
+            </td>
+          </tr>
         </tbody>
       </table>
 
-      <!-- <div style="float: left; padding-left: 35%; margin-top: 1.5%">
-          <pagination-controls
-            previousLabel="Prev"
-            nextLabel="Next"
-            (pageChange)="onTableDataChange($event)"
-          >
-          </pagination-controls>
-        </div>
-      </div> -->
+      <div class="pagination">
+        <button
+          [disabled]="currentPage == 1 || currentPage == 0"
+          (click)="currentPage = currentPage - 1"
+        >
+          Previous
+        </button>
+        <button
+          *ngFor="let page of pages"
+          [class.active]="currentPage == page"
+          (click)="currentPage = page"
+        >
+          {{ page }}
+        </button>
+        <button
+          [disabled]="currentPage == pages.length || pages.length === 0"
+          (click)="currentPage = currentPage + 1"
+        >
+          Next
+        </button>
+      </div>
     </div>
   </div>
 </div>
