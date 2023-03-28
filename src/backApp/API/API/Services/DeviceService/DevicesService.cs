@@ -31,13 +31,13 @@ namespace API.Services.Devices
             return await _repository.CurrentProductionForProsumer(id);
         }
 
-        public async Task<double> ConsumptionForLastWeekForProsumer(string id)
+        public async Task<Dictionary<DateTime, double>> ConsumptionForAPeriodForProsumer(string id, int period)
         {
-            return await _repository.ConsumptionForLastWeekForProsumer(id);
+            return await _repository.ConsumptionForAPeriodForProsumer(id, period);
         }
-        public async Task<double> ProductionForLastWeekForProsumer(string id)
+        public async Task<Dictionary<DateTime, double>> ProductionForAPeriodForProsumer(string id, int period)
         {
-            return await _repository.ProductionForLastWeekForProsumer(id);
+            return await _repository.ProductionForAPeriodForProsumer(id, period);
         }
     }
 }
