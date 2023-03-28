@@ -39,6 +39,10 @@
                     [checked]="true"
                     value=""
                     id="flexCheckDefault"
+                    [(ngModel)]="showConsumers"
+                    (change)="
+                      showTable = showConsumers || showProducers || showStorages
+                    "
                   />
                   <label class="form-check-label" for="flexCheckDefault">
                     Consumers
@@ -57,6 +61,10 @@
                     [checked]="true"
                     value=""
                     id="flexCheckDefaul1"
+                    [(ngModel)]="showProducers"
+                    (change)="
+                      showTable = showConsumers || showProducers || showStorages
+                    "
                   />
                   <label class="form-check-label" for="flexCheckDefaul1">
                     Producers
@@ -74,7 +82,11 @@
                     [checked]="true"
                     type="checkbox"
                     value=""
+                    [(ngModel)]="showStorages"
                     id="flexCheckDefault2"
+                    (change)="
+                      showTable = showConsumers || showProducers || showStorages
+                    "
                   />
                   <label class="form-check-label" for="flexCheckDefault2">
                     Storages
@@ -115,53 +127,59 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let consumer of consumers">
-            <td [ngSwitch]="consumer.name">
-              <span *ngSwitchCase="'VOX KG2500F'"
-                ><i class="fa fa-tv"></i
-              ></span>
-              <span *ngSwitchCase="'Fridge 2'"
-                ><i class="fa fa-refrigerator"></i
-              ></span>
-              <span *ngSwitchCase="'PC 1'"><i class="fa fa-laptop"></i></span>
-            </td>
-            <td>{{ consumer.ipAddress }}</td>
-            <td>{{ consumer.name }}</td>
+          <ng-container *ngIf="showConsumers">
+            <tr *ngFor="let consumer of consumers">
+              <td [ngSwitch]="consumer.typeId">
+                <span *ngSwitchCase="'1'"
+                  ><i class="fa fa-refrigerator"></i
+                ></span>
+                <span *ngSwitchCase="'2'"><i class="fa fa-tv"></i></span>
+                <span *ngSwitchCase="'3'"><i class="fa fa-oven"></i></span>
+                <span *ngSwitchCase="'4'"><i class="fa fa-ac"></i></span>
+                <span *ngSwitchCase="'8'"><i class="fa fa-laptop"></i></span>
+              </td>
+              <td>{{ consumer.ipAddress }}</td>
+              <td>{{ consumer.name }}</td>
 
-            <td>{{ consumer.wattage }}kW</td>
-            <td>
-              <div *ngIf="'consumer.wattage' !== value; else offToggle">
-                <div class="form-check form-switch">
-                  <input
-                    class="form-check-input"
-                    checked
-                    type="checkbox"
-                    role="switch"
-                    id="flexSwitchCheckDefault"
-                  />
-                  <label class="form-check-label" for="flexSwitchCheckDefault"
-                    >On</label
-                  >
+              <td>{{ consumer.wattage }}kW</td>
+              <td>
+                <div *ngIf="'consumer.wattage' !== value; else offToggle">
+                  <div class="form-check form-switch">
+                    <input
+                      class="form-check-input"
+                      checked
+                      type="checkbox"
+                      role="switch"
+                      id="flexSwitchCheckDefault"
+                    />
+                    <label class="form-check-label" for="flexSwitchCheckDefault"
+                      >On</label
+                    >
+                  </div>
                 </div>
-              </div>
-              <ng-template #offToggle>
-                <div class="form-check form-switch">
-                  <input
-                    class="form-check-input"
-                    checked
-                    type="checkbox"
-                    role="switch"
-                    id="flexSwitchCheckDefault"
-                  />
-                  <label class="form-check-label" for="flexSwitchCheckDefault"
-                    >On</label
-                  >
-                </div>
-              </ng-template>
-            </td>
-          </tr>
-          <tr *ngFor="let producer of producers"></tr>
-          <tr *ngFor="let storage of storages"></tr>
+                <ng-template #offToggle>
+                  <div class="form-check form-switch">
+                    <input
+                      class="form-check-input"
+                      checked
+                      type="checkbox"
+                      role="switch"
+                      id="flexSwitchCheckDefault"
+                    />
+                    <label class="form-check-label" for="flexSwitchCheckDefault"
+                      >On</label
+                    >
+                  </div>
+                </ng-template>
+              </td>
+            </tr>
+          </ng-container>
+          <ng-container *ngIf="showProducers">
+            <tr *ngFor="let producer of producers"></tr>
+          </ng-container>
+          <ng-container *ngIf="showStorages">
+            <tr *ngFor="let storage of storages"></tr>
+          </ng-container>
         </tbody>
       </table>
 

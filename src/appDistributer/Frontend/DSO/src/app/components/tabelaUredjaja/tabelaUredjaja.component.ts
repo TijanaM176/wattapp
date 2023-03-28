@@ -9,6 +9,10 @@ import { CookieService } from 'ngx-cookie-service';
   styleUrls: ['./tabelaUredjaja.component.css'],
 })
 export class TabelaUredjajaComponent implements OnInit {
+  showConsumers = true;
+  showTable = true;
+  showProducers = false;
+  showStorages = false;
   searchName: string = '';
   value: string = '0';
   devices: any[] = [];
