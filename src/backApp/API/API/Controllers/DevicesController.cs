@@ -55,9 +55,26 @@ namespace API.Controllers
             {
                 return Ok(new
                 {
-                    consumption = await devService.ConsumptionForLastWeekForProsumer(id),
-                    production = await devService.ProductionForLastWeekForProsumer(id)
+                    consumption = await devService.ConsumptionForAPeriodForProsumer(id, -7),
+                    production = await devService.ProductionForAPeriodForProsumer(id, -7)
                 }) ;
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet("NextWeeksConsumptionAndProduction")]
+        public async Task<IActionResult> NextWeeksConsumptionAndProduction(string id)
+        {
+            try
+            {
+                return Ok(new
+                {
+                    consumption = await devService.ConsumptionForAPeriodForProsumer(id, 7),
+                    production = await devService.ProductionForAPeriodForProsumer(id, 7)
+                });
             }
             catch (Exception ex)
             {

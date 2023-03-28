@@ -46,7 +46,7 @@ namespace API.Repositories
             return devicesData.ToList();
         }
 
-        public async Task<List<Device>> GetDevicesByCategoryWeekly(string id, string catStr)
+        public async Task<List<Device>> GetDevicesByCategoryForAPeriod(string id, string catStr, int period)
         {
             var links = await GetLinksForProsumer(id);
             var cat = await GetDeviceCategory(catStr);
@@ -65,7 +65,7 @@ namespace API.Repositories
                 Manufacturer = d.Spec.Manufacturer,
                 Wattage = d.Spec.Wattage,
                 Timestamps = d.Usage.Timestamps.Where(t =>
-                    t.Date >= DateTime.Now.AddDays(-7) && t.Date <= DateTime.Now
+                    (t.Date >= DateTime.Now.AddDays(period) && t.Date <= DateTime.Now) || (t.Date <= DateTime.Now.AddDays(period) && t.Date >= DateTime.Now)
                 ).ToList(),
             });
             return devicesData.ToList();
@@ -102,43 +102,42 @@ namespace API.Repositories
             return currentProduction;
         }
 
-        public async Task<double> ConsumptionForLastWeekForProsumer(string id)
+        public async Task<Dictionary<DateTime, double>> ConsumptionForAPeriodForProsumer(string id, int period)
         {
-            List<Device> devices = await GetDevicesByCategoryWeekly(id, "Consumer");
+            List<Device> devices = await GetDevicesByCategoryForAPeriod(id, "Consumer", period);
+            Dictionary<DateTime, double> datePowerDict = new Dictionary<DateTime, double>();
 
-            double consumption = 0;
-
-            foreach(var device in devices)
+            foreach (var dev in devices)
             {
-                foreach (var ts in device.Timestamps)
-                { 
-                    if (ts.ActivePower != 0)
-                    { 
-                        consumption += ts.ActivePower;
-                        consumption += ts.ReactivePower;
-                    }
+                foreach (var timestamp in dev.Timestamps)
+                {
+                    if (datePowerDict.ContainsKey(timestamp.Date))
+                        datePowerDict[timestamp.Date] += timestamp.ActivePower + timestamp.ReactivePower;
+                    else
+                        datePowerDict.Add(timestamp.Date, timestamp.ActivePower + timestamp.ReactivePower);
                 }
             }
 
-            return consumption;
+            return datePowerDict;
         }
 
-        public async Task<double> ProductionForLastWeekForProsumer(string id)
+        public async Task<Dictionary<DateTime, double>> ProductionForAPeriodForProsumer(string id, int period)
         {
-            var devices = await GetDevicesByCategoryWeekly(id, "Producer");
+            List<Device> devices = await GetDevicesByCategoryForAPeriod(id, "Producer", period);
+            Dictionary<DateTime, double> datePowerDict = new Dictionary<DateTime, double>();
 
-            double production = 0;
-
-            foreach (var device in devices)
+            foreach (var dev in devices)
             {
-                foreach (var ts in device.Timestamps)
+                foreach (var timestamp in dev.Timestamps)
                 {
-                    if (ts.ActivePower != 0)
-                        production += ts.ActivePower;
+                    if (datePowerDict.ContainsKey(timestamp.Date))
+                        datePowerDict[timestamp.Date] += timestamp.ActivePower;
+                    else
+                        datePowerDict.Add(timestamp.Date, timestamp.ActivePower);
                 }
             }
 
-            return production;
+            return datePowerDict;
         }
     }
 }
