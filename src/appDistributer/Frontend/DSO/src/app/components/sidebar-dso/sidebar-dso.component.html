@@ -1,7 +1,7 @@
 <CDBSidebar
   textColor="#ffffff"
   backgroundColor="#5875A1"
-  style="margin: 0; height: 90vh; width: 100%; "
+  style="margin: 0; height: 90vh; width: 100%"
 >
   <input
     type="button"
@@ -23,17 +23,21 @@
     <h2>Name</h2>
     <h6>User Address</h6>
   </div>
-  
-    <div class="div1">
-      <input
-        id="prvodugme"
-        class="dugme"
-        type="button"
-        value="User Information"
-      />
-      <br />
-      <input class="dugme" type="button" value="User Devices" /><br />
-      <input class="dugme" type="button" value="Delete User"(click)="DeleteUser()" />
-    </div>
-  
+
+  <div class="div1">
+    <input
+      id="prvodugme"
+      class="dugme"
+      type="button"
+      value="User Information"
+    />
+    <br />
+    <input class="dugme" type="button" value="User Devices" /><br />
+    <input
+      class="dugme"
+      type="button"
+      value="Delete User"
+      (click)="DeleteUser()"
+    />
+  </div>
 </CDBSidebar>

@@ -24,6 +24,7 @@
     "@material/slider": "^14.0.0",
     "@ng-bootstrap/ng-bootstrap": "^14.0.1",
     "angular-material-pagination": "^1.0.2",
+    "bootstrap-pagination": "^1.1.0",
     "bootstrap-select": "^1.13.18",
     "jquery": "^3.6.4",
     "jwt-decode": "^3.1.2",
