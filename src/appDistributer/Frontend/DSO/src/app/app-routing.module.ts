@@ -16,9 +16,14 @@ import { EmployeedetailsComponent } from './components/employeedetails/employeed
 import { SidebarDsoComponent } from './components/sidebar-dso/sidebar-dso.component';
 import { ResetpasswordComponent } from './components/resetpassword/resetpassword.component';
 import { ProsumerinfoComponent } from './components/prosumerinfo/prosumerinfo.component';
+<<<<<<< HEAD
 import { AddProsumerComponent } from './components/AddProsumer/AddProsumer.component';
 import { TabelaUredjajaComponent } from './components/tabelaUredjaja/tabelaUredjaja.component';
 import { UserDevicesComponent } from './components/UserDevices/UserDevices.component';
+=======
+import { SidebarPotrosnjaComponent } from './components/sidebar-potrosnja/sidebar-potrosnja.component';
+import { UserComponent } from './components/user/user.component';
+>>>>>>> origin/66-napraviti-stranicu-za-prikaz-korisnika
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -75,11 +80,23 @@ const routes: Routes = [
   },
   {
     path: 'prosumerinfo',
+<<<<<<< HEAD
     component: ProsumerinfoComponent,
   },
   {
     path: 'prosumerDevices',
     component: UserDevicesComponent,
+=======
+    component:ProsumerinfoComponent
+  },
+  {
+    path: 'sidebarpotrosnja',
+    component: SidebarPotrosnjaComponent,
+  },
+  {
+    path: 'user/:id',
+    component: UserComponent,
+>>>>>>> origin/66-napraviti-stranicu-za-prikaz-korisnika
   },
 ];
 @NgModule({

@@ -16,6 +16,8 @@ export class UsersServiceService {
 
   private baseUrl: string =
     'https://localhost:7156/api/Prosumer/GetAllProsumers';
+  private baseUrl3: string = "https://localhost:7156/api/Prosumer/UpdateProsumer";
+  private baseUrl4: string = "https://localhost:7156/api/Prosumer/DeleteProsumer";
   prosumers!: Prosumer[];
   private baseUrl2: string =
     'https://localhost:7156/api/Prosumer/getProsumerByID';
@@ -79,5 +81,13 @@ export class UsersServiceService {
     return this.http.get<any>(
       'https://localhost:7156/GetAllDevicesForProsumer?id=' + id
     );
+  }
+  updateUserData(id:any,data:any){
+    return this.http.put(`${this.baseUrl3}`+`?id=`+id,data);
+  }
+
+ deleteUser(id:any)
+  {
+    return this.http.delete(`${this.baseUrl4}`+`?id=`+id);
   }
 }

@@ -1,7 +1,7 @@
 <CDBSidebar
   textColor="#ffffff"
   backgroundColor="#5875A1"
-  style="margin: 0; height: 90vh"
+  style="margin: 0; height: 90vh; width: 100%; "
 >
   <input
     type="button"
@@ -23,10 +23,7 @@
     <h2>Name</h2>
     <h6>User Address</h6>
   </div>
-  <CDBSidebarContent
-    class="content"
-    style="justify-content: center; height: 200%; text-align: center"
-  >
+  
     <div class="div1">
       <input
         id="prvodugme"
@@ -36,14 +33,7 @@
       />
       <br />
       <input class="dugme" type="button" value="User Devices" /><br />
-      <div *ngIf="letValue === 'Dso'">
-        <input
-          class="dugme"
-          type="button"
-          value="Delete User"
-          (click)="DeleteUser()"
-        />
-      </div>
+      <input class="dugme" type="button" value="Delete User"(click)="DeleteUser()" />
     </div>
-  </CDBSidebarContent>
+  
 </CDBSidebar>

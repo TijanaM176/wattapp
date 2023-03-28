@@ -49,6 +49,7 @@ import { ResetpasswordComponent } from './components/resetpassword/resetpassword
 import { NgxPaginationModule } from 'ngx-pagination';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { ProsumerinfoComponent } from './components/prosumerinfo/prosumerinfo.component';
+<<<<<<< HEAD
 import { AddProsumerComponent } from './components/AddProsumer/AddProsumer.component';
 import { EmployeeNavBarComponent } from './components/employee-nav-bar/employee-nav-bar.component';
 import { RegionComponent } from './components/Filters/region/region.component';
@@ -58,6 +59,10 @@ import { UserDevicesComponent } from './components/UserDevices/UserDevices.compo
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
+=======
+import { SidebarPotrosnjaComponent } from './components/sidebar-potrosnja/sidebar-potrosnja.component';
+import { UserComponent } from './components/user/user.component';
+>>>>>>> origin/66-napraviti-stranicu-za-prikaz-korisnika
 @NgModule({
   declarations: [
     AppComponent,
@@ -86,12 +91,17 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
     SearchemployeenamePipe,
     ResetpasswordComponent,
     ProsumerinfoComponent,
+<<<<<<< HEAD
     AddProsumerComponent,
     EmployeeNavBarComponent,
     RegionComponent,
     RoleComponent,
     TabelaUredjajaComponent,
     UserDevicesComponent,
+=======
+    SidebarPotrosnjaComponent,
+    UserComponent,
+>>>>>>> origin/66-napraviti-stranicu-za-prikaz-korisnika
   ],
   imports: [
     MatSliderModule,
