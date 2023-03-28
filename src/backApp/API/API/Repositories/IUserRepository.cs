@@ -20,6 +20,7 @@ namespace API.Repositories
         public Task<City> getCity(string naziv);
         public Task<List<long>> GetRoleIds();
         public Task<List<string>> GetRegionIds();
+        public Task<string> GetRegionName(string id);
 
     }
 }
