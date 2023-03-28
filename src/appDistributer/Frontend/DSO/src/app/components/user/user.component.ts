@@ -48,6 +48,7 @@ export class UserComponent implements OnInit{
       this.user.updateUserData( this.router.snapshot.params['id'],this.editUser.value).
       subscribe((res)=>{ console.log(res);})
   }
+ 
 
 
 
