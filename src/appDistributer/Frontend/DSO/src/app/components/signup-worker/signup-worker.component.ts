@@ -10,6 +10,9 @@ import { AuthService } from 'src/app/services/auth.service';
 })
 export class SignupWorkerComponent  implements OnInit{
   signupWorkerForm!:FormGroup;
+  eyeIcon: string = 'fa-eye-slash';
+  type: string = 'password';
+  isText: boolean = false;
   constructor(private fb:FormBuilder,private router : Router,private auth:AuthService,private toast: NgToastService){}
   ngOnInit(): void {
     this.signupWorkerForm=this.fb.group({
@@ -66,5 +69,10 @@ export class SignupWorkerComponent  implements OnInit{
     }
   }
     
+  hideShowPass() {
+    this.isText = !this.isText;
+    this.isText ? (this.eyeIcon = 'fa-eye') : (this.eyeIcon = 'fa-eye-slash');
+    this.isText ? (this.type = 'text') : (this.type = 'password');
+  }
   
 }

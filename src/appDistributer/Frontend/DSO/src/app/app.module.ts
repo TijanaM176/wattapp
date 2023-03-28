@@ -57,6 +57,8 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { PaginationModule } from 'ng-cdbangular';
 
+import { SignupWorkerPageComponent } from './components/signup-worker-page/signup-worker-page.component';
+import { SidebarEmptyComponent } from './components/sidebar-empty/sidebar-empty.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -91,6 +93,8 @@ import { PaginationModule } from 'ng-cdbangular';
     RoleComponent,
     TabelaUredjajaComponent,
     UserDevicesComponent,
+    SignupWorkerPageComponent,
+    SidebarEmptyComponent,
   ],
   imports: [
     MatSliderModule,

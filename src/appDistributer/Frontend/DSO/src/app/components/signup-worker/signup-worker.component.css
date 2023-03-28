@@ -11,7 +11,7 @@
     width: 100%;
     height: 95%;
 }*/
-input[type=text] {
+/* input[type=text] {
     width: 100%;
     padding: 12px 20px;
     color:#08376B;
@@ -19,32 +19,44 @@ input[type=text] {
   letter-spacing: 1px;
   font-weight: bold;
     
-  }
+  } */
+
+.panelbor {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    vertical-align: middle;
+    height: 100%;
+    margin-left: -40%;
+}
 .row{
     margin: 0;
     padding: 0;
     position: absolute;
     width: 78%;
-    height: 90vh;
+    height: 80vh;
     display: flex;
     background-color: white;
-    margin-left:20%;
-    margin-top: 3%;
-    box-shadow: 1px 5px 5px 7px rgba(0, 0, 0, 0.25);
+    /* margin-top: 5%; */
+    /* box-shadow: 1px 5px 5px 7px rgba(0, 0, 0, 0.25); */
+}
+
+.fa {
+    color: #08376b;
 }
 
 .desno{
     margin:0;
-justify-content: center;
- margin-top:5vh;
+    justify-content: center;
+    margin-top:5vh;
  
-  display: flex;
+    display: flex;
   
-  width: 20%;
- height: 60%;
+    width: 78%;
   
-  background: rgb(255, 255, 255);
-  margin-left:30%;
+    background: rgb(255, 255, 255);
+    margin-left:12%;
 }
 
 .lbl{
@@ -55,31 +67,40 @@ justify-content: center;
     letter-spacing: 1px;
     text-align: center;
 }
-.input-field input{
-    width:350px;
-    height:40px;
-}
-input{
-    
-    background-color: #E8F3F8;
+.input-field {
+    margin-top: 10px;
+  }
+  
+  .input-field input,
+  select {
+    width: 400px;
+    height: 50px;
+    background-color: #e8f3f8;
     border-radius: 10px;
     border: none;
     cursor: pointer;
-    
-}
+    padding: 12px 20px;
+    color: #08376b;
+    letter-spacing: 1px;
+    font-weight: bold;
+  }
+  .image-group {
+    margin-left: 0;
+  }
   
-::placeholder {
-    color:#08376B;
-    font-weight:700;
-    font-size:20px;
+  .input-field input::placeholder {
+    margin-left: 13%;
+    color: #08376b;
+    font-weight: 700;
+    font-size: 20px;
     letter-spacing: 0.5px;
-}
+  }
 .btn{
     background-color: #5875A1;
     color:white;
     font-size: 24px;
     margin-top:3vh;
-    margin-left:15%;
+    /* margin-left:15%; */
     width:250px;
     height:50px;
     font-family: "Roboto", cursive;
