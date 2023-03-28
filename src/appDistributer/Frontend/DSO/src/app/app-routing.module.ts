@@ -19,6 +19,7 @@ import { ProsumerinfoComponent } from './components/prosumerinfo/prosumerinfo.co
 import { AddProsumerComponent } from './components/AddProsumer/AddProsumer.component';
 import { TabelaUredjajaComponent } from './components/tabelaUredjaja/tabelaUredjaja.component';
 import { UserDevicesComponent } from './components/UserDevices/UserDevices.component';
+import { SignupWorkerPageComponent } from './components/signup-worker-page/signup-worker-page.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -34,7 +35,7 @@ const routes: Routes = [
   },
   {
     path: 'signupWorker',
-    component: SignupWorkerComponent,
+    component: SignupWorkerPageComponent,
   },
   {
     path: 'users',

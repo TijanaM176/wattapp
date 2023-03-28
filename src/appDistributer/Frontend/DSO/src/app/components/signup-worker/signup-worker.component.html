@@ -5,43 +5,39 @@
             <div class="panel-body">
                 <form [formGroup]="signupWorkerForm">                               
                      <div class="form-group pt-3">
-                            <div class="input-field" [class.error]="signupWorkerForm.controls['firstName'].dirty && signupWorkerForm.hasError('required','firstName')">
-                                <label class="lbl">FirstName:</label>
-                                <br>
-                                <span class="polje"></span>
-                                    
-                                    <input  formControlName="firstName" type="text" placeholder="Enter first name">
+                        <div class="input-field" [class.error]="signupWorkerForm.controls['firstName'].dirty && signupWorkerForm.hasError('required','firstName')">
+                            <!-- <label class="lbl">FirstName:</label> -->
+                            <span class="fa fa-user p-2" style="font-size: 24px"></span>   
+                            <input  formControlName="firstName" type="text" placeholder="First Name"/>
                                 
-                            </div>
                         </div>
+                    </div>
                         <small *ngIf="signupWorkerForm.controls['firstName'].dirty && signupWorkerForm.hasError('required','firstName')"  class="text-danger">*FirstName is required</small>
                         <div class="form-group pt-3">
                             <div class="input-field" [class.error]="signupWorkerForm.controls['lastName'].dirty && signupWorkerForm.hasError('required','lastName')">
-                                <label class="lbl">LastName:</label>
-                                <br>
-                                <span class="polje"></span>
-                                    <input formControlName="lastName" type="text" placeholder="Enter last Name">
+                                <!-- <label class="lbl">LastName:</label> -->
+                                <span class="fa fa-user p-2" style="font-size: 24px"></span>
+                                <input formControlName="lastName" type="text" placeholder="Last Name">
                                 
                             </div>
                         </div>
                         <small *ngIf="signupWorkerForm.controls['lastName'].dirty && signupWorkerForm.hasError('required','lastName')" class="text-danger">*LastName is required</small>
                         <div class="form-group pt-3">
                             <div class="input-field" [class.error]="signupWorkerForm.controls['password'].dirty && signupWorkerForm.hasError('required','password')">
-                                <label class="lbl">Password:</label>
-                                <br>
-                                <span class="polje"></span>
-                                    <input formControlName="password" type="password" placeholder="   Enter password">
-                               
+                                <!-- <label class="lbl">Password:</label> -->
+                                <span class="fa fa-lock p-2" style="font-size: 24px; margin-left: -10px;"></span>
+                                <input formControlName="password" type="{{type}}" placeholder="Password">
+                                <span ><i (click)="hideShowPass()" class="fa {{ eyeIcon }}" style="margin-left: -30px; font-size: 20px"></i></span>
+
                             </div>
                         </div>
                         <small *ngIf="signupWorkerForm.controls['password'].dirty && signupWorkerForm.hasError('required','password')" class="text-danger">*Password is required</small>
 
                         <div class="form-group pt-3">
                             <div class="input-field" [class.error]="signupWorkerForm.controls['email'].dirty && signupWorkerForm.hasError('required','email')">
-                                <label class="lbl">Email:</label>
-                                <br>
-                                <span class="polje"></span>
-                                    <input formControlName="email" type="text" placeholder="Enter email">
+                                <!-- <label class="lbl">Email:</label> -->
+                                <span class="fa fa-envelope p-2" style="font-size: 20px; margin-left: -4px"></span>
+                                <input formControlName="email" type="text" placeholder="E-mail">
                                 
                             </div>
                         </div>
@@ -61,10 +57,9 @@
                         <!-- <small *ngIf="signupWorkerForm.controls['address'].dirty && signupWorkerForm.hasError('required','address')" class="text-danger">*Adress is required</small> -->
                         <div class="form-group pt-3">
                             <div class="input-field" [class.error]="signupWorkerForm.controls['salary'].dirty && signupWorkerForm.hasError('required','salary')">
-                                <label class="lbl">Salary:</label>
-                                <br>
-                                <span class="polje"></span>
-                                    <input formControlName="salary" type="text" placeholder="Enter salary">
+                                <!-- <label class="lbl">Salary:</label> -->
+                                <span><i class="fa fa-money p-2"></i></span>
+                                    <input formControlName="salary" type="text" placeholder="Salary">
                                 
                             </div>
                         </div>
@@ -73,10 +68,9 @@
                         
                         <div class="form-group pt-3">
                             <div class="input-field" [class.error]="signupWorkerForm.controls['image'].dirty && signupWorkerForm.hasError('required','image')">
-                                <label class="lbl">Image:</label>
-                                <br>
-                                <span class="polje"></span>
-                                    <input formControlName="image" type="text" placeholder="Enter image">
+                                <!-- <label class="lbl">Image:</label> -->
+                                <span class="fa fa-user p-2" style="font-size: 24px"></span>
+                                <input formControlName="image" type="text" placeholder="Image">
                                 
                             </div>
                         </div>

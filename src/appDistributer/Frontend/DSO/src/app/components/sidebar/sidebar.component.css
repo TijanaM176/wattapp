@@ -1,0 +1,5 @@
+@media (max-height: 600px) {
+    CDBSidebar {
+      height: 80vh;
+    }
+}

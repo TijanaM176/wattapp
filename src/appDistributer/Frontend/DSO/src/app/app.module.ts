@@ -57,6 +57,8 @@ import { TabelaUredjajaComponent } from './components/tabelaUredjaja/tabelaUredj
 import { UserDevicesComponent } from './components/UserDevices/UserDevices.component';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { SignupWorkerPageComponent } from './components/signup-worker-page/signup-worker-page.component';
+import { SidebarEmptyComponent } from './components/sidebar-empty/sidebar-empty.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -91,6 +93,8 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
     RoleComponent,
     TabelaUredjajaComponent,
     UserDevicesComponent,
+    SignupWorkerPageComponent,
+    SidebarEmptyComponent,
   ],
   imports: [
     MatSliderModule,
