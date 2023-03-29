@@ -25,6 +25,12 @@ export class EmployeesComponent {
   page:number=1;
   show:boolean=false;
   value!:string;
+  dropDownRegion: string = '';
+  dropDownRole: string = '';
+  region:string='';
+  Region: any;
+  Role:any;
+  role:string='';
   tableSizes:any=[10,15,20];
   updateForm=new FormGroup({
     firstName:new FormControl(''),
@@ -51,6 +57,13 @@ export class EmployeesComponent {
 
   ngOnInit(): void {
     //console.log(this.service.employees);
+    this.service.getAllRegions().subscribe((res) => {
+      this.Region = res;
+    });
+    this.service.getAllRoles().subscribe((res)=>
+    {
+      this.Role=res;
+    })
   }
   Ucitaj() {
     this.service.getAllData();
@@ -117,7 +130,7 @@ export class EmployeesComponent {
         roleId:new FormControl(this.employee.roleId),
         regionId:new FormControl(this.employee.regionId),
         email:new FormControl(this.employee.email),
-        password:new FormControl(this.employee.password)
+        password:new FormControl('')
       });
     
       console.log(id);

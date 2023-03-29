@@ -18,9 +18,8 @@ export class EmployeesServiceService {
     'https://localhost:7156/api/Dso/GetDsoWorkerPaging';
   private basuUrlUpdate: string =
     'https://localhost:7156/api/Dso/UpdateDsoWorker';
-  private baseUrlRegionRole: string = 'https://localhost:7156/api/Dso/';
-  region: string = '';
-  role!: number;
+  private baseUrlRegion: string = 'https://localhost:7156/api/Dso/GetRegions';
+  private baseUrlRole: string = 'https://localhost:7156/api/Dso/GetRoles';
   employees!: Employee[];
   formData: Employee = new Employee();
 
@@ -44,6 +43,12 @@ export class EmployeesServiceService {
     return this.http.get(
       `${this.baseUrlPage}?PageNumber=` + page + `&PageSize=` + pagesize
     );
+  }
+  getAllRegions() {
+    return this.http.get(`${this.baseUrlRegion}`);
+  }
+  getAllRoles() {
+    return this.http.get(`${this.baseUrlRole}`);
   }
   /*
   refreshList(){

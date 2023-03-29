@@ -544,9 +544,10 @@
               </div>
               <div class="form-group" style="width: 50%; float: left">
                 <label style="width: 90%; color: #566787; font-weight: bold"
-                  >Role Id</label
+                  >Role</label
                 >
-                <input
+                <select
+                  class="dropdown dropdown-toggle"
                   style="
                     width: 90%;
                     color: #566787;
@@ -554,17 +555,24 @@
                     background-color: #e8f3f8;
                     font-weight: 600;
                   "
-                  type="text"
+                  name="regionId"
                   class="form-control"
                   formControlName="roleId"
-                />
+                  [(ngModel)]="role"
+                >
+                  <option *ngFor="let item of Role" [value]="item.id">
+                    {{ item.roleName }}
+                  </option>
+                </select>
               </div>
             </span>
+            <div class="col-sm-12"></div>
             <div class="form-group" style="width: 50%; float: left">
               <label style="width: 90%; color: #566787; font-weight: bold"
-                >Region Id</label
+                >Region</label
               >
-              <input
+              <select
+                class="dropdown dropdown-toggle"
                 style="
                   width: 90%;
                   color: #566787;
@@ -572,10 +580,15 @@
                   background-color: #e8f3f8;
                   font-weight: 600;
                 "
-                type="text"
+                name="regionId"
                 class="form-control"
                 formControlName="regionId"
-              />
+                [(ngModel)]="region"
+              >
+                <option *ngFor="let item of Region" [value]="item.id">
+                  {{ item.regionName }}
+                </option>
+              </select>
             </div>
             <div class="form-group" style="width: 50%; float: left">
               <label style="width: 90%; color: #566787; font-weight: bold"
