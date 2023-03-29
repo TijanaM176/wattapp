@@ -1,0 +1,39 @@
+<app-navBar></app-navBar>
+<div >
+    
+    <div class="div1">
+
+    <app-sidebar-potrosnja></app-sidebar-potrosnja>
+    </div>
+    <div class="div2">
+        <div class="divinput">
+            <form [formGroup]="editUser" (ngSubmit)="UpdateData()">      
+    <label>First name:</label><br>
+    <input type="text" name="firstname" formControlName="firstname"><br>
+    <label>Last name:</label><br>
+    <input type="text" name="lastname" formControlName="lastname"><br>
+    <label>Email</label><br>
+    <input type="text" name="email" formControlName="email"><br>
+    
+    <label>Username:</label><br>
+    <input type="text" name="username"[readonly]='true' formControlName="username"><br>
+    
+    
+    <label>Address:</label><br>
+    <input type="text" name="address" [readonly]="true" formControlName="address"><br>
+    <label>Neighborhood:</label><br>
+    <input type="text" name="neigborhoodId" [readonly]="true" formControlName="neigborhoodId"><br>
+    <button type="submit" id="dugme"> Edit Information</button>
+</form>
+</div>
+    </div>
+    <div class="div3">
+
+        <app-sidebar-dso></app-sidebar-dso>
+    </div>
+
+   
+
+</div>
+
+

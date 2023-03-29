@@ -59,6 +59,9 @@ import { PaginationModule } from 'ng-cdbangular';
 
 import { SignupWorkerPageComponent } from './components/signup-worker-page/signup-worker-page.component';
 import { SidebarEmptyComponent } from './components/sidebar-empty/sidebar-empty.component';
+
+import { UserComponent } from './components/user/user.component';
+import { SidebarPotrosnjaComponent } from './components/sidebar-potrosnja/sidebar-potrosnja.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -95,6 +98,9 @@ import { SidebarEmptyComponent } from './components/sidebar-empty/sidebar-empty.
     UserDevicesComponent,
     SignupWorkerPageComponent,
     SidebarEmptyComponent,
+
+    UserComponent,
+    SidebarPotrosnjaComponent,
   ],
   imports: [
     MatSliderModule,
