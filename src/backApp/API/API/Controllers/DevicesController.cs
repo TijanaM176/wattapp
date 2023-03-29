@@ -1,4 +1,5 @@
 ﻿using API.Models.Devices;
+using API.Models.Users;
 using API.Services.Devices;
 using Microsoft.AspNetCore.Mvc;
 
@@ -115,6 +116,20 @@ namespace API.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+        [HttpGet("ProsumerFilter")]
+        public async Task<IActionResult> ProsumerFilter(double minConsumption, double maxConsumption, double minProduction, double maxProduction, int minDeviceCount, int maxDeviceCount)
+        {
+            try
+            {
+                return Ok(await devService.ProsumerFilter(minConsumption, maxConsumption, minProduction, maxProduction, minDeviceCount, maxDeviceCount));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
 
     }
 }

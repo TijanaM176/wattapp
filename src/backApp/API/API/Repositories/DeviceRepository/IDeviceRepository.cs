@@ -1,4 +1,5 @@
 ﻿using API.Models.Devices;
+using API.Models.Users;
 
 namespace API.Repositories.DeviceRepository
 {
@@ -13,5 +14,6 @@ namespace API.Repositories.DeviceRepository
         public Task<double> ProductionForLastWeekForAllProsumers();
         public Task<double> ConsumptionForLastWeekForAllProsumers();
         public Task<List<ProsumerLink>> getAllProsumersWhoOwnDevice();
+        public Task<List<Prosumer>> ProsumerFilter(double minConsumption, double maxConsumption, double minProduction, double maxProduction, int minDeviceCount, int maxDeviceCount);
     }
 }

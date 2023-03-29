@@ -1,4 +1,5 @@
 ﻿using API.Models.Devices;
+using API.Models.Users;
 using API.Repositories.DeviceRepository;
 using Microsoft.Extensions.Options;
 using MongoDB.Driver;
@@ -53,6 +54,11 @@ namespace API.Services.Devices
             return await _repository.ProductionForLastWeekForAllProsumers();
         }
 
-
+        public async Task<List<Prosumer>> ProsumerFilter(double minConsumption, double maxConsumption, double minProduction, double maxProduction, int minDeviceCount, int maxDeviceCount)
+        {
+            var prosumers = await _repository.ProsumerFilter(minConsumption, maxConsumption, minProduction, maxProduction, minDeviceCount, maxDeviceCount);
+            if (prosumers == null) throw new ArgumentException("No users fit that criteria!");
+            return prosumers;
+        }
     }
 }
