@@ -30,7 +30,14 @@ export class EmployeesComponent {
   region:string='';
   Region: any;
   Role:any;
+  v!:string;
+  RegionId:string='';
+  
+  public regionName:any;
+  public roleName:any;
   role:string='';
+  nameRo:string='';
+  nameRe:string='';
   tableSizes:any=[10,15,20];
   updateForm=new FormGroup({
     firstName:new FormControl(''),
@@ -46,8 +53,8 @@ export class EmployeesComponent {
     lastName:new FormControl(''),
     dateCreate:new FormControl(''),
     salary:new FormControl(''),
-    role:new FormControl(''),
-    region:new FormControl(''),
+    roleId:new FormControl(''),
+    regionId:new FormControl(''),
     email:new FormControl('')
   })
   constructor(public service: EmployeesServiceService, private router: Router,private cookie: CookieService) {
@@ -59,12 +66,15 @@ export class EmployeesComponent {
     //console.log(this.service.employees);
     this.service.getAllRegions().subscribe((res) => {
       this.Region = res;
+      console.log(this.Region);
     });
     this.service.getAllRoles().subscribe((res)=>
     {
       this.Role=res;
     })
+    //this.NameRole();
   }
+  
   Ucitaj() {
     this.service.getAllData();
     this.employees = this.service.employees;/*.subscribe((res) => {
@@ -88,41 +98,54 @@ export class EmployeesComponent {
     this.Paging();
     
   }
- /* onTableSizeChange(event:any):void
-{
-  this.perPage=event.target.value;
-  this.page=1;
-  this.Paging();
-}  */
+
+  
+
 
   Details(id: string) {
     this.service.detailsEmployee(id).subscribe(res => {
       this.employee = res;
       console.log(res);
       this.cookie.set("id",this.employee.id);
+      //this.cookie.set("roleid",this.employee.roleId);
       this.value=this.cookie.get("role");
+      this.RegionId=this.employee.regionId;
+      this.service.getRegionName(this.employee.regionId).subscribe((res)=>{
+        console.log(res);
+        this.regionName=res;
+        this.cookie.set("regionName",this.regionName);
+        //this.Region=res;
+      })
+      this.service.getRoleName(this.employee.roleId).subscribe((res)=>{
+        console.log(res);
+        this.roleName=res;
+        //console.log(this.roleName);
+        //this.Role=res;
+        this.cookie.set("roleName",this.roleName);
+      })
+
+      this.roleName=this.cookie.get("roleName");
+      this.regionName=this.cookie.get("regionName");
+      console.log(this.regionName);
+
       this.infoForm=new FormGroup({
         firstName:new FormControl(this.employee.firstName),
         lastName:new FormControl(this.employee.lastName),
         dateCreate:new FormControl(this.employee.dateCreate),
         salary:new FormControl(this.employee.salary),
-        role:new FormControl(this.employee.role),
-        region:new FormControl(this.employee.region),
+        roleId:new FormControl(this.roleName),
+        regionId:new FormControl(this.regionName),
         email:new FormControl(this.employee.email)
        
       });
-        //console.log(this.employee);
-        //this.router.navigate(['/employeedetails']);
-        //console.log(id);
-      
       
     });
   } 
+  
   update(id:string){
     this.service.detailsEmployee(id).subscribe((res) => {
       console.log(res);
       this.employee=res;
-      
       this.updateForm=new FormGroup({
         firstName:new FormControl(this.employee.firstName),
         lastName:new FormControl(this.employee.lastName),
@@ -174,6 +197,6 @@ export class EmployeesComponent {
     });
     }
   }
-
+  
 
 }

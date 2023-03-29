@@ -23,6 +23,12 @@ export class EmployeesServiceService {
   role!: number;
   employees!: Employee[];
   formData: Employee = new Employee();
+  private baseUrlRegion: string = 'https://localhost:7156/api/Dso/GetRegions';
+  private baseUrlRole: string = 'https://localhost:7156/api/Dso/GetRoles';
+  private baseUrlRegionName: string =
+    'https://localhost:7156/api/Dso/GetRegionName';
+  private baseUrlRoleName: string =
+    'https://localhost:7156/api/Dso/GetRoleName';
 
   getAllData() {
     return this.http
@@ -44,6 +50,16 @@ export class EmployeesServiceService {
     return this.http.get(
       `${this.baseUrlPage}?PageNumber=` + page + `&PageSize=` + pagesize
     );
+  }
+  getRoleName(id: number): Observable<string> {
+    return this.http.get(`${this.baseUrlRoleName}` + `?id=` + id, {
+      responseType: 'text',
+    });
+  }
+  getRegionName(id: string): Observable<string> {
+    return this.http.get(`${this.baseUrlRegionName}` + `?id=` + id, {
+      responseType: 'text',
+    });
   }
   /*
   refreshList(){
