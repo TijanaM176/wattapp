@@ -10,7 +10,7 @@ using API.Models.Users;
 
 namespace API.Repositories.DeviceRepository
 {
-    public class DeviceRepository //: IDeviceRepository
+    public class DeviceRepository : IDeviceRepository
     {
         private readonly DevicesContext _usageContext;
         private readonly RegContext _regContext;
@@ -154,7 +154,7 @@ namespace API.Repositories.DeviceRepository
             return await _regContext.ProsumerLinks.ToListAsync();
         }
         // zbiran potrosnja energije za korisnike za nedelju dana
-        /*public async Task<double> ConsumptionForLastWeekForAllProsumers()
+        public async Task<double> ConsumptionForLastWeekForAllProsumers()
         {
             List<ProsumerLink> prosumersWithDevices = (await getAllProsumersWhoOwnDevice())
                 .GroupBy(x => x.ProsumerId)
@@ -186,10 +186,10 @@ namespace API.Repositories.DeviceRepository
             }
 
             return consumptionProsumersForWeek;
-        }*/
+        }
 
         // zbiran proizvodnja energije za korisnike za nedelju dana
-        /*public async Task<double> ProductionForLastWeekForAllProsumers()
+        public async Task<double> ProductionForLastWeekForAllProsumers()
         {
             List<ProsumerLink> prosumersWithDevices = (await getAllProsumersWhoOwnDevice())
                 .GroupBy(x => x.ProsumerId)
@@ -219,7 +219,7 @@ namespace API.Repositories.DeviceRepository
             }
 
             return productionProsumersForWeek;
-        }*/
+        }
 
         public async Task<double> ProsumerDeviceCount(string id)
         {
