@@ -26,8 +26,8 @@ using System.Security.Principal;
 using Microsoft.AspNetCore.Authorization;
 using API.Models.Users;
 using API.Services.Auth;
-using API.Models;
 using API.Services.ProsumerService;
+using API.Models.HelpModels;
 
 namespace API.Controllers
 {

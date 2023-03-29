@@ -67,17 +67,13 @@ namespace API.Controllers
 
         [HttpGet("NextWeeksConsumptionAndProduction")]
         public async Task<IActionResult> NextWeeksConsumptionAndProduction(string id)
-        [HttpGet("LastWeeksConsumptionForAllProsumers")]
-        public async Task<IActionResult> LastWeeksConsumptionForAllProsumers()
         {
             try
             {
                 return Ok(new
                 {
                     consumption = await devService.ConsumptionForAPeriodForProsumer(id, 7),
-                    production = await devService.ProductionForAPeriodForProsumer(id, 7)
-                    consumptionForAllProsumersWeeks = await devService.ConsumptionForLastWeekForAllProsumers()
-                    
+                    production = await devService.ProductionForAPeriodForProsumer(id, 7)                    
                 });
             }
             catch (Exception ex)
@@ -85,6 +81,24 @@ namespace API.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+        [HttpGet("LastWeeksConsumptionForAllProsumers")]
+        public async Task<IActionResult> LastWeeksConsumptionForAllProsumers()
+        {
+            try
+            {
+                return Ok(new
+                {
+                    consumptionForAllProsumersWeeks = await devService.ConsumptionForLastWeekForAllProsumers()
+
+                });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
         [HttpGet("LastWeeksProductionForAllProsumers")]
         public async Task<IActionResult> LastWeeksProductionForAllProsumers()
         {
@@ -92,7 +106,7 @@ namespace API.Controllers
             {
                 return Ok(new
                 {
-                    consumptionForAllProsumersWeeks = await devService.ProductionForLastWeekForAllProsumers()
+                    productionForAllProsumersWeeks = await devService.ProductionForLastWeekForAllProsumers()
 
                 });
             }

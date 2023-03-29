@@ -1,5 +1,5 @@
 ﻿using API.Models.Devices;
-using API.Repositories;
+using API.Repositories.DeviceRepository;
 using Microsoft.Extensions.Options;
 using MongoDB.Driver;
 
@@ -33,11 +33,15 @@ namespace API.Services.Devices
 
         public async Task<Dictionary<DateTime, double>> ConsumptionForAPeriodForProsumer(string id, int period)
         {
-            return await _repository.ConsumptionForAPeriodForProsumer(id, period);
+            var cons = await _repository.ConsumptionForAPeriodForProsumer(id, period);
+            if (cons == null) throw new ArgumentException("No data!");
+            return cons;
         }
         public async Task<Dictionary<DateTime, double>> ProductionForAPeriodForProsumer(string id, int period)
         {
-            return await _repository.ProductionForAPeriodForProsumer(id, period);
+            var prod = await _repository.ProductionForAPeriodForProsumer(id, period);
+            if (prod == null) throw new ArgumentException("No data!");
+            return prod;
         }
 
         public async Task<double> ConsumptionForLastWeekForAllProsumers()

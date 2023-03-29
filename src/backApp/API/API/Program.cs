@@ -5,7 +5,6 @@ using API.Controllers;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
-using API.Repositories;
 using API.Services.Auth;
 using API.Services.ProsumerService;
 using API.Services.DsoService;
@@ -14,6 +13,9 @@ using API.Repositories.ProsumerRepository;
 using API.Models.Devices;
 using API.Services.Devices;
 using Microsoft.Extensions.Options;
+using API.Repositories.DeviceRepository;
+using API.Repositories.UserRepository;
+using API.Models.Users;
 
 var builder = WebApplication.CreateBuilder(args);
 

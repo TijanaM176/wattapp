@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text.Json.Serialization;
-using API.Models;
 using API.Models.Devices;
 
 namespace API.Models.Users;
