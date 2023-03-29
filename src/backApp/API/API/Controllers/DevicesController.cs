@@ -64,5 +64,38 @@ namespace API.Controllers
                 return BadRequest(ex.Message);
             }
         }
+        [HttpGet("LastWeeksConsumptionForAllProsumers")]
+        public async Task<IActionResult> LastWeeksConsumptionForAllProsumers()
+        {
+            try
+            {
+                return Ok(new
+                {
+                    consumptionForAllProsumersWeeks = await devService.ConsumptionForLastWeekForAllProsumers()
+                    
+                });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+        [HttpGet("LastWeeksProductionForAllProsumers")]
+        public async Task<IActionResult> LastWeeksProductionForAllProsumers()
+        {
+            try
+            {
+                return Ok(new
+                {
+                    consumptionForAllProsumersWeeks = await devService.ProductionForLastWeekForAllProsumers()
+
+                });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
     }
 }

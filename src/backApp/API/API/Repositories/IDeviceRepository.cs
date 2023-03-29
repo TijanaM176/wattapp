@@ -10,5 +10,8 @@ namespace API.Repositories
         public Task<double> CurrentProductionForProsumer(string id);
         public Task<double> ConsumptionForLastWeekForProsumer(string id);
         public Task<double> ProductionForLastWeekForProsumer(string id);
+        public Task<double> ProductionForLastWeekForAllProsumers();
+        public Task<double> ConsumptionForLastWeekForAllProsumers();
+        public Task<List<ProsumerLink>> getAllProsumersWhoOwnDevice();
     }
 }

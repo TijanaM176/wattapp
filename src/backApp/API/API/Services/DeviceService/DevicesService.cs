@@ -39,5 +39,16 @@ namespace API.Services.Devices
         {
             return await _repository.ProductionForLastWeekForProsumer(id);
         }
+
+        public async Task<double> ConsumptionForLastWeekForAllProsumers()
+        {
+            return await _repository.ConsumptionForLastWeekForAllProsumers();
+        }
+        public async Task<double> ProductionForLastWeekForAllProsumers()
+        {
+            return await _repository.ProductionForLastWeekForAllProsumers();
+        }
+
+
     }
 }
