@@ -23,6 +23,7 @@ import { SignupWorkerPageComponent } from './components/signup-worker-page/signu
 
 import { SidebarPotrosnjaComponent } from './components/sidebar-potrosnja/sidebar-potrosnja.component';
 import { UserComponent } from './components/user/user.component';
+import { DeviceinfoComponent } from './components/deviceinfo/deviceinfo.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -90,6 +91,10 @@ const routes: Routes = [
     path: 'user/:id',
     component: UserComponent,
   },
+  {
+    path:'deviceinfo',
+    component:DeviceinfoComponent,
+  }
 
 ];
 @NgModule({
