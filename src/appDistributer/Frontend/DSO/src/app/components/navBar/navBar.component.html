@@ -1,5 +1,6 @@
 <header>
   <CDBNavbar
+    #otherContent
     style="
       background-color: #e8f3f8;
       display: flex;
@@ -46,42 +47,69 @@
           </CDBBtn>
         </CDBNavItem>
         <CDBNavItem style="width: 140px">
-          <CDBBtn
-            [flat]="true"
-            color="dark"
-            style="
-              padding: 0;
-              background-color: #e8f3f8;
-              border: 0;
-              font-weight: bold;
-              border-radius: 20px;
-              width: 90%;
-              vertical-align: middle;
-            "
-          >
-            <CDBNavLink routerLink="/users" style="color: #5875a1"
-              >Users
-            </CDBNavLink>
-          </CDBBtn>
+          <div class="dropdown">
+            <button
+              style="
+                padding: 0;
+                background-color: #e8f3f8;
+                border: 0;
+                font-weight: bold;
+                border-radius: 20px;
+                width: 90%;
+                vertical-align: middle;
+                color: #5875a1;
+              "
+              type="button"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+              (click)="menu.toggleDropdown($event)"
+            >
+              Users
+            </button>
+            <CDBDropDownMenu #menu="cdbDropdownMenu" placement="bottom">
+              <CDBDropDownItem routerLink="/users" style="cursor: pointer"
+                >All users</CDBDropDownItem
+              >
+              <CDBDropDownItem routerLink="/signup" style="cursor: pointer"
+                >Add new user</CDBDropDownItem
+              >
+            </CDBDropDownMenu>
+          </div>
         </CDBNavItem>
         <CDBNavItem style="width: 140px">
-          <CDBBtn
-            [flat]="true"
-            color="dark"
-            style="
-              padding: 0;
-              background-color: #e8f3f8;
-              border: 0;
-              font-weight: bold;
-              border-radius: 20px;
-              width: 90%;
-              vertical-align: middle;
-            "
-          >
-            <CDBNavLink routerLink="/employeedetails" style="color: #5875a1">
+          <div class="dropdown">
+            <button
+              style="
+                padding: 0;
+                background-color: #e8f3f8;
+                border: 0;
+                font-weight: bold;
+                border-radius: 20px;
+                width: 90%;
+                vertical-align: middle;
+                color: #5875a1;
+              "
+              type="button"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+              (click)="menu1.toggleDropdown($event)"
+              toggle="true"
+            >
               Employees
-            </CDBNavLink>
-          </CDBBtn>
+            </button>
+            <CDBDropDownMenu #menu1="cdbDropdownMenu" placement="bottom">
+              <CDBDropDownItem
+                routerLink="/employeedetails"
+                style="cursor: pointer"
+                >All employees</CDBDropDownItem
+              >
+              <CDBDropDownItem
+                routerLink="/signupWorker"
+                style="cursor: pointer"
+                >Add new employee</CDBDropDownItem
+              >
+            </CDBDropDownMenu>
+          </div>
         </CDBNavItem>
         <CDBNavItem>
           <CDBDropDown
@@ -98,7 +126,7 @@
                 vertical-align: middle;
                 margin: 0;
               "
-              (click)="menu.toggleDropdown($event)"
+              (click)="menu2.toggleDropdown($event)"
             >
               <div class="navbar-profile-picture me-2">
                 <img
@@ -110,9 +138,14 @@
                 />
               </div>
             </CDBDropDownToggle>
-            <CDBDropDownMenu #menu="cdbDropdownMenu" placement="bottom">
-              <CDBDropDownItem routerLink="#">See profile</CDBDropDownItem>
-              <CDBDropDownItem routerLink="../login" (click)="LogOut()"
+            <CDBDropDownMenu #menu2="cdbDropdownMenu" placement="bottom">
+              <CDBDropDownItem routerLink="#" style="cursor: pointer"
+                >See profile</CDBDropDownItem
+              >
+              <CDBDropDownItem
+                routerLink="../login"
+                (click)="LogOut()"
+                style="cursor: pointer"
                 >Logout</CDBDropDownItem
               >
             </CDBDropDownMenu>
@@ -121,4 +154,128 @@
       </CDBNavbarNav>
     </CDBCollapse>
   </CDBNavbar>
+  <ng-template #otherContent>
+    <CDBNavbar
+      style="
+        background-color: #e8f3f8;
+        display: flex;
+        justify-content: space-between;
+      "
+      [dark]="true"
+      expand="lg"
+      [scrolling]="true"
+    >
+      <CDBNavBrand>
+        <img id="logo" src="assets/images/logo.png" height="75" alt="" />
+      </CDBNavBrand>
+      <CDBNavToggle
+        (click)="content.toggleCollapse()"
+        style="background-color: #5875a1"
+      ></CDBNavToggle>
+      <CDBCollapse
+        id="myClass"
+        #content
+        class="w-100"
+        class="myClass"
+        [navbar]="true"
+        expand="lg"
+      >
+        <CDBNavbarNav class="d-flex align-items-center">
+          <CDBNavItem [active]="true" style="width: 140px">
+            <CDBBtn
+              [flat]="true"
+              color="dark"
+              style="
+                padding: 0;
+                background-color: #5875a1;
+                border: 0;
+                font-weight: bold;
+
+                border-radius: 20px;
+                width: 90%;
+                vertical-align: middle;
+              "
+            >
+              <CDBNavLink routerLink="/dashboard" style="color: white">
+                Home
+              </CDBNavLink>
+            </CDBBtn>
+          </CDBNavItem>
+          <CDBNavItem style="width: 140px">
+            <CDBBtn
+              [flat]="true"
+              color="dark"
+              style="
+                padding: 0;
+                background-color: #e8f3f8;
+                border: 0;
+                font-weight: bold;
+                border-radius: 20px;
+                width: 90%;
+                vertical-align: middle;
+              "
+            >
+              <CDBNavLink routerLink="/users" style="color: #5875a1"
+                >Users
+              </CDBNavLink>
+            </CDBBtn>
+          </CDBNavItem>
+          <CDBNavItem style="width: 140px">
+            <CDBBtn
+              [flat]="true"
+              color="dark"
+              style="
+                padding: 0;
+                background-color: #e8f3f8;
+                border: 0;
+                font-weight: bold;
+                border-radius: 20px;
+                width: 90%;
+                vertical-align: middle;
+              "
+            >
+              <CDBNavLink routerLink="/employeedetails" style="color: #5875a1">
+                Employees
+              </CDBNavLink>
+            </CDBBtn>
+          </CDBNavItem>
+          <CDBNavItem>
+            <CDBDropDown
+              class="nav-link"
+              style="padding: 0; background-color: #e8f3f8"
+            >
+              <CDBDropDownToggle
+                style="
+                  padding: 0;
+                  background-color: #e8f3f8;
+                  color: #5875a1;
+                  font-weight: bold;
+                  border-radius: 20px;
+                  vertical-align: middle;
+                  margin: 0;
+                "
+                (click)="menu.toggleDropdown($event)"
+              >
+                <div class="navbar-profile-picture me-2">
+                  <img
+                    src="assets/images/user.png"
+                    alt="User Profile Picture"
+                    class="rounded-circle"
+                    width="40"
+                    height="40"
+                  />
+                </div>
+              </CDBDropDownToggle>
+              <CDBDropDownMenu #menu="cdbDropdownMenu" placement="bottom">
+                <CDBDropDownItem routerLink="#">See profile</CDBDropDownItem>
+                <CDBDropDownItem routerLink="../login" (click)="LogOut()"
+                  >Logout</CDBDropDownItem
+                >
+              </CDBDropDownMenu>
+            </CDBDropDown>
+          </CDBNavItem>
+        </CDBNavbarNav>
+      </CDBCollapse>
+    </CDBNavbar>
+  </ng-template>
 </header>
