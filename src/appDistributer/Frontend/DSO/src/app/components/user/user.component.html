@@ -12,14 +12,17 @@
     <input type="text" name="firstname" formControlName="firstname"><br>
     <label>Last name:</label><br>
     <input type="text" name="lastname" formControlName="lastname"><br>
-    <label>Username:</label><br>
-    <input type="text" name="username" formControlName="username"><br>
     <label>Email</label><br>
     <input type="text" name="email" formControlName="email"><br>
+    
+    <label>Username:</label><br>
+    <input type="text" name="username"[readonly]='true' formControlName="username"><br>
+    
+    
     <label>Address:</label><br>
-    <input type="text" name="address" formControlName="address"><br>
+    <input type="text" name="address" [readonly]="true" formControlName="address"><br>
     <label>Neighborhood:</label><br>
-    <input type="text" name="neigborhoodId" formControlName="neigborhoodId"><br>
+    <input type="text" name="neigborhoodId" [readonly]="true" formControlName="neigborhoodId"><br>
     <button type="submit" id="dugme"> Edit Information</button>
 </form>
 </div>

@@ -20,7 +20,6 @@ export class UserComponent implements OnInit{
      email: new FormControl(''),
      address: new FormControl(''),
      neigborhoodId: new FormControl(''),
-      
     }
 
     );
@@ -37,7 +36,7 @@ export class UserComponent implements OnInit{
       username: new FormControl(res ['username']),
      email: new FormControl(res ['email']),
      address: new FormControl(res ['address']),
-     neigborhoodId: new FormControl(res['neigborhoodId']),
+     neigborhoodId: new FormControl(res['neigborhoodId']), 
     });
   });
 
