@@ -166,8 +166,8 @@
               margin-left: 40%;
             "
           />
-          <div
-          *ngIf="value==='Dso'"
+          <div  
+          *ngIf="value==='Dso'" 
             style="margin-top: 5%; margin-left: 23%; margin-bottom: 3%"
           >
             <!--*ngIf="value==='admin'"-->
@@ -305,7 +305,9 @@
                 "
                 type="text"
                 class="form-control"
-                formControlName="role"
+                formControlName="roleId"
+                [value]="roleName"
+               
               />
             </div>
             <div class="form-group" style="width: 50%; float: left">
@@ -321,7 +323,10 @@
                 "
                 type="text"
                 class="form-control"
-                formControlName="region"
+                formControlName="regionId"
+                [value]="regionName"
+                
+                
               />
             </div>
             <div class="form-group" style="width: 100%">
@@ -556,6 +561,7 @@
                 class="form-control"
                 formControlName="roleId"
                 [(ngModel)]="role"
+
               >
                 
                 <option

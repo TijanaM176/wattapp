@@ -11,4 +11,6 @@ export class Employee{
     password!:string
     roleId!:number
     regionId!:string
+    roleName!:string
+    regionName!:string;
 }
