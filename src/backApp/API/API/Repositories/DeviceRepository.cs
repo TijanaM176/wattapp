@@ -1,6 +1,12 @@
-﻿using API.Models.Devices;
+﻿using API.Models;
+using API.Models.Devices;
+using API.Repositories.ProsumerRepository;
+using Microsoft.EntityFrameworkCore.Infrastructure;
 using MongoDB.Driver;
-
+using System.Collections;
+using System.Linq;
+using System;
+using System.Collections.Generic;
 namespace API.Repositories
 {
     public class DeviceRepository : IDeviceRepository
@@ -139,5 +145,81 @@ namespace API.Repositories
 
             return datePowerDict;
         }
+        // svi Prosumeri koji imaju uredjaje
+
+        public async Task<List<ProsumerLink>> getAllProsumersWhoOwnDevice()
+        {
+
+            return await _regContext.ProsumerLinks.ToListAsync();
+        }
+        // zbiran potrosnja energije za korisnike za nedelju dana
+        public async Task<double> ConsumptionForLastWeekForAllProsumers()
+        {
+            List<ProsumerLink> prosumersWithDevices = (await getAllProsumersWhoOwnDevice())
+                .GroupBy(x => x.ProsumerId)
+                .Select(g => g.First())
+                .ToList();                                       //svi Prosumer-i sa uredjajem
+           
+            List<List<Device>> listDevicesbyAllProsumers = new List<List<Device>>();
+            double consumptionProsumersForWeek = 0.0;
+
+
+            foreach (var prosumer in prosumersWithDevices)
+            {
+                listDevicesbyAllProsumers.Add(await GetDevicesByCategoryWeekly(prosumer.ProsumerId, "Consumer"));
+            }
+
+
+
+            foreach (var Prosumerdevices in listDevicesbyAllProsumers) // listDevicesbyAllProsumers - lista svih Uredjaja za Sve Prosumere
+            {
+                foreach (var device in Prosumerdevices) // Prosumerdevices - Lista uredjaja jednog Prosumera
+                {
+                    foreach (var ts in device.Timestamps) // Potrosnja za konkretan uredjaj
+                    {
+                        if (ts.ActivePower != 0)
+                            consumptionProsumersForWeek += ts.ActivePower;
+                            consumptionProsumersForWeek += ts.ReactivePower;
+                    }
+                }
+            }
+
+            return consumptionProsumersForWeek;
+        }
+
+        // zbiran proizvodnja energije za korisnike za nedelju dana
+        public async Task<double> ProductionForLastWeekForAllProsumers()
+        {
+            List<ProsumerLink> prosumersWithDevices = (await getAllProsumersWhoOwnDevice())
+                .GroupBy(x => x.ProsumerId)
+                .Select(g => g.First())
+                .ToList();                          //svi Prosumer-i sa uredjajem
+
+            List<List<Device>> listDevicesbyAllProsumers = new List<List<Device>>();
+            double productionProsumersForWeek = 0.0;
+
+            foreach (var prosumer in prosumersWithDevices)
+            {
+                listDevicesbyAllProsumers.Add(await GetDevicesByCategoryWeekly(prosumer.ProsumerId, "Producer"));
+            }
+
+            
+
+            foreach (var Prosumerdevices in listDevicesbyAllProsumers) // listDevicesbyAllProsumers - lista svih Uredjaja za Sve Prosumere
+            {
+                foreach (var device in Prosumerdevices) // Prosumerdevices - Lista uredjaja jednog Prosumera
+                {
+                    foreach (var ts in device.Timestamps) // Proizvodnja za konkretan uredjaj
+                    {
+                        if (ts.ActivePower != 0)
+                            productionProsumersForWeek += ts.ActivePower;
+                    }
+                }
+            }
+
+            return productionProsumersForWeek;
+        }
+
+
     }
 }

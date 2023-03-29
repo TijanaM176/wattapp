@@ -45,21 +45,44 @@ namespace API.Controllers
         }
 
         [HttpPost("registerProsumer")]
-        public async Task<ActionResult<Prosumer>> Register(ProsumerDto request)
+        public async Task<IActionResult> Register(ProsumerDto request)
         {
             Prosumer prosumer = await authService.Register(request);
             if (prosumer != null)
-                return Ok(prosumer);
+            {
+                var json = new
+                {
+                    ID = prosumer.Id,
+                    Firstname = prosumer.FirstName,
+                    Lastname = prosumer.LastName,
+                    Username = prosumer.Username,
+                    Email = prosumer.Email
+
+                };
+                return Ok(json);
+            }
             else
                 return BadRequest("Error!");
         }
 
         [HttpPost("registerDsoWorker")]
-        public async Task<ActionResult<Dso>> Register(DsoWorkerDto request)
+        public async Task<IActionResult> Register(DsoWorkerDto request)
         {
             Dso dso = await authService.Register(request);
             if (dso != null)
-                return Ok(dso);
+            {
+                var json = new
+                {
+                    ID = dso.Id,
+                    Firstname = dso.FirstName,
+                    Lastname = dso.LastName,
+                    Username = dso.Username,
+                    Email = dso.Email,
+                    Salary = dso.Salary
+
+                };
+                return Ok(json);
+            }
             else
                 return BadRequest("Error!");
         }

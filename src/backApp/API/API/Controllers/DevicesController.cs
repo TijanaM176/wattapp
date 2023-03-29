@@ -67,6 +67,8 @@ namespace API.Controllers
 
         [HttpGet("NextWeeksConsumptionAndProduction")]
         public async Task<IActionResult> NextWeeksConsumptionAndProduction(string id)
+        [HttpGet("LastWeeksConsumptionForAllProsumers")]
+        public async Task<IActionResult> LastWeeksConsumptionForAllProsumers()
         {
             try
             {
@@ -74,6 +76,8 @@ namespace API.Controllers
                 {
                     consumption = await devService.ConsumptionForAPeriodForProsumer(id, 7),
                     production = await devService.ProductionForAPeriodForProsumer(id, 7)
+                    consumptionForAllProsumersWeeks = await devService.ConsumptionForLastWeekForAllProsumers()
+                    
                 });
             }
             catch (Exception ex)
@@ -81,5 +85,22 @@ namespace API.Controllers
                 return BadRequest(ex.Message);
             }
         }
+        [HttpGet("LastWeeksProductionForAllProsumers")]
+        public async Task<IActionResult> LastWeeksProductionForAllProsumers()
+        {
+            try
+            {
+                return Ok(new
+                {
+                    consumptionForAllProsumersWeeks = await devService.ProductionForLastWeekForAllProsumers()
+
+                });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
     }
 }
