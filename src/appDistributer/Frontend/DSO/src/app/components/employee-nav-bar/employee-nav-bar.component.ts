@@ -40,6 +40,8 @@ export class EmployeeNavBarComponent implements OnInit{
         this.employeeService.getAllRoles()
         .subscribe({
           next:(response)=>{
+            let index = response.findIndex(x=> x.roleName=='Prosumer');
+            response.splice(index,1);
             this.role.roles = response;
           },
           error:(err)=>
