@@ -20,8 +20,8 @@
       src="assets/images/user.png"
       style="width: 100px; height: 100px; margin-top: 50px"
     />
-    <h2 id="ime">{{ime}}</h2>
-    <h6 id="adresa">{{adresa}}</h6>
+    <h2 id="ime">{{ ime }}</h2>
+    <h6 id="adresa">{{ adresa }}</h6>
   </div>
 
   <div class="div1">
@@ -30,9 +30,15 @@
       class="dugme"
       type="button"
       value="User Information"
+      routerLink="/user/{{ id }}"
     />
     <br />
-    <input class="dugme" type="button" value="User Devices" /><br />
+    <input
+      class="dugme"
+      type="button"
+      value="User Devices"
+      routerLink="/user/{{ id }}/Devices"
+    /><br />
     <div *ngIf="letValue === 'Dso'">
       <input
         class="dugme"

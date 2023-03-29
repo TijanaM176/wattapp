@@ -11,6 +11,7 @@ import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
   styleUrls: ['./navBar.component.css'],
 })
 export class NavBarComponent implements OnInit {
+  value: string = '';
   constructor(
     private router: Router,
     private cookie: CookieService,
@@ -18,7 +19,9 @@ export class NavBarComponent implements OnInit {
     private toast: NgToastService
   ) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.value = this.cookie.get('role');
+  }
 
   LogOut() {
     this.cookie.deleteAll();
