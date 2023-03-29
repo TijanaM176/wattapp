@@ -20,6 +20,9 @@ import { AddProsumerComponent } from './components/AddProsumer/AddProsumer.compo
 import { TabelaUredjajaComponent } from './components/tabelaUredjaja/tabelaUredjaja.component';
 import { UserDevicesComponent } from './components/UserDevices/UserDevices.component';
 
+import { SidebarPotrosnjaComponent } from './components/sidebar-potrosnja/sidebar-potrosnja.component';
+import { UserComponent } from './components/user/user.component';
+
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
@@ -40,10 +43,7 @@ const routes: Routes = [
     path: 'users',
     component: StranaUsersComponent,
   },
-  {
-    path: 'users',
-    component: UsersComponent,
-  },
+
   {
     path: 'users/tabela',
     component: StranaUsersComponent,
@@ -81,6 +81,15 @@ const routes: Routes = [
     path: 'prosumerDevices',
     component: UserDevicesComponent,
   },
+  {
+    path: 'sidebarpotrosnja',
+    component: SidebarPotrosnjaComponent,
+  },
+  {
+    path: 'user/:id',
+    component: UserComponent,
+  },
+
 ];
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

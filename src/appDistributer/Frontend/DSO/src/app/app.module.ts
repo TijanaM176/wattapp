@@ -57,6 +57,12 @@ import { TabelaUredjajaComponent } from './components/tabelaUredjaja/tabelaUredj
 import { UserDevicesComponent } from './components/UserDevices/UserDevices.component';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+
+import { PaginationModule } from 'ng-cdbangular';
+
+
+import { UserComponent } from './components/user/user.component';
+import { SidebarPotrosnjaComponent } from './components/sidebar-potrosnja/sidebar-potrosnja.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -91,6 +97,9 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
     RoleComponent,
     TabelaUredjajaComponent,
     UserDevicesComponent,
+   
+    UserComponent,
+    SidebarPotrosnjaComponent,
   ],
   imports: [
     MatSliderModule,
