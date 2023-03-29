@@ -1,15 +1,17 @@
-import { Component,OnInit} from '@angular/core';
+import { Component,OnInit,ViewChild} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import { UsersServiceService } from 'src/app/services/users-service.service';
 import { FormGroup,FormControl } from '@angular/forms';
-
+import { SidebarDsoComponent } from '../sidebar-dso/sidebar-dso.component';
 @Component({
   selector: 'app-user',
   templateUrl: './user.component.html',
   styleUrls: ['./user.component.css']
 })
 export class UserComponent implements OnInit{
+ 
 
+    @ViewChild('sidebarInfo',{static: true} ) sidebarInfo!:SidebarDsoComponent;
     constructor(private user: UsersServiceService,private router: ActivatedRoute){
 
     }
@@ -27,9 +29,11 @@ export class UserComponent implements OnInit{
 
 
   ngOnInit(): void {
+    
     //console.log(this.router.snapshot.params['id'] );
     this.user.detailsEmployee( this.router.snapshot.params['id']).subscribe((res:any)=> { 
       console.log(res);
+    this.sidebarInfo.populate(res['username'],res['address']);
     this.editUser=new FormGroup( {
       firstname: new FormControl( res ['firstName']),
       lastname: new FormControl( res ['lastName']),

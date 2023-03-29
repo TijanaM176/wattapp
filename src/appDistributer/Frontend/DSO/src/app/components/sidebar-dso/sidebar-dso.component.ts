@@ -11,6 +11,8 @@ import { UsersServiceService } from 'src/app/services/users-service.service';
 })
 export class SidebarDsoComponent implements OnInit{
     letValue: string="";
+    ime: string="";
+    adresa: string="";
   constructor(private user: UsersServiceService,private router: ActivatedRoute,private cookie: CookieService,private r:Router)
   {
 
@@ -32,6 +34,11 @@ export class SidebarDsoComponent implements OnInit{
       error:(err)=>{
       console.log(err.error);}
       })
+  }
+  populate(username:string,adresa:string)
+  {
+    this.ime=username;
+    this.adresa=adresa;
   }
 }
 

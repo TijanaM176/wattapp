@@ -5,6 +5,8 @@
 
     <app-sidebar-potrosnja></app-sidebar-potrosnja>
     </div>
+
+    
     <div class="div2">
         <div class="divinput">
             <form [formGroup]="editUser" (ngSubmit)="UpdateData()">      
@@ -20,7 +22,7 @@
     
     
     <label>Address:</label><br>
-    <input type="text" name="address" [readonly]="true" formControlName="address"><br>
+    <input type="text" name="address" [readonly]="true" [disabled]="true" formControlName="address"><br>
     <label>Neighborhood:</label><br>
     <input type="text" name="neigborhoodId" [readonly]="true" formControlName="neigborhoodId"><br>
     <button type="submit" id="dugme"> Edit Information</button>
@@ -29,7 +31,7 @@
     </div>
     <div class="div3">
 
-        <app-sidebar-dso></app-sidebar-dso>
+        <app-sidebar-dso #sidebarInfo></app-sidebar-dso>
     </div>
 
    
