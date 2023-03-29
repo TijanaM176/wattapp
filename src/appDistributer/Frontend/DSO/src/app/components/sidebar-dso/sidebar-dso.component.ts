@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { Router } from '@angular/router';
+
 import { CookieService } from 'ngx-cookie-service';
 import { UsersServiceService } from 'src/app/services/users-service.service';
 @Component({
@@ -9,7 +11,7 @@ import { UsersServiceService } from 'src/app/services/users-service.service';
 })
 export class SidebarDsoComponent implements OnInit{
     letValue: string="";
-  constructor(private user: UsersServiceService,private router: ActivatedRoute,private cookie: CookieService)
+  constructor(private user: UsersServiceService,private router: ActivatedRoute,private cookie: CookieService,private r:Router)
   {
 
   }
@@ -22,7 +24,14 @@ export class SidebarDsoComponent implements OnInit{
   {
     console.log((this.router.snapshot.params['id']));
     this.user.deleteUser( this.router.snapshot.params['id']).
-    subscribe((res)=>{ console.log(res);})
+    subscribe({
+      next:(res)=>{
+      console.log(res);
+      this.r.navigate(["users"]);
+      },
+      error:(err)=>{
+      console.log(err.error);}
+      })
   }
 }
 
