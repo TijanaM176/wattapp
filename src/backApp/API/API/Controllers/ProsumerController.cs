@@ -62,7 +62,11 @@ namespace API.Controllers
         //[Authorize(Roles = "Dso")]
         public async Task<ActionResult> DeleteProsumer(string id)
         {
-            if (await prosumerService.DeleteProsumer(id)) return Ok("Successfully deleted user!");
+            if (await prosumerService.DeleteProsumer(id)) return Ok(new
+            {
+                error = false,
+                message = "Successfully deleted user!"
+            }); 
 
             return BadRequest("Could not remove user!");
         }
