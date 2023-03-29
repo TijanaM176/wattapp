@@ -60,5 +60,12 @@ namespace API.Services.Devices
             if (prosumers == null) throw new ArgumentException("No users fit that criteria!");
             return prosumers;
         }
+        public async Task<List<Prosumer>> ProsumerFilter2(string neighbourhood, double minConsumption, double maxConsumption, double minProduction, double maxProduction, int minDeviceCount, int maxDeviceCount)
+        {
+            var prosumers = await ProsumerFilter(minConsumption, maxConsumption, minProduction, maxProduction, minDeviceCount, maxDeviceCount);
+            var filteredProsumers = prosumers.Where(x => x.NeigborhoodId == neighbourhood).ToList();
+            return filteredProsumers;
+        }
+
     }
 }
