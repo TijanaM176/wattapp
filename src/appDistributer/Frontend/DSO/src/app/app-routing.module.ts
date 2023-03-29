@@ -79,10 +79,6 @@ const routes: Routes = [
     component: ProsumerinfoComponent,
   },
   {
-    path: 'prosumerDevices',
-    component: UserDevicesComponent,
-  },
-  {
     path: 'sidebarpotrosnja',
     component: SidebarPotrosnjaComponent,
   },
@@ -90,7 +86,10 @@ const routes: Routes = [
     path: 'user/:id',
     component: UserComponent,
   },
-
+  {
+    path: 'user/:id/Devices',
+    component: UserDevicesComponent,
+  },
 ];
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

@@ -9,6 +9,7 @@ import { UsersServiceService } from 'src/app/services/users-service.service';
 import { CookieService } from 'ngx-cookie-service';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-tabelaUredjaja',
@@ -16,10 +17,11 @@ import { MatTableDataSource } from '@angular/material/table';
   styleUrls: ['./tabelaUredjaja.component.css'],
 })
 export class TabelaUredjajaComponent implements OnInit {
+  id: string = '';
+
   showConsumers = true;
-  showTable = true;
-  showProducers = false;
-  showStorages = false;
+  showProducers = true;
+  showStorages = true;
   currentPage = 1;
   itemsPerPage = 10;
   searchName: string = '';
@@ -27,29 +29,28 @@ export class TabelaUredjajaComponent implements OnInit {
   devices: any[] = [];
   devicesToShow: any[] = [];
   filteredDevices: any[] = [];
-  idKorisnika = '41d3bcda-3d4e-40d4-bf42-0ad50eb0b22a';
   dataSource = new MatTableDataSource<any[]>(this.devices);
   constructor(
     private userService: UsersServiceService,
-    private cookie: CookieService
+    private cookie: CookieService,
+    private router: ActivatedRoute
   ) {}
 
   ngOnInit() {
+    this.id = this.router.snapshot.params['id'];
     this.showConsumers = true;
-    this.userService
-      .getDevicesByProsumerId(this.idKorisnika)
-      .subscribe((response) => {
-        this.devicesToShow = [
-          ...response.consumers,
-          ...response.producers,
-          ...response.storage,
-        ];
-        this.devices = [
-          ...response.consumers,
-          ...response.producers,
-          ...response.storage,
-        ];
-      });
+    this.userService.getDevicesByProsumerId(this.id).subscribe((response) => {
+      this.devicesToShow = [
+        ...response.consumers,
+        ...response.producers,
+        ...response.storage,
+      ];
+      this.devices = [
+        ...response.consumers,
+        ...response.producers,
+        ...response.storage,
+      ];
+    });
   }
   get pages() {
     const totalPages = Math.ceil(this.devicesToShow.length / this.itemsPerPage);
