@@ -179,7 +179,7 @@ export class MapComponent implements AfterViewInit, OnInit {
               error:(err)=>
               {
                 marker.bindPopup('<h5><b>'+user.username+'</b></h5><h6><b>'+user.address+'</b></h6>Current consumption: <b>? kw</b> <br> Current production: <b>? kw</b>'+
-                "<br><br><a href='prosumerinfo?id="+user.id+"'>View More</a>");
+                "<br><br><a href='user/"+user.id+"'>View More</a>"); //"/user/{{item.id}}"
 
                 console.log(err.error);
               }

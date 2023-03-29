@@ -1,7 +1,6 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { Observable } from 'rxjs';
 import { UsersServiceService } from 'src/app/services/users-service.service';
-import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { Router } from '@angular/router';
 @Component({
   selector: 'app-users',
@@ -29,7 +28,6 @@ export class UsersComponent implements OnInit {
         console.log(this.prosumer);
         this.router.navigate(['/user'],{queryParams:{id:this.prosumer.id} });
         console.log(id);
-      
     });
   }
 

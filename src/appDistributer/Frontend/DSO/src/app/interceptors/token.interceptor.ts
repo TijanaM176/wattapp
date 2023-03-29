@@ -58,20 +58,19 @@ export class TokenInterceptor implements HttpInterceptor {
   handleAuth(request : HttpRequest<any>, next: HttpHandler)
   {
     let refreshDto = new SendRefreshToken();
-    var refresh = this.cookie.get("refreshToken");
-    var username = this.cookie.get('username');
-    refreshDto.refreshToken = refresh;
-    refreshDto.username = username;
+    refreshDto.username = this.cookie.get('username');
+    refreshDto.refreshToken = this.cookie.get("refresh");
+    //console.log(refreshDto);
     return this.auth.refreshToken(refreshDto)
     .pipe(
       switchMap((data: RefreshTokenDto)=>
       {
         this.counter = 0;
-        this.cookie.set("token",data.token);
-        this.cookie.set("refreshToken",data.refreshToken);
+        this.cookie.set("token",data.token.toString().trim());
+        this.cookie.set("refresh",data.refreshToken.toString().trim());
         /*var decodedToken:any = jwt_decode(data.token);
-        this.cookie.set('username',decodedToken['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name']);
-        this.cookie.set('role',decodedToken['http://schemas.microsoft.com/ws/2008/06/identity/claims/role']);*/
+        this.cookie.set('username',decodedToken['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name'].toString().trim());
+        this.cookie.set('role',decodedToken['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'].toString().trim());*/
         request = request.clone(
           {
             setHeaders: {Authorization: "Bearer "+this.cookie.get("token")}
@@ -79,12 +78,7 @@ export class TokenInterceptor implements HttpInterceptor {
         return next.handle(request);
       }),
       catchError((err)=>{
-        return throwError(()=>{
-          this.toast.warning({detail:"Warning", summary: err.error,duration: 3000});
-          console.log(err.error);
-          this.cookie.deleteAll();
-          this.router.navigate(['login']);
-        })
+        return throwError(()=>err);
       })
     )
   }

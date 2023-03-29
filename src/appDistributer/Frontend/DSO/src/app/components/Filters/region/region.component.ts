@@ -11,20 +11,30 @@ export class RegionComponent implements OnInit {
 
   region: string = '';
   regions : Region[] = [];
-  dropDownRegion: string = '';
+  dropDownRegion: boolean = false;
 
   constructor(private employeeService : EmployeesServiceService) {}
 
   ngOnInit(): void {
-    this.employeeService.getAllRegions()
-    .subscribe((response) => {
-      this.regions = response;
-    });
+    this.dropDownRegion = false;
   }
-
-
   ChangeRegion(e: any)
   {
     this.employeeService.region = this.region;
+  }
+
+  getRegions()
+  {
+    this.employeeService.getAllRegions()
+    .subscribe({
+      next:(response)=>{
+        this.regions = response;
+        this.dropDownRegion = true;
+      },
+      error:(err)=>
+      {
+        console.log(err.error);
+      }
+    });
   }
 }
