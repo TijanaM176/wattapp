@@ -64,14 +64,14 @@ export class EmployeesComponent {
 
   ngOnInit(): void {
     //console.log(this.service.employees);
-    this.service.getAllRegions().subscribe((res) => {
-      this.Region = res;
-      console.log(this.Region);
-    });
-    this.service.getAllRoles().subscribe((res)=>
-    {
-      this.Role=res;
-    })
+    // this.service.getAllRegions().subscribe((res) => {
+    //   this.Region = res;
+    //   //console.log(this.Region);
+    // });
+    // this.service.getAllRoles().subscribe((res)=>
+    // {
+    //   this.Role=res;
+    // })
     //this.NameRole();
   }
   
@@ -89,7 +89,7 @@ export class EmployeesComponent {
   Paging(){
     this.service.Page(this.page,this.perPage).subscribe((res)=>{
       this.employees=res;
-      console.log(this.employees);
+      //console.log(this.employees);
     });
   }
   onTableDataChange(event:any){
@@ -126,7 +126,7 @@ export class EmployeesComponent {
 
       this.roleName=this.cookie.get("roleName");
       this.regionName=this.cookie.get("regionName");
-      console.log(this.regionName);
+      //console.log(this.regionName);
 
       this.infoForm=new FormGroup({
         firstName:new FormControl(this.employee.firstName),
@@ -144,7 +144,7 @@ export class EmployeesComponent {
   
   update(id:string){
     this.service.detailsEmployee(id).subscribe((res) => {
-      console.log(res);
+      //console.log(res);
       this.employee=res;
       this.updateForm=new FormGroup({
         firstName:new FormControl(this.employee.firstName),

@@ -5,7 +5,7 @@ using MongoDB.Driver;
 
 namespace API.Services.Devices
 {
-    public class DevicesService : IDevicesService
+    public class DevicesService //: IDevicesService
     {
         private readonly IDeviceRepository _repository;
 

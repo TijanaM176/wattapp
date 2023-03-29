@@ -18,13 +18,13 @@ export class AuthServiceService {
 
   getUsers(): Observable<any[]> {
     return this.http.get<any>(
-      'https://localhost:7156/api/Prosumer/GetAllProsumers'
+      this.baseUrl+'Prosumer/GetAllProsumers'
     );
   }
 
   refreshToken(refreshToken: SendRefreshToken) {
     return this.http.post<RefreshTokenDto>(
-      this.baseUrl + 'refreshToken',
+      this.baseUrl + 'Auth/refreshToken',
       refreshToken
     );
   }

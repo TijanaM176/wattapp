@@ -9,7 +9,7 @@ using System;
 using System.Collections.Generic;
 namespace API.Repositories
 {
-    public class DeviceRepository : IDeviceRepository
+    public class DeviceRepository //: IDeviceRepository
     {
         private readonly DevicesContext _usageContext;
         private readonly RegContext _regContext;
@@ -153,7 +153,7 @@ namespace API.Repositories
             return await _regContext.ProsumerLinks.ToListAsync();
         }
         // zbiran potrosnja energije za korisnike za nedelju dana
-        public async Task<double> ConsumptionForLastWeekForAllProsumers()
+        /*public async Task<double> ConsumptionForLastWeekForAllProsumers()
         {
             List<ProsumerLink> prosumersWithDevices = (await getAllProsumersWhoOwnDevice())
                 .GroupBy(x => x.ProsumerId)
@@ -185,10 +185,10 @@ namespace API.Repositories
             }
 
             return consumptionProsumersForWeek;
-        }
+        }*/
 
         // zbiran proizvodnja energije za korisnike za nedelju dana
-        public async Task<double> ProductionForLastWeekForAllProsumers()
+        /*public async Task<double> ProductionForLastWeekForAllProsumers()
         {
             List<ProsumerLink> prosumersWithDevices = (await getAllProsumersWhoOwnDevice())
                 .GroupBy(x => x.ProsumerId)
@@ -218,7 +218,7 @@ namespace API.Repositories
             }
 
             return productionProsumersForWeek;
-        }
+        }*/
 
 
     }

@@ -32,7 +32,9 @@ export class LoginComponent implements OnInit {
       password: ['',Validators.required]
     })
     
-    
+    // this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+    //   this.router.navigate(['login']);
+    // });
   }
 
   hideShowPass()
@@ -67,14 +69,17 @@ export class LoginComponent implements OnInit {
         {
           next:(res)=>{
             //alert(res.message);
+            this.cookie.deleteAll();
             this.loginForm.reset();
             var decodedToken:any = jwt_decode(res.token);
             //console.log(decodedToken['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name']);
             //console.log(decodedToken['http://schemas.microsoft.com/ws/2008/06/identity/claims/role']);
-            this.cookie.set('username',decodedToken['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name']);
-            this.cookie.set('role',decodedToken['http://schemas.microsoft.com/ws/2008/06/identity/claims/role']);
-            this.cookie.set("token",res.token);
-            this.cookie.set("refreshToken",res.refreshToken);
+            this.cookie.set('username',decodedToken['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name'].toString().trim());
+            //console.log(this.cookie.get('username'));
+            this.cookie.set('role',decodedToken['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'].toString().trim());
+            this.cookie.set("token",res.token.toString().trim());
+            this.cookie.set("refresh",res.refreshToken.toString().trim());
+            console.log(this.cookie.get("refresh"));
             this.toast.success({detail:"Successful Login!",duration: 2000});
             this.router.navigate([""]);
           },

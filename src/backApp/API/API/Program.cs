@@ -41,8 +41,8 @@ builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IProsumerService, ProsumerService>();
 builder.Services.AddScoped<IDsoService, DsoService>();
-builder.Services.AddScoped<IDeviceRepository, DeviceRepository>();
-builder.Services.AddScoped<IDevicesService, DevicesService>();
+//builder.Services.AddScoped<IDeviceRepository, DeviceRepository>();
+//builder.Services.AddScoped<IDevicesService, DevicesService>();
 
 
 

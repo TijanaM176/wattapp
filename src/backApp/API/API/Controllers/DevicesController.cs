@@ -65,8 +65,11 @@ namespace API.Controllers
             }
         }
 
-        [HttpGet("NextWeeksConsumptionAndProduction")]
+        /*[HttpGet("NextWeeksConsumptionAndProduction")]
         public async Task<IActionResult> NextWeeksConsumptionAndProduction(string id)
+        {
+
+        }
         [HttpGet("LastWeeksConsumptionForAllProsumers")]
         public async Task<IActionResult> LastWeeksConsumptionForAllProsumers()
         {
@@ -84,7 +87,7 @@ namespace API.Controllers
             {
                 return BadRequest(ex.Message);
             }
-        }
+        }*/
         [HttpGet("LastWeeksProductionForAllProsumers")]
         public async Task<IActionResult> LastWeeksProductionForAllProsumers()
         {

@@ -3,30 +3,29 @@ import {ActivatedRoute} from '@angular/router';
 import { UsersServiceService } from 'src/app/services/users-service.service';
 import { FormGroup,FormControl } from '@angular/forms';
 import { SidebarDsoComponent } from '../sidebar-dso/sidebar-dso.component';
+
 @Component({
   selector: 'app-user',
   templateUrl: './user.component.html',
   styleUrls: ['./user.component.css']
 })
+
 export class UserComponent implements OnInit{
- 
 
     @ViewChild('sidebarInfo',{static: true} ) sidebarInfo!:SidebarDsoComponent;
+    message: boolean=false;
+
     constructor(private user: UsersServiceService,private router: ActivatedRoute){
 
     }
-    editUser=new FormGroup( {
+    editUser=new FormGroup({
       firstname: new FormControl(''),
       lastname: new FormControl(''),
       username: new FormControl(''),
      email: new FormControl(''),
      address: new FormControl(''),
      neigborhoodId: new FormControl(''),
-    }
-
-    );
-    message: boolean=false;
-
+    });
 
   ngOnInit(): void {
     
@@ -51,8 +50,4 @@ export class UserComponent implements OnInit{
       this.user.updateUserData( this.router.snapshot.params['id'],this.editUser.value).
       subscribe((res)=>{ console.log(res);})
   }
- 
-
-
-
 }

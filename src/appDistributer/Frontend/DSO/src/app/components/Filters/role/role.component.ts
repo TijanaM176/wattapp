@@ -11,24 +11,34 @@ export class RoleComponent implements OnInit {
 
   role: number=0;
   roles : Role[] = [];
-  dropDownRole: string = '';
+  dropDownRole: boolean = false;
 
   constructor(private employeeService : EmployeesServiceService) {}
 
   ngOnInit(): void {
     this.employeeService.role = this.role;
-    this.employeeService.getAllRoles()
-    .subscribe((response) => {
-      //console.log(response);
-      this.roles = response;
-      //console.log(this.roles)
-    });
+    this.dropDownRole = false;
   }
 
   ChangeRole(e:any)
   {
     //console.log(this.role);
     this.employeeService.role = this.role;
+  }
+
+  getRoles()
+  {
+    this.employeeService.getAllRoles()
+    .subscribe({
+      next:(response)=>{
+        this.roles = response;
+        this.dropDownRole = true;
+      },
+      error:(err)=>
+      {
+        console.log(err.error);
+      }
+    });
   }
 
 }
