@@ -3,10 +3,9 @@ using System.Text;
 using API.Models.HelpModels;
 using API.Models.Paging;
 using API.Models.Users;
-using API.Repositories;
 using API.Repositories.DsoRepository;
 using API.Repositories.ProsumerRepository;
-
+using API.Repositories.UserRepository;
 namespace API.Services.ProsumerService
 {
     public class ProsumerService : IProsumerService

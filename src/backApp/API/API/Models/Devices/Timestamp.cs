@@ -1,7 +1,7 @@
 ﻿using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 
-namespace API.Models
+namespace API.Models.Devices
 {
     public class Timestamp
     {

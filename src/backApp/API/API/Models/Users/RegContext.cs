@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
-using API.Models.Users;
 using API.Models.Devices;
 
-namespace API.Models;
+namespace API.Models.Users;
 
 public partial class RegContext : DbContext
 {

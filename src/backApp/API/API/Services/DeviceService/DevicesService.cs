@@ -1,5 +1,6 @@
 ﻿using API.Models.Devices;
-using API.Repositories;
+using API.Models.Users;
+using API.Repositories.DeviceRepository;
 using Microsoft.Extensions.Options;
 using MongoDB.Driver;
 
@@ -33,11 +34,15 @@ namespace API.Services.Devices
 
         public async Task<Dictionary<DateTime, double>> ConsumptionForAPeriodForProsumer(string id, int period)
         {
-            return await _repository.ConsumptionForAPeriodForProsumer(id, period);
+            var cons = await _repository.ConsumptionForAPeriodForProsumer(id, period);
+            if (cons == null) throw new ArgumentException("No data!");
+            return cons;
         }
         public async Task<Dictionary<DateTime, double>> ProductionForAPeriodForProsumer(string id, int period)
         {
-            return await _repository.ProductionForAPeriodForProsumer(id, period);
+            var prod = await _repository.ProductionForAPeriodForProsumer(id, period);
+            if (prod == null) throw new ArgumentException("No data!");
+            return prod;
         }
 
         public async Task<double> ConsumptionForLastWeekForAllProsumers()
@@ -49,6 +54,18 @@ namespace API.Services.Devices
             return await _repository.ProductionForLastWeekForAllProsumers();
         }
 
+        public async Task<List<Prosumer>> ProsumerFilter(double minConsumption, double maxConsumption, double minProduction, double maxProduction, int minDeviceCount, int maxDeviceCount)
+        {
+            var prosumers = await _repository.ProsumerFilter(minConsumption, maxConsumption, minProduction, maxProduction, minDeviceCount, maxDeviceCount);
+            if (prosumers == null) throw new ArgumentException("No users fit that criteria!");
+            return prosumers;
+        }
+        public async Task<List<Prosumer>> ProsumerFilter2(string neighbourhood, double minConsumption, double maxConsumption, double minProduction, double maxProduction, int minDeviceCount, int maxDeviceCount)
+        {
+            var prosumers = await ProsumerFilter(minConsumption, maxConsumption, minProduction, maxProduction, minDeviceCount, maxDeviceCount);
+            var filteredProsumers = prosumers.Where(x => x.NeigborhoodId == neighbourhood).ToList();
+            return filteredProsumers;
+        }
 
     }
 }

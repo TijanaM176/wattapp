@@ -1,5 +1,4 @@
-﻿using API.Models;
-using API.Models.Devices;
+﻿using API.Models.Devices;
 using API.Repositories.ProsumerRepository;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using MongoDB.Driver;
@@ -7,7 +6,9 @@ using System.Collections;
 using System.Linq;
 using System;
 using System.Collections.Generic;
-namespace API.Repositories
+using API.Models.Users;
+
+namespace API.Repositories.DeviceRepository
 {
     public class DeviceRepository : IDeviceRepository
     {
@@ -71,7 +72,7 @@ namespace API.Repositories
                 Manufacturer = d.Spec.Manufacturer,
                 Wattage = d.Spec.Wattage,
                 Timestamps = d.Usage.Timestamps.Where(t =>
-                    (t.Date >= DateTime.Now.AddDays(period) && t.Date <= DateTime.Now) || (t.Date <= DateTime.Now.AddDays(period) && t.Date >= DateTime.Now)
+                    t.Date >= DateTime.Now.AddDays(period) && t.Date <= DateTime.Now || t.Date <= DateTime.Now.AddDays(period) && t.Date >= DateTime.Now
                 ).ToList(),
             });
             return devicesData.ToList();
@@ -86,7 +87,7 @@ namespace API.Repositories
         {
             List<Device> devices = await GetDevicesByCategory(id, "Consumer");
             double currentConsumption = 0;
-            foreach ( var device in devices)
+            foreach (var device in devices)
             {
                 currentConsumption += device.Timestamps[0].ActivePower;
                 currentConsumption += device.Timestamps[0].ReactivePower;
@@ -159,14 +160,14 @@ namespace API.Repositories
                 .GroupBy(x => x.ProsumerId)
                 .Select(g => g.First())
                 .ToList();                                       //svi Prosumer-i sa uredjajem
-           
+
             List<List<Device>> listDevicesbyAllProsumers = new List<List<Device>>();
             double consumptionProsumersForWeek = 0.0;
 
 
             foreach (var prosumer in prosumersWithDevices)
             {
-                listDevicesbyAllProsumers.Add(await GetDevicesByCategoryWeekly(prosumer.ProsumerId, "Consumer"));
+                listDevicesbyAllProsumers.Add(await GetDevicesByCategoryForAPeriod(prosumer.ProsumerId, "Consumer", -7));
             }
 
 
@@ -179,7 +180,7 @@ namespace API.Repositories
                     {
                         if (ts.ActivePower != 0)
                             consumptionProsumersForWeek += ts.ActivePower;
-                            consumptionProsumersForWeek += ts.ReactivePower;
+                        consumptionProsumersForWeek += ts.ReactivePower;
                     }
                 }
             }
@@ -200,10 +201,10 @@ namespace API.Repositories
 
             foreach (var prosumer in prosumersWithDevices)
             {
-                listDevicesbyAllProsumers.Add(await GetDevicesByCategoryWeekly(prosumer.ProsumerId, "Producer"));
+                listDevicesbyAllProsumers.Add(await GetDevicesByCategoryForAPeriod(prosumer.ProsumerId, "Producer", -7));
             }
 
-            
+
 
             foreach (var Prosumerdevices in listDevicesbyAllProsumers) // listDevicesbyAllProsumers - lista svih Uredjaja za Sve Prosumere
             {
@@ -220,6 +221,33 @@ namespace API.Repositories
             return productionProsumersForWeek;
         }
 
+        public async Task<double> ProsumerDeviceCount(string id)
+        {
+            var links = await GetLinksForProsumer(id);
+            int count = links.Count();
+
+            return count;
+        }
+
+        public async Task<List<Prosumer>> ProsumerFilter(double minConsumption, double maxConsumption, double minProduction, double maxProduction, int minDeviceCount, int maxDeviceCount)
+        {
+            var prosumers = await _regContext.Prosumers.ToListAsync();
+            List<Prosumer> filteredProsumers = new List<Prosumer>();
+            foreach (var prosumer in prosumers)
+            {
+                var consumption = await CurrentConsumptionForProsumer(prosumer.Id);
+                var production = await CurrentProductionForProsumer(prosumer.Id);
+                var deviceCount = await ProsumerDeviceCount(prosumer.Id);
+
+                if (consumption >= minConsumption && consumption <= maxConsumption && production >= minProduction && production <= maxProduction && deviceCount >= minDeviceCount && deviceCount <= maxDeviceCount)
+                {
+                    filteredProsumers.Add(prosumer);
+                }    
+            }
+
+            return filteredProsumers;
+            
+        }
 
     }
 }

@@ -4,7 +4,7 @@ using API.Repositories.DsoRepository;
 using API.Repositories.ProsumerRepository;
 using Microsoft.EntityFrameworkCore;
 
-namespace API.Repositories
+namespace API.Repositories.UserRepository
 {
     public interface IUserRepository : IProsumerRepository, IDsoRepository
     {

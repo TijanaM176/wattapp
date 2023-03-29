@@ -1,4 +1,6 @@
-﻿namespace API.Repositories.BaseHelpRepository
+﻿using API.Models.Users;
+
+namespace API.Repositories.BaseHelpRepository
 {
     public class BaseRepository<Something> : IBaseRepository<Something> where Something : class
     {

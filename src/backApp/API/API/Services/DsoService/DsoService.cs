@@ -2,10 +2,10 @@
 using System.Text;
 using API.Models.Paging;
 using API.Models.Users;
-using API.Repositories;
 using API.Repositories.DsoRepository;
 using API.Repositories.ProsumerRepository;
 using Microsoft.AspNetCore.Mvc;
+using API.Repositories.UserRepository;
 
 namespace API.Services.DsoService
 {

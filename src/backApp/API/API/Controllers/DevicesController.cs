@@ -1,4 +1,5 @@
 ﻿using API.Models.Devices;
+using API.Models.Users;
 using API.Services.Devices;
 using Microsoft.AspNetCore.Mvc;
 
@@ -67,17 +68,13 @@ namespace API.Controllers
 
         [HttpGet("NextWeeksConsumptionAndProduction")]
         public async Task<IActionResult> NextWeeksConsumptionAndProduction(string id)
-        [HttpGet("LastWeeksConsumptionForAllProsumers")]
-        public async Task<IActionResult> LastWeeksConsumptionForAllProsumers()
         {
             try
             {
                 return Ok(new
                 {
                     consumption = await devService.ConsumptionForAPeriodForProsumer(id, 7),
-                    production = await devService.ProductionForAPeriodForProsumer(id, 7)
-                    consumptionForAllProsumersWeeks = await devService.ConsumptionForLastWeekForAllProsumers()
-                    
+                    production = await devService.ProductionForAPeriodForProsumer(id, 7)                    
                 });
             }
             catch (Exception ex)
@@ -85,6 +82,24 @@ namespace API.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+        [HttpGet("LastWeeksConsumptionForAllProsumers")]
+        public async Task<IActionResult> LastWeeksConsumptionForAllProsumers()
+        {
+            try
+            {
+                return Ok(new
+                {
+                    consumptionForAllProsumersWeeks = await devService.ConsumptionForLastWeekForAllProsumers()
+
+                });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
         [HttpGet("LastWeeksProductionForAllProsumers")]
         public async Task<IActionResult> LastWeeksProductionForAllProsumers()
         {
@@ -92,9 +107,35 @@ namespace API.Controllers
             {
                 return Ok(new
                 {
-                    consumptionForAllProsumersWeeks = await devService.ProductionForLastWeekForAllProsumers()
+                    productionForAllProsumersWeeks = await devService.ProductionForLastWeekForAllProsumers()
 
                 });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet("ProsumerFilter")]
+        public async Task<IActionResult> ProsumerFilter(double minConsumption, double maxConsumption, double minProduction, double maxProduction, int minDeviceCount, int maxDeviceCount)
+        {
+            try
+            {
+                return Ok(await devService.ProsumerFilter(minConsumption, maxConsumption, minProduction, maxProduction, minDeviceCount, maxDeviceCount));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet("ProsumerFilter2")]
+        public async Task<IActionResult> ProsumerFilter2(string neighbourhood, double minConsumption, double maxConsumption, double minProduction, double maxProduction, int minDeviceCount, int maxDeviceCount)
+        {
+            try
+            {
+                return Ok(await devService.ProsumerFilter2(neighbourhood, minConsumption, maxConsumption, minProduction, maxProduction, minDeviceCount, maxDeviceCount));
             }
             catch (Exception ex)
             {

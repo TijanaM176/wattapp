@@ -1,5 +1,4 @@
-﻿using API.Models;
-using API.Models.HelpModels;
+﻿using API.Models.HelpModels;
 using API.Models.Paging;
 using API.Models.Users;
 using API.Repositories.BaseHelpRepository;
@@ -7,7 +6,7 @@ using API.Repositories.DsoRepository;
 using API.Repositories.ProsumerRepository;
 using Microsoft.EntityFrameworkCore;
 
-namespace API.Repositories
+namespace API.Repositories.UserRepository
 {
     public class UserRepository : IUserRepository
     {
@@ -169,7 +168,7 @@ namespace API.Repositories
             throw new NotImplementedException();
         }
 
-        public async Task<Boolean> SetCoordinates(SaveCoordsDto saveCoords) // nebitnaFunkcija!
+        public async Task<bool> SetCoordinates(SaveCoordsDto saveCoords) // nebitnaFunkcija!
         {
             return await prosumerRepository.SetCoordinates(saveCoords);
 

@@ -5,10 +5,8 @@ using System.Text;
 using System.Text.RegularExpressions;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
-using API.Models;
-
+using API.Repositories.UserRepository;
 using System.Web;
-using API.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using API.Models.Users;
 

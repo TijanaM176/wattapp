@@ -1,9 +1,8 @@
-﻿using API.Models.Devices;
-using Microsoft.Extensions.Options;
+﻿using Microsoft.Extensions.Options;
 using MongoDB.Driver;
-using static API.Models.DevicesContext;
+using static API.Models.Devices.DevicesContext;
 
-namespace API.Models
+namespace API.Models.Devices
 {
     public class DevicesContext
     {

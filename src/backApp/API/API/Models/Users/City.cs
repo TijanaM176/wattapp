@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using API.Models.Users;
-namespace API.Models;
+
+namespace API.Models.Users;
 
 public partial class City
 {
