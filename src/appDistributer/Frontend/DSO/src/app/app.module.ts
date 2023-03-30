@@ -62,6 +62,7 @@ import { SidebarEmptyComponent } from './components/sidebar-empty/sidebar-empty.
 
 import { UserComponent } from './components/user/user.component';
 import { SidebarPotrosnjaComponent } from './components/sidebar-potrosnja/sidebar-potrosnja.component';
+import { DeviceinfoComponent } from './components/deviceinfo/deviceinfo.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -101,6 +102,7 @@ import { SidebarPotrosnjaComponent } from './components/sidebar-potrosnja/sideba
 
     UserComponent,
     SidebarPotrosnjaComponent,
+    DeviceinfoComponent,
   ],
   imports: [
     MatSliderModule,
