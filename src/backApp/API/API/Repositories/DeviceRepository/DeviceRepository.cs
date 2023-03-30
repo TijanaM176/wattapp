@@ -83,6 +83,16 @@ namespace API.Repositories.DeviceRepository
             return (await _regContext.DeviceCategories.FirstOrDefaultAsync(x => x.Name == name)).Id;
         }
 
+        public async Task<DeviceCategory> GetDeviceCat(long id)
+        {
+            return (await _regContext.DeviceCategories.FirstOrDefaultAsync(x => x.Id == id));
+        }
+
+        public async Task<DeviceType> GetDeviceType(long id)
+        {
+            return (await _regContext.DeviceTypes.FirstOrDefaultAsync(x => x.Id == id));
+        }
+
         public async Task<double> CurrentConsumptionForProsumer(string id)
         {
             List<Device> devices = await GetDevicesByCategory(id, "Consumer");
@@ -249,5 +259,40 @@ namespace API.Repositories.DeviceRepository
             
         }
 
+        public async Task<Dictionary<string, object>> GetDevice(string id)
+        {
+            var info = await _regContext.Devices.FirstOrDefaultAsync(x => x.Id == id);
+            var usage = await _usageContext.PowerUsage.Find(x => x.DeviceId == id).FirstOrDefaultAsync();
+            Timestamp ts = usage.Timestamps.Where(x => x.Date.Year ==  DateTime.Now.Year && x.Date.Month == DateTime.Now.Month && x.Date.Day == DateTime.Now.Day && x.Date.Hour == DateTime.Now.Hour).FirstOrDefault();
+            double currentUsage = Math.Round(ts.ActivePower, 4);
+            double max = await MaxUsage(id);
+            return new Dictionary<string, object>
+            {
+                { "Id", id },
+                { "IpAddress", info.IpAddress },
+                { "Name", info.Name },
+                { "CategoryId", info.CategoryId },
+                { "TypeId", info.TypeId },
+                { "Manufacturer", info.Manufacturer },
+                { "Wattage", info.Wattage },
+                { "CurrentUsage", currentUsage},
+                { "CategoryName", (await GetDeviceCat(info.CategoryId)).Name },
+                { "TypeName", (await GetDeviceCat(info.TypeId)).Name },
+                { "MaxUsage", max},
+                { "AvgUsage", await AvgUsage(id) }
+            };
+        }
+
+        public async Task<double> MaxUsage(string id)
+        {
+            DevicePower dev = await _usageContext.PowerUsage.Find(x => x.DeviceId == id).FirstOrDefaultAsync();
+            return Math.Round(dev.Timestamps.AsQueryable().Max(x => x.ActivePower), 4);
+        }
+
+        public async Task<double> AvgUsage(string id)
+        {
+            DevicePower dev = await _usageContext.PowerUsage.Find(x => x.DeviceId == id).FirstOrDefaultAsync();
+            return Math.Round(dev.Timestamps.Average(x => x.ActivePower), 4);
+        }
     }
 }
