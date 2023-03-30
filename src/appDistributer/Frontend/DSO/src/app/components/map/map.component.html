@@ -1,14 +1,97 @@
 <app-navBar></app-navBar>
 <section class="okvir">
-  <div class="levo"><app-sidebar></app-sidebar></div>
+  <div class="levo">
+    <CDBSidebar
+      textColor="#ffffff"
+      backgroundColor="#5875A1"
+      style="margin: 0; overflow: hidden; max-height: 100%; height: 90vh"
+    >
+      <CDBSidebarHeader style="font-weight: 600">
+        <i class="fa fa-lg fa-filter" style="font-size: 1.5"></i>
+        Filters</CDBSidebarHeader
+      >
+      <CDBSidebarContent style="justify-content: center; text-align: center"
+        ><p><strong>Neighborhood</strong></p>
+        <div class="col-sm-12">
+          <select
+            class="dropdown dropdown-toggle"
+            style="width: 85%; margin: 0 auto"
+            name="Neighborhood"
+            (change)="ChangeNeighborhood($event)"
+            class="form-control"
+            [(ngModel)]="neighborhood"
+          >
+            <option value="b">All</option>
+            <option
+              *ngFor="let neighborhood of Neighborhoods"
+              [value]="neighborhood.id"
+            >
+              {{ neighborhood.neigbName }}
+            </option>
+          </select>
+        </div>
+        <br /><br />
+        <strong>Power Consumption</strong>
+        <div class="custom-slider" style="width: 80%; margin: 0 auto">
+          <ngx-slider
+            [(value)]="minValueC"
+            [(highValue)]="maxValueC"
+            [options]="optionsC"
+          ></ngx-slider>
+        </div>
+        min<input class="button1" type="text" [(ngModel)]="minValueC" />
+        <input class="button2" type="text" [(ngModel)]="maxValueC" />max
+
+        <br /><br /><br />
+        <strong>Power Production</strong>
+        <div class="custom-slider" style="width: 80%; margin: 0 auto">
+          <ngx-slider
+            [(value)]="minValueP"
+            [(highValue)]="maxValueP"
+            [options]="optionsP"
+          ></ngx-slider>
+        </div>
+        min<input class="button1" type="text" [(ngModel)]="minValueP" />
+        <input class="button2" type="text" [(ngModel)]="maxValueP" />max
+
+        <br /><br /><br />
+        <strong>Number of Devices</strong>
+        <div class="custom-slider" style="width: 80%; margin: 0 auto">
+          <ngx-slider
+            [(value)]="minValue"
+            [(highValue)]="maxValue"
+            [options]="options"
+          ></ngx-slider>
+        </div>
+        min<input class="button1" type="text" [(ngModel)]="minValue" />
+        <input class="button2" type="text" [(ngModel)]="maxValue" />max
+
+        <br /><br />
+        <CDBBtn
+          style="width: 80%; background-color: #e8f3f8; color: grey"
+          (click)="filter()"
+          >Apply Filters</CDBBtn
+        >
+        <CDBBtn
+          style="
+            width: 80%;
+            margin-top: 3%;
+            background-color: #e8f3f8;
+            color: grey;
+          "
+          (click)="reset()"
+          >Reset Filters</CDBBtn
+        >
+      </CDBSidebarContent>
+    </CDBSidebar>
+  </div>
   <div class="desno">
-    <div style="width: 100%;">
-      <app-mininavbar style="z-index: 9999; "></app-mininavbar>
+    <div style="width: 100%">
+      <app-mininavbar style="z-index: 9999"></app-mininavbar>
     </div>
     <div class="map-container">
       <div class="map-frame">
-        <div id="map">
-        </div>
+        <div id="map"></div>
       </div>
     </div>
   </div>

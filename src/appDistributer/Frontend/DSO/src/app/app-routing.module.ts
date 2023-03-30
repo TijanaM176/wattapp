@@ -45,12 +45,6 @@ const routes: Routes = [
     path: 'users',
     component: StranaUsersComponent,
   },
-
-  {
-    path: 'users/tabela',
-    component: StranaUsersComponent,
-  },
-
   {
     path: 'users/mapa',
     component: MapComponent,

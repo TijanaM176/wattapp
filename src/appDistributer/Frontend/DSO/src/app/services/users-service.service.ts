@@ -16,8 +16,10 @@ export class UsersServiceService {
 
   private baseUrl: string =
     'https://localhost:7156/api/Prosumer/GetAllProsumers';
-  private baseUrl3: string = "https://localhost:7156/api/Prosumer/UpdateProsumer";
-  private baseUrl4: string = "https://localhost:7156/api/Prosumer/DeleteProsumer";
+  private baseUrl3: string =
+    'https://localhost:7156/api/Prosumer/UpdateProsumer';
+  private baseUrl4: string =
+    'https://localhost:7156/api/Prosumer/DeleteProsumer';
   prosumers!: Prosumer[];
   private baseUrl2: string =
     'https://localhost:7156/api/Prosumer/getProsumerByID';
@@ -47,7 +49,8 @@ export class UsersServiceService {
   }
   GetProsumersByNeighborhoodId(id: string): Observable<Prosumer[]> {
     return this.http.get<Prosumer[]>(
-      'https://localhost:7156/api/Prosumer/GetNeighborhoodsByCityId?id=' + id
+      'https://localhost:7156/api/Prosumer/GetProsumersByNeighborhoodId?id=' +
+        id
     );
   }
 
@@ -82,12 +85,61 @@ export class UsersServiceService {
       'https://localhost:7156/GetAllDevicesForProsumer?id=' + id
     );
   }
-  updateUserData(id:any,data:any){
-    return this.http.put(`${this.baseUrl3}`+`?id=`+id,data);
+  updateUserData(id: any, data: any) {
+    return this.http.put(`${this.baseUrl3}` + `?id=` + id, data);
   }
 
- deleteUser(id:any)
-  {
-    return this.http.delete(`${this.baseUrl4}`+`?id=`+id);
+  deleteUser(id: any) {
+    return this.http.delete(`${this.baseUrl4}` + `?id=` + id);
+  }
+
+  prosumerFilter(
+    minCon: number,
+    maxCon: number,
+    minProd: number,
+    maxProd: number,
+    minDev: number,
+    maxDev: number
+  ): Observable<Prosumer[]> {
+    return this.http.get<Prosumer[]>(
+      'https://localhost:7156/ProsumerFilter?minConsumption=' +
+        minCon +
+        '&maxConsumption=' +
+        maxCon +
+        '&minProduction=' +
+        minProd +
+        '&maxProduction=' +
+        maxProd +
+        '&minDeviceCount=' +
+        minDev +
+        '&maxDeviceCount=' +
+        maxDev
+    );
+  }
+  prosumerFilter2(
+    idNaselja: string,
+    minCon: number,
+    maxCon: number,
+    minProd: number,
+    maxProd: number,
+    minDev: number,
+    maxDev: number
+  ): Observable<Prosumer[]> {
+    return this.http.get<Prosumer[]>(
+      'https://localhost:7156/ProsumerFilter2?neighbourhood=' +
+        idNaselja +
+        '&minConsumption=' +
+        minCon +
+        '&maxConsumption=' +
+        maxCon +
+        '&minProduction=' +
+        minProd +
+        '&maxProduction=' +
+        maxProd +
+        '&minDeviceCount=' +
+        minDev +
+        '&maxDeviceCount=' +
+        maxDev
+    );
   }
 }

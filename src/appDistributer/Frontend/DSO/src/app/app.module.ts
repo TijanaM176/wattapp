@@ -31,11 +31,7 @@ import { UsersComponent } from './components/users/users.component';
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
 import { SearchPipe } from './components/search.pipe';
 import { SearchaddressPipe } from './components/searchaddress.pipe';
-import { NeighborhoodComponent } from './components/Filters/neighborhood/neighborhood.component';
 import { MininavbarComponent } from './components/mininavbar/mininavbar.component';
-import { ConsumptionFilterComponent } from './components/Filters/consumptionFilter/consumptionFilter.component';
-import { ProductionFilterComponent } from './components/Filters/productionFilter/productionFilter.component';
-import { NumberOfDevicesComponent } from './components/Filters/numberOfDevices/numberOfDevices.component';
 import { EmployeesComponent } from './components/employees/employees.component';
 import { MapComponent } from './components/map/map.component';
 import { LeafletModule } from '@asymmetrik/ngx-leaflet';
@@ -78,10 +74,6 @@ import { DeviceinfoComponent } from './components/deviceinfo/deviceinfo.componen
     UsersComponent,
     SearchPipe,
     SearchaddressPipe,
-    NeighborhoodComponent,
-    ConsumptionFilterComponent,
-    ProductionFilterComponent,
-    NumberOfDevicesComponent,
     EmployeesComponent,
     MapComponent,
     EmployeesComponent,
