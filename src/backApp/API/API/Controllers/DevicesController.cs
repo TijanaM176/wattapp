@@ -143,5 +143,17 @@ namespace API.Controllers
             }
         }
 
+        [HttpGet("GetDevice")]
+        public async Task<IActionResult> GetDevice(string id)
+        {
+            try
+            {
+                return Ok(await devService.GetDevice(id));
+            }
+            catch(Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }

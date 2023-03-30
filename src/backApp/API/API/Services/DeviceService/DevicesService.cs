@@ -67,5 +67,11 @@ namespace API.Services.Devices
             return filteredProsumers;
         }
 
+        public async Task<Dictionary<string, object>> GetDevice(string id)
+        {
+            var device = await _repository.GetDevice(id);
+            if (device == null) throw new ArgumentException("No device with that id!");
+            return device;
+        }
     }
 }
