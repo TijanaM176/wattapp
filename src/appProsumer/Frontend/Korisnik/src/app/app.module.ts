@@ -17,6 +17,7 @@ import { PocetnaComponent } from './components/Pocetna/Pocetna.component';
 import { RouterModule } from '@angular/router';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ResetpasswordComponent } from './components/resetpassword/resetpassword.component';
+import { UserInfoComponent } from './components/user-info/user-info.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { ResetpasswordComponent } from './components/resetpassword/resetpassword
     NavBarComponent,
     SideBarComponent,
     PocetnaComponent,
-    ResetpasswordComponent
+    ResetpasswordComponent,
+    UserInfoComponent
     
   ],
   imports: [
