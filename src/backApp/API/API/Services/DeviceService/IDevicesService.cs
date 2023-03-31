@@ -15,5 +15,6 @@ namespace API.Services.Devices
         public Task<List<Prosumer>> ProsumerFilter(double minConsumption, double maxConsumption, double minProduction, double maxProduction, int minDeviceCount, int maxDeviceCount);
         public Task<List<Prosumer>> ProsumerFilter2(string neighbourhood, double minConsumption, double maxConsumption, double minProduction, double maxProduction, int minDeviceCount, int maxDeviceCount);
         public Task<Dictionary<string, object>> GetDevice(string id);
+        public Task<Dictionary<DateTime, double>> LastWeeksConsumptionTimestamps();
     }
 }

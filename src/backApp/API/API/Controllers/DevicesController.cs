@@ -155,5 +155,18 @@ namespace API.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+        [HttpGet("LastWeeksConsumptionTimestamps")]
+        public async Task<IActionResult> LastWeeksConsumptionTimestamps()
+        {
+            try
+            {
+                return Ok(await devService.LastWeeksConsumptionTimestamps());
+            }
+            catch(Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }

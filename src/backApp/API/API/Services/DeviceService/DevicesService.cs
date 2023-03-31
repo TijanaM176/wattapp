@@ -73,5 +73,28 @@ namespace API.Services.Devices
             if (device == null) throw new ArgumentException("No device with that id!");
             return device;
         }
+
+        public async Task<Dictionary<DateTime, double>> LastWeeksConsumptionTimestamps()
+        {
+            var prosumers = (await _repository.getAllProsumersWhoOwnDevice()).Select(x => x.ProsumerId).Distinct();
+            Dictionary<DateTime, double> timestamps = new Dictionary<DateTime, double>();
+
+            foreach (var prosumer in prosumers)
+            {
+                var consumptionPerProsumer = await _repository.ConsumptionForAPeriodForProsumer(prosumer, -7);
+
+                foreach (var timestamp in consumptionPerProsumer)
+                {
+                    if (timestamps.ContainsKey(timestamp.Key))
+                        timestamps[timestamp.Key] += timestamp.Value;
+                    else
+                        timestamps.Add(timestamp.Key, timestamp.Value);
+                }
+            }
+
+            if (timestamps == null) throw new ArgumentException("No timestamps!");
+            return timestamps;
+        }
+
     }
 }
