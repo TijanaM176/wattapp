@@ -5,6 +5,7 @@ using API.Repositories.BaseHelpRepository;
 using API.Repositories.DsoRepository;
 using API.Repositories.ProsumerRepository;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion.Internal;
 
 namespace API.Repositories.UserRepository
 {
@@ -238,5 +239,16 @@ namespace API.Repositories.UserRepository
         {
             return (await _context.Regions.FirstOrDefaultAsync(x => x.Id == id)).RegionName;
         }
+
+        public Task<string> GetNeighborhoodByName(string id)
+        {
+            return prosumerRepository.GetNeighborhoodByName(id);
+        }
+
+        public Task<Prosumer> UpdateProsumerByDso(ChangeProsumerbyDSO change)
+        {
+            return dsoRepository.UpdateProsumerByDso(change);
+        }
+        
     }
 }

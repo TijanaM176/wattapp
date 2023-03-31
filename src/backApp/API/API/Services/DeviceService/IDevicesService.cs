@@ -17,5 +17,6 @@ namespace API.Services.Devices
         public Task<Dictionary<string, object>> GetDevice(string id);
         public Task<Dictionary<DateTime, double>> LastWeeksConsumptionTimestamps();
         public Task<Dictionary<DateTime, double>> LastWeeksProductionTimestamps();
+        public Task<DeviceInfo> GetDeviceInfoById(string id);
     }
 }

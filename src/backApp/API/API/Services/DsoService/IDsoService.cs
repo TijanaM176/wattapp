@@ -1,4 +1,5 @@
-﻿using API.Models.Paging;
+﻿using API.Models.HelpModels;
+using API.Models.Paging;
 using API.Models.Users;
 using Microsoft.AspNetCore.Mvc;
 
@@ -20,5 +21,6 @@ namespace API.Services.DsoService
         public Task<List<Region>> GetRegions();
         public Task<string> GetRoleName(long id);
         public Task<string> GetRegionName(string id);
+        public Task<Prosumer> UpdateProsumerByDso(ChangeProsumerbyDSO change);
     }
 }

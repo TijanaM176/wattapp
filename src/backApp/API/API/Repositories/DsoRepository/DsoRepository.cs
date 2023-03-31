@@ -1,4 +1,5 @@
-﻿using API.Models.Paging;
+﻿using API.Models.HelpModels;
+using API.Models.Paging;
 using API.Models.Users;
 using API.Repositories.BaseHelpRepository;
 
@@ -102,6 +103,15 @@ namespace API.Repositories.DsoRepository
         public async Task<List<Region>> GetRegions()
         {
             return await _context.Regions.ToListAsync();
+        }
+
+        public async Task<Prosumer> UpdateProsumerByDso(ChangeProsumerbyDSO change)
+        {
+            Prosumer prosumer = await _context.Prosumers.FirstOrDefaultAsync(x => x.Id == change.Id);
+
+            if (prosumer != null) return prosumer;
+
+            return null;
         }
     }
 }

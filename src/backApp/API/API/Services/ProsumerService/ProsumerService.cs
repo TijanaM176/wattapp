@@ -6,17 +6,19 @@ using API.Models.Users;
 using API.Repositories.DsoRepository;
 using API.Repositories.ProsumerRepository;
 using API.Repositories.UserRepository;
+using API.Services.Auth;
+
 namespace API.Services.ProsumerService
 {
     public class ProsumerService : IProsumerService
     {
 
         private readonly IUserRepository _repository;
+     
 
         public ProsumerService(IUserRepository repository)
         {
             _repository = repository;
-
         }
 
         public Task<PagedList<Prosumer>>
@@ -193,6 +195,13 @@ namespace API.Services.ProsumerService
             if (prosumers == null) throw new ArgumentException("No links for that prosumer!");
 
             return prosumers;
+        }
+        public async Task<string> GetNeighborhoodByName(string id)
+        {
+            string NeigbName = await _repository.GetNeighborhoodByName(id);
+            if (NeigbName == null) throw new ArgumentException("No Neighborhood for that id");
+
+            return NeigbName;
         }
     }
 }

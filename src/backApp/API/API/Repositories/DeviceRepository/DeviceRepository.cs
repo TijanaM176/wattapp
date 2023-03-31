@@ -258,6 +258,12 @@ namespace API.Repositories.DeviceRepository
             return filteredProsumers;
             
         }
+        public async Task<DeviceInfo> GetDeviceInfoById(string id)
+        {
+           DeviceInfo device = await _regContext.Devices.FirstOrDefaultAsync(x => x.Id == id);
+
+            return device;
+        }
 
         public async Task<Dictionary<string, object>> GetDevice(string id)
         {

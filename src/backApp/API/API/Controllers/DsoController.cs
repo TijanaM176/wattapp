@@ -1,4 +1,5 @@
-﻿using API.Models.Paging;
+﻿using API.Models.HelpModels;
+using API.Models.Paging;
 using API.Models.Users;
 using API.Services.DsoService;
 using API.Services.ProsumerService;
@@ -167,6 +168,38 @@ namespace API.Controllers
             {
                 return BadRequest(ex.Message);
             }
+        }
+
+        [HttpPut("UpdateProsumerByDso")]
+        public async Task<IActionResult> UpdateProsumerByDso(ChangeProsumerbyDSO change)
+        {
+            Prosumer prosumer = await dsoService.UpdateProsumerByDso(change);
+            if(prosumer == null) return BadRequest("ID Prosumer is not exists in database!");
+            try
+            {
+
+                return Ok(new
+                {
+                    UpdateProsumerID = prosumer.Id,
+                    FirstName = prosumer.FirstName,
+                    LastName = prosumer.LastName,
+                    UserName = prosumer.Username,
+                    Address = prosumer.Address,
+                    Email = prosumer.Email,
+                    CityID = prosumer.CityId,
+                    NeigborhoodID = prosumer.NeigborhoodId,
+                    Latitude = prosumer.Latitude,
+                    Longitude = prosumer.Longitude
+
+                });
+            }
+            catch(Exception ex)
+            {
+
+                return BadRequest(ex.Message);
+            }
+
+
         }
     }
 }

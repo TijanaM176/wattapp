@@ -3,6 +3,7 @@ using API.Models.Users;
 using API.Repositories.DeviceRepository;
 using Microsoft.Extensions.Options;
 using MongoDB.Driver;
+using System.Data;
 
 namespace API.Services.Devices
 {
@@ -65,6 +66,13 @@ namespace API.Services.Devices
             var prosumers = await ProsumerFilter(minConsumption, maxConsumption, minProduction, maxProduction, minDeviceCount, maxDeviceCount);
             var filteredProsumers = prosumers.Where(x => x.NeigborhoodId == neighbourhood).ToList();
             return filteredProsumers;
+        }
+        public async Task<DeviceInfo> GetDeviceInfoById(string id)
+        {
+            var deviceinfo = await _repository.GetDeviceInfoById(id);
+            if (deviceinfo == null)
+                throw new ArgumentException("No devices with that id!");
+            return deviceinfo;
         }
 
         public async Task<Dictionary<string, object>> GetDevice(string id)
