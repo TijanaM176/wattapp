@@ -1,119 +1,147 @@
 <app-navBar></app-navBar>
-<div style="display:flex;">
+<div style="display:flex;  ">
     <app-sidebar-dso></app-sidebar-dso>
 <div  style="width:100%;height:100vh;margin-top:0%;margin-left:5%;justify-content: center;">
     <div class="col-md-6" style="float:left;">
-    <form [formGroup]="infoForm" style="padding-top:10%;">
-        <div class="form-group pt-3" >
-          <label style=" color: #566787; font-weight: bold"
-            >IP Address</label
+    <form style="padding-top:20%;justify-content: center;">
+        <div  style="width:100%;">
+          
+          <label style=" color: #8ea2bf; font-weight: bold;font-size:20px;width:40%;float:left;"
+            >IP Address:</label
           >
-          <input
+          <label 
             style="
-              width:90%;
+              width:60%;
+              float:left;
               color: #5875A1;
-              background-color: #E8F3F8;
               font-weight: bold;
               border:none;
-              
+              font-size:20px;
+              resize: none;
+              margin-top:-1.5%;
+              margin-bottom:5%;
             "
             class="form-control"
-            formControlName="IpAddress"
-            type="text"
+        
             
             
-          />
+          >{{results.IpAddress}}</label>
+        
         </div>
-        <div class="form-group pt-3">
-          <label style="width: 90%; color: #566787; font-weight: bold"
-            >Device Type</label
+        <div >
+          <label style=" color: #8ea2bf; font-weight: bold;font-size:20px;width:40%;float:left;"
+            >Device Type:</label
           >
-          <input
+          <label 
             style="
-              width:90%;
+              width:60%;
+              float:left;
               color: #5875A1;
-              background-color: #E8F3F8;
               font-weight: bold;
               border:none;
+              font-size:20px;
+              resize: none;
+              margin-top:-1.5%;
+              margin-bottom:5%;
             "
-            type="text"
             class="form-control"
-            formControlName="TypeName"
-          />
+        
+            
+            
+          >{{results.TypeName}}</label>
+          
         </div>
       
-        <div class="form-group pt-3">
-          <label style="width: 90%; color: #566787; font-weight: bold"
-            >Device Model</label
+        <div >
+          <label style=" color: #8ea2bf; font-weight: bold;font-size:20px;width:40%;float:left;"
+            >Device Model:</label
           >
-          <input
+          <label 
             style="
-              width:90%;
+              width:60%;
+              float:left;
               color: #5875A1;
-              background-color: #E8F3F8;
               font-weight: bold;
               border:none;
+              font-size:20px;
+              resize: none;
+              margin-top:-1.5%;
+              margin-bottom:5%;
             "
-            type="text"
             class="form-control"
-            formControlName="Manufacturer"
-           
-          />
+        
+            
+            
+          >{{results.Manufacturer}}</label>
         </div>
-        <div class="form-group pt-3" >
-          <label style="width: 90%; color: #566787; font-weight: bold"
-            >Device Name</label
+        <div  >
+          <label style=" color: #8ea2bf; font-weight: bold;font-size:20px;width:40%;float:left;"
+            >Device Name:</label
           >
-          <input
+          <label 
             style="
-              width:90%;
+              width:60%;
+              float:left;
               color: #5875A1;
-              background-color: #E8F3F8;
               font-weight: bold;
               border:none;
+              font-size:20px;
+              resize: none;
+              margin-top:-1.5%;
+              margin-bottom:5%;
             "
-            type="text"
             class="form-control"
-            formControlName="Name"
-          />
+        
+            
+            
+          >{{results.Name}}</label>
         </div>
      
-      <div class="form-group pt-3" >
-        <label style="width: 90%; color: #566787; font-weight: bold"
-          >Maximum hourly consumption</label
-        >
-        <input
-          style="
-           width:90%;
+      <div >
+        <label style=" color: #8ea2bf; font-weight: bold;font-size:20px;width:40%;float:left;"
+            >Maximum hourly consumption:</label
+          >
+          <label 
+            style="
+              width:60%;
+              float:left;
               color: #5875A1;
-              background-color: #E8F3F8;
               font-weight: bold;
               border:none;
-          "
-          type="text"
-          class="form-control"
-          formControlName="MaxUsage"
-        />
+              font-size:20px;
+              resize: none;
+              margin-top:1%;
+              margin-bottom:5%;
+            "
+            class="form-control"
+        
+            
+            
+          >{{results.MaxUsage}}kWh</label>
       </div>
-      <div class="form-group pt-3" >
-        <label style="width: 90%; color: #566787; font-weight: bold"
-          >Average hourly consumption</label
-        >
-        <input
-          style="
-            width:90%;
+      <div style="clear:both;padding-top:5%;" >
+        <label style=" color: #8ea2bf; font-weight: bold;font-size:20px;width:40%;float:left;"
+            >Average hourly consumption:</label
+          >
+          <label 
+            style="
+              width:60%;
+              float:right;
               color: #5875A1;
-              background-color: #E8F3F8;
               font-weight: bold;
               border:none;
-              
-          "
-          type="text"
-          class="form-control"
-          formControlName="AvgUsage"
-        />
+              font-size:20px;
+              resize: none;
+              margin-top:1%;
+              margin-bottom:5%;
+            "
+            class="form-control"
+        
+            
+            
+          >{{results.AvgUsage}}kWh</label>
       </div>
-      <div>
+      <div style="clear:both;">
         <mat-slide-toggle style="margin-top:7%;color:#566787;font-weight: bold;" [disabled]="disabled" [checked]="checked"  [color]="color">Allowed DSO to control</mat-slide-toggle>
       </div>
       
@@ -130,11 +158,11 @@
         ></button>
     <div style="background-color: #DFEFF6;">
         
-        <label style="padding-top:20%;margin-left:44%;color: #5875A1;font-weight: bold;">Consumption</label><br>
-        <label style="margin-left:45%;color: #5875A1;font-weight: bold;">{{currentUsage}}kWh</label><br>
+        <label style="padding-top:7%;margin-left:43%;font-size:18px;color: #5875A1;font-weight: bold;">Consumption</label><br>
+        <label style="margin-left:46%;font-size:18px;color: #5875A1;font-weight: bold;">{{currentUsage}}kWh</label><br>
         <img src="assets/images/consumption2.png" style="width:20%;height:20%;margin-left:44%;">
         <br>
-        <label style="padding-top:8%;margin-left:36%;color: #5875A1;font-weight: bold;">Realization and Prediction</label>
+        <label style="padding-top:3%;margin-left:33%;font-size:18px;color: #5875A1;font-weight: bold;">Realization and Prediction</label>
     </div>
 </div>
 </div>
