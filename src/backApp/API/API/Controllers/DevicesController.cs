@@ -156,12 +156,16 @@ namespace API.Controllers
             }
         }
 
-        [HttpGet("LastWeeksConsumptionTimestamps")]
-        public async Task<IActionResult> LastWeeksConsumptionTimestamps()
+        [HttpGet("LastWeeksConsumptionAndProductionTimestamps")]
+        public async Task<IActionResult> LastWeeksConsumptionAndProductionTimestamps()
         {
             try
             {
-                return Ok(await devService.LastWeeksConsumptionTimestamps());
+                return Ok(new
+                {
+                    consumption = await devService.LastWeeksConsumptionTimestamps(),
+                    production = await devService.LastWeeksProductionTimestamps(),
+                });
             }
             catch(Exception ex)
             {

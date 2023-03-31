@@ -96,5 +96,26 @@ namespace API.Services.Devices
             return timestamps;
         }
 
+        public async Task<Dictionary<DateTime, double>> LastWeeksProductionTimestamps()
+        {
+            var prosumers = (await _repository.getAllProsumersWhoOwnDevice()).Select(x => x.ProsumerId).Distinct();
+            Dictionary<DateTime, double> timestamps = new Dictionary<DateTime, double>();
+
+            foreach (var prosumer in prosumers)
+            {
+                var productionPerProsumer = await _repository.ProductionForAPeriodForProsumer(prosumer, -7);
+
+                foreach (var timestamp in productionPerProsumer)
+                {
+                    if (timestamps.ContainsKey(timestamp.Key))
+                        timestamps[timestamp.Key] += timestamp.Value;
+                    else
+                        timestamps.Add(timestamp.Key, timestamp.Value);
+                }
+            }
+
+            if (timestamps == null) throw new ArgumentException("No timestamps!");
+            return timestamps;
+        }
     }
 }
