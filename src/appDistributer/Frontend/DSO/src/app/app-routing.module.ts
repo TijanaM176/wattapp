@@ -87,7 +87,7 @@ const routes: Routes = [
     component: UserDevicesComponent,
   },
   {
-    path: 'deviceinfo',
+    path: 'user/:id/Devices/deviceinfo/:idDev',
     component: DeviceinfoComponent,
   },
 ];
