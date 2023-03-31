@@ -111,6 +111,7 @@
 
             <th>Energy <i class="fa fa-sort"></i></th>
             <th>Activity</th>
+            <th></th>
           </tr>
         </thead>
         <tbody
@@ -165,6 +166,12 @@
                 </div>
               </ng-template>
             </td>
+            <td><a
+              routerLink="/user/{{id}}/Devices/deviceinfo/{{device.id}}"
+              class="settings"
+              title=""
+              ><i class="fa fa-info-circle"></i></a
+            ></td>
           </tr>
         </tbody>
       </table>

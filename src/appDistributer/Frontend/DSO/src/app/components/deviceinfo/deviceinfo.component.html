@@ -3,7 +3,7 @@
     <app-sidebar-dso></app-sidebar-dso>
 <div  style="width:100%;height:100vh;margin-top:0%;margin-left:5%;justify-content: center;">
     <div class="col-md-6" style="float:left;">
-    <form style="padding-top:10%;">
+    <form [formGroup]="infoForm" style="padding-top:10%;">
         <div class="form-group pt-3" >
           <label style=" color: #566787; font-weight: bold"
             >IP Address</label
@@ -15,9 +15,12 @@
               background-color: #E8F3F8;
               font-weight: bold;
               border:none;
+              
             "
-            type="text"
             class="form-control"
+            formControlName="IpAddress"
+            type="text"
+            
             
           />
         </div>
@@ -35,7 +38,7 @@
             "
             type="text"
             class="form-control"
-            
+            formControlName="TypeName"
           />
         </div>
       
@@ -53,6 +56,7 @@
             "
             type="text"
             class="form-control"
+            formControlName="Manufacturer"
            
           />
         </div>
@@ -70,7 +74,7 @@
             "
             type="text"
             class="form-control"
-            
+            formControlName="Name"
           />
         </div>
      
@@ -88,7 +92,7 @@
           "
           type="text"
           class="form-control"
-         
+          formControlName="MaxUsage"
         />
       </div>
       <div class="form-group pt-3" >
@@ -106,7 +110,7 @@
           "
           type="text"
           class="form-control"
-          
+          formControlName="AvgUsage"
         />
       </div>
       <div>
@@ -127,8 +131,8 @@
     <div style="background-color: #DFEFF6;">
         
         <label style="padding-top:20%;margin-left:44%;color: #5875A1;font-weight: bold;">Consumption</label><br>
-        <label style="margin-left:49%;color: #5875A1;font-weight: bold;">kWh</label><br>
-        <img src="assets/images/consumption2.png" style="width:20%;height:20%;margin-left:42%;">
+        <label style="margin-left:45%;color: #5875A1;font-weight: bold;">{{currentUsage}}kWh</label><br>
+        <img src="assets/images/consumption2.png" style="width:20%;height:20%;margin-left:44%;">
         <br>
         <label style="padding-top:8%;margin-left:36%;color: #5875A1;font-weight: bold;">Realization and Prediction</label>
     </div>
