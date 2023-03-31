@@ -82,14 +82,14 @@ namespace API.Services.Devices
             return device;
         }
 
-        public async Task<Dictionary<DateTime, double>> LastWeeksConsumptionTimestamps()
+        public async Task<Dictionary<DateTime, double>> ConsumptionForAPeriodTimestamps(int period)
         {
             var prosumers = (await _repository.getAllProsumersWhoOwnDevice()).Select(x => x.ProsumerId).Distinct();
             Dictionary<DateTime, double> timestamps = new Dictionary<DateTime, double>();
 
             foreach (var prosumer in prosumers)
             {
-                var consumptionPerProsumer = await _repository.ConsumptionForAPeriodForProsumer(prosumer, -7);
+                var consumptionPerProsumer = await _repository.ConsumptionForAPeriodForProsumer(prosumer, period);
 
                 foreach (var timestamp in consumptionPerProsumer)
                 {
@@ -104,14 +104,14 @@ namespace API.Services.Devices
             return timestamps;
         }
 
-        public async Task<Dictionary<DateTime, double>> LastWeeksProductionTimestamps()
+        public async Task<Dictionary<DateTime, double>> ProductionForAPeriodTimestamps(int period)
         {
             var prosumers = (await _repository.getAllProsumersWhoOwnDevice()).Select(x => x.ProsumerId).Distinct();
             Dictionary<DateTime, double> timestamps = new Dictionary<DateTime, double>();
 
             foreach (var prosumer in prosumers)
             {
-                var productionPerProsumer = await _repository.ProductionForAPeriodForProsumer(prosumer, -7);
+                var productionPerProsumer = await _repository.ProductionForAPeriodForProsumer(prosumer, period);
 
                 foreach (var timestamp in productionPerProsumer)
                 {

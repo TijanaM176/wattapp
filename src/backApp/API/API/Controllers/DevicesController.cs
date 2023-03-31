@@ -187,8 +187,8 @@ namespace API.Controllers
             {
                 return Ok(new
                 {
-                    consumption = await devService.LastWeeksConsumptionTimestamps(),
-                    production = await devService.LastWeeksProductionTimestamps(),
+                    consumption = await devService.ConsumptionForAPeriodTimestamps(-7),
+                    production = await devService.ProductionForAPeriodTimestamps(-7),
                 });
             }
             catch(Exception ex)
