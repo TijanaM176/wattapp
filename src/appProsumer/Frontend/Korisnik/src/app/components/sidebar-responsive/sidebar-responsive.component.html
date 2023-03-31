@@ -1,7 +1,7 @@
-<div class="container-fluid">
-    <div class="row flex-nowrap">
-        <div class="col-auto col-md-3 col-xl-2 px-sm-2 px-0" style="background-color: #59747F;">
-            <div class="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 text-white min-vh-100">
+<div class="container mx-0 my-0 px-0 py-0 h-100">
+    <div class="row">
+        <div style="background-color: #59747F;" class="h-100">
+            <div class="d-flex flex-column align-items-center align-items-sm-start px-3 text-white text-left" id="sadrzaj">
                 <a href="/" class="d-flex align-items-center pb-3 mb-md-0 me-md-auto text-white text-decoration-none">
                     <span class="fs-5 d-none d-sm-inline"></span>
                 </a>
@@ -24,11 +24,11 @@
                             <i class="fs-4 bi-plus-square"></i>&nbsp;<span class="ms-1 d-none d-sm-inline">Add New Device</span></a>
                     </li>
                 </ul>
-                <div class="nav-item mb-4">
-                    <a href="#" class="nav-link px-0 align-middle">
+                <button class="btn nav-item mb-4 last" (click)="logout()">
+                    <a class="nav-link px-0 align-middle text-start">
                         <i class="fs-4 bi-box-arrow-right"></i>&nbsp;<span class="ms-1 d-none d-sm-inline">Logout</span>
                     </a>
-                </div>
+                </button>
             </div>
         </div>
         <!-- <div class="col py-3">

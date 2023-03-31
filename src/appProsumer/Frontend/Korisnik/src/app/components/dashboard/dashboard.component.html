@@ -1,1 +1,11 @@
-<button class="btn btn-primary m-4" (click)="LogOut()">Log Out</button>
+<div class="d-flex flex-column h-100">
+    <app-navbar-offcanvas></app-navbar-offcanvas>
+    <div class="d-flex flex-grow-1">
+      <div class="flex-grow-1 col-md-2">
+        <app-sidebar-responsive *ngIf="deviceWidth>=550"></app-sidebar-responsive>
+      </div>
+      <div class="flex-grow-1 col-md-10">
+        <app-user-info></app-user-info>
+      </div>
+    </div>
+</div>

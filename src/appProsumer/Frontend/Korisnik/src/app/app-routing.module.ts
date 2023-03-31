@@ -17,7 +17,7 @@ const routes: Routes = [
   {
     path: 'dashboard',
     component: DashboardComponent,
-    canActivate: [AuthGuard],
+    //canActivate: [AuthGuard],
   },
   { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
   { path: 'pocetna', component: PocetnaComponent },
