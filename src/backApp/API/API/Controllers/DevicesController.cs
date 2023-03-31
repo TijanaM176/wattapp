@@ -187,11 +187,62 @@ namespace API.Controllers
             {
                 return Ok(new
                 {
-                    consumption = await devService.LastWeeksConsumptionTimestamps(),
-                    production = await devService.LastWeeksProductionTimestamps(),
+                    consumption = await devService.ConsumptionForAPeriodTimestamps(-7),
+                    production = await devService.ProductionForAPeriodTimestamps(-7),
                 });
             }
-            catch(Exception ex)
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet("NextDaysConsumptionAndProductionTimestamps")]
+        public async Task<IActionResult> NextDaysConsumptionAndProductionTimestamps()
+        {
+            try
+            {
+                return Ok(new
+                {
+                    consumption = await devService.ConsumptionForAPeriodTimestamps(1),
+                    production = await devService.ProductionForAPeriodTimestamps(1),
+                });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet("ConsumptionAndProductionForNext3DaysTimestamps")]
+        public async Task<IActionResult> ConsumptionAndProductionForNext3DaysTimestamps()
+        {
+            try
+            {
+                return Ok(new
+                {
+                    consumption = await devService.ConsumptionForAPeriodTimestamps(3),
+                    production = await devService.ProductionForAPeriodTimestamps(3),
+                });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet("NextWeeksConsumptionAndProductionTimestamps")]
+        public async Task<IActionResult> NextWeeksConsumptionAndProductionTimestamps()
+        {
+            try
+            {
+                return Ok(new
+                {
+                    consumption = await devService.ConsumptionForAPeriodTimestamps(7),
+                    production = await devService.ProductionForAPeriodTimestamps(7),
+                });
+            }
+            catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }
