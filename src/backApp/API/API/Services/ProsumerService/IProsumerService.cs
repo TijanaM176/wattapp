@@ -22,5 +22,6 @@ namespace API.Services.ProsumerService
         public Task<List<Neigborhood>> GetNeighborhoodByCityId(long CityId);
         public Task<string> GetCityNameById(long id);
         public Task<List<ProsumerLink>> AllLinks(string id);
+        public Task<string> GetNeighborhoodByName(string id);
     }
 }

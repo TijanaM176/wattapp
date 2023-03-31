@@ -127,8 +127,16 @@ namespace API.Repositories.ProsumerRepository
         {
             return (await _context.Cities.FirstOrDefaultAsync(x => x.Id == id)).Name;
         }
-    }
-    
+        public async Task<string> GetNeighborhoodByName(string id)
+        {
 
+
+            Neigborhood neigborhood =  await _context.Neigborhoods.FirstOrDefaultAsync(x => x.Id == id);
+            if (neigborhood == null) return null;
+
+            return neigborhood.NeigbName;
+        }
+
+    }
 
 }

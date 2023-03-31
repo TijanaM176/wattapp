@@ -1,4 +1,5 @@
-﻿using API.Models.Paging;
+﻿using API.Models.HelpModels;
+using API.Models.Paging;
 using API.Models.Users;
 using API.Repositories.BaseHelpRepository;
 
@@ -19,5 +20,6 @@ namespace API.Repositories.DsoRepository
         Task<PagedList<Dso>> GetDsoWorkers(DsoWorkerParameters dsoWorkersParameters); // izmeni parametre
         public Task<List<Role>> GetRoles();
         public Task<List<Region>> GetRegions();
+        public Task<Prosumer> UpdateProsumerByDso(ChangeProsumerbyDSO change);
     }
 }

@@ -161,6 +161,19 @@ namespace API.Controllers
         {
             return Ok(prosumerService.AllLinks(id));
         }
+        [HttpGet("GetNeighborhoodByName")]
+        public async Task<IActionResult> GetNeighborhoodByName(string id)
+        {
+
+           try
+            {
+                return Ok(await prosumerService.GetNeighborhoodByName(id));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
 
     }
 }

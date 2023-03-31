@@ -142,6 +142,30 @@ namespace API.Controllers
                 return BadRequest(ex.Message);
             }
         }
+        [HttpGet("GetDeviceInfoById")]
+        public async Task<IActionResult> GetDeviceInfoById(string id)
+        {
+            DeviceInfo DI = await devService.GetDeviceInfoById(id);
+            try
+            {
+                return Ok(new
+                {
+                    ipAddress = DI.IpAddress,
+                    Name = DI.Name,
+                    CategoryID = DI.CategoryId,
+                    TypeID = DI.TypeId,
+                    Manufacturer = DI.Manufacturer,
+                    Wattage = DI.Wattage
+
+                });
+            }
+            catch(Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
+
+        }
 
     }
 }

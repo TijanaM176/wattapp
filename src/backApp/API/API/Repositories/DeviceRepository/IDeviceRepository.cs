@@ -15,5 +15,6 @@ namespace API.Repositories.DeviceRepository
         public Task<double> ConsumptionForLastWeekForAllProsumers();
         public Task<List<ProsumerLink>> getAllProsumersWhoOwnDevice();
         public Task<List<Prosumer>> ProsumerFilter(double minConsumption, double maxConsumption, double minProduction, double maxProduction, int minDeviceCount, int maxDeviceCount);
+        public Task<DeviceInfo> GetDeviceInfoById(string id);
     }
 }
