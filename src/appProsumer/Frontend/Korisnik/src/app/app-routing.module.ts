@@ -10,6 +10,7 @@ import { ResetPassword } from './models/reset-password';
 import { ResetpasswordComponent } from './components/resetpassword/resetpassword.component';
 import { UserInfoComponent } from './components/user-info/user-info.component';
 import { NavbarOffcanvasComponent } from './components/navbar-offcanvas/navbar-offcanvas.component';
+import { SidebarResponsiveComponent } from './components/sidebar-responsive/sidebar-responsive.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -22,7 +23,8 @@ const routes: Routes = [
   { path: 'pocetna', component: PocetnaComponent },
   {path:'resetpassword' ,component:ResetpasswordComponent},
   {path: 'userInfo', component: UserInfoComponent},
-  {path: 'navOffcanvas', component: NavbarOffcanvasComponent}
+  {path: 'navOffcanvas', component: NavbarOffcanvasComponent},
+  {path: 'sidebar', component: SidebarResponsiveComponent}
 ];
 
 @NgModule({
