@@ -1,54 +1,43 @@
 <CDBSidebar
   textColor="#5875A1"
   backgroundColor="#ffffff"
-  style="margin: 0; height: 90vh; width: 100%;"
+  style="margin: 0; height: 90vh; width: 100%"
 >
- 
   <div class="informacije">
     <img
       src="assets/images/consumption.png"
       style="width: 100px; height: 100px; margin-top: 50px"
     />
     <h6>Num. Of Devices</h6>
-    
   </div>
-  <CDBSidebarContent
-    class="content"
-    style=" height: 100%; "
-  >
+  <CDBSidebarContent class="content" style="height: 100%">
     <div class="div1">
-        <div class="divlevo"> 
+      <div class="divlevo">
         <img
-        src="assets/images/consumption.png"
-        style="width: 100px; height: 100px; "
-      /><br>
-      <span>0kWh</span>
-      <p>Current Consumption</p>
-    </div>
-    <div class="divdesno">
-      <img
-      src="assets/images/production.png"
-      style="width: 100px; height: 100px; "
-        /><br>
-    <span>0kWh</span>
-      <p>Current production</p>
+          src="assets/images/consumption.png"
+          style="width: 100px; height: 100px"
+        /><br />
+        <span>0kWh</span>
+        <p>Current Consumption</p>
       </div>
-      <div class="divgrafik"> 
-        <p>mesto za grafik</p>
+      <div class="divdesno">
+        <img
+          src="assets/images/production.png"
+          style="width: 100px; height: 100px"
+        /><br />
+        <span>0kWh</span>
+        <p>Current production</p>
       </div>
-    <div class="divdugmici2"> 
-      
-            <div class="divdugmici">
-            <button id="dugme1" class="donjidugmici">
-                View More
-            </button>
-            <br>
-           <!-- <button id="dugme2" class="donjidugmici">
+      <div class="divdugmici2">
+        <div class="divdugmici">
+          <button id="dugme1" class="donjidugmici">View More</button>
+          <br />
+          <!-- <button id="dugme2" class="donjidugmici">
                 Map
             </button> -->
-        
-            </div>
-    </div>
+        </div>
+        <app-history-Prosumer></app-history-Prosumer>
+      </div>
     </div>
   </CDBSidebarContent>
 </CDBSidebar>

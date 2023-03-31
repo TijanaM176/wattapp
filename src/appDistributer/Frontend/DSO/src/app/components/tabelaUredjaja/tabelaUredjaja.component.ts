@@ -38,7 +38,6 @@ export class TabelaUredjajaComponent implements OnInit {
 
   ngOnInit() {
     this.id = this.router.snapshot.params['id'];
-    this.showConsumers = true;
     this.userService.getDevicesByProsumerId(this.id).subscribe((response) => {
       this.devicesToShow = [
         ...response.consumers,

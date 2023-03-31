@@ -142,4 +142,9 @@ export class UsersServiceService {
         maxDev
     );
   }
+  HistoryProsumer7Days(id: string) {
+    return this.http.get(
+      `https://localhost:7156/LastWeeksConsumptionAndProduction?id=` + id
+    );
+  }
 }
