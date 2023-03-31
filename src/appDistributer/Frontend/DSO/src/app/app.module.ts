@@ -59,6 +59,8 @@ import { SidebarEmptyComponent } from './components/sidebar-empty/sidebar-empty.
 import { UserComponent } from './components/user/user.component';
 import { SidebarPotrosnjaComponent } from './components/sidebar-potrosnja/sidebar-potrosnja.component';
 import { DeviceinfoComponent } from './components/deviceinfo/deviceinfo.component';
+import { HistoryProsumerComponent } from './components/Charts/history-Prosumer/history-Prosumer.component';
+import { NgxChartsModule } from '@swimlane/ngx-charts';
 @NgModule({
   declarations: [
     AppComponent,
@@ -91,7 +93,7 @@ import { DeviceinfoComponent } from './components/deviceinfo/deviceinfo.componen
     UserDevicesComponent,
     SignupWorkerPageComponent,
     SidebarEmptyComponent,
-
+    HistoryProsumerComponent,
     UserComponent,
     SidebarPotrosnjaComponent,
     DeviceinfoComponent,
@@ -119,6 +121,7 @@ import { DeviceinfoComponent } from './components/deviceinfo/deviceinfo.componen
     LeafletModule,
     NgxPaginationModule,
     PaginationModule,
+    NgxChartsModule,
   ],
   providers: [
     CookieService,
