@@ -60,6 +60,7 @@ export class HistoryProsumerComponent implements OnInit {
         return { name, series };
       });
       this.data = myList;
+      console.log(this.data);
     });
   }
 }
