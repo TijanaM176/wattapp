@@ -147,4 +147,10 @@ export class UsersServiceService {
       `https://localhost:7156/LastWeeksConsumptionAndProduction?id=` + id
     );
   }
+
+  HistoryAllProsumers7Days() {
+    return this.http.get(
+      'https://localhost:7156/LastWeeksConsumptionAndProductionTimestamps'
+    );
+  }
 }
