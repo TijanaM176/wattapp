@@ -1,16 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { strings } from '@material/slider';
-import { ScaleType, Color } from '@swimlane/ngx-charts';
-
 import { UsersServiceService } from 'src/app/services/users-service.service';
-
+import { ScaleType, Color } from '@swimlane/ngx-charts';
 @Component({
-  selector: 'app-history-Prosumer',
-  templateUrl: './history-Prosumer.component.html',
-  styleUrls: ['./history-Prosumer.component.css'],
+  selector: 'app-historyAllProsumers',
+  templateUrl: './historyAllProsumers.component.html',
+  styleUrls: ['./historyAllProsumers.component.css'],
 })
-export class HistoryProsumerComponent implements OnInit {
+export class HistoryAllProsumersComponent implements OnInit {
   id: string = '';
   data: any;
   dataConsumers: any = [];
@@ -37,7 +35,7 @@ export class HistoryProsumerComponent implements OnInit {
 
   ngOnInit() {
     this.id = this.router.snapshot.params['id'];
-    this.service.HistoryProsumer7Days(this.id).subscribe((response) => {
+    this.service.HistoryAllProsumers7Days().subscribe((response) => {
       this.data = response;
       this.dataConsumers = Object.entries(this.data.consumption).map(
         ([name, value]) => ({ name, value })
