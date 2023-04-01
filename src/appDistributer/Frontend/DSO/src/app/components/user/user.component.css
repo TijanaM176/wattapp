@@ -1,29 +1,42 @@
 body {background-color: coral;}
-.div1{
-    width: 40%;
-    float: right;
+.glavni{
+    background-color: aquamarine;
+    display: flex;
+    width: 100%;
+    height: auto;
+    flex-direction: row;
+    
+}
+.levi{
+    
     background-color: red;
 }
-.div2{
-    width: 40%;
-    float: right;
-    background-color: rgb(255, 255, 255);
-   
+.centralni{
+    display: flex;
+    width: 40%;  
+    background-color: rgb(174, 135, 135);
+    padding: 10px;
+ 
+}
+.desni{
+    width: 40%;  
     
+    background-color: green;
 }
 .divinput{
     
-    display:grid;
-    justify-content: center;
+    display: flex;
+    margin: 20px auto;
     
 }
  input{
     
     border-radius: 7px;
     background-color: #E8F3F8;
-    margin-bottom: 20px;
-   border: wheat;
-    width: 300px;
+    
+     border: wheat;
+    width: 100%;
+    max-width: 500px;
     height: 40px;
     box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.2), 0 6px 8px 0 rgba(0, 0, 0, 0.19);
  }
@@ -36,13 +49,9 @@ p{
 #dugme{
     background-color: #5875A1;
     border-radius: 7px;
-    width: 50%;
-    margin-left:0 px;
+    width: 40%;
+    float: right;
+    margin-top: 10px;
     color: white;
 
-}
-.div3{
-    width: 20%;
-    float: right;
-    background-color: green;
 }
