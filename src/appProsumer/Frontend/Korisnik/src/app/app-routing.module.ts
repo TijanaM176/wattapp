@@ -14,11 +14,13 @@ const routes: Routes = [
     path: 'dashboard',
     component: DashboardComponent,
     //canActivate: [AuthGuard],
+    children:[
+      {path: 'userInfo', component: UserInfoComponent}
+    ]
   },
   { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
   { path: 'pocetna', component: PocetnaComponent },
-  {path:'resetpassword' ,component:ResetpasswordComponent},
-  {path: 'userInfo', component: UserInfoComponent}
+  {path:'resetpassword' ,component:ResetpasswordComponent}
 ];
 
 @NgModule({

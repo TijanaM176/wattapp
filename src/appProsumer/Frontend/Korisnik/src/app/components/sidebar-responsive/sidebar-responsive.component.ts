@@ -30,4 +30,9 @@ export class SidebarResponsiveComponent implements OnInit, AfterViewChecked{
     this.cookie.deleteAll();
     this.router.navigate(["login"]);
   }
+
+  viewProfile()
+  {
+    
+  }
 }
