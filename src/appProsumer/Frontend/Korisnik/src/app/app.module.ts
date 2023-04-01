@@ -20,6 +20,8 @@ import { ResetpasswordComponent } from './components/resetpassword/resetpassword
 import { UserInfoComponent } from './components/user-info/user-info.component';
 import { NavbarOffcanvasComponent } from './components/navbar-offcanvas/navbar-offcanvas.component';
 import { SidebarResponsiveComponent } from './components/sidebar-responsive/sidebar-responsive.component';
+import { EditInfoFormComponent } from './forms/edit-info-form/edit-info-form.component';
+import { ChangePasswordComponent } from './forms/change-password/change-password.component';
 
 @NgModule({
   declarations: [
@@ -32,7 +34,9 @@ import { SidebarResponsiveComponent } from './components/sidebar-responsive/side
     ResetpasswordComponent,
     UserInfoComponent,
     NavbarOffcanvasComponent,
-    SidebarResponsiveComponent
+    SidebarResponsiveComponent,
+    EditInfoFormComponent,
+    ChangePasswordComponent
     
   ],
   imports: [

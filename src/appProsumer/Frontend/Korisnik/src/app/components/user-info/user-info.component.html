@@ -31,7 +31,9 @@
                                 </div>
                                 <hr class="mt-0 mb-4">
                                 <div class="d-flex justify-content-start">
-                                    <button class="btn btn-primary"><i class="fa fa-edit fa-lg"></i>&nbsp;Edit Profile</button>
+                                    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop" (click)="edit()"><i class="fa fa-edit fa-lg"></i>&nbsp;Edit Profile</button>
+                                    &nbsp;&nbsp;
+                                    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop" (click)="changePass()"><i class="fa fa-lock fa-lg"></i>&nbsp;Change Password</button>
                                 </div>
                             </div>
                         </div>
@@ -46,3 +48,23 @@
         </div>
     </div>
 </section>
+
+<!-- Modal -->
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header text-white" style="background-color: #466471;">
+          <h5 class="modal-title" id="staticBackdropLabel">{{modalTitle}}</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="close()"></button>
+        </div>
+        <div class="modal-body">
+          <app-edit-info-form [userData]="userData" *ngIf="showEdit==true" #editData></app-edit-info-form>
+          <app-change-password *ngIf="showChangePass==true"></app-change-password>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)="close()">Close</button>
+          <button type="button" class="btn btn-primary" data-bs-dismiss="modal" (click)="confirm()">Confirm</button>
+        </div>
+      </div>
+    </div>
+  </div>
