@@ -93,10 +93,11 @@ namespace API.Services.Devices
 
                 foreach (var timestamp in consumptionPerProsumer)
                 {
-                    if (timestamps.ContainsKey(timestamp.Key))
-                        timestamps[timestamp.Key] += timestamp.Value;
+                    var intervalStart = new DateTime(timestamp.Key.Year, timestamp.Key.Month, timestamp.Key.Day, (timestamp.Key.Hour / 12) * 12, 0, 0);
+                    if (timestamps.ContainsKey(intervalStart))
+                        timestamps[intervalStart] += timestamp.Value;
                     else
-                        timestamps.Add(timestamp.Key, timestamp.Value);
+                        timestamps.Add(intervalStart, timestamp.Value);
                 }
             }
 
@@ -115,10 +116,11 @@ namespace API.Services.Devices
 
                 foreach (var timestamp in productionPerProsumer)
                 {
-                    if (timestamps.ContainsKey(timestamp.Key))
-                        timestamps[timestamp.Key] += timestamp.Value;
+                    var intervalStart = new DateTime(timestamp.Key.Year, timestamp.Key.Month, timestamp.Key.Day, (timestamp.Key.Hour / 12) * 12, 0, 0);
+                    if (timestamps.ContainsKey(intervalStart))
+                        timestamps[intervalStart] += timestamp.Value;
                     else
-                        timestamps.Add(timestamp.Key, timestamp.Value);
+                        timestamps.Add(intervalStart, timestamp.Value);
                 }
             }
 
