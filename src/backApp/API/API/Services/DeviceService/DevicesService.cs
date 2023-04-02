@@ -1,4 +1,5 @@
 ﻿using API.Models.Devices;
+using API.Models.HelpModels;
 using API.Models.Users;
 using API.Repositories.DeviceRepository;
 using Microsoft.Extensions.Options;
@@ -73,6 +74,18 @@ namespace API.Services.Devices
             if (deviceinfo == null)
                 throw new ArgumentException("No devices with that id!");
             return deviceinfo;
+        }
+        public async Task<Dictionary<DateTime, double>> ProductionConsumptionForLastWeekForDevice(string idDevice)
+        {
+
+            var prodCon = await _repository.ProductionConsumptionForLastWeekForDevice(idDevice);
+            if (prodCon == null) throw new ArgumentException("No data for this device!");
+            return prodCon;
+        }
+        public async Task<EnumCategory.DeviceCatergory> getDeviceCategoryEnum(string idDevice)
+        {
+
+            return await _repository.getDeviceCategoryEnum(idDevice);
         }
 
     }

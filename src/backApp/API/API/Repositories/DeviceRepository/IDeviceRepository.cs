@@ -1,4 +1,5 @@
 ﻿using API.Models.Devices;
+using API.Models.HelpModels;
 using API.Models.Users;
 
 namespace API.Repositories.DeviceRepository
@@ -16,5 +17,7 @@ namespace API.Repositories.DeviceRepository
         public Task<List<ProsumerLink>> getAllProsumersWhoOwnDevice();
         public Task<List<Prosumer>> ProsumerFilter(double minConsumption, double maxConsumption, double minProduction, double maxProduction, int minDeviceCount, int maxDeviceCount);
         public Task<DeviceInfo> GetDeviceInfoById(string id);
+        public Task<Dictionary<DateTime, double>> ProductionConsumptionForLastWeekForDevice(string idDevice);
+        public Task<EnumCategory.DeviceCatergory> getDeviceCategoryEnum(string idDevice);
     }
 }
