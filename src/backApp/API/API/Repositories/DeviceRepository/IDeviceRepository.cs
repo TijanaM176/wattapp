@@ -1,4 +1,5 @@
 ﻿using API.Models.Devices;
+using API.Models.HelpModels;
 using API.Models.Users;
 
 namespace API.Repositories.DeviceRepository
@@ -18,5 +19,7 @@ namespace API.Repositories.DeviceRepository
         public Task<Dictionary<string, object>> GetDevice(string id);
         public Task<double> MaxUsage(string id);
         public Task<DeviceInfo> GetDeviceInfoById(string id);
+        public Task<Dictionary<DateTime, double>> ProductionConsumptionForLastWeekForDevice(string idDevice);
+        public Task<EnumCategory.DeviceCatergory> getDeviceCategoryEnum(string idDevice);
     }
 }

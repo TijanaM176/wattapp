@@ -1,4 +1,5 @@
 ﻿using API.Models.Devices;
+using API.Models.HelpModels;
 using API.Models.Users;
 
 namespace API.Services.Devices
@@ -18,5 +19,7 @@ namespace API.Services.Devices
         public Task<Dictionary<DateTime, double>> ConsumptionForAPeriodTimestamps(int period);
         public Task<Dictionary<DateTime, double>> ProductionForAPeriodTimestamps(int period);
         public Task<DeviceInfo> GetDeviceInfoById(string id);
+        public Task<Dictionary<DateTime, double>> ProductionConsumptionForLastWeekForDevice(string idDevice);
+        public Task<EnumCategory.DeviceCatergory> getDeviceCategoryEnum(string idDevice);
     }
 }
