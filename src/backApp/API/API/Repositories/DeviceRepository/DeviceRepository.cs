@@ -119,43 +119,6 @@ namespace API.Repositories.DeviceRepository
             return currentProduction;
         }
 
-        public async Task<Dictionary<DateTime, double>> ConsumptionForAPeriodForProsumer(string id, int period)
-        {
-            List<Device> devices = await GetDevicesByCategoryForAPeriod(id, "Consumer", period);
-            Dictionary<DateTime, double> datePowerDict = new Dictionary<DateTime, double>();
-
-            foreach (var dev in devices)
-            {
-                foreach (var timestamp in dev.Timestamps)
-                {
-                    if (datePowerDict.ContainsKey(timestamp.Date))
-                        datePowerDict[timestamp.Date] += timestamp.ActivePower + timestamp.ReactivePower;
-                    else
-                        datePowerDict.Add(timestamp.Date, timestamp.ActivePower + timestamp.ReactivePower);
-                }
-            }
-
-            return datePowerDict;
-        }
-
-        public async Task<Dictionary<DateTime, double>> ProductionForAPeriodForProsumer(string id, int period)
-        {
-            List<Device> devices = await GetDevicesByCategoryForAPeriod(id, "Producer", period);
-            Dictionary<DateTime, double> datePowerDict = new Dictionary<DateTime, double>();
-
-            foreach (var dev in devices)
-            {
-                foreach (var timestamp in dev.Timestamps)
-                {
-                    if (datePowerDict.ContainsKey(timestamp.Date))
-                        datePowerDict[timestamp.Date] += timestamp.ActivePower;
-                    else
-                        datePowerDict.Add(timestamp.Date, timestamp.ActivePower);
-                }
-            }
-
-            return datePowerDict;
-        }
         // svi Prosumeri koji imaju uredjaje
 
         public async Task<List<ProsumerLink>> getAllProsumersWhoOwnDevice()

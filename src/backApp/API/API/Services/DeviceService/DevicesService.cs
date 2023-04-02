@@ -35,15 +35,72 @@ namespace API.Services.Devices
 
         public async Task<Dictionary<DateTime, double>> ConsumptionForAPeriodForProsumer(string id, int period)
         {
-            var cons = await _repository.ConsumptionForAPeriodForProsumer(id, period);
-            if (cons == null) throw new ArgumentException("No data!");
-            return cons;
+            List<Device> devices = await _repository.GetDevicesByCategoryForAPeriod(id, "Consumer", period);
+            Dictionary<DateTime, double> datePowerDict = new Dictionary<DateTime, double>();
+
+            foreach (var dev in devices)
+            {
+                foreach (var timestamp in dev.Timestamps)
+                {
+                    if (datePowerDict.ContainsKey(timestamp.Date))
+                        datePowerDict[timestamp.Date] += timestamp.ActivePower + timestamp.ReactivePower;
+                    else
+                        datePowerDict.Add(timestamp.Date, timestamp.ActivePower + timestamp.ReactivePower);
+                }
+            }
+
+            return datePowerDict;
         }
+
+        public async Task<Dictionary<DateTime, double>> GroupedConsumptionForAPeriodForProsumer(string id, int period)
+        {
+            var all = await ConsumptionForAPeriodForProsumer(id, period);
+            Dictionary<DateTime, double> grouped = new Dictionary<DateTime, double>();
+            foreach (var item in all)
+            {
+                var intervalStart = new DateTime(item.Key.Year, item.Key.Month, item.Key.Day, (item.Key.Hour / 12) * 12, 0, 0);
+                if (grouped.ContainsKey(intervalStart))
+                    grouped[intervalStart] += item.Value;
+                else
+                    grouped.Add(intervalStart, item.Value);
+            }
+
+            return grouped;
+        }
+
         public async Task<Dictionary<DateTime, double>> ProductionForAPeriodForProsumer(string id, int period)
         {
-            var prod = await _repository.ProductionForAPeriodForProsumer(id, period);
-            if (prod == null) throw new ArgumentException("No data!");
-            return prod;
+            List<Device> devices = await _repository.GetDevicesByCategoryForAPeriod(id, "Producer", period);
+            Dictionary<DateTime, double> datePowerDict = new Dictionary<DateTime, double>();
+
+            foreach (var dev in devices)
+            {
+                foreach (var timestamp in dev.Timestamps)
+                {
+                    if (datePowerDict.ContainsKey(timestamp.Date))
+                        datePowerDict[timestamp.Date] += timestamp.ActivePower;
+                    else
+                        datePowerDict.Add(timestamp.Date, timestamp.ActivePower);
+                }
+            }
+
+            return datePowerDict;
+        }
+
+        public async Task<Dictionary<DateTime, double>> GroupedProductionForAPeriodForProsumer(string id, int period)
+        {
+            var all = await ProductionForAPeriodForProsumer(id, period);
+            Dictionary<DateTime, double> grouped = new Dictionary<DateTime, double>();
+            foreach (var item in all)
+            {
+                var intervalStart = new DateTime(item.Key.Year, item.Key.Month, item.Key.Day, (item.Key.Hour / 12) * 12, 0, 0);
+                if (grouped.ContainsKey(intervalStart))
+                    grouped[intervalStart] += item.Value;
+                else
+                    grouped.Add(intervalStart, item.Value);
+            }
+
+            return grouped;
         }
 
         public async Task<double> ConsumptionForLastWeekForAllProsumers()
@@ -89,7 +146,7 @@ namespace API.Services.Devices
 
             foreach (var prosumer in prosumers)
             {
-                var consumptionPerProsumer = await _repository.ConsumptionForAPeriodForProsumer(prosumer, period);
+                var consumptionPerProsumer = await ConsumptionForAPeriodForProsumer(prosumer, period);
 
                 foreach (var timestamp in consumptionPerProsumer)
                 {
@@ -112,7 +169,7 @@ namespace API.Services.Devices
 
             foreach (var prosumer in prosumers)
             {
-                var productionPerProsumer = await _repository.ProductionForAPeriodForProsumer(prosumer, period);
+                var productionPerProsumer = await ProductionForAPeriodForProsumer(prosumer, period);
 
                 foreach (var timestamp in productionPerProsumer)
                 {
