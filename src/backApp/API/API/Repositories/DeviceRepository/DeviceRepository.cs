@@ -7,6 +7,13 @@ using System.Linq;
 using System;
 using System.Collections.Generic;
 using API.Models.Users;
+using Org.BouncyCastle.Crypto.Digests;
+using Microsoft.AspNetCore.Http.Connections;
+using System.Diagnostics.Eventing.Reader;
+using Org.BouncyCastle.Utilities;
+using Amazon.Runtime.Internal;
+using System.Xml.Linq;
+using API.Models.HelpModels;
 
 namespace API.Repositories.DeviceRepository
 {
@@ -260,10 +267,80 @@ namespace API.Repositories.DeviceRepository
         }
         public async Task<DeviceInfo> GetDeviceInfoById(string id)
         {
-           DeviceInfo device = await _regContext.Devices.FirstOrDefaultAsync(x => x.Id == id);
+            DeviceInfo device = null;
+            device = await _regContext.Devices.FirstOrDefaultAsync(x => x.Id == id);
 
             return device;
         }
+        public async Task<Device> GetDeviceByCategoryForAPeriod(DeviceInfo deviceinfo, int period)
+        {
+          
+            var usage = await _usageContext.PowerUsage.Find(x => deviceinfo.Id.Equals(x.DeviceId)).FirstAsync();
+
+            var device = new Device();
+            device.Id = deviceinfo.Id;
+            device.IpAddress = deviceinfo.IpAddress;
+            device.Name = deviceinfo.Name;
+            device.TypeId = deviceinfo.TypeId;
+            device.CategoryId = deviceinfo.CategoryId;
+            device.Manufacturer = deviceinfo.Manufacturer;
+            device.Wattage = deviceinfo.Wattage;
+            device.Timestamps = usage.Timestamps.Where(t =>
+                    t.Date >= DateTime.Now.AddDays(period) && t.Date <= DateTime.Now || t.Date <= DateTime.Now.AddDays(period) && t.Date >= DateTime.Now
+                ).ToList();
+            
+          
+            return device;
+        }
+       
+        public async Task<EnumCategory.DeviceCatergory> getDeviceCategoryEnum(string idDevice)
+        {
+            
+            DeviceInfo deviceinfo = await GetDeviceInfoById(idDevice);
+            EnumCategory.DeviceCatergory deviceCategory;
+            if (deviceinfo.CategoryId == 1)
+                deviceCategory = EnumCategory.DeviceCatergory.Consumer;
+            else if(deviceinfo.CategoryId == 2)
+                deviceCategory = EnumCategory.DeviceCatergory.Producer;
+            else
+                deviceCategory = EnumCategory.DeviceCatergory.Storage;
+
+            return deviceCategory;
+        }
+        public async Task<Dictionary<DateTime, double>> ProductionConsumptionForLastWeekForDevice(string idDevice)
+        {
+            DeviceInfo deviceInfo = await GetDeviceInfoById(idDevice);
+            //if (deviceInfo == null); // greska
+            Device device = await GetDeviceByCategoryForAPeriod(deviceInfo, -7);
+            Dictionary<DateTime, double> datePowerByDevice = new Dictionary<DateTime, double>();
+
+            if (deviceInfo.CategoryId == 1) // producer device
+            {
+                foreach (var timestamp in device.Timestamps)
+                {
+                    if (datePowerByDevice.ContainsKey(timestamp.Date))
+                        datePowerByDevice[timestamp.Date] += timestamp.ActivePower;
+                    else
+                        datePowerByDevice.Add(timestamp.Date, timestamp.ActivePower);
+                }
+            }
+            else if (deviceInfo.CategoryId == 2) // consumer device
+            {
+                foreach (var timestamp in device.Timestamps)
+                {
+                    if (datePowerByDevice.ContainsKey(timestamp.Date))
+                        datePowerByDevice[timestamp.Date] += timestamp.ActivePower + timestamp.ReactivePower;
+                    else
+                        datePowerByDevice.Add(timestamp.Date, timestamp.ActivePower + timestamp.ReactivePower);
+                }
+
+
+            }
+            else throw new ArgumentException("Devices is Storage!"); ; // storage device, greska
+
+            return datePowerByDevice;
+         }
+
 
         public async Task<Dictionary<string, object>> GetDevice(string id)
         {

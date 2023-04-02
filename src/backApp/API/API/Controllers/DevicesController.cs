@@ -1,7 +1,9 @@
 ﻿using API.Models.Devices;
+using API.Models.HelpModels;
 using API.Models.Users;
 using API.Services.Devices;
 using Microsoft.AspNetCore.Mvc;
+using System.Runtime.Intrinsics.X86;
 
 namespace API.Controllers
 {
@@ -165,6 +167,42 @@ namespace API.Controllers
             }
 
 
+        }
+        [HttpGet("ProductionConsumptionForLastWeekForDevice")]
+        public async Task<IActionResult> ProductionConsumptionForLastWeekForDevice(string idDevice)
+        {
+
+            try
+            {
+             
+                var prodConsDevice = (await devService.ProductionConsumptionForLastWeekForDevice(idDevice));
+                EnumCategory.DeviceCatergory deviceCategory = await devService.getDeviceCategoryEnum(idDevice);
+                
+                if (deviceCategory == EnumCategory.DeviceCatergory.Consumer)
+                {
+
+                    return Ok(new
+                    {
+                        consumption = prodConsDevice
+
+                    });
+                }
+                else
+                {
+                    return Ok(new
+                    {
+                        production = prodConsDevice
+
+                    });
+
+                }
+                
+
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         [HttpGet("GetDevice")]
