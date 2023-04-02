@@ -19,6 +19,8 @@ namespace API.Services.Devices
         public Task<Dictionary<string, object>> GetDevice(string id);
         public Task<Dictionary<DateTime, double>> ConProdForAPeriodTimestamps(int type, int period, int step);
         public Task<DeviceInfo> GetDeviceInfoById(string id);
-        public Task<Dictionary<DateTime, double>> ConProdByWeekTimestamps(int type, int period);
+        public Task<Dictionary<DateTime, double>> ConProdByWeekTimestamps(int type);
+        public Task<Dictionary<DateTime, double>> LastYearsGroupedConProdByMonthForProsumer(string id, int type);
+        public Task<Dictionary<DateTime, double>> ConProdByMonthTimestamps(int type);
     }
 }
