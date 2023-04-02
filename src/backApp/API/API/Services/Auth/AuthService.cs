@@ -205,7 +205,8 @@ namespace API.Services.Auth
             List<Claim> claims = new List<Claim>
             {
                 new Claim(ClaimTypes.Name, user.Username),
-                new Claim(ClaimTypes.Role, roleName)
+                new Claim(ClaimTypes.Role, roleName),
+                new Claim(JwtRegisteredClaimNames.Sub, user.Id)
 
             };
 
