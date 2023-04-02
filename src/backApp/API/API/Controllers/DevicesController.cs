@@ -66,6 +66,23 @@ namespace API.Controllers
             }
         }
 
+        [HttpGet("LastMonthsConsumptionAndProduction")]
+        public async Task<IActionResult> LastMonthsConsumptionAndProduction(string id)
+        {
+            try
+            {
+                return Ok(new
+                {
+                    consumption = await devService.LastMonthsGroupedConProdByWeekForProsumer(id, 0),
+                    production = await devService.LastMonthsGroupedConProdByWeekForProsumer(id, 1)
+                });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
         [HttpGet("NextWeeksConsumptionAndProduction")]
         public async Task<IActionResult> NextWeeksConsumptionAndProduction(string id)
         {
@@ -190,6 +207,23 @@ namespace API.Controllers
                     consumption = await devService.ConProdForAPeriodTimestamps(0, -7, 12),
                     production = await devService.ConProdForAPeriodTimestamps(1, -7, 12),
                 });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet("LastMonthsConsumptionAndProductionTimestamps")]
+        public async Task<IActionResult> LastMonthsConsumptionAndProductionTimestamps()
+        {
+            try
+            {
+                return Ok(new
+                {
+                    consumption = await devService.ConProdByWeekTimestamps(0, -30),
+                    production = await devService.ConProdByWeekTimestamps(1, -30),
+                }) ;
             }
             catch (Exception ex)
             {
