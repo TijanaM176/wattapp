@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgToastService } from 'ng-angular-popup';
+import { ChangePasswordComponent } from 'src/app/forms/change-password/change-password.component';
 import { EditInfoFormComponent } from 'src/app/forms/edit-info-form/edit-info-form.component';
 import { EditableInfo } from 'src/app/models/editableInfo';
 import { ProsumerService } from 'src/app/services/prosumer.service';
@@ -12,8 +13,6 @@ import { ProsumerService } from 'src/app/services/prosumer.service';
 export class UserInfoComponent implements OnInit {
 
   username : string = '';
-  firstName : string = '';
-  lastName : string = '';
   firstLastName : string = '';
   email : string = '';
   address : string = '';
@@ -24,7 +23,9 @@ export class UserInfoComponent implements OnInit {
   userData : any;
   showEdit : boolean = false;
   showChangePass : boolean = false;
+
   @ViewChild('editData', {static:false}) editData! : EditInfoFormComponent;
+  @ViewChild('changePassword',{static:false}) changePassword! : ChangePasswordComponent;
 
   constructor(private prosumerService : ProsumerService, private toast : NgToastService) {}
 
@@ -39,8 +40,6 @@ export class UserInfoComponent implements OnInit {
       {
         next:(res)=>{
           this.username = res.username;
-          this.firstName = res.firstName;
-          this.lastName =  res.lastName;
           this.firstLastName = res.firstName+' '+res.lastName;
           this.email = res.email;
           this.address = res.address;
@@ -57,7 +56,6 @@ export class UserInfoComponent implements OnInit {
 
   edit()
   {
-    //console.log(this.userData);
     this.modalTitle = "Edit Information";
     this.showEdit = true;
   }
@@ -69,8 +67,15 @@ export class UserInfoComponent implements OnInit {
 
   close()
   {
-    this.showEdit = false;
-    this.showChangePass = false;
+    if(this.showEdit)
+    {
+      this.getInformation();
+      this.showEdit = false;
+    }
+    if(this.showChangePass)
+    {
+      this.showChangePass = false;
+    }
     this.modalTitle = ''
   }
   confirm()
@@ -78,7 +83,11 @@ export class UserInfoComponent implements OnInit {
     if(this.showEdit)
     {
       this.editData.editInfo()
-      this.showEdit = false;
+      //this.showEdit = false;
+    }
+    if(this.showChangePass)
+    {
+      this.changePassword.changePass();
     }
   }
 }

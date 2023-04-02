@@ -19,6 +19,6 @@ export class ProsumerService {
 
   editInfo(id : string, dto : EditDto)
   {
-    this.http.put(this.baseUrl+'UpdateProsumer?id='+id,dto);
+    return this.http.put(this.baseUrl+'UpdateProsumer?id='+id,dto);
   }
 }
