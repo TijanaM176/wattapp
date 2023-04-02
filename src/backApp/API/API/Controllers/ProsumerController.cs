@@ -77,7 +77,11 @@ namespace API.Controllers
         public async Task<ActionResult> EditProsumer(string id, ProsumerEdit newValues)
         {
             if (!await prosumerService.EditProsumer(id, newValues)) return BadRequest("User could not be updated!");
-            return Ok("User updated successfully!");
+            return Ok(new
+            {
+                error= false,
+                message = "User updated successfully!"
+            });
         }
 
         [HttpGet("GetAllNeighborhoods")]

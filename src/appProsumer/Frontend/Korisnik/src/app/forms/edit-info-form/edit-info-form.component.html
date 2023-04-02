@@ -9,3 +9,6 @@
   <label for="email" class="form-label">E-mail</label>
   <input type="text" class="form-control" id="email" [(ngModel)]="email" placeholder="E-mail">
 </div>
+<small class="text-danger" *ngIf="notFilled">*All fileds must be populated</small>
+<small class="text-success" *ngIf="success">Information successfully edited!</small>
+<small class="text-danger" *ngIf="failure">Error occurred. Try again later.</small>

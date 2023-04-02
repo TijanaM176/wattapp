@@ -18,7 +18,7 @@ export class SidebarResponsiveComponent implements OnInit, AfterViewChecked{
   ngAfterViewChecked(): void {
     this.sideBar = document.getElementById('sadrzaj');
     let height = window.innerHeight - 65.09;
-    console.log(height);
+    //console.log(height);
     this.sideBar.style.height = height+'px';
   }
 
