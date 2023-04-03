@@ -251,5 +251,27 @@ namespace API.Services.Devices
 
             return timestamps;
         }
+
+        public async Task<double> TotalCurrentConsumption()
+        {
+            var prosumers = (await _repository.getAllProsumersWhoOwnDevice()).Select(x => x.ProsumerId).Distinct();
+            double consumption = 0;
+            foreach (var prosumer in prosumers)
+            {
+                consumption += await CurrentConsumptionForProsumer(prosumer);
+            }
+            return consumption;
+        }
+
+        public async Task<double> TotalCurrentProduction()
+        {
+            var prosumers = (await _repository.getAllProsumersWhoOwnDevice()).Select(x => x.ProsumerId).Distinct();
+            double production = 0;
+            foreach (var prosumer in prosumers)
+            {
+                production += await CurrentProductionForProsumer(prosumer);
+            }
+            return production;
+        }
     }
 }
