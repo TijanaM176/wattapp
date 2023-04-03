@@ -23,6 +23,7 @@ import { SidebarResponsiveComponent } from './components/sidebar-responsive/side
 import { EditInfoFormComponent } from './forms/edit-info-form/edit-info-form.component';
 import { ChangePasswordComponent } from './forms/change-password/change-password.component';
 import { DeviceinfoComponent } from './components/deviceinfo/deviceinfo.component';
+import { AddDeviceComponent } from './components/add-device/add-device.component';
 
 @NgModule({
   declarations: [
@@ -39,6 +40,7 @@ import { DeviceinfoComponent } from './components/deviceinfo/deviceinfo.componen
     EditInfoFormComponent,
     ChangePasswordComponent,
     DeviceinfoComponent,
+    AddDeviceComponent,
   ],
   imports: [
     BrowserAnimationsModule,
