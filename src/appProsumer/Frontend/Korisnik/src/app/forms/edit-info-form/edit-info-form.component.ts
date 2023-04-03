@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { CookieService } from 'ngx-cookie-service';
 import { EditDto } from 'src/app/models/editDto';
 import { EditableInfo } from 'src/app/models/editableInfo';
 import { ProsumerService } from 'src/app/services/prosumer.service';
@@ -19,9 +20,7 @@ export class EditInfoFormComponent implements OnInit{
   success : boolean = false;
   failure : boolean = false;
 
-  privremeniId:string = '6e2e9369-1386-4be4-8690-a4b7545ecbce';
-
-  constructor(private userService : ProsumerService) {}
+  constructor(private userService : ProsumerService, private cookie : CookieService) {}
 
   ngOnInit(): void {
     this.loadInfo()
@@ -46,7 +45,7 @@ export class EditInfoFormComponent implements OnInit{
       dto.lastName = this.lastName;
       dto.email = this.email;
 
-      this.userService.editInfo(this.privremeniId,dto)
+      this.userService.editInfo(this.cookie.get('id'),dto)
       .subscribe({
         next:(res)=>{
           this.allToFalse();

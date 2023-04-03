@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgToastService } from 'ng-angular-popup';
+import { CookieService } from 'ngx-cookie-service';
 import { ChangePasswordComponent } from 'src/app/forms/change-password/change-password.component';
 import { EditInfoFormComponent } from 'src/app/forms/edit-info-form/edit-info-form.component';
 import { EditableInfo } from 'src/app/models/editableInfo';
@@ -17,8 +18,6 @@ export class UserInfoComponent implements OnInit {
   email : string = '';
   address : string = '';
 
-  privremeniId:string = '6e2e9369-1386-4be4-8690-a4b7545ecbce';
-
   modalTitle : string ='';
   userData : any;
   showEdit : boolean = false;
@@ -27,7 +26,7 @@ export class UserInfoComponent implements OnInit {
   @ViewChild('editData', {static:false}) editData! : EditInfoFormComponent;
   @ViewChild('changePassword',{static:false}) changePassword! : ChangePasswordComponent;
 
-  constructor(private prosumerService : ProsumerService, private toast : NgToastService) {}
+  constructor(private prosumerService : ProsumerService, private toast : NgToastService, private cookie : CookieService) {}
 
   ngOnInit(): void {
     this.getInformation();
@@ -35,7 +34,7 @@ export class UserInfoComponent implements OnInit {
 
   private getInformation()
   {
-    this.prosumerService.getInforamtion(this.privremeniId)
+    this.prosumerService.getInforamtion(this.cookie.get('id'))
     .subscribe(
       {
         next:(res)=>{

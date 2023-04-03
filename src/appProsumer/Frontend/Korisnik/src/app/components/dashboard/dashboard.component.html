@@ -4,4 +4,7 @@
     <div class="flex-grow-1 col-md-2" *ngIf="deviceWidth >= 576">
       <app-sidebar-responsive></app-sidebar-responsive>
     </div>
+    <div class="flex-grow-1 col-md-10">
+      <router-outlet></router-outlet>
+    </div>
 </div>
