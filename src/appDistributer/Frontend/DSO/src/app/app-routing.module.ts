@@ -25,6 +25,7 @@ import { SidebarPotrosnjaComponent } from './components/sidebar-potrosnja/sideba
 import { UserComponent } from './components/user/user.component';
 import { DeviceinfoComponent } from './components/deviceinfo/deviceinfo.component';
 import { HistoryProsumerComponent } from './components/Charts/history-Prosumer/history-Prosumer.component';
+import { User1Component } from './components/user1/user1.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -89,6 +90,10 @@ const routes: Routes = [
   {
     path: 'user/:id/Devices/deviceinfo/:idDev',
     component: DeviceinfoComponent,
+  },
+  {
+    path: 'user1/:id',
+    component: User1Component,
   },
 ];
 @NgModule({

@@ -61,6 +61,7 @@ import { SidebarPotrosnjaComponent } from './components/sidebar-potrosnja/sideba
 import { DeviceinfoComponent } from './components/deviceinfo/deviceinfo.component';
 import { HistoryProsumerComponent } from './components/Charts/history-Prosumer/history-Prosumer.component';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
+import { User1Component } from './components/user1/user1.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -97,6 +98,7 @@ import { NgxChartsModule } from '@swimlane/ngx-charts';
     UserComponent,
     SidebarPotrosnjaComponent,
     DeviceinfoComponent,
+    User1Component,
   ],
   imports: [
     MatSliderModule,
