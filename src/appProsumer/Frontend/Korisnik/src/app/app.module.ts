@@ -24,6 +24,7 @@ import { EditInfoFormComponent } from './forms/edit-info-form/edit-info-form.com
 import { ChangePasswordComponent } from './forms/change-password/change-password.component';
 import { DeviceinfoComponent } from './components/deviceinfo/deviceinfo.component';
 import { AddDeviceComponent } from './components/add-device/add-device.component';
+import { EditDeviceFormComponent } from './forms/edit-device-form/edit-device-form.component';
 
 @NgModule({
   declarations: [
@@ -41,6 +42,7 @@ import { AddDeviceComponent } from './components/add-device/add-device.component
     ChangePasswordComponent,
     DeviceinfoComponent,
     AddDeviceComponent,
+    EditDeviceFormComponent,
   ],
   imports: [
     BrowserAnimationsModule,

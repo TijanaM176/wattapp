@@ -5,4 +5,5 @@ export class Device{
     Name!: string
     MaxUsage!: number
     AvgUsage!: number
+    CurrentUsage!:number
 }
