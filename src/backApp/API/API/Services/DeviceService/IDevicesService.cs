@@ -27,5 +27,7 @@ namespace API.Services.Devices
         public Task<Dictionary<DateTime, double>> ConProdByMonthTimestamps(int type);
         public Task<double> TotalCurrentConsumption();
         public Task<double> TotalCurrentProduction();
+        public Task<Dictionary<string, object>> GetProsumerInformation(string id);
+        public Task<List<Dictionary<string, object>>> AllProsumerInfo();
     }
 }

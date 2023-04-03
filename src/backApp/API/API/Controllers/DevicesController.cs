@@ -370,5 +370,18 @@ namespace API.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+        [HttpGet("AllProsumerInfo")]
+        public async Task<IActionResult> AllProsumerInfo()
+        {
+            try
+            {
+                return Ok(await devService.AllProsumerInfo());
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }

@@ -273,5 +273,37 @@ namespace API.Services.Devices
             }
             return production;
         }
+
+        public async Task<Dictionary<string, object>> GetProsumerInformation(string id)
+        {
+            var prosumer = await _repository.GetProsumer(id);
+            var cons = await CurrentConsumptionForProsumer(id);
+            var prod = await CurrentProductionForProsumer(id);
+            var devCount = await _repository.ProsumerDeviceCount(id);
+
+            return new Dictionary<string, object> {
+                { "id", id },
+                { "username", prosumer.Username },
+                { "address", prosumer.Address },
+                { "neighborhood", prosumer.NeigborhoodId },
+                { "lat", prosumer.Latitude },
+                { "long", prosumer.Longitude },
+                { "image", prosumer.Image },
+                { "consumption", cons },
+                { "production", prod },
+                { "devCount", devCount }
+            };  
+        }
+
+        public async Task<List<Dictionary<string, object>>> AllProsumerInfo()
+        {
+            var prosumers = (await _repository.GetProsumers()).Select(x => x.Id);
+            List<Dictionary<string, object>> info = new List<Dictionary<string, object>>();
+
+            foreach (var prosumer in prosumers)
+                info.Add(await GetProsumerInformation(prosumer));
+
+            return info;
+        }
     }
 }
