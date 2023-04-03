@@ -22,5 +22,6 @@ namespace API.Services.DsoService
         public Task<string> GetRoleName(long id);
         public Task<string> GetRegionName(string id);
         public Task<Prosumer> UpdateProsumerByDso(ChangeProsumerbyDSO change);
+        public Task<double> ProsumerCount();
     }
 }

@@ -60,7 +60,7 @@ namespace API.Controllers
                 {
                     consumption = await devService.GroupedConProdForAPeriodForProsumer(id, 0, -7, 12),
                     production = await devService.GroupedConProdForAPeriodForProsumer(id, 1, -7, 12)
-                }) ;
+                });
             }
             catch (Exception ex)
             {
@@ -195,7 +195,7 @@ namespace API.Controllers
 
                 });
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }
@@ -208,10 +208,10 @@ namespace API.Controllers
 
             try
             {
-             
+
                 var prodConsDevice = (await devService.ProductionConsumptionForLastWeekForDevice(idDevice));
                 EnumCategory.DeviceCatergory deviceCategory = await devService.getDeviceCategoryEnum(idDevice);
-                
+
                 if (deviceCategory == EnumCategory.DeviceCatergory.Consumer)
                 {
 
@@ -230,7 +230,7 @@ namespace API.Controllers
                     });
 
                 }
-                
+
 
             }
             catch (Exception ex)
@@ -246,7 +246,7 @@ namespace API.Controllers
             {
                 return Ok(await devService.GetDevice(id));
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }
@@ -278,7 +278,7 @@ namespace API.Controllers
                 {
                     consumption = await devService.ConProdByWeekTimestamps(0),
                     production = await devService.ConProdByWeekTimestamps(1),
-                }) ;
+                });
             }
             catch (Exception ex)
             {
@@ -346,6 +346,23 @@ namespace API.Controllers
                 {
                     consumption = await devService.ConProdForAPeriodTimestamps(0, 7, 12),
                     production = await devService.ConProdForAPeriodTimestamps(1, 7, 12),
+                });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet("DsoSidebarInfo")]
+        public async Task<IActionResult> DsoSidebarInfo()
+        {
+            try
+            {
+                return Ok(new
+                {
+                    totalConsumption = await devService.TotalCurrentConsumption(),
+                    totalProduction = await devService.TotalCurrentProduction(),
                 });
             }
             catch (Exception ex)

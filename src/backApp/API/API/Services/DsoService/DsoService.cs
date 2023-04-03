@@ -553,7 +553,10 @@ namespace API.Services.DsoService
                 return null;
         }
 
-
+        public async Task<double> ProsumerCount()
+        {
+            return (await _repository.GetAllProsumers()).Count();
+        }
 
     }
 }

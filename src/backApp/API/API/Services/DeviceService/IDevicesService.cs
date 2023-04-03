@@ -25,5 +25,7 @@ namespace API.Services.Devices
         public Task<Dictionary<DateTime, double>> ConProdByWeekTimestamps(int type);
         public Task<Dictionary<DateTime, double>> LastYearsGroupedConProdByMonthForProsumer(string id, int type);
         public Task<Dictionary<DateTime, double>> ConProdByMonthTimestamps(int type);
+        public Task<double> TotalCurrentConsumption();
+        public Task<double> TotalCurrentProduction();
     }
 }
