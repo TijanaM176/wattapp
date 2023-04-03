@@ -22,6 +22,8 @@ import { NavbarOffcanvasComponent } from './components/navbar-offcanvas/navbar-o
 import { SidebarResponsiveComponent } from './components/sidebar-responsive/sidebar-responsive.component';
 import { EditInfoFormComponent } from './forms/edit-info-form/edit-info-form.component';
 import { ChangePasswordComponent } from './forms/change-password/change-password.component';
+import { DeviceCardsComponent } from './components/deviceCards/deviceCards.component';
+import { UserDevicesComponent } from './components/userDevices/userDevices.component';
 
 @NgModule({
   declarations: [
@@ -37,6 +39,8 @@ import { ChangePasswordComponent } from './forms/change-password/change-password
     SidebarResponsiveComponent,
     EditInfoFormComponent,
     ChangePasswordComponent,
+    DeviceCardsComponent,
+    UserDevicesComponent,
   ],
   imports: [
     BrowserAnimationsModule,
