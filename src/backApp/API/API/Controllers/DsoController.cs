@@ -201,5 +201,18 @@ namespace API.Controllers
 
 
         }
+
+        [HttpGet("ProsumerCount")]
+        [Authorize]
+        public async Task<IActionResult> ProsumerCount()
+        {
+            try
+            {
+                return Ok(await dsoService.ProsumerCount());
+            }catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }
