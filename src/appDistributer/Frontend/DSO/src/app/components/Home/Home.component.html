@@ -1,8 +1,12 @@
-<!-- <app-navBar></app-navBar> -->
-<div style="display: flex; height: 90.2vh">
-  <app-sidebar></app-sidebar>
-  <div style="width: 100%; height: 100%">
-    <app-historyAllProsumers></app-historyAllProsumers>
+<div class="d-flex flex-column h-100">
+  <div class="d-flex flex-grow-1">
+    <div class="flex-grow-1 col-md-2">
+      <app-home-sidebar></app-home-sidebar>
+    </div>
+    <div class="flex-grow-1 col-md-10">
+      <!-- <app-user-info></app-user-info> -->
+      <app-historyAllProsumers></app-historyAllProsumers>
+    </div>
   </div>
 </div>
 
