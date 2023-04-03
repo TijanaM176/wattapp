@@ -14,7 +14,7 @@ import { AddDeviceComponent } from './components/add-device/add-device.component
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
-  { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
+  { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
   {
     path: 'dashboard',
     component: DashboardComponent,
