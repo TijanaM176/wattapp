@@ -24,4 +24,8 @@ export class ProsumerService {
       'https://localhost:7156/GetAllDevicesForProsumer?id=' + id
     );
   }
+
+  getDeviceById(id: string): Observable<any> {
+    return this.http.get<any>('https://localhost:7156/GetDevice?id=' + id);
+  }
 }

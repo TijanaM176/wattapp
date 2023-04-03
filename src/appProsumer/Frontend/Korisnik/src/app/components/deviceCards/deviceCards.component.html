@@ -15,47 +15,52 @@
   >
     USER DEVICES
   </h1>
-  <table style="width: 100%">
-    <tr style="width: 100%">
-      <div>
-        <div class="form-check" style="margin-right: 10%">
-          <input
-            class="form-check-input"
-            type="checkbox"
-            value="1"
-            id="flexCheckDefault"
-          />
-          <label class="form-check-label" for="flexCheckDefault">
-            Consumers
-          </label>
-        </div>
-        <div class="form-check" style="margin-right: 10%">
-          <input
-            class="form-check-input"
-            type="checkbox"
-            value="2"
-            id="flexCheckDefault1"
-          />
-          <label class="form-check-label" for="flexCheckDefault1">
-            Producers
-          </label>
-        </div>
-        <div class="form-check">
-          <input
-            class="form-check-input"
-            type="checkbox"
-            value="3"
-            id="flexCheckDefault2"
-          />
-          <label class="form-check-label" for="flexCheckDefault2">
-            Storages
-          </label>
-        </div>
+  <div
+    class="row"
+    style="display: flex; justify-content: center; margin-bottom: 3%"
+  >
+    <div class="col-2" style="display: flex; justify-content: center">
+      <div class="form-check" style="margin-right: 10%">
+        <input
+          class="form-check-input"
+          type="checkbox"
+          value="1"
+          id="flexCheckDefault"
+        />
+        <p class="form-check-label" for="flexCheckDefault">Consumers</p>
       </div>
-    </tr>
-  </table>
-  <div id="tabela">
-    <div class="container">
+    </div>
+    <div class="col-2" style="display: flex; justify-content: center">
+      <div class="form-check" style="margin-right: 10%">
+        <input
+          class="form-check-input"
+          type="checkbox"
+          value="2"
+          id="flexCheckDefault1"
+        />
+        <label class="form-check-label" for="flexCheckDefault1">
+          Producers
+        </label>
+      </div>
+    </div>
+    <div class="col-2" style="display: flex; justify-content: center">
+      <div class="form-check">
+        <input
+          class="form-check-input"
+          type="checkbox"
+          value="3"
+          id="flexCheckDefault2"
+        />
+        <label class="form-check-label" for="flexCheckDefault2">
+          Storages
+        </label>
+      </div>
+    </div>
+  </div>
+</div>
+<div id="tabela">
+  <div class="container">
+    <div id="cards">
       <div class="row">
         <div class="card" *ngFor="let device of devices">
           <table style="margin: 2%">
@@ -65,74 +70,78 @@
                   ><img src="assets/images/fridge.png"
                 /></span>
                 <span *ngSwitchCase="'2'"
-                  ><img src="assets/images/fridge.png"
+                  ><img src="assets/images/tv.png"
                 /></span>
                 <span *ngSwitchCase="'3'"
-                  ><img src="assets/images/fridge.png"
+                  ><img src="assets/images/oven.png"
                 /></span>
                 <span *ngSwitchCase="'4'"
-                  ><img src="assets/images/fridge.png"
+                  ><img src="assets/images/air-conditioner.png"
                 /></span>
                 <span *ngSwitchCase="'5'"
-                  ><img src="assets/images/fridge.png"
+                  ><img src="assets/images/microwave.png"
                 /></span>
                 <span *ngSwitchCase="'6'"
-                  ><img src="assets/images/fridge.png"
+                  ><img src="assets/images/dish-washer.png"
                 /></span>
                 <span *ngSwitchCase="'7'"
-                  ><img src="assets/images/fridge.png"
+                  ><img src="assets/images/coffee-machine.png"
                 /></span>
                 <span *ngSwitchCase="'8'"
-                  ><img src="assets/images/fridge.png"
+                  ><img src="assets/images/pc.png"
                 /></span>
                 <span *ngSwitchCase="'9'"
-                  ><img src="assets/images/fridge.png"
+                  ><img src="assets/images/washing-machine.png"
                 /></span>
                 <span *ngSwitchCase="'10'"
-                  ><img src="assets/images/fridge.png"
+                  ><img src="assets/images/dryer-machine.png"
                 /></span>
                 <span *ngSwitchCase="'11'"
-                  ><img src="assets/images/fridge.png"
+                  ><img src="assets/images/vacuum-cleaner.png"
                 /></span>
                 <span *ngSwitchCase="'12'"
-                  ><img src="assets/images/fridge.png"
+                  ><img src="assets/images/iron.png"
                 /></span>
                 <span *ngSwitchCase="'13'"
-                  ><img src="assets/images/fridge.png"
+                  ><img src="assets/images/dryer.png"
                 /></span>
                 <span *ngSwitchCase="'14'"
-                  ><img src="assets/images/fridge.png"
+                  ><img src="assets/images/water-heater.png"
                 /></span>
                 <span *ngSwitchCase="'15'"
-                  ><img src="assets/images/fridge.png"
+                  ><img src="assets/images/kettle.png"
                 /></span>
                 <span *ngSwitchCase="'16'"
-                  ><img src="assets/images/fridge.png"
+                  ><img src="assets/images/station-charging.png"
                 /></span>
                 <span *ngSwitchCase="'17'"
-                  ><img src="assets/images/fridge.png"
+                  ><img src="assets/images/playstation.png"
                 /></span>
                 <span *ngSwitchCase="'18'"
-                  ><img src="assets/images/fridge.png"
+                  ><img src="assets/images/smart-heater.png"
                 /></span>
                 <span *ngSwitchCase="'19'"
-                  ><img src="assets/images/fridge.png"
+                  ><img src="assets/images/solar-panel.png"
                 /></span>
                 <span *ngSwitchCase="'20'"
-                  ><img src="assets/images/fridge.png"
+                  ><img src="assets/images/windmill.png"
                 /></span>
               </span>
               <span [ngSwitch]="device.categoryId">
-                <p *ngSwitchCase="'1'">Consumption</p>
-                <p *ngSwitchCase="'2'">Production</p>
-                <p *ngSwitchCase="'3'">Storage</p>
+                <p *ngSwitchCase="'1'">
+                  Consumption {{ deviceUsages[device.id] }} kW
+                </p>
+                <p *ngSwitchCase="'2'">
+                  Production {{ deviceUsages[device.id] }} kW
+                </p>
+                <p *ngSwitchCase="'3'">
+                  Storage {{ deviceUsages[device.id] }} kW
+                </p>
               </span>
             </tr>
           </table>
           <h4>{{ device.name }}</h4>
-          <p>IP {{ device.ipAddress }}</p>
-
-          <!-- <p>Active Power{{ device.timestamps.activePower }}</p> -->
+          <h6>IP {{ device.ipAddress }}</h6>
         </div>
       </div>
     </div>

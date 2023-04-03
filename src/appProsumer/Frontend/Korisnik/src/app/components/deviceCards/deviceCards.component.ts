@@ -7,6 +7,7 @@ import { ProsumerService } from 'src/app/services/prosumer.service';
   styleUrls: ['./deviceCards.component.css'],
 })
 export class DeviceCardsComponent implements OnInit {
+  deviceUsages: { [key: string]: number } = {};
   consumers: any[] = [];
   producers: any[] = [];
   storages: any[] = [];
@@ -23,10 +24,16 @@ export class DeviceCardsComponent implements OnInit {
           ...response.producers,
           ...response.storage,
         ];
-        this.consumers = response.consumers;
-        this.producers = response.producers;
-        this.storages = response.storage;
         console.log(this.devices);
+        this.devices.forEach((device) => {
+          this.Usage(device.id);
+        });
       });
+  }
+
+  Usage(id: string) {
+    this.service.getDeviceById(id).subscribe((response) => {
+      this.deviceUsages[id] = response.CurrentUsage;
+    });
   }
 }

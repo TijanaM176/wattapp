@@ -15,11 +15,19 @@ a {
   text-decoration: none;
 }
 .container {
-  width: 100%;
+  flex-wrap: wrap;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.row {
-  width: 100%;
+.container .row {
+  flex-wrap: wrap;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+#cards {
   flex-wrap: wrap;
   display: flex;
   align-items: center;
@@ -33,17 +41,18 @@ a {
   box-shadow: 0 0 15px rgba(0, 0, 0, 0.4);
   flex-direction: column;
   align-self: normal;
-  max-width: 20%;
+  max-width: 300px;
   min-width: 160px;
   background: #e5f5ed;
   box-shadow: 4px 5px 10px #59747f;
   border-radius: 20px;
   font-family: "Roboto";
   color: #08376b;
+  margin-right: 10px auto;
 }
 
 .card img {
-  width: 30%;
+  width: 35%;
 }
 
 .card h4 {

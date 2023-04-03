@@ -283,7 +283,7 @@ namespace API.Repositories.DeviceRepository
                 { "Wattage", info.Wattage },
                 { "CurrentUsage", currentUsage},
                 { "CategoryName", (await GetDeviceCat(info.CategoryId)).Name },
-                { "TypeName", (await GetDeviceCat(info.TypeId)).Name },
+                { "TypeName", (await GetDeviceType(info.TypeId)).Name },
                 { "MaxUsage", max},
                 { "AvgUsage", await AvgUsage(id) }
             };
