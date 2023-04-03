@@ -58,9 +58,43 @@ namespace API.Controllers
             {
                 return Ok(new
                 {
-                    consumption = await devService.ConsumptionForAPeriodForProsumer(id, -7),
-                    production = await devService.ProductionForAPeriodForProsumer(id, -7)
+                    consumption = await devService.GroupedConProdForAPeriodForProsumer(id, 0, -7, 12),
+                    production = await devService.GroupedConProdForAPeriodForProsumer(id, 1, -7, 12)
                 }) ;
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet("LastMonthsConsumptionAndProduction")]
+        public async Task<IActionResult> LastMonthsConsumptionAndProduction(string id)
+        {
+            try
+            {
+                return Ok(new
+                {
+                    consumption = await devService.LastMonthsGroupedConProdByWeekForProsumer(id, 0),
+                    production = await devService.LastMonthsGroupedConProdByWeekForProsumer(id, 1)
+                });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet("LastYearsConsumptionAndProduction")]
+        public async Task<IActionResult> LastYearsConsumptionAndProduction(string id)
+        {
+            try
+            {
+                return Ok(new
+                {
+                    consumption = await devService.LastYearsGroupedConProdByMonthForProsumer(id, 0),
+                    production = await devService.LastYearsGroupedConProdByMonthForProsumer(id, 1)
+                });
             }
             catch (Exception ex)
             {
@@ -75,8 +109,8 @@ namespace API.Controllers
             {
                 return Ok(new
                 {
-                    consumption = await devService.ConsumptionForAPeriodForProsumer(id, 7),
-                    production = await devService.ProductionForAPeriodForProsumer(id, 7)                    
+                    consumption = await devService.GroupedConProdForAPeriodForProsumer(id, 0, 7, 12),
+                    production = await devService.GroupedConProdForAPeriodForProsumer(id, 1, 7, 12)
                 });
             }
             catch (Exception ex)
@@ -225,8 +259,42 @@ namespace API.Controllers
             {
                 return Ok(new
                 {
-                    consumption = await devService.ConsumptionForAPeriodTimestamps(-7),
-                    production = await devService.ProductionForAPeriodTimestamps(-7),
+                    consumption = await devService.ConProdForAPeriodTimestamps(0, -7, 12),
+                    production = await devService.ConProdForAPeriodTimestamps(1, -7, 12),
+                });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet("LastMonthsConsumptionAndProductionTimestamps")]
+        public async Task<IActionResult> LastMonthsConsumptionAndProductionTimestamps()
+        {
+            try
+            {
+                return Ok(new
+                {
+                    consumption = await devService.ConProdByWeekTimestamps(0),
+                    production = await devService.ConProdByWeekTimestamps(1),
+                }) ;
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet("LastYearsConsumptionAndProductionTimestamps")]
+        public async Task<IActionResult> LastYearsConsumptionAndProductionTimestamps()
+        {
+            try
+            {
+                return Ok(new
+                {
+                    consumption = await devService.ConProdByMonthTimestamps(0),
+                    production = await devService.ConProdByMonthTimestamps(1),
                 });
             }
             catch (Exception ex)
@@ -242,8 +310,8 @@ namespace API.Controllers
             {
                 return Ok(new
                 {
-                    consumption = await devService.ConsumptionForAPeriodTimestamps(1),
-                    production = await devService.ProductionForAPeriodTimestamps(1),
+                    consumption = await devService.ConProdForAPeriodTimestamps(0, 1, 1),
+                    production = await devService.ConProdForAPeriodTimestamps(1, 1, 1),
                 });
             }
             catch (Exception ex)
@@ -259,8 +327,8 @@ namespace API.Controllers
             {
                 return Ok(new
                 {
-                    consumption = await devService.ConsumptionForAPeriodTimestamps(3),
-                    production = await devService.ProductionForAPeriodTimestamps(3),
+                    consumption = await devService.ConProdForAPeriodTimestamps(0, 3, 6),
+                    production = await devService.ConProdForAPeriodTimestamps(1, 3, 6),
                 });
             }
             catch (Exception ex)
@@ -276,8 +344,8 @@ namespace API.Controllers
             {
                 return Ok(new
                 {
-                    consumption = await devService.ConsumptionForAPeriodTimestamps(7),
-                    production = await devService.ProductionForAPeriodTimestamps(7),
+                    consumption = await devService.ConProdForAPeriodTimestamps(0, 7, 12),
+                    production = await devService.ConProdForAPeriodTimestamps(1, 7, 12),
                 });
             }
             catch (Exception ex)
