@@ -1,0 +1,49 @@
+@media (max-width: 800px) {
+    #left{
+        clear:both;
+        position:relative;
+       
+        
+        justify-content: center;
+        margin-bottom: 10%;
+    }
+    #right{
+        clear: both;
+        height:20%;
+        width:100%;
+     
+    }
+   
+   
+}
+.gradient-custom {
+    /* fallback for old browsers */
+    background: #E0EFEA;
+    
+    /* Chrome 10-25, Safari 5.1-6 */
+    /* background: -webkit-linear-gradient(to right bottom, rgba(246, 211, 101, 1), rgba(253, 160, 133, 1)); */
+    
+    /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    /* background: linear-gradient(to right bottom, rgba(246, 211, 101, 1), rgba(253, 160, 133, 1)) */
+}
+@media (min-width: 768px) {
+    .h-md-100 {
+        height: 100% !important;
+    }
+   
+}
+.btn{
+    background: #7E939C;
+    border-color: #7E939C;
+    box-shadow: #0000;
+    color: #ffff;
+}
+.section{
+    color: #7E939C;
+}
+.text-muted{
+    color: #7E939C;
+}
+.btn-secondary{
+    background-color: #8D021F;
+}
