@@ -1,9 +1,10 @@
-<app-navBar></app-navBar>
-<app-sidebar></app-sidebar>
-<div *ngIf="showModal">
-
+<!-- <app-navBar></app-navBar> -->
+<div style="display: flex; height: 90.2vh">
+  <app-sidebar></app-sidebar>
+  <div style="width: 100%; height: 100%">
+    <app-historyAllProsumers></app-historyAllProsumers>
+  </div>
 </div>
-<router-outlet></router-outlet>
 
 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" id="launchButton" hidden="true">
     Launch demo modal

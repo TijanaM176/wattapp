@@ -28,68 +28,28 @@ import { HistoryProsumerComponent } from './components/Charts/history-Prosumer/h
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
-  { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
+  { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
   {
     path: 'dashboard',
     component: DashboardComponent,
-    canActivate: [AuthGuard],
-  },
-  {
-    path: 'signup',
-    component: AddProsumerComponent,
-  },
-  {
-    path: 'signupWorker',
-    component: SignupWorkerPageComponent,
-  },
-  {
-    path: 'users',
-    component: StranaUsersComponent,
-  },
-  {
-    path: 'users/mapa',
-    component: MapComponent,
-  },
-  {
-    path: 'employees',
-    component: EmployeesComponent,
-  },
-  {
-    path: 'employeedetails',
-    component: EmployeedetailsComponent,
-  },
-  {
-    path: 'sidebardso',
-    component: SidebarDsoComponent,
-  },
-  {
-    path: 'map',
-    component: MapComponent,
+    //canActivate: [AuthGuard],
+    children: [
+      { path: '',redirectTo:'home',pathMatch:'full'},
+      { path:'home', component:HomeComponent },
+      { path: 'map', component:MapComponent},
+      { path:'users', component: StranaUsersComponent},
+      { path: 'signup', component: AddProsumerComponent },
+      { path: 'employees', component: EmployeedetailsComponent },
+      { path: 'signupWorker', component: SignupWorkerPageComponent },
+      { path: 'user/:id', component: UserComponent},
+      { path: 'user/:id/Devices', component: UserDevicesComponent},
+      { path: 'user/:id/Devices/deviceinfo/:idDev', component: DeviceinfoComponent }
+    ]
   },
   {
     path: 'resetpassword',
     component: ResetpasswordComponent,
-  },
-  {
-    path: 'prosumerinfo',
-    component: ProsumerinfoComponent,
-  },
-  {
-    path: 'sidebarpotrosnja',
-    component: SidebarPotrosnjaComponent,
-  },
-  {
-    path: 'user/:id',
-    component: UserComponent,
-  },
-  {
-    path: 'user/:id/Devices',
-    component: UserDevicesComponent,
-  },
-  {
-    path: 'user/:id/Devices/deviceinfo/:idDev',
-    component: DeviceinfoComponent,
-  },
+  }
 ];
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
