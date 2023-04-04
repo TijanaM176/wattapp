@@ -323,7 +323,7 @@ namespace API.Repositories.DeviceRepository
                 { "Wattage", info.Wattage },
                 { "CurrentUsage", currentUsage},
                 { "CategoryName", (await GetDeviceCat(info.CategoryId)).Name },
-                { "TypeName", (await GetDeviceCat(info.TypeId)).Name },
+                { "TypeName", (await GetDeviceType(info.TypeId)).Name },
                 { "MaxUsage", max},
                 { "AvgUsage", await AvgUsage(id) }
             };
@@ -339,6 +339,16 @@ namespace API.Repositories.DeviceRepository
         {
             DevicePower dev = await _usageContext.PowerUsage.Find(x => x.DeviceId == id).FirstOrDefaultAsync();
             return Math.Round(dev.Timestamps.Average(x => x.ActivePower), 4);
+        }
+
+        public async Task<Prosumer> GetProsumer (string id)
+        {
+            return await _regContext.Prosumers.FirstOrDefaultAsync(x => x.Id == id);
+        }
+
+        public async Task<List<Prosumer>> GetProsumers()
+        {
+            return await _regContext.Prosumers.ToListAsync();
         }
     }
 }

@@ -27,5 +27,10 @@ namespace API.Services.Devices
         public Task<Dictionary<DateTime, double>> ConProdByMonthTimestamps(int type);
         public Task<double> TotalCurrentConsumption();
         public Task<double> TotalCurrentProduction();
+        public Task<Dictionary<string, object>> GetProsumerInformation(string id);
+        public Task<List<Dictionary<string, object>>> AllProsumerInfo();
+        public Task<List<Dictionary<string, object>>> UpdatedProsumerFilter(double minConsumption, double maxConsumption, double minProduction, double maxProduction, int minDeviceCount, int maxDeviceCount);
+        public Task<List<Dictionary<string, object>>> UpdatedProsumerFilter2(string neighbourhood, double minConsumption, double maxConsumption, double minProduction, double maxProduction, int minDeviceCount, int maxDeviceCount);
+
     }
 }

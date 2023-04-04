@@ -370,5 +370,43 @@ namespace API.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+        [HttpGet("AllProsumerInfo")]
+        public async Task<IActionResult> AllProsumerInfo()
+        {
+            try
+            {
+                return Ok(await devService.AllProsumerInfo());
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet("UpdatedProsumerFilter")]
+        public async Task<IActionResult> UpdatedProsumerFilter(double minConsumption, double maxConsumption, double minProduction, double maxProduction, int minDeviceCount, int maxDeviceCount)
+        {
+            try
+            {
+                return Ok(await devService.UpdatedProsumerFilter(minConsumption, maxConsumption, minProduction, maxProduction, minDeviceCount, maxDeviceCount));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+        [HttpGet("UpdatedProsumerFilter2")]
+        public async Task<IActionResult> UpdatedProsumerFilter2(string neighborhood, double minConsumption, double maxConsumption, double minProduction, double maxProduction, int minDeviceCount, int maxDeviceCount)
+        {
+            try
+            {
+                return Ok(await devService.UpdatedProsumerFilter2(neighborhood, minConsumption, maxConsumption, minProduction, maxProduction, minDeviceCount, maxDeviceCount));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }
