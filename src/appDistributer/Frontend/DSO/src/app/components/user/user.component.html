@@ -8,18 +8,18 @@
                 <div class="divinput">
                 <form [formGroup]="editUser" (ngSubmit)="UpdateData()">
                   <label>First name:</label><br />
-                  <input type="text" name="firstname" formControlName="firstname" /><br />
+                  <input type="text" name="firstName" formControlName="FirstName" /><br />
                   <label>Last name:</label><br />
-                  <input type="text" name="lastname" formControlName="lastname" /><br />
+                  <input type="text" name="lastName" formControlName="LastName" /><br />
                   <label>Email</label><br />
-                  <input type="text" name="email" formControlName="email" /><br />
+                  <input type="text" name="email" formControlName="Email" /><br />
 
                   <label>Username:</label><br />
                   <input
                     type="text"
                     name="username"
                     [readonly]="true"
-                    formControlName="username"
+                    formControlName="Username"
                   /><br />
 
                   <label>Address:</label><br />
@@ -28,16 +28,16 @@
                     name="address"
                     [readonly]="true"
                     [disabled]="true"
-                    formControlName="address"
+                    formControlName="Address"
                   /><br />
                   <label>Neighborhood:</label><br />
                   <input
                     type="text"
-                    name="neigborhoodId"
+                    name="neigborhoodName"
                     [readonly]="true"
-                    formControlName="neigborhoodId"
+                    formControlName="NeigborhoodName"
                   /><br />
-                  <button type="submit" id="dugme">Edit </button>
+                  <button type="submit" id="dugme">Save </button>
                 </form>
               </div>
   </div>

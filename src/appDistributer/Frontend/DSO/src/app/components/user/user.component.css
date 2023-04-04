@@ -1,25 +1,23 @@
-body {background-color: coral;}
+body {background-color: coral;
+    font-family: roboto;}
 .glavni{
-    background-color: aquamarine;
+   
     display: flex;
     width: 100%;
     height: auto;
     flex-direction: row;
     
 }
-.levi{
-    
-    background-color: red;
-}
+
 .centralni{
     display: flex;
-    width: 40%;  
-    background-color: rgb(174, 135, 135);
+    width: 50%;  
+    
     padding: 10px;
  
 }
 .desni{
-    width: 40%;  
+    width: 50%;  
     
     background-color: green;
 }
@@ -29,12 +27,20 @@ body {background-color: coral;}
     margin: 20px auto;
     
 }
+label{
+    font-family: roboto;
+    font-size: 25px;
+    color: #5875A1;
+}
  input{
     
     border-radius: 7px;
     background-color: #E8F3F8;
-    
+    font-family: roboto;
+    font-size: 20px;
      border: wheat;
+    padding: 10px;
+    margin-bottom: 10px;
     width: 100%;
     max-width: 500px;
     height: 40px;
@@ -50,8 +56,9 @@ p{
     background-color: #5875A1;
     border-radius: 7px;
     width: 40%;
+    
     float: right;
     margin-top: 10px;
     color: white;
-
+    font-family: roboto;
 }

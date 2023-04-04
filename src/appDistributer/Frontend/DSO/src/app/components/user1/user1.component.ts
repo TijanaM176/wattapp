@@ -21,16 +21,21 @@ export class User1Component {
   
       }
  
- 
+      id: string = '';
   myData:any;
-  
+  Region:any;
 
   ngOnInit(): void {
     this.user.detailsEmployee(this.router.snapshot.params['id']).subscribe
     ((data) => {
       this.myData=data;
+      this.id = this.router.snapshot.params['id'];
+      
     })
- 
+  this.user.getRegionById(this.myData.neigborhoodId).subscribe((data)=> {
+  this.Region=data;
+  
+ })
 }
  }
 

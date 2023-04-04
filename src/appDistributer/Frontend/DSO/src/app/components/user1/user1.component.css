@@ -1,6 +1,6 @@
 @import url("https://fonts.googleapis.com/css2?family=Audiowide&display=swap");
 
-body {background-color: coral;}
+
 .glavni{
    
     display: flex;
@@ -9,10 +9,7 @@ body {background-color: coral;}
     
     
 }
-.levi{
-    
-    background-color: red;
-}
+
 .centralni{
     display: flex;
     width: 50%;  
@@ -47,7 +44,14 @@ body {background-color: coral;}
     font-size: 25px;
     padding: 20px;
 }
-
+#edit{
+    width: 50%;
+    float: right;
+  background-color: #5875a1;
+  color: white;
+  font-family: roboto;
+  
+}
  input{
     
     border-radius: 7px;
