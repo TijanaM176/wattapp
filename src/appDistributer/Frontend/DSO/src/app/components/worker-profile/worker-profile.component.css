@@ -1,0 +1,22 @@
+.profile-image {
+    height: 200px;
+    width: 200px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+.contact-info li {
+    margin-bottom: 10px;
+}
+.contact-info li span {
+    font-weight: bold;
+}
+.btn-primary{
+    background-color: #5875A1;
+    border-color: #5875A1;
+}
+a{
+    color: white;
+}
+.photoText{
+    font-size: 12px;
+}
