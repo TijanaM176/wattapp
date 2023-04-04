@@ -208,7 +208,10 @@ namespace API.Controllers
         {
             try
             {
-                return Ok(await dsoService.ProsumerCount());
+                return Ok(new
+                {
+                    prosumerCount = (await dsoService.ProsumerCount()).ToString()
+                });
             }catch (Exception ex)
             {
                 return BadRequest(ex.Message);

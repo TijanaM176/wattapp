@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { NgToastService } from 'ng-angular-popup';
 import { DeviceserviceService } from 'src/app/services/deviceservice.service';
+import { EmployeesServiceService } from 'src/app/services/employees-service.service';
 
 @Component({
   selector: 'app-home-sidebar',
@@ -13,10 +15,11 @@ export class HomeSidebarComponent implements OnInit{
   currProduction : string = '';
   numOfUsers : string = '';
 
-  constructor(private deviceService : DeviceserviceService) {}
+  constructor(private deviceService : DeviceserviceService, private employeeService : EmployeesServiceService, private toast : NgToastService) {}
 
   ngOnInit(): void {
-    this.getConsumptionProduction()
+    this.getRegion();
+    this.getConsumptionProduction();
   }
 
   private getConsumptionProduction()
@@ -26,7 +29,41 @@ export class HomeSidebarComponent implements OnInit{
       next:(res)=>{
         this.currConsumption = res.totalConsumption;
         this.currProduction = res.totalProduction;
+      },
+      error:(err)=>{
+        console.log(err.error);
+        this.toast.error({detail:"ERROR", summary:"Unable to load current consumption and production",duration:3000});
       }
     })
   }
+
+  private getProsumerCount()
+  {
+    this.employeeService.getProsumerCout()
+    .subscribe({
+      next:(res)=>{
+        this.numOfUsers = res.prosumerCount;
+      },
+      error:(err)=>{
+        console.log(err.error);
+        this.toast.error({detail:"ERROR", summary:"Unable to load user count",duration:3000});
+      }
+    })
+  }
+
+  private getRegion()
+  {
+    this.employeeService.getAllRegions()
+    .subscribe({
+      next:(res)=>{
+        this.region = res[0].regionName;
+        this.getProsumerCount();
+      },
+      error:(err)=>{
+        console.log(err.error);
+        this.toast.error({detail:"ERROR", summary:"Unable to load region",duration:3000});
+      }
+    })
+  }
+
 }
