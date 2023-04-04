@@ -1,7 +1,7 @@
 <div>
   <h1
     style="
-      margin: 2%;
+      margin: 2% 2% 1% 2%;
       font-family: Rhodium Libre;
       font-style: normal;
       font-weight: 400;
@@ -15,10 +15,7 @@
   >
     USER DEVICES
   </h1>
-  <div
-    class="row"
-    style="display: flex; justify-content: center; margin-bottom: 3%"
-  >
+  <div class="row" id="rowCheck">
     <div class="col-2" style="display: flex; justify-content: center">
       <div class="form-check" style="margin-right: 10%">
         <input
@@ -66,12 +63,12 @@
           <table style="margin: 2%">
             <tr style="display: flex; justify-content: space-evenly">
               <span [ngSwitch]="device.typeId">
-                <span *ngSwitchCase="'1'"
-                  ><img src="assets/images/fridge.png"
-                /></span>
-                <span *ngSwitchCase="'2'"
-                  ><img src="assets/images/tv.png"
-                /></span>
+                <div *ngSwitchCase="'1'">
+                  <img src="assets/images/fridge.png" />
+                </div>
+                <div *ngSwitchCase="'2'">
+                  <img src="assets/images/tv.png" />
+                </div>
                 <span *ngSwitchCase="'3'"
                   ><img src="assets/images/oven.png"
                 /></span>
@@ -128,20 +125,45 @@
                 /></span>
               </span>
               <span [ngSwitch]="device.categoryId">
-                <p *ngSwitchCase="'1'">
+                <h6 *ngSwitchCase="'1'" style="text-align: center">
                   Consumption {{ deviceUsages[device.id] }} kW
-                </p>
-                <p *ngSwitchCase="'2'">
+                </h6>
+                <h6 *ngSwitchCase="'2'" style="text-align: center">
                   Production {{ deviceUsages[device.id] }} kW
-                </p>
-                <p *ngSwitchCase="'3'">
+                </h6>
+                <h6 *ngSwitchCase="'3'" style="text-align: center">
                   Storage {{ deviceUsages[device.id] }} kW
-                </p>
+                </h6>
               </span>
             </tr>
           </table>
           <h4>{{ device.name }}</h4>
-          <h6>IP {{ device.ipAddress }}</h6>
+          <tr style="display: flex; justify-content: space-between; width: 90%">
+            <h6>IP {{ device.ipAddress }}</h6>
+            <ng-template #other style="vertical-align: super">
+              <mat-slide-toggle
+                class="example-margin"
+                [color]="color"
+                [checked]="notChecked"
+                [disabled]="disabled"
+              >
+                Off
+              </mat-slide-toggle></ng-template
+            >
+            <div *ngIf="deviceUsages[device.id] !== 0; else other">
+              <div>
+                <mat-slide-toggle
+                  style="vertical-align: super"
+                  class="example-margin"
+                  [color]="color"
+                  [checked]="checked"
+                  [disabled]="disabled"
+                >
+                  On
+                </mat-slide-toggle>
+              </div>
+            </div>
+          </tr>
         </div>
       </div>
     </div>

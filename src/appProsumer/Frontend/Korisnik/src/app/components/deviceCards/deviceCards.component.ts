@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ProsumerService } from 'src/app/services/prosumer.service';
+import { ThemePalette } from '@angular/material/core';
 
 @Component({
   selector: 'app-deviceCards',
@@ -7,6 +8,10 @@ import { ProsumerService } from 'src/app/services/prosumer.service';
   styleUrls: ['./deviceCards.component.css'],
 })
 export class DeviceCardsComponent implements OnInit {
+  color: ThemePalette = 'primary';
+  checked = true;
+  disabled = false;
+  notChecked = false;
   deviceUsages: { [key: string]: number } = {};
   consumers: any[] = [];
   producers: any[] = [];

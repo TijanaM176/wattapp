@@ -41,8 +41,8 @@ a {
   box-shadow: 0 0 15px rgba(0, 0, 0, 0.4);
   flex-direction: column;
   align-self: normal;
-  max-width: 300px;
-  min-width: 160px;
+  max-width: 23%;
+  min-width: 190px;
   background: #e5f5ed;
   box-shadow: 4px 5px 10px #59747f;
   border-radius: 20px;
@@ -56,9 +56,13 @@ a {
 }
 
 .card h4 {
+  color: #08376b;
   font-size: 1.3rem;
   text-transform: uppercase;
-  margin: 10px 0;
+  margin-bottom: 10px;
+  color: #08376b;
+}
+.card h6 {
   color: #08376b;
 }
 
@@ -80,4 +84,17 @@ a {
   -moz-border-radious: 5px;
   -ms-border-radius: 5px;
   -o-border-radius: 5px;
+}
+
+#rowCheck {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 2%;
+}
+@media only screen and (max-width: 850px) {
+  #rowCheck {
+    display: flex;
+    justify-content: space-evenly;
+    margin-bottom: 2%;
+  }
 }
