@@ -28,6 +28,6 @@
 .btn-secondary{
     background-color: #8D021F;
 }
-.nowrap {
-    white-space: nowrap;
-  }
+a {
+    color: #59747f;
+}
