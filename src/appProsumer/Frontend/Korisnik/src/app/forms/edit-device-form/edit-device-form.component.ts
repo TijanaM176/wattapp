@@ -29,8 +29,6 @@ export class EditDeviceFormComponent {
   loadInfo()
   {
     this.IpAddress = this.deviceData.IpAddress;
-    this.TypeName = this.deviceData.TypeName;
-    this.Manufacturer = this.deviceData.Manufacturer;
     this.Name=this.deviceData.Name;
   }
   
