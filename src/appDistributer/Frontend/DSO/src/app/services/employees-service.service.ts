@@ -9,55 +9,51 @@ import { FormGroup } from '@angular/forms';
   providedIn: 'root',
 })
 export class EmployeesServiceService {
+
   update$: any;
-  constructor(private http: HttpClient) {}
-  private baseUrl: string = 'https://localhost:7156/api/Dso/GetAllDsoWorkers';
-  private baseUrl1: string = 'https://localhost:7156/api/Dso/DeleteDsoWorker';
-  private baseUrl2: string = 'https://localhost:7156/api/Dso/GetDsoById';
-  private baseUrlPage: string =
-    'https://localhost:7156/api/Dso/GetDsoWorkerPaging';
-  private basuUrlUpdate: string =
-    'https://localhost:7156/api/Dso/UpdateDsoWorker';
-  private baseUrlRegionRole: string = 'https://localhost:7156/api/Dso/';
+
   region: string = '';
   role!: number;
   employees!: Employee[];
   formData: Employee = new Employee();
-  private baseUrlRegion: string = 'https://localhost:7156/api/Dso/GetRegions';
-  private baseUrlRole: string = 'https://localhost:7156/api/Dso/GetRoles';
-  private baseUrlRegionName: string =
-    'https://localhost:7156/api/Dso/GetRegionName';
-  private baseUrlRoleName: string =
-    'https://localhost:7156/api/Dso/GetRoleName';
+
+  constructor(private http: HttpClient) {}
+
+  private baseUrl: string = 'https://localhost:7156/api/Dso/';
+
 
   getAllData() {
     return this.http
-      .get(this.baseUrl)
+      .get(this.baseUrl+'GetAllDsoWorkers')
       .subscribe((res) => (this.employees = res as Employee[]));
   }
+
   updateEmployee(id: string, formUpdate: any) {
-    return this.http.put(`${this.basuUrlUpdate}` + `?id=` + id, formUpdate);
+    return this.http.put(`${this.baseUrl}UpdateDsoWorker` + `?id=` + id, formUpdate);
   }
 
-  deleteEmployee(id: string /*:Observable<Employee>*/) {
-    return this.http.delete(`${this.baseUrl1}` + `?id=` + id);
-    //return this.http.delete<Employee>(this.baseUrl + "DeleteDsoWorker" + id);
+  deleteEmployee(id: string) {
+    return this.http.delete(`${this.baseUrl}DeleteDsoWorker` + `?id=` + id);
   }
+
   detailsEmployee(id: string) {
-    return this.http.get(`${this.baseUrl2}` + `?id=` + id);
+    return this.http.get(`${this.baseUrl}GetDsoById` + `?id=` + id);
   }
+
   Page(page: number, pagesize: number) {
     return this.http.get(
-      `${this.baseUrlPage}?PageNumber=` + page + `&PageSize=` + pagesize
+      `${this.baseUrl}GetDsoWorkerPaging?PageNumber=` + page + `&PageSize=` + pagesize
     );
   }
+
   getRoleName(id: number): Observable<string> {
-    return this.http.get(`${this.baseUrlRoleName}` + `?id=` + id, {
+    return this.http.get(`${this.baseUrl}GetRoleName` + `?id=` + id, {
       responseType: 'text',
     });
   }
+
   getRegionName(id: string): Observable<string> {
-    return this.http.get(`${this.baseUrlRegionName}` + `?id=` + id, {
+    return this.http.get(`${this.baseUrl}GetRegionName` + `?id=` + id, {
       responseType: 'text',
     });
   }
@@ -68,11 +64,11 @@ export class EmployeesServiceService {
   }
  */
   getAllRegions(): Observable<any[]> {
-    return this.http.get<any[]>(this.baseUrlRegionRole + 'GetRegions');
+    return this.http.get<any[]>(this.baseUrl + 'GetRegions');
   }
 
   getAllRoles(): Observable<any[]> {
-    return this.http.get<any[]>(this.baseUrlRegionRole + 'GetRoles');
+    return this.http.get<any[]>(this.baseUrl + 'GetRoles');
   }
 
   filter() {
@@ -88,14 +84,7 @@ export class EmployeesServiceService {
   }
 
   getWorkersByFilter() {
-    return this.http
-      .get(
-        this.baseUrlRegionRole +
-          'GetWorkerByFilter?RegionID=' +
-          this.region +
-          '&RoleID=' +
-          this.role
-      )
+    return this.http.get(this.baseUrl +'GetWorkerByFilter?RegionID=' + this.region + '&RoleID=' + this.role)
       .subscribe({
         next: (res) => {
           this.employees = res as Employee[];
@@ -107,10 +96,7 @@ export class EmployeesServiceService {
   }
 
   getWorkersByRegionId() {
-    return this.http
-      .get(
-        this.baseUrlRegionRole + 'GetWorkersByRegionId?RegionID=' + this.region
-      )
+    return this.http.get(this.baseUrl + 'GetWorkersByRegionId?RegionID=' + this.region)
       .subscribe({
         next: (res) => {
           this.employees = res as Employee[];
@@ -122,8 +108,7 @@ export class EmployeesServiceService {
   }
 
   getWorkersByRoleId() {
-    return this.http
-      .get(this.baseUrlRegionRole + 'GetWorkersByRoleId?RoleID=' + this.role)
+    return this.http.get(this.baseUrl + 'GetWorkersByRoleId?RoleID=' + this.role)
       .subscribe({
         next: (res) => {
           this.employees = res as Employee[];
@@ -132,5 +117,10 @@ export class EmployeesServiceService {
           this.employees = [];
         },
       });
+  }
+
+  getProsumerCout():Observable<any>
+  {
+    return this.http.get<any>(this.baseUrl + 'ProsumerCount');
   }
 }

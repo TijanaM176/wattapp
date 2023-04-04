@@ -21,9 +21,7 @@ export class LoginComponent implements OnInit {
   eyeIcon: string = "fa-eye-slash";
   public resetPasswordEmail!:string;
   public isValidEmail!:boolean;
-  constructor(private fb: FormBuilder, private router: Router, private toast: NgToastService, private cookie: CookieService,private auth: AuthServiceService,private reset:ResetPasswordService) {
-    
-  }
+  constructor(private fb: FormBuilder, private router: Router, private toast: NgToastService, private cookie: CookieService,private auth: AuthServiceService,private reset:ResetPasswordService) {}
 
   ngOnInit(): void {
     this.cookie.deleteAll();
@@ -31,10 +29,6 @@ export class LoginComponent implements OnInit {
       usernameOrEmail: ['',Validators.required],
       password: ['',Validators.required]
     })
-    
-    // this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
-    //   this.router.navigate(['login']);
-    // });
   }
 
   hideShowPass()
@@ -72,10 +66,7 @@ export class LoginComponent implements OnInit {
             this.cookie.deleteAll();
             this.loginForm.reset();
             var decodedToken:any = jwt_decode(res.token);
-            //console.log(decodedToken['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name']);
-            //console.log(decodedToken['http://schemas.microsoft.com/ws/2008/06/identity/claims/role']);
             this.cookie.set('username',decodedToken['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name'].toString().trim());
-            //console.log(this.cookie.get('username'));
             this.cookie.set('role',decodedToken['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'].toString().trim());
             this.cookie.set("token",res.token.toString().trim());
             this.cookie.set("refresh",res.refreshToken.toString().trim());
@@ -95,7 +86,6 @@ export class LoginComponent implements OnInit {
     }
   }
 
-
   checkValidEmail(event:string){
     const value=event;
 
@@ -103,10 +93,10 @@ export class LoginComponent implements OnInit {
     this.isValidEmail=pattern.test(value);
     return this.isValidEmail;
   }
+
   confirmToSend(){
     if(this.checkValidEmail(this.resetPasswordEmail)){
-      console.log(this.resetPasswordEmail);
-      
+      //console.log(this.resetPasswordEmail);
       this.reset.sendResetPasswordLink(this.resetPasswordEmail)
       .subscribe({
         next:(res)=>{
@@ -129,6 +119,7 @@ export class LoginComponent implements OnInit {
       })
     }
   }
+
   PrivremeniToken(){
     //console.log(this.resetPasswordEmail);
     this.reset.forgotPass(this.resetPasswordEmail)
@@ -145,7 +136,4 @@ export class LoginComponent implements OnInit {
         }
       })
   }
-
-
-
 }

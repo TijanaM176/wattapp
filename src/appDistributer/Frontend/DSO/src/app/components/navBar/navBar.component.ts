@@ -4,7 +4,6 @@ import { NgToastService } from 'ng-angular-popup';
 import { CookieService } from 'ngx-cookie-service';
 import { AuthServiceService } from 'src/app/services/auth-service.service';
 
-import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 @Component({
   selector: 'app-navBar',
   templateUrl: './navBar.component.html',
@@ -25,6 +24,13 @@ export class NavBarComponent implements OnInit {
 
   LogOut() {
     this.cookie.deleteAll();
+    this.cookie.delete('token');
+    this.cookie.delete('refresh');
+    this.cookie.delete('role');
+    this.cookie.delete('username');
+    this.cookie.delete('lat');
+    this.cookie.delete('long');
+    this.cookie.delete('country');
     this.router.navigate(['login']);
   }
 }

@@ -361,8 +361,8 @@ namespace API.Controllers
             {
                 return Ok(new
                 {
-                    totalConsumption = await devService.TotalCurrentConsumption(),
-                    totalProduction = await devService.TotalCurrentProduction(),
+                    totalConsumption = (Math.Round(await devService.TotalCurrentConsumption(),3)).ToString(),
+                    totalProduction = (Math.Round(await devService.TotalCurrentProduction(),3)).ToString(),
                 });
             }
             catch (Exception ex)

@@ -25,7 +25,7 @@ export class DashboardComponent implements OnInit, AfterViewInit{
   ) {}
   ngAfterViewInit(): void {
     this.navBarHeight = document.getElementById('navBar')!.offsetHeight;
-    let height = window.innerHeight - this.navBarHeight;
+    let height = window.innerHeight - 101;
     document.getElementById("content")!.style.height = height + 'px';
     //console.log(this.navBarHeight)
   }

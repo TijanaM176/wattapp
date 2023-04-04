@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { CookieService } from 'ngx-cookie-service';
 import { EditDto } from 'src/app/models/editDto';
 import { ProsumerService } from 'src/app/services/prosumer.service';
 
@@ -19,9 +20,7 @@ export class ChangePasswordComponent implements OnInit{
   incorrectCurrent : boolean = false;
   empty : boolean = false;
 
-  privremeniId : string = '6e2e9369-1386-4be4-8690-a4b7545ecbce';
-
-  constructor(private userService : ProsumerService) {}
+  constructor(private userService : ProsumerService, private cookie : CookieService) {}
 
   ngOnInit(): void {
     this.allToFalse();
@@ -45,7 +44,7 @@ export class ChangePasswordComponent implements OnInit{
       let dto : EditDto = new EditDto();
       dto.password = this.newPass;
 
-      this.userService.editInfo(this.privremeniId, dto)
+      this.userService.editInfo(this.cookie.get('id'), dto)
       .subscribe({
         next:(res)=>{
           this.allToFalse();
