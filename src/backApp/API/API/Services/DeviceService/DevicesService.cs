@@ -285,7 +285,7 @@ namespace API.Services.Devices
                 { "id", id },
                 { "username", prosumer.Username },
                 { "address", prosumer.Address },
-                { "neighborhood", prosumer.NeigborhoodId },
+                { "neighborhoodId", prosumer.NeigborhoodId },
                 { "lat", prosumer.Latitude },
                 { "long", prosumer.Longitude },
                 { "image", prosumer.Image },
@@ -304,6 +304,22 @@ namespace API.Services.Devices
                 info.Add(await GetProsumerInformation(prosumer));
 
             return info;
+        }
+
+        public async Task<List<Dictionary<string, object>>> UpdatedProsumerFilter(double minConsumption, double maxConsumption, double minProduction, double maxProduction, int minDeviceCount, int maxDeviceCount)
+        {
+            var list = (await AllProsumerInfo()).Where(x => 
+                (double)x["consumption"] >= minConsumption/1000 && (double)x["consumption"] <= maxConsumption/1000 &&
+                (double)x["production"] >= minProduction/1000 && (double)x["production"] <= maxProduction/1000 &&
+                (double)x["devCount"] >= minDeviceCount && (double)x["devCount"] <= maxDeviceCount
+                ).ToList();
+
+            return list;
+
+        }
+        public async Task<List<Dictionary<string, object>>> UpdatedProsumerFilter2(string neighbourhood, double minConsumption, double maxConsumption, double minProduction, double maxProduction, int minDeviceCount, int maxDeviceCount)
+        {
+            return (await UpdatedProsumerFilter(minConsumption, maxConsumption, minProduction, maxProduction, minDeviceCount, maxDeviceCount)).Where(x => x["neighborhoodId"].ToString() == neighbourhood).ToList();
         }
     }
 }
