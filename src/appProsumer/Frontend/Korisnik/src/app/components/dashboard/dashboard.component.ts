@@ -17,7 +17,6 @@ export class DashboardComponent implements OnInit, OnDestroy, AfterViewInit{
   resizeObservable$!: Observable<Event>;
   resizeSubscription$!: Subscription;
   content : any;
-  navbar : any;
 
   constructor(private router: Router, private cookie: CookieService, private auth: AuthServiceService, private toast: NgToastService, private widthService : DeviceWidthService) {}
   
@@ -43,7 +42,6 @@ export class DashboardComponent implements OnInit, OnDestroy, AfterViewInit{
   }
 
   ngAfterViewInit(): void {
-    this.navbar = document.getElementById('navbar');
     this.content = document.getElementById('content');
     let height = window.innerHeight - 65.09;
     this.content.style.height = height + 'px';
