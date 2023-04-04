@@ -1,0 +1,171 @@
+<div>
+  <h1
+    style="
+      margin: 2% 2% 1% 2%;
+      font-family: Rhodium Libre;
+      font-style: normal;
+      font-weight: 400;
+      font-size: 32px;
+      line-height: 55px;
+      letter-spacing: 0.03em;
+      text-align: center;
+      color: #08376b;
+      font-weight: bold;
+    "
+  >
+    USER DEVICES
+  </h1>
+  <div class="row" id="rowCheck">
+    <div class="col-2" style="display: flex; justify-content: center">
+      <div class="form-check" style="margin-right: 10%">
+        <input
+          class="form-check-input"
+          type="checkbox"
+          value="1"
+          id="flexCheckDefault"
+        />
+        <p class="form-check-label" for="flexCheckDefault">Consumers</p>
+      </div>
+    </div>
+    <div class="col-2" style="display: flex; justify-content: center">
+      <div class="form-check" style="margin-right: 10%">
+        <input
+          class="form-check-input"
+          type="checkbox"
+          value="2"
+          id="flexCheckDefault1"
+        />
+        <label class="form-check-label" for="flexCheckDefault1">
+          Producers
+        </label>
+      </div>
+    </div>
+    <div class="col-2" style="display: flex; justify-content: center">
+      <div class="form-check">
+        <input
+          class="form-check-input"
+          type="checkbox"
+          value="3"
+          id="flexCheckDefault2"
+        />
+        <label class="form-check-label" for="flexCheckDefault2">
+          Storages
+        </label>
+      </div>
+    </div>
+  </div>
+</div>
+<div id="tabela">
+  <div class="container">
+    <div id="cards">
+      <div class="row">
+        <div class="card" *ngFor="let device of devices">
+          <table style="margin: 2%">
+            <tr style="display: flex; justify-content: space-evenly">
+              <span [ngSwitch]="device.typeId">
+                <div *ngSwitchCase="'1'">
+                  <img src="assets/images/fridge.png" />
+                </div>
+                <div *ngSwitchCase="'2'">
+                  <img src="assets/images/tv.png" />
+                </div>
+                <span *ngSwitchCase="'3'"
+                  ><img src="assets/images/oven.png"
+                /></span>
+                <span *ngSwitchCase="'4'"
+                  ><img src="assets/images/air-conditioner.png"
+                /></span>
+                <span *ngSwitchCase="'5'"
+                  ><img src="assets/images/microwave.png"
+                /></span>
+                <span *ngSwitchCase="'6'"
+                  ><img src="assets/images/dish-washer.png"
+                /></span>
+                <span *ngSwitchCase="'7'"
+                  ><img src="assets/images/coffee-machine.png"
+                /></span>
+                <span *ngSwitchCase="'8'"
+                  ><img src="assets/images/pc.png"
+                /></span>
+                <span *ngSwitchCase="'9'"
+                  ><img src="assets/images/washing-machine.png"
+                /></span>
+                <span *ngSwitchCase="'10'"
+                  ><img src="assets/images/dryer-machine.png"
+                /></span>
+                <span *ngSwitchCase="'11'"
+                  ><img src="assets/images/vacuum-cleaner.png"
+                /></span>
+                <span *ngSwitchCase="'12'"
+                  ><img src="assets/images/iron.png"
+                /></span>
+                <span *ngSwitchCase="'13'"
+                  ><img src="assets/images/dryer.png"
+                /></span>
+                <span *ngSwitchCase="'14'"
+                  ><img src="assets/images/water-heater.png"
+                /></span>
+                <span *ngSwitchCase="'15'"
+                  ><img src="assets/images/kettle.png"
+                /></span>
+                <span *ngSwitchCase="'16'"
+                  ><img src="assets/images/station-charging.png"
+                /></span>
+                <span *ngSwitchCase="'17'"
+                  ><img src="assets/images/playstation.png"
+                /></span>
+                <span *ngSwitchCase="'18'"
+                  ><img src="assets/images/smart-heater.png"
+                /></span>
+                <span *ngSwitchCase="'19'"
+                  ><img src="assets/images/solar-panel.png"
+                /></span>
+                <span *ngSwitchCase="'20'"
+                  ><img src="assets/images/windmill.png"
+                /></span>
+              </span>
+              <span [ngSwitch]="device.categoryId">
+                <h6 *ngSwitchCase="'1'" style="text-align: center">
+                  Consumption {{ deviceUsages[device.id] }} kW
+                </h6>
+                <h6 *ngSwitchCase="'2'" style="text-align: center">
+                  Production {{ deviceUsages[device.id] }} kW
+                </h6>
+                <h6 *ngSwitchCase="'3'" style="text-align: center">
+                  Storage {{ deviceUsages[device.id] }} kW
+                </h6>
+              </span>
+            </tr>
+          </table>
+          <h4>{{ device.name }}</h4>
+          <tr style="display: flex; justify-content: space-between; width: 90%">
+            <h6>IP {{ device.ipAddress }}</h6>
+            <ng-template #other style="vertical-align: super">
+              <mat-slide-toggle
+                class="example-margin"
+                [color]="color"
+                [checked]="notChecked"
+                [disabled]="disabled"
+              >
+                Off
+              </mat-slide-toggle></ng-template
+            >
+            <div *ngIf="deviceUsages[device.id] !== 0; else other">
+              <div>
+                <mat-slide-toggle
+                  style="vertical-align: super"
+                  class="example-margin"
+                  [color]="color"
+                  [checked]="checked"
+                  [disabled]="disabled"
+                >
+                  On
+                </mat-slide-toggle>
+              </div>
+            </div>
+          </tr>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

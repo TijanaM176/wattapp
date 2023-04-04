@@ -10,6 +10,7 @@ import { UserInfoComponent } from './components/user-info/user-info.component';
 import { NavbarOffcanvasComponent } from './components/navbar-offcanvas/navbar-offcanvas.component';
 import { SidebarResponsiveComponent } from './components/sidebar-responsive/sidebar-responsive.component';
 import { DeviceinfoComponent } from './components/deviceinfo/deviceinfo.component';
+import { UserDevicesComponent } from './components/userDevices/userDevices.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -20,13 +21,12 @@ const routes: Routes = [
     children: [
       { path: 'userInfo', component: UserInfoComponent },
       { path: 'deviceinfo', component: DeviceinfoComponent },
+      { path: 'userDevices', component: UserDevicesComponent },
     ],
   },
   { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
   { path: 'pocetna', component: PocetnaComponent },
   { path: 'resetpassword', component: ResetpasswordComponent },
-  { path: 'resetpassword', component: ResetpasswordComponent },
-  { path: 'userInfo', component: UserInfoComponent },
   { path: 'navOffcanvas', component: NavbarOffcanvasComponent },
   { path: 'sidebar', component: SidebarResponsiveComponent },
 ];

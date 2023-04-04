@@ -1,18 +1,21 @@
-.nav-link{
-    color: #ffff;
+.nav-link {
+  color: #ffff;
 }
-.offcanvas-body{
-    background-color: #59747F;
+.offcanvas-body {
+  background-color: #59747f;
 }
-.active{
-    background-color: #466471;
+.active {
+  background-color: #466471;
 }
-.nav-item{
-    padding: 0.5rem;
-    border-radius: 5%;
-    border: solid 1px #466471;
-    margin-bottom: 3%;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+.nav-item {
+  padding: 0.5rem;
+  border-radius: 5%;
+  border: solid 1px #466471;
+  margin-bottom: 3%;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+.row {
+  margin-right: 0px;
 }
 /* .last{
     margin-top: auto;

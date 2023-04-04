@@ -4,7 +4,7 @@ import { AppComponent } from './app.component';
 import { LoginComponent } from './components/login/login.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
-
+import { CommonModule } from '@angular/common';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgToastModule } from 'ng-angular-popup';
 import { CookieService } from 'ngx-cookie-service';
@@ -23,6 +23,9 @@ import { SidebarResponsiveComponent } from './components/sidebar-responsive/side
 import { EditInfoFormComponent } from './forms/edit-info-form/edit-info-form.component';
 import { ChangePasswordComponent } from './forms/change-password/change-password.component';
 import { DeviceinfoComponent } from './components/deviceinfo/deviceinfo.component';
+import { DeviceCardsComponent } from './components/deviceCards/deviceCards.component';
+import { UserDevicesComponent } from './components/userDevices/userDevices.component';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
 @NgModule({
   declarations: [
@@ -39,6 +42,8 @@ import { DeviceinfoComponent } from './components/deviceinfo/deviceinfo.componen
     EditInfoFormComponent,
     ChangePasswordComponent,
     DeviceinfoComponent,
+    DeviceCardsComponent,
+    UserDevicesComponent,
   ],
   imports: [
     BrowserAnimationsModule,
@@ -52,6 +57,8 @@ import { DeviceinfoComponent } from './components/deviceinfo/deviceinfo.componen
     NgToastModule,
     SidebarModule,
     RouterModule,
+    MatSlideToggleModule,
+    CommonModule,
   ],
   providers: [
     CookieService,
