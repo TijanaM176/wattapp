@@ -145,12 +145,15 @@ namespace API.Services.Devices
             return await _repository.ProductionForLastWeekForAllProsumers();
         }
 
+        //izbaciti
         public async Task<List<Prosumer>> ProsumerFilter(double minConsumption, double maxConsumption, double minProduction, double maxProduction, int minDeviceCount, int maxDeviceCount)
         {
             var prosumers = await _repository.ProsumerFilter(minConsumption, maxConsumption, minProduction, maxProduction, minDeviceCount, maxDeviceCount);
             if (prosumers == null) throw new ArgumentException("No users fit that criteria!");
             return prosumers;
         }
+
+        //izbaciti
         public async Task<List<Prosumer>> ProsumerFilter2(string neighbourhood, double minConsumption, double maxConsumption, double minProduction, double maxProduction, int minDeviceCount, int maxDeviceCount)
         {
             var prosumers = await ProsumerFilter(minConsumption, maxConsumption, minProduction, maxProduction, minDeviceCount, maxDeviceCount);

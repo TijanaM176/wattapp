@@ -146,11 +146,13 @@ public partial class RegContext : DbContext
 
         modelBuilder.Entity<ProsumerLink>(entity =>
         {
-            entity.HasKey(l => new { l.ProsumerId, l.DeviceId });
+            entity.HasKey(l => l.Id);
 
-            entity.HasOne(d => d.Prosumer).WithMany().HasForeignKey(d => d.ProsumerId);
+            entity.HasOne(pl => pl.Prosumer).WithMany(p => p.Links).HasForeignKey(pl => pl.ProsumerId);
 
-            entity.HasOne(l => l.Prosumer).WithMany(u => u.Links).HasForeignKey(l => l.ProsumerId);
+            entity.HasOne(pl => pl.Device).WithMany(d => d.Links).HasForeignKey(pl => pl.ModelId);
+
+            entity.HasIndex(e => e.Name, "IX_ProsumerLinks_Name").IsUnique();
         });
 
         modelBuilder.Entity<Region>(entity =>

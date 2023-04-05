@@ -27,25 +27,28 @@ namespace API.Repositories.DeviceRepository
             _regContext = reg;
         }
 
-        public async Task<List<string>> GetLinksForProsumer(string id)
+        public async Task<List<ProsumerLink>> GetLinksForProsumer(string id)
         {
-            return await _regContext.ProsumerLinks.Where(x => x.ProsumerId == id).Select(x => x.DeviceId).ToListAsync();
+            return await _regContext.ProsumerLinks.Where(x => x.ProsumerId == id).ToListAsync();
         }
 
         public async Task<List<Device>> GetDevicesByCategory(string id, string catStr)
         {
-            var links = await GetLinksForProsumer(id);
+            var linkInfo = await GetLinksForProsumer(id);
+            var links = linkInfo.Select(x => x.ModelId);
             var cat = await GetDeviceCategory(catStr);
             var usages = await _usageContext.PowerUsage.Find(x => links.Contains(x.DeviceId)).ToListAsync();
             var specs = await _regContext.Devices.Where(x => x.CategoryId == cat && links.Contains(x.Id)).ToListAsync();
-            var devices = from usage in usages join spec in specs on usage.DeviceId equals spec.Id select new { Usage = usage, Spec = spec };
-            int count = devices.Count();
+            var devices = from usage in usages
+                          join spec in specs on usage.DeviceId equals spec.Id
+                          join link in linkInfo on spec.Id equals link.ModelId
+                          select new { Usage = usage, Spec = spec, Link = link };
 
             var devicesData = devices.Select(d => new Device
             {
-                Id = d.Spec.Id,
-                IpAddress = d.Spec.IpAddress,
-                Name = d.Spec.Name,
+                Id = d.Link.Id,
+                IpAddress = d.Link.IpAddress,
+                Name = d.Link.Name,
                 TypeId = d.Spec.TypeId,
                 CategoryId = d.Spec.CategoryId,
                 Manufacturer = d.Spec.Manufacturer,
@@ -62,18 +65,21 @@ namespace API.Repositories.DeviceRepository
 
         public async Task<List<Device>> GetDevicesByCategoryForAPeriod(string id, string catStr, int period)
         {
-            var links = await GetLinksForProsumer(id);
+            var linkInfo = await GetLinksForProsumer(id);
+            var links = linkInfo.Select(x => x.ModelId);
             var cat = await GetDeviceCategory(catStr);
             var usages = await _usageContext.PowerUsage.Find(x => links.Contains(x.DeviceId)).ToListAsync();
             var specs = await _regContext.Devices.Where(x => x.CategoryId == cat && links.Contains(x.Id)).ToListAsync();
-            var devices = from usage in usages join spec in specs on usage.DeviceId equals spec.Id select new { Usage = usage, Spec = spec };
-            int count = devices.Count();
+            var devices = from usage in usages
+                          join spec in specs on usage.DeviceId equals spec.Id
+                          join link in linkInfo on spec.Id equals link.ModelId
+                          select new { Usage = usage, Spec = spec, Link = link };
 
             var devicesData = devices.Select(d => new Device
             {
-                Id = d.Spec.Id,
-                IpAddress = d.Spec.IpAddress,
-                Name = d.Spec.Name,
+                Id = d.Link.Id,
+                IpAddress = d.Link.IpAddress,
+                Name = d.Link.Name,
                 TypeId = d.Spec.TypeId,
                 CategoryId = d.Spec.CategoryId,
                 Manufacturer = d.Spec.Manufacturer,
@@ -209,6 +215,7 @@ namespace API.Repositories.DeviceRepository
             return count;
         }
 
+        //ova bi trebalo da se izbaci
         public async Task<List<Prosumer>> ProsumerFilter(double minConsumption, double maxConsumption, double minProduction, double maxProduction, int minDeviceCount, int maxDeviceCount)
         {
             var prosumers = await _regContext.Prosumers.ToListAsync();
@@ -228,6 +235,7 @@ namespace API.Repositories.DeviceRepository
             return filteredProsumers;
             
         }
+        //postoje 2 funkcije za device
         public async Task<DeviceInfo> GetDeviceInfoById(string id)
         {
             DeviceInfo device = null;
@@ -256,9 +264,9 @@ namespace API.Repositories.DeviceRepository
             return device;
         }
        
-        public async Task<EnumCategory.DeviceCatergory> getDeviceCategoryEnum(string idDevice)
+        public async Task<EnumCategory.DeviceCatergory> getDeviceCategoryEnum(string id)
         {
-            
+            var idDevice = (await _regContext.ProsumerLinks.FirstOrDefaultAsync(x => x.Id == id)).ModelId;
             DeviceInfo deviceinfo = await GetDeviceInfoById(idDevice);
             EnumCategory.DeviceCatergory deviceCategory;
             if (deviceinfo.CategoryId == 1)
@@ -272,7 +280,8 @@ namespace API.Repositories.DeviceRepository
         }
         public async Task<Dictionary<DateTime, double>> ProductionConsumptionForLastWeekForDevice(string idDevice)
         {
-            DeviceInfo deviceInfo = await GetDeviceInfoById(idDevice);
+            var id = (await _regContext.ProsumerLinks.FirstOrDefaultAsync(x => x.Id == idDevice)).ModelId;
+            DeviceInfo deviceInfo = await GetDeviceInfoById(id);
             //if (deviceInfo == null); // greska
             Device device = await GetDeviceByCategoryForAPeriod(deviceInfo, -7);
             Dictionary<DateTime, double> datePowerByDevice = new Dictionary<DateTime, double>();
@@ -307,16 +316,17 @@ namespace API.Repositories.DeviceRepository
 
         public async Task<Dictionary<string, object>> GetDevice(string id)
         {
-            var info = await _regContext.Devices.FirstOrDefaultAsync(x => x.Id == id);
-            var usage = await _usageContext.PowerUsage.Find(x => x.DeviceId == id).FirstOrDefaultAsync();
+            var link = await _regContext.ProsumerLinks.FirstOrDefaultAsync(x => x.Id == id);
+            var info = await _regContext.Devices.FirstOrDefaultAsync(x => x.Id == link.ModelId);
+            var usage = await _usageContext.PowerUsage.Find(x => x.DeviceId == link.ModelId).FirstOrDefaultAsync();
             Timestamp ts = usage.Timestamps.Where(x => x.Date.Year ==  DateTime.Now.Year && x.Date.Month == DateTime.Now.Month && x.Date.Day == DateTime.Now.Day && x.Date.Hour == DateTime.Now.Hour).FirstOrDefault();
             double currentUsage = Math.Round(ts.ActivePower, 4);
-            double max = await MaxUsage(id);
+            double max = await MaxUsage(link.ModelId);
             return new Dictionary<string, object>
             {
                 { "Id", id },
-                { "IpAddress", info.IpAddress },
-                { "Name", info.Name },
+                { "IpAddress", link.IpAddress },
+                { "Name", link.Name },
                 { "CategoryId", info.CategoryId },
                 { "TypeId", info.TypeId },
                 { "Manufacturer", info.Manufacturer },
@@ -325,7 +335,7 @@ namespace API.Repositories.DeviceRepository
                 { "CategoryName", (await GetDeviceCat(info.CategoryId)).Name },
                 { "TypeName", (await GetDeviceType(info.TypeId)).Name },
                 { "MaxUsage", max},
-                { "AvgUsage", await AvgUsage(id) }
+                { "AvgUsage", await AvgUsage(link.ModelId) }
             };
         }
 

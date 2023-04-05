@@ -153,6 +153,7 @@ namespace API.Controllers
             }
         }
 
+        //izbaciti
         [HttpGet("ProsumerFilter")]
         public async Task<IActionResult> ProsumerFilter(double minConsumption, double maxConsumption, double minProduction, double maxProduction, int minDeviceCount, int maxDeviceCount)
         {
@@ -166,6 +167,7 @@ namespace API.Controllers
             }
         }
 
+        //i ovo
         [HttpGet("ProsumerFilter2")]
         public async Task<IActionResult> ProsumerFilter2(string neighbourhood, double minConsumption, double maxConsumption, double minProduction, double maxProduction, int minDeviceCount, int maxDeviceCount)
         {
