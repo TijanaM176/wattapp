@@ -1,0 +1,67 @@
+<div class="container-fluid h-100 mx-0 my-0 px-0 py-0">
+    <div class="row h-100 mx-0 my-0 px-0 py-0 ">
+        <div class="col-md-4 h-40 h-100 d-flex flex-column justify-content-center align-items-center p-md-5 text-white text-center" style="background-color: #5875A1;">
+          <img src="assets/images/employee-default-pfp.png" alt="Employee Profile Picture" class="profile-image img-fluid mb-1">
+          <a class="mb-4 photoText" routerLink="profile">Change Photo</a>
+          <h3 class="mb-4">{{worker.firstName}} {{worker.lastName}}</h3>
+          <ul class="list-unstyled contact-info text-center">
+            <li><span>Email: </span>{{worker.email}}</li>
+            <li><span>Phone: </span> (+381) 60-000-00-00</li>
+          </ul>
+        </div>
+        <div class="col-md-8 p-4 h-60 h-md-100 bg-white d-flex flex-column justify-content-center align-items-center">
+            <div class="container-fluid">
+                <div class="card border-0 mb-3">
+                    <div class="card-body p-1 p-md-4">
+                        <h6 class="section">Information</h6>
+                        <hr class="mt-0 mb-4">
+                        <div class="row pt-1 mx-0 my-0">
+                            <div class="col-6 mb-3">
+                                <h4>{{worker.username}}</h4>
+                                <p class="text-muted">Username</p>
+                            </div>
+                            <div class="col-6 mb-3">
+                                <h4>Address, City</h4>
+                                <p class="text-muted">Address</p>
+                            </div>
+                        </div>
+                        <hr class="mt-0 mb-4">
+                        <div class="row pt-1 mx-0 my-0">
+                            <div class="col-6 mb-3">
+                                <h4>{{role}}</h4>
+                                <p class="text-muted">Role</p>
+                            </div>
+                            <div class="col-6 mb-3">
+                                <h4>{{region}}</h4>
+                                <p class="text-muted">Assigned Region</p>
+                            </div>
+                        </div>
+                        <hr class="mt-0 mb-4">
+                        <div class="row pt-1 mx-0 my-0">
+                            <div class="col-6 mb-3">
+                                <h4>{{worker.salary}} €</h4>
+                                <p class="text-muted">Current Salary</p>
+                            </div>
+                            <div class="col-6 mb-3">
+                                <h4>{{worker.dateCreate}}</h4>
+                                <p class="text-muted">Joined The Company</p>
+                            </div>
+                        </div>
+                        <hr class="mt-0 mb-2 mb-md-3">
+                </div>
+            </div>
+            <div class="ps-md-4">
+                <a routerLink="profile" class="btn btn-primary align-self-start mb-1 me-1">
+                    <i class="fa fa-edit fa-lg"></i>
+                    <span class="d-none d-md-inline-flex align-items-center">&nbsp;Edit Profile</span>
+                </a>
+                <a routerLink="profile" class="btn btn-primary align-self-start mb-1 px-3 px-md-2">
+                    <i class="fa fa-lock fa-lg"></i>
+                    <span class="d-none d-md-inline-flex align-items-center">&nbsp;Edit Password</span>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+

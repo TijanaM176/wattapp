@@ -25,6 +25,7 @@ import { SidebarPotrosnjaComponent } from './components/sidebar-potrosnja/sideba
 import { UserComponent } from './components/user/user.component';
 import { DeviceinfoComponent } from './components/deviceinfo/deviceinfo.component';
 import { HistoryProsumerComponent } from './components/Charts/history-Prosumer/history-Prosumer.component';
+import { WorkerProfileComponent } from './components/worker-profile/worker-profile.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -43,13 +44,14 @@ const routes: Routes = [
       { path: 'signupWorker', component: SignupWorkerPageComponent },
       { path: 'user/:id', component: UserComponent},
       { path: 'user/:id/Devices', component: UserDevicesComponent},
-      { path: 'user/:id/Devices/deviceinfo/:idDev', component: DeviceinfoComponent }
+      { path: 'user/:id/Devices/deviceinfo/:idDev', component: DeviceinfoComponent },
+      { path: 'profile', component: WorkerProfileComponent}
     ]
   },
   {
     path: 'resetpassword',
     component: ResetpasswordComponent,
-  }
+  },
 ];
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

@@ -63,6 +63,7 @@ import { HistoryProsumerComponent } from './components/Charts/history-Prosumer/h
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { HistoryAllProsumersComponent } from './components/Charts/historyAllProsumers/historyAllProsumers.component';
 import { HomeSidebarComponent } from './components/home-sidebar/home-sidebar.component';
+import { WorkerProfileComponent } from './components/worker-profile/worker-profile.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -101,6 +102,7 @@ import { HomeSidebarComponent } from './components/home-sidebar/home-sidebar.com
     DeviceinfoComponent,
     HistoryAllProsumersComponent,
     HomeSidebarComponent,
+    WorkerProfileComponent,
   ],
   imports: [
     MatSliderModule,

@@ -24,6 +24,13 @@ export class LoginComponent implements OnInit {
   constructor(private fb: FormBuilder, private router: Router, private toast: NgToastService, private cookie: CookieService,private auth: AuthServiceService,private reset:ResetPasswordService) {}
 
   ngOnInit(): void {
+    this.cookie.delete('token');
+    this.cookie.delete('refresh');
+    this.cookie.delete('role');
+    this.cookie.delete('username');
+    this.cookie.delete('lat');
+    this.cookie.delete('long');
+    this.cookie.delete('country');
     this.cookie.deleteAll();
     this.loginForm = this.fb.group({
       usernameOrEmail: ['',Validators.required],
@@ -68,6 +75,7 @@ export class LoginComponent implements OnInit {
             var decodedToken:any = jwt_decode(res.token);
             this.cookie.set('username',decodedToken['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name'].toString().trim());
             this.cookie.set('role',decodedToken['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'].toString().trim());
+            this.cookie.set('id',decodedToken['sub'].toString().trim());
             this.cookie.set("token",res.token.toString().trim());
             this.cookie.set("refresh",res.refreshToken.toString().trim());
             console.log(this.cookie.get("refresh"));
