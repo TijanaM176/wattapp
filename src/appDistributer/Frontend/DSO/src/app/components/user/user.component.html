@@ -13,31 +13,13 @@
         <input type="text" name="lastName" formControlName="LastName" /><br />
         <label>Email</label><br />
         <input type="text" name="email" formControlName="Email" /><br />
-
-        <label>Username:</label><br />
         <input
-          type="text"
-          name="username"
-          [readonly]="true"
-          formControlName="Username"
-        /><br />
-
-        <label>Address:</label><br />
-        <input
-          type="text"
-          name="address"
-          [readonly]="true"
-          [disabled]="true"
-          formControlName="Address"
-        /><br />
-        <label>Neighborhood:</label><br />
-        <input
-          type="text"
-          name="neigborhoodName"
-          [readonly]="true"
-          formControlName="NeigborhoodName"
-        /><br />
-        <button type="submit" id="dugme">Save</button>
+          id="dugme"
+          type="button"
+          value="Save"
+          routerLink="/user1/{{ id }}"
+          (click)="UpdateData()"
+        />
       </form>
     </div>
   </div>

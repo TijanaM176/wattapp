@@ -19,7 +19,7 @@ body {background-color: coral;
 .desni{
     width: 50%;  
     
-    background-color: green;
+   
 }
 .divinput{
     
@@ -56,7 +56,7 @@ p{
     background-color: #5875A1;
     border-radius: 7px;
     width: 40%;
-    
+    padding:0;
     float: right;
     margin-top: 10px;
     color: white;
