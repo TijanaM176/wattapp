@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { ThemePalette } from '@angular/material/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { NgToastService } from 'ng-angular-popup';
 import { EditDeviceFormComponent } from 'src/app/forms/edit-device-form/edit-device-form.component';
 import { Device } from 'src/app/models/device';
@@ -29,7 +29,7 @@ export class DeviceinfoComponent {
   idDev!:string;
   results: any;
   @ViewChild('editData', {static:false}) editData! : EditDeviceFormComponent;
-  constructor( private router: ActivatedRoute, private service: DeviceserviceService,private toast : NgToastService){}
+  constructor( private router: Router, private service: DeviceserviceService,private toast : NgToastService){}
   /*infoForm = new FormGroup({
     IpAddress: new FormControl(''),
     TypeName: new FormControl(''),
@@ -62,14 +62,32 @@ export class DeviceinfoComponent {
           this.deviceData = res;
         },
         error:(err)=>{
-          this.toast.error({detail:"Error!",summary:"Unable to load user data.", duration:3000});
+          this.toast.error({detail:"Error!",summary:"Unable to load device data.", duration:3000});
           console.log(err.error);
         }
       }
     )
   }
   delete(id:string){
+    if (confirm('Do you want to delete ?')) {
+      
+    this.service.deleteDevice(this.idDev).subscribe(
+      {
+        next:(res)=>{
+          this.router.navigate(['dashboard/pocetna']);
+          console.log("deleted");
+          
+        },
+        error:(err)=>{
+          this.toast.error({detail:"Error!",summary:"Unable to delete device data.", duration:3000});
+          console.log(err.error);
+        }
+      }
+    
+    )
+    }
 
+    
   }
   edit(){
 
@@ -94,5 +112,6 @@ export class DeviceinfoComponent {
       //this.showEdit = false;
     }
   }
+  
 }
 

@@ -12,6 +12,7 @@ export class DeviceserviceService {
   constructor(private http:HttpClient) { }
   private baseUrl: string = 'https://localhost:7156/GetDevice';
   private baseUrl1: string = 'https://localhost:7156/EditDevice';
+  private baseUrl2:string='https://localhost:7156/DeleteDevice';
   getInfoDevice(id : string):Observable<any>
   {
     return this.http.get<any>(this.baseUrl+'?id='+id);
@@ -20,5 +21,9 @@ export class DeviceserviceService {
   {
     return this.http.put(this.baseUrl1+'?IdDevice='+id+'&DeviceName='+deviceName+'&IpAddress='+IpAddress,{});
   }
+  deleteDevice(id:string):Observable<string>{
+    return this.http.delete(this.baseUrl2+'?IdDevice='+id,{responseType:'text'});
+  }
+
  
 }
