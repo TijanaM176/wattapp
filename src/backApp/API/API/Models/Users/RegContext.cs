@@ -101,9 +101,9 @@ public partial class RegContext : DbContext
             entity.Property(e => e.SaltPassword).HasColumnType("varbinary (2048)");
             entity.Property(e => e.Username).HasColumnType("nvarchar (30)");
 
-            entity.HasOne(d => d.Region).WithMany(p => p.Dsos).HasForeignKey(d => d.RegionId);
+            entity.HasOne(d => d.Region).WithMany(p => p.Dsos).HasForeignKey(d => d.RegionId).OnDelete(DeleteBehavior.Cascade);
 
-            entity.HasOne(d => d.Role).WithMany(p => p.Dsos).HasForeignKey(d => d.RoleId);
+            entity.HasOne(d => d.Role).WithMany(p => p.Dsos).HasForeignKey(d => d.RoleId).OnDelete(DeleteBehavior.Cascade);
         });
 
         modelBuilder.Entity<Neigborhood>(entity =>
@@ -112,7 +112,7 @@ public partial class RegContext : DbContext
 
             entity.Property(e => e.NeigbName).HasColumnType("nvarchar(50)");
 
-            entity.HasMany(n => n.Prosumers).WithOne(p => p.Neigborhood).HasForeignKey(p => p.NeigborhoodId);
+            entity.HasMany(n => n.Prosumers).WithOne(p => p.Neigborhood).HasForeignKey(p => p.NeigborhoodId).OnDelete(DeleteBehavior.Cascade);
         });
 
         modelBuilder.Entity<Prosumer>(entity =>
@@ -135,22 +135,25 @@ public partial class RegContext : DbContext
             entity.Property(e => e.SaltPassword).HasColumnType("varbinary (2048)");
             entity.Property(e => e.Username).HasColumnType("nvarchar (30)");
 
-            entity.HasOne(d => d.City).WithMany(p => p.Prosumers).HasForeignKey(d => d.CityId);
+            entity.HasOne(d => d.City).WithMany(p => p.Prosumers).HasForeignKey(d => d.CityId).OnDelete(DeleteBehavior.Cascade);
 
-            entity.HasOne(d => d.Neigborhood).WithMany(p => p.Prosumers).HasForeignKey(d => d.NeigborhoodId);
+            entity.HasOne(d => d.Neigborhood).WithMany(p => p.Prosumers).HasForeignKey(d => d.NeigborhoodId).OnDelete(DeleteBehavior.Cascade);
 
-            entity.HasOne(d => d.Region).WithMany(p => p.Prosumers).HasForeignKey(d => d.RegionId);
+            entity.HasOne(d => d.Region).WithMany(p => p.Prosumers).HasForeignKey(d => d.RegionId).OnDelete(DeleteBehavior.Cascade);
 
-            entity.HasOne(d => d.Role).WithMany(p => p.Prosumers).HasForeignKey(d => d.RoleId);
+            entity.HasOne(d => d.Role).WithMany(p => p.Prosumers).HasForeignKey(d => d.RoleId).OnDelete(DeleteBehavior.Cascade);
         });
 
         modelBuilder.Entity<ProsumerLink>(entity =>
         {
-            entity.HasKey(l => new { l.ProsumerId, l.DeviceId });
+            entity.ToTable("ProsumerLinks");
 
-            entity.HasOne(d => d.Prosumer).WithMany().HasForeignKey(d => d.ProsumerId);
+            entity.HasKey(l => l.Id);
 
-            entity.HasOne(l => l.Prosumer).WithMany(u => u.Links).HasForeignKey(l => l.ProsumerId);
+            entity.HasOne(pl => pl.Prosumer).WithMany(p => p.Links).HasForeignKey(pl => pl.ProsumerId).OnDelete(DeleteBehavior.Cascade);
+
+            entity.HasOne(pl => pl.Device).WithMany(d => d.Links).HasForeignKey(pl => pl.ModelId).OnDelete(DeleteBehavior.Cascade);
+
         });
 
         modelBuilder.Entity<Region>(entity =>

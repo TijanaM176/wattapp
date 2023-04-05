@@ -24,5 +24,10 @@ namespace API.Repositories.DeviceRepository
         public Task<double> ProsumerDeviceCount(string id);
         public Task<DeviceInfo> EditDevice(string IdDevice, string DeviceName, string IpAddress);
         public Task<Boolean> DeleteDevice(string idDevice);
+        public Task InsertLink(ProsumerLink link);
+        public Task<List<ProsumerLink>> GetLinksForProsumer(string id);
+        public Task<List<DeviceCategory>> GetCategories();
+        public Task<List<DeviceType>> GetTypesByCategory(long categoryId);
+        public Task<List<DeviceInfo>> GetModels(long typeId);
     }
 }

@@ -145,12 +145,15 @@ namespace API.Services.Devices
             return await _repository.ProductionForLastWeekForAllProsumers();
         }
 
+        //izbaciti
         public async Task<List<Prosumer>> ProsumerFilter(double minConsumption, double maxConsumption, double minProduction, double maxProduction, int minDeviceCount, int maxDeviceCount)
         {
             var prosumers = await _repository.ProsumerFilter(minConsumption, maxConsumption, minProduction, maxProduction, minDeviceCount, maxDeviceCount);
             if (prosumers == null) throw new ArgumentException("No users fit that criteria!");
             return prosumers;
         }
+
+        //izbaciti
         public async Task<List<Prosumer>> ProsumerFilter2(string neighbourhood, double minConsumption, double maxConsumption, double minProduction, double maxProduction, int minDeviceCount, int maxDeviceCount)
         {
             var prosumers = await ProsumerFilter(minConsumption, maxConsumption, minProduction, maxProduction, minDeviceCount, maxDeviceCount);
@@ -346,6 +349,69 @@ namespace API.Services.Devices
 
             return deviceinfo;
 
+        }
+
+        public async Task<bool> RegisterDevice(string prosumerId, string modelId, string name)
+        {
+            Guid id = Guid.NewGuid();
+            string ip = await GenerateIP(prosumerId);
+
+            if (await InsertLink(new ProsumerLink
+            {
+                Id = id.ToString(),
+                Name = name,
+                ProsumerId = prosumerId,
+                ModelId = modelId,
+                IpAddress = ip
+            })
+            ) return true;
+
+            return false;
+        }
+        public async Task<bool> InsertLink(ProsumerLink link)
+        {
+            try
+            {
+                await _repository.InsertLink(link);
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
+        public async Task<string> GenerateIP(string prosumerId)
+        {
+            var addresses = (await _repository.GetLinksForProsumer(prosumerId)).Select(x => x.IpAddress).ToList();
+            string ipBase = "192.168.0.";
+            if (addresses.Count() == 0)
+                return ipBase + "1";
+            else
+            {
+                //nalazimo poslednju najvecu ip adresu i povecavamo je za 1
+                int host = addresses.Select(ip => int.Parse(ip.Split('.').Last())).Max() + 1;
+                return ipBase + host;
+            }
+        }
+
+        public async Task<List<DeviceCategory>> GetCategories()
+        {
+            var categories = await _repository.GetCategories();
+            if (categories == null) throw new ArgumentException("No categories!");
+            return categories;
+        }
+        public async Task<List<DeviceType>> GetTypesByCategory(long categoryId)
+        {
+            var types = await _repository.GetTypesByCategory(categoryId);
+            if (types == null) throw new ArgumentException("No types!");
+            return types;
+        }
+        public async Task<List<DeviceInfo>> GetModels(long typeId)
+        {
+            var models = await _repository.GetModels(typeId);
+            if (models == null) throw new ArgumentException("No models!");
+            return models;
         }
     }
 }

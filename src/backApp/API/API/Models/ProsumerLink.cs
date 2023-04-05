@@ -5,9 +5,13 @@ namespace API.Models
 {
     public class ProsumerLink
     {
+        public string Id { get; set; }
         public string ProsumerId { get; set; }
-        public string DeviceId { get; set; }
+        public string ModelId { get; set; }
+        public string IpAddress { get; set; }
+        public string Name { get; set; }
         public virtual Prosumer Prosumer { get; set; }
+        public virtual DeviceInfo Device { get; set; }
 
         public bool Equals(object obj)
         {

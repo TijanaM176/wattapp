@@ -154,6 +154,7 @@ namespace API.Controllers
             }
         }
 
+        //izbaciti
         [HttpGet("ProsumerFilter")]
         public async Task<IActionResult> ProsumerFilter(double minConsumption, double maxConsumption,
             double minProduction, double maxProduction, int minDeviceCount, int maxDeviceCount)
@@ -169,6 +170,7 @@ namespace API.Controllers
             }
         }
 
+        //i ovo
         [HttpGet("ProsumerFilter2")]
         public async Task<IActionResult> ProsumerFilter2(string neighbourhood, double minConsumption,
             double maxConsumption, double minProduction, double maxProduction, int minDeviceCount, int maxDeviceCount)
@@ -437,6 +439,19 @@ namespace API.Controllers
                 return Ok(await devService.UpdatedProsumerFilter2(neighborhood, minConsumption, maxConsumption,
                     minProduction, maxProduction, minDeviceCount, maxDeviceCount));
             }
+             catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+        [HttpGet("RegisterDevice")]
+        public async Task<IActionResult> RegisterDevice(string prosumerId, string modelId, string name)
+        {
+            try
+            {
+                await devService.RegisterDevice(prosumerId, modelId, name);
+                return Ok("Device registered!");
+            }
             catch (Exception ex)
             {
                 return BadRequest(ex.Message);
@@ -450,7 +465,32 @@ namespace API.Controllers
             {
                 var diBoolean = await devService.DeleteDevice(idDevice);
                 return Ok("Deleted device!");
+                
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
 
+        [HttpGet("GetCategories")]
+        public async Task<IActionResult> GetCategories()
+        {
+            try
+            {
+                return Ok(await devService.GetCategories());
+            }catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet("GetTypesByCategory")]
+        public async Task<IActionResult> GetTypesByCategory(long categoryId)
+        {
+            try
+            {
+                return Ok(await devService.GetTypesByCategory(categoryId));
             }
             catch (Exception ex)
             {
@@ -458,5 +498,19 @@ namespace API.Controllers
             }
 
         }
+
+        [HttpGet("GetModels")]
+        public async Task<IActionResult> GetModels(long typeId)
+        {
+            try
+            {
+                return Ok(await devService.GetModels(typeId));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
     }
 }
