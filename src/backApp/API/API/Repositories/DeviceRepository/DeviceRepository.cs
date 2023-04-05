@@ -360,5 +360,12 @@ namespace API.Repositories.DeviceRepository
         {
             return await _regContext.Prosumers.ToListAsync();
         }
+
+        public async Task InsertLink(ProsumerLink link)
+        {
+            await _regContext.ProsumerLinks.AddAsync(link);
+            await _regContext.SaveChangesAsync();
+
+        }       
     }
 }

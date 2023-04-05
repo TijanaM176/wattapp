@@ -31,6 +31,6 @@ namespace API.Services.Devices
         public Task<List<Dictionary<string, object>>> AllProsumerInfo();
         public Task<List<Dictionary<string, object>>> UpdatedProsumerFilter(double minConsumption, double maxConsumption, double minProduction, double maxProduction, int minDeviceCount, int maxDeviceCount);
         public Task<List<Dictionary<string, object>>> UpdatedProsumerFilter2(string neighbourhood, double minConsumption, double maxConsumption, double minProduction, double maxProduction, int minDeviceCount, int maxDeviceCount);
-
+        public Task<bool> RegisterDevice(string prosumerId, string modelId, string name);
     }
 }

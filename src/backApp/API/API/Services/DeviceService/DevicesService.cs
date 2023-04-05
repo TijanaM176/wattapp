@@ -324,5 +324,49 @@ namespace API.Services.Devices
         {
             return (await UpdatedProsumerFilter(minConsumption, maxConsumption, minProduction, maxProduction, minDeviceCount, maxDeviceCount)).Where(x => x["neighborhoodId"].ToString() == neighbourhood).ToList();
         }
+
+        public async Task<bool> RegisterDevice(string prosumerId, string modelId, string name)
+        {
+            Guid id = Guid.NewGuid();
+            string ip = await GenerateIP(prosumerId);
+
+            if (await InsertLink(new ProsumerLink
+            {
+                Id = id.ToString(),
+                Name = name,
+                ProsumerId = prosumerId,
+                ModelId = modelId,
+                IpAddress = ip
+            })
+            ) return true;
+
+            return false;
+        }
+        public async Task<bool> InsertLink(ProsumerLink link)
+        {
+            try
+            {
+                await _repository.InsertLink(link);
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
+        public async Task<string> GenerateIP(string prosumerId)
+        {
+            var addresses = (await _repository.GetLinksForProsumer(prosumerId)).Select(x => x.IpAddress).ToList();
+            string ipBase = "192.168.0.";
+            if (addresses.Count() == 0)
+                return ipBase + "1";
+            else
+            {
+                //nalazimo poslednju najvecu ip adresu i povecavamo je za 1
+                int host = addresses.Select(ip => int.Parse(ip.Split('.').Last())).Max() + 1;
+                return ipBase + host;
+            }
+        }
     }
 }

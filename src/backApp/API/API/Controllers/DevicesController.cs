@@ -410,5 +410,19 @@ namespace API.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+        [HttpGet("RegisterDevice")]
+        public async Task<IActionResult> RegisterDevice(string prosumerId, string modelId, string name)
+        {
+            try
+            {
+                await devService.RegisterDevice(prosumerId, modelId, name);
+                return Ok("Device registered!");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }
