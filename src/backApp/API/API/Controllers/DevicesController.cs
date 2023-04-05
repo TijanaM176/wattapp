@@ -370,5 +370,41 @@ namespace API.Controllers
                 return BadRequest(ex.Message);
             }
         }
+        [HttpPut("EditDevice")]
+        public async Task<IActionResult> EditDevice(string IdDevice, string DeviceName, string IpAddress)
+        {
+            try
+            {
+                DeviceInfo di = await devService.EditDevice(IdDevice, DeviceName, IpAddress);
+                return Ok(new {
+                       Name = di.Name,
+                       IpAddress = di.IpAddress,
+                       Manufacurer = di.Manufacturer,
+                       Wattage = di.Wattage
+                
+                });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
+        }
+        [HttpDelete("DeleteDevice")]
+        public async Task<IActionResult> DeleteDevice(string idDevice)
+        {
+            try
+            {
+                var diBoolean = await devService.DeleteDevice(idDevice);
+                 return Ok("Deleted device!");
+               
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
+        }
+
     }
 }

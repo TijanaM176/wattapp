@@ -8,7 +8,7 @@ using System.Data;
 
 namespace API.Services.Devices
 {
-    public class DevicesService: IDevicesService
+    public class DevicesService : IDevicesService
     {
         private readonly IDeviceRepository _repository;
 
@@ -272,6 +272,27 @@ namespace API.Services.Devices
                 production += await CurrentProductionForProsumer(prosumer);
             }
             return production;
+        }
+        public async Task<DeviceInfo> EditDevice(string IdDevice, string DeviceName, string IpAddress)
+        {
+
+            var deviceinfo = await _repository.EditDevice(IdDevice, DeviceName, IpAddress);
+            if (deviceinfo == null)
+            throw new ArgumentException("No devices with that id!");
+            
+        
+            return deviceinfo;
+
+        }
+        public async Task<Boolean> DeleteDevice(string idDevice)
+        {
+            var deviceinfo = await _repository.DeleteDevice(idDevice);
+            if (deviceinfo == false)
+                throw new ArgumentException("No devices with that id!");
+
+
+            return deviceinfo;
+
         }
     }
 }

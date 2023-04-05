@@ -27,5 +27,7 @@ namespace API.Services.Devices
         public Task<Dictionary<DateTime, double>> ConProdByMonthTimestamps(int type);
         public Task<double> TotalCurrentConsumption();
         public Task<double> TotalCurrentProduction();
+        public Task<DeviceInfo> EditDevice(string IdDevice, string DeviceName, string IpAddress);
+        public Task<Boolean> DeleteDevice(string idDevice);
     }
 }
