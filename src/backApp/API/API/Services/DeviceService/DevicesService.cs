@@ -368,5 +368,24 @@ namespace API.Services.Devices
                 return ipBase + host;
             }
         }
+
+        public async Task<List<DeviceCategory>> GetCategories()
+        {
+            var categories = await _repository.GetCategories();
+            if (categories == null) throw new ArgumentException("No categories!");
+            return categories;
+        }
+        public async Task<List<DeviceType>> GetTypesByCategory(long categoryId)
+        {
+            var types = await _repository.GetTypesByCategory(categoryId);
+            if (types == null) throw new ArgumentException("No types!");
+            return types;
+        }
+        public async Task<List<DeviceInfo>> GetModels(long typeId)
+        {
+            var models = await _repository.GetModels(typeId);
+            if (models == null) throw new ArgumentException("No models!");
+            return models;
+        }
     }
 }

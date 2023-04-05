@@ -366,6 +366,20 @@ namespace API.Repositories.DeviceRepository
             await _regContext.ProsumerLinks.AddAsync(link);
             await _regContext.SaveChangesAsync();
 
-        }       
+        }  
+        
+        public async Task<List<DeviceCategory>> GetCategories()
+        {
+            return await _regContext.DeviceCategories.ToListAsync();
+        }
+
+        public async Task<List<DeviceType>> GetTypesByCategory(long categoryId)
+        {
+            return await _regContext.DeviceTypes.Where(x => x.CategoryId == categoryId).ToListAsync();
+        }
+        public async Task<List<DeviceInfo>> GetModels(long typeId)
+        {
+            return await _regContext.Devices.Where(x => x.TypeId == typeId).ToListAsync();
+        }
     }
 }

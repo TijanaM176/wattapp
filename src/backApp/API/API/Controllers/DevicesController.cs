@@ -424,5 +424,44 @@ namespace API.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+        [HttpGet("GetCategories")]
+        public async Task<IActionResult> GetCategories()
+        {
+            try
+            {
+                return Ok(await devService.GetCategories());
+            }catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet("GetTypesByCategory")]
+        public async Task<IActionResult> GetTypesByCategory(long categoryId)
+        {
+            try
+            {
+                return Ok(await devService.GetTypesByCategory(categoryId));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet("GetModels")]
+        public async Task<IActionResult> GetModels(long typeId)
+        {
+            try
+            {
+                return Ok(await devService.GetModels(typeId));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
     }
 }
