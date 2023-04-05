@@ -1,25 +1,25 @@
-<!-- <app-navBar></app-navBar> -->
-<div>
-  <div class="div1">
-    <app-sidebar-potrosnja></app-sidebar-potrosnja>
+<app-navBar></app-navBar>
+<div class="glavni">
+  <div class="levi">
+    <app-sidebar-dso #sidebarInfo></app-sidebar-dso>
   </div>
 
-  <div class="div2">
+  <div class="centralni">
     <div class="divinput">
       <form [formGroup]="editUser" (ngSubmit)="UpdateData()">
         <label>First name:</label><br />
-        <input type="text" name="firstname" formControlName="firstname" /><br />
+        <input type="text" name="firstName" formControlName="FirstName" /><br />
         <label>Last name:</label><br />
-        <input type="text" name="lastname" formControlName="lastname" /><br />
+        <input type="text" name="lastName" formControlName="LastName" /><br />
         <label>Email</label><br />
-        <input type="text" name="email" formControlName="email" /><br />
+        <input type="text" name="email" formControlName="Email" /><br />
 
         <label>Username:</label><br />
         <input
           type="text"
           name="username"
           [readonly]="true"
-          formControlName="username"
+          formControlName="Username"
         /><br />
 
         <label>Address:</label><br />
@@ -28,20 +28,20 @@
           name="address"
           [readonly]="true"
           [disabled]="true"
-          formControlName="address"
+          formControlName="Address"
         /><br />
         <label>Neighborhood:</label><br />
         <input
           type="text"
-          name="neigborhoodId"
+          name="neigborhoodName"
           [readonly]="true"
-          formControlName="neigborhoodId"
+          formControlName="NeigborhoodName"
         /><br />
-        <button type="submit" id="dugme">Edit Information</button>
+        <button type="submit" id="dugme">Save</button>
       </form>
     </div>
   </div>
-  <div class="div3">
-    <app-sidebar-dso #sidebarInfo></app-sidebar-dso>
+  <div class="desni">
+    <app-sidebar-potrosnja></app-sidebar-potrosnja>
   </div>
 </div>

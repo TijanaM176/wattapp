@@ -1,11 +1,12 @@
-body {background-color: coral;
-    font-family: roboto;}
+@import url("https://fonts.googleapis.com/css2?family=Audiowide&display=swap");
+
+
 .glavni{
    
     display: flex;
     width: 100%;
     height: auto;
-    flex-direction: row;
+    
     
 }
 
@@ -19,28 +20,44 @@ body {background-color: coral;
 .desni{
     width: 50%;  
     
-    background-color: green;
-}
-.divinput{
-    
-    display: flex;
-    margin: 20px auto;
     
 }
-label{
-    font-family: roboto;
+.clevo{
+    padding-left: 180px;
+    padding-top: 100px;
+    width: 50%;
+   
+}
+.plevo{
+    color:5875A1 ;
+    padding: 15px;
+    font-size: 30px;
+}
+.cdesno{
+    padding-left: 80px;
+    padding-top: 100px;
+   
+    width: 50%;
+   
+}
+.pdesno{
     font-size: 25px;
-    color: #5875A1;
+    padding: 20px;
+}
+#edit{
+    width: 50%;
+    float: right;
+  background-color: #5875a1;
+  color: white;
+  font-family: roboto;
+  
 }
  input{
     
     border-radius: 7px;
     background-color: #E8F3F8;
-    font-family: roboto;
-    font-size: 20px;
+    
      border: wheat;
-    padding: 10px;
-    margin-bottom: 10px;
     width: 100%;
     max-width: 500px;
     height: 40px;
@@ -52,13 +69,14 @@ p{
   font-family: roboto;
   color:#5875A1;
 }
+
 #dugme{
     background-color: #5875A1;
     border-radius: 7px;
     width: 40%;
-    
     float: right;
     margin-top: 10px;
     color: white;
-    font-family: roboto;
+
 }
+

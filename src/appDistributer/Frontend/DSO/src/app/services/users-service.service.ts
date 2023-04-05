@@ -13,11 +13,12 @@ export class UsersServiceService {
   production!: string;
 
   constructor(private http: HttpClient) {}
-
+  private url: string=
+        'https://localhost:7156/api/Dso/GetRegionName';
   private baseUrl: string =
     'https://localhost:7156/api/Prosumer/GetAllProsumers';
   private baseUrl3: string =
-    'https://localhost:7156/api/Prosumer/UpdateProsumer';
+    'https://localhost:7156/api/Dso/UpdateProsumerByDso';
   private baseUrl4: string =
     'https://localhost:7156/api/Prosumer/DeleteProsumer';
   prosumers!: Prosumer[];
@@ -92,7 +93,10 @@ export class UsersServiceService {
   deleteUser(id: any) {
     return this.http.delete(`${this.baseUrl4}` + `?id=` + id);
   }
-
+getRegionById(id:any)
+{
+  return this.http.get(`${this.url}` + `?id=` + id )
+}
   prosumerFilter(
     minCon: number,
     maxCon: number,
