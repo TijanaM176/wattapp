@@ -51,7 +51,7 @@ const routes: Routes = [
   {
     path: 'resetpassword',
     component: ResetpasswordComponent,
-  }
+  },
 ];
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
