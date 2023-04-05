@@ -8,7 +8,7 @@ using System.Data;
 
 namespace API.Services.Devices
 {
-    public class DevicesService: IDevicesService
+    public class DevicesService : IDevicesService
     {
         private readonly IDeviceRepository _repository;
 
@@ -320,6 +320,26 @@ namespace API.Services.Devices
         public async Task<List<Dictionary<string, object>>> UpdatedProsumerFilter2(string neighbourhood, double minConsumption, double maxConsumption, double minProduction, double maxProduction, int minDeviceCount, int maxDeviceCount)
         {
             return (await UpdatedProsumerFilter(minConsumption, maxConsumption, minProduction, maxProduction, minDeviceCount, maxDeviceCount)).Where(x => x["neighborhoodId"].ToString() == neighbourhood).ToList();
+        public async Task<DeviceInfo> EditDevice(string IdDevice, string DeviceName, string IpAddress)
+        {
+
+            var deviceinfo = await _repository.EditDevice(IdDevice, DeviceName, IpAddress);
+            if (deviceinfo == null)
+            throw new ArgumentException("No devices with that id!");
+            
+        
+            return deviceinfo;
+
+        }
+        public async Task<Boolean> DeleteDevice(string idDevice)
+        {
+            var deviceinfo = await _repository.DeleteDevice(idDevice);
+            if (deviceinfo == false)
+                throw new ArgumentException("No devices with that id!");
+
+
+            return deviceinfo;
+
         }
     }
 }

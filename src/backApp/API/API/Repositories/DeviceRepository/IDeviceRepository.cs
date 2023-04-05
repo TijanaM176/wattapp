@@ -22,5 +22,7 @@ namespace API.Repositories.DeviceRepository
         public Task<Prosumer> GetProsumer(string id);
         public Task<List<Prosumer>> GetProsumers();
         public Task<double> ProsumerDeviceCount(string id);
+        public Task<DeviceInfo> EditDevice(string IdDevice, string DeviceName, string IpAddress);
+        public Task<Boolean> DeleteDevice(string idDevice);
     }
 }

@@ -14,6 +14,8 @@ using Org.BouncyCastle.Utilities;
 using Amazon.Runtime.Internal;
 using System.Xml.Linq;
 using API.Models.HelpModels;
+using Microsoft.EntityFrameworkCore;
+using API.Models;
 
 namespace API.Repositories.DeviceRepository
 {
@@ -349,6 +351,56 @@ namespace API.Repositories.DeviceRepository
         public async Task<List<Prosumer>> GetProsumers()
         {
             return await _regContext.Prosumers.ToListAsync();
+        
+        }
+        public async Task<DeviceInfo> EditDevice(string IdDevice, string DeviceName, string IpAddress)
+        {
+
+            DeviceInfo device = await GetDeviceInfoById(IdDevice);
+            if (device == null) return null;
+            if(DeviceName == "")
+            {
+                if (IpAddress == "")
+                    return device;
+                else
+                    device.IpAddress = IpAddress;
+            }
+            else
+            {
+                if (IpAddress != "")
+                { 
+                    device.IpAddress = IpAddress;
+                    device.Name = DeviceName;
+                }
+                else
+                    device.Name = DeviceName;
+            }
+            await _regContext.SaveChangesAsync();
+            return device;
+        }
+        private async Task<ProsumerLink> GetProsumerLink(string idDevice)
+        {
+            ProsumerLink deviceLink = null;
+            deviceLink = await _regContext.ProsumerLinks.FirstOrDefaultAsync(x => x.DeviceId == idDevice);
+
+
+            return deviceLink;
+        }
+        public async Task<Boolean> DeleteDevice(string idDevice)
+        {
+
+            DeviceInfo device = await GetDeviceInfoById(idDevice);
+            if (device == null) 
+                return false;
+            _regContext.Devices.Remove(device);
+
+
+            ProsumerLink prosumerLinks = await GetProsumerLink(idDevice);
+            if(prosumerLinks != null)
+                _regContext.ProsumerLinks.Remove(prosumerLinks);
+            
+            await _regContext.SaveChangesAsync();
+            return true;
         }
     }
 }
