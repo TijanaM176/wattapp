@@ -9,36 +9,31 @@ import { EmployeesServiceService } from 'src/app/services/employees-service.serv
 @Component({
   selector: 'app-user1',
   templateUrl: './user1.component.html',
-  styleUrls: ['./user1.component.css']
+  styleUrls: ['./user1.component.css'],
 })
 export class User1Component {
   @ViewChild('sidebarInfo', { static: true }) sidebarInfo!: SidebarDsoComponent;
-  constructor(private user1: EmployeesServiceService,
-      private user: UsersServiceService,
-      private router: ActivatedRoute )
-   
-      {
-    
-  
-      }
- 
-      id: string = '';
-  myData:any;
-  Region:any;
- 
-  ngOnInit(): void {
-    this.user.detailsEmployee(this.router.snapshot.params['id']).subscribe
-    ((data) => {
-      this.myData=data;
-      this.id = this.router.snapshot.params['id'];
-     
-      this.user1.getRegionName(this.myData.regionId).subscribe((dat)=> {
-        this.Region=dat;
-        
-       })
-    })
-  
- 
-}
- }
+  constructor(
+    private user1: EmployeesServiceService,
+    private user: UsersServiceService,
+    private router: ActivatedRoute,
+    private employyeService: EmployeesServiceService
+  ) {}
 
+  id: string = '';
+  myData: any;
+  Region: any;
+
+  ngOnInit(): void {
+    this.user
+      .detailsEmployee(this.router.snapshot.params['id'])
+      .subscribe((data) => {
+        this.myData = data;
+        this.id = this.router.snapshot.params['id'];
+
+        this.user1.getRegionName(this.myData.regionId).subscribe((dat) => {
+          this.Region = dat;
+        });
+      });
+  }
+}

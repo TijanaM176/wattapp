@@ -27,7 +27,7 @@ export class DashboardComponent implements OnInit, AfterViewInit{
     private widthService : ScreenWidthService
   ) {}
   ngAfterViewInit(): void {
-    this.content.style.height = this.widthService.height;
+    this.content.style.height = this.widthService.height+'px';
   }
 
   ngOnInit(): void {

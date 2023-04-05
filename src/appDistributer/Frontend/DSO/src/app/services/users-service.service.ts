@@ -11,69 +11,57 @@ import { City } from '../models/city';
 export class UsersServiceService {
   consumtion!: string;
   production!: string;
+  prosumers!: Prosumer[];
 
   constructor(private http: HttpClient) {}
-  private url: string=
-        'https://localhost:7156/api/Dso/GetRegionName';
-  private baseUrl: string =
-    'https://localhost:7156/api/Prosumer/GetAllProsumers';
-  private baseUrl3: string =
-    'https://localhost:7156/api/Dso/UpdateProsumerByDso';
-  private baseUrl4: string =
-    'https://localhost:7156/api/Prosumer/DeleteProsumer';
-  prosumers!: Prosumer[];
-  private baseUrl2: string =
-    'https://localhost:7156/api/Prosumer/getProsumerByID';
-  private baseUrlPage: string =
-    'https://localhost:7156/api/Prosumer/GetProsumersPaging';
 
+  private baseUrl: string = 'https://localhost:7156/api/Prosumer/';
+  private updateUserUrl: string =
+    'https://localhost:7156/api/Dso/UpdateProsumerByDso';
   private deviceBaseUrl: string = 'https://localhost:7156/';
 
   refreshList() {
-    lastValueFrom(this.http.get(this.baseUrl)).then(
+    lastValueFrom(this.http.get(this.baseUrl + 'GetAllProsumers')).then(
       (res) => (this.prosumers = res as Prosumer[])
     );
   }
   detailsEmployee(id: string) {
-    return this.http.get(`${this.baseUrl2}` + `?id=` + id);
+    return this.http.get(`${this.baseUrl}getProsumerByID` + `?id=` + id);
   }
   Page(page: number, pagesize: number) {
     return this.http.get(
-      `${this.baseUrlPage}?PageNumber=` + page + `&PageSize=` + pagesize
+      `${this.baseUrl}GetProsumersPaging?PageNumber=` +
+        page +
+        `&PageSize=` +
+        pagesize
     );
   }
 
   getAllNeighborhoods(): Observable<Neighborhood[]> {
-    return this.http.get<Neighborhood[]>(
-      'https://localhost:7156/api/Prosumer/GetAllNeighborhoods'
-    );
+    return this.http.get<Neighborhood[]>(this.baseUrl + 'GetAllNeighborhoods');
   }
   GetProsumersByNeighborhoodId(id: string): Observable<Prosumer[]> {
     return this.http.get<Prosumer[]>(
-      'https://localhost:7156/api/Prosumer/GetProsumersByNeighborhoodId?id=' +
-        id
+      this.baseUrl + 'GetProsumersByNeighborhoodId?id=' + id
     );
   }
 
   getAllProsumers(): Observable<any[]> {
-    return this.http.get<any[]>(this.baseUrl);
+    return this.http.get<any[]>(this.baseUrl + 'GetAllProsumers');
   }
   getAllCities(): Observable<City[]> {
-    return this.http.get<City[]>(
-      'https://localhost:7156/api/Prosumer/GetCities'
-    );
+    return this.http.get<City[]>(this.baseUrl + 'GetCities');
   }
   getAllNeighborhoodByCityId(id: number): Observable<Neighborhood[]> {
     return this.http.get<Neighborhood[]>(
-      'https://localhost:7156/api/Prosumer/GetNeighborhoodsByCityId?id=' + id
+      this.baseUrl + 'GetNeighborhoodsByCityId?id=' + id
     );
   }
 
   getCityNameById(id: number): Observable<string> {
-    return this.http.get(
-      'https://localhost:7156/api/Prosumer/GetCityNameById?id=' + id,
-      { responseType: 'text' }
-    );
+    return this.http.get(this.baseUrl + 'GetCityNameById?id=' + id, {
+      responseType: 'text',
+    });
   }
 
   getUserProductionAndConsumption(id: string): Observable<any> {
@@ -83,15 +71,17 @@ export class UsersServiceService {
   }
   getDevicesByProsumerId(id: string): Observable<any> {
     return this.http.get<any>(
-      'https://localhost:7156/GetAllDevicesForProsumer?id=' + id
+      this.deviceBaseUrl + 'GetAllDevicesForProsumer?id=' + id
     );
   }
-  updateUserData(data: any) {
-    return this.http.put(`${this.baseUrl3}`, data);
+  // updateUserData(data: any) {
+  //   return this.http.put(`${this.baseUrl3}`, data);
+  updateUserData(id: any, data: any) {
+    return this.http.put(`${this.updateUserUrl}` + `?id=` + id, data);
   }
 
   deleteUser(id: any) {
-    return this.http.delete(`${this.baseUrl4}` + `?id=` + id);
+    return this.http.delete(`${this.baseUrl}DeleteProsumer` + `?id=` + id);
   }
 
   prosumerFilter(
@@ -103,7 +93,8 @@ export class UsersServiceService {
     maxDev: number
   ): Observable<Prosumer[]> {
     return this.http.get<Prosumer[]>(
-      'https://localhost:7156/UpdatedProsumerFilter?minConsumption=' +
+      this.deviceBaseUrl +
+        'UpdatedProsumerFilter?minConsumption=' +
         minCon +
         '&maxConsumption=' +
         maxCon +
@@ -127,7 +118,8 @@ export class UsersServiceService {
     maxDev: number
   ): Observable<Prosumer[]> {
     return this.http.get<Prosumer[]>(
-      'https://localhost:7156/UpdatedProsumerFilter2?neighborhood=' +
+      this.deviceBaseUrl +
+        'UpdatedProsumerFilter2?neighborhood=' +
         idNaselja +
         '&minConsumption=' +
         minCon +
@@ -145,17 +137,17 @@ export class UsersServiceService {
   }
   HistoryProsumer7Days(id: string) {
     return this.http.get(
-      `https://localhost:7156/LastWeeksConsumptionAndProduction?id=` + id
+      this.deviceBaseUrl + `LastWeeksConsumptionAndProduction?id=` + id
     );
   }
 
   HistoryAllProsumers7Days() {
     return this.http.get(
-      'https://localhost:7156/LastWeeksConsumptionAndProductionTimestamps'
+      this.deviceBaseUrl + 'LastWeeksConsumptionAndProductionTimestamps'
     );
   }
   ProsumersInfo() {
-    lastValueFrom(this.http.get('https://localhost:7156/AllProsumerInfo')).then(
+    lastValueFrom(this.http.get(this.deviceBaseUrl + 'AllProsumerInfo')).then(
       (res) => (this.prosumers = res as Prosumer[])
     );
   }

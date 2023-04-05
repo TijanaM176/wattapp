@@ -34,7 +34,7 @@ const routes: Routes = [
   {
     path: 'dashboard',
     component: DashboardComponent,
-    canActivate: [AuthGuard],
+    //canActivate: [AuthGuard],
     children: [
       { path: '', redirectTo: 'home', pathMatch: 'full' },
       { path: 'home', component: HomeComponent },
@@ -45,40 +45,14 @@ const routes: Routes = [
       { path: 'signupWorker', component: SignupWorkerPageComponent },
       { path: 'user/:id', component: UserComponent },
       { path: 'user/:id/Devices', component: UserDevicesComponent },
-      {
-        path: 'user/:id/Devices/deviceinfo/:idDev',
-        component: DeviceinfoComponent,
-      },
+      { path: 'user/:id/Devices/deviceinfo/:idDev', component: DeviceinfoComponent },
       { path: 'profile', component: WorkerProfileComponent },
+      { path: 'editProsumer', component: User1Component}
     ],
   },
   {
     path: 'resetpassword',
     component: ResetpasswordComponent,
-  },
-  {
-    path: 'prosumerinfo',
-    component: ProsumerinfoComponent,
-  },
-  {
-    path: 'sidebarpotrosnja',
-    component: SidebarPotrosnjaComponent,
-  },
-  {
-    path: 'user/:id',
-    component: UserComponent,
-  },
-  {
-    path: 'user/:id/Devices',
-    component: UserDevicesComponent,
-  },
-  {
-    path: 'user/:id/Devices/deviceinfo/:idDev',
-    component: DeviceinfoComponent,
-  },
-  {
-    path: 'user1/:id',
-    component: User1Component,
   },
 ];
 @NgModule({

@@ -1,7 +1,7 @@
 <app-navBar></app-navBar>
 <div class="glavni">
-    <div class="levi"> 
-      <app-sidebar-dso #sidebarInfo></app-sidebar-dso>
+  <div class="levi"> 
+    <app-sidebar-dso #sidebarInfo></app-sidebar-dso>
   </div>
 
   <div class="centralni">
@@ -13,27 +13,25 @@
   <p class="plevo">Region:</p>
   </div>
    <div class="cdesno">
-     <p class="pdesno">{{myData.firstName}} </p>
-     <p class="pdesno">{{myData.lastName}}</p>
-     <p class="pdesno">{{myData.username}}</p>
-     <p class="pdesno">{{myData.email}}</p>
-     <p class="pdesno">{{Region}}</p>
-     <input
-      id="edit"
-      class="dugme"
-      type="button"
-      value="Edit"
-      routerLink="/user/{{ id }}"
-    />
+      <p class="pdesno">{{myData.firstName}} </p>
+      <p class="pdesno">{{myData.lastName}}</p>
+      <p class="pdesno">{{myData.username}}</p>
+      <p class="pdesno">{{myData.email}}</p>
+      <p class="pdesno">{{Region}}</p>
+      <input
+        id="edit"
+        class="dugme"
+        type="button"
+        value="Edit"
+        routerLink="/dashboard/user/{{ id }}"/>
     </div>
     
     
     
    
-              </div>
+  </div>
   
   <div class="desni">
-    
     <app-sidebar-potrosnja></app-sidebar-potrosnja>
   </div>
 </div>
