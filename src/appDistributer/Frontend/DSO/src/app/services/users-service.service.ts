@@ -86,17 +86,14 @@ export class UsersServiceService {
       'https://localhost:7156/GetAllDevicesForProsumer?id=' + id
     );
   }
-  updateUserData(id: any, data: any) {
-    return this.http.put(`${this.baseUrl3}` + `?id=` + id, data);
+  updateUserData(data: any) {
+    return this.http.put(`${this.baseUrl3}`, data);
   }
 
   deleteUser(id: any) {
     return this.http.delete(`${this.baseUrl4}` + `?id=` + id);
   }
-getRegionById(id:any)
-{
-  return this.http.get(`${this.url}` + `?id=` + id )
-}
+
   prosumerFilter(
     minCon: number,
     maxCon: number,

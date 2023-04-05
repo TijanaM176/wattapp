@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { UsersServiceService } from 'src/app/services/users-service.service';
 import { FormGroup, FormControl } from '@angular/forms';
 import { SidebarDsoComponent } from '../sidebar-dso/sidebar-dso.component';
+import { editUserDto } from 'src/app/models/editUserDto';
 
 @Component({
   selector: 'app-user',
@@ -15,6 +16,7 @@ export class UserComponent implements OnInit {
     private user: UsersServiceService,
     private router: ActivatedRoute
   ) {}
+  id: string = '';
   editUser = new FormGroup({
     FirstName: new FormControl(''),
     LastName: new FormControl(''),
@@ -27,29 +29,41 @@ export class UserComponent implements OnInit {
     CityName: new FormControl(''),
   });
   message: boolean = false;
-
+  userOldInfo:any;
   ngOnInit(): void {
+    this.id = this.router.snapshot.params['id'];
     //console.log(this.router.snapshot.params['id'] );
     this.user
       .detailsEmployee(this.router.snapshot.params['id'])
       .subscribe((res: any) => {
+        this.userOldInfo=res;
         this.sidebarInfo.populate(res['username'], res['address']);
         this.editUser = new FormGroup({
-          FirstName: new FormControl(res['firstNdame']),
+          FirstName: new FormControl(res['firstName']),
           LastName: new FormControl(res['lastName']),
           Username: new FormControl(res['username']),
           Email: new FormControl(res['email']),
           Address: new FormControl(res['address']),
-          NeigborhoodName: new FormControl(res['neigborhoodId']),
+          NeigborhoodName: new FormControl(res['regionId']),
           Latitude:new FormControl(''),
           Longitude:new FormControl(''),
           CityName:new FormControl(''),
+
         });
       });
   }
   UpdateData() {
+
+    let dto: editUserDto=new editUserDto();
+    dto.id=this.router.snapshot.params['id'];
+    dto.firstName=this.editUser.value.FirstName!;
+    dto.lastName=this.editUser.value.LastName!;
+    if(this.userOldInfo.email!=this.editUser.value.Email)
+    {
+      dto.email=this.editUser.value.Email!;
+    }
     this.user
-      .updateUserData(this.router.snapshot.params['id'], this.editUser.value)
+      .updateUserData(dto)
       .subscribe((res) => {
         console.log(res);
       });
