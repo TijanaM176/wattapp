@@ -68,6 +68,9 @@ export class DeviceinfoComponent {
       }
     )
   }
+  delete(id:string){
+
+  }
   edit(){
 
     this.modalTitle = "Edit Information";
@@ -83,6 +86,13 @@ export class DeviceinfoComponent {
     }
     
     this.modalTitle = ''
+  }
+  confirm(){
+    if(this.showEdit)
+    {
+      this.editData.editInfo()
+      //this.showEdit = false;
+    }
   }
 }
 
