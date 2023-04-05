@@ -1,23 +1,38 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { NgToastService } from 'ng-angular-popup';
 import { DeviceserviceService } from 'src/app/services/deviceservice.service';
 import { EmployeesServiceService } from 'src/app/services/employees-service.service';
+import { ScreenWidthService } from 'src/app/services/screen-width.service';
+import { fromEvent, Observable, Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-home-sidebar',
   templateUrl: './home-sidebar.component.html',
   styleUrls: ['./home-sidebar.component.css']
 })
-export class HomeSidebarComponent implements OnInit{
+export class HomeSidebarComponent implements OnInit, AfterViewInit {
 
   region : string = '';
   currConsumption : string = '';
   currProduction : string = '';
   numOfUsers : string = '';
+  resizeObservable$!: Observable<Event>
+  resizeSubscription$!: Subscription;
+  side : any;
 
-  constructor(private deviceService : DeviceserviceService, private employeeService : EmployeesServiceService, private toast : NgToastService) {}
+  constructor(private deviceService : DeviceserviceService, private employeeService : EmployeesServiceService, private toast : NgToastService, private widthService : ScreenWidthService) {}
+  
+  ngAfterViewInit(): void {
+    this.side.style.height = this.widthService.height+'px';
+    //console.log(document.getElementById("side")!.style.height)
+  }
 
   ngOnInit(): void {
+    this.side = document.getElementById("sadrzaj");
+    this.resizeObservable$ = fromEvent(window, 'resize');
+    this.resizeSubscription$ = this.resizeObservable$.subscribe( evt => {
+      this.side.style.height = this.widthService.height+'px';
+    })
     this.getRegion();
     this.getConsumptionProduction();
   }
@@ -32,7 +47,7 @@ export class HomeSidebarComponent implements OnInit{
       },
       error:(err)=>{
         console.log(err.error);
-        this.toast.error({detail:"ERROR", summary:"Unable to load current consumption and production",duration:3000});
+        this.toast.error({detail:"ERROR", summary:"Unable to load data",duration:3000});
       }
     })
   }
@@ -46,7 +61,7 @@ export class HomeSidebarComponent implements OnInit{
       },
       error:(err)=>{
         console.log(err.error);
-        this.toast.error({detail:"ERROR", summary:"Unable to load user count",duration:3000});
+        this.toast.error({detail:"ERROR", summary:"Unable to load data",duration:3000});
       }
     })
   }
@@ -61,7 +76,7 @@ export class HomeSidebarComponent implements OnInit{
       },
       error:(err)=>{
         console.log(err.error);
-        this.toast.error({detail:"ERROR", summary:"Unable to load region",duration:3000});
+        this.toast.error({detail:"ERROR", summary:"Unable to load data",duration:3000});
       }
     })
   }

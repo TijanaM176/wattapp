@@ -4,6 +4,7 @@ import { NgToastService } from 'ng-angular-popup';
 import { CookieService } from 'ngx-cookie-service';
 import { AuthServiceService } from 'src/app/services/auth-service.service';
 import { fromEvent, Observable, Subscription } from 'rxjs';
+import { ScreenWidthService } from 'src/app/services/screen-width.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -16,27 +17,43 @@ export class DashboardComponent implements OnInit, AfterViewInit{
   navBarHeight!: number;
   resizeObservable$!: Observable<Event>
   resizeSubscription$!: Subscription;
+  content : any;
 
   constructor(
     private router: Router,
     private cookie: CookieService,
     private auth: AuthServiceService,
-    private toast: NgToastService
+    private toast: NgToastService,
+    private widthService : ScreenWidthService
   ) {}
   ngAfterViewInit(): void {
-    this.navBarHeight = document.getElementById('navBar')!.offsetHeight;
-    let height = window.innerHeight - 101;
-    document.getElementById("content")!.style.height = height + 'px';
-    //console.log(this.navBarHeight)
+    this.content.style.height = this.widthService.height;
   }
 
   ngOnInit(): void {
+    this.content = document.getElementById("content");
+    if(window.innerWidth>320)
+    {
+      let height = window.innerHeight - 101;
+      this.widthService.height = height;
+    }
+    else
+    {
+      let height = window.innerHeight - 140.6;
+      this.widthService.height = height;
+    }
     this.resizeObservable$ = fromEvent(window, 'resize');
     this.resizeSubscription$ = this.resizeObservable$.subscribe( evt => {
-      this.navBarHeight = document.getElementById('navBar')!.offsetHeight;
-      let height = window.innerHeight - this.navBarHeight;
-    document.getElementById("content")!.style.height = height + 'px';
-      //console.log(this.navBarHeight)
+      if(window.innerWidth>320)
+      {
+        let height = window.innerHeight - 101;
+        this.widthService.height = height;
+      }
+      else
+      {
+        let height = window.innerHeight - 140.6;
+        this.widthService.height = height;
+      }
     });
   }
 }

@@ -1,14 +1,14 @@
 <section class="h-100 mx-0 my-0 px-0 py-0" style="background-color: #f4f5f7;">
     <div class="container-fluid h-100 px-0 py-0 mx-0 my-0">
-        <div class="row d-flex justify-content-center align-items-center mx-0 my-0 px-0 py-0 h-100">
+        <div class="row d-flex justify-content-center align-items-start align-items-md-center mx-0 my-0 px-0 py-0 h-100">
             <div class="col px-0 mx-0 my-0 py-0 h-100">
                 <div class="card h-100" style="border-radius: 0;">
-                    <div class="row g-0 h-100 justify-content-center align-items-center px-0 py-0">
-                        <div class="col-md-8 h-60 h-sm-60 justify-content-center align-items-center order-2 order-md-1">
-                            <div class="card-body p-4">
+                    <div class="row g-0 h-100 justify-content-center align-items-start align-items-md-center px-0 py-0">
+                        <div class="col-md-8 justify-content-center align-items-center order-2 order-md-1 mx-0 my-0 px-0 py-0">
+                            <div class="card-body p-1 p-md-4">
                                 <h6 class="section">Information</h6>
                                 <hr class="mt-0 mb-4">
-                                <div class="row pt-1">
+                                <div class="row pt-1 mx-0 my-0">
                                     <div class="col-6 mb-3">
                                         <h4>{{username}}</h4>
                                         <p class="text-muted">Username</p>
@@ -19,7 +19,7 @@
                                     </div>
                                 </div>
                                 <hr class="mt-0 mb-4">
-                                <div class="row pt-1">
+                                <div class="row pt-1 mx-0 my-0">
                                     <div class="col-6 mb-3">
                                         <h4>{{email}}</h4>
                                         <p class="text-muted">E-mail</p>
@@ -29,19 +29,20 @@
                                         <p class="text-muted">Address</p>
                                     </div>
                                 </div>
-                                <hr class="mt-0 mb-4">
-                                <div class="d-flex justify-content-start">
-                                    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop" (click)="edit()"><i class="fa fa-edit fa-lg"></i>&nbsp;Edit Profile</button>
+                                <hr class="mt-0 mb-2 mb-md-4">
+                                <div class="d-flex justify-content-start mx-0 my-0">
+                                    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop" (click)="edit()"><i class="fa fa-edit fa-lg"></i><span class="d-none d-sm-inline-flex align-items-center">&nbsp;Edit Profile</span></button>
                                     &nbsp;&nbsp;
-                                    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop" (click)="changePass()"><i class="fa fa-lock fa-lg"></i>&nbsp;Change Password</button>
+                                    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop" (click)="changePass()"><i class="fa fa-lock fa-lg"></i><span class="d-none d-sm-inline-flex align-items-center" style="white-space: nowrap">&nbsp;Change Password</span></button>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-4 gradient-custom d-flex justify-content-center align-items-center h-40 h-sm-50 h-md-100 order-1 order-md-2 pb-5 pt-2 px-md-0 py-md-0 my-0 mx-0">
-                            <img src="assets/images/prosumer-default-profileimage.png" alt="Avatar" class="img-fluid mb-2 rounded-circle" />
-                            <!-- <h2>Username</h2>
-                            <h4>First and Last Name</h4> -->
-                        </div>
+                        <div class="col-md-4 gradient-custom d-flex flex-column justify-content-center align-items-center h-md-100 order-1 order-md-2 pb-5 pt-2 px-md-0 py-md-0 my-0 mx-0">
+                            <img src="assets/images/prosumer-default-profileimage.png" alt="Avatar" class="img-fluid rounded-circle" />
+                            <div class="mt-0">
+                              <a routerLink="/dashboard/userInfo">Change Photo</a>
+                            </div>
+                        </div>                          
                     </div>
                 </div>
             </div>
