@@ -19,8 +19,7 @@ export class UsersComponent implements OnInit {
   tableSizes: any = [10, 15, 20];
   constructor(public service: UsersServiceService, private router: Router) {}
   ngOnInit(): void {
-    this.service.refreshList();
-    console.log(this.service.prosumers);
+    this.service.ProsumersInfo();
   }
   Details(id: string) {
     this.service.detailsEmployee(id).subscribe((res) => {

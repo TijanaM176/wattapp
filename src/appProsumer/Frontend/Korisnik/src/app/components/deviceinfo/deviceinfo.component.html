@@ -1,112 +1,171 @@
-<section class="h-100 mx-0 my-0 px-0 py-0" style="background-color: #f4f5f7;">
-    <div class="container-fluid h-100 px-0 py-0 mx-0 my-0">
-        <div class="row d-flex justify-content-center align-items-center mx-0 my-0 px-0 py-0 h-100">
-            <div class="col px-0 mx-0 my-0 py-0 h-100">
-                <div class="card h-100" style="border-radius: 0;">
-                    <div class="row g-0 h-100 justify-content-center align-items-center px-0 py-0">
-                        <div class="col-md-6 h-60 h-sm-60 justify-content-center align-items-center order-2 order-md-2">
-                            <div class="card-body p-4" >
-                                <h6 class="section">Information</h6>
-                                <hr class="mt-0 mb-4">
-                                <div class="row pt-1">
-                                    <div class="col-12 mb-3">
-                                      <p class="text-muted">IP Address</p>
-                                        <h4 style="color:#08376B">{{IpAddress}}</h4>
-                                        
-                                    </div>
-                                    
-                                </div>
-                                <hr class="mt-0 mb-4">
-                                <div class="row pt-1">
-                
-                                  <div class="col-12 mb-3">
-                                    <p class="text-muted">Device Type</p>
-                                    <h4 style="color:#08376B">{{TypeName}}</h4>
-                                    
-                                </div>
-                              </div>
-                              <hr class="mt-0 mb-4"> 
-                                
-                                
-                                <div class="row pt-1">
-                                    <div class="col-12 mb-3">
-                                      <p class="text-muted">Device Model</p>
-                                        <h4 style="color:#08376B">{{Manufacturer}}</h4>
-                                      
-                                    </div>
-                                    
-                                   
-                                </div>
-                                <hr class="mt-0 mb-4">
-                                <div class="row pt-1">
-                                  
-                                  <div class="col-12 mb-3">
-                                    <p class="text-muted">Device Name</p>
-                                      <h4 style="color:#08376B">{{Name}}</h4>
-                                      
-                                  </div>
-                              </div>
-                                <hr class="mt-0 mb-4">
-                                <div class="row pt-1">
-                                    <div class="col-6 mb-3">
-                                      <p class="text-muted">Maximum hourly consumption</p>
-                                        <h4 style="color:#08376B">{{MaxUsage}}kWh</h4>
-                                        
-                                    </div>
-                                    <div class="col-6 mb-3">
-                                      <p class="text-muted">Average hourly consumption</p>
-                                        <h4 style="color:#08376B">{{AvgUsage}}kWh</h4>
-                                        
-                                    </div>
-                                </div>
-
-                                <div class="d-flex justify-content-start">
-                                    <button class="btn btn-primary" (click)="edit()" data-bs-toggle="modal" data-bs-target="#staticBackdrop" ><i class="fa fa-edit fa-lg"></i>&nbsp;Edit</button>
-                                    &nbsp;&nbsp;
-                                    <button class="btn btn-primary" (click)="delete(idDev)"><i class="fa fa-trash fa-lg"></i>&nbsp;Delete</button>
-                                </div>
-                               
-                            </div>
-                            
-                            
-                        </div>
-                        <div class="col-md-6 gradient-custom  justify-content-center align-items-center  h-md-100 order-1 order-md-2 " style="display:inline-block;">
-                           <div style="display:flex;justify-content: center;">
-                           <img src="assets/images/consumption3.png"  style="justify-content: center;margin-top:5%;" >
-                          </div>
-                           <h5  style="color: #08376B;font-weight: bold;justify-content: center;text-align: center;">Consumption</h5>
-                          
-                          <h5 style="color: #08376B;font-weight: bold;justify-content: center;text-align: center;">{{currentUsage}}kWh</h5><br>
-                      <h5 style="font-size:18px;color: #08376B;font-weight: bold;justify-content: center;text-align: center;">Realization and Prediction</h5>
-                      <div style="display:flex;justify-content: center;">   
-                        
-                      </div> 
-                         
-                        </div>
-                        
-                    </div>
-                   
+<section
+  class="h-100 mx-0 my-0 px-0 py-0"
+  style="background-color: #f4f5f7; overflow-y: scroll"
+>
+  <div class="container-fluid h-100 px-0 py-0 mx-0 my-0">
+    <div
+      class="row d-flex justify-content-center align-items-center mx-0 my-0 px-0 py-0 h-100"
+    >
+      <div class="col px-0 mx-0 my-0 py-0 h-100">
+        <div class="card h-100" style="border-radius: 0">
+          <div
+            class="row g-0 h-100 justify-content-center align-items-center px-0 py-0"
+          >
+            <div
+              class="col-md-6 h-60 h-sm-60 justify-content-center align-items-center order-2 order-md-2"
+            >
+              <div class="card-body p-4">
+                <h6 class="section">Information</h6>
+                <hr class="mt-0 mb-4" />
+                <div class="row pt-1">
+                  <div class="col-12 mb-3">
+                    <p class="text-muted">IP Address</p>
+                    <h4 style="color: #08376b">{{ IpAddress }}</h4>
+                  </div>
                 </div>
+                <hr class="mt-0 mb-4" />
+                <div class="row pt-1">
+                  <div class="col-12 mb-3">
+                    <p class="text-muted">Device Type</p>
+                    <h4 style="color: #08376b">{{ TypeName }}</h4>
+                  </div>
+                </div>
+                <hr class="mt-0 mb-4" />
+
+                <div class="row pt-1">
+                  <div class="col-12 mb-3">
+                    <p class="text-muted">Device Model</p>
+                    <h4 style="color: #08376b">{{ Manufacturer }}</h4>
+                  </div>
+                </div>
+                <hr class="mt-0 mb-4" />
+                <div class="row pt-1">
+                  <div class="col-12 mb-3">
+                    <p class="text-muted">Device Name</p>
+                    <h4 style="color: #08376b">{{ Name }}</h4>
+                  </div>
+                </div>
+                <hr class="mt-0 mb-4" />
+                <div class="row pt-1">
+                  <div class="col-6 mb-3">
+                    <p class="text-muted">Maximum hourly consumption</p>
+                    <h4 style="color: #08376b">{{ MaxUsage }}kWh</h4>
+                  </div>
+                  <div class="col-6 mb-3">
+                    <p class="text-muted">Average hourly consumption</p>
+                    <h4 style="color: #08376b">{{ AvgUsage }}kWh</h4>
+                  </div>
+                </div>
+
+                <div class="d-flex justify-content-start">
+                  <button
+                    class="btn btn-primary"
+                    (click)="edit()"
+                    data-bs-toggle="modal"
+                    data-bs-target="#staticBackdrop"
+                  >
+                    <i class="fa fa-edit fa-lg"></i>&nbsp;Edit
+                  </button>
+                  &nbsp;&nbsp;
+                  <button class="btn btn-primary" (click)="delete(idDev)">
+                    <i class="fa fa-trash fa-lg"></i>&nbsp;Delete
+                  </button>
+                </div>
+              </div>
             </div>
+            <div
+              class="col-md-6 gradient-custom justify-content-center align-items-center h-md-100 order-1 order-md-2"
+              style="display: inline-block"
+            >
+              <div style="display: flex; justify-content: center">
+                <img
+                  src="assets/images/consumption3.png"
+                  style="justify-content: center; margin-top: 5%"
+                />
+              </div>
+              <h5
+                style="
+                  color: #08376b;
+                  font-weight: bold;
+                  justify-content: center;
+                  text-align: center;
+                "
+              >
+                Consumption
+              </h5>
+
+              <h5
+                style="
+                  color: #08376b;
+                  font-weight: bold;
+                  justify-content: center;
+                  text-align: center;
+                "
+              >
+                {{ currentUsage }}kWh
+              </h5>
+              <br />
+              <h5
+                style="
+                  font-size: 18px;
+                  color: #08376b;
+                  font-weight: bold;
+                  justify-content: center;
+                  text-align: center;
+                "
+              >
+                Realization and Prediction
+              </h5>
+              <div style="display: flex; justify-content: center"></div>
+            </div>
+          </div>
         </div>
+      </div>
     </div>
+  </div>
 </section>
 
-<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+<div
+  class="modal fade"
+  id="staticBackdrop"
+  data-bs-backdrop="static"
+  data-bs-keyboard="false"
+  tabindex="-1"
+  aria-labelledby="staticBackdropLabel"
+  aria-hidden="true"
+>
   <div class="modal-dialog">
     <div class="modal-content">
-      <div class="modal-header text-white" style="background-color: #466471;">
-        <h5 class="modal-title" id="staticBackdropLabel">{{modalTitle}}</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="close()"></button>
+      <div class="modal-header text-white" style="background-color: #466471">
+        <h5 class="modal-title" id="staticBackdropLabel">{{ modalTitle }}</h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+          (click)="close()"
+        ></button>
       </div>
       <div class="modal-body">
-        <app-edit-device-form [deviceData]="deviceData" *ngIf="showEdit==true" #editData></app-edit-device-form>
+        <app-edit-device-form
+          [deviceData]="deviceData"
+          *ngIf="showEdit == true"
+          #editData
+        ></app-edit-device-form>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)="close()">Close</button>
-        <button type="button" class="btn btn-primary" (click)="confirm()" >Confirm</button>
+        <button
+          type="button"
+          class="btn btn-secondary"
+          data-bs-dismiss="modal"
+          (click)="close()"
+        >
+          Close
+        </button>
+        <button type="button" class="btn btn-primary" (click)="confirm()">
+          Confirm
+        </button>
       </div>
     </div>
   </div>
 </div>
-

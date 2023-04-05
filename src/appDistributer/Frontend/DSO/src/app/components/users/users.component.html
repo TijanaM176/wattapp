@@ -116,16 +116,17 @@
               <td>{{ item.username }}</td>
               <td>{{ item.address }}</td>
 
-              <td></td>
-              <td></td>
-              <td></td>
+              <td>{{ item.consumption }} kW</td>
+              <td>{{ item.production }} kW</td>
+              <td>{{ item.devCount }}</td>
               <td>
                 <!-- <button class="button-info" (click)="Details(item.id)">
                   <b>info</b>
                 </button> -->
-             
-                
-                <a routerLink="/dashboard/user/{{item.id}}"><i class="fa fa-info-circle"></i></a>
+
+                <a routerLink="/dashboard/user/{{ item.id }}"
+                  ><i class="fa fa-info-circle"></i
+                ></a>
               </td>
             </tr>
           </tbody>

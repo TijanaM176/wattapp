@@ -102,7 +102,7 @@ export class UsersServiceService {
     maxDev: number
   ): Observable<Prosumer[]> {
     return this.http.get<Prosumer[]>(
-      'https://localhost:7156/ProsumerFilter?minConsumption=' +
+      'https://localhost:7156/UpdatedProsumerFilter?minConsumption=' +
         minCon +
         '&maxConsumption=' +
         maxCon +
@@ -126,7 +126,7 @@ export class UsersServiceService {
     maxDev: number
   ): Observable<Prosumer[]> {
     return this.http.get<Prosumer[]>(
-      'https://localhost:7156/ProsumerFilter2?neighbourhood=' +
+      'https://localhost:7156/UpdatedProsumerFilter2?neighborhood=' +
         idNaselja +
         '&minConsumption=' +
         minCon +
@@ -151,6 +151,11 @@ export class UsersServiceService {
   HistoryAllProsumers7Days() {
     return this.http.get(
       'https://localhost:7156/LastWeeksConsumptionAndProductionTimestamps'
+    );
+  }
+  ProsumersInfo() {
+    lastValueFrom(this.http.get('https://localhost:7156/AllProsumerInfo')).then(
+      (res) => (this.prosumers = res as Prosumer[])
     );
   }
 }
