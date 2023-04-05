@@ -1,4 +1,4 @@
-<div style="width: 70%; margin: 0 auto; margin-top: 1%; height: 80%">
+<div style="width: 80%; margin: 0 auto; margin-top: 1%; height: 80%">
   <div class="row" style="justify-content: center">
     <h1 style="text-align: center; margin-bottom: 3%">
       Consumption and Production History
@@ -12,7 +12,6 @@
         type="checkbox"
         id="consumption"
         [(ngModel)]="consumption"
-        (change)="onCheckboxChange()"
       />
       <label
         style="color: #ff414e; font-style: strong"
@@ -28,7 +27,6 @@
         type="checkbox"
         id="production"
         [(ngModel)]="production"
-        (change)="onCheckboxChange()"
       />
       <label style="color: #80bc00" class="form-check-label" for="production">
         Production
@@ -98,4 +96,16 @@
     [noBarWhenZero]="true"
   >
   </ngx-charts-bar-vertical>
+  <h1
+    *ngIf="!production && !consumption"
+    style="
+      text-align: center;
+      margin-top: 15%;
+      opacity: 20%;
+      font-style: italic;
+      font-weight: normal;
+    "
+  >
+    There is no available Data
+  </h1>
 </div>

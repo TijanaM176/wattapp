@@ -259,8 +259,8 @@ namespace API.Controllers
             {
                 return Ok(new
                 {
-                    consumption = await devService.ConProdForAPeriodTimestamps(0, -7, 12),
-                    production = await devService.ConProdForAPeriodTimestamps(1, -7, 12),
+                    consumption = await devService.ConProdForAPeriodTimestamps(0, -7, 24),
+                    production = await devService.ConProdForAPeriodTimestamps(1, -7, 24),
                 });
             }
             catch (Exception ex)
@@ -377,6 +377,13 @@ namespace API.Controllers
             try
             {
                 return Ok(await devService.AllProsumerInfo());
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
         [HttpPut("EditDevice")]
         public async Task<IActionResult> EditDevice(string IdDevice, string DeviceName, string IpAddress)
         {
@@ -420,8 +427,6 @@ namespace API.Controllers
             {
                 return BadRequest(ex.Message);
             }
-        }
-
         }
         [HttpDelete("DeleteDevice")]
         public async Task<IActionResult> DeleteDevice(string idDevice)

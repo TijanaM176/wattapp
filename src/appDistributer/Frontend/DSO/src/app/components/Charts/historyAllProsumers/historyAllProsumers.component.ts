@@ -47,9 +47,6 @@ export class HistoryAllProsumersComponent implements OnInit {
     private service: UsersServiceService,
     private router: ActivatedRoute
   ) {}
-  onCheckboxChange() {
-    console.log(this.consumption, this.production);
-  }
 
   ngOnInit() {
     this.id = this.router.snapshot.params['id'];
@@ -78,8 +75,11 @@ export class HistoryAllProsumersComponent implements OnInit {
         ];
         return { name, series };
       });
-      this.data = myList;
-      console.log(this.data);
+      this.data = myList.map((item) => {
+        const date = new Date(item.name);
+        const dayName = date.toLocaleDateString('en-US', { weekday: 'long' });
+        return { name: dayName, series: item.series };
+      });
     });
   }
 }

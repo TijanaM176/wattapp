@@ -30,11 +30,10 @@ const routes: Routes = [
       { path: 'addDevice', component: AddDeviceComponent },
       { path: '', redirectTo: 'home', pathMatch: 'full' },
       { path: 'home', component: PocetnaComponent },
-      { path: 'userInfo', component: UserInfoComponent },
       { path: 'deviceinfo', component: DeviceinfoComponent },
-      { path: 'userDevices', component: DeviceCardsComponent },
     ],
   },
+  { path: 'userDevices', component: UserDevicesComponent },
   { path: 'resetpassword', component: ResetpasswordComponent },
 ];
 

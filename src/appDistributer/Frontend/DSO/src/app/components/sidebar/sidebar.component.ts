@@ -9,10 +9,10 @@ import { Options, LabelType } from '@angular-slider/ngx-slider';
 })
 export class SidebarComponent implements OnInit {
   minValueP: number = 0;
-  maxValueP: number = 1000;
+  maxValueP: number = 300;
   optionsP: Options = {
     floor: 0,
-    ceil: 1000,
+    ceil: 300,
     translate: (value: number, label: LabelType): string => {
       switch (label) {
         case LabelType.Low:
@@ -25,10 +25,10 @@ export class SidebarComponent implements OnInit {
     },
   };
   minValueC: number = 0;
-  maxValueC: number = 1000;
+  maxValueC: number = 300;
   optionsC: Options = {
     floor: 0,
-    ceil: 1000,
+    ceil: 300,
     translate: (value: number, label: LabelType): string => {
       switch (label) {
         case LabelType.Low:
@@ -107,7 +107,15 @@ export class SidebarComponent implements OnInit {
       )
       .subscribe((response) => {
         this.userService.prosumers = response;
-        console.log(response);
+        console.log(
+          this.dropDownNeigh,
+          this.minValueC,
+          this.maxValueC,
+          this.minValueP,
+          this.maxValueP,
+          this.minValue,
+          this.maxValue
+        );
       });
   }
 
@@ -121,9 +129,9 @@ export class SidebarComponent implements OnInit {
 
   reset() {
     this.minValueC = 0;
-    this.maxValueC = 1000;
+    this.maxValueC = 300;
     this.minValueP = 0;
-    this.maxValueP = 10000;
+    this.maxValueP = 300;
     this.minValue = 0;
     this.maxValue = 50;
     this.userService.refreshList();
