@@ -24,6 +24,13 @@ export class LoginComponent implements OnInit {
   constructor(private fb: FormBuilder, private router: Router, private toast: NgToastService, private cookie: CookieService,private auth: AuthServiceService,private reset:ResetPasswordService) {}
 
   ngOnInit(): void {
+    this.cookie.delete('token');
+    this.cookie.delete('refresh');
+    this.cookie.delete('role');
+    this.cookie.delete('username');
+    this.cookie.delete('lat');
+    this.cookie.delete('long');
+    this.cookie.delete('country');
     this.cookie.deleteAll();
     this.loginForm = this.fb.group({
       usernameOrEmail: ['',Validators.required],

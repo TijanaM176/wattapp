@@ -17,6 +17,7 @@ export class DashboardComponent implements OnInit, AfterViewInit{
   navBarHeight!: number;
   resizeObservable$!: Observable<Event>
   resizeSubscription$!: Subscription;
+  content : any;
 
   constructor(
     private router: Router,
@@ -26,17 +27,15 @@ export class DashboardComponent implements OnInit, AfterViewInit{
     private widthService : ScreenWidthService
   ) {}
   ngAfterViewInit(): void {
-    let height = window.innerHeight - 101;
-    document.getElementById("content")!.style.height = height + 'px';
-    //console.log(height);
+    this.content.style.height = this.widthService.height;
   }
 
   ngOnInit(): void {
+    this.content = document.getElementById("content");
     if(window.innerWidth>320)
     {
       let height = window.innerHeight - 101;
       this.widthService.height = height;
-      console.log(height);
     }
     else
     {
@@ -45,20 +44,16 @@ export class DashboardComponent implements OnInit, AfterViewInit{
     }
     this.resizeObservable$ = fromEvent(window, 'resize');
     this.resizeSubscription$ = this.resizeObservable$.subscribe( evt => {
-      //this.navBarHeight = document.getElementById('navBar')!.offsetHeight;
       if(window.innerWidth>320)
       {
         let height = window.innerHeight - 101;
-        document.getElementById("content")!.style.height = height + 'px';
         this.widthService.height = height;
       }
       else
       {
         let height = window.innerHeight - 140.6;
-        document.getElementById("content")!.style.height = height + 'px';
         this.widthService.height = height;
       }
-      //console.log(this.navBarHeight)
     });
   }
 }
