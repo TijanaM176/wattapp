@@ -4,6 +4,7 @@ import { UsersServiceService } from 'src/app/services/users-service.service';
 import { FormGroup, FormControl } from '@angular/forms';
 import { SidebarDsoComponent } from '../sidebar-dso/sidebar-dso.component';
 import { data } from 'jquery';
+import { EmployeesServiceService } from 'src/app/services/employees-service.service';
 
 @Component({
   selector: 'app-user1',
@@ -14,7 +15,8 @@ export class User1Component {
   @ViewChild('sidebarInfo', { static: true }) sidebarInfo!: SidebarDsoComponent;
   constructor(
       private user: UsersServiceService,
-      private router: ActivatedRoute )
+      private router: ActivatedRoute,
+      private employyeService : EmployeesServiceService )
    
       {
     
@@ -32,7 +34,7 @@ export class User1Component {
       this.id = this.router.snapshot.params['id'];
       
     })
-  this.user.getRegionById(this.myData.neigborhoodId).subscribe((data)=> {
+  this.employyeService.getRegionName(this.myData.neigborhoodId).subscribe((data)=> {
   this.Region=data;
   
  })
