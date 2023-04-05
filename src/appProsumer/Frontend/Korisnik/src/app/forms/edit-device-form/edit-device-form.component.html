@@ -1,0 +1,12 @@
+<div class="mb-3">
+    <label for="ipaddress" class="form-label">IP Address</label>
+    <input type="text" class="form-control" id="ipaddress" [(ngModel)]="IpAddress" placeholder="IP Address">
+  </div>
+
+  <div class="mb-3">
+    <label for="name" class="form-label">Device Name</label>
+    <input type="text" class="form-control" id="name" [(ngModel)]="Name" placeholder="Device Name">
+  </div>
+  <small class="text-danger" *ngIf="notFilled">*All fileds must be populated</small>
+  <small class="text-success" *ngIf="success">Information successfully edited!</small>
+  <small class="text-danger" *ngIf="failure">Error occurred. Try again later.</small>
