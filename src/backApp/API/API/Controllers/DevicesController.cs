@@ -10,6 +10,7 @@ namespace API.Controllers
     public class DevicesController : Controller
     {
         private readonly IDevicesService devService;
+
         public DevicesController(IDevicesService devService)
         {
             this.devService = devService;
@@ -154,11 +155,13 @@ namespace API.Controllers
         }
 
         [HttpGet("ProsumerFilter")]
-        public async Task<IActionResult> ProsumerFilter(double minConsumption, double maxConsumption, double minProduction, double maxProduction, int minDeviceCount, int maxDeviceCount)
+        public async Task<IActionResult> ProsumerFilter(double minConsumption, double maxConsumption,
+            double minProduction, double maxProduction, int minDeviceCount, int maxDeviceCount)
         {
             try
             {
-                return Ok(await devService.ProsumerFilter(minConsumption, maxConsumption, minProduction, maxProduction, minDeviceCount, maxDeviceCount));
+                return Ok(await devService.ProsumerFilter(minConsumption, maxConsumption, minProduction, maxProduction,
+                    minDeviceCount, maxDeviceCount));
             }
             catch (Exception ex)
             {
@@ -167,17 +170,20 @@ namespace API.Controllers
         }
 
         [HttpGet("ProsumerFilter2")]
-        public async Task<IActionResult> ProsumerFilter2(string neighbourhood, double minConsumption, double maxConsumption, double minProduction, double maxProduction, int minDeviceCount, int maxDeviceCount)
+        public async Task<IActionResult> ProsumerFilter2(string neighbourhood, double minConsumption,
+            double maxConsumption, double minProduction, double maxProduction, int minDeviceCount, int maxDeviceCount)
         {
             try
             {
-                return Ok(await devService.ProsumerFilter2(neighbourhood, minConsumption, maxConsumption, minProduction, maxProduction, minDeviceCount, maxDeviceCount));
+                return Ok(await devService.ProsumerFilter2(neighbourhood, minConsumption, maxConsumption, minProduction,
+                    maxProduction, minDeviceCount, maxDeviceCount));
             }
             catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }
         }
+
         [HttpGet("GetDeviceInfoById")]
         public async Task<IActionResult> GetDeviceInfoById(string id)
         {
@@ -202,6 +208,7 @@ namespace API.Controllers
 
 
         }
+
         [HttpGet("ProductionConsumptionForLastWeekForDevice")]
         public async Task<IActionResult> ProductionConsumptionForLastWeekForDevice(string idDevice)
         {
@@ -361,8 +368,8 @@ namespace API.Controllers
             {
                 return Ok(new
                 {
-                    totalConsumption = (Math.Round(await devService.TotalCurrentConsumption(),3)).ToString(),
-                    totalProduction = (Math.Round(await devService.TotalCurrentProduction(),3)).ToString(),
+                    totalConsumption = (Math.Round(await devService.TotalCurrentConsumption(), 3)).ToString(),
+                    totalProduction = (Math.Round(await devService.TotalCurrentProduction(), 3)).ToString(),
                 });
             }
             catch (Exception ex)
@@ -377,18 +384,26 @@ namespace API.Controllers
             try
             {
                 return Ok(await devService.AllProsumerInfo());
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
         [HttpPut("EditDevice")]
         public async Task<IActionResult> EditDevice(string IdDevice, string DeviceName, string IpAddress)
         {
             try
             {
                 DeviceInfo di = await devService.EditDevice(IdDevice, DeviceName, IpAddress);
-                return Ok(new {
-                       Name = di.Name,
-                       IpAddress = di.IpAddress,
-                       Manufacurer = di.Manufacturer,
-                       Wattage = di.Wattage
-                
+                return Ok(new
+                {
+                    Name = di.Name,
+                    IpAddress = di.IpAddress,
+                    Manufacurer = di.Manufacturer,
+                    Wattage = di.Wattage
+
                 });
             }
             catch (Exception ex)
@@ -398,23 +413,13 @@ namespace API.Controllers
         }
 
         [HttpGet("UpdatedProsumerFilter")]
-        public async Task<IActionResult> UpdatedProsumerFilter(double minConsumption, double maxConsumption, double minProduction, double maxProduction, int minDeviceCount, int maxDeviceCount)
+        public async Task<IActionResult> UpdatedProsumerFilter(double minConsumption, double maxConsumption,
+            double minProduction, double maxProduction, int minDeviceCount, int maxDeviceCount)
         {
             try
             {
-                return Ok(await devService.UpdatedProsumerFilter(minConsumption, maxConsumption, minProduction, maxProduction, minDeviceCount, maxDeviceCount));
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
-        [HttpGet("UpdatedProsumerFilter2")]
-        public async Task<IActionResult> UpdatedProsumerFilter2(string neighborhood, double minConsumption, double maxConsumption, double minProduction, double maxProduction, int minDeviceCount, int maxDeviceCount)
-        {
-            try
-            {
-                return Ok(await devService.UpdatedProsumerFilter2(neighborhood, minConsumption, maxConsumption, minProduction, maxProduction, minDeviceCount, maxDeviceCount));
+                return Ok(await devService.UpdatedProsumerFilter(minConsumption, maxConsumption, minProduction,
+                    maxProduction, minDeviceCount, maxDeviceCount));
             }
             catch (Exception ex)
             {
@@ -422,15 +427,30 @@ namespace API.Controllers
             }
         }
 
+        [HttpGet("UpdatedProsumerFilter2")]
+        public async Task<IActionResult> UpdatedProsumerFilter2(string neighborhood, double minConsumption,
+            double maxConsumption, double minProduction, double maxProduction, int minDeviceCount,
+            int maxDeviceCount)
+        {
+            try
+            {
+                return Ok(await devService.UpdatedProsumerFilter2(neighborhood, minConsumption, maxConsumption,
+                    minProduction, maxProduction, minDeviceCount, maxDeviceCount));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
+
         [HttpDelete("DeleteDevice")]
         public async Task<IActionResult> DeleteDevice(string idDevice)
         {
             try
             {
                 var diBoolean = await devService.DeleteDevice(idDevice);
-                 return Ok("Deleted device!");
-               
+                return Ok("Deleted device!");
+
             }
             catch (Exception ex)
             {
@@ -438,6 +458,5 @@ namespace API.Controllers
             }
 
         }
-
     }
 }

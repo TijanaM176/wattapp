@@ -317,9 +317,15 @@ namespace API.Services.Devices
             return list;
 
         }
-        public async Task<List<Dictionary<string, object>>> UpdatedProsumerFilter2(string neighbourhood, double minConsumption, double maxConsumption, double minProduction, double maxProduction, int minDeviceCount, int maxDeviceCount)
+
+        public async Task<List<Dictionary<string, object>>> UpdatedProsumerFilter2(string neighbourhood,
+            double minConsumption, double maxConsumption, double minProduction, double maxProduction,
+            int minDeviceCount, int maxDeviceCount)
         {
-            return (await UpdatedProsumerFilter(minConsumption, maxConsumption, minProduction, maxProduction, minDeviceCount, maxDeviceCount)).Where(x => x["neighborhoodId"].ToString() == neighbourhood).ToList();
+            return (await UpdatedProsumerFilter(minConsumption, maxConsumption, minProduction, maxProduction,
+                minDeviceCount, maxDeviceCount)).Where(x => x["neighborhoodId"].ToString() == neighbourhood).ToList();
+        }
+
         public async Task<DeviceInfo> EditDevice(string IdDevice, string DeviceName, string IpAddress)
         {
 
