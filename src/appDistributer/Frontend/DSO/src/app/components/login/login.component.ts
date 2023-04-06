@@ -7,6 +7,7 @@ import { CookieService } from 'ngx-cookie-service';
 import { AuthServiceService } from 'src/app/services/auth-service.service';
 import { ResetPasswordService } from 'src/app/services/reset-password.service';
 import jwt_decode from 'jwt-decode';
+import { path } from 'd3';
 
 @Component({
   selector: 'app-login',
@@ -24,13 +25,15 @@ export class LoginComponent implements OnInit {
   constructor(private fb: FormBuilder, private router: Router, private toast: NgToastService, private cookie: CookieService,private auth: AuthServiceService,private reset:ResetPasswordService) {}
 
   ngOnInit(): void {
-    this.cookie.delete('token');
-    this.cookie.delete('refresh');
-    this.cookie.delete('role');
-    this.cookie.delete('username');
-    this.cookie.delete('lat');
-    this.cookie.delete('long');
-    this.cookie.delete('country');
+    this.cookie.delete('token','/');
+    this.cookie.delete('refresh','/');
+    this.cookie.delete('id','/');
+    this.cookie.delete('role','/');
+    this.cookie.delete('username','/');
+    this.cookie.delete('lat','/');
+    this.cookie.delete('long','/');
+    this.cookie.delete('acc','/');
+    this.cookie.delete('country','/');
     this.cookie.deleteAll();
     this.loginForm = this.fb.group({
       usernameOrEmail: ['',Validators.required],
@@ -73,12 +76,12 @@ export class LoginComponent implements OnInit {
             this.cookie.deleteAll();
             this.loginForm.reset();
             var decodedToken:any = jwt_decode(res.token);
-            this.cookie.set('username',decodedToken['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name'].toString().trim());
-            this.cookie.set('role',decodedToken['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'].toString().trim());
-            this.cookie.set('id',decodedToken['sub'].toString().trim());
-            this.cookie.set("token",res.token.toString().trim());
-            this.cookie.set("refresh",res.refreshToken.toString().trim());
-            console.log(this.cookie.get("refresh"));
+            this.cookie.set('username',decodedToken['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name'].toString().trim(),{path:'/'});
+            this.cookie.set('role',decodedToken['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'].toString().trim(),{path:'/'});
+            this.cookie.set('id',decodedToken['sub'].toString().trim(),{path:'/'});
+            this.cookie.set("token",res.token.toString().trim(),{path:'/'});
+            this.cookie.set("refresh",res.refreshToken.toString().trim(),{path:'/'});
+            //console.log(this.cookie.get("refresh"));
             this.toast.success({detail:"Successful Login!",duration: 2000});
             this.router.navigate([""]);
           },
@@ -134,7 +137,7 @@ export class LoginComponent implements OnInit {
       .subscribe({
         next:(res)=>{
           //alert(res.message);
-          this.cookie.set('resetToken',res.resetToken);
+          this.cookie.set('resetToken',res.resetToken,{path:'/'});
           //console.log(res);
           //console.log(this.resetPasswordEmail);
         },

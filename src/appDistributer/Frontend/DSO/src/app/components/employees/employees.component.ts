@@ -106,14 +106,14 @@ export class EmployeesComponent {
     this.service.detailsEmployee(id).subscribe(res => {
       this.employee = res;
       console.log(res);
-      this.cookie.set("id",this.employee.id);
+      this.cookie.set("id",this.employee.id,{path:'/'});
       //this.cookie.set("roleid",this.employee.roleId);
       this.value=this.cookie.get("role");
       this.RegionId=this.employee.regionId;
       this.service.getRegionName(this.employee.regionId).subscribe((res)=>{
         console.log(res);
         this.regionName=res;
-        this.cookie.set("regionName",this.regionName);
+        this.cookie.set("regionName",this.regionName,{path:'/'});
         //this.Region=res;
       })
       this.service.getRoleName(this.employee.roleId).subscribe((res)=>{
@@ -121,7 +121,7 @@ export class EmployeesComponent {
         this.roleName=res;
         //console.log(this.roleName);
         //this.Role=res;
-        this.cookie.set("roleName",this.roleName);
+        this.cookie.set("roleName",this.roleName,{path:'/'});
       })
 
       this.roleName=this.cookie.get("roleName");

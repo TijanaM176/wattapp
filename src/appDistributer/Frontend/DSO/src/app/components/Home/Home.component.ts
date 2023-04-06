@@ -64,14 +64,14 @@ export class HomeComponent implements OnInit, AfterViewInit {
       {
         navigator.geolocation.getCurrentPosition(
           (position) => {
-            this.cookie.set('lat', position.coords.latitude.toString());
-            this.cookie.set('long', position.coords.longitude.toString());
+            this.cookie.set('lat', position.coords.latitude.toString(),{path:'/'});
+            this.cookie.set('long', position.coords.longitude.toString(),{path:'/'});
             var url = "https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=" + position.coords.latitude + "&lon=" + position.coords.longitude;
             fetch(url)
             .then(response => response.json())
             .then(data => {
               console.log(data.address.country);
-              this.cookie.set('country',data.address.country);
+              this.cookie.set('country',data.address.country,{path:'/'});
             })
           },
           (error) => {
@@ -102,7 +102,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
   {
     if(this.currentCountry!="")
     {
-      this.cookie.set('country',this.currentCountry);
+      this.cookie.set('country',this.currentCountry,{path:'/'});
       this.showModal = false;
     }
   }

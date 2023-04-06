@@ -59,8 +59,10 @@ export class UserComponent implements OnInit {
     if (this.userOldInfo.email != this.editUser.value.Email) {
       dto.email = this.editUser.value.Email!;
     }
-    this.user.updateUserData(dto.id, dto).subscribe((res) => {
-      console.log(res);
-    });
+    this.user
+      .updateUserData(dto.id,dto)
+      .subscribe((res) => {
+        console.log(res);
+      });
   }
 }

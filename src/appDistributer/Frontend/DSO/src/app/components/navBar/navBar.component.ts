@@ -23,14 +23,16 @@ export class NavBarComponent implements OnInit {
   }
 
   LogOut() {
+    this.cookie.delete('token','/');
+    this.cookie.delete('refresh','/');
+    this.cookie.delete('id','/');
+    this.cookie.delete('role','/');
+    this.cookie.delete('username','/');
+    this.cookie.delete('lat','/');
+    this.cookie.delete('long','/');
+    this.cookie.delete('acc','/');
+    this.cookie.delete('country','/');
     this.cookie.deleteAll();
-    this.cookie.delete('token');
-    this.cookie.delete('refresh');
-    this.cookie.delete('role');
-    this.cookie.delete('username');
-    this.cookie.delete('lat');
-    this.cookie.delete('long');
-    this.cookie.delete('country');
     this.router.navigate(['login']);
   }
 }

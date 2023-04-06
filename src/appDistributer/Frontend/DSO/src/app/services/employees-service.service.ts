@@ -36,8 +36,8 @@ export class EmployeesServiceService {
     return this.http.delete(`${this.baseUrl}DeleteDsoWorker` + `?id=` + id);
   }
 
-  detailsEmployee(id: string) {
-    return this.http.get(`${this.baseUrl}GetDsoById` + `?id=` + id);
+  detailsEmployee(id: string):Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}GetDsoById` + `?id=` + id);
   }
 
   Page(page: number, pagesize: number) {

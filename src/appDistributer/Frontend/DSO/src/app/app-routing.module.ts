@@ -43,11 +43,11 @@ const routes: Routes = [
       { path: 'signup', component: AddProsumerComponent },
       { path: 'employees', component: EmployeedetailsComponent },
       { path: 'signupWorker', component: SignupWorkerPageComponent },
-      { path: 'user/:id', component: UserComponent },
+      { path: 'user/:id', component: User1Component },
       { path: 'user/:id/Devices', component: UserDevicesComponent },
       { path: 'user/:id/Devices/deviceinfo/:idDev', component: DeviceinfoComponent },
       { path: 'profile', component: WorkerProfileComponent },
-      { path: 'editProsumer', component: User1Component}
+      { path: 'editProsumer/:id', component: UserComponent}
     ],
   },
   {

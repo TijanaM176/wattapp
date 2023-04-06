@@ -119,11 +119,11 @@ export class MapComponent implements AfterViewInit, OnInit {
       if ('geolocation' in navigator) {
         navigator.geolocation.getCurrentPosition(
           (position) => {
-            this.cookie.set('lat', position.coords.latitude.toString());
-            this.cookie.set('long', position.coords.longitude.toString());
+            this.cookie.set('lat', position.coords.latitude.toString(),{path:'/'});
+            this.cookie.set('long', position.coords.longitude.toString(),{path:'/'});
 
             var acc = Number(position.coords.accuracy).toFixed(2);
-            this.cookie.set('acc', acc);
+            this.cookie.set('acc', acc,{path:'/'});
 
             this.map.setView(
               [position.coords.latitude, position.coords.longitude],
