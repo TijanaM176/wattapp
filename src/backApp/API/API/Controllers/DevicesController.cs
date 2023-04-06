@@ -394,19 +394,12 @@ namespace API.Controllers
         }
 
         [HttpPut("EditDevice")]
-        public async Task<IActionResult> EditDevice(string IdDevice, string DeviceName, string IpAddress)
+        public async Task<IActionResult> EditDevice(string IdDevice, string model, string DeviceName, string IpAddress)
         {
             try
             {
-                DeviceInfo di = await devService.EditDevice(IdDevice, DeviceName, IpAddress);
-                return Ok(new
-                {
-                    Name = di.Name,
-                    IpAddress = di.IpAddress,
-                    Manufacurer = di.Manufacturer,
-                    Wattage = di.Wattage
-
-                });
+                await devService.EditDevice(IdDevice, model, DeviceName, IpAddress);
+                return Ok("Device edited successfully!");
             }
             catch (Exception ex)
             {

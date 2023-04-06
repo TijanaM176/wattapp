@@ -329,15 +329,17 @@ namespace API.Services.Devices
                 minDeviceCount, maxDeviceCount)).Where(x => x["neighborhoodId"].ToString() == neighbourhood).ToList();
         }
 
-        public async Task<DeviceInfo> EditDevice(string IdDevice, string DeviceName, string IpAddress)
+        public async Task<bool> EditDevice(string IdDevice, string model, string DeviceName, string IpAddress)
         {
-
-            var deviceinfo = await _repository.EditDevice(IdDevice, DeviceName, IpAddress);
-            if (deviceinfo == null)
-            throw new ArgumentException("No devices with that id!");
-            
-        
-            return deviceinfo;
+            try
+            {
+                await _repository.EditDevice(IdDevice, model, DeviceName, IpAddress);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
 
         }
         public async Task<Boolean> DeleteDevice(string idDevice)

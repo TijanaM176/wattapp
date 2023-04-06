@@ -363,48 +363,27 @@ namespace API.Repositories.DeviceRepository
             return await _regContext.Prosumers.ToListAsync();
         
         }
-        public async Task<DeviceInfo> EditDevice(string IdDevice, string DeviceName, string IpAddress)
+        public async Task EditDevice(string IdDevice, string model, string DeviceName, string IpAddress)
         {
-
-            DeviceInfo device = await GetDeviceInfoById(IdDevice);
-            if (device == null) return null;
-            if(DeviceName == "")
-            {
-                if (IpAddress == "")
-                    return device;
-                else
-                    device.IpAddress = IpAddress;
-            }
-            else
-            {
-                if (IpAddress != "")
-                { 
-                    device.IpAddress = IpAddress;
-                    device.Name = DeviceName;
-                }
-                else
-                    device.Name = DeviceName;
+            var device = await _regContext.ProsumerLinks.FirstOrDefaultAsync(x => x.Id == IdDevice);
+            if (device != null)
+            { 
+                if (model != null && model.Length > 0) device.ModelId = model;
+                if (DeviceName != null && DeviceName.Length > 0) device.Name = DeviceName;
+                if (IpAddress != null && IpAddress.Length > 0) device.IpAddress = IpAddress;
             }
             await _regContext.SaveChangesAsync();
-            return device;
         }
         private async Task<ProsumerLink> GetProsumerLink(string idDevice)
         {
             ProsumerLink deviceLink = null;
-            //deviceLink = await _regContext.ProsumerLinks.FirstOrDefaultAsync(x => x.DeviceId == idDevice);
+            deviceLink = await _regContext.ProsumerLinks.FirstOrDefaultAsync(x => x.Id == idDevice);
 
 
             return deviceLink;
         }
         public async Task<Boolean> DeleteDevice(string idDevice)
         {
-
-            DeviceInfo device = await GetDeviceInfoById(idDevice);
-            if (device == null) 
-                return false;
-            _regContext.Devices.Remove(device);
-
-
             ProsumerLink prosumerLinks = await GetProsumerLink(idDevice);
             if(prosumerLinks != null)
                 _regContext.ProsumerLinks.Remove(prosumerLinks);
