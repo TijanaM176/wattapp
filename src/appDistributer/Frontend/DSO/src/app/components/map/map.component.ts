@@ -237,7 +237,7 @@ export class MapComponent implements AfterViewInit, OnInit {
                     ' kw</b> <br> Current production: <b>' +
                     res.production.toString() +
                     ' kw</b>' +
-                    "<br><br><a href='prosumerinfo?id=" +
+                    "<br><br><a href='/DsoApp/user/" +
                     user.id +
                     "'>View More</a>"
                 );
@@ -249,7 +249,7 @@ export class MapComponent implements AfterViewInit, OnInit {
                     '</b></h5><h6><b>' +
                     user.address +
                     '</b></h6>Current consumption: <b>? kw</b> <br> Current production: <b>? kw</b>' +
-                    "<br><br><a href='user/" +
+                    "<br><br><a href='/DsoApp/user/" +
                     user.id +
                     "'>View More</a>"
                 ); //"/user/{{item.id}}"
@@ -301,7 +301,7 @@ export class MapComponent implements AfterViewInit, OnInit {
                 ' kw</b> <br> Current production: <b>' +
                 res.production.toString() +
                 ' kw</b>' +
-                "<br><br><a href='prosumerinfo?id=" +
+                "<br><br><a href='/DsoApp/user/" +
                 user.id +
                 "'>View More</a>"
             );
@@ -313,7 +313,7 @@ export class MapComponent implements AfterViewInit, OnInit {
                 '</b></h5><h6><b>' +
                 user.address +
                 '</b></h6>Current consumption: <b>? kw</b> <br> Current production: <b>? kw</b>' +
-                "<br><br><a href='user/" +
+                "<br><br><a href='/DsoApp/user/" +
                 user.id +
                 "'>View More</a>"
             ); //"/user/{{item.id}}"

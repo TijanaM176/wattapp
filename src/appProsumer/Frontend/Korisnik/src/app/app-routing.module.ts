@@ -16,21 +16,18 @@ import { DeviceCardsComponent } from './components/deviceCards/deviceCards.compo
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
-  { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
+  { path: '', redirectTo: 'ProsumerApp', pathMatch: 'full' },
   {
-    path: 'dashboard',
+    path: 'ProsumerApp',
     component: DashboardComponent,
     //canActivate: [AuthGuard],
     children: [
-      { path: '', redirectTo: 'pocetna', pathMatch: 'full' },
-      { path: 'pocetna', component: PocetnaComponent },
+      { path: '', redirectTo: 'home', pathMatch: 'full' },
+      { path: 'home', component: PocetnaComponent },
       { path: 'userInfo', component: UserInfoComponent },
       { path: 'deviceinfo', component: DeviceinfoComponent },
       { path: 'userDevices', component: UserDevicesComponent },
       { path: 'addDevice', component: AddDeviceComponent },
-      { path: '', redirectTo: 'home', pathMatch: 'full' },
-      { path: 'home', component: PocetnaComponent },
-      { path: 'deviceinfo', component: DeviceinfoComponent },
       { path: 'userDevices', component: UserDevicesComponent },
     ],
   },

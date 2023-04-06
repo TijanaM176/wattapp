@@ -74,7 +74,7 @@ export class DeviceinfoComponent {
     this.service.deleteDevice(this.idDev).subscribe(
       {
         next:(res)=>{
-          this.router.navigate(['dashboard/pocetna']);
+          this.router.navigate(['ProsumerApp/home']);
           console.log("deleted");
           
         },
