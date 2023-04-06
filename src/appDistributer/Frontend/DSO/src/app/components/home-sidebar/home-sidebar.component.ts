@@ -19,19 +19,23 @@ export class HomeSidebarComponent implements OnInit, AfterViewInit {
   resizeObservable$!: Observable<Event>
   resizeSubscription$!: Subscription;
   side : any;
+  content : any;
 
   constructor(private deviceService : DeviceserviceService, private employeeService : EmployeesServiceService, private toast : NgToastService, private widthService : ScreenWidthService) {}
   
   ngAfterViewInit(): void {
     this.side.style.height = this.widthService.height+'px';
+    this.content.style.height = this.widthService.height+'px';
   }
 
   ngOnInit(): void {
     this.side = document.getElementById("sadrzaj");
+    this.content = document.getElementById("container");
     
     this.resizeObservable$ = fromEvent(window, 'resize');
     this.resizeSubscription$ = this.resizeObservable$.subscribe( evt => {
       this.side.style.height = this.widthService.height+'px';
+      this.content.style.height = this.widthService.height+'px';
     })
     this.getRegion();
     this.getConsumptionProduction();

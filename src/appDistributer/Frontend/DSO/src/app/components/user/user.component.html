@@ -1,4 +1,4 @@
-<app-navBar></app-navBar>
+<!-- <app-navBar></app-navBar> -->
 <div class="glavni">
   <div class="levi">
     <app-sidebar-dso #sidebarInfo></app-sidebar-dso>
@@ -17,7 +17,7 @@
           id="dugme"
           type="button"
           value="Save"
-          routerLink="/user1/{{ id }}"
+          routerLink="/dashboard/user/{{ id }}"
           (click)="UpdateData()"
         />
       </form>

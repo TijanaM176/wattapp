@@ -30,7 +30,7 @@ namespace API.Services.Devices
         public Task<Dictionary<string, object>> GetProsumerInformation(string id);
         public Task<List<Dictionary<string, object>>> AllProsumerInfo();
         public Task<List<Dictionary<string, object>>> UpdatedProsumerFilter(double minConsumption, double maxConsumption, double minProduction, double maxProduction, int minDeviceCount, int maxDeviceCount);
-        public Task<List<Dictionary<string, object>>> UpdatedProsumerFilter2(string neighbourhood, double minConsumption, double maxConsumption, double minProduction, double maxProduction, int minDeviceCount, int maxDeviceCount)
+        public Task<List<Dictionary<string, object>>> UpdatedProsumerFilter2(string neighbourhood, double minConsumption, double maxConsumption, double minProduction, double maxProduction, int minDeviceCount, int maxDeviceCount);
         public Task<DeviceInfo> EditDevice(string IdDevice, string DeviceName, string IpAddress);
         public Task<Boolean> DeleteDevice(string idDevice);
         public Task<bool> RegisterDevice(string prosumerId, string modelId, string name);

@@ -48,11 +48,13 @@ export class DashboardComponent implements OnInit, AfterViewInit{
       {
         let height = window.innerHeight - 101;
         this.widthService.height = height;
+        this.content.style.height = this.widthService.height+'px';
       }
       else
       {
         let height = window.innerHeight - 140.6;
         this.widthService.height = height;
+        this.content.style.height = this.widthService.height+'px';
       }
     });
   }
