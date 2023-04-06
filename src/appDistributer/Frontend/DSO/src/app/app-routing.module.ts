@@ -30,9 +30,9 @@ import { User1Component } from './components/user1/user1.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
-  { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
+  { path: '', redirectTo: 'DsoApp', pathMatch: 'full' },
   {
-    path: 'dashboard',
+    path: 'DsoApp',
     component: DashboardComponent,
     //canActivate: [AuthGuard],
     children: [
