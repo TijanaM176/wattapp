@@ -7,7 +7,6 @@ import { Category } from 'src/app/models/categories';
 import { Models } from 'src/app/models/models';
 import { DeviceType } from 'src/app/models/types';
 import { AdddeviceserviceService } from 'src/app/services/adddeviceservice.service';
-
 @Component({
   selector: 'app-add-device',
   templateUrl: './add-device.component.html',
@@ -19,7 +18,7 @@ export class AddDeviceComponent implements OnInit{
   category!:number;
   type!:number;
   types:DeviceType[]=[];
-  model!:string;
+  model:Models=new Models();
   models:Models[]=[];
   Name:string='';
   manufacturer:string='';
@@ -67,8 +66,10 @@ export class AddDeviceComponent implements OnInit{
     })
   }
   ChangeModels(e:any){
-    this.service.model=this.model;
     console.log(this.model);
+    this.service.model=this.model.id;
+    this.Name=this.model.manufacturer;
+    
   
   }
   getModels(){
