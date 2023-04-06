@@ -146,9 +146,25 @@ export class UsersServiceService {
       this.deviceBaseUrl + 'LastWeeksConsumptionAndProductionTimestamps'
     );
   }
+
+  HistoryAllProsumers1Month() {
+    return this.http.get(
+      this.deviceBaseUrl + 'LastMonthsConsumptionAndProductionTimestamps'
+    );
+  }
+
+  HistoryAllProsumers1Year() {
+    return this.http.get(
+      this.deviceBaseUrl + 'LastYearsConsumptionAndProductionTimestamps'
+    );
+  }
+
   ProsumersInfo() {
     lastValueFrom(this.http.get(this.deviceBaseUrl + 'AllProsumerInfo')).then(
       (res) => (this.prosumers = res as Prosumer[])
     );
+  }
+  ProsumersInfo1(): Observable<any[]> {
+    return this.http.get<any[]>(this.deviceBaseUrl + 'AllProsumerInfo');
   }
 }

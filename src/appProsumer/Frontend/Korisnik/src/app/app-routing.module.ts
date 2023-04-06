@@ -31,9 +31,9 @@ const routes: Routes = [
       { path: '', redirectTo: 'home', pathMatch: 'full' },
       { path: 'home', component: PocetnaComponent },
       { path: 'deviceinfo', component: DeviceinfoComponent },
+      { path: 'userDevices', component: UserDevicesComponent },
     ],
   },
-  { path: 'userDevices', component: UserDevicesComponent },
   { path: 'resetpassword', component: ResetpasswordComponent },
 ];
 
