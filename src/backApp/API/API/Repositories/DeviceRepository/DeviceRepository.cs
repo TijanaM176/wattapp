@@ -391,7 +391,7 @@ namespace API.Repositories.DeviceRepository
         private async Task<ProsumerLink> GetProsumerLink(string idDevice)
         {
             ProsumerLink deviceLink = null;
-            deviceLink = await _regContext.ProsumerLinks.FirstOrDefaultAsync(x => x.DeviceId == idDevice);
+            // deviceLink = await _regContext.ProsumerLinks.FirstOrDefaultAsync(x => x.DeviceId == idDevice);
 
 
             return deviceLink;

@@ -29,14 +29,14 @@ export class UserComponent implements OnInit {
     CityName: new FormControl(''),
   });
   message: boolean = false;
-  userOldInfo:any;
+  userOldInfo: any;
   ngOnInit(): void {
     this.id = this.router.snapshot.params['id'];
     //console.log(this.router.snapshot.params['id'] );
     this.user
       .detailsEmployee(this.router.snapshot.params['id'])
       .subscribe((res: any) => {
-        this.userOldInfo=res;
+        this.userOldInfo = res;
         this.sidebarInfo.populate(res['username'], res['address']);
         this.editUser = new FormGroup({
           FirstName: new FormControl(res['firstName']),
@@ -45,27 +45,22 @@ export class UserComponent implements OnInit {
           Email: new FormControl(res['email']),
           Address: new FormControl(res['address']),
           NeigborhoodName: new FormControl(res['regionId']),
-          Latitude:new FormControl(''),
-          Longitude:new FormControl(''),
-          CityName:new FormControl(''),
-
+          Latitude: new FormControl(''),
+          Longitude: new FormControl(''),
+          CityName: new FormControl(''),
         });
       });
   }
   UpdateData() {
-
-    let dto: editUserDto=new editUserDto();
-    dto.id=this.router.snapshot.params['id'];
-    dto.firstName=this.editUser.value.FirstName!;
-    dto.lastName=this.editUser.value.LastName!;
-    if(this.userOldInfo.email!=this.editUser.value.Email)
-    {
-      dto.email=this.editUser.value.Email!;
+    let dto: editUserDto = new editUserDto();
+    dto.id = this.router.snapshot.params['id'];
+    dto.firstName = this.editUser.value.FirstName!;
+    dto.lastName = this.editUser.value.LastName!;
+    if (this.userOldInfo.email != this.editUser.value.Email) {
+      dto.email = this.editUser.value.Email!;
     }
-    this.user
-      .updateUserData(dto)
-      .subscribe((res) => {
-        console.log(res);
-      });
+    this.user.updateUserData(dto.id, dto).subscribe((res) => {
+      console.log(res);
+    });
   }
 }
