@@ -27,6 +27,6 @@ export class AdddeviceserviceService {
     return this.http.get<any>(this.baseUrl2+'?typeId='+this.type);
   }
   RegisterDevice():Observable<string>{
-    return this.http.get(this.baseUrl3+'?prosumerId=='+this.id+'&modelId='+this.model+'&name='+this.name,{responseType:'text'});
+    return this.http.get(this.baseUrl3+'?prosumerId='+this.id+'&modelId='+this.model+'&name='+this.name,{responseType:'text'});
   }
 }

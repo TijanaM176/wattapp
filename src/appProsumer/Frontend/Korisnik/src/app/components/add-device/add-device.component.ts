@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { NgToastService } from 'ng-angular-popup';
 import { CookieService } from 'ngx-cookie-service';
 import { Observable } from 'rxjs';
 import { Category } from 'src/app/models/categories';
@@ -23,7 +24,7 @@ export class AddDeviceComponent implements OnInit{
   Name:string='';
   manufacturer:string='';
   id:string='';
-  constructor(private service:AdddeviceserviceService,private cookie:CookieService) { }
+  constructor(private service:AdddeviceserviceService,private cookie:CookieService,public toast:NgToastService) { }
   ngOnInit(): void {
     this.dropDownCategory = false;
     this.getCategories();
@@ -86,10 +87,13 @@ export class AddDeviceComponent implements OnInit{
   registerDevice(){
     this.service.id=this.cookie.get('id');
     this.service.name=this.Name;
+
     console.log(this.service.id);
+    console.log(this.service.model);
+    console.log(this.service.name);
     this.service.RegisterDevice().subscribe({
       next:(response)=>{
-        console.log("success");
+        this.toast.success({detail:"Success!", summary:"New Device Added",duration:2500});
       },
       error:(err)=>
       {
