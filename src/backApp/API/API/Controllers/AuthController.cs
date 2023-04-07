@@ -28,6 +28,8 @@ using API.Models.Users;
 using API.Services.Auth;
 using API.Services.ProsumerService;
 using API.Models.HelpModels;
+using Org.BouncyCastle.Utilities;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace API.Controllers
 {
@@ -43,9 +45,9 @@ namespace API.Controllers
             authService = serv;
            
         }
-
+       
         [HttpPost("registerProsumer")]
-        public async Task<IActionResult> Register(ProsumerDto request)
+        public async Task<IActionResult> Register([FromForm]ProsumerDto request)
         {
             Prosumer prosumer = await authService.Register(request);
             if (prosumer != null)

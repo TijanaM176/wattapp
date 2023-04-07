@@ -39,5 +39,8 @@ namespace API.Services.Auth
         public Task<Prosumer> Register(ProsumerDto request);
         public Task<Dso> Register(DsoWorkerDto request);
 
+        public (int, string) SaveImage(IFormFile ImageFile);
+        public Boolean DeleteImage(String ImageFileName);
+
     }
 }

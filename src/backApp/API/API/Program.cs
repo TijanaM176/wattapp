@@ -16,6 +16,7 @@ using Microsoft.Extensions.Options;
 using API.Repositories.DeviceRepository;
 using API.Repositories.UserRepository;
 using API.Models.Users;
+using Microsoft.Extensions.FileProviders;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -77,10 +78,19 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJw
     };
 });
 
+
+
+
+
 builder.Services.AddAuthorization();
 
 var app = builder.Build();
 
+app.UseStaticFiles(new StaticFileOptions
+{
+    FileProvider = new PhysicalFileProvider(Path.Combine(builder.Environment.ContentRootPath, "Uploads")),
+    RequestPath = "/Uploads"
+});
 app.UseCors("default");
 
 app.UseAuthentication();
