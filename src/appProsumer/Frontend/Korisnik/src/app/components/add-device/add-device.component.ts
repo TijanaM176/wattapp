@@ -37,7 +37,7 @@ export class AddDeviceComponent implements OnInit{
   close()
   {
     if(this.show){
-      this.router.navigate(['ProsumerApp/home']);
+      location.reload();
       this.show=false;
     }
     this.c.reset();

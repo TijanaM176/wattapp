@@ -27,6 +27,7 @@ export class AddDeviceFormComponent {
   Name:string='';
   manufacturer:string='';
   id:string='';
+  p:any;
   constructor(private service:AdddeviceserviceService,private cookie:CookieService,public toast:NgToastService) { }
   ngOnInit(): void {
     this.dropDownCategory = false;
@@ -36,12 +37,15 @@ export class AddDeviceFormComponent {
     
   }
   reset(){
+    
     this.category=0;
     this.type=0;
     this.model=0;
     this.Name="Device Name";
   }
   ChangeCategory(e:any){
+    this.p=e.target.value;
+    console.log(this.p);
     this.service.category=this.category;
     console.log(this.category);
     this.getTypes();
