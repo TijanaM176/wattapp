@@ -37,10 +37,11 @@ export class AddDeviceComponent implements OnInit{
   close()
   {
     if(this.show){
-      location.reload();
+      //location.reload();
       this.show=false;
     }
-    this.c.reset();
+    
+    this.router.navigate(['/ProsumerApp/userDevices']);
   }
   registerDevice(){
     if(this.show){
@@ -53,6 +54,7 @@ export class AddDeviceComponent implements OnInit{
     this.service.RegisterDevice().subscribe({
       next:(response)=>{
         this.toast.success({detail:"Success!", summary:"New Device Added",duration:2500});
+        
       },
       error:(err)=>
       {
