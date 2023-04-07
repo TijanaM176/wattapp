@@ -1,9 +1,10 @@
 <div class="d-flex flex-column h-100">
+  
   <div class="d-flex flex-grow-1">
     <div class="flex-grow-1 col-md-2">
       <app-home-sidebar></app-home-sidebar>
     </div>
-    <div class="flex-grow-1 col-md-10">
+    <div class="flex-grow-1 col-md-10"><button (click)="open(content)">add user</button>
       <!-- <app-user-info></app-user-info> -->
       <app-historyAllProsumers></app-historyAllProsumers>
     </div>
@@ -35,3 +36,47 @@
           </div>
     </div>
 </div>
+
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">New Friend</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form>
+      <div class="form-group">
+        <label for="firstname">Firstname</label>
+        <div class="input-group">
+          <input id="firstname" class="form-control" >
+        </div>
+        
+        <label for="lastname">Lastname</label>
+        <div class="input-group">
+          <input id="lastname" class="form-control" >
+        </div>
+        
+        <label for="password">Password</label>
+        <div class="input-group">
+          <input id="password" class="form-control" >
+        </div>
+        
+        <label for="email">Email</label>
+        <div class="input-group">
+          <input id="email" class="form-control" >
+        </div>
+        
+        <label for="selectcity">Select City</label>
+        <div class="input-group">
+          <input id="firstname" class="form-control" >
+        </div>
+        
+
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Save</button>
+  </div>
+</ng-template>

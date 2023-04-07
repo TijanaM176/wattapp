@@ -3,14 +3,14 @@ import { Router } from '@angular/router';
 import { NgToastService } from 'ng-angular-popup';
 import { CookieService } from 'ngx-cookie-service';
 import { AuthServiceService } from 'src/app/services/auth-service.service';
-
+import { ModalDismissReasons,NgbModal } from '@ng-bootstrap/ng-bootstrap';
 @Component({
   selector: 'app-Home',
   templateUrl: './Home.component.html',
   styleUrls: ['./Home.component.css'],
 })
 export class HomeComponent implements OnInit, AfterViewInit {
-
+  closeResult: string='';
   users: any;
   showModal: boolean = false;
   currentCountry:string = '';
@@ -23,7 +23,8 @@ export class HomeComponent implements OnInit, AfterViewInit {
     private router: Router,
     private cookie: CookieService,
     private auth: AuthServiceService,
-    private toast: NgToastService
+    private toast: NgToastService,
+    private modalService: NgbModal,
   ) {}
 
   ngAfterViewInit(): void {
@@ -114,4 +115,23 @@ export class HomeComponent implements OnInit, AfterViewInit {
       this.showModal = false;
     }
   }
+
+  open(content: any) {
+    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {
+      this.closeResult = `Closed with: ${result}`;
+    }, (reason) => {
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    });
+  }
+  
+   getDismissReason(reason: any): string {
+    if (reason === ModalDismissReasons.ESC) {
+      return 'by pressing ESC';
+    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+      return 'by clicking on a backdrop';
+    } else {
+      return `with: ${reason}`;
+    }
+  }
 }
+
