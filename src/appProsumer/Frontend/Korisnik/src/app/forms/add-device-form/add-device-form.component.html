@@ -26,7 +26,7 @@
         style="background-color: #C1DFD5;width: 100%;color:#466471;"
         >
         
-        <option value=""></option>  
+        <option value="">Choose Type</option>  
         <option *ngFor="let item of types"
         [value]="item.id"
         >{{item.name}}</option>
@@ -44,7 +44,7 @@
         class="form-control"
         style="background-color: #C1DFD5;width: 100%;color:#466471;"
         >
-        <option value=""></option>                           
+        <option value="">Choose Modal</option>                           
         <option *ngFor="let item of models"
         [ngValue]='item'
                                       

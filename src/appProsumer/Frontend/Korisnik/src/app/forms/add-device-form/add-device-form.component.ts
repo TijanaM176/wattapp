@@ -39,7 +39,8 @@ export class AddDeviceFormComponent {
     this.service.category=this.category;
     console.log(this.category);
     this.getTypes();
-
+    this.getModels();
+    this.Name="Device Name";
     
   }
   getCategories(){
