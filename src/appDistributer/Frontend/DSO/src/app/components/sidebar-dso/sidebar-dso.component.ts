@@ -31,11 +31,11 @@ export class SidebarDsoComponent implements OnInit {
     this.rut.navigate(['app-UserDevices']);
   }
   DeleteUser() {
-    console.log(this.router.snapshot.params['id']);
+    //console.log(this.router.snapshot.params['id']);
     this.user.deleteUser(this.router.snapshot.params['id']).subscribe({
       next: (res) => {
         console.log(res);
-        this.r.navigate(['users']);
+        this.r.navigate(['/DsoApp/users']);
       },
       error: (err) => {
         console.log(err.error);

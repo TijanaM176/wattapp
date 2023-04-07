@@ -112,7 +112,7 @@ export class SignupComponent implements OnInit {
           this.router
             .navigateByUrl('/', { skipLocationChange: true })
             .then(() => {
-              this.router.navigate(['/signup']);
+              this.router.navigate(['/DsoApp/signup']);
             });
         },
         error: (err) => {
