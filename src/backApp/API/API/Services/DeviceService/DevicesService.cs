@@ -269,14 +269,14 @@ namespace API.Services.Devices
         {
             var prosumers = (await _repository.getAllProsumersWhoOwnDevice()).Select(x => x.ProsumerId).Distinct();
             Dictionary<string, Dictionary<DateTime, double>> data = new Dictionary<string, Dictionary<DateTime, double>>();
+            data["timestamps"] = new Dictionary<DateTime, double>();
+            data["predictions"] = new Dictionary<DateTime, double>();
 
             foreach (var prosumer in prosumers)
             {
                 Dictionary<string, Dictionary<DateTime, double>> usagePerProsumer = await GroupedConProdForAPeriodForProsumer(prosumer, type, period, step);
-
                 foreach (var cat in usagePerProsumer)
                 {
-                    data[cat.Key] = new Dictionary<DateTime, double>();
                     foreach (var timestamp in cat.Value)
                     {
                         var intervalStart = new DateTime(timestamp.Key.Year, timestamp.Key.Month, timestamp.Key.Day, (timestamp.Key.Hour / step) * step, 0, 0);
@@ -286,6 +286,7 @@ namespace API.Services.Devices
                             data[cat.Key].Add(intervalStart, timestamp.Value);
                     }
                 }
+
             }
 
             if (data == null) throw new ArgumentException("No timestamps!");
@@ -296,6 +297,8 @@ namespace API.Services.Devices
         {
             var prosumers = (await _repository.getAllProsumersWhoOwnDevice()).Select(x => x.ProsumerId).Distinct();
             Dictionary<string, Dictionary<DateTime, double>> data = new Dictionary<string, Dictionary<DateTime, double>>();
+            data["timestamps"] = new Dictionary<DateTime, double>();
+            data["predictions"] = new Dictionary<DateTime, double>();
 
             foreach (var prosumer in prosumers)
             {
@@ -303,7 +306,6 @@ namespace API.Services.Devices
                 
                 foreach (var cat in usagePerProsumer)
                 {
-                    data[cat.Key] = new Dictionary<DateTime, double>();
                     foreach (var timestamp in cat.Value)
                     {
                         var intervalStart = timestamp.Key.AddDays(-(int)timestamp.Key.DayOfWeek).Date;
@@ -323,6 +325,8 @@ namespace API.Services.Devices
         {
             var prosumers = (await _repository.getAllProsumersWhoOwnDevice()).Select(x => x.ProsumerId).Distinct();
             Dictionary<string, Dictionary<DateTime, double>> data = new Dictionary<string, Dictionary<DateTime, double>>();
+            data["timestamps"] = new Dictionary<DateTime, double>();
+            data["predictions"] = new Dictionary<DateTime, double>();
 
             foreach (var prosumer in prosumers)
             {
@@ -330,7 +334,6 @@ namespace API.Services.Devices
 
                 foreach (var cat in usagePerProsumer)
                 {
-                    data[cat.Key] = new Dictionary<DateTime, double>();
                     foreach (var timestamp in cat.Value)
                     {
                         var intervalStart = new DateTime(timestamp.Key.Year, timestamp.Key.Month, 1);
