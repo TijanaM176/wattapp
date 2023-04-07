@@ -66,10 +66,12 @@ export class MapComponent implements AfterViewInit, OnInit {
   neighborhood: string = '';
   Neighborhoods: Neighborhood[] = [];
   dropDownNeigh: string = '';
+
   users!: any[];
   markers!: any[];
   currentLocation: any;
   currentLocationIsSet = false;
+  currentHour : any;
   constructor(
     private mapService: UsersServiceService,
     private toast: NgToastService,
@@ -86,6 +88,7 @@ export class MapComponent implements AfterViewInit, OnInit {
     this.currentLocationIsSet = false;
     this.mapService.refreshList();
     this.markers = [];
+    this.currentHour = new Date().getHours();
   }
 
   ngAfterViewInit(): void {
@@ -107,30 +110,16 @@ export class MapComponent implements AfterViewInit, OnInit {
       } as L.TileLayerOptions
     );
     tiles.addTo(map);
-
-    // let defaultIcon = L.icon({
-    //   iconUrl: 'assets/images/location.svg',
-    //   iconSize: [50, 50],
-    //   shadowSize: [50, 64],
-    //   iconAnchor: [22, 94],
-    //   shadowAnchor: [4, 62],
-    //   popupAnchor: [-8, -93],
-    // });
     const icon = L.icon({
       iconUrl: 'assets/images/marker-icon-2x.png',
       iconSize: [25, 41],
       iconAnchor: [12, 41],
       popupAnchor: [1, -34],
       tooltipAnchor: [16, -28],
-      // shadowUrl: 'assets/images/marker-shadow.png',
-      // shadowSize: [41, 41],
-      // shadowAnchor: [12, 41]
     });
 
     let marker = L.marker([Number(lat), Number(long)],{icon:icon}).addTo(map);
-    // if (this.currentLocationIsSet) {
-    //   this.map.removeLayer(this.currentLocation);
-    // }
+    marker.bindPopup("<h6>Center of region "+this.cookie.get('region')+"</h6>");
 
     const findMeControl = L.Control.extend({
       options: {
@@ -154,7 +143,7 @@ export class MapComponent implements AfterViewInit, OnInit {
     // while (this.map == null);
     // this.populateTheMap(this.map);
     this.map = map;
-    this.populateTheMap(this.map);
+    //this.populateTheMap(this.map);
   }
 
   funkcija() {

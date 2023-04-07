@@ -20,7 +20,10 @@
   width: 100%;
   height: 100%;
 } */
-
+.map-container{
+  height: 95%;
+  width: 100%;
+}
 #map {
   height: 100%;
   padding: 0;
@@ -42,4 +45,7 @@
 }
 .mapLegend{
   height: calc(100% - 44px);
+}
+.icon{
+  width: 5%;
 }

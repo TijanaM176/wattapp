@@ -63,6 +63,7 @@ export class DashboardComponent implements OnInit, AfterViewInit{
 
   private getRegion()
   {
+    this.cookie.set('region', 'Šumadija', {path:'/'});
     this.cookie.set('lat','43.983334', {path:'/'});
     this.cookie.set('long','20.883333', {path:'/'})
   }
