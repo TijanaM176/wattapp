@@ -1,5 +1,6 @@
 .card {
   box-shadow: 0 0 2rem 0 rgba(136, 152, 170, 0.15);
+  border-radius: 15px;
 }
 
 .card .card-header {
@@ -31,7 +32,7 @@ hr {
   opacity: 0.25;
 }
 
-/* p {
+p {
   margin-top: 0;
   margin-bottom: 1rem;
-} */
+}
