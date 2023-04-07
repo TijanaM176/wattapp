@@ -372,7 +372,7 @@ namespace API.Repositories.DeviceRepository
             return await _regContext.Prosumers.ToListAsync();
         
         }
-        public async Task EditDevice(string IdDevice, string model, string DeviceName, string IpAddress)
+        public async Task EditDevice(string IdDevice, string model, string DeviceName, string IpAddress, bool dsoView, bool dsoControl)
         {
             var device = await _regContext.ProsumerLinks.FirstOrDefaultAsync(x => x.Id == IdDevice);
             if (device != null)
@@ -380,6 +380,8 @@ namespace API.Repositories.DeviceRepository
                 if (model != null && model.Length > 0) device.ModelId = model;
                 if (DeviceName != null && DeviceName.Length > 0) device.Name = DeviceName;
                 if (IpAddress != null && IpAddress.Length > 0) device.IpAddress = IpAddress;
+                device.DsoView = dsoView;
+                device.DsoControl = dsoControl;
             }
             await _regContext.SaveChangesAsync();
         }

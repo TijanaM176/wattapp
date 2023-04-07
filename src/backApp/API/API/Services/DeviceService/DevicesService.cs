@@ -419,11 +419,11 @@ namespace API.Services.Devices
                 minDeviceCount, maxDeviceCount)).Where(x => x["neighborhoodId"].ToString() == neighbourhood).ToList();
         }
 
-        public async Task<bool> EditDevice(string IdDevice, string model, string DeviceName, string IpAddress)
+        public async Task<bool> EditDevice(string IdDevice, string model, string DeviceName, string IpAddress, bool dsoView, bool dsoControl)
         {
             try
             {
-                await _repository.EditDevice(IdDevice, model, DeviceName, IpAddress);
+                await _repository.EditDevice(IdDevice, model, DeviceName, IpAddress, dsoView, dsoControl);
                 return true;
             }
             catch (Exception ex)
@@ -443,7 +443,7 @@ namespace API.Services.Devices
 
         }
 
-        public async Task<bool> RegisterDevice(string prosumerId, string modelId, string name)
+        public async Task<bool> RegisterDevice(string prosumerId, string modelId, string name, bool dsoView, bool dsoControl)
         {
             Guid id = Guid.NewGuid();
             string ip = await GenerateIP(prosumerId);
@@ -454,7 +454,9 @@ namespace API.Services.Devices
                 Name = name,
                 ProsumerId = prosumerId,
                 ModelId = modelId,
-                IpAddress = ip
+                IpAddress = ip,
+                DsoView = dsoView,
+                DsoControl = dsoControl
             })
             ) return true;
 
