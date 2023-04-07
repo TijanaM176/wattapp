@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { Router } from '@angular/router';
 import { NgToastService } from 'ng-angular-popup';
 import { CookieService } from 'ngx-cookie-service';
 import { Observable } from 'rxjs';
@@ -23,71 +24,27 @@ export class AddDeviceComponent implements OnInit{
   Name:string='';
   manufacturer:string='';
   id:string='';
-  constructor(private service:AdddeviceserviceService,private cookie:CookieService,public toast:NgToastService) { }
+ show:boolean=false;
+  constructor(private service:AdddeviceserviceService,private router:Router,private cookie:CookieService,public toast:NgToastService) { }
   ngOnInit(): void {
-    this.dropDownCategory = false;
-    this.getCategories();
+    //this.dropDownCategory = false;
+    //this.getCategories();
+    this.show=true;
+  }
+
+  close()
+  {
+    if(this.show){
+      this.router.navigate(['ProsumerApp/home']);
+      this.show=false;
+    }
     
-  }
-  ChangeCategory(e:any){
-    this.service.category=this.category;
-    console.log(this.category);
-    this.getTypes();
-  }
-  getCategories(){
-    this.service.getCategories().subscribe({
-      next:(response)=>{
-        this.categories = response;
-        console.log(this.categories);
-        this.dropDownCategory = true;
-      },
-      error:(err)=>
-      {
-        console.log(err.error);
-      }
-    })
-  }
-  ChangeType(e:any){
-    this.service.type=this.type;
-    console.log(this.type);
-    this.getModels();
-  }
-  getTypes(){
-    this.service.getTypes().subscribe({
-      next:(response)=>{
-        this.types = response;
-        console.log(this.types);
-        this.dropDownCategory = true;
-      },
-      error:(err)=>
-      {
-        console.log(err.error);
-      }
-    })
-  }
-  ChangeModels(e:any){
-    console.log(this.model);
-    this.service.model=this.model.id;
-    this.Name=this.model.manufacturer;
     
-  
-  }
-  getModels(){
-    this.service.getModels().subscribe({
-      next:(response)=>{
-        this.models = response;
-        console.log(this.models);
-        this.dropDownCategory = true;
-      },
-      error:(err)=>
-      {
-        console.log(err.error);
-      }
-    })
   }
   registerDevice(){
+    if(this.show){
     this.service.id=this.cookie.get('id');
-    this.service.name=this.Name;
+    //this.service.name=this.Name;
 
     console.log(this.service.id);
     console.log(this.service.model);
@@ -103,4 +60,5 @@ export class AddDeviceComponent implements OnInit{
     })
   }
   
+}
 }

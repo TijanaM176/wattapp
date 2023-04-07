@@ -28,6 +28,7 @@ import { UserDevicesComponent } from './components/userDevices/userDevices.compo
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { AddDeviceComponent } from './components/add-device/add-device.component';
 import { EditDeviceFormComponent } from './forms/edit-device-form/edit-device-form.component';
+import { AddDeviceFormComponent } from './forms/add-device-form/add-device-form.component';
 
 @NgModule({
   declarations: [
@@ -48,6 +49,7 @@ import { EditDeviceFormComponent } from './forms/edit-device-form/edit-device-fo
     UserDevicesComponent,
     AddDeviceComponent,
     EditDeviceFormComponent,
+    AddDeviceFormComponent,
   ],
   imports: [
     BrowserAnimationsModule,
