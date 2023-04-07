@@ -65,6 +65,7 @@ import { HistoryAllProsumersComponent } from './components/Charts/historyAllPros
 import { HomeSidebarComponent } from './components/home-sidebar/home-sidebar.component';
 import { WorkerProfileComponent } from './components/worker-profile/worker-profile.component';
 import { User1Component } from './components/user1/user1.component';
+import { PocetnaComponent } from './components/pocetna/pocetna.component';
 @NgModule({
   declarations: [
     AppComponent,

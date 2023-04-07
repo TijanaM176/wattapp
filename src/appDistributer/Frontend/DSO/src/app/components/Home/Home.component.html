@@ -4,34 +4,73 @@
       <app-home-sidebar></app-home-sidebar>
     </div>
     <div class="flex-grow-1 col-md-10">
-      <!-- <app-user-info></app-user-info> -->
       <app-historyAllProsumers></app-historyAllProsumers>
     </div>
   </div>
 </div>
 
-<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" id="launchButton" hidden="true">
-    Launch demo modal
+<button
+  type="button"
+  class="btn btn-primary"
+  data-bs-toggle="modal"
+  data-bs-target="#exampleModal"
+  id="launchButton"
+  hidden="true"
+>
+  Launch demo modal
 </button>
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <p class="modal-title" id="exampleModalLabel">
-            <span style="color: #026670; font-size: 25px; font-weight: 700;"> Unable to locate your location </span><br>
-            <small>Please enter the coutry you are working for.</small>
-          </p>
-        </div>
-        <div class="modal-body">
-          <div class="form-group pt-3">
-                <div class="input-group form-group ">
-                    <input class="form-control" type="text" [(ngModel)]="currentCountry" (ngModelChange)="Validate($event)" placeholder="Country" style=" width: 150px; height:30px; background-color: #e7e5e5;color:#466471; border-radius: 5px;">
-                </div>
-            </div>
-          <small *ngIf="!validInput"  class="text-danger">Country is required!</small>
+<div
+  class="modal fade"
+  id="exampleModal"
+  tabindex="-1"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+  data-bs-backdrop="static"
+  data-bs-keyboard="false"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <p class="modal-title" id="exampleModalLabel">
+          <span style="color: #026670; font-size: 25px; font-weight: 700">
+            Unable to locate your location </span
+          ><br />
+          <small>Please enter the coutry you are working for.</small>
+        </p>
       </div>
-          <div class="modal-footer">
-            <button type="button" (click)="SaveCountry()" class="btn btn-primary" data-bs-dismiss="modal">Confirm</button>
+      <div class="modal-body">
+        <div class="form-group pt-3">
+          <div class="input-group form-group">
+            <input
+              class="form-control"
+              type="text"
+              [(ngModel)]="currentCountry"
+              (ngModelChange)="Validate($event)"
+              placeholder="Country"
+              style="
+                width: 150px;
+                height: 30px;
+                background-color: #e7e5e5;
+                color: #466471;
+                border-radius: 5px;
+              "
+            />
           </div>
+        </div>
+        <small *ngIf="!validInput" class="text-danger"
+          >Country is required!</small
+        >
+      </div>
+      <div class="modal-footer">
+        <button
+          type="button"
+          (click)="SaveCountry()"
+          class="btn btn-primary"
+          data-bs-dismiss="modal"
+        >
+          Confirm
+        </button>
+      </div>
     </div>
+  </div>
 </div>
