@@ -49,7 +49,7 @@ namespace API.Repositories.DeviceRepository
             var devicesData = devices.Select(d => new Device
             {
                 Id = d.Link.Id,
-                IpAddress = d.Link.IpAddress,
+                //IpAddress = d.Link.IpAddress,
                 Name = d.Link.Name,
                 TypeId = d.Spec.TypeId,
                 CategoryId = d.Spec.CategoryId,
@@ -80,7 +80,7 @@ namespace API.Repositories.DeviceRepository
             var devicesData = devices.Select(d => new Device
             {
                 Id = d.Link.Id,
-                IpAddress = d.Link.IpAddress,
+                //IpAddress = d.Link.IpAddress,
                 Name = d.Link.Name,
                 TypeId = d.Spec.TypeId,
                 CategoryId = d.Spec.CategoryId,
@@ -252,7 +252,7 @@ namespace API.Repositories.DeviceRepository
 
             var device = new Device();
             device.Id = deviceinfo.Id;
-            device.IpAddress = deviceinfo.IpAddress;
+            //device.IpAddress = deviceinfo.IpAddress;
             device.Name = deviceinfo.Name;
             device.TypeId = deviceinfo.TypeId;
             device.CategoryId = deviceinfo.CategoryId;

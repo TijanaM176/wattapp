@@ -5,5 +5,6 @@ namespace API.Models.Devices
     public class Device : DeviceInfo
     {
         public List<Timestamp> Timestamps { get; set; }
+        public List<Timestamp> Predictions { get; set; }
     }
 }

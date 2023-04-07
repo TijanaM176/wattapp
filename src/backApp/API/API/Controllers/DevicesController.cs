@@ -194,7 +194,7 @@ namespace API.Controllers
             {
                 return Ok(new
                 {
-                    ipAddress = DI.IpAddress,
+                    //ipAddress = DI.IpAddress,
                     Name = DI.Name,
                     CategoryID = DI.CategoryId,
                     TypeID = DI.TypeId,

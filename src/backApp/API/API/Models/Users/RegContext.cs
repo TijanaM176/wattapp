@@ -65,7 +65,6 @@ public partial class RegContext : DbContext
 
             entity.HasKey(d => d.Id);
             entity.Property(d => d.Id).ValueGeneratedOnAdd();
-            entity.Property(d => d.IpAddress).HasMaxLength(15);
             entity.Property(d => d.Name).HasMaxLength(30);
             entity.Property(d => d.Manufacturer).HasMaxLength(30);
             entity.HasOne(d => d.Category).WithMany(c => c.Devices).HasForeignKey(d => d.CategoryId).OnDelete(DeleteBehavior.Cascade);
