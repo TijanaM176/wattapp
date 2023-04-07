@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { NgToastService } from 'ng-angular-popup';
 import { CookieService } from 'ngx-cookie-service';
 import { Observable } from 'rxjs';
+import { AddDeviceFormComponent } from 'src/app/forms/add-device-form/add-device-form.component';
 import { Category } from 'src/app/models/categories';
 import { Models } from 'src/app/models/models';
 import { DeviceType } from 'src/app/models/types';
@@ -16,7 +17,6 @@ import { AdddeviceserviceService } from 'src/app/services/adddeviceservice.servi
 export class AddDeviceComponent implements OnInit{
   categories:Category[]=[];
   dropDownCategory: boolean = false;
-  category!:number;
   type!:number;
   types:DeviceType[]=[];
   model:Models=new Models();
@@ -25,11 +25,13 @@ export class AddDeviceComponent implements OnInit{
   manufacturer:string='';
   id:string='';
  show:boolean=false;
+ @ViewChild('c', {static:false}) c! : AddDeviceFormComponent;
   constructor(private service:AdddeviceserviceService,private router:Router,private cookie:CookieService,public toast:NgToastService) { }
   ngOnInit(): void {
     //this.dropDownCategory = false;
     //this.getCategories();
     this.show=true;
+    
   }
 
   close()
@@ -38,8 +40,7 @@ export class AddDeviceComponent implements OnInit{
       this.router.navigate(['ProsumerApp/home']);
       this.show=false;
     }
-    
-    
+    this.c.reset();
   }
   registerDevice(){
     if(this.show){

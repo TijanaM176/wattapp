@@ -4,10 +4,11 @@
         name="type"
         (change)="ChangeCategory($event)"
         [(ngModel)]="category"
+       
         class="form-control"
         style="background-color: #466471;color:white;width:50%;text-align: center;"
         >
-        <option value="">Choose Category</option>
+        <option value="0" >Choose Category</option>
         <option *ngFor="let item of categories"
         [value]="item.id"
         
@@ -22,11 +23,12 @@
         name="type"
         (change)="ChangeType($event)"
         [(ngModel)]="type"
+        [value]="0"
         class="form-control"
         style="background-color: #C1DFD5;width: 100%;color:#466471;"
         >
         
-        <option value="">Choose Type</option>  
+        <option value="0">Choose Type</option>  
         <option *ngFor="let item of types"
         [value]="item.id"
         >{{item.name}}</option>
@@ -40,11 +42,11 @@
         [(ngModel)]="model"
                                       
         (change)="ChangeModels($event)"
-                                      
+        [value]="0"                             
         class="form-control"
         style="background-color: #C1DFD5;width: 100%;color:#466471;"
         >
-        <option value="">Choose Modal</option>                           
+        <option value="0">Choose Modal</option>                           
         <option *ngFor="let item of models"
         [ngValue]='item'
                                       

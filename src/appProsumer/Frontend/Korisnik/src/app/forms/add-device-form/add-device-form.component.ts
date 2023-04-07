@@ -19,10 +19,10 @@ export class AddDeviceFormComponent {
   dropDownCategory: boolean = false;
   dropDownType:boolean=false;
   dropDownModel:boolean=false;
-  category!:number;
-  type!:number;
+  category:number=0;
+  type:number=0;
   types:DeviceType[]=[];
-  model:Models=new Models();
+  model:any=0;
   models:Models[]=[];
   Name:string='';
   manufacturer:string='';
@@ -34,6 +34,12 @@ export class AddDeviceFormComponent {
     this.dropDownModel=false;
     this.getCategories();
     
+  }
+  reset(){
+    this.category=0;
+    this.type=0;
+    this.model=0;
+    this.Name="Device Name";
   }
   ChangeCategory(e:any){
     this.service.category=this.category;
@@ -60,6 +66,7 @@ export class AddDeviceFormComponent {
     this.service.type=this.type;
     console.log(this.type);
     this.getModels();
+    this.Name="Device Name";
   }
   getTypes(){
     this.service.getTypes().subscribe({
