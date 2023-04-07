@@ -17,7 +17,7 @@ namespace API.Repositories.DeviceRepository
         public Task<Dictionary<string, object>> GetDevice(string id);
         public Task<double> MaxUsage(string id);
         public Task<DeviceInfo> GetDeviceInfoById(string id);
-        public Task<Dictionary<DateTime, double>> ProductionConsumptionForLastWeekForDevice(string idDevice);
+        public Task<Dictionary<string, Dictionary<DateTime, double>>> ProductionConsumptionForLastWeekForDevice(string idDevice);
         public Task<EnumCategory.DeviceCatergory> getDeviceCategoryEnum(string idDevice);
         public Task<Prosumer> GetProsumer(string id);
         public Task<List<Prosumer>> GetProsumers();

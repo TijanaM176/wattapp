@@ -270,8 +270,11 @@ namespace API.Repositories.DeviceRepository
             device.Timestamps = usage.Timestamps.Where(t =>
                     t.Date >= DateTime.Now.AddDays(period) && t.Date <= DateTime.Now || t.Date <= DateTime.Now.AddDays(period) && t.Date >= DateTime.Now
                 ).ToList();
-            
-          
+            device.Predictions = usage.Predictions.Where(t =>
+                    t.Date >= DateTime.Now.AddDays(period) && t.Date <= DateTime.Now || t.Date <= DateTime.Now.AddDays(period) && t.Date >= DateTime.Now
+                ).ToList();
+
+
             return device;
         }
        
@@ -289,35 +292,51 @@ namespace API.Repositories.DeviceRepository
 
             return deviceCategory;
         }
-        public async Task<Dictionary<DateTime, double>> ProductionConsumptionForLastWeekForDevice(string idDevice)
+        public async Task<Dictionary<string, Dictionary<DateTime, double>>> ProductionConsumptionForLastWeekForDevice(string idDevice)
         {
             var id = (await _regContext.ProsumerLinks.FirstOrDefaultAsync(x => x.Id == idDevice)).ModelId;
             DeviceInfo deviceInfo = await GetDeviceInfoById(id);
             //if (deviceInfo == null); // greska
             Device device = await GetDeviceByCategoryForAPeriod(deviceInfo, -7);
-            Dictionary<DateTime, double> datePowerByDevice = new Dictionary<DateTime, double>();
+            Dictionary<string, Dictionary<DateTime, double>> datePowerByDevice = new Dictionary<string, Dictionary<DateTime, double>>();
+            datePowerByDevice["timestamps"] = new Dictionary<DateTime, double>();
+            datePowerByDevice["predictions"] = new Dictionary<DateTime, double>();
 
             if (deviceInfo.CategoryId == 1) // producer device
             {
-                foreach (var timestamp in device.Timestamps)
+                for (int i = 0; i < device.Timestamps.Count; i++)
                 {
-                    if (datePowerByDevice.ContainsKey(timestamp.Date))
-                        datePowerByDevice[timestamp.Date] += timestamp.ActivePower;
+                    var timestamp = device.Timestamps[i];
+                    var prediction = device.Predictions[i];
+                    if (datePowerByDevice["timestamps"].ContainsKey(timestamp.Date))
+                    { 
+                        datePowerByDevice["timestamps"][timestamp.Date] += timestamp.ActivePower;
+                        datePowerByDevice["predictions"][timestamp.Date] += prediction.ActivePower;
+                    }
                     else
-                        datePowerByDevice.Add(timestamp.Date, timestamp.ActivePower);
+                    {
+                        datePowerByDevice["timestamps"].Add(timestamp.Date, timestamp.ActivePower);
+                        datePowerByDevice["predictions"].Add(timestamp.Date, prediction.ActivePower);
+                    }
                 }
             }
             else if (deviceInfo.CategoryId == 2) // consumer device
             {
-                foreach (var timestamp in device.Timestamps)
+                for (int i = 0; i < device.Timestamps.Count; i++)
                 {
-                    if (datePowerByDevice.ContainsKey(timestamp.Date))
-                        datePowerByDevice[timestamp.Date] += timestamp.ActivePower + timestamp.ReactivePower;
+                    var timestamp = device.Timestamps[i];
+                    var prediction = device.Predictions[i];
+                    if (datePowerByDevice["timestamps"].ContainsKey(timestamp.Date))
+                    {
+                        datePowerByDevice["timestamps"][timestamp.Date] += timestamp.ActivePower + timestamp.ReactivePower;
+                        datePowerByDevice["predictions"][timestamp.Date] += prediction.ActivePower + prediction.ReactivePower;
+                    }
                     else
-                        datePowerByDevice.Add(timestamp.Date, timestamp.ActivePower + timestamp.ReactivePower);
+                    {
+                        datePowerByDevice["timestamps"].Add(timestamp.Date, timestamp.ActivePower + timestamp.ReactivePower);
+                        datePowerByDevice["predictions"].Add(timestamp.Date, prediction.ActivePower + timestamp.ReactivePower);
+                    }
                 }
-
-
             }
             else throw new ArgumentException("Devices is Storage!"); ; // storage device, greska
 
@@ -346,7 +365,10 @@ namespace API.Repositories.DeviceRepository
                 { "CategoryName", (await GetDeviceCat(info.CategoryId)).Name },
                 { "TypeName", (await GetDeviceType(info.TypeId)).Name },
                 { "MaxUsage", max},
-                { "AvgUsage", await AvgUsage(link.ModelId) }
+                { "AvgUsage", await AvgUsage(link.ModelId) },
+                { "DsoView", link.DsoView },
+                { "DsoControl", link.DsoControl },
+                { "Activity", link.Activity }
             };
         }
 

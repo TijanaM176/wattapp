@@ -245,7 +245,7 @@ namespace API.Services.Devices
                 throw new ArgumentException("No devices with that id!");
             return deviceinfo;
         }
-        public async Task<Dictionary<DateTime, double>> ProductionConsumptionForLastWeekForDevice(string idDevice)
+        public async Task<Dictionary<string, Dictionary<DateTime, double>>> ProductionConsumptionForLastWeekForDevice(string idDevice)
         {
 
             var prodCon = await _repository.ProductionConsumptionForLastWeekForDevice(idDevice);
