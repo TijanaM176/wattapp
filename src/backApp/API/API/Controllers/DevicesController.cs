@@ -17,15 +17,15 @@ namespace API.Controllers
         }
 
         [HttpGet("GetAllDevicesForProsumer")]
-        public async Task<IActionResult> GetAllDevicesForProsumer(string id)
+        public async Task<IActionResult> GetAllDevicesForProsumer(string id, string role)
         {
             try
             {
                 return Ok(new
                 {
-                    consumers = await devService.GetDevicesByCategory(id, "Consumer"),
-                    producers = await devService.GetDevicesByCategory(id, "Producer"),
-                    storage = await devService.GetDevicesByCategory(id, "Storage")
+                    consumers = await devService.GetDevicesByCategory(id, "Consumer", role),
+                    producers = await devService.GetDevicesByCategory(id, "Producer", role),
+                    storage = await devService.GetDevicesByCategory(id, "Storage", role)
                 });
 
             }

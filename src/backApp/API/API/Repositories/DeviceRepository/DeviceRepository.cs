@@ -34,9 +34,13 @@ namespace API.Repositories.DeviceRepository
             return await _regContext.ProsumerLinks.Where(x => x.ProsumerId == id).ToListAsync();
         }
 
-        public async Task<List<Device>> GetDevicesByCategory(string id, string catStr)
+        public async Task<List<Device>> GetDevicesByCategory(string id, string catStr, string role)
         {
-            var linkInfo = await GetLinksForProsumer(id);
+            List<ProsumerLink> linkInfo;
+            if (role == "Prosumer")
+                linkInfo = await GetLinksForProsumer(id);
+            else
+                linkInfo = (await GetLinksForProsumer(id)).Where(x => x.DsoView).ToList();
             var links = linkInfo.Select(x => x.ModelId);
             var cat = await GetDeviceCategory(catStr);
             var usages = await _usageContext.PowerUsage.Find(x => links.Contains(x.DeviceId)).ToListAsync();
@@ -119,7 +123,7 @@ namespace API.Repositories.DeviceRepository
 
         public async Task<double> CurrentConsumptionForProsumer(string id)
         {
-            List<Device> devices = await GetDevicesByCategory(id, "Consumer");
+            List<Device> devices = await GetDevicesByCategory(id, "Consumer", "Prosumer");
             double currentConsumption = 0;
             foreach (var device in devices)
             {
@@ -131,7 +135,7 @@ namespace API.Repositories.DeviceRepository
         }
         public async Task<double> CurrentProductionForProsumer(string id)
         {
-            List<Device> devices = await GetDevicesByCategory(id, "Producer");
+            List<Device> devices = await GetDevicesByCategory(id, "Producer", "Prosumer");
             var cat = await GetDeviceCategory("Producer");
             devices = devices.Where(x => x.CategoryId == cat).ToList();
             double currentProduction = 0;

@@ -18,9 +18,9 @@ namespace API.Services.Devices
             _repository = repository;
         }
 
-        public async Task<List<Dictionary<string, object>>> GetDevicesByCategory(string id, string catStr)
+        public async Task<List<Dictionary<string, object>>> GetDevicesByCategory(string id, string catStr, string role)
         {
-            var devices = await _repository.GetDevicesByCategory(id, catStr);
+            var devices = await _repository.GetDevicesByCategory(id, catStr, role);
             if (devices == null) throw new ArgumentException("No devices found!");
             
             var devicesData = devices.Select(d => new Dictionary<string, object>
