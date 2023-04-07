@@ -106,6 +106,7 @@ import { PocetnaComponent } from './components/pocetna/pocetna.component';
     HomeSidebarComponent,
     WorkerProfileComponent,
     User1Component,
+    PocetnaComponent,
   ],
   imports: [
     MatSliderModule,
