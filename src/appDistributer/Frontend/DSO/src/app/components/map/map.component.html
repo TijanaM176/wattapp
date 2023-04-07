@@ -1,98 +1,108 @@
-<!-- <app-navBar></app-navBar> -->
-<section class="okvir">
-  <div class="levo">
-    <CDBSidebar
-      textColor="#ffffff"
-      backgroundColor="#5875A1"
-      style="margin: 0; overflow: hidden; max-height: 100%; height: 90vh"
-    >
-      <CDBSidebarHeader style="font-weight: 600">
-        <i class="fa fa-lg fa-filter" style="font-size: 1.5"></i>
-        Filters</CDBSidebarHeader
-      >
-      <CDBSidebarContent style="justify-content: center; text-align: center"
-        ><p><strong>Neighborhood</strong></p>
-        <div class="col-sm-12">
-          <select
-            class="dropdown dropdown-toggle"
-            style="width: 85%; margin: 0 auto"
-            name="Neighborhood"
-            (change)="ChangeNeighborhood($event)"
-            class="form-control"
-            [(ngModel)]="neighborhood"
-          >
-            <option value="b">All</option>
-            <option
-              *ngFor="let neighborhood of Neighborhoods"
-              [value]="neighborhood.id"
+<head>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css"
+  integrity="sha256-kLaT2GOSpHechhsozzB+flnD+zUyjE2LlfWPgU04xyI="
+  crossorigin=""/>
+  <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"
+  integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM="
+  crossorigin=""></script>
+</head>
+
+<div class="d-flex flex-column g-0 h-100 px-0 py-0 mx-0 my-0">
+  <div class="d-flex flex-grow-1 h-100 px-0 py-0 mx-0 my-0">
+    <div class="flex-grow-1 col-md-2 px-0 py-0 mx-0 my-0" style="background-color: #5875A1;">
+      <CDBSidebar class="d-flex flex-column h-100 w-100 g-0 mx-0 my-0 px-0" textColor="#ffffff" backgroundColor="#5875A1">
+        <CDBSidebarHeader class="py-3" style="font-weight: 600">
+          <i class="fa fa-lg fa-filter" style="font-size: 1.5"></i>
+          Filters
+        </CDBSidebarHeader>
+        <CDBSidebarContent class="d-flex flex-column text-center flex-grow-1">
+          <p class="mb-0"><strong>Neighborhood</strong></p>
+          <div class="col-sm-12 mb-3">
+            <select
+              class="dropdown dropdown-toggle"
+              style="width: 85%; margin: 0 auto"
+              name="Neighborhood"
+              (change)="ChangeNeighborhood($event)"
+              class="form-control"
+              [(ngModel)]="neighborhood">
+              <option value="b">All</option>
+              <option
+                *ngFor="let neighborhood of Neighborhoods"
+                [value]="neighborhood.id"
+              >
+                {{ neighborhood.neigbName }}
+              </option>
+            </select>
+          </div>
+          <strong class="mb-0">Power Consumption</strong>
+          <div class="col-sm-12 mb-4">
+            <div class="custom-slider" style="width: 80%; margin: 0 auto">
+              <ngx-slider
+                [(value)]="minValueC"
+                [(highValue)]="maxValueC"
+                [options]="optionsC"
+              ></ngx-slider>
+            </div>
+            min<input class="button1" type="text" [(ngModel)]="minValueC" />
+            <input class="button2" type="text" [(ngModel)]="maxValueC" />max
+          </div>
+
+          <strong class="mb-0">Power Production</strong>
+          <div class="col-sm-12 mb-4">
+            <div class="custom-slider" style="width: 80%; margin: 0 auto">
+              <ngx-slider
+                [(value)]="minValueP"
+                [(highValue)]="maxValueP"
+                [options]="optionsP"
+              ></ngx-slider>
+            </div>
+            min<input class="button1" type="text" [(ngModel)]="minValueP" />
+            <input class="button2" type="text" [(ngModel)]="maxValueP" />max
+          </div>
+
+          <strong class="mb-0">Number of Devices</strong>
+          <div class="col-sm-12 mb-4">
+            <div class="custom-slider" style="width: 80%; margin: 0 auto">
+              <ngx-slider
+                [(value)]="minValue"
+                [(highValue)]="maxValue"
+                [options]="options"
+              ></ngx-slider>
+            </div>
+            min<input class="button1" type="text" [(ngModel)]="minValue" />
+            <input class="button2" type="text" [(ngModel)]="maxValue" />max
+          </div>
+
+          <div class="col-sm-12 w-100 mb-2 buttons position-absolute bottom-0 start-0">
+            <CDBBtn
+              style="width: 80%; background-color: #e8f3f8; color: #5875A1"
+              (click)="filter()"
+              ><b>Apply Filters</b></CDBBtn
             >
-              {{ neighborhood.neigbName }}
-            </option>
-          </select>
-        </div>
-        <br /><br />
-        <strong>Power Consumption</strong>
-        <div class="custom-slider" style="width: 80%; margin: 0 auto">
-          <ngx-slider
-            [(value)]="minValueC"
-            [(highValue)]="maxValueC"
-            [options]="optionsC"
-          ></ngx-slider>
-        </div>
-        min<input class="button1" type="text" [(ngModel)]="minValueC" />
-        <input class="button2" type="text" [(ngModel)]="maxValueC" />max
-
-        <br /><br /><br />
-        <strong>Power Production</strong>
-        <div class="custom-slider" style="width: 80%; margin: 0 auto">
-          <ngx-slider
-            [(value)]="minValueP"
-            [(highValue)]="maxValueP"
-            [options]="optionsP"
-          ></ngx-slider>
-        </div>
-        min<input class="button1" type="text" [(ngModel)]="minValueP" />
-        <input class="button2" type="text" [(ngModel)]="maxValueP" />max
-
-        <br /><br /><br />
-        <strong>Number of Devices</strong>
-        <div class="custom-slider" style="width: 80%; margin: 0 auto">
-          <ngx-slider
-            [(value)]="minValue"
-            [(highValue)]="maxValue"
-            [options]="options"
-          ></ngx-slider>
-        </div>
-        min<input class="button1" type="text" [(ngModel)]="minValue" />
-        <input class="button2" type="text" [(ngModel)]="maxValue" />max
-
-        <br /><br />
-        <CDBBtn
-          style="width: 80%; background-color: #e8f3f8; color: grey"
-          (click)="filter()"
-          >Apply Filters</CDBBtn
-        >
-        <CDBBtn
-          style="
-            width: 80%;
-            margin-top: 3%;
-            background-color: #e8f3f8;
-            color: grey;
-          "
-          (click)="reset()"
-          >Reset Filters</CDBBtn
-        >
-      </CDBSidebarContent>
-    </CDBSidebar>
-  </div>
-  <div class="desno">
-    <div style="width: 100%">
-      <app-mininavbar style="z-index: 9999"></app-mininavbar>
+            <CDBBtn
+              style="
+                width: 80%;
+                margin-top: 3%;
+                background-color: #e8f3f8;
+                color: #5875A1;
+              "
+              (click)="reset()"
+              ><b>Reset Filters</b></CDBBtn
+            >
+          </div>
+        </CDBSidebarContent>
+      </CDBSidebar>
     </div>
-    <div class="map-container">
-      <div class="map-frame">
-        <div id="map"></div>
+    <div class="flex-grow-1 col-md-10 px-0 py-0 mx-0 my-0">
+      <app-mininavbar style="z-index: 9999"></app-mininavbar>
+      <div class="d-flex flex-grow-1 g-0 px-0 py-0 mx-0 my-0 mapLegend">
+        <div class="flex-grow-1 col-md-9 h-100 px-0 py-0 mx-0 my-0">
+          <div id="map"></div>
+        </div>
+        <div class="flex-grow-1 col-md-3 h-100 px-0 py-0 mx-0 my-0" style="background-color: rgb(236, 236, 238);">
+  
+        </div>
       </div>
     </div>
   </div>
-</section>
+</div>
