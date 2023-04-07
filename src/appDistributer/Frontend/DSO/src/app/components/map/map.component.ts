@@ -119,11 +119,15 @@ export class MapComponent implements AfterViewInit, OnInit {
       if ('geolocation' in navigator) {
         navigator.geolocation.getCurrentPosition(
           (position) => {
-            this.cookie.set('lat', position.coords.latitude.toString(),{path:'/'});
-            this.cookie.set('long', position.coords.longitude.toString(),{path:'/'});
+            this.cookie.set('lat', position.coords.latitude.toString(), {
+              path: '/',
+            });
+            this.cookie.set('long', position.coords.longitude.toString(), {
+              path: '/',
+            });
 
             var acc = Number(position.coords.accuracy).toFixed(2);
-            this.cookie.set('acc', acc,{path:'/'});
+            this.cookie.set('acc', acc, { path: '/' });
 
             this.map.setView(
               [position.coords.latitude, position.coords.longitude],
@@ -203,9 +207,16 @@ export class MapComponent implements AfterViewInit, OnInit {
     this.populateTheMap(this.map);
   }
 
+  funkcija() {
+    this.mapService
+      .ProsumersInfo1()
+      .subscribe((response) => console.log(response));
+  }
+
   populateTheMap(map: any) {
-    this.mapService.getAllProsumers().subscribe({
+    this.mapService.ProsumersInfo1().subscribe({
       next: (res) => {
+        // this.funkcija();
         console.log(res);
         this.users = res;
         //console.log(this.users)
@@ -218,8 +229,8 @@ export class MapComponent implements AfterViewInit, OnInit {
           popupAnchor: [11, -77],
         });
         for (let user of this.users) {
-          let lon = user.longitude;
-          let lat = user.latitude;
+          let lon = user.long;
+          let lat = user.lat;
           if (lon != null && lat != null) {
             let marker = L.marker(
               [Number(lat.toString()), Number(lon.toString())],
@@ -282,8 +293,8 @@ export class MapComponent implements AfterViewInit, OnInit {
       popupAnchor: [11, -77],
     });
     for (let user of this.users) {
-      let lon = user.longitude;
-      let lat = user.latitude;
+      let lon = user.long;
+      let lat = user.lat;
       if (lon != null && lat != null) {
         let marker = L.marker(
           [Number(lat.toString()), Number(lon.toString())],
