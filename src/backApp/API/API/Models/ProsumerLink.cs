@@ -10,6 +10,9 @@ namespace API.Models
         public string ModelId { get; set; }
         public string IpAddress { get; set; }
         public string Name { get; set; }
+        public bool Activity { get; set; }
+        public bool DsoView { get; set; }
+        public bool DsoControl { get; set; }
         public virtual Prosumer Prosumer { get; set; }
         public virtual DeviceInfo Device { get; set; }
 

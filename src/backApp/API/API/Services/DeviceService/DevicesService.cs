@@ -1,4 +1,5 @@
-﻿using API.Models.Devices;
+﻿using Amazon.Runtime.Internal.Transform;
+using API.Models.Devices;
 using API.Models.HelpModels;
 using API.Models.Users;
 using API.Repositories.DeviceRepository;
@@ -17,11 +18,24 @@ namespace API.Services.Devices
             _repository = repository;
         }
 
-        public async Task<List<Device>> GetDevicesByCategory(string id, string catStr)
+        public async Task<List<Dictionary<string, object>>> GetDevicesByCategory(string id, string catStr, string role)
         {
-            var devices = await _repository.GetDevicesByCategory(id, catStr);
+            var devices = await _repository.GetDevicesByCategory(id, catStr, role);
             if (devices == null) throw new ArgumentException("No devices found!");
-            return devices;
+            
+            var devicesData = devices.Select(d => new Dictionary<string, object>
+            {
+                { "Id", d.Id  },
+                { "IpAddress", d.IpAddress },
+                { "Name", d.Name },
+                { "TypeId", d.TypeId},
+                { "CategoryId", d.CategoryId},
+                { "Manufacturer", d.Manufacturer},
+                { "Wattage", d.Wattage},
+                { "Timestamps", d.Timestamps.Select(x => new { Date = x.Date, ActivePower = x.ActivePower, ReactivePower = x.ReactivePower}).FirstOrDefault() },
+                { "Predictions", d.Predictions.Select(x => new { Date = x.Date, ActivePower = x.ActivePower, ReactivePower = x.ReactivePower}).FirstOrDefault() },
+            });
+            return devicesData.ToList();
         }
 
         public async Task<double> CurrentConsumptionForProsumer(string id)
@@ -34,103 +48,167 @@ namespace API.Services.Devices
             return await _repository.CurrentProductionForProsumer(id);
         }
 
-        public async Task<Dictionary<DateTime, double>> ConsumptionForAPeriodForProsumer(string id, int period)
+        public async Task<Dictionary<string,Dictionary<DateTime, double>>> ConsumptionForAPeriodForProsumer(string id, int period)
         {
             List<Device> devices = await _repository.GetDevicesByCategoryForAPeriod(id, "Consumer", period);
-            Dictionary<DateTime, double> datePowerDict = new Dictionary<DateTime, double>();
+            Dictionary<string, Dictionary<DateTime, double>> data = new Dictionary<string, Dictionary<DateTime, double>>();
+            data["timestamps"] = new Dictionary<DateTime, double>();
+            data["predictions"] = new Dictionary<DateTime, double>();
 
             foreach (var dev in devices)
             {
-                foreach (var timestamp in dev.Timestamps)
+                for (int i = 0; i < dev.Timestamps.Count; i++)
                 {
-                    if (datePowerDict.ContainsKey(timestamp.Date))
-                        datePowerDict[timestamp.Date] += timestamp.ActivePower + timestamp.ReactivePower;
+                    var timestamp = dev.Timestamps[i];
+                    var prediction = dev.Predictions[i];
+                    if (data["timestamps"].ContainsKey(timestamp.Date)) { 
+                        data["timestamps"][timestamp.Date] += timestamp.ActivePower + timestamp.ReactivePower;
+                        data["predictions"][timestamp.Date] += prediction.ActivePower + prediction.ReactivePower;
+                    }
                     else
-                        datePowerDict.Add(timestamp.Date, timestamp.ActivePower + timestamp.ReactivePower);
+                    {
+                        data["timestamps"].Add(timestamp.Date, timestamp.ActivePower + timestamp.ReactivePower);
+                        data["predictions"].Add(timestamp.Date, prediction.ActivePower + prediction.ReactivePower);
+                    }
                 }
             }
 
-            return datePowerDict;
+            return data;
         }
 
-        public async Task<Dictionary<DateTime, double>> ProductionForAPeriodForProsumer(string id, int period)
+        public async Task<Dictionary<string, Dictionary<DateTime, double>>> ProductionForAPeriodForProsumer(string id, int period)
         {
             List<Device> devices = await _repository.GetDevicesByCategoryForAPeriod(id, "Producer", period);
-            Dictionary<DateTime, double> datePowerDict = new Dictionary<DateTime, double>();
+            Dictionary<string, Dictionary<DateTime, double>> data = new Dictionary<string, Dictionary<DateTime, double>>();
+            data["timestamps"] = new Dictionary<DateTime, double>();
+            data["predictions"] = new Dictionary<DateTime, double>();
 
             foreach (var dev in devices)
             {
-                foreach (var timestamp in dev.Timestamps)
+                for (int i = 0; i < dev.Timestamps.Count; i++)
                 {
-                    if (datePowerDict.ContainsKey(timestamp.Date))
-                        datePowerDict[timestamp.Date] += timestamp.ActivePower;
+                    var timestamp = dev.Timestamps[i];
+                    var prediction = dev.Predictions[i];
+                    if (data["timestamps"].ContainsKey(timestamp.Date))
+                    {
+                        data["timestamps"][timestamp.Date] += timestamp.ActivePower;
+                        data["predictions"][timestamp.Date] += prediction.ActivePower;
+                    }
                     else
-                        datePowerDict.Add(timestamp.Date, timestamp.ActivePower);
+                    {
+                        data["timestamps"].Add(timestamp.Date, timestamp.ActivePower);
+                        data["predictions"].Add(timestamp.Date, prediction.ActivePower);
+                    }
                 }
             }
 
-            return datePowerDict;
+            return data;
         }
 
-        public async Task<Dictionary<DateTime, double>> GroupedConProdForAPeriodForProsumer(string id, int type, int period, int step)  //type 0 ako je consumption, 1 production
+        public async Task<Dictionary<string, Dictionary<DateTime, double>>> GroupedConProdForAPeriodForProsumer(string id, int type, int period, int step)  //type 0 ako je consumption, 1 production
         {
-            Dictionary<DateTime, double> all;
+            Dictionary<string, Dictionary<DateTime, double>> all;
             if (type == 0)
                 all = await ConsumptionForAPeriodForProsumer(id, period);
             else
                 all = await ProductionForAPeriodForProsumer(id, period);
 
-            Dictionary<DateTime, double> grouped = new Dictionary<DateTime, double>();
-            foreach (var item in all)
+            Dictionary<string, Dictionary<DateTime, double>> grouped = new Dictionary<string, Dictionary<DateTime, double>> ();
+            grouped["timestamps"] = new Dictionary<DateTime, double>();
+            grouped["predictions"] = new Dictionary<DateTime, double>();
+
+            var ts = all["timestamps"];
+            foreach (KeyValuePair<DateTime, double> pair in ts)
             {
-                var intervalStart = new DateTime(item.Key.Year, item.Key.Month, item.Key.Day, (item.Key.Hour / step) * step, 0, 0);
-                if (grouped.ContainsKey(intervalStart))
-                    grouped[intervalStart] += item.Value;
+                var intervalStart = new DateTime(pair.Key.Year, pair.Key.Month, pair.Key.Day, (pair.Key.Hour / step) * step, 0, 0);
+                 if (grouped["timestamps"].ContainsKey(intervalStart))
+                    grouped["timestamps"][intervalStart] += pair.Value;
                 else
-                    grouped.Add(intervalStart, item.Value);
+                    grouped["timestamps"].Add(intervalStart, pair.Value);
             }
 
+            var pr = all["predictions"];
+            foreach (KeyValuePair<DateTime, double> pair in pr)
+            {
+                var intervalStart = new DateTime(pair.Key.Year, pair.Key.Month, pair.Key.Day, (pair.Key.Hour / step) * step, 0, 0);
+                if (grouped["predictions"].ContainsKey(intervalStart))
+                    grouped["predictions"][intervalStart] += pair.Value;
+                else
+                    grouped["predictions"].Add(intervalStart, pair.Value);
+            }
+            
             return grouped;
         }
 
-        public async Task<Dictionary<DateTime, double>> LastMonthsGroupedConProdByWeekForProsumer(string id, int type)  //type 0 ako je consumption, 1 production
+        public async Task<Dictionary<string, Dictionary<DateTime, double>>> LastMonthsGroupedConProdByWeekForProsumer(string id, int type)  //type 0 ako je consumption, 1 production
         {
-            Dictionary<DateTime, double> all;
+            Dictionary<string, Dictionary<DateTime, double>> all;
             if (type == 0)
                 all = await ConsumptionForAPeriodForProsumer(id, -30);
             else
                 all = await ProductionForAPeriodForProsumer(id, -30);
 
-            Dictionary<DateTime, double> grouped = new Dictionary<DateTime, double>();
-            foreach (var item in all)
+            Dictionary<string, Dictionary<DateTime, double>> grouped = new Dictionary<string, Dictionary<DateTime, double>>();
+            grouped["timestamps"] = new Dictionary<DateTime, double>();
+            grouped["predictions"] = new Dictionary<DateTime, double>();
+
+            var ts = all["timestamps"];
+            foreach (KeyValuePair<DateTime, double> pair in ts)
             {
-                var intervalStart = item.Key.AddDays(-(int)item.Key.DayOfWeek).Date;
+                var intervalStart = pair.Key.AddDays(-(int)pair.Key.DayOfWeek).Date;
                 intervalStart = new DateTime(intervalStart.Year, intervalStart.Month, intervalStart.Day, 0, 0, 0);
-                if (grouped.ContainsKey(intervalStart))
-                    grouped[intervalStart] += item.Value;
+                if (grouped["timestamps"].ContainsKey(intervalStart))
+                    grouped["timestamps"][intervalStart] += pair.Value;
                 else
-                    grouped.Add(intervalStart, item.Value);
+                    grouped["timestamps"].Add(intervalStart, pair.Value);
+            }
+
+            var pr = all["predictions"];
+            foreach (KeyValuePair<DateTime, double> pair in pr)
+            {
+                var intervalStart = pair.Key.AddDays(-(int)pair.Key.DayOfWeek).Date;
+                intervalStart = new DateTime(intervalStart.Year, intervalStart.Month, intervalStart.Day, 0, 0, 0);
+                if (grouped["predictions"].ContainsKey(intervalStart))
+                    grouped["predictions"][intervalStart] += pair.Value;
+                else
+                    grouped["predictions"].Add(intervalStart, pair.Value);
             }
 
             return grouped;
         }
 
-        public async Task<Dictionary<DateTime, double>> LastYearsGroupedConProdByMonthForProsumer(string id, int type)  //type 0 ako je consumption, 1 production
+        public async Task<Dictionary<string, Dictionary<DateTime, double>>> LastYearsGroupedConProdByMonthForProsumer(string id, int type)  //type 0 ako je consumption, 1 production
         {
-            Dictionary<DateTime, double> all;
+            Dictionary<string, Dictionary<DateTime, double>> all;
             if (type == 0)
                 all = await ConsumptionForAPeriodForProsumer(id, -365);
             else
                 all = await ProductionForAPeriodForProsumer(id, -365);
 
-            Dictionary<DateTime, double> grouped = new Dictionary<DateTime, double>();
-            foreach (var item in all)
+            Dictionary<string, Dictionary<DateTime, double>> grouped = new Dictionary<string, Dictionary<DateTime, double>>();
+            grouped["timestamps"] = new Dictionary<DateTime, double>();
+            grouped["predictions"] = new Dictionary<DateTime, double>();
+
+            var ts = all["timestamps"];
+            foreach (KeyValuePair<DateTime, double> pair in ts)
             {
-                var intervalStart = new DateTime(item.Key.Year, item.Key.Month, 1);
-                if (grouped.ContainsKey(intervalStart))
-                    grouped[intervalStart] += item.Value;
+                var intervalStart = new DateTime(pair.Key.Year, pair.Key.Month, 1);
+                intervalStart = new DateTime(intervalStart.Year, intervalStart.Month, intervalStart.Day, 0, 0, 0);
+                if (grouped["timestamps"].ContainsKey(intervalStart))
+                    grouped["timestamps"][intervalStart] += pair.Value;
                 else
-                    grouped.Add(intervalStart, item.Value);
+                    grouped["timestamps"].Add(intervalStart, pair.Value);
+            }
+
+            var pr = all["predictions"];
+            foreach (KeyValuePair<DateTime, double> pair in pr)
+            {
+                var intervalStart = new DateTime(pair.Key.Year, pair.Key.Month, 1);
+                intervalStart = new DateTime(intervalStart.Year, intervalStart.Month, intervalStart.Day, 0, 0, 0);
+                if (grouped["predictions"].ContainsKey(intervalStart))
+                    grouped["predictions"][intervalStart] += pair.Value;
+                else
+                    grouped["predictions"].Add(intervalStart, pair.Value);
             }
 
             return grouped;
@@ -167,7 +245,7 @@ namespace API.Services.Devices
                 throw new ArgumentException("No devices with that id!");
             return deviceinfo;
         }
-        public async Task<Dictionary<DateTime, double>> ProductionConsumptionForLastWeekForDevice(string idDevice)
+        public async Task<Dictionary<string, Dictionary<DateTime, double>>> ProductionConsumptionForLastWeekForDevice(string idDevice)
         {
 
             var prodCon = await _repository.ProductionConsumptionForLastWeekForDevice(idDevice);
@@ -187,72 +265,87 @@ namespace API.Services.Devices
             return device;
         }
 
-        public async Task<Dictionary<DateTime, double>> ConProdForAPeriodTimestamps(int type, int period, int step)     //type 0 cons 1 prod
+        public async Task<Dictionary<string, Dictionary<DateTime, double>>> ConProdForAPeriodTimestamps(int type, int period, int step)     //type 0 cons 1 prod
         {
             var prosumers = (await _repository.getAllProsumersWhoOwnDevice()).Select(x => x.ProsumerId).Distinct();
-            Dictionary<DateTime, double> timestamps = new Dictionary<DateTime, double>();
+            Dictionary<string, Dictionary<DateTime, double>> data = new Dictionary<string, Dictionary<DateTime, double>>();
+            data["timestamps"] = new Dictionary<DateTime, double>();
+            data["predictions"] = new Dictionary<DateTime, double>();
 
             foreach (var prosumer in prosumers)
             {
-                Dictionary<DateTime, double> usagePerProsumer = await GroupedConProdForAPeriodForProsumer(prosumer, type, period, step);
-
-                foreach (var timestamp in usagePerProsumer)
+                Dictionary<string, Dictionary<DateTime, double>> usagePerProsumer = await GroupedConProdForAPeriodForProsumer(prosumer, type, period, step);
+                foreach (var cat in usagePerProsumer)
                 {
-                    var intervalStart = new DateTime(timestamp.Key.Year, timestamp.Key.Month, timestamp.Key.Day, (timestamp.Key.Hour / step) * step, 0, 0);
-                    if (timestamps.ContainsKey(intervalStart))
-                        timestamps[intervalStart] += timestamp.Value;
-                    else
-                        timestamps.Add(intervalStart, timestamp.Value);
+                    foreach (var timestamp in cat.Value)
+                    {
+                        var intervalStart = new DateTime(timestamp.Key.Year, timestamp.Key.Month, timestamp.Key.Day, (timestamp.Key.Hour / step) * step, 0, 0);
+                        if (data[cat.Key].ContainsKey(intervalStart))
+                            data[cat.Key][intervalStart] += timestamp.Value;
+                        else
+                            data[cat.Key].Add(intervalStart, timestamp.Value);
+                    }
                 }
+
             }
 
-            if (timestamps == null) throw new ArgumentException("No timestamps!");
-            return timestamps;
+            if (data == null) throw new ArgumentException("No timestamps!");
+            return data;
         }
 
-        public async Task<Dictionary<DateTime, double>> ConProdByWeekTimestamps(int type)     //type 0 cons 1 prod
+        public async Task<Dictionary<string, Dictionary<DateTime, double>>> ConProdByWeekTimestamps(int type)     //type 0 cons 1 prod
         {
             var prosumers = (await _repository.getAllProsumersWhoOwnDevice()).Select(x => x.ProsumerId).Distinct();
-            Dictionary<DateTime, double> timestamps = new Dictionary<DateTime, double>();
+            Dictionary<string, Dictionary<DateTime, double>> data = new Dictionary<string, Dictionary<DateTime, double>>();
+            data["timestamps"] = new Dictionary<DateTime, double>();
+            data["predictions"] = new Dictionary<DateTime, double>();
 
             foreach (var prosumer in prosumers)
             {
-                Dictionary<DateTime, double> usagePerProsumer = await LastMonthsGroupedConProdByWeekForProsumer(prosumer, type);
-
-                foreach (var timestamp in usagePerProsumer)
+                Dictionary<string, Dictionary<DateTime, double>> usagePerProsumer = await LastMonthsGroupedConProdByWeekForProsumer(prosumer, type);
+                
+                foreach (var cat in usagePerProsumer)
                 {
-                    var intervalStart = timestamp.Key.AddDays(-(int)timestamp.Key.DayOfWeek).Date;
-                    intervalStart = new DateTime(intervalStart.Year, intervalStart.Month, intervalStart.Day, 0, 0, 0);
-                    if (timestamps.ContainsKey(intervalStart))
-                        timestamps[intervalStart] += timestamp.Value;
-                    else
-                        timestamps.Add(intervalStart, timestamp.Value);
+                    foreach (var timestamp in cat.Value)
+                    {
+                        var intervalStart = timestamp.Key.AddDays(-(int)timestamp.Key.DayOfWeek).Date;
+                        intervalStart = new DateTime(intervalStart.Year, intervalStart.Month, intervalStart.Day, 0, 0, 0);
+                        if (data[cat.Key].ContainsKey(intervalStart))
+                            data[cat.Key][intervalStart] += timestamp.Value;
+                        else
+                            data[cat.Key].Add(intervalStart, timestamp.Value);
+                    }
                 }
             }
 
-            return timestamps;
+            return data;
         }
 
-        public async Task<Dictionary<DateTime, double>> ConProdByMonthTimestamps(int type)     //type 0 cons 1 prod
+        public async Task<Dictionary<string, Dictionary<DateTime, double>>> ConProdByMonthTimestamps(int type)     //type 0 cons 1 prod
         {
             var prosumers = (await _repository.getAllProsumersWhoOwnDevice()).Select(x => x.ProsumerId).Distinct();
-            Dictionary<DateTime, double> timestamps = new Dictionary<DateTime, double>();
+            Dictionary<string, Dictionary<DateTime, double>> data = new Dictionary<string, Dictionary<DateTime, double>>();
+            data["timestamps"] = new Dictionary<DateTime, double>();
+            data["predictions"] = new Dictionary<DateTime, double>();
 
             foreach (var prosumer in prosumers)
             {
-                Dictionary<DateTime, double> usagePerProsumer = await LastYearsGroupedConProdByMonthForProsumer(prosumer, type);
+                Dictionary<string, Dictionary<DateTime, double>> usagePerProsumer = await LastYearsGroupedConProdByMonthForProsumer(prosumer, type);
 
-                foreach (var timestamp in usagePerProsumer)
+                foreach (var cat in usagePerProsumer)
                 {
-                    var intervalStart = new DateTime(timestamp.Key.Year, timestamp.Key.Month, 1);
-                    if (timestamps.ContainsKey(intervalStart))
-                        timestamps[intervalStart] += timestamp.Value;
-                    else
-                        timestamps.Add(intervalStart, timestamp.Value);
+                    foreach (var timestamp in cat.Value)
+                    {
+                        var intervalStart = new DateTime(timestamp.Key.Year, timestamp.Key.Month, 1);
+                        if (data[cat.Key].ContainsKey(intervalStart))
+                            data[cat.Key][intervalStart] += timestamp.Value;
+                        else
+                            data[cat.Key].Add(intervalStart, timestamp.Value);
+                    }
                 }
             }
 
-            return timestamps;
+            return data;
         }
 
         public async Task<double> TotalCurrentConsumption()
@@ -329,11 +422,11 @@ namespace API.Services.Devices
                 minDeviceCount, maxDeviceCount)).Where(x => x["neighborhoodId"].ToString() == neighbourhood).ToList();
         }
 
-        public async Task<bool> EditDevice(string IdDevice, string model, string DeviceName, string IpAddress)
+        public async Task<bool> EditDevice(string IdDevice, string model, string DeviceName, string IpAddress, bool dsoView, bool dsoControl)
         {
             try
             {
-                await _repository.EditDevice(IdDevice, model, DeviceName, IpAddress);
+                await _repository.EditDevice(IdDevice, model, DeviceName, IpAddress, dsoView, dsoControl);
                 return true;
             }
             catch (Exception ex)
@@ -353,7 +446,7 @@ namespace API.Services.Devices
 
         }
 
-        public async Task<bool> RegisterDevice(string prosumerId, string modelId, string name)
+        public async Task<bool> RegisterDevice(string prosumerId, string modelId, string name, bool dsoView, bool dsoControl)
         {
             Guid id = Guid.NewGuid();
             string ip = await GenerateIP(prosumerId);
@@ -364,7 +457,9 @@ namespace API.Services.Devices
                 Name = name,
                 ProsumerId = prosumerId,
                 ModelId = modelId,
-                IpAddress = ip
+                IpAddress = ip,
+                DsoView = dsoView,
+                DsoControl = dsoControl
             })
             ) return true;
 

@@ -17,15 +17,15 @@ namespace API.Controllers
         }
 
         [HttpGet("GetAllDevicesForProsumer")]
-        public async Task<IActionResult> GetAllDevicesForProsumer(string id)
+        public async Task<IActionResult> GetAllDevicesForProsumer(string id, string role)
         {
             try
             {
                 return Ok(new
                 {
-                    consumers = await devService.GetDevicesByCategory(id, "Consumer"),
-                    producers = await devService.GetDevicesByCategory(id, "Producer"),
-                    storage = await devService.GetDevicesByCategory(id, "Storage")
+                    consumers = await devService.GetDevicesByCategory(id, "Consumer", role),
+                    producers = await devService.GetDevicesByCategory(id, "Producer", role),
+                    storage = await devService.GetDevicesByCategory(id, "Storage", role)
                 });
 
             }
@@ -155,6 +155,7 @@ namespace API.Controllers
         }
 
         //izbaciti
+        /*
         [HttpGet("ProsumerFilter")]
         public async Task<IActionResult> ProsumerFilter(double minConsumption, double maxConsumption,
             double minProduction, double maxProduction, int minDeviceCount, int maxDeviceCount)
@@ -169,8 +170,9 @@ namespace API.Controllers
                 return BadRequest(ex.Message);
             }
         }
-
+        */
         //i ovo
+        /*
         [HttpGet("ProsumerFilter2")]
         public async Task<IActionResult> ProsumerFilter2(string neighbourhood, double minConsumption,
             double maxConsumption, double minProduction, double maxProduction, int minDeviceCount, int maxDeviceCount)
@@ -185,6 +187,7 @@ namespace API.Controllers
                 return BadRequest(ex.Message);
             }
         }
+        
 
         [HttpGet("GetDeviceInfoById")]
         public async Task<IActionResult> GetDeviceInfoById(string id)
@@ -194,7 +197,7 @@ namespace API.Controllers
             {
                 return Ok(new
                 {
-                    ipAddress = DI.IpAddress,
+                    //ipAddress = DI.IpAddress,
                     Name = DI.Name,
                     CategoryID = DI.CategoryId,
                     TypeID = DI.TypeId,
@@ -210,6 +213,7 @@ namespace API.Controllers
 
 
         }
+        */
 
         [HttpGet("ProductionConsumptionForLastWeekForDevice")]
         public async Task<IActionResult> ProductionConsumptionForLastWeekForDevice(string idDevice)
@@ -394,11 +398,11 @@ namespace API.Controllers
         }
 
         [HttpPut("EditDevice")]
-        public async Task<IActionResult> EditDevice(string IdDevice, string model, string DeviceName, string IpAddress)
+        public async Task<IActionResult> EditDevice(string IdDevice, string model, string DeviceName, string IpAddress, bool dsoView, bool dsoControl)
         {
             try
             {
-                await devService.EditDevice(IdDevice, model, DeviceName, IpAddress);
+                await devService.EditDevice(IdDevice, model, DeviceName, IpAddress, dsoView, dsoControl);
                 return Ok("Device edited successfully!");
             }
             catch (Exception ex)
@@ -437,12 +441,12 @@ namespace API.Controllers
                 return BadRequest(ex.Message);
             }
         }
-        [HttpGet("RegisterDevice")]
-        public async Task<IActionResult> RegisterDevice(string prosumerId, string modelId, string name)
+        [HttpPost("RegisterDevice")]
+        public async Task<IActionResult> RegisterDevice(string prosumerId, string modelId, string name, bool dsoView, bool dsoControl)
         {
             try
             {
-                await devService.RegisterDevice(prosumerId, modelId, name);
+                await devService.RegisterDevice(prosumerId, modelId, name, dsoView, dsoControl);
                 return Ok("Device registered!");
             }
             catch (Exception ex)

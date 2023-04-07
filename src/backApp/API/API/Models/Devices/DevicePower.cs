@@ -12,6 +12,9 @@ namespace API.Models.Devices
 
         [BsonElement("timestamps")]
         public List<Timestamp> Timestamps { get; set; }
-       
+        
+        [BsonElement("predictions")]
+        public List<Timestamp> Predictions { get; set; }
+
     }
 }

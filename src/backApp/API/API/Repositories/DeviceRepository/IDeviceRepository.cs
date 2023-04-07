@@ -6,7 +6,7 @@ namespace API.Repositories.DeviceRepository
 {
     public interface IDeviceRepository
     {
-        public Task<List<Device>> GetDevicesByCategory(string id, string catStr);
+        public Task<List<Device>> GetDevicesByCategory(string id, string catStr, string role);
         public Task<List<Device>> GetDevicesByCategoryForAPeriod(string id, string catStr, int period);
         public Task<double> CurrentConsumptionForProsumer(string id);
         public Task<double> CurrentProductionForProsumer(string id);
@@ -17,12 +17,12 @@ namespace API.Repositories.DeviceRepository
         public Task<Dictionary<string, object>> GetDevice(string id);
         public Task<double> MaxUsage(string id);
         public Task<DeviceInfo> GetDeviceInfoById(string id);
-        public Task<Dictionary<DateTime, double>> ProductionConsumptionForLastWeekForDevice(string idDevice);
+        public Task<Dictionary<string, Dictionary<DateTime, double>>> ProductionConsumptionForLastWeekForDevice(string idDevice);
         public Task<EnumCategory.DeviceCatergory> getDeviceCategoryEnum(string idDevice);
         public Task<Prosumer> GetProsumer(string id);
         public Task<List<Prosumer>> GetProsumers();
         public Task<double> ProsumerDeviceCount(string id);
-        public Task EditDevice(string IdDevice, string model, string DeviceName, string IpAddress);
+        public Task EditDevice(string IdDevice, string model, string DeviceName, string IpAddress, bool dsoView, bool dsoControl);
         public Task<Boolean> DeleteDevice(string idDevice);
         public Task InsertLink(ProsumerLink link);
         public Task<List<ProsumerLink>> GetLinksForProsumer(string id);

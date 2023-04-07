@@ -3,7 +3,6 @@
     public class DeviceInfo
     {
         public string Id { get; set; }
-        public string? IpAddress { get; set; }
         public string? Name { get; set; }
         public long CategoryId { get; set; }
         public long TypeId { get; set; }
