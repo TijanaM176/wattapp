@@ -16,10 +16,12 @@ namespace API.Services.Auth
     {
         private readonly IUserRepository _repository;
         private readonly IConfiguration _config;
-        public AuthService(IUserRepository repository, IConfiguration config)
+        private IWebHostEnvironment enviroment;
+        public AuthService(IUserRepository repository, IConfiguration config, IWebHostEnvironment enviroment)
         {
             _repository = repository;
             _config = config;
+            this.enviroment = enviroment;
         }
 
         public async Task<string> CheckUserName(UserDto request)
@@ -285,12 +287,70 @@ namespace API.Services.Auth
 
         //REGISTER
 
+        //save image
+        public (int,string) SaveImage(IFormFile ImageFile)
+        {
+            try
+            {
+                var contentPath = this.enviroment.ContentRootPath;
+                //path = "c://projects/Imageapi/uploads"
+                var path = Path.Combine(contentPath, "Uploads");
+
+                if (!Directory.Exists(path))
+                {
+                    Directory.CreateDirectory(path);
+                }
+                //Check the allowed extenstions
+                var ext = Path.GetExtension(ImageFile.FileName);
+                var allowedExtensions = new string[] { ".jpg", ".png", ".jpeg" };
+
+                if (!allowedExtensions.Contains(ext))
+                {
+                    string msg = string.Format("Only {0} extensions are allowed", string.Join(",", allowedExtensions));
+                    return (0,msg);
+
+                }
+                string uniqueString = Guid.NewGuid().ToString();
+                //we are trying to create a unique filename here
+
+                var newFileName = uniqueString + ext;
+                var fileWithPath = Path.Combine(path, newFileName);
+                var stream = new FileStream(fileWithPath, FileMode.Create);
+
+                ImageFile.CopyTo(stream);
+                stream.Close();
+                return (1,newFileName);
+            }
+            catch (Exception exc)
+            {
+
+                return (0,"ERROR!");
+            }
+
+        }
+        public Boolean DeleteImage(String PathImage)
+        {
+            try
+            {
+                var wwwPath = this.enviroment.WebRootPath;
+                var path = Path.Combine(wwwPath, "Uploads\\", PathImage);
+                if (System.IO.File.Exists(path))
+                {
+                    System.IO.File.Delete(path);
+                    return true;
+                }
+                return false;
+            }
+            catch (Exception exc)
+            {
+                return false;
+            }
+        }
         public async Task<Prosumer> Register(ProsumerDto request)
         {
             CreatePasswordHash(request.Password, out byte[] passwordHash, out byte[] passwordSalt); // vracamo dve vrednosti!
 
             Prosumer prosumer = new Prosumer(); // pravimo novog prosumer-a
-
 
             Guid id = Guid.NewGuid(); // proizvodimo novi id 
             string username = await CheckUserName(request);
@@ -340,7 +400,53 @@ namespace API.Services.Auth
 
 
                 //slika
-                prosumer.Image = request.Image;
+                if (request.imageFile != null)
+                {
+                    var result = this.SaveImage(request.imageFile);
+                    if (result.Item1 == 1) // to je dobro pakuj path
+                    {
+                       
+
+                        var image = result.Item2;
+                       
+                        var path = Path.Combine(enviroment.ContentRootPath, "Uploads", image);
+
+                        if (System.IO.File.Exists(path))
+                        {
+                            using (var stream = new FileStream(path, FileMode.Open))
+                            {
+                                var bytes = new byte[stream.Length];
+                                await stream.ReadAsync(bytes, 0, (int)stream.Length);
+
+                                prosumer.Image = Convert.ToBase64String(bytes);
+                            }
+                        }
+                        
+                    }
+                }
+                else
+                {
+                    var defaultImage = "default.png";
+                    prosumer.Image = defaultImage;
+                   var path = Path.Combine(enviroment.ContentRootPath,"Uploads",defaultImage);
+
+                    if (System.IO.File.Exists(path))
+                    {
+                        using (var stream = new FileStream(path, FileMode.Open))
+                        {
+                            var bytes = new byte[stream.Length];
+                            await stream.ReadAsync(bytes, 0, (int)stream.Length);
+
+                            prosumer.Image = Convert.ToBase64String(bytes);
+                        }
+                    }
+                    else
+                    {
+                        // ako default slika ne postoji, koristi null umesto slike
+                        prosumer.Image = null;
+                    }
+                }
+             
 
 
 
