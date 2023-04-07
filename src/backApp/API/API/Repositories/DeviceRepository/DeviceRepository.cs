@@ -49,7 +49,7 @@ namespace API.Repositories.DeviceRepository
             var devicesData = devices.Select(d => new Device
             {
                 Id = d.Link.Id,
-                //IpAddress = d.Link.IpAddress,
+                IpAddress = d.Link.IpAddress,
                 Name = d.Link.Name,
                 TypeId = d.Spec.TypeId,
                 CategoryId = d.Spec.CategoryId,
@@ -61,6 +61,12 @@ namespace API.Repositories.DeviceRepository
                     t.Date.Day == DateTime.Now.Day &&
                     t.Date.Hour == DateTime.Now.Hour
                 ).ToList(),
+                Predictions = d.Usage.Predictions.Where(t =>
+                    t.Date.Year == DateTime.Now.Year &&
+                    t.Date.Month == DateTime.Now.Month &&
+                    t.Date.Day == DateTime.Now.Day &&
+                    t.Date.Hour == DateTime.Now.Hour
+                ).ToList()
             });
             return devicesData.ToList();
         }
@@ -80,7 +86,7 @@ namespace API.Repositories.DeviceRepository
             var devicesData = devices.Select(d => new Device
             {
                 Id = d.Link.Id,
-                //IpAddress = d.Link.IpAddress,
+                IpAddress = d.Link.IpAddress,
                 Name = d.Link.Name,
                 TypeId = d.Spec.TypeId,
                 CategoryId = d.Spec.CategoryId,
@@ -89,6 +95,9 @@ namespace API.Repositories.DeviceRepository
                 Timestamps = d.Usage.Timestamps.Where(t =>
                     t.Date >= DateTime.Now.AddDays(period) && t.Date <= DateTime.Now || t.Date <= DateTime.Now.AddDays(period) && t.Date >= DateTime.Now
                 ).ToList(),
+                Predictions = d.Usage.Predictions.Where(t =>
+                    t.Date >= DateTime.Now.AddDays(period) && t.Date <= DateTime.Now || t.Date <= DateTime.Now.AddDays(period) && t.Date >= DateTime.Now
+                ).ToList()
             });
             return devicesData.ToList();
         }
