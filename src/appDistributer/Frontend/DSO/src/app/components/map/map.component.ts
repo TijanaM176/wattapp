@@ -63,20 +63,22 @@ export class MapComponent implements AfterViewInit, OnInit {
       }
     },
   };
-  neighborhood: string = '';
+  neighborhood: string = 'b';
   Neighborhoods: Neighborhood[] = [];
-  dropDownNeigh: string = '';
+  dropDownNeigh: string = 'b';
 
   users!: any[];
   markers!: any[];
   currentLocation: any;
   currentLocationIsSet = false;
   currentHour : any;
+
   constructor(
     private mapService: UsersServiceService,
     private toast: NgToastService,
     private cookie: CookieService
   ) {}
+
   ChangeNeighborhood(e: any) {
     this.dropDownNeigh = e.target.value;
   }
@@ -139,43 +141,35 @@ export class MapComponent implements AfterViewInit, OnInit {
       },
     });
     map.addControl(new findMeControl());
-
-    // while (this.map == null);
-    // this.populateTheMap(this.map);
     this.map = map;
-    //this.populateTheMap(this.map);
-  }
-
-  funkcija() {
-    this.mapService
-      .ProsumersInfo1()
-      .subscribe((response) => console.log(response));
+    this.populateTheMap(this.map);
   }
 
   populateTheMap(map: any) {
     this.mapService.ProsumersInfo1().subscribe({
       next: (res) => {
-        // this.funkcija();
-        console.log(res);
+        //console.log(res);
         this.users = res;
-        //console.log(this.users)
-        const prosumerIcon = L.icon({
-          iconUrl: 'assets/images/marker-icon-2x-red.png',
-          iconSize: [25, 41],
-          iconAnchor: [12, 41],
-          popupAnchor: [1, -34],
-          tooltipAnchor: [16, -28],
-        });
+        let iconUrl ='assets/images/marker-icon-2x-blueviolet.png'
+        
         for (let user of this.users) {
           let lon = user.long;
           let lat = user.lat;
           if (lon != null && lat != null) {
-            let marker = L.marker(
-              [Number(lat.toString()), Number(lon.toString())],
-              { icon: prosumerIcon }
-            ).addTo(map);
             this.mapService.getUserProductionAndConsumption(user.id).subscribe({
               next: (res) => {
+                iconUrl = this.decideOnMarker(res);
+                const prosumerIcon = L.icon({
+                  iconUrl: iconUrl,
+                  iconSize: [25, 41],
+                  iconAnchor: [12, 41],
+                  popupAnchor: [1, -34],
+                  tooltipAnchor: [16, -28],
+                });
+                let marker = L.marker(
+                  [Number(lat.toString()), Number(lon.toString())],
+                  { icon: prosumerIcon }
+                ).addTo(map);
                 marker.bindPopup(
                   '<h5><b>' +
                     user.username +
@@ -190,8 +184,20 @@ export class MapComponent implements AfterViewInit, OnInit {
                     user.id +
                     "'>View More</a>"
                 );
+                this.markers.push(marker);
               },
               error: (err) => {
+                const prosumerIcon = L.icon({
+                  iconUrl: iconUrl,
+                  iconSize: [25, 41],
+                  iconAnchor: [12, 41],
+                  popupAnchor: [1, -34],
+                  tooltipAnchor: [16, -28],
+                });
+                let marker = L.marker(
+                  [Number(lat.toString()), Number(lon.toString())],
+                  { icon: prosumerIcon }
+                ).addTo(map);
                 marker.bindPopup(
                   '<h5><b>' +
                     user.username +
@@ -202,11 +208,10 @@ export class MapComponent implements AfterViewInit, OnInit {
                     user.id +
                     "'>View More</a>"
                 ); //"/user/{{item.id}}"
-
+                this.markers.push(marker);
                 console.log(err.error);
               },
             });
-            this.markers.push(marker);
           }
         }
       },
@@ -222,24 +227,25 @@ export class MapComponent implements AfterViewInit, OnInit {
   }
 
   populateTheMap2(map: any) {
-    const prosumerIcon = L.icon({
-      iconUrl: 'assets/images/location-prosumer.svg',
-      iconSize: [65, 65],
-      shadowSize: [50, 64],
-      iconAnchor: [22, 94],
-      shadowAnchor: [4, 62],
-      popupAnchor: [11, -77],
-    });
+    let iconUrl ='assets/images/marker-icon-2x-blueviolet.png';
     for (let user of this.users) {
       let lon = user.long;
       let lat = user.lat;
       if (lon != null && lat != null) {
-        let marker = L.marker(
-          [Number(lat.toString()), Number(lon.toString())],
-          { icon: prosumerIcon }
-        ).addTo(map);
         this.mapService.getUserProductionAndConsumption(user.id).subscribe({
           next: (res) => {
+            iconUrl = this.decideOnMarker(res);
+                const prosumerIcon = L.icon({
+                  iconUrl: iconUrl,
+                  iconSize: [25, 41],
+                  iconAnchor: [12, 41],
+                  popupAnchor: [1, -34],
+                  tooltipAnchor: [16, -28],
+                });
+                let marker = L.marker(
+                  [Number(lat.toString()), Number(lon.toString())],
+                  { icon: prosumerIcon }
+                ).addTo(map);
             marker.bindPopup(
               '<h5><b>' +
                 user.username +
@@ -254,8 +260,20 @@ export class MapComponent implements AfterViewInit, OnInit {
                 user.id +
                 "'>View More</a>"
             );
+            this.markers.push(marker);
           },
           error: (err) => {
+            const prosumerIcon = L.icon({
+              iconUrl: iconUrl,
+              iconSize: [25, 41],
+              iconAnchor: [12, 41],
+              popupAnchor: [1, -34],
+              tooltipAnchor: [16, -28],
+            });
+            let marker = L.marker(
+              [Number(lat.toString()), Number(lon.toString())],
+              { icon: prosumerIcon }
+            ).addTo(map);
             marker.bindPopup(
               '<h5><b>' +
                 user.username +
@@ -266,11 +284,10 @@ export class MapComponent implements AfterViewInit, OnInit {
                 user.id +
                 "'>View More</a>"
             ); //"/user/{{item.id}}"
-
+            this.markers.push(marker);
             console.log(err.error);
           },
         });
-        this.markers.push(marker);
       }
     }
   }
@@ -282,6 +299,7 @@ export class MapComponent implements AfterViewInit, OnInit {
   }
 
   filterwithoutNeighborhood(map:any) {
+    this.deleteAllMarkers(map);
     this.mapService
       .prosumerFilter(
         this.minValueC,
@@ -293,11 +311,11 @@ export class MapComponent implements AfterViewInit, OnInit {
       )
       .subscribe((response) => {
         this.users = response;
+        this.populateTheMap2(map);
       });
-    this.deleteAllMarkers(map);
-    this.populateTheMap2(map);
   }
   filterwithNeighborhood(map : any) {
+    this.deleteAllMarkers(map);
     this.mapService
       .prosumerFilter2(
         this.dropDownNeigh,
@@ -310,9 +328,8 @@ export class MapComponent implements AfterViewInit, OnInit {
       )
       .subscribe((response) => {
         this.users = response;
+        this.populateTheMap2(map);
       });
-    this.deleteAllMarkers(map);
-    this.populateTheMap2(map);
   }
 
   filter() {
@@ -324,18 +341,51 @@ export class MapComponent implements AfterViewInit, OnInit {
   }
 
   reset() {
+    this.deleteAllMarkers(this.map);
+    this.mapService.getAllNeighborhoods().subscribe((response) => {
+      this.users = response;
+      //console.log(response);
+      this.populateTheMap(this.map);
+    });
     this.minValueC = 0;
     this.maxValueC = 300;
     this.minValueP = 0;
     this.maxValueP = 300;
     this.minValue = 0;
     this.maxValue = 50;
-    this.mapService.getAllNeighborhoods().subscribe((response) => {
-      this.users = response;
-      console.log(response);
-    });
-    this.deleteAllMarkers(this.map);
+    this.dropDownNeigh = 'b';
+  }
 
-    this.populateTheMap(this.map);
+  private decideOnMarker(res : any) : string
+  {
+    let conumption = Number(res.consumption);
+    let production = Number(res.production);
+    let razlika = conumption - production;
+    let iconUrl = 'assets/images/marker-icon-2x-blueviolet.png';
+    if(razlika>0)
+    {
+      iconUrl='assets/images/marker-icon-2x-orange.png';
+      if(conumption<=0.4)
+      {
+        iconUrl='assets/images/marker-icon-2x-yellow.png';
+      }
+      else if(conumption>0.8)
+      {
+        iconUrl='assets/images/marker-icon-2x-red.png';
+      }
+    }
+    else if(razlika<0)
+    {
+      iconUrl='assets/images/marker-icon-2x-lime.png';
+      if(production<0.17)
+      {
+        iconUrl='assets/images/marker-icon-2x-turquoise.png';
+      }
+      else if(production>0.21)
+      {
+        iconUrl='assets/images/marker-icon-2x-lightgreen.png';
+      }
+    }
+    return iconUrl;
   }
 }

@@ -103,10 +103,10 @@
         </div>
         <div class="flex-grow-1 col-md-3 h-100 px-0 py-0 mx-0 my-0">
           <div class="row d-flex justify-content-center align-items-center h-100 px-0 py-0 mx-0 my-0">
-            <div class="card mx-0 my-0"  style="width: 85%; height: 45%; border-radius: 5%; background-color: rgb(236, 236, 238);">
+            <div class="card mx-0 my-0"  style="width: 85%; height: 38%; border-radius: 5%; background-color: rgb(236, 236, 238);">
               <div class="card-body">
-                <h5 class="card-title">Consumers</h5>
-                <p class="card-subtitle mb-3" style="font-size: 12px;">current consumption greater than production</p>
+                <!-- <h5 class="card-title">Consumers</h5> -->
+                <p class="card-subtitle mb-3" style="font-size: 12px;">current consumption greater than current production</p>
                 <p class="mb-1" style="font-size: 13px;"><b>Consuming:</b></p>
                 <p class="card-text" style="font-size: 15px;"><img src="assets/images/marker-icon-2x-yellow.png" class="icon"><b> between 0 - 0.4 kW</b></p>
                 <p class="card-text" style="font-size: 15px;"><img src="assets/images/marker-icon-2x-orange.png" class="icon"><b> between 0.4 - 0.8 kW</b></p>
@@ -114,15 +114,21 @@
                 <p class="position-absolute bottom-0 start-3" style="font-size: 12px;"><i>Measured at {{currentHour}}h</i></p>
               </div>
             </div>
-            <div class="card mx-0 my-0" style="width: 85%; height: 45%; border-radius: 5%; background-color: rgb(236, 236, 238);">
+            <div class="card mx-0 my-0" style="width: 85%; height: 38%; border-radius: 5%; background-color: rgb(236, 236, 238);">
               <div class="card-body">
-                <h5 class="card-title">Producers</h5>
-                <p class="card-subtitle mb-3" style="font-size: 12px;">current production greater than consumption</p>
+                <!-- <h5 class="card-title">Producers</h5> -->
+                <p class="card-subtitle mb-3" style="font-size: 12px;">current production greater than current consumption</p>
                 <p class="mb-1" style="font-size: 13px;"><b>Producing:</b></p>
                 <p class="card-text" style="font-size: 15px;"><img src="assets/images/marker-icon-2x-turquoise.png" class="icon"><b> between 0 - 0.17 kW</b></p>
-                <p class="card-text" style="font-size: 15px;"><img src="assets/images/marker-icon-2x-lightgreen.png" class="icon"><b> between 0.17 - 0.21 kW</b></p>
-                <p class="card-text" style="font-size: 15px;"><img src="assets/images/marker-icon-2x-green.png" class="icon"><b> more than 0.21 kW</b></p>
+                <p class="card-text" style="font-size: 15px;"><img src="assets/images/marker-icon-2x-lime.png" class="icon"><b> between 0.17 - 0.21 kW</b></p>
+                <p class="card-text" style="font-size: 15px;"><img src="assets/images/marker-icon-2x-lightgreen.png" class="icon"><b> more than 0.21 kW</b></p>
                 <p class="position-absolute bottom-0 start-3" style="font-size: 12px;"><i>Measured at {{currentHour}}h</i></p>
+              </div>
+            </div>
+            <div class="card mx-0 my-0" style="width: 85%; height: 10%; border-radius: 5%; background-color: rgb(236, 236, 238);">
+              <div class="card-body">
+                <p class="card-subtitle" style="font-size: 12px;"><img src="assets/images/marker-icon-2x-blueviolet.png" class="icon"> current production equals to current consumption</p>
+                <!-- <p class="card-text" style="font-size: 15px;"><img src="assets/images/marker-icon-2x-lightblue.png" class="icon"><b> equal production and consumption</b></p> -->
               </div>
             </div>
           </div>
