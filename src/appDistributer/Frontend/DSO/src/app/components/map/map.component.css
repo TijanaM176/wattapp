@@ -1,25 +1,3 @@
-/* .map-container {
-  position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-  margin: 0;
-  padding: 0;
-  position: absolute;
-  width: 90%;
-  height: 80vh;
-  display: flex;
-  background-color: white;
-  margin-top: 5%;
-  margin-left: 5%;
-} */
-/* .map-frame {
-  position: relative;
-  border: 10px solid #5875a1;
-  width: 100%;
-  height: 100%;
-} */
 .map-container{
   height: 95%;
   width: 100%;
@@ -28,10 +6,6 @@
   height: 100%;
   padding: 0;
 }
-/* .miniNavHolder {
-  position: relative;
-  float: left;
-} */
 .button1 {
   width: 20%;
   margin-right: 25%;
@@ -48,4 +22,18 @@
 }
 .icon{
   width: 5%;
+}
+.btn-primary{
+  background-color: #e8f3f8;
+  color: #5875A1;
+  width: 80%;
+  border-color: #e8f3f8;
+  display: flex;
+  justify-content: center;
+}
+#side{
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

@@ -7,128 +7,119 @@
   crossorigin=""></script>
 </head>
 
-<div class="d-flex flex-column g-0 h-100 px-0 py-0 mx-0 my-0">
-  <div class="d-flex flex-grow-1 h-100 px-0 py-0 mx-0 my-0">
-    <div class="flex-grow-1 col-md-2 px-0 py-0 mx-0 my-0" style="background-color: #5875A1;">
-      <CDBSidebar class="d-flex flex-column h-100 w-100 g-0 mx-0 my-0 px-0" textColor="#ffffff" backgroundColor="#5875A1">
-        <CDBSidebarHeader class="py-3" style="font-weight: 600">
-          <i class="fa fa-lg fa-filter" style="font-size: 1.5"></i>
-          Filters
-        </CDBSidebarHeader>
-        <CDBSidebarContent class="d-flex flex-column text-center flex-grow-1">
-          <p class="mb-0"><strong>Neighborhood</strong></p>
-          <div class="col-sm-12 mb-3">
-            <select
-              class="dropdown dropdown-toggle"
-              style="width: 85%; margin: 0 auto"
-              name="Neighborhood"
-              (change)="ChangeNeighborhood($event)"
-              class="form-control"
-              [(ngModel)]="neighborhood">
-              <option value="b">All</option>
-              <option
-                *ngFor="let neighborhood of Neighborhoods"
-                [value]="neighborhood.id"
-              >
-                {{ neighborhood.neigbName }}
-              </option>
-            </select>
+<div class="container-fluid mx-0 my-0 px-0 py-0 h-100" id="sadrzaj">
+  <div class="d-flex flex-column g-0 h-100 px-0 py-0 mx-0 my-0">
+    <div class="d-flex flex-grow-1 h-100 px-0 py-0 mx-0 my-0">
+      <div class="flex-grow-1 col-md-2 h-100 px-0 py-0 mx-0 my-0">
+        <div class="row filters d-flex justify-content-center align-items-center h-100 w-100 px-0 py-0 mx-0 my-0" style="background-color: #5875A1;" id="side">
+          <div class="header text-white ps-4 mx-0 my-0" style="height: 5%;">
+            <i class="fa fa-lg fa-filter" style="font-size: 1.5rem"></i><span style="font-size: 1.3rem;">&nbsp;<b>Filters</b></span>
           </div>
-          <strong class="mb-0">Power Consumption</strong>
-          <div class="col-sm-12 mb-4">
-            <div class="custom-slider" style="width: 80%; margin: 0 auto">
-              <ngx-slider
-                [(value)]="minValueC"
-                [(highValue)]="maxValueC"
-                [options]="optionsC"
-              ></ngx-slider>
-            </div>
-            min<input class="button1" type="text" [(ngModel)]="minValueC" />
-            <input class="button2" type="text" [(ngModel)]="maxValueC" />max
-          </div>
+          <div class="body text-white text-center" style="height: 78%; display: flex; flex-direction: column; justify-content: center;">
 
-          <strong class="mb-0">Power Production</strong>
-          <div class="col-sm-12 mb-4">
-            <div class="custom-slider" style="width: 80%; margin: 0 auto">
-              <ngx-slider
-                [(value)]="minValueP"
-                [(highValue)]="maxValueP"
-                [options]="optionsP"
-              ></ngx-slider>
+            <!-- neighborhoods -->
+            <div class="w-100" style="margin-bottom: 4%;">
+              <p class="mb-0"><strong>Neighborhood</strong></p>
+              <select
+                class="dropdown dropdown-toggle"
+                style="width: 85%; margin: 0 auto"
+                name="Neighborhood"
+                (change)="ChangeNeighborhood($event)"
+                class="form-control"
+                [(ngModel)]="neighborhood">
+                <option value="b">All</option>
+                <option
+                  *ngFor="let neighborhood of Neighborhoods"
+                  [value]="neighborhood.id">
+                  {{ neighborhood.neigbName }}
+                </option>
+              </select>
             </div>
-            min<input class="button1" type="text" [(ngModel)]="minValueP" />
-            <input class="button2" type="text" [(ngModel)]="maxValueP" />max
-          </div>
 
-          <strong class="mb-0">Number of Devices</strong>
-          <div class="col-sm-12 mb-4">
-            <div class="custom-slider" style="width: 80%; margin: 0 auto">
-              <ngx-slider
-                [(value)]="minValue"
-                [(highValue)]="maxValue"
-                [options]="options"
-              ></ngx-slider>
+            <!-- power consumption -->
+            <div class="w-100" style="margin-bottom: 4%;">
+              <strong class="mb-0">Power Consumption</strong>
+              <div class="custom-slider" style="width: 80%; margin: 0 auto">
+                <ngx-slider
+                  [(value)]="minValueC"
+                  [(highValue)]="maxValueC"
+                  [options]="optionsC"></ngx-slider>
+              </div>
+              min<input class="button1" type="text" [(ngModel)]="minValueC" />
+              <input class="button2" type="text" [(ngModel)]="maxValueC" />max
             </div>
-            min<input class="button1" type="text" [(ngModel)]="minValue" />
-            <input class="button2" type="text" [(ngModel)]="maxValue" />max
-          </div>
 
-          <div class="col-sm-12 w-100 mb-2 buttons position-absolute bottom-0 start-0">
-            <CDBBtn
-              style="width: 80%; background-color: #e8f3f8; color: #5875A1"
-              (click)="filter()"
-              ><b>Apply Filters</b></CDBBtn
-            >
-            <CDBBtn
-              style="
-                width: 80%;
-                margin-top: 3%;
-                background-color: #e8f3f8;
-                color: #5875A1;
-              "
-              (click)="reset()"
-              ><b>Reset Filters</b></CDBBtn
-            >
+            <!-- power production -->
+            <div class="w-100" style="margin-bottom: 4%;">
+              <strong class="mb-0">Power Production</strong>
+              <div class="custom-slider" style="width: 80%; margin: 0 auto">
+                <ngx-slider
+                  [(value)]="minValueP"
+                  [(highValue)]="maxValueP"
+                  [options]="optionsP"
+                ></ngx-slider>
+              </div>
+              min<input class="button1" type="text" [(ngModel)]="minValueP" />
+              <input class="button2" type="text" [(ngModel)]="maxValueP" />max
+            </div>
+
+            <!-- number of devices -->
+            <div class="w-100" style="margin-bottom: 4%;">
+              <strong class="mb-0">Number of Devices</strong>
+              <div class="custom-slider" style="width: 80%; margin: 0 auto">
+                <ngx-slider
+                  [(value)]="minValue"
+                  [(highValue)]="maxValue"
+                  [options]="options"></ngx-slider>
+              </div>
+              min<input class="button1" type="text" [(ngModel)]="minValue" />
+              <input class="button2" type="text" [(ngModel)]="maxValue" />max
+            </div>
+
           </div>
-        </CDBSidebarContent>
-      </CDBSidebar>
-    </div>
-    <div class="flex-grow-1 col-md-10 px-0 py-0 mx-0 my-0">
-      <app-mininavbar style="z-index: 9999"></app-mininavbar>
-      <div class="d-flex flex-grow-1 g-0 px-0 py-0 mx-0 my-0 mapLegend">
-        <div class="flex-grow-1 col-md-9 h-100 px-0 ps-4 py-0 mx-0 my-0 d-flex justify-content-center align-items-center">
-          <div class="map-container" style="border: 2px solid #5875A1;">
-            <div id="map"></div>
-          </div>
+          <div class="footer" style="text-align: center; display: flex; flex-direction: column; justify-content: center; align-items: center; height: 15%;">
+            <button class="btn btn-primary" style="margin-bottom: 3%;" (click)="filter()"><b>Apply Filters</b></button>
+            <button class="btn btn-primary" (click)="reset()"><b>Reset Filters</b></button>
+          </div>                       
         </div>
-        <div class="flex-grow-1 col-md-3 h-100 px-0 py-0 mx-0 my-0">
-          <div class="row d-flex justify-content-center align-items-center h-100 px-0 py-0 mx-0 my-0">
-            <div class="card mx-0 my-0"  style="width: 85%; height: 38%; border-radius: 5%; background-color: rgb(236, 236, 238);">
-              <div class="card-body">
-                <!-- <h5 class="card-title">Consumers</h5> -->
-                <p class="card-subtitle mb-3" style="font-size: 12px;">current consumption greater than current production</p>
-                <p class="mb-1" style="font-size: 13px;"><b>Consuming:</b></p>
-                <p class="card-text" style="font-size: 15px;"><img src="assets/images/marker-icon-2x-yellow.png" class="icon"><b> between 0 - 0.4 kW</b></p>
-                <p class="card-text" style="font-size: 15px;"><img src="assets/images/marker-icon-2x-orange.png" class="icon"><b> between 0.4 - 0.8 kW</b></p>
-                <p class="card-text" style="font-size: 15px;"><img src="assets/images/marker-icon-2x-red.png" class="icon"><b> more than 0.8 kW</b></p>
-                <p class="position-absolute bottom-0 start-3" style="font-size: 12px;"><i>Measured at {{currentHour}}h</i></p>
-              </div>
+      </div>
+      <div class="flex-grow-1 col-md-10 px-0 py-0 mx-0 my-0" id="mapCont">
+        <app-mininavbar style="z-index: 9999"></app-mininavbar>
+        <div class="d-flex flex-grow-1 g-0 px-0 py-0 mx-0 my-0 mapLegend">
+          <div class="flex-grow-1 col-md-9 h-100 px-0 ps-4 py-0 mx-0 my-0 d-flex justify-content-center align-items-center">
+            <div class="map-container" style="border: 2px solid #5875A1;">
+              <div id="map"></div>
             </div>
-            <div class="card mx-0 my-0" style="width: 85%; height: 38%; border-radius: 5%; background-color: rgb(236, 236, 238);">
-              <div class="card-body">
-                <!-- <h5 class="card-title">Producers</h5> -->
-                <p class="card-subtitle mb-3" style="font-size: 12px;">current production greater than current consumption</p>
-                <p class="mb-1" style="font-size: 13px;"><b>Producing:</b></p>
-                <p class="card-text" style="font-size: 15px;"><img src="assets/images/marker-icon-2x-turquoise.png" class="icon"><b> between 0 - 0.17 kW</b></p>
-                <p class="card-text" style="font-size: 15px;"><img src="assets/images/marker-icon-2x-lime.png" class="icon"><b> between 0.17 - 0.21 kW</b></p>
-                <p class="card-text" style="font-size: 15px;"><img src="assets/images/marker-icon-2x-lightgreen.png" class="icon"><b> more than 0.21 kW</b></p>
-                <p class="position-absolute bottom-0 start-3" style="font-size: 12px;"><i>Measured at {{currentHour}}h</i></p>
+          </div>
+          <div class="flex-grow-1 col-md-3 h-100 px-0 py-0 mx-0 my-0">
+            <div class="row d-flex justify-content-center align-items-center h-100 px-0 py-0 mx-0 my-0">
+              <div class="card mx-0 my-0"  style="width: 85%; height: 38%; border-radius: 5%; background-color: rgb(236, 236, 238);">
+                <div class="card-body">
+                  <!-- <h5 class="card-title">Consumers</h5> -->
+                  <p class="card-subtitle mb-3" style="font-size: 12px;">current consumption greater than current production</p>
+                  <p class="mb-1" style="font-size: 13px;"><b>Consuming:</b></p>
+                  <p class="card-text" style="font-size: 15px;"><img src="assets/images/marker-icon-2x-yellow.png" class="icon"><b> between 0 - 0.4 kW</b></p>
+                  <p class="card-text" style="font-size: 15px;"><img src="assets/images/marker-icon-2x-orange.png" class="icon"><b> between 0.4 - 0.8 kW</b></p>
+                  <p class="card-text" style="font-size: 15px;"><img src="assets/images/marker-icon-2x-red.png" class="icon"><b> more than 0.8 kW</b></p>
+                  <p class="position-absolute bottom-0 start-3" style="font-size: 12px;"><i>Measured at {{currentHour}}h</i></p>
+                </div>
               </div>
-            </div>
-            <div class="card mx-0 my-0" style="width: 85%; height: 10%; border-radius: 5%; background-color: rgb(236, 236, 238);">
-              <div class="card-body">
-                <p class="card-subtitle" style="font-size: 12px;"><img src="assets/images/marker-icon-2x-blueviolet.png" class="icon"> current production equals to current consumption</p>
-                <!-- <p class="card-text" style="font-size: 15px;"><img src="assets/images/marker-icon-2x-lightblue.png" class="icon"><b> equal production and consumption</b></p> -->
+              <div class="card mx-0 my-0" style="width: 85%; height: 38%; border-radius: 5%; background-color: rgb(236, 236, 238);">
+                <div class="card-body">
+                  <!-- <h5 class="card-title">Producers</h5> -->
+                  <p class="card-subtitle mb-3" style="font-size: 12px;">current production greater than current consumption</p>
+                  <p class="mb-1" style="font-size: 13px;"><b>Producing:</b></p>
+                  <p class="card-text" style="font-size: 15px;"><img src="assets/images/marker-icon-2x-turquoise.png" class="icon"><b> between 0 - 0.17 kW</b></p>
+                  <p class="card-text" style="font-size: 15px;"><img src="assets/images/marker-icon-2x-lime.png" class="icon"><b> between 0.17 - 0.21 kW</b></p>
+                  <p class="card-text" style="font-size: 15px;"><img src="assets/images/marker-icon-2x-lightgreen.png" class="icon"><b> more than 0.21 kW</b></p>
+                  <p class="position-absolute bottom-0 start-3" style="font-size: 12px;"><i>Measured at {{currentHour}}h</i></p>
+                </div>
+              </div>
+              <div class="card mx-0 my-0" style="width: 85%; height: 10%; border-radius: 5%; background-color: rgb(236, 236, 238);">
+                <div class="card-body">
+                  <p class="card-subtitle" style="font-size: 12px;"><img src="assets/images/marker-icon-2x-blueviolet.png" class="icon"> current production equals to current consumption</p>
+                  <!-- <p class="card-text" style="font-size: 15px;"><img src="assets/images/marker-icon-2x-lightblue.png" class="icon"><b> equal production and consumption</b></p> -->
+                </div>
               </div>
             </div>
           </div>

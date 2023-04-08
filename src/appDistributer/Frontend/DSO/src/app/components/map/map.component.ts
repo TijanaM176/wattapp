@@ -5,6 +5,8 @@ import { CookieService } from 'ngx-cookie-service';
 import { UsersServiceService } from 'src/app/services/users-service.service';
 import { Neighborhood } from 'src/app/models/neighborhood';
 import { Options, LabelType } from '@angular-slider/ngx-slider';
+import { ScreenWidthService } from 'src/app/services/screen-width.service';
+import { fromEvent, Observable, Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-map',
@@ -14,6 +16,8 @@ import { Options, LabelType } from '@angular-slider/ngx-slider';
 export class MapComponent implements AfterViewInit, OnInit {
 
   map : any;
+  resizeObservable$!: Observable<Event>
+  resizeSubscription$!: Subscription;
 
   minValueP: number = 0;
   maxValueP: number = 300;
@@ -75,6 +79,7 @@ export class MapComponent implements AfterViewInit, OnInit {
 
   constructor(
     private mapService: UsersServiceService,
+    private widthService : ScreenWidthService,
     private toast: NgToastService,
     private cookie: CookieService
   ) {}
@@ -84,6 +89,16 @@ export class MapComponent implements AfterViewInit, OnInit {
   }
 
   ngOnInit(): void {
+
+    let h = (window.innerHeight-100);
+    
+    const sad = document.getElementById('sadrzaj');
+    sad!.style.height = h + 'px';
+    const mapCont = document.getElementById('mapCont');
+    mapCont!.style.height = h+'px';
+    const side = document.getElementById('side');
+    side!.style.height = '100%'; 
+
     this.mapService.getAllNeighborhoods().subscribe((response) => {
       this.Neighborhoods = response;
     });
@@ -91,6 +106,10 @@ export class MapComponent implements AfterViewInit, OnInit {
     this.mapService.refreshList();
     this.markers = [];
     this.currentHour = new Date().getHours();
+
+    this.resizeObservable$ = fromEvent(window, 'resize');
+    this.resizeSubscription$ = this.resizeObservable$.subscribe( evt => {
+    })
   }
 
   ngAfterViewInit(): void {
@@ -311,6 +330,7 @@ export class MapComponent implements AfterViewInit, OnInit {
       )
       .subscribe((response) => {
         this.users = response;
+        //console.log(response);
         this.populateTheMap2(map);
       });
   }
