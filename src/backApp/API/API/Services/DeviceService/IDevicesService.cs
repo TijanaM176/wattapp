@@ -37,5 +37,7 @@ namespace API.Services.Devices
         public Task<List<DeviceCategory>> GetCategories();
         public Task<List<DeviceType>> GetTypesByCategory(long categoryId);
         public Task<List<DeviceInfo>> GetModels(long typeId);
+        public Task<List<Dictionary<string, object>>> Top5Consumers();
+        public Task<List<Dictionary<string, object>>> Top5Producers();
     }
 }
