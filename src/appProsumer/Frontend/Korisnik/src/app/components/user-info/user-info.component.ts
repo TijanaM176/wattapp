@@ -17,6 +17,8 @@ export class UserInfoComponent implements OnInit {
   firstLastName : string = '';
   email : string = '';
   address : string = '';
+  city:string='';
+  neighborhood:string='';
 
   modalTitle : string ='';
   userData : any;
@@ -38,11 +40,13 @@ export class UserInfoComponent implements OnInit {
     .subscribe(
       {
         next:(res)=>{
+          //console.log(res);
           this.username = res.username;
           this.firstLastName = res.firstName+' '+res.lastName;
           this.email = res.email;
           this.address = res.address;
-
+          this.city=res.city;
+          this.neighborhood=res.neigborhood;
           this.userData = res;
         },
         error:(err)=>{
