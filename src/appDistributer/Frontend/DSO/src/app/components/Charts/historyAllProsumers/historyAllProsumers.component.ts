@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { strings } from '@material/slider';
 import { UsersServiceService } from 'src/app/services/users-service.service';
-import { ScaleType, Color } from '@swimlane/ngx-charts';
+import { ScaleType, Color, LegendComponent } from '@swimlane/ngx-charts';
 import { BrowserModule } from '@angular/platform-browser';
 @Component({
   selector: 'app-historyAllProsumers',
@@ -38,87 +38,17 @@ export class HistoryAllProsumersComponent implements OnInit {
   showYAxis = true;
   gradient = false;
   showLegend = true;
-  showXAxisLabel = true;
-  xAxisLabel = 'Time';
-  showYAxisLabel = true;
-  yAxisLabel = 'Energy in kWh';
 
   constructor(
     private service: UsersServiceService,
     private router: ActivatedRoute
   ) {}
+  yAxisTickFormatting(value: number) {
+    return value + ' kW';
+  }
 
   ngOnInit() {
     this.HistoryWeek();
-  }
-
-  HistoryWeek() {
-    this.service.HistoryAllProsumers7Days().subscribe((response) => {
-      this.data = response;
-      this.dataConsumers = Object.entries(this.data.consumption).map(
-        ([name, value]) => ({ name, value })
-      );
-      this.dataProducers = Object.entries(this.data.production).map(
-        ([name, value]) => ({ name, value })
-      );
-      const myList = Object.keys(this.data.consumption).map((name) => {
-        let consumptionValue = this.data.consumption[name];
-        let productionValue = this.data.production[name];
-        const cons: string = 'consumption';
-        const prod: string = 'producton';
-        if (productionValue == undefined) {
-          productionValue = 0.0;
-        }
-        if (consumptionValue == undefined) {
-          consumptionValue = 0.0;
-        }
-        const series = [
-          { name: cons, value: consumptionValue },
-          { name: prod, value: productionValue },
-        ];
-        return { name, series };
-      });
-      this.data = myList.map((item) => {
-        const date = new Date(item.name);
-        const dayName = date.toLocaleDateString('en-US', { weekday: 'long' });
-        return { name: dayName, series: item.series };
-      });
-    });
-  }
-
-  HistoryMonth() {
-    this.service.HistoryAllProsumers1Month().subscribe((response) => {
-      console.log(response);
-      this.data = response;
-      this.dataConsumers = Object.entries(this.data.consumption).map(
-        ([name, value]) => ({ name, value })
-      );
-      this.dataProducers = Object.entries(this.data.production).map(
-        ([name, value]) => ({ name, value })
-      );
-      const myList = Object.keys(this.data.consumption).map((name) => {
-        let consumptionValue = this.data.consumption[name];
-        let productionValue = this.data.production[name];
-        const cons: string = 'consumption';
-        const prod: string = 'producton';
-        if (productionValue == undefined) {
-          productionValue = 0.0;
-        }
-        if (consumptionValue == undefined) {
-          consumptionValue = 0.0;
-        }
-        const series = [
-          { name: cons, value: consumptionValue },
-          { name: prod, value: productionValue },
-        ];
-        return { name, series };
-      });
-      this.data = myList.map((item) => {
-        const date = new Date(item.name);
-        const weekNumber = this.getWeek(date);
-        return { name: `Week ${weekNumber}`, series: item.series };
-      });
-    });
   }
 
   getWeek(date: Date): number {
@@ -131,38 +61,67 @@ export class HistoryAllProsumersComponent implements OnInit {
         7
     );
   }
+  HistoryWeek() {
+    this.loadData(
+      this.service.HistoryAllProsumers7Days.bind(this.service),
+      (myList: any[]) => {
+        return myList.map((item) => {
+          const date = new Date(item.name);
+          const dayName = date.toLocaleDateString('en-US', { weekday: 'long' });
+          return { name: dayName, series: item.series };
+        });
+      }
+    );
+  }
+
+  HistoryMonth() {
+    this.loadData(
+      this.service.HistoryAllProsumers1Month.bind(this.service),
+      (myList: any[]) => {
+        return myList.map((item) => {
+          const date = new Date(item.name);
+          const weekNumber = this.getWeek(date);
+          return { name: `Week ${weekNumber}`, series: item.series };
+        });
+      }
+    );
+  }
 
   HistoryYear() {
-    this.service.HistoryAllProsumers1Year().subscribe((response) => {
-      this.data = response;
-      this.dataConsumers = Object.entries(this.data.consumption).map(
-        ([name, value]) => ({ name, value })
-      );
-      this.dataProducers = Object.entries(this.data.production).map(
-        ([name, value]) => ({ name, value })
-      );
-      const myList = Object.keys(this.data.consumption).map((name) => {
-        let consumptionValue = this.data.consumption[name];
-        let productionValue = this.data.production[name];
-        const cons: string = 'consumption';
-        const prod: string = 'producton';
-        if (productionValue == undefined) {
-          productionValue = 0.0;
+    this.loadData(
+      this.service.HistoryAllProsumers1Year.bind(this.service),
+      (myList: any[]) => {
+        return myList.map((item) => {
+          const date = new Date(item.name);
+          const monthName = date.toLocaleDateString('en-US', { month: 'long' });
+          return { name: monthName, series: item.series };
+        });
+      }
+    );
+  }
+
+  loadData(apiCall: any, mapFunction: any) {
+    apiCall().subscribe((response: any) => {
+      const myList = Object.keys(response.consumption.timestamps).map(
+        (name) => {
+          let consumptionValue = response.consumption.timestamps[name];
+          let productionValue = response.production.timestamps[name];
+          const cons: string = 'consumption';
+          const prod: string = 'producton';
+          if (productionValue == undefined) {
+            productionValue = 0.0;
+          }
+          if (consumptionValue == undefined) {
+            consumptionValue = 0.0;
+          }
+          const series = [
+            { name: cons, value: consumptionValue },
+            { name: prod, value: productionValue },
+          ];
+          return { name, series };
         }
-        if (consumptionValue == undefined) {
-          consumptionValue = 0.0;
-        }
-        const series = [
-          { name: cons, value: consumptionValue },
-          { name: prod, value: productionValue },
-        ];
-        return { name, series };
-      });
-      this.data = myList.map((item) => {
-        const date = new Date(item.name);
-        const monthName = date.toLocaleDateString('en-US', { month: 'long' });
-        return { name: monthName, series: item.series };
-      });
+      );
+      this.data = mapFunction(myList);
     });
   }
 }

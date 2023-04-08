@@ -1,40 +1,13 @@
-<!-- <div style="width: 80%; margin: 0 auto; margin-top: 1%; height: 80%">
-  <div class="row" style="justify-content: center">
-    <h1 style="text-align: center; margin-bottom: 3%">
-      Consumption and Production History
-    </h1>
-  </div>
-
-  <div class="row" style="justify-content: space-between">
-    <div class="col-4" style="display: flex; justify-content: center">
-      <div class="form-check">
-        <input
-          class="form-check-input"
-          type="checkbox"
-          id="consumption"
-          [(ngModel)]="consumption"
-        />
-        <label
-          style="color: #ff414e; font-style: strong"
-          class="form-check-label"
-          for="consumption"
-        >
-          Consumption
-        </label>
-      </div>
-      <div class="form-check" style="margin-left: 10%">
-        <input
-          class="form-check-input"
-          type="checkbox"
-          id="production"
-          [(ngModel)]="production"
-        />
-        <label style="color: #80bc00" class="form-check-label" for="production">
-          Production
-        </label>
-      </div>
+<div>
+  <div class="card-header pb-0 pt-3 bg-transparent row">
+    <div class="col 7">
+      <h6 class="text-capitalize">Consumption and Production Chart</h6>
+      <p class="text-sm mb-0">
+        <i class="fa fa-arrow-up text-success"></i>
+        <span class="font-weight-bold">4% more</span> in 2021
+      </p>
     </div>
-    <div class="col-3" style="justify-content: center; display: flex">
+    <div class="col-5" style="display: flex; margin: auto">
       <button
         class="btn"
         (click)="HistoryWeek()"
@@ -64,209 +37,82 @@
       </button>
     </div>
   </div>
-  <ngx-charts-bar-vertical-2d
-    *ngIf="production && consumption && data.length !== 0"
-    [title]="'My Bar Chart Title'"
-    [scheme]="colors"
-    [results]="data"
-    [xAxis]="showXAxis"
-    [yAxis]="showYAxis"
-    [showXAxisLabel]="showXAxisLabel"
-    [showYAxisLabel]="showYAxisLabel"
-    [xAxisLabel]="xAxisLabel"
-    [yAxisLabel]="yAxisLabel"
-    [showDataLabel]="true"
-    [animations]="true"
-    [barPadding]="16"
-    [roundDomains]="true"
-    [showGridLines]="true"
-    [trimYAxisTicks]="true"
-    [tooltipDisabled]="true"
-    [noBarWhenZero]="true"
-  >
-  </ngx-charts-bar-vertical-2d>
-  <ngx-charts-bar-vertical
-    *ngIf="production && !consumption && dataProducers.length !== 0"
-    [title]="'My Bar Chart Title'"
-    [scheme]="colorsP"
-    [results]="dataProducers"
-    [xAxis]="showXAxis"
-    [yAxis]="showYAxis"
-    [showXAxisLabel]="showXAxisLabel"
-    [showYAxisLabel]="showYAxisLabel"
-    [xAxisLabel]="xAxisLabel"
-    [yAxisLabel]="yAxisLabel"
-    [showDataLabel]="true"
-    [animations]="true"
-    [barPadding]="16"
-    [roundDomains]="true"
-    [showGridLines]="true"
-    [trimYAxisTicks]="true"
-    [tooltipDisabled]="true"
-    [noBarWhenZero]="true"
-  >
-  </ngx-charts-bar-vertical>
-  <ngx-charts-bar-vertical
-    *ngIf="!production && consumption && dataConsumers.length !== 0"
-    [title]="'My Bar Chart Title'"
-    [scheme]="colorsC"
-    [results]="dataConsumers"
-    [xAxis]="showXAxis"
-    [yAxis]="showYAxis"
-    [showXAxisLabel]="showXAxisLabel"
-    [showYAxisLabel]="showYAxisLabel"
-    [xAxisLabel]="xAxisLabel"
-    [yAxisLabel]="yAxisLabel"
-    [showDataLabel]="true"
-    [animations]="true"
-    [barPadding]="16"
-    [roundDomains]="true"
-    [showGridLines]="true"
-    [trimYAxisTicks]="true"
-    [tooltipDisabled]="true"
-    [noBarWhenZero]="true"
-  >
-  </ngx-charts-bar-vertical>
-  <h1
-    *ngIf="!production && !consumption"
-    style="
-      text-align: center;
-      margin-top: 15%;
-      opacity: 20%;
-      font-style: italic;
-      font-weight: normal;
-    "
-  >
-    There is no available Data
-  </h1>
-</div> -->
-
-<div class="container-fluid py-4">
-  <div class="row">
-    <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
-      <div class="card">
-        <div class="card-body p-3">
-          <div class="row">
-            <div class="col-8">
-              <div class="numbers">
-                <p class="text-sm mb-0 text-uppercase font-weight-bold">
-                  Today's Money
-                </p>
-                <h5 class="font-weight-bolder">$53,000</h5>
-                <p class="mb-0">
-                  <span class="text-success text-sm font-weight-bolder"
-                    >+55%</span
-                  >
-                  since yesterday
-                </p>
-              </div>
-            </div>
-            <div class="col-4 text-end">
-              <div
-                class="icon icon-shape bg-gradient-primary shadow-primary text-center rounded-circle"
-              >
-                <i
-                  class="ni ni-money-coins text-lg opacity-10"
-                  aria-hidden="true"
-                ></i>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
-      <div class="card">
-        <div class="card-body p-3">
-          <div class="row">
-            <div class="col-8">
-              <div class="numbers">
-                <p class="text-sm mb-0 text-uppercase font-weight-bold">
-                  Today's Users
-                </p>
-                <h5 class="font-weight-bolder">2,300</h5>
-                <p class="mb-0">
-                  <span class="text-success text-sm font-weight-bolder"
-                    >+3%</span
-                  >
-                  since last week
-                </p>
-              </div>
-            </div>
-            <div class="col-4 text-end">
-              <div
-                class="icon icon-shape bg-gradient-danger shadow-danger text-center rounded-circle"
-              >
-                <i
-                  class="ni ni-world text-lg opacity-10"
-                  aria-hidden="true"
-                ></i>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
-      <div class="card">
-        <div class="card-body p-3">
-          <div class="row">
-            <div class="col-8">
-              <div class="numbers">
-                <p class="text-sm mb-0 text-uppercase font-weight-bold">
-                  New Clients
-                </p>
-                <h5 class="font-weight-bolder">+3,462</h5>
-                <p class="mb-0">
-                  <span class="text-danger text-sm font-weight-bolder"
-                    >-2%</span
-                  >
-                  since last quarter
-                </p>
-              </div>
-            </div>
-            <div class="col-4 text-end">
-              <div
-                class="icon icon-shape bg-gradient-success shadow-success text-center rounded-circle"
-              >
-                <i
-                  class="ni ni-paper-diploma text-lg opacity-10"
-                  aria-hidden="true"
-                ></i>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="col-xl-3 col-sm-6">
-      <div class="card">
-        <div class="card-body p-3">
-          <div class="row">
-            <div class="col-8">
-              <div class="numbers">
-                <p class="text-sm mb-0 text-uppercase font-weight-bold">
-                  Sales
-                </p>
-                <h5 class="font-weight-bolder">$103,430</h5>
-                <p class="mb-0">
-                  <span class="text-success text-sm font-weight-bolder"
-                    >+5%</span
-                  >
-                  than last month
-                </p>
-              </div>
-            </div>
-            <div class="col-4 text-end">
-              <div
-                class="icon icon-shape bg-gradient-warning shadow-warning text-center rounded-circle"
-              >
-                <i class="ni ni-cart text-lg opacity-10" aria-hidden="true"></i>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+  <div style="width: 99%; margin: 0 auto; margin-top: 1%; height: 100%">
+    <ngx-charts-bar-vertical-2d
+      *ngIf="production && consumption && data.length !== 0"
+      [title]="'My Bar Chart Title'"
+      [scheme]="colors"
+      [results]="data"
+      [xAxis]="showXAxis"
+      [yAxis]="showYAxis"
+      [showXAxisLabel]="false"
+      [showYAxisLabel]="false"
+      [showDataLabel]="true"
+      [animations]="true"
+      [barPadding]="16"
+      [roundDomains]="true"
+      [showGridLines]="true"
+      [trimYAxisTicks]="true"
+      [tooltipDisabled]="true"
+      [noBarWhenZero]="true"
+      [yAxisTickFormatting]="yAxisTickFormatting"
+      [showGridLines]="true"
+      [roundDomains]="true"
+    >
+    </ngx-charts-bar-vertical-2d>
+    <ngx-charts-bar-vertical
+      *ngIf="production && !consumption && dataProducers.length !== 0"
+      [title]="'My Bar Chart Title'"
+      [scheme]="colorsP"
+      [results]="dataProducers"
+      [xAxis]="showXAxis"
+      [yAxis]="showYAxis"
+      [showXAxisLabel]="false"
+      [showYAxisLabel]="false"
+      [showDataLabel]="true"
+      [animations]="true"
+      [barPadding]="16"
+      [roundDomains]="true"
+      [showGridLines]="true"
+      [trimYAxisTicks]="true"
+      [tooltipDisabled]="true"
+      [noBarWhenZero]="true"
+      [yAxisTickFormatting]="yAxisTickFormatting"
+    >
+      >
+    </ngx-charts-bar-vertical>
+    <ngx-charts-bar-vertical
+      *ngIf="!production && consumption && dataConsumers.length !== 0"
+      [title]="'My Bar Chart Title'"
+      [scheme]="colorsC"
+      [results]="dataConsumers"
+      [xAxis]="showXAxis"
+      [yAxis]="showYAxis"
+      [showXAxisLabel]="false"
+      [showYAxisLabel]="false"
+      [showDataLabel]="true"
+      [animations]="true"
+      [barPadding]="16"
+      [roundDomains]="true"
+      [showGridLines]="true"
+      [trimYAxisTicks]="true"
+      [tooltipDisabled]="true"
+      [noBarWhenZero]="true"
+      [yAxisTickFormatting]="yAxisTickFormatting"
+    >
+      >
+    </ngx-charts-bar-vertical>
+    <h1
+      *ngIf="!production && !consumption"
+      style="
+        text-align: center;
+        margin-top: 15%;
+        opacity: 20%;
+        font-style: italic;
+        font-weight: normal;
+      "
+    >
+      There is no available Data
+    </h1>
   </div>
 </div>
