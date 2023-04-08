@@ -55,7 +55,7 @@
                     data-bs-toggle="modal"
                     data-bs-target="#staticBackdrop"
                   >
-                    <i class="fa fa-edit fa-lg"></i>&nbsp;Edit
+                    <i class="fa fa-edit fa-lg" data-bs-toggle="modal" data-bs-target="#staticBackdrop" (click)="edit()"></i>&nbsp;Edit
                   </button>
                   &nbsp;&nbsp;
                   <button class="btn btn-primary" (click)="delete(idDev)">
