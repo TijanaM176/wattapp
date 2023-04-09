@@ -1,3 +1,77 @@
-<p>
-  realizationPredictionAllProsumers works!
-</p>
+<div>
+  <div class="card-header pb-0 pt-3 bg-transparent row">
+    <div class="col-5" style="padding: 1px">
+      <h6 class="text-capitalize">Realization and Prediction Chart</h6>
+      <!-- <p class="text-sm mb-0">
+        <i class="fa fa-arrow-up text-success"></i>
+        <span class="font-weight-bold">4% more</span> in 2021
+      </p> -->
+    </div>
+    <div
+      class="col-7"
+      style="display: flex; justify-content: right; margin: auto; padding: 1px"
+    >
+      <button
+        class="btn"
+        (click)="HistoryWeek()"
+        style="margin: 1px"
+        type="button"
+        class="btn btn-outline-primary"
+      >
+        7Days
+      </button>
+      <button
+        class="btn"
+        (click)="HistoryMonth()"
+        style="margin: 1px"
+        type="button"
+        class="btn btn-outline-primary"
+      >
+        1Month
+      </button>
+      <button
+        class="btn"
+        (click)="HistoryYear()"
+        type="button"
+        style="margin: 1px"
+        class="btn btn-outline-primary"
+      >
+        1Year
+      </button>
+    </div>
+  </div>
+  <div style="width: 99%; margin: 0 auto; margin-top: 1%; height: 100%">
+    <ngx-charts-line-chart
+      *ngIf="data"
+      [title]="'My Bar Chart Title'"
+      [scheme]="colors"
+      [results]="data"
+      [xAxis]="showXAxis"
+      [yAxis]="showYAxis"
+      [showXAxisLabel]="false"
+      [showYAxisLabel]="false"
+      [animations]="true"
+      [roundDomains]="true"
+      [showGridLines]="true"
+      [trimYAxisTicks]="true"
+      [tooltipDisabled]="true"
+      [yAxisTickFormatting]="yAxisTickFormatting"
+      [showGridLines]="true"
+      [curve]="curve"
+      [legend]="true"
+    >
+    </ngx-charts-line-chart>
+    <h1
+      *ngIf="!data"
+      style="
+        text-align: center;
+        margin-top: 15%;
+        opacity: 20%;
+        font-style: italic;
+        font-weight: normal;
+      "
+    >
+      There is no available Data
+    </h1>
+  </div>
+</div>

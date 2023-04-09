@@ -1,13 +1,16 @@
 <div>
   <div class="card-header pb-0 pt-3 bg-transparent row">
-    <div class="col 7">
+    <div class="col-md-5">
       <h6 class="text-capitalize">Consumption and Production Chart</h6>
-      <p class="text-sm mb-0">
+      <!-- <p class="text-sm mb-0">
         <i class="fa fa-arrow-up text-success"></i>
         <span class="font-weight-bold">4% more</span> in 2021
-      </p>
+      </p> -->
     </div>
-    <div class="col-5" style="display: flex; margin: auto">
+    <div
+      class="col-7"
+      style="display: flex; justify-content: right; margin: auto"
+    >
       <button
         class="btn"
         (click)="HistoryWeek()"
@@ -37,6 +40,7 @@
       </button>
     </div>
   </div>
+
   <div style="width: 99%; margin: 0 auto; margin-top: 1%; height: 100%">
     <ngx-charts-bar-vertical-2d
       *ngIf="production && consumption && data.length !== 0"
@@ -47,9 +51,9 @@
       [yAxis]="showYAxis"
       [showXAxisLabel]="false"
       [showYAxisLabel]="false"
-      [showDataLabel]="true"
+      [showDataLabel]="false"
       [animations]="true"
-      [barPadding]="16"
+      [barPadding]="3"
       [roundDomains]="true"
       [showGridLines]="true"
       [trimYAxisTicks]="true"
@@ -57,51 +61,8 @@
       [noBarWhenZero]="true"
       [yAxisTickFormatting]="yAxisTickFormatting"
       [showGridLines]="true"
-      [roundDomains]="true"
     >
     </ngx-charts-bar-vertical-2d>
-    <ngx-charts-bar-vertical
-      *ngIf="production && !consumption && dataProducers.length !== 0"
-      [title]="'My Bar Chart Title'"
-      [scheme]="colorsP"
-      [results]="dataProducers"
-      [xAxis]="showXAxis"
-      [yAxis]="showYAxis"
-      [showXAxisLabel]="false"
-      [showYAxisLabel]="false"
-      [showDataLabel]="true"
-      [animations]="true"
-      [barPadding]="16"
-      [roundDomains]="true"
-      [showGridLines]="true"
-      [trimYAxisTicks]="true"
-      [tooltipDisabled]="true"
-      [noBarWhenZero]="true"
-      [yAxisTickFormatting]="yAxisTickFormatting"
-    >
-      >
-    </ngx-charts-bar-vertical>
-    <ngx-charts-bar-vertical
-      *ngIf="!production && consumption && dataConsumers.length !== 0"
-      [title]="'My Bar Chart Title'"
-      [scheme]="colorsC"
-      [results]="dataConsumers"
-      [xAxis]="showXAxis"
-      [yAxis]="showYAxis"
-      [showXAxisLabel]="false"
-      [showYAxisLabel]="false"
-      [showDataLabel]="true"
-      [animations]="true"
-      [barPadding]="16"
-      [roundDomains]="true"
-      [showGridLines]="true"
-      [trimYAxisTicks]="true"
-      [tooltipDisabled]="true"
-      [noBarWhenZero]="true"
-      [yAxisTickFormatting]="yAxisTickFormatting"
-    >
-      >
-    </ngx-charts-bar-vertical>
     <h1
       *ngIf="!production && !consumption"
       style="
