@@ -541,5 +541,29 @@ namespace API.Services.Devices
         {
             return (await CurrentConsumptionAndProductionAllProsumers()).OrderByDescending(x => x["Production"]).Take(5).ToList();
         }
+
+        public async Task<Dictionary<string, int>> ConsumerProducerRatio()
+        {
+            int producers = 0;
+            int consumers = 0;
+            int prosumers = 0;
+            var all = await _repository.GetProsumers();
+
+            foreach (var user in all)
+            {
+                var consumerCount = (await _repository.GetDevicesByCategory(user.Id, "Consumer", "Prosumer")).Count();
+                var producerCount = (await _repository.GetDevicesByCategory(user.Id, "Producer", "Prosumer")).Count();
+
+                if (consumerCount > 0 && producerCount > 0) prosumers++;
+                else if (consumerCount > 0) consumers++;
+                else if (producers > 0) producers++;
+            }
+
+            return new Dictionary<string, int> {
+                { "consumers", consumers },
+                { "producers", producers },
+                { "prosumers", prosumers }
+            };
+        }
     }
 }
