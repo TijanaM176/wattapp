@@ -20,7 +20,7 @@ export class DeviceCardsComponent implements OnInit {
   producers: any[] = [];
   storages: any[] = [];
   devices: any[] = [];
-
+  role:string='';
   constructor(
     private service: ProsumerService,
     private cookie: CookieService
@@ -28,7 +28,8 @@ export class DeviceCardsComponent implements OnInit {
 
   ngOnInit() {
     this.id = this.cookie.get('id');
-    this.service.getDevicesByProsumerId(this.id).subscribe((response) => {
+    this.role=this.cookie.get('role');
+    this.service.getDevicesByProsumerId(this.id,this.role).subscribe((response) => {
       this.devices = [
         ...response.consumers,
         ...response.producers,

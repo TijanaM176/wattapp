@@ -9,9 +9,37 @@
             class="row g-0 h-100 justify-content-center align-items-start align-items-md-center px-0 py-0"
           >
             <div
-              class="col-md-6 justify-content-center align-items-center order-2 order-md-1 mx-0 my-0 px-0 py-0"
+              class="col-md-6 justify-content-center align-items-center order-1 order-md-1 mx-0 my-0 px-0 py-0"
             >
               <div class="card-body p-1 p-md-4">
+                <div style="display: flex; justify-content: center">
+                  <img
+                    src="assets/images/consumption3.png"
+                    style="justify-content: center;"
+                  />
+                </div>
+                <h5
+                  style="
+                    color: #08376b;
+                    font-weight: bold;
+                    justify-content: center;
+                    text-align: center;
+                  "
+                >
+                  Consumption
+                </h5>
+  
+                <h5
+                  style="
+                    color: #08376b;
+                    font-weight: bold;
+                    justify-content: center;
+                    text-align: center;
+                  "
+                >
+                  {{ currentUsage }}kWh
+                </h5>
+                <br />
                 <h6 class="section">Device Information</h6>
                 <hr class="mt-0 mb-4" />
                 <div class="row pt-1 mx-0 my-0">
@@ -65,42 +93,15 @@
               </div>
             </div>
             <div
-              class="col-md-6 gradient-custom d-flex flex-column justify-content-center align-items-center h-md-100 order-1 order-md-2"
+              class="col-md-6 gradient-custom d-flex flex-column align-items-center h-md-100 order-2 order-md-2"
             >
-              <div style="display: flex; justify-content: center">
-                <img
-                  src="assets/images/consumption3.png"
-                  style="justify-content: center; margin-top: 5%"
-                />
-              </div>
-              <h5
-                style="
-                  color: #08376b;
-                  font-weight: bold;
-                  justify-content: center;
-                  text-align: center;
-                "
-              >
-                Consumption
-              </h5>
-
-              <h5
-                style="
-                  color: #08376b;
-                  font-weight: bold;
-                  justify-content: center;
-                  text-align: center;
-                "
-              >
-                {{ currentUsage }}kWh
-              </h5>
-              <br />
+              
               <h5
                 style="
                   font-size: 18px;
                   color: #08376b;
                   font-weight: bold;
-                  justify-content: center;
+                  
                   text-align: center;
                 "
               >

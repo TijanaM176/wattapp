@@ -45,8 +45,14 @@ export class UserInfoComponent implements OnInit {
           this.firstLastName = res.firstName+' '+res.lastName;
           this.email = res.email;
           this.address = res.address;
-          this.city=res.city;
-          this.neighborhood=res.neigborhood;
+          console.log(res.cityId);
+          console.log(res.neigborhoodId);
+          //this.city=res.cityId;
+          //this.neighborhood=res.neigborhoodId;
+          this.prosumerService.cityId=res.cityId;
+          this.prosumerService.neighId=res.neigborhoodId;
+          this.City();
+          this.Neighborhood();
           this.userData = res;
         },
         error:(err)=>{
@@ -55,7 +61,32 @@ export class UserInfoComponent implements OnInit {
         }
       }
     )
+
   }
+  City(){
+    this.prosumerService.getCityById().subscribe({
+      next:(res)=>{
+        //console.log(res);
+        this.city=res;
+      },
+      error:(err)=>{
+        this.toast.error({detail:"Error!",summary:"Unable to load user data.", duration:3000});
+        console.log(err.error);
+      }
+    })
+  }
+Neighborhood(){
+  this.prosumerService.getNeighborhoodById().subscribe({
+    next:(res)=>{
+      //console.log(res);
+      this.neighborhood=res;
+    },
+    error:(err)=>{
+      this.toast.error({detail:"Error!",summary:"Unable to load user data.", duration:3000});
+      console.log(err.error);
+    }
+  })
+}
 
   edit()
   {

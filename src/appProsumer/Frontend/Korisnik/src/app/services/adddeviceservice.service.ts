@@ -16,6 +16,8 @@ export class AdddeviceserviceService {
   type!:number;
   model!:string;
   name!:string;
+  dsoView!:boolean;
+  dsoControl!:boolean;
   id!:string;
   getCategories():Observable<any>{
     return this.http.get<any>(this.baseUrl);
@@ -26,7 +28,7 @@ export class AdddeviceserviceService {
   getModels():Observable<any>{
     return this.http.get<any>(this.baseUrl2+'?typeId='+this.type);
   }
-  RegisterDevice():Observable<string>{
-    return this.http.get(this.baseUrl3+'?prosumerId='+this.id+'&modelId='+this.model+'&name='+this.name,{responseType:'text'});
+  RegisterDevice():Observable<any>{
+    return this.http.post(this.baseUrl3+'?prosumerId='+this.id+'&modelId='+this.model+'&name='+this.name+'&dsoView='+this.dsoView+'&dsoControl='+this.dsoControl,{responseType:'text'});
   }
 }
