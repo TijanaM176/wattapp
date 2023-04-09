@@ -97,7 +97,7 @@ export class MapComponent implements AfterViewInit, OnInit {
     const mapCont = document.getElementById('mapCont');
     mapCont!.style.height = h+'px';
     const side = document.getElementById('side');
-    side!.style.height = '100%'; 
+    side!.style.height = h + 'px'; 
 
     this.mapService.getAllNeighborhoods().subscribe((response) => {
       this.Neighborhoods = response;
@@ -109,6 +109,12 @@ export class MapComponent implements AfterViewInit, OnInit {
 
     this.resizeObservable$ = fromEvent(window, 'resize');
     this.resizeSubscription$ = this.resizeObservable$.subscribe( evt => {
+      const sad = document.getElementById('sadrzaj');
+      sad!.style.height = this.widthService.height + 'px';
+      const mapCont = document.getElementById('mapCont');
+      mapCont!.style.height = this.widthService.height + 'px';
+      const side = document.getElementById('side');
+      side!.style.height = this.widthService.height + 'px';
     })
   }
 
