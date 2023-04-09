@@ -547,12 +547,12 @@ namespace API.Services.Devices
             int producers = 0;
             int consumers = 0;
             int prosumers = 0;
-            var all = await _repository.GetProsumers();
+            var all = (await _repository.GetProsumers()).Select(x => x.Id);
 
             foreach (var user in all)
             {
-                var consumerCount = (await _repository.GetDevicesByCategory(user.Id, "Consumer", "Prosumer")).Count();
-                var producerCount = (await _repository.GetDevicesByCategory(user.Id, "Producer", "Prosumer")).Count();
+                var consumerCount = (await _repository.GetDevicesByCategory(user, "Consumer", "Prosumer")).Count();
+                var producerCount = (await _repository.GetDevicesByCategory(user, "Producer", "Prosumer")).Count();
 
                 if (consumerCount > 0 && producerCount > 0) prosumers++;
                 else if (consumerCount > 0) consumers++;
@@ -565,5 +565,6 @@ namespace API.Services.Devices
                 { "prosumers", prosumers }
             };
         }
+
     }
 }
