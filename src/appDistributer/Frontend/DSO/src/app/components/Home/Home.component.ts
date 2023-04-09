@@ -28,7 +28,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void {
     this.showModal = false;
-    this.getState();
+    //this.getState();
   }
 
   ngOnInit(): void {
@@ -57,7 +57,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
     });
   }
 
-  getState()
+  private getState()
   {
     if ('geolocation' in navigator) {
       if(!this.cookie.check('country'))

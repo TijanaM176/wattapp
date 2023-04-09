@@ -42,8 +42,8 @@ namespace API.Controllers
             {
                 return Ok(new
                 {
-                    consumption = (await devService.CurrentConsumptionForProsumer(id)).ToString(),
-                    production = (await devService.CurrentProductionForProsumer(id)).ToString()
+                    consumption = (Math.Round(await devService.CurrentConsumptionForProsumer(id),3)).ToString(),
+                    production = (Math.Round(await devService.CurrentProductionForProsumer(id),3)).ToString()
                 });
             }
             catch (Exception ex)

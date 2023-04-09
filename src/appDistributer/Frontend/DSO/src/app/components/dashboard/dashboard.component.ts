@@ -5,6 +5,8 @@ import { CookieService } from 'ngx-cookie-service';
 import { AuthServiceService } from 'src/app/services/auth-service.service';
 import { fromEvent, Observable, Subscription } from 'rxjs';
 import { ScreenWidthService } from 'src/app/services/screen-width.service';
+import { EmployeesServiceService } from 'src/app/services/employees-service.service';
+import * as L from 'leaflet';
 
 @Component({
   selector: 'app-dashboard',
@@ -18,13 +20,12 @@ export class DashboardComponent implements OnInit, AfterViewInit{
   resizeObservable$!: Observable<Event>
   resizeSubscription$!: Subscription;
   content : any;
+  region : string = '';
 
   constructor(
-    private router: Router,
-    private cookie: CookieService,
-    private auth: AuthServiceService,
-    private toast: NgToastService,
-    private widthService : ScreenWidthService
+    private widthService : ScreenWidthService,
+    private employeeService : EmployeesServiceService,
+    private cookie : CookieService
   ) {}
   ngAfterViewInit(): void {
     this.content.style.height = this.widthService.height+'px';
@@ -34,28 +35,36 @@ export class DashboardComponent implements OnInit, AfterViewInit{
     this.content = document.getElementById("content");
     if(window.innerWidth>320)
     {
-      let height = window.innerHeight - 101;
+      let height = window.innerHeight - 100;
       this.widthService.height = height;
     }
     else
     {
-      let height = window.innerHeight - 140.6;
+      let height = window.innerHeight - 139.6;
       this.widthService.height = height;
     }
     this.resizeObservable$ = fromEvent(window, 'resize');
     this.resizeSubscription$ = this.resizeObservable$.subscribe( evt => {
       if(window.innerWidth>320)
       {
-        let height = window.innerHeight - 101;
+        let height = window.innerHeight - 100;
         this.widthService.height = height;
         this.content.style.height = this.widthService.height+'px';
       }
       else
       {
-        let height = window.innerHeight - 140.6;
+        let height = window.innerHeight - 139.6;
         this.widthService.height = height;
         this.content.style.height = this.widthService.height+'px';
       }
     });
+    this.getRegion();
+  }
+
+  private getRegion()
+  {
+    this.cookie.set('region', 'Šumadija', {path:'/'});
+    this.cookie.set('lat','43.983334', {path:'/'});
+    this.cookie.set('long','20.883333', {path:'/'})
   }
 }

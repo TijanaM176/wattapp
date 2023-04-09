@@ -5,6 +5,8 @@ import { CookieService } from 'ngx-cookie-service';
 import { UsersServiceService } from 'src/app/services/users-service.service';
 import { Neighborhood } from 'src/app/models/neighborhood';
 import { Options, LabelType } from '@angular-slider/ngx-slider';
+import { ScreenWidthService } from 'src/app/services/screen-width.service';
+import { fromEvent, Observable, Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-map',
@@ -12,6 +14,11 @@ import { Options, LabelType } from '@angular-slider/ngx-slider';
   styleUrls: ['./map.component.css'],
 })
 export class MapComponent implements AfterViewInit, OnInit {
+
+  map : any;
+  resizeObservable$!: Observable<Event>
+  resizeSubscription$!: Subscription;
+
   minValueP: number = 0;
   maxValueP: number = 300;
   optionsP: Options = {
@@ -60,30 +67,55 @@ export class MapComponent implements AfterViewInit, OnInit {
       }
     },
   };
-  neighborhood: string = '';
+  neighborhood: string = 'b';
   Neighborhoods: Neighborhood[] = [];
-  dropDownNeigh: string = '';
-  map: any = null;
+  dropDownNeigh: string = 'b';
+
   users!: any[];
   markers!: any[];
   currentLocation: any;
   currentLocationIsSet = false;
+  currentHour : any;
+
   constructor(
     private mapService: UsersServiceService,
+    private widthService : ScreenWidthService,
     private toast: NgToastService,
     private cookie: CookieService
   ) {}
+
   ChangeNeighborhood(e: any) {
     this.dropDownNeigh = e.target.value;
   }
 
   ngOnInit(): void {
+
+    let h = (window.innerHeight-100);
+    
+    const sad = document.getElementById('sadrzaj');
+    sad!.style.height = h + 'px';
+    const mapCont = document.getElementById('mapCont');
+    mapCont!.style.height = h+'px';
+    const side = document.getElementById('side');
+    side!.style.height = h + 'px'; 
+
     this.mapService.getAllNeighborhoods().subscribe((response) => {
       this.Neighborhoods = response;
     });
     this.currentLocationIsSet = false;
     this.mapService.refreshList();
     this.markers = [];
+    this.currentHour = new Date().getHours();
+
+    this.resizeObservable$ = fromEvent(window, 'resize');
+    this.resizeSubscription$ = this.resizeObservable$.subscribe( evt => {
+      const sad = document.getElementById('sadrzaj');
+      sad!.style.height = this.widthService.height + 'px';
+      const mapCont = document.getElementById('mapCont');
+      mapCont!.style.height = this.widthService.height + 'px';
+      const side = document.getElementById('side');
+      side!.style.height = this.widthService.height + 'px';
+    })
   }
 
   ngAfterViewInit(): void {
@@ -91,98 +123,30 @@ export class MapComponent implements AfterViewInit, OnInit {
   }
 
   private initMap() {
-    this.map = L.map('map', { minZoom: 8 }).setView([44.012794, 20.911423], 15);
+    let map = L.map('map', { minZoom: 8 });//.setView([44.012794, 20.911423], 15);
+
+    var lat = this.cookie.get('lat');
+    var long = this.cookie.get('long');
+    map.setView([Number(lat), Number(long)], 12);
+    
     const tiles = new L.TileLayer(
-      'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+      'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
       {
         attribution:
-          '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+          '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
       } as L.TileLayerOptions
     );
-    tiles.addTo(this.map);
-
-    if (this.currentLocationIsSet) {
-      this.map.removeLayer(this.currentLocation);
-    }
-
-    const defaultIcon = L.icon({
-      iconUrl: 'assets/images/location.svg',
-      iconSize: [30, 30],
-      shadowSize: [50, 64],
-      iconAnchor: [22, 94],
-      shadowAnchor: [4, 62],
-      popupAnchor: [-8, -93],
+    tiles.addTo(map);
+    const icon = L.icon({
+      iconUrl: 'assets/images/marker-icon-2x.png',
+      iconSize: [25, 41],
+      iconAnchor: [12, 41],
+      popupAnchor: [1, -34],
+      tooltipAnchor: [16, -28],
     });
 
-    if (!this.cookie.check('lat')) {
-      //ukoliko nemamo koordinate dso zaposlenog
-      if ('geolocation' in navigator) {
-        navigator.geolocation.getCurrentPosition(
-          (position) => {
-            this.cookie.set('lat', position.coords.latitude.toString(), {
-              path: '/',
-            });
-            this.cookie.set('long', position.coords.longitude.toString(), {
-              path: '/',
-            });
-
-            var acc = Number(position.coords.accuracy).toFixed(2);
-            this.cookie.set('acc', acc, { path: '/' });
-
-            this.map.setView(
-              [position.coords.latitude, position.coords.longitude],
-              15
-            );
-            if (this.currentLocationIsSet) {
-              this.map.removeLayer(this.currentLocation);
-            }
-            this.currentLocation = L.marker(
-              [position.coords.latitude, position.coords.longitude],
-              { icon: defaultIcon }
-            ).bindPopup(
-              'Your are here.<br>(within ' + acc + ' meters from this point)'
-            );
-            this.currentLocation.addTo(this.map);
-            this.currentLocationIsSet = true;
-          },
-          (error) => {
-            // If the user denies permission or an error occurs, handle it appropriately
-            console.error("Error getting user's location:", error);
-            this.toast.error({
-              detail: 'ERROR',
-              summary: 'Unable To Get Your Current Location.',
-              duration: 3000,
-            });
-          }
-        );
-      } else {
-        // If the browser does not support the Geolocation API, handle it appropriately
-        this.toast.error({
-          detail: 'ERROR',
-          summary: 'Geolocation is not supported by this browser.',
-          duration: 3000,
-        });
-      }
-    } else {
-      var lat = this.cookie.get('lat');
-      var long = this.cookie.get('long');
-
-      this.map.setView([lat, long], 15);
-
-      if (this.currentLocationIsSet) {
-        this.map.removeLayer(this.currentLocation);
-      }
-
-      this.currentLocation = L.marker([Number(lat), Number(long)], {
-        icon: defaultIcon,
-      }).bindPopup(
-        'Your are here.<br>(within ' +
-          this.cookie.get('acc') +
-          ' meters from this point)'
-      );
-      this.currentLocation.addTo(this.map);
-      this.currentLocationIsSet = true;
-    }
+    let marker = L.marker([Number(lat), Number(long)],{icon:icon}).addTo(map);
+    marker.bindPopup("<h6>Center of region "+this.cookie.get('region')+"</h6>");
 
     const findMeControl = L.Control.extend({
       options: {
@@ -193,51 +157,44 @@ export class MapComponent implements AfterViewInit, OnInit {
         button.innerHTML =
           '<span class="fa fa-crosshairs p-1 pt-2 pb-2"></span>';
         button.addEventListener('click', () => {
-          this.map.setView(
+          map.setView(
             [Number(this.cookie.get('lat')), Number(this.cookie.get('long'))],
-            16
+            12
           );
         });
         return button;
       },
     });
-    this.map.addControl(new findMeControl());
-
-    while (this.map == null);
+    map.addControl(new findMeControl());
+    this.map = map;
     this.populateTheMap(this.map);
-  }
-
-  funkcija() {
-    this.mapService
-      .ProsumersInfo1()
-      .subscribe((response) => console.log(response));
   }
 
   populateTheMap(map: any) {
     this.mapService.ProsumersInfo1().subscribe({
       next: (res) => {
-        // this.funkcija();
-        console.log(res);
+        //console.log(res);
         this.users = res;
-        //console.log(this.users)
-        const prosumerIcon = L.icon({
-          iconUrl: 'assets/images/location-prosumer.svg',
-          iconSize: [65, 65],
-          shadowSize: [50, 64],
-          iconAnchor: [22, 94],
-          shadowAnchor: [4, 62],
-          popupAnchor: [11, -77],
-        });
+        let iconUrl ='assets/images/marker-icon-2x-blueviolet.png'
+        
         for (let user of this.users) {
           let lon = user.long;
           let lat = user.lat;
           if (lon != null && lat != null) {
-            let marker = L.marker(
-              [Number(lat.toString()), Number(lon.toString())],
-              { icon: prosumerIcon }
-            ).addTo(map);
             this.mapService.getUserProductionAndConsumption(user.id).subscribe({
               next: (res) => {
+                iconUrl = this.decideOnMarker(res);
+                const prosumerIcon = L.icon({
+                  iconUrl: iconUrl,
+                  iconSize: [25, 41],
+                  iconAnchor: [12, 41],
+                  popupAnchor: [1, -34],
+                  tooltipAnchor: [16, -28],
+                });
+                let marker = L.marker(
+                  [Number(lat.toString()), Number(lon.toString())],
+                  { icon: prosumerIcon }
+                ).addTo(map);
                 marker.bindPopup(
                   '<h5><b>' +
                     user.username +
@@ -252,8 +209,20 @@ export class MapComponent implements AfterViewInit, OnInit {
                     user.id +
                     "'>View More</a>"
                 );
+                this.markers.push(marker);
               },
               error: (err) => {
+                const prosumerIcon = L.icon({
+                  iconUrl: iconUrl,
+                  iconSize: [25, 41],
+                  iconAnchor: [12, 41],
+                  popupAnchor: [1, -34],
+                  tooltipAnchor: [16, -28],
+                });
+                let marker = L.marker(
+                  [Number(lat.toString()), Number(lon.toString())],
+                  { icon: prosumerIcon }
+                ).addTo(map);
                 marker.bindPopup(
                   '<h5><b>' +
                     user.username +
@@ -264,11 +233,10 @@ export class MapComponent implements AfterViewInit, OnInit {
                     user.id +
                     "'>View More</a>"
                 ); //"/user/{{item.id}}"
-
+                this.markers.push(marker);
                 console.log(err.error);
               },
             });
-            this.markers.push(marker);
           }
         }
       },
@@ -284,24 +252,25 @@ export class MapComponent implements AfterViewInit, OnInit {
   }
 
   populateTheMap2(map: any) {
-    const prosumerIcon = L.icon({
-      iconUrl: 'assets/images/location-prosumer.svg',
-      iconSize: [65, 65],
-      shadowSize: [50, 64],
-      iconAnchor: [22, 94],
-      shadowAnchor: [4, 62],
-      popupAnchor: [11, -77],
-    });
+    let iconUrl ='assets/images/marker-icon-2x-blueviolet.png';
     for (let user of this.users) {
       let lon = user.long;
       let lat = user.lat;
       if (lon != null && lat != null) {
-        let marker = L.marker(
-          [Number(lat.toString()), Number(lon.toString())],
-          { icon: prosumerIcon }
-        ).addTo(map);
         this.mapService.getUserProductionAndConsumption(user.id).subscribe({
           next: (res) => {
+            iconUrl = this.decideOnMarker(res);
+                const prosumerIcon = L.icon({
+                  iconUrl: iconUrl,
+                  iconSize: [25, 41],
+                  iconAnchor: [12, 41],
+                  popupAnchor: [1, -34],
+                  tooltipAnchor: [16, -28],
+                });
+                let marker = L.marker(
+                  [Number(lat.toString()), Number(lon.toString())],
+                  { icon: prosumerIcon }
+                ).addTo(map);
             marker.bindPopup(
               '<h5><b>' +
                 user.username +
@@ -316,8 +285,20 @@ export class MapComponent implements AfterViewInit, OnInit {
                 user.id +
                 "'>View More</a>"
             );
+            this.markers.push(marker);
           },
           error: (err) => {
+            const prosumerIcon = L.icon({
+              iconUrl: iconUrl,
+              iconSize: [25, 41],
+              iconAnchor: [12, 41],
+              popupAnchor: [1, -34],
+              tooltipAnchor: [16, -28],
+            });
+            let marker = L.marker(
+              [Number(lat.toString()), Number(lon.toString())],
+              { icon: prosumerIcon }
+            ).addTo(map);
             marker.bindPopup(
               '<h5><b>' +
                 user.username +
@@ -328,22 +309,22 @@ export class MapComponent implements AfterViewInit, OnInit {
                 user.id +
                 "'>View More</a>"
             ); //"/user/{{item.id}}"
-
+            this.markers.push(marker);
             console.log(err.error);
           },
         });
-        this.markers.push(marker);
       }
     }
   }
 
-  deleteAllMarkers() {
+  deleteAllMarkers(map : any) {
     for (var marker of this.markers) {
-      this.map.removeLayer(marker);
+      map.removeLayer(marker);
     }
   }
 
-  filterwithoutNeighborhood() {
+  filterwithoutNeighborhood(map:any) {
+    this.deleteAllMarkers(map);
     this.mapService
       .prosumerFilter(
         this.minValueC,
@@ -355,11 +336,12 @@ export class MapComponent implements AfterViewInit, OnInit {
       )
       .subscribe((response) => {
         this.users = response;
+        //console.log(response);
+        this.populateTheMap2(map);
       });
-    this.deleteAllMarkers();
-    this.populateTheMap2(this.map);
   }
-  filterwithNeighborhood() {
+  filterwithNeighborhood(map : any) {
+    this.deleteAllMarkers(map);
     this.mapService
       .prosumerFilter2(
         this.dropDownNeigh,
@@ -372,32 +354,64 @@ export class MapComponent implements AfterViewInit, OnInit {
       )
       .subscribe((response) => {
         this.users = response;
+        this.populateTheMap2(map);
       });
-    this.deleteAllMarkers();
-    this.populateTheMap2(this.map);
   }
 
   filter() {
     if (this.dropDownNeigh === 'b' || this.dropDownNeigh === '') {
-      this.filterwithoutNeighborhood();
+      this.filterwithoutNeighborhood(this.map);
     } else {
-      this.filterwithNeighborhood();
+      this.filterwithNeighborhood(this.map);
     }
   }
 
   reset() {
+    this.deleteAllMarkers(this.map);
+    this.mapService.getAllNeighborhoods().subscribe((response) => {
+      this.users = response;
+      //console.log(response);
+      this.populateTheMap(this.map);
+    });
     this.minValueC = 0;
     this.maxValueC = 300;
     this.minValueP = 0;
     this.maxValueP = 300;
     this.minValue = 0;
     this.maxValue = 50;
-    this.mapService.getAllNeighborhoods().subscribe((response) => {
-      this.users = response;
-      console.log(response);
-    });
-    this.deleteAllMarkers();
+    this.dropDownNeigh = 'b';
+  }
 
-    this.populateTheMap(this.map);
+  private decideOnMarker(res : any) : string
+  {
+    let conumption = Number(res.consumption);
+    let production = Number(res.production);
+    let razlika = conumption - production;
+    let iconUrl = 'assets/images/marker-icon-2x-blueviolet.png';
+    if(razlika>0)
+    {
+      iconUrl='assets/images/marker-icon-2x-orange.png';
+      if(conumption<=0.4)
+      {
+        iconUrl='assets/images/marker-icon-2x-yellow.png';
+      }
+      else if(conumption>0.8)
+      {
+        iconUrl='assets/images/marker-icon-2x-red.png';
+      }
+    }
+    else if(razlika<0)
+    {
+      iconUrl='assets/images/marker-icon-2x-lime.png';
+      if(production<0.17)
+      {
+        iconUrl='assets/images/marker-icon-2x-turquoise.png';
+      }
+      else if(production>0.21)
+      {
+        iconUrl='assets/images/marker-icon-2x-lightgreen.png';
+      }
+    }
+    return iconUrl;
   }
 }
