@@ -65,6 +65,8 @@ import { HistoryAllProsumersComponent } from './components/Charts/historyAllPros
 import { HomeSidebarComponent } from './components/home-sidebar/home-sidebar.component';
 import { WorkerProfileComponent } from './components/worker-profile/worker-profile.component';
 import { User1Component } from './components/user1/user1.component';
+import { PocetnaComponent } from './components/pocetna/pocetna.component';
+import { RealizationPredictionAllProsumersComponent } from './components/Charts/realizationPredictionAllProsumers/realizationPredictionAllProsumers.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -105,6 +107,8 @@ import { User1Component } from './components/user1/user1.component';
     HomeSidebarComponent,
     WorkerProfileComponent,
     User1Component,
+    PocetnaComponent,
+    RealizationPredictionAllProsumersComponent,
   ],
   imports: [
     MatSliderModule,

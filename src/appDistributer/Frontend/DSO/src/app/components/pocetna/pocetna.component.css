@@ -1,0 +1,38 @@
+.card {
+  box-shadow: 0 0 2rem 0 rgba(0, 0, 0, 0.2);
+  border-radius: 15px;
+}
+
+.card .card-header {
+  padding: 1.5rem;
+}
+
+.card .card-body {
+  font-family: "Open Sans", sans-serif;
+  padding: 1.5rem;
+}
+
+.card.card-plain {
+  background-color: transparent;
+  box-shadow: none !important;
+}
+
+h5 {
+  margin-top: 0;
+  margin-bottom: 0.5rem;
+  font-weight: 400;
+  line-height: 1.2;
+  color: var(--bs-heading-color);
+}
+hr {
+  margin: 1rem 0;
+  color: inherit;
+  border: 0;
+  border-top: 1px solid;
+  opacity: 0.25;
+}
+
+p {
+  margin-top: 0;
+  margin-bottom: 1rem;
+}

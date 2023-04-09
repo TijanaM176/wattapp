@@ -1,7 +1,7 @@
 <div>
   <div class="card-header pb-0 pt-3 bg-transparent row">
-    <div class="col-md-5">
-      <h6 class="text-capitalize">Consumption and Production Chart</h6>
+    <div class="col-5" style="padding: 1px">
+      <h6 class="text-capitalize">Realization and Prediction Chart</h6>
       <!-- <p class="text-sm mb-0">
         <i class="fa fa-arrow-up text-success"></i>
         <span class="font-weight-bold">4% more</span> in 2021
@@ -9,7 +9,7 @@
     </div>
     <div
       class="col-7"
-      style="display: flex; justify-content: right; margin: auto"
+      style="display: flex; justify-content: right; margin: auto; padding: 1px"
     >
       <button
         class="btn"
@@ -40,10 +40,9 @@
       </button>
     </div>
   </div>
-
   <div style="width: 99%; margin: 0 auto; margin-top: 1%; height: 100%">
-    <ngx-charts-bar-vertical-2d
-      *ngIf="production && consumption && data.length !== 0"
+    <ngx-charts-line-chart
+      *ngIf="data"
       [title]="'My Bar Chart Title'"
       [scheme]="colors"
       [results]="data"
@@ -51,20 +50,19 @@
       [yAxis]="showYAxis"
       [showXAxisLabel]="false"
       [showYAxisLabel]="false"
-      [showDataLabel]="false"
       [animations]="true"
-      [barPadding]="3"
       [roundDomains]="true"
       [showGridLines]="true"
       [trimYAxisTicks]="true"
       [tooltipDisabled]="true"
-      [noBarWhenZero]="true"
       [yAxisTickFormatting]="yAxisTickFormatting"
       [showGridLines]="true"
+      [curve]="curve"
+      [legend]="true"
     >
-    </ngx-charts-bar-vertical-2d>
+    </ngx-charts-line-chart>
     <h1
-      *ngIf="!production && !consumption"
+      *ngIf="!data"
       style="
         text-align: center;
         margin-top: 15%;
