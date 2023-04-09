@@ -249,6 +249,15 @@ namespace API.Repositories.UserRepository
         {
             return dsoRepository.UpdateProsumerByDso(change);
         }
-        
+
+        public Task<bool> SaveImage(String ProsumerId, IFormFile imageFile)
+        {
+            return prosumerRepository.SaveImage(ProsumerId, imageFile);
+        }
+
+        public Task<bool> DeleteImage(String ProsumerId)
+        {
+            return prosumerRepository.DeleteImage(ProsumerId);
+        }
     }
 }

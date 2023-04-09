@@ -2,17 +2,21 @@
 using API.Models.Paging;
 using API.Models.Users;
 using API.Repositories.BaseHelpRepository;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace API.Repositories.ProsumerRepository
 {
     public class ProsumerRepository : BaseRepository<Prosumer>, IProsumerRepository
     {
         RegContext _context;
+        private IWebHostEnvironment enviroment;
 
-        public ProsumerRepository(RegContext context) : base(context)
+        public ProsumerRepository(RegContext context, IWebHostEnvironment enviroment) : base(context)
         {
             _context = context;
-        }
+            this.enviroment = enviroment;
+            }
 
       
 
@@ -135,6 +139,73 @@ namespace API.Repositories.ProsumerRepository
             if (neigborhood == null) return null;
 
             return neigborhood.NeigbName;
+        }
+        
+        public async Task<bool> DeleteImage(String ProsumerId)
+        {
+            var user = await _context.Prosumers.FindAsync(ProsumerId);
+            if (user == null || string.IsNullOrEmpty(user.Image))
+                return false;
+            /*
+            // Delete image from server
+            var wwwPath = this.enviroment.ContentRootPath;
+            var dirPath = Path.Combine(wwwPath, "Uploads");
+
+            // Find all images with the given ProsumerId and allowed extensions
+            var allowedExtensions = new string[] { ".jpg", ".jpeg", ".png" };
+            var imagePaths = Directory.EnumerateFiles(dirPath, $"{ProsumerId}.*", SearchOption.TopDirectoryOnly)
+                                        .Where(path => allowedExtensions.Contains(Path.GetExtension(path)));
+
+            // Delete all found images
+            foreach (var imagePath in imagePaths)
+            {
+                if (System.IO.File.Exists(imagePath))
+                    System.IO.File.Delete(imagePath);
+            }
+
+         */
+            user.Image = null;
+            await _context.SaveChangesAsync();
+
+            return true;
+        }
+
+        public async Task<bool> SaveImage(String ProsumerId, IFormFile imageFile)
+        {
+            var user = await _context.Prosumers.FindAsync(ProsumerId);
+            if (user == null)
+                return false;
+
+            // Check allowed extensions
+            var ext = Path.GetExtension(imageFile.FileName);
+            var allowedExtensions = new string[] { ".jpg", ".jpeg", ".png" };
+            if (!allowedExtensions.Contains(ext))
+                return false;
+
+            // Generate file name using ProsumerId and file extension
+            var fileName = ProsumerId + ext;
+
+            var wwwPath = this.enviroment.ContentRootPath;
+            var imagePath = Path.Combine(wwwPath, "Uploads", fileName);
+
+            // Check if directory exists
+            var dirPath = Path.Combine(wwwPath, "Uploads");
+            if (!Directory.Exists(dirPath))
+                Directory.CreateDirectory(dirPath);
+
+            if (imageFile != null)
+            {
+                using (var ms = new MemoryStream())
+                {
+                    imageFile.CopyTo(ms);
+                    var imageBytes = ms.ToArray();
+                    var base64String = Convert.ToBase64String(imageBytes);
+                    user.Image = base64String;
+                }
+            }
+
+            await _context.SaveChangesAsync();
+            return true;
         }
 
     }
