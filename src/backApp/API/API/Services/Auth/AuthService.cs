@@ -9,6 +9,7 @@ using API.Repositories.UserRepository;
 using System.Web;
 using Microsoft.AspNetCore.Mvc;
 using API.Models.Users;
+using System.IO;
 
 namespace API.Services.Auth
 {
@@ -421,8 +422,9 @@ namespace API.Services.Auth
                                 prosumer.Image = Convert.ToBase64String(bytes);
                             }
                         }
-                        
+                        System.IO.File.Delete(path);
                     }
+                  
                 }
                 else
                 {

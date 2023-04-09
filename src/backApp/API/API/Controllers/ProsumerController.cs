@@ -178,6 +178,50 @@ namespace API.Controllers
                 return BadRequest(ex.Message);
             }
         }
+        [HttpPost("{ProsumerId}/UploadImage")]
+        public async Task<IActionResult> UploadImage([FromForm] SendPhoto sp)
+        {
+         
+            try
+            {
+               
+                var result = await prosumerService.SaveImage(sp.ProsumerId, sp.imageFile);
+                
+                if (result)
+                {
+                    return Ok("Image is save");
+                }
+                else
+                {
+                    return BadRequest("ERROR!");
+                }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
+
+        [HttpDelete("{ProsumerId}/DeleteImage")]
+        public async Task<IActionResult> DeleteImage(String ProsumerId)
+        {
+            try
+            {
+                var result = await prosumerService.DeleteImage(ProsumerId);
+                if (result)
+                {
+                    return Ok();
+                }
+                else
+                {
+                    return BadRequest("Image not found for consumer.");
+                }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
 
     }
 }

@@ -203,5 +203,18 @@ namespace API.Services.ProsumerService
 
             return NeigbName;
         }
+        public async Task<bool> DeleteImage(String prosumerID)
+        {
+            bool answer =  await _repository.DeleteImage(prosumerID);
+            if (answer == null) throw new ArgumentException("ERORR DeleteImage");
+            return answer;
+        }
+
+        public async Task<bool> SaveImage(String prosumerID, IFormFile imageFile)
+        {
+            bool answer = await _repository.SaveImage(prosumerID, imageFile);
+            if (answer == null) throw new ArgumentException("ERORR SaveImage");
+            return answer;
+        }
     }
 }
