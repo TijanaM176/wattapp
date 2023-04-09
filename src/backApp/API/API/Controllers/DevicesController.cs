@@ -509,5 +509,30 @@ namespace API.Controllers
             }
         }
 
+        [HttpGet("Top5Consumers")]
+        public async Task<IActionResult> Top5Consumers()
+        {
+            try
+            {
+                return Ok(await devService.Top5Consumers());
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+        
+        [HttpGet("Top5Producers")]
+        public async Task<IActionResult> Top5Producers()
+        {
+            try
+            {
+                return Ok(await devService.Top5Producers());
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }

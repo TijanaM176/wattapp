@@ -510,5 +510,36 @@ namespace API.Services.Devices
             if (models == null) throw new ArgumentException("No models!");
             return models;
         }
+
+        public async Task<List<Dictionary<string, object>>> CurrentConsumptionAndProductionAllProsumers()
+        {
+            var prosumers = (await _repository.GetProsumers()).Select(x => new { Id = x.Id, Username = x.Username, FirstName = x.FirstName, LastName = x.LastName, Address = x.Address });
+            var data = new List<Dictionary<string, object>>();
+
+            foreach(var prosumer in prosumers)
+            {
+                Dictionary<string, object> prosumersExtended = new Dictionary<string, object>();
+                prosumersExtended["Id"] = prosumer.Id;
+                prosumersExtended["Username"] = prosumer.Username;
+                prosumersExtended["FirstName"] = prosumer.FirstName;
+                prosumersExtended["LastName"] = prosumer.LastName;
+                prosumersExtended["Address"] = prosumer.Address;
+                prosumersExtended["Consumption"] = await CurrentConsumptionForProsumer(prosumer.Id);
+                prosumersExtended["Production"] = await CurrentProductionForProsumer(prosumer.Id);
+                data.Add(prosumersExtended);
+            }
+
+            return data;
+        }
+
+        public async Task<List<Dictionary<string, object>>> Top5Consumers()
+        {
+            return (await CurrentConsumptionAndProductionAllProsumers()).OrderByDescending(x => x["Consumption"]).Take(5).ToList();
+        }
+
+        public async Task<List<Dictionary<string, object>>> Top5Producers()
+        {
+            return (await CurrentConsumptionAndProductionAllProsumers()).OrderByDescending(x => x["Production"]).Take(5).ToList();
+        }
     }
 }
