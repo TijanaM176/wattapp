@@ -534,5 +534,32 @@ namespace API.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+        [HttpGet("ConsumerProducerRatio")]
+        public async Task<IActionResult> ConsumerProducerRatio()
+        {
+            try
+            {
+                return Ok(await devService.ConsumerProducerRatio());
+            }
+            catch(Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            
+        }
+
+        [HttpGet("CityPercentages")]
+        public async Task<IActionResult> CityPercentages()
+        {
+            try
+            {
+                return Ok(await devService.CityPercentages());
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }

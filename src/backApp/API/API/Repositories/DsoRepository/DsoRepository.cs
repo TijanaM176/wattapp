@@ -113,5 +113,15 @@ namespace API.Repositories.DsoRepository
 
             return null;
         }
+
+        public async Task<List<ElectricityPrice>> Prices()
+        {
+            return await _context.ElectricityPrices.ToListAsync();
+        }
+
+        public async Task<double> CurrentPrice()
+        {
+            return (await _context.ElectricityPrices.FirstOrDefaultAsync(x => x.Timestamp.Date == DateTime.UtcNow.Date)).Price;
+        }
     }
 }

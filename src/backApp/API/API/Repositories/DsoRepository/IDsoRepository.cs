@@ -21,5 +21,7 @@ namespace API.Repositories.DsoRepository
         public Task<List<Role>> GetRoles();
         public Task<List<Region>> GetRegions();
         public Task<Prosumer> UpdateProsumerByDso(ChangeProsumerbyDSO change);
+        public Task<List<ElectricityPrice>> Prices();
+        public Task<double> CurrentPrice();
     }
 }

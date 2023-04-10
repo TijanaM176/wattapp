@@ -217,5 +217,31 @@ namespace API.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+        [HttpGet("Prices")]
+        public async Task<IActionResult> Prices()
+        {
+            try
+            {
+                return Ok(await dsoService.Prices());
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet("CurrentPrice")]
+        public async Task<IActionResult> CurrentPrice()
+        {
+            try
+            {
+                return Ok(await dsoService.CurrentPrice());
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }

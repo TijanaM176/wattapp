@@ -1,7 +1,6 @@
-﻿using API.Models.Devices;
-using API.Models.Users;
+﻿using API.Models.Users;
 
-namespace API.Models
+namespace API.Models.Devices
 {
     public class ProsumerLink
     {
@@ -18,14 +17,14 @@ namespace API.Models
 
         public bool Equals(object obj)
         {
-            if(obj == null) return false;
-            if(!(obj is ProsumerLink other)) return false;
+            if (obj == null) return false;
+            if (!(obj is ProsumerLink other)) return false;
 
-            return this.ProsumerId == other.ProsumerId;
+            return ProsumerId == other.ProsumerId;
         }
         public override int GetHashCode()
         {
-            return this.ProsumerId.GetHashCode();
+            return ProsumerId.GetHashCode();
         }
     }
 }

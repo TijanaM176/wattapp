@@ -39,5 +39,7 @@ namespace API.Services.Devices
         public Task<List<DeviceInfo>> GetModels(long typeId);
         public Task<List<Dictionary<string, object>>> Top5Consumers();
         public Task<List<Dictionary<string, object>>> Top5Producers();
+        public Task<Dictionary<string, int>> ConsumerProducerRatio();
+        public Task<Dictionary<string, Dictionary<string, double>>> CityPercentages();
     }
 }

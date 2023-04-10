@@ -558,5 +558,18 @@ namespace API.Services.DsoService
             return (await _repository.GetAllProsumers()).Count();
         }
 
+        public async Task<List<ElectricityPrice>> Prices()
+        {
+            var prices = await _repository.Prices();
+            if (prices == null) throw new ArgumentException("No prices!");
+            return prices;
+        }
+
+        public async Task<double> CurrentPrice()
+        {
+            var price = await _repository.CurrentPrice();
+            if (price == null) throw new ArgumentException("No price!");
+            return price;
+        }
     }
 }

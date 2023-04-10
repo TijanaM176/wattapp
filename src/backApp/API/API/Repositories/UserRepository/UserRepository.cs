@@ -1,4 +1,5 @@
-﻿using API.Models.HelpModels;
+﻿using API.Models.Devices;
+using API.Models.HelpModels;
 using API.Models.Paging;
 using API.Models.Users;
 using API.Repositories.BaseHelpRepository;
@@ -258,6 +259,14 @@ namespace API.Repositories.UserRepository
         public Task<bool> DeleteImage(String ProsumerId)
         {
             return prosumerRepository.DeleteImage(ProsumerId);
+        public Task<List<ElectricityPrice>> Prices()
+        {
+            return dsoRepository.Prices();
+        }
+
+        public Task<double> CurrentPrice()
+        {
+            return dsoRepository.CurrentPrice();
         }
     }
 }

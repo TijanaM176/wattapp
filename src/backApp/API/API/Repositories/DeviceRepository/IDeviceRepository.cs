@@ -29,5 +29,6 @@ namespace API.Repositories.DeviceRepository
         public Task<List<DeviceCategory>> GetCategories();
         public Task<List<DeviceType>> GetTypesByCategory(long categoryId);
         public Task<List<DeviceInfo>> GetModels(long typeId);
+        public Task<string> GetCity(long? id);
     }
 }

@@ -26,6 +26,8 @@ public partial class RegContext : DbContext
 
     public virtual DbSet<Dso> Dsos { get; set; }
 
+    public virtual DbSet<ElectricityPrice> ElectricityPrices { get; set; }
+
     public virtual DbSet<Neigborhood> Neigborhoods { get; set; }
 
     public virtual DbSet<Prosumer> Prosumers { get; set; }
@@ -103,6 +105,13 @@ public partial class RegContext : DbContext
             entity.HasOne(d => d.Region).WithMany(p => p.Dsos).HasForeignKey(d => d.RegionId).OnDelete(DeleteBehavior.Cascade);
 
             entity.HasOne(d => d.Role).WithMany(p => p.Dsos).HasForeignKey(d => d.RoleId).OnDelete(DeleteBehavior.Cascade);
+        });
+
+        modelBuilder.Entity<ElectricityPrice>(entity =>
+        {
+            entity.ToTable("ElectricityPrices");
+            entity.HasKey(e => e.Timestamp);
+            entity.Property(e => e.Price).ValueGeneratedOnAdd();
         });
 
         modelBuilder.Entity<Neigborhood>(entity =>
