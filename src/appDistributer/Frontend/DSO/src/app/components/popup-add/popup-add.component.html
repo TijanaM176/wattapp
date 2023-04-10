@@ -10,13 +10,13 @@
         <div class="modal-body">
          
                 
-                    <div class="row">
+                   
            
-                        <div class="desno">
+                        
                             <div class="panelbor">
                                 <div class="panel-body">
                                     <form [formGroup]="signupWorkerForm">                               
-                                         <div class="d">
+                                         <div class="form-group pt-3">
                                             <div class="input-field" [class.error]="signupWorkerForm.controls['firstName'].dirty && signupWorkerForm.hasError('required','firstName')">
                                                 <!-- <label class="lbl">FirstName:</label> -->
                                                 <span class="fa fa-user p-2" style="font-size: 16px"></span>   
@@ -25,7 +25,7 @@
                                             </div>
                                         </div>
                                             <small *ngIf="signupWorkerForm.controls['firstName'].dirty && signupWorkerForm.hasError('required','firstName')"  class="text-danger">*FirstName is required</small>
-                                            <div class="d">
+                                            <div class="form-group pt-3">
                                                 <div class="input-field" [class.error]="signupWorkerForm.controls['lastName'].dirty && signupWorkerForm.hasError('required','lastName')">
                                                     <!-- <label class="lbl">LastName:</label> -->
                                                     <span class="fa fa-user p-2" style="font-size: 24px"></span>
@@ -34,7 +34,7 @@
                                                 </div>
                                             </div>
                                             <small *ngIf="signupWorkerForm.controls['lastName'].dirty && signupWorkerForm.hasError('required','lastName')" class="text-danger">*LastName is required</small>
-                                            <div class="d">
+                                            <div class="form-group pt-3">
                                                 <div class="input-field" [class.error]="signupWorkerForm.controls['password'].dirty && signupWorkerForm.hasError('required','password')">
                                                     <!-- <label class="lbl">Password:</label> -->
                                                     <span class="fa fa-lock p-2" style="font-size: 24px; margin-left: -10px;"></span>
@@ -45,7 +45,7 @@
                                             </div>
                                             <small *ngIf="signupWorkerForm.controls['password'].dirty && signupWorkerForm.hasError('required','password')" class="text-danger">*Password is required</small>
                     
-                                            <div class="d">
+                                            <div class="form-group pt-3">
                                                 <div class="input-field" [class.error]="signupWorkerForm.controls['email'].dirty && signupWorkerForm.hasError('required','email')">
                                                     <!-- <label class="lbl">Email:</label> -->
                                                     <span class="fa fa-envelope p-2" style="font-size: 20px; margin-left: -4px"></span>
@@ -67,7 +67,7 @@
                                                 <!-- </div> -->
                                             <!-- </div> -->
                                             <!-- <small *ngIf="signupWorkerForm.controls['address'].dirty && signupWorkerForm.hasError('required','address')" class="text-danger">*Adress is required</small> -->
-                                            <div class="d">
+                                            <div class="form-group pt-3">
                                                 <div class="input-field" [class.error]="signupWorkerForm.controls['salary'].dirty && signupWorkerForm.hasError('required','salary')">
                                                     <!-- <label class="lbl">Salary:</label> -->
                                                     <span><i class="fa fa-money p-2"></i></span>
@@ -78,7 +78,7 @@
                                             <small *ngIf="signupWorkerForm.controls['salary'].dirty && signupWorkerForm.hasError('required','salary')" class="text-danger">*Salary is required</small>
                                             
                                             
-                                            <div class="d">
+                                            <div class="form-group pt-3">
                                                 <div class="input-field" [class.error]="signupWorkerForm.controls['image'].dirty && signupWorkerForm.hasError('required','image')">
                                                     <!-- <label class="lbl">Image:</label> -->
                                                     <span class="fa fa-user p-2" style="font-size: 24px"></span>
@@ -95,15 +95,15 @@
                                     </form>
                                 </div>
                             </div>
-                        </div>
-                    </div>
+                      
+                   
                     
                
             
         
       </div>
           <div class="modal-footer">
-            <button type="button"  class="btn btn-primary" data-bs-dismiss="modal" >Close form</button>
+            <button type="button"  class="btn btn-primary" id="dugme" data-bs-dismiss="modal" >Close</button>
           </div>
     </div>
   </div>
