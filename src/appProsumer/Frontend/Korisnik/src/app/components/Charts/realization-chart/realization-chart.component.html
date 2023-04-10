@@ -11,38 +11,38 @@
 <div class="card-body" style="width: 100%; margin: 0 auto; ">
   <div class="w-100 px-0 py-0 mx-0 my-0" id="grafik" style="display: flex; justify-content: center; align-items: center;">
     <h1
-    *ngIf="data.length === 0"
-    style="
-      text-align: center;
-      margin-top: 15%;
-      opacity: 20%;
-      font-style: italic;
-      font-weight: normal;
-    "
-  >
-    There is no available Data
-  </h1>
-  <ngx-charts-bar-vertical-2d
-  *ngIf="production && consumption && data.length !== 0"
-      [title]="'Realization'"
-      [scheme]="colors"
-      [results]="data"
-      [xAxis]="showXAxis"
-      [yAxis]="showYAxis"
-      [showXAxisLabel]="false"
-      [showYAxisLabel]="false"
-      [showDataLabel]="false"
-      [animations]="true"
-      [barPadding]="3"
-      [roundDomains]="true"
-      [trimYAxisTicks]="true"
-      [tooltipDisabled]="true"
-      [noBarWhenZero]="true"
-      [yAxisTickFormatting]="yAxisTickFormatting"
-      [showGridLines]="true"
-      [legend]="false"
-      [legendPosition]="legendPosition">
-  </ngx-charts-bar-vertical-2d>
+      *ngIf="data.length === 0"
+      style="
+        text-align: center;
+        margin-top: 15%;
+        opacity: 20%;
+        font-style: italic;
+        font-weight: normal;
+      "
+    >
+      There is no available Data
+    </h1>
+    <ngx-charts-bar-vertical-2d
+    *ngIf="production && consumption && data.length !== 0"
+        [title]="'Realization'"
+        [scheme]="colors"
+        [results]="data"
+        [xAxis]="showXAxis"
+        [yAxis]="showYAxis"
+        [showXAxisLabel]="false"
+        [showYAxisLabel]="false"
+        [showDataLabel]="false"
+        [animations]="true"
+        [barPadding]="3"
+        [roundDomains]="true"
+        [trimYAxisTicks]="true"
+        [tooltipDisabled]="true"
+        [noBarWhenZero]="true"
+        [yAxisTickFormatting]="yAxisTickFormatting"
+        [showGridLines]="true"
+        [legend]="false"
+        [legendPosition]="legendPosition">
+    </ngx-charts-bar-vertical-2d>
   </div>
     
   <div class="legend w-100 ps-4">

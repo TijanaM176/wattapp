@@ -31,6 +31,7 @@ import { EditDeviceFormComponent } from './forms/edit-device-form/edit-device-fo
 import { AddDeviceFormComponent } from './forms/add-device-form/add-device-form.component';
 import { RealizationChartComponent } from './components/Charts/realization-chart/realization-chart.component';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
+import { PredictionChartComponent } from './components/Charts/prediction-chart/prediction-chart.component';
 
 @NgModule({
   declarations: [
@@ -53,6 +54,7 @@ import { NgxChartsModule } from '@swimlane/ngx-charts';
     EditDeviceFormComponent,
     AddDeviceFormComponent,
     RealizationChartComponent,
+    PredictionChartComponent,
   ],
   imports: [
     BrowserAnimationsModule,
