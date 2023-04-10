@@ -1,4 +1,5 @@
-﻿using API.Models.HelpModels;
+﻿using API.Models.Devices;
+using API.Models.HelpModels;
 using API.Models.Paging;
 using API.Models.Users;
 

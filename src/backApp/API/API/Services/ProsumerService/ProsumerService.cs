@@ -1,5 +1,6 @@
 ﻿using System.Security.Cryptography;
 using System.Text;
+using API.Models.Devices;
 using API.Models.HelpModels;
 using API.Models.Paging;
 using API.Models.Users;
