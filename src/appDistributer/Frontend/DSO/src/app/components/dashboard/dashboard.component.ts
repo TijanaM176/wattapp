@@ -35,25 +35,25 @@ export class DashboardComponent implements OnInit, AfterViewInit{
     this.content = document.getElementById("content");
     if(window.innerWidth>320)
     {
-      let height = window.innerHeight - 100;
+      let height = window.innerHeight - 101;
       this.widthService.height = height;
     }
     else
     {
-      let height = window.innerHeight - 139.6;
+      let height = window.innerHeight - 140.6;
       this.widthService.height = height;
     }
     this.resizeObservable$ = fromEvent(window, 'resize');
     this.resizeSubscription$ = this.resizeObservable$.subscribe( evt => {
       if(window.innerWidth>320)
       {
-        let height = window.innerHeight - 100;
+        let height = window.innerHeight - 101;
         this.widthService.height = height;
         this.content.style.height = this.widthService.height+'px';
       }
       else
       {
-        let height = window.innerHeight - 139.6;
+        let height = window.innerHeight - 140.6;
         this.widthService.height = height;
         this.content.style.height = this.widthService.height+'px';
       }

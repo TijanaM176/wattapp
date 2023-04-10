@@ -89,8 +89,12 @@ export class MapComponent implements AfterViewInit, OnInit {
   }
 
   ngOnInit(): void {
-
-    let h = (window.innerHeight-100);
+    let t = 101;
+    if(window.innerWidth<320)
+    {
+      t = 140.6;
+    }
+    let h = (window.innerHeight - t);
     
     const sad = document.getElementById('sadrzaj');
     sad!.style.height = h + 'px';
@@ -173,7 +177,6 @@ export class MapComponent implements AfterViewInit, OnInit {
   populateTheMap(map: any) {
     this.mapService.ProsumersInfo1().subscribe({
       next: (res) => {
-        //console.log(res);
         this.users = res;
         let iconUrl ='assets/images/marker-icon-2x-blueviolet.png'
         
@@ -205,7 +208,7 @@ export class MapComponent implements AfterViewInit, OnInit {
                     ' kw</b> <br> Current production: <b>' +
                     res.production.toString() +
                     ' kw</b>' +
-                    "<br><br><a href='/DsoApp/user/" +
+                    "<br><br><a href='/DsoApp/user/'" +
                     user.id +
                     "'>View More</a>"
                 );
@@ -229,10 +232,10 @@ export class MapComponent implements AfterViewInit, OnInit {
                     '</b></h5><h6><b>' +
                     user.address +
                     '</b></h6>Current consumption: <b>? kw</b> <br> Current production: <b>? kw</b>' +
-                    "<br><br><a href='/DsoApp/user/" +
+                    "<br><br><a href='/DsoApp/user/'" +
                     user.id +
                     "'>View More</a>"
-                ); //"/user/{{item.id}}"
+                ); 
                 this.markers.push(marker);
                 console.log(err.error);
               },
@@ -281,7 +284,7 @@ export class MapComponent implements AfterViewInit, OnInit {
                 ' kw</b> <br> Current production: <b>' +
                 res.production.toString() +
                 ' kw</b>' +
-                "<br><br><a href='/DsoApp/user/" +
+                "<br><br><a href='/DsoApp/user/'" +
                 user.id +
                 "'>View More</a>"
             );
@@ -305,7 +308,7 @@ export class MapComponent implements AfterViewInit, OnInit {
                 '</b></h5><h6><b>' +
                 user.address +
                 '</b></h6>Current consumption: <b>? kw</b> <br> Current production: <b>? kw</b>' +
-                "<br><br><a href='/DsoApp/user/" +
+                "<br><br><a href='/DsoApp/user/'" +
                 user.id +
                 "'>View More</a>"
             ); //"/user/{{item.id}}"
