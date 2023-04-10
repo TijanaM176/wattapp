@@ -15,7 +15,7 @@
   padding: 0;
   position: absolute;
   width: 78%;
-  height: 90vh;
+  
   display: flex;
   background-color: white;
   margin-left: 22%;
@@ -38,9 +38,6 @@
   margin-left: 12%;
 }
 
-.input-field {
-  margin-top: 10px;
-}
 
 .input-field input,
 select {
@@ -71,7 +68,7 @@ select {
   background-color: #5875a1;
   color: white;
   font-size: 22px;
-  margin-top: 5vh;
+  
   width: 250px;
   height: 45px;
   font-family: "Roboto", cursive;
@@ -85,12 +82,15 @@ select {
 }
 .btn:hover{
     background-color: #08376b;
+     color: white;
 
 }
 #dugme{
     width: 100px;
+    color: white;
 }
 #dugme:hover{
     background-color: #08376b;
+    color: white;
 }
   
