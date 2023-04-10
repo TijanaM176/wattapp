@@ -65,8 +65,8 @@ export class TokenInterceptor implements HttpInterceptor {
       switchMap((data: RefreshTokenDto)=>
       {
         this.counter = 0;
-        this.cookie.set("token",data.token.toString().trim());
-        this.cookie.set("refresh",data.refreshToken.toString().trim());
+        this.cookie.set("token",data.token.toString().trim(),{path:'/'});
+        this.cookie.set("refresh",data.refreshToken.toString().trim(),{path:'/'});
         /*var decodedToken:any = jwt_decode(data.token);
         this.cookie.set('username',decodedToken['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name']);
         this.cookie.set('role',decodedToken['http://schemas.microsoft.com/ws/2008/06/identity/claims/role']);*/

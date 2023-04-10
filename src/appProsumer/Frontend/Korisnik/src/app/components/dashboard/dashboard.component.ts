@@ -26,13 +26,13 @@ export class DashboardComponent implements OnInit, OnDestroy, AfterViewInit{
     const content = document.getElementById('content');
     if(window.innerWidth<=280)
     {
-      let height = window.innerHeight - 103.69;
+      let height = window.innerHeight - 104.69;
       this.widthService.height = height;
       content!.style.height = height + 'px';
     }
     else
     {
-      let height = window.innerHeight - 64.09;
+      let height = window.innerHeight - 65.09;
       this.widthService.height = height;
       content!.style.height = height + 'px';
     }

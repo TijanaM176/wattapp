@@ -66,10 +66,10 @@ export class LoginComponent implements OnInit{
             //console.log(decodedToken['sub']);
             //console.log(decodedToken['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name']);
             //console.log(decodedToken['http://schemas.microsoft.com/ws/2008/06/identity/claims/role']);
-            this.cookie.set('username',decodedToken['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name'].toString().trim());
-            this.cookie.set('role',decodedToken['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'].toString().trim());
-            this.cookie.set('id',decodedToken['sub'].toString().trim());
-            this.cookie.set("token",res.token.toString().trim());
+            this.cookie.set('username',decodedToken['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name'].toString().trim(),{path:'/'});
+            this.cookie.set('role',decodedToken['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'].toString().trim(),{path:'/'});
+            this.cookie.set('id',decodedToken['sub'].toString().trim(),{path:'/'});
+            this.cookie.set("token",res.token.toString().trim(),{path:'/'});
             this.cookie.set("refresh",res.refreshToken.toString().trim());
             this.toast.success({detail:"Successful Login!",duration: 2000});
             this.router.navigate([""]);
@@ -124,7 +124,7 @@ export class LoginComponent implements OnInit{
       .subscribe({
         next:(res)=>{
           //alert(res.message);
-          this.cookie.set('resetToken',res.resetToken);
+          this.cookie.set('resetToken',res.resetToken,{path:'/'});
           //console.log(res);
           //console.log(this.resetPasswordEmail);
         },

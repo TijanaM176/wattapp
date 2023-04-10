@@ -19,10 +19,16 @@ export class NavbarOffcanvasComponent implements OnInit, OnDestroy{
     
   }
   ngOnInit(): void {
+    const offcanv = document.getElementById('offcanv');
+    const offcanvBody = document.getElementById('offcanvBody');
+    offcanv!.style.height = this.widthService.height + 'px';
+    offcanvBody!.style.height = this.widthService.height + 'px';
     this.deviceWidth = this.widthService.deviceWidth;
     this.resizeObservable$ = fromEvent(window, 'resize');
     this.resizeSubscription$ = this.resizeObservable$.subscribe( evt => {
       this.deviceWidth = this.widthService.deviceWidth;
+      offcanv!.style.height = this.widthService.height + 'px';
+      offcanvBody!.style.height = this.widthService.height + 'px';
     });
   }
   ngOnDestroy(): void {
