@@ -10,6 +10,7 @@ import { Category } from 'src/app/models/categories';
 import { Models } from 'src/app/models/models';
 import { DeviceType } from 'src/app/models/types';
 import { AdddeviceserviceService } from 'src/app/services/adddeviceservice.service';
+import { DeviceCardsComponent } from '../deviceCards/deviceCards.component';
 @Component({
   selector: 'app-add-device',
   templateUrl: './add-device.component.html',
@@ -27,6 +28,7 @@ export class AddDeviceComponent implements OnInit{
   id:string='';
  show:boolean=false;
  @ViewChild('c', {static:false}) c! : AddDeviceFormComponent;
+
   constructor(private service:AdddeviceserviceService,private router:Router,private cookie:CookieService,public toast:NgToastService) { }
   ngOnInit(): void {
     //this.dropDownCategory = false;
@@ -41,6 +43,7 @@ export class AddDeviceComponent implements OnInit{
       //location.reload();
       this.show=false;
       this.router.navigate(['/ProsumerApp/userDevices']);
+      
     }
     
   }
