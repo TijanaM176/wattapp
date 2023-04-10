@@ -548,5 +548,18 @@ namespace API.Controllers
             }
             
         }
+
+        [HttpGet("CityPercentages")]
+        public async Task<IActionResult> CityPercentages()
+        {
+            try
+            {
+                return Ok(await devService.CityPercentages());
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }

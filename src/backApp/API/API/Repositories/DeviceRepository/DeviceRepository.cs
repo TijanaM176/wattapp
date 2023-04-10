@@ -449,5 +449,10 @@ namespace API.Repositories.DeviceRepository
         {
             return await _regContext.Devices.Where(x => x.TypeId == typeId).ToListAsync();
         }
+
+        public async Task<string> GetCity(long? id)
+        {
+            return (await _regContext.Cities.FirstOrDefaultAsync(x => x.Id == id)).Name;
+        }
     }
 }

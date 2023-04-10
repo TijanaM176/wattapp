@@ -566,5 +566,52 @@ namespace API.Services.Devices
             };
         }
 
+        public async Task<Dictionary<string, Dictionary<string, double>>> CityPercentages()
+        {
+            var prosumers = (await _repository.GetProsumers()).Select(x => new { Id = x.Id, CityId = x.CityId });
+            Dictionary<string, Dictionary<string, double>> cities = new Dictionary<string, Dictionary<string, double>>();
+            cities["Consumption"] = new Dictionary<string, double>();
+            cities["Production"] = new Dictionary<string, double>();
+            double totalConsumption = 0;
+            double totalProduction = 0;
+
+            foreach (var prosumer in prosumers)
+            {
+                var city = await _repository.GetCity(prosumer.CityId);
+                var cons = await CurrentConsumptionForProsumer(prosumer.Id);
+                var prod = await CurrentProductionForProsumer(prosumer.Id);
+
+                if (cons > 0)
+                {
+                    totalConsumption += cons;
+
+                    if (cities.ContainsKey(city))
+                        cities["Consumption"][city] += cons;
+                    else
+                        cities["Consumption"][city] = cons;
+                }
+                
+                if(prod > 0)
+                {
+                    totalProduction += prod;
+
+                    if (cities.ContainsKey(city))
+                        cities["Production"][city] += prod;
+                    else
+                        cities["Production"][city] = prod;
+                }
+            }
+
+            foreach (var typepair in cities)
+            {
+                foreach (var pair in typepair.Value)
+                {
+                    if (typepair.Key == "Consumption") cities[typepair.Key][pair.Key] = Math.Round((pair.Value / totalConsumption) * 100, 2);
+                    else cities[typepair.Key][pair.Key] = Math.Round((pair.Value / totalProduction) * 100, 2);
+                }
+            }
+
+            return cities;
+        }
     }
 }
