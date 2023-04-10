@@ -67,6 +67,7 @@ import { WorkerProfileComponent } from './components/worker-profile/worker-profi
 import { User1Component } from './components/user1/user1.component';
 import { PocetnaComponent } from './components/pocetna/pocetna.component';
 import { RealizationPredictionAllProsumersComponent } from './components/Charts/realizationPredictionAllProsumers/realizationPredictionAllProsumers.component';
+import { Top5ProducersComponent } from './components/Charts/top5Producers/top5Producers.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -109,6 +110,7 @@ import { RealizationPredictionAllProsumersComponent } from './components/Charts/
     User1Component,
     PocetnaComponent,
     RealizationPredictionAllProsumersComponent,
+    Top5ProducersComponent,
   ],
   imports: [
     MatSliderModule,

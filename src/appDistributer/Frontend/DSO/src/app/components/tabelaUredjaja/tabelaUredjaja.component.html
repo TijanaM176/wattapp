@@ -123,34 +123,73 @@
           "
         >
           <tr>
-            <td [ngSwitch]="device.typeId">
-              <span *ngSwitchCase="'1'"
-                ><i class="fa fa-refrigerator"></i
-              ></span>
-              <span *ngSwitchCase="'2'"><i class="fa fa-tv"></i></span>
-              <span *ngSwitchCase="'3'"><i class="fa fa-oven"></i></span>
-              <span *ngSwitchCase="'4'"><i class="fa fa-ac"></i></span>
-              <span *ngSwitchCase="'8'"><i class="fa fa-laptop"></i></span>
+            <td [ngSwitch]="device.TypeId">
+              <div *ngSwitchCase="'1'">
+                <img src="assets/images/fridge.png" />
+              </div>
+              <div *ngSwitchCase="'2'">
+                <img src="assets/images/tv.png" />
+              </div>
+              <span *ngSwitchCase="'3'"
+                ><img src="assets/images/oven.png"
+              /></span>
+              <span *ngSwitchCase="'4'"
+                ><img src="assets/images/air-conditioner.png"
+              /></span>
+              <span *ngSwitchCase="'5'"
+                ><img src="assets/images/microwave.png"
+              /></span>
+              <span *ngSwitchCase="'6'"
+                ><img src="assets/images/dish-washer.png"
+              /></span>
+              <span *ngSwitchCase="'7'"
+                ><img src="assets/images/coffee-machine.png"
+              /></span>
+              <span *ngSwitchCase="'8'"
+                ><img src="assets/images/pc.png"
+              /></span>
+              <span *ngSwitchCase="'9'"
+                ><img src="assets/images/washing-machine.png"
+              /></span>
+              <span *ngSwitchCase="'10'"
+                ><img src="assets/images/dryer-machine.png"
+              /></span>
+              <span *ngSwitchCase="'11'"
+                ><img src="assets/images/vacuum-cleaner.png"
+              /></span>
+              <span *ngSwitchCase="'12'"
+                ><img src="assets/images/iron.png"
+              /></span>
+              <span *ngSwitchCase="'13'"
+                ><img src="assets/images/dryer.png"
+              /></span>
+              <span *ngSwitchCase="'14'"
+                ><img src="assets/images/water-heater.png"
+              /></span>
+              <span *ngSwitchCase="'15'"
+                ><img src="assets/images/kettle.png"
+              /></span>
+              <span *ngSwitchCase="'16'"
+                ><img src="assets/images/station-charging.png"
+              /></span>
+              <span *ngSwitchCase="'17'"
+                ><img src="assets/images/playstation.png"
+              /></span>
+              <span *ngSwitchCase="'18'"
+                ><img src="assets/images/smart-heater.png"
+              /></span>
+              <span *ngSwitchCase="'19'"
+                ><img src="assets/images/solar-panel.png"
+              /></span>
+              <span *ngSwitchCase="'20'"
+                ><img src="assets/images/windmill.png"
+              /></span>
             </td>
-            <td>{{ device.ipAddress }}</td>
-            <td>{{ device.name }}</td>
+            <td>{{ device.IpAddress }}</td>
+            <td>{{ device.Name }}</td>
 
             <td>{{ device.wattage }}kW</td>
             <td>
-              <div *ngIf="'consumer.wattage' !== value; else offToggle">
-                <div class="form-check form-switch">
-                  <input
-                    class="form-check-input"
-                    checked
-                    type="checkbox"
-                    role="switch"
-                    id="flexSwitchCheckDefault"
-                  />
-                  <label class="form-check-label" for="flexSwitchCheckDefault"
-                    >On</label
-                  >
-                </div>
-              </div>
               <ng-template #offToggle>
                 <div class="form-check form-switch">
                   <input
@@ -161,17 +200,39 @@
                     id="flexSwitchCheckDefault"
                   />
                   <label class="form-check-label" for="flexSwitchCheckDefault"
-                    >On</label
+                    >Inactive</label
                   >
                 </div>
               </ng-template>
+              <div
+                *ngIf="
+                  'consumer.Timestamps.activePower !== value; else #offToggle'
+                "
+              >
+                <div class="form-check form-switch">
+                  <input
+                    class="form-check-input"
+                    checked
+                    type="checkbox"
+                    role="switch"
+                    id="flexSwitchCheckDefault"
+                  />
+                  <label class="form-check-label" for="flexSwitchCheckDefault"
+                    >Active</label
+                  >
+                </div>
+              </div>
             </td>
-            <td><a
-              routerLink="/DsoApp/user/{{id}}/Devices/deviceinfo/{{device.id}}"
-              class="settings"
-              title=""
-              ><i class="fa fa-info-circle"></i></a
-            ></td>
+            <td>
+              <a
+                routerLink="/DsoApp/user/{{ id }}/Devices/deviceinfo/{{
+                  device.Id
+                }}"
+                class="settings"
+                title=""
+                ><i class="fa fa-info-circle"></i
+              ></a>
+            </td>
           </tr>
         </tbody>
       </table>

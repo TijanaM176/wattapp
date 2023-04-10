@@ -68,7 +68,7 @@ export class TabelaUredjajaComponent implements OnInit {
       this.devicesToShow = [];
     } else {
       this.devicesToShow = this.devices.filter((device) =>
-        selectedCategories.includes(device.categoryId)
+        selectedCategories.includes(device.CategoryId)
       );
     }
 

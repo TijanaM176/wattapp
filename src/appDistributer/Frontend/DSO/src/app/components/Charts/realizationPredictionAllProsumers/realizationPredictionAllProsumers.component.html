@@ -1,6 +1,9 @@
 <div>
-  <div class="card-header pb-0 pt-3 bg-transparent row">
-    <div class="col-5" style="padding: 1px">
+  <div
+    class="card-header pb-0 pt-3 bg-transparent row"
+    style="margin-left: 0; margin-right: 0"
+  >
+    <div class="col-5">
       <h6 class="text-capitalize">Realization and Prediction Chart</h6>
       <!-- <p class="text-sm mb-0">
         <i class="fa fa-arrow-up text-success"></i>
@@ -9,7 +12,12 @@
     </div>
     <div
       class="col-7"
-      style="display: flex; justify-content: right; margin: auto; padding: 1px"
+      style="
+        display: flex;
+        justify-content: right;
+        margin: auto;
+        padding-bottom: 2px;
+      "
     >
       <button
         class="btn"
@@ -43,7 +51,7 @@
   <div style="width: 99%; margin: 0 auto; margin-top: 1%; height: 100%">
     <ngx-charts-line-chart
       *ngIf="data"
-      [title]="'My Bar Chart Title'"
+      [title]="'Realization And Predictions Char'"
       [scheme]="colors"
       [results]="data"
       [xAxis]="showXAxis"

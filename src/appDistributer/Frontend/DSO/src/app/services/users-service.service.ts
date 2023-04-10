@@ -167,4 +167,12 @@ export class UsersServiceService {
   ProsumersInfo1(): Observable<any[]> {
     return this.http.get<any[]>(this.deviceBaseUrl + 'AllProsumerInfo');
   }
+
+  Top5Consumers(): Observable<any[]> {
+    return this.http.get<any[]>(this.deviceBaseUrl + 'Top5Consumers');
+  }
+
+  Top5Producers(): Observable<any[]> {
+    return this.http.get<any[]>(this.deviceBaseUrl + 'Top5Producers');
+  }
 }
