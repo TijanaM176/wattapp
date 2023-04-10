@@ -69,6 +69,8 @@ import { PocetnaComponent } from './components/pocetna/pocetna.component';
 import { RealizationPredictionAllProsumersComponent } from './components/Charts/realizationPredictionAllProsumers/realizationPredictionAllProsumers.component';
 import { Top5ProducersComponent } from './components/Charts/top5Producers/top5Producers.component';
 import { NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { PopupAddComponent } from './components/popup-add/popup-add.component';
+import { PopupEmpComponent } from './components/popup-emp/popup-emp.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -112,6 +114,8 @@ import { NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
     PocetnaComponent,
     RealizationPredictionAllProsumersComponent,
     Top5ProducersComponent,
+    PopupAddComponent,
+    PopupEmpComponent,
   ],
   imports: [
     MatSliderModule,

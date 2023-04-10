@@ -192,11 +192,11 @@
               Users
             </button>
             <CDBDropDownMenu #menu="cdbDropdownMenu" placement="bottom">
-              <CDBDropDownItem routerLink="users" style="cursor: pointer"
+              <CDBDropDownItem routerLink="users" style="cursor: pointer " 
                 >All users</CDBDropDownItem
               >
-              <CDBDropDownItem routerLink="signup" style="cursor: pointer"
-                >Add new user</CDBDropDownItem
+              <CDBDropDownItem  style="cursor: pointer"
+              data-bs-toggle="modal" data-bs-target="#exampleModal3" id="a">Add new user</CDBDropDownItem
               >
             </CDBDropDownMenu>
           </div>
@@ -228,8 +228,8 @@
               <CDBDropDownItem routerLink="employees" style="cursor: pointer"
                 >All employees</CDBDropDownItem
               >
-              <CDBDropDownItem routerLink="signupWorker" style="cursor: pointer"
-                >Add new employee</CDBDropDownItem
+              <CDBDropDownItem style="cursor: pointer"
+              data-bs-toggle="modal" data-bs-target="#exampleModal2" >Add new employee</CDBDropDownItem
               >
             </CDBDropDownMenu>
           </div>
