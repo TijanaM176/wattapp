@@ -92,10 +92,7 @@
         <div class="form-group">
           <div class="panelbor">
             <div class="panel-body">
-              <form
-                [formGroup]="signupForm"
-                (ngSubmit)="onSignUp().subscribe(() => modal.close('Save click'))"
-              >
+              <form [formGroup]="signupForm" (ngSubmit)="onSignUp()">
                 <div class="form-group pt-3">
                   <div
                     class="input-field"
