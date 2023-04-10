@@ -11,6 +11,7 @@ import { AuthServiceService } from 'src/app/services/auth-service.service';
 })
 export class NavBarComponent implements OnInit {
   value: string = '';
+  
   constructor(
     private router: Router,
     private cookie: CookieService,

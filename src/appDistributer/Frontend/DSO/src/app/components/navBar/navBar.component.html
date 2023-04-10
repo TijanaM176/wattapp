@@ -79,10 +79,11 @@
                 width: 90%;
                 vertical-align: middle;
               "
-            >
+            > 
               <CDBNavLink routerLink="employees" style="color: #5875a1">
                 Employees
               </CDBNavLink>
+            
             </CDBBtn>
           </CDBNavItem>
           <CDBNavItem>
@@ -199,7 +200,9 @@
               >
             </CDBDropDownMenu>
           </div>
+          
         </CDBNavItem>
+        <div *ngIf="value === 'Dso'">
         <CDBNavItem style="width: 140px">
           <div class="dropdown">
             <button
@@ -231,6 +234,7 @@
             </CDBDropDownMenu>
           </div>
         </CDBNavItem>
+      </div>
         <CDBNavItem>
           <CDBDropDown
             class="nav-link"

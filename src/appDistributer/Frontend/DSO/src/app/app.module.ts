@@ -68,6 +68,7 @@ import { User1Component } from './components/user1/user1.component';
 import { PocetnaComponent } from './components/pocetna/pocetna.component';
 import { RealizationPredictionAllProsumersComponent } from './components/Charts/realizationPredictionAllProsumers/realizationPredictionAllProsumers.component';
 import { Top5ProducersComponent } from './components/Charts/top5Producers/top5Producers.component';
+import { NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 @NgModule({
   declarations: [
     AppComponent,
@@ -136,6 +137,7 @@ import { Top5ProducersComponent } from './components/Charts/top5Producers/top5Pr
     NgxPaginationModule,
     PaginationModule,
     NgxChartsModule,
+    NgbModule,
   ],
   providers: [
     CookieService,

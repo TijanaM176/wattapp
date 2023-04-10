@@ -38,6 +38,11 @@ export class SignupComponent implements OnInit {
 
   signupForm!: FormGroup;
   signupFormValues!: FormGroup;
+   closeResult: string='';
+  users: any;
+  showModal: boolean = false;
+  currentCountry:string = '';
+  validInput: boolean = false;
   constructor(
     private fb: FormBuilder,
     private auth: AuthService,
@@ -181,4 +186,7 @@ export class SignupComponent implements OnInit {
         console.error(`Error fetching location data: ${error}`);
       });
   }
+
+
+ 
 }
