@@ -83,6 +83,14 @@ select {
 .invalid {
   font-size: 14px;
 }
+.btn:hover{
+    background-color: #08376b;
+
+}
 #dugme{
     width: 100px;
 }
+#dugme:hover{
+    background-color: #08376b;
+}
+  
