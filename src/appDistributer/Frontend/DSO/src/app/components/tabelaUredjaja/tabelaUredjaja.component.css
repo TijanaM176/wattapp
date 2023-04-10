@@ -171,3 +171,8 @@ td {
   opacity: 0.5;
   cursor: default;
 }
+
+table td img {
+  width: 40px;
+  height: 40px;
+}

@@ -1,0 +1,123 @@
+<div
+  *ngIf="isProducersChecked === true"
+  class="card-header pb-0 pt-3 bg-transparent row"
+  style="margin-left: 0; margin-right: 0"
+>
+  <div class="col-5" style="padding: 2px">
+    <h6 class="text-capitalize">Current Top 5 Producers</h6>
+  </div>
+  <div
+    class="col-7"
+    style="display: flex; justify-content: right; margin: auto; padding: 1px"
+  >
+    <div class="form-check mx-3">
+      <input
+        class="form-check-input"
+        type="radio"
+        name="radioOption"
+        id="consumersOption"
+        (change)="onRadioButtonChange($event, 'consumers')"
+        [checked]="isConsumersChecked"
+      />
+      <label class="form-check-label" for="consumersOption"> Consumers </label>
+    </div>
+
+    <div class="form-check mx-3">
+      <input
+        class="form-check-input"
+        type="radio"
+        name="radioOption"
+        id="producersOption"
+        (change)="onRadioButtonChange($event, 'producers')"
+        [checked]="isProducersChecked"
+      />
+      <label class="form-check-label" for="producersOption"> Producers </label>
+    </div>
+  </div>
+  <div class="table-responsive">
+    <table class="table align-items-center">
+      <thead>
+        <tr>
+          <td>FirstName</td>
+          <td>LastName</td>
+          <td>Address</td>
+          <td>Consumption</td>
+          <td>Production</td>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of producers">
+          <td>{{ item.FirstName }}</td>
+          <td>{{ item.LastName }}</td>
+          <td>{{ item.Address }}</td>
+          <td>{{ item.Consumption }} kW</td>
+          <td>{{ item.Production }} kW</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+<div *ngIf="isConsumersChecked === true">
+  <div
+    class="card-header pb-0 pt-3 bg-transparent row"
+    style="margin-left: 0; margin-right: 0"
+  >
+    <div class="col-5" style="padding: 2px">
+      <h6 class="text-capitalize">Current Top 5 Consumers</h6>
+    </div>
+    <div
+      class="col-7"
+      style="display: flex; justify-content: right; margin: auto; padding: 1px"
+    >
+      <div class="form-check mx-3">
+        <input
+          class="form-check-input"
+          type="radio"
+          name="radioOption"
+          id="consumersOption"
+          (change)="onRadioButtonChange($event, 'consumers')"
+          [checked]="isConsumersChecked"
+        />
+        <label class="form-check-label" for="consumersOption">
+          Consumers
+        </label>
+      </div>
+
+      <div class="form-check mx-3">
+        <input
+          class="form-check-input"
+          type="radio"
+          name="radioOption"
+          id="producersOption"
+          (change)="onRadioButtonChange($event, 'producers')"
+          [checked]="isProducersChecked"
+        />
+        <label class="form-check-label" for="producersOption">
+          Producers
+        </label>
+      </div>
+    </div>
+    <div class="table-responsive">
+      <table class="table align-items-center">
+        <thead>
+          <tr>
+            <td>FirstName</td>
+            <td>LastName</td>
+            <td>Address</td>
+            <td>Consumption</td>
+            <td>Production</td>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of consumers">
+            <td>{{ item.FirstName }}</td>
+            <td>{{ item.LastName }}</td>
+            <td>{{ item.Address }}</td>
+            <td>{{ item.Consumption }} kW</td>
+            <td>{{ item.Production }} kW</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
