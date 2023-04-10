@@ -5,6 +5,7 @@ import { NgToastService } from 'ng-angular-popup';
 import { CookieService } from 'ngx-cookie-service';
 import { Observable } from 'rxjs';
 import { AddDeviceFormComponent } from 'src/app/forms/add-device-form/add-device-form.component';
+import { AddDevice } from 'src/app/models/adddevice';
 import { Category } from 'src/app/models/categories';
 import { Models } from 'src/app/models/models';
 import { DeviceType } from 'src/app/models/types';
@@ -39,9 +40,9 @@ export class AddDeviceComponent implements OnInit{
     if(this.show){
       //location.reload();
       this.show=false;
+      this.router.navigate(['/ProsumerApp/userDevices']);
     }
     
-    this.router.navigate(['/ProsumerApp/userDevices']);
   }
   registerDevice(){
     if(this.show){
@@ -51,7 +52,14 @@ export class AddDeviceComponent implements OnInit{
     console.log(this.service.id);
     console.log(this.service.model);
     console.log(this.service.name);
-    this.service.RegisterDevice().subscribe({
+    console.log(this.service.dsoView);
+    console.log(this.service.dsoControl);
+    let device : AddDevice = new AddDevice();
+    device.modelId=this.service.model;
+    device.name=this.service.name;
+    device.dsoView=this.service.dsoView;
+    device.dsoControl=this.service.dsoControl;
+    this.service.RegisterDevice(device).subscribe({
       next:(response)=>{
         this.toast.success({detail:"Success!", summary:"New Device Added",duration:2500});
         

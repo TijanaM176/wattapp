@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { AddDevice } from '../models/adddevice';
 
 @Injectable({
   providedIn: 'root'
@@ -28,7 +29,8 @@ export class AdddeviceserviceService {
   getModels():Observable<any>{
     return this.http.get<any>(this.baseUrl2+'?typeId='+this.type);
   }
-  RegisterDevice():Observable<any>{
-    return this.http.post(this.baseUrl3+'?prosumerId='+this.id+'&modelId='+this.model+'&name='+this.name+'&dsoView='+this.dsoView+'&dsoControl='+this.dsoControl,{responseType:'text'});
+  RegisterDevice(dto:AddDevice):Observable<string>{
+    return this.http.post(this.baseUrl3+'?prosumerId='+this.id+'&modelId='+dto.modelId+'&name='+dto.name+'&dsoView='+dto.dsoView+'&dsoControl='+dto.dsoControl,{},{responseType:'text'});
+
   }
 }

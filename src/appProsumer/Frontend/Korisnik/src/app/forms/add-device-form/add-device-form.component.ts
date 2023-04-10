@@ -26,6 +26,8 @@ export class AddDeviceFormComponent {
   models:Models[]=[];
   Name:string='';
   manufacturer:string='';
+  DsoView:boolean=false;
+  DsoControl:boolean=false;
   id:string='';
   p:any;
   constructor(private service:AdddeviceserviceService,private cookie:CookieService,public toast:NgToastService) { }
@@ -108,6 +110,10 @@ export class AddDeviceFormComponent {
   ChangeName(e:any){
    
   this.service.name=this.Name;
+ 
   }
-  
+  ChangeButton(){
+  this.service.dsoView=this.DsoView;
+  this.service.dsoControl=this.DsoControl;
+  }
 }

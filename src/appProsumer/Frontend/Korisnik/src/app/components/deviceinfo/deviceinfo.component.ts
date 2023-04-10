@@ -111,6 +111,7 @@ export class DeviceinfoComponent {
     }
     
     this.modalTitle = ''
+    
   }
   confirm(){
     if(this.showEdit)

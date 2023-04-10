@@ -53,6 +53,10 @@ export class EditDeviceFormComponent {
       device.DsoView=this.DsoView;
       device.DsoControl=this.DsoControl;
       console.log(this.idDev);
+      console.log(this.Name);
+      console.log(this.Manufacturer);
+      console.log(this.DsoView);
+      console.log(this.DsoControl);
       this.service.editInfo(this.idDev,device)
       .subscribe({
         next:(res)=>{
