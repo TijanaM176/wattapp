@@ -59,10 +59,10 @@
   <div class="container">
     <div id="cards">
       <div class="row">
-        <div class="card" *ngFor="let device of devices">
+        <div class="card" *ngFor="let device of devices" routerLink="/ProsumerApp/userDevices/{{ device.Id }}/deviceinfo">
           <table style="margin: 2%">
             <tr style="display: flex; justify-content: space-evenly">
-              <span [ngSwitch]="device.typeId">
+              <span [ngSwitch]="device.TypeId">
                 <div *ngSwitchCase="'1'">
                   <img src="assets/images/fridge.png" />
                 </div>
@@ -124,20 +124,20 @@
                   ><img src="assets/images/windmill.png"
                 /></span>
               </span>
-              <span [ngSwitch]="device.categoryId">
+              <span [ngSwitch]="device.CategoryId">
                 <h6 *ngSwitchCase="'1'" style="text-align: center">
-                  Consumption {{ deviceUsages[device.id] }} kW
+                  Consumption {{ deviceUsages[device.Id] }} kW
                 </h6>
                 <h6 *ngSwitchCase="'2'" style="text-align: center">
-                  Production {{ deviceUsages[device.id] }} kW
+                  Production {{ deviceUsages[device.Id] }} kW
                 </h6>
                 <h6 *ngSwitchCase="'3'" style="text-align: center">
-                  Storage {{ deviceUsages[device.id] }} kW
+                  Storage {{ deviceUsages[device.Id] }} kW
                 </h6>
               </span>
             </tr>
           </table>
-          <h4>{{ device.name }}</h4>
+          <h4>{{ device.Name }}</h4>
           <tr style="display: flex; justify-content: space-between; width: 90%">
             <h6>IP {{ device.ipAddress }}</h6>
             <ng-template #other style="vertical-align: super">
@@ -150,7 +150,7 @@
                 Off
               </mat-slide-toggle></ng-template
             >
-            <div *ngIf="deviceUsages[device.id] !== 0; else other">
+            <div *ngIf="deviceUsages[device.Id] !== 0; else other">
               <div>
                 <mat-slide-toggle
                   style="vertical-align: super"

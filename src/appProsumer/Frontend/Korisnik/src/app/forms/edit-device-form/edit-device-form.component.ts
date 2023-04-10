@@ -1,4 +1,5 @@
 import { Component, Input } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { Device } from 'src/app/models/device';
 import { EditDevice } from 'src/app/models/deviceedit';
 import { DeviceserviceService } from 'src/app/services/deviceservice.service';
@@ -18,10 +19,12 @@ export class EditDeviceFormComponent {
   notFilled : boolean = false;
   success : boolean = false;
   failure : boolean = false;
+  DsoView!:boolean;
+  DsoControl!:boolean;
+  typeId!:number;
+  idDev!:string;
 
-  privremeniId:string = '6420b43190d65ae1554350a9';
-
-  constructor(private service : DeviceserviceService) {}
+  constructor(private service : DeviceserviceService,private router1:ActivatedRoute) {}
 
   ngOnInit(): void {
     this.loadInfo()
@@ -32,6 +35,9 @@ export class EditDeviceFormComponent {
   {
     this.IpAddress = this.deviceData.IpAddress;
     this.Name=this.deviceData.Name;
+    this.Manufacturer=this.deviceData.Manufacturer;
+    this.DsoControl=this.deviceData.DsoControl;
+    this.DsoView=this.deviceData.DsoView;
   }
   editInfo()
   {
@@ -39,12 +45,15 @@ export class EditDeviceFormComponent {
     if(this.IpAddress!="" && this.Name!="")
     {
       this.allToFalse();
-
+      this.idDev= this.router1.snapshot.params['idDev'];
       let device : EditDevice = new EditDevice();
       device.IpAddress = this.IpAddress;
       device.Name = this.Name;
-      console.log(this.privremeniId);
-      this.service.editInfo(this.privremeniId,device.Name,device.IpAddress)
+      device.Manufacturer=this.Manufacturer;
+      device.DsoView=this.DsoView;
+      device.DsoControl=this.DsoControl;
+      console.log(this.idDev);
+      this.service.editInfo(this.idDev,device)
       .subscribe({
         next:(res)=>{
           this.allToFalse();

@@ -29,7 +29,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { AddDeviceComponent } from './components/add-device/add-device.component';
 import { EditDeviceFormComponent } from './forms/edit-device-form/edit-device-form.component';
 import { AddDeviceFormComponent } from './forms/add-device-form/add-device-form.component';
-
+import {MatButtonToggleModule} from '@angular/material/button-toggle';
 @NgModule({
   declarations: [
     AppComponent,
@@ -50,6 +50,7 @@ import { AddDeviceFormComponent } from './forms/add-device-form/add-device-form.
     AddDeviceComponent,
     EditDeviceFormComponent,
     AddDeviceFormComponent,
+   
   ],
   imports: [
     BrowserAnimationsModule,
@@ -65,6 +66,7 @@ import { AddDeviceFormComponent } from './forms/add-device-form/add-device-form.
     RouterModule,
     MatSlideToggleModule,
     CommonModule,
+    MatButtonToggleModule
   ],
   providers: [
     CookieService,

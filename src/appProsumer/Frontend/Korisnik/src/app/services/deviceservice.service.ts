@@ -17,9 +17,14 @@ export class DeviceserviceService {
   {
     return this.http.get<any>(this.baseUrl+'?id='+id);
   }
-  editInfo(id : string, deviceName:string, IpAddress:string)
+  /*
+  editInfo(id : string, deviceName:string, IpAddress:string, Manufacturer:string, DsoView:boolean,DsoControl:boolean):Observable<string>
   {
-    return this.http.put(this.baseUrl1+'?IdDevice='+id+'&DeviceName='+deviceName+'&IpAddress='+IpAddress,{});
+    return this.http.put(this.baseUrl1+'?IdDevice='+id+'&model='+Manufacturer+'&DeviceName='+deviceName+'&IpAddress='+IpAddress+'&dsoView='+DsoView+'&dsoControl='+DsoControl,{responseType:'text'});
+
+  }*/
+  editInfo(id: string, dto: EditDevice):Observable<string> {
+    return this.http.put(this.baseUrl1 + '?id=' + id, dto, {responseType:'text'});
   }
   deleteDevice(id:string):Observable<string>{
     return this.http.delete(this.baseUrl2+'?IdDevice='+id,{responseType:'text'});
