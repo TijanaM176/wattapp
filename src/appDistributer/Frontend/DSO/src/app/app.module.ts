@@ -66,6 +66,7 @@ import { HomeSidebarComponent } from './components/home-sidebar/home-sidebar.com
 import { WorkerProfileComponent } from './components/worker-profile/worker-profile.component';
 import { User1Component } from './components/user1/user1.component';
 import { NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { PopupAddComponent } from './components/popup-add/popup-add.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -106,6 +107,7 @@ import { NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
     HomeSidebarComponent,
     WorkerProfileComponent,
     User1Component,
+    PopupAddComponent,
   ],
   imports: [
     MatSliderModule,
