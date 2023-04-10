@@ -29,6 +29,8 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { AddDeviceComponent } from './components/add-device/add-device.component';
 import { EditDeviceFormComponent } from './forms/edit-device-form/edit-device-form.component';
 import { AddDeviceFormComponent } from './forms/add-device-form/add-device-form.component';
+import { RealizationChartComponent } from './components/Charts/realization-chart/realization-chart.component';
+import { NgxChartsModule } from '@swimlane/ngx-charts';
 
 @NgModule({
   declarations: [
@@ -50,6 +52,7 @@ import { AddDeviceFormComponent } from './forms/add-device-form/add-device-form.
     AddDeviceComponent,
     EditDeviceFormComponent,
     AddDeviceFormComponent,
+    RealizationChartComponent,
   ],
   imports: [
     BrowserAnimationsModule,
@@ -65,6 +68,7 @@ import { AddDeviceFormComponent } from './forms/add-device-form/add-device-form.
     RouterModule,
     MatSlideToggleModule,
     CommonModule,
+    NgxChartsModule
   ],
   providers: [
     CookieService,

@@ -59,59 +59,59 @@ export class HomeComponent implements OnInit, AfterViewInit {
 
   private getState()
   {
-    if ('geolocation' in navigator) {
-      if(!this.cookie.check('country'))
-      {
-        navigator.geolocation.getCurrentPosition(
-          (position) => {
-            this.cookie.set('lat', position.coords.latitude.toString(),{path:'/'});
-            this.cookie.set('long', position.coords.longitude.toString(),{path:'/'});
-            var url = "https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=" + position.coords.latitude + "&lon=" + position.coords.longitude;
-            fetch(url)
-            .then(response => response.json())
-            .then(data => {
-              console.log(data.address.country);
-              this.cookie.set('country',data.address.country,{path:'/'});
-            })
-          },
-          (error) => {
-            // If the user denies permission or an error occurs, handle it appropriately
-            console.error("Error getting user's location:", error);
-            this.showModal = true;
-            /*this.toast.error({
-              detail: 'ERROR',
-              summary: 'Unable To Get Your Current Location.',
-              duration: 3000,
-            });*/
-          },{ enableHighAccuracy: true, timeout: 100 }
-        )
-      }
-    }
-    else {
-      // If the browser does not support the Geolocation API, handle it appropriately
-      this.showModal = true;
-      this.toast.error({
-        detail: 'ERROR',
-        summary: 'Geolocation is not supported by this browser.',
-        duration: 3000,
-      });
-    }
+    // if ('geolocation' in navigator) {
+    //   if(!this.cookie.check('country'))
+    //   {
+    //     navigator.geolocation.getCurrentPosition(
+    //       (position) => {
+    //         this.cookie.set('lat', position.coords.latitude.toString(),{path:'/'});
+    //         this.cookie.set('long', position.coords.longitude.toString(),{path:'/'});
+    //         var url = "https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=" + position.coords.latitude + "&lon=" + position.coords.longitude;
+    //         fetch(url)
+    //         .then(response => response.json())
+    //         .then(data => {
+    //           console.log(data.address.country);
+    //           this.cookie.set('country',data.address.country,{path:'/'});
+    //         })
+    //       },
+    //       (error) => {
+    //         // If the user denies permission or an error occurs, handle it appropriately
+    //         console.error("Error getting user's location:", error);
+    //         this.showModal = true;
+    //         /*this.toast.error({
+    //           detail: 'ERROR',
+    //           summary: 'Unable To Get Your Current Location.',
+    //           duration: 3000,
+    //         });*/
+    //       },{ enableHighAccuracy: true, timeout: 100 }
+    //     )
+    //   }
+    // }
+    // else {
+    //   // If the browser does not support the Geolocation API, handle it appropriately
+    //   this.showModal = true;
+    //   this.toast.error({
+    //     detail: 'ERROR',
+    //     summary: 'Geolocation is not supported by this browser.',
+    //     duration: 3000,
+    //   });
+    // }
   }
 
-  SaveCountry()
-  {
-    if(this.currentCountry!="")
-    {
-      this.cookie.set('country',this.currentCountry,{path:'/'});
-      this.showModal = false;
-    }
-  }
+  // SaveCountry()
+  // {
+  //   if(this.currentCountry!="")
+  //   {
+  //     this.cookie.set('country',this.currentCountry,{path:'/'});
+  //     this.showModal = false;
+  //   }
+  // }
   
-  Validate($event: any) {
-    if(this.currentCountry!="")
-    {
-      this.validInput=true;
-      this.showModal = false;
-    }
-  }
+  // Validate($event: any) {
+  //   if(this.currentCountry!="")
+  //   {
+  //     this.validInput=true;
+  //     this.showModal = false;
+  //   }
+  // }
 }

@@ -1,0 +1,45 @@
+<div class="card-header py-3 row">
+    <div class="col-5 p-1">
+        <h6 class="m-0 font-weight-bold">Realization</h6>
+    </div>
+    <div class="col-7 p-1" style="display: flex; justify-content: right; margin: auto;">
+        <button class="btn btn-primary m-1">7D</button>
+        <button class="btn btn-primary m-1">1M</button>
+        <button class="btn btn-primary m-1">1Y</button>
+    </div>
+</div>
+<div class="card-body" style="width: 100%; margin: 0 auto; display: flex; justify-content: center; align-items: center;" id="grafik">
+    <h1
+    *ngIf="data.length === 0"
+    style="
+      text-align: center;
+      margin-top: 15%;
+      opacity: 20%;
+      font-style: italic;
+      font-weight: normal;
+    "
+  >
+    There is no available Data
+  </h1>
+  <ngx-charts-bar-vertical-2d
+  *ngIf="production && consumption && data.length !== 0"
+      [title]="'My Bar Chart Title'"
+      [scheme]="colors"
+      [results]="data"
+      [xAxis]="showXAxis"
+      [yAxis]="showYAxis"
+      [showXAxisLabel]="false"
+      [showYAxisLabel]="false"
+      [showDataLabel]="false"
+      [animations]="true"
+      [barPadding]="3"
+      [roundDomains]="true"
+      [showGridLines]="true"
+      [trimYAxisTicks]="true"
+      [tooltipDisabled]="true"
+      [noBarWhenZero]="true"
+      [yAxisTickFormatting]="yAxisTickFormatting"
+      [showGridLines]="true">
+
+  </ngx-charts-bar-vertical-2d>
+</div>
