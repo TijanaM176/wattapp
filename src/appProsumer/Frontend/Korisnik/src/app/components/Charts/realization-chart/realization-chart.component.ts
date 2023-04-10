@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Color, ScaleType } from '@swimlane/ngx-charts';
+import { Color, ColorHelper, LegendPosition, ScaleType } from '@swimlane/ngx-charts';
 import { DeviceWidthService } from 'src/app/services/device-width.service';
 import { DevicesService } from 'src/app/services/devices.service';
 
@@ -25,6 +25,7 @@ export class RealizationChartComponent implements OnInit {
   showYAxis = true;
   gradient = false;
   showLegend = true;
+  legendPosition : LegendPosition = LegendPosition.Below;
   showXAxisLabel = true;
   xAxisLabel = 'Time';
   showYAxisLabel = true;
@@ -34,7 +35,7 @@ export class RealizationChartComponent implements OnInit {
 
   ngOnInit(): void {
     const grafik = document.getElementById('grafik');
-    grafik!.style.height = (this.widthService.height/2)+'px';
+    grafik!.style.height = (this.widthService.height*0.6)+'px';
     this.HistoryWeek();
   }
 
@@ -55,7 +56,8 @@ export class RealizationChartComponent implements OnInit {
     );
   }
 
-  HistoryWeek() {
+  HistoryWeek() 
+  {
     this.loadData(
       this.deviceService.history7Days.bind(this.deviceService),
       (myList: any[]) => {
@@ -63,6 +65,34 @@ export class RealizationChartComponent implements OnInit {
           const date = new Date(item.name);
           const dayName = date.toLocaleDateString('en-US', { weekday: 'long' });
           return { name: dayName, series: item.series };
+        });
+      }
+    );
+  }
+
+  HistoryMonth() 
+  {
+    this.loadData(
+      this.deviceService.history1Month.bind(this.deviceService),
+      (myList: any[]) => {
+        return myList.map((item) => {
+          const date = new Date(item.name);
+          const weekNumber = this.getWeek(date);
+          return { name: `Week ${weekNumber}`, series: item.series };
+        });
+      }
+    );
+  }
+
+  HistoryYear() 
+  {
+    this.loadData(
+      this.deviceService.history1Year.bind(this.deviceService),
+      (myList: any[]) => {
+        return myList.map((item) => {
+          const date = new Date(item.name);
+          const monthName = date.toLocaleDateString('en-US', { month: 'long' });
+          return { name: monthName, series: item.series };
         });
       }
     );
