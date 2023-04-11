@@ -6,4 +6,6 @@ export class Device{
     MaxUsage!: number
     AvgUsage!: number
     CurrentUsage!:number
+    TypeId!:number
+    ModelId!:string
 }

@@ -19,8 +19,10 @@ export class DeviceinfoComponent {
   IpAddress:string='';
   Manufacturer:string='';
   TypeName:string='';
+  TypeId:string='';
   Name:string='';
   MaxUsage:string='';
+  ModelName:string='';
   AvgUsage:string='';
   deviceData : any;
   disabled=false;
@@ -29,6 +31,7 @@ export class DeviceinfoComponent {
   idDev!:string;
   DsoView!:boolean;
   DsoControl!:boolean;
+  ModelId!:string;
   results: any;
   @ViewChild('editData', {static:false}) editData! : EditDeviceFormComponent;
   constructor( private router: Router, private service: DeviceserviceService,private toast : NgToastService,private router1: ActivatedRoute){}
@@ -58,13 +61,15 @@ export class DeviceinfoComponent {
      
           this.IpAddress=res.IpAddress;
           this.TypeName=res.TypeName;
-          this.Manufacturer=res.Manufacturer;
+          this.ModelName=res.ModelName;
           this.Name=res.Name;
           this.MaxUsage=res.MaxUsage;
           this.AvgUsage=res.AvgUsage;
           this.currentUsage=res.CurrentUsage;
           this.DsoView=res.DsoView;
           this.DsoControl=res.DsoControl;
+          this.TypeId=res.TypeId;
+          this.ModelId=res.ModelId;
 
           this.deviceData = res;
         },
@@ -81,7 +86,7 @@ export class DeviceinfoComponent {
     this.service.deleteDevice(this.idDev).subscribe(
       {
         next:(res)=>{
-          this.router.navigate(['ProsumerApp/home']);
+          this.router.navigate(['ProsumerApp/userDevices']);
           console.log("deleted");
           
         },

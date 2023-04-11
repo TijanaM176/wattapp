@@ -364,6 +364,7 @@ namespace API.Repositories.DeviceRepository
                 { "CategoryId", info.CategoryId },
                 { "TypeId", info.TypeId },
                 {"ModelId", info.Id },
+                {"ModelName", info.Name },
                 { "Manufacturer", info.Manufacturer },
                 { "Wattage", info.Wattage },
                 { "CurrentUsage", currentUsage},

@@ -3,8 +3,24 @@
     <input type="text" class="form-control" id="ipaddress" [(ngModel)]="IpAddress" placeholder="IP Address">
   </div>
   <div class="mb-3">
-    <label for="name" class="form-label">Model</label>
-    <input type="text" class="form-control" id="manufacturer" [(ngModel)]="Manufacturer" placeholder="Manufacturer">
+    <label for="Name"class="form-label">Device Model</label>
+       <select
+        class="dropdown dropdown-toggle"
+        name="model"
+        [(ngModel)]="model"
+                                      
+        (change)="ChangeModel($event)"
+                                 
+        class="form-control"
+        style="width: 100%;color:#466471;"
+        >
+        <option value="0">Choose Model</option>                           
+        <option *ngFor="let item of models"
+        [ngValue]='item.id'
+                                 
+        >{{item.name}}</option>
+        
+        </select>
   </div>
   <div class="mb-3">
     <label for="name" class="form-label">Device Name</label>

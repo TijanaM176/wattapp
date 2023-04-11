@@ -1,5 +1,8 @@
 export class Models{
     id!:string;
-    manufacturer!:string
     name!:string
+    constructor(id: string, name: string) {
+        this.id = id;
+        this.name = name;
+      }
 }

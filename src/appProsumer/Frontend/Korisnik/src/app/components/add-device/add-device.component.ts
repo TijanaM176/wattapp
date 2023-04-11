@@ -21,7 +21,7 @@ export class AddDeviceComponent implements OnInit{
   dropDownCategory: boolean = false;
   type!:number;
   types:DeviceType[]=[];
-  model:Models=new Models();
+  model!:Models;
   models:Models[]=[];
   Name:string='';
   manufacturer:string='';
