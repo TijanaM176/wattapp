@@ -35,6 +35,8 @@ export class AddDeviceFormComponent {
     this.dropDownCategory = false;
     this.dropDownType=false;
     this.dropDownModel=false;
+    this.service.dsoView=false;
+    this.service.dsoControl=false;
     this.getCategories();
     
   }
@@ -116,4 +118,5 @@ export class AddDeviceFormComponent {
   this.service.dsoView=this.DsoView;
   this.service.dsoControl=this.DsoControl;
   }
+ 
 }

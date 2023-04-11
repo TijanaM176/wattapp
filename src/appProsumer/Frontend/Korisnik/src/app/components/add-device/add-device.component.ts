@@ -11,6 +11,7 @@ import { Models } from 'src/app/models/models';
 import { DeviceType } from 'src/app/models/types';
 import { AdddeviceserviceService } from 'src/app/services/adddeviceservice.service';
 import { DeviceCardsComponent } from '../deviceCards/deviceCards.component';
+import { NavigationEnd  } from '@angular/router';
 @Component({
   selector: 'app-add-device',
   templateUrl: './add-device.component.html',
@@ -20,12 +21,16 @@ export class AddDeviceComponent implements OnInit{
   categories:Category[]=[];
   dropDownCategory: boolean = false;
   type!:number;
+  currentRoute!: string;
   types:DeviceType[]=[];
   model!:Models;
   models:Models[]=[];
   Name:string='';
   manufacturer:string='';
   id:string='';
+  success : boolean = false;
+  failure : boolean = false;
+  notFilled : boolean = false;
  show:boolean=false;
  @ViewChild('c', {static:false}) c! : AddDeviceFormComponent;
 
@@ -34,7 +39,7 @@ export class AddDeviceComponent implements OnInit{
     //this.dropDownCategory = false;
     //this.getCategories();
     this.show=true;
-    
+    this.allToFalse();
   }
 
   close()
@@ -42,7 +47,13 @@ export class AddDeviceComponent implements OnInit{
     if(this.show){
       //location.reload();
       this.show=false;
-      this.router.navigate(['/ProsumerApp/userDevices']);
+      if(this.router.url==='/ProsumerApp/userDevices'){
+        location.reload();
+      }
+      else{
+        this.router.navigate(['/ProsumerApp/userDevices']);
+      }
+      
       
     }
     
@@ -65,14 +76,21 @@ export class AddDeviceComponent implements OnInit{
     this.service.RegisterDevice(device).subscribe({
       next:(response)=>{
         this.toast.success({detail:"Success!", summary:"New Device Added",duration:2500});
-        
+        this.success=true;
       },
       error:(err)=>
       {
         console.log(err.error);
+        this.failure = true;
       }
     })
   }
   
+}
+private allToFalse()
+{
+
+  this.success = false;
+  this.failure = false;
 }
 }
