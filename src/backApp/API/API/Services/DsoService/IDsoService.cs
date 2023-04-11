@@ -24,6 +24,6 @@ namespace API.Services.DsoService
         public Task<Prosumer> UpdateProsumerByDso(ChangeProsumerbyDSO change);
         public Task<double> ProsumerCount();
         public Task<List<ElectricityPrice>> Prices();
-        public Task<double> CurrentPrice();
+        public Task<Dictionary<string, double>> CurrentPrice();
     }
 }

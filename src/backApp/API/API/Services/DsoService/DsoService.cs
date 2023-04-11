@@ -565,11 +565,18 @@ namespace API.Services.DsoService
             return prices;
         }
 
-        public async Task<double> CurrentPrice()
+        public async Task<Dictionary<string, double>> CurrentPrice()
         {
-            var price = await _repository.CurrentPrice();
+            var price = await _repository.GetPrice(DateTime.UtcNow);
+            var yesterday = await _repository.GetPrice(DateTime.UtcNow.AddDays(-1));
+            var percentage = (100 * price / yesterday) - 100;
+
             if (price == null) throw new ArgumentException("No price!");
-            return price;
+            
+            return new Dictionary<string, double> {
+                { "Price", price },
+                { "Percentage", Math.Round(percentage, 2) }
+            };
         }
     }
 }

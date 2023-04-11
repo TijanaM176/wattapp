@@ -561,5 +561,39 @@ namespace API.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+        [HttpGet("Next3DaysConsumptionAndProduction")]
+        public async Task<IActionResult> Next3DaysConsumptionAndProduction(string id)
+        {
+            try
+            {
+                return Ok(new
+                {
+                    consumption = await devService.GroupedConProdForAPeriodForProsumer(id, 0, 3, 6),
+                    production = await devService.GroupedConProdForAPeriodForProsumer(id, 1, 3, 6)
+                });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet("NextDaysConsumptionAndProduction")]
+        public async Task<IActionResult> NextDaysConsumptionAndProduction(string id)
+        {
+            try
+            {
+                return Ok(new
+                {
+                    consumption = await devService.GroupedConProdForAPeriodForProsumer(id, 0, 1, 1),
+                    production = await devService.GroupedConProdForAPeriodForProsumer(id, 1, 1, 1)
+                });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }
