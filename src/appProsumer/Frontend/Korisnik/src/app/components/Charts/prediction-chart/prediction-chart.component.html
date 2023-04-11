@@ -1,29 +1,30 @@
-<div class="card-header py-3 row">
+<div class="card-header py-3 row mx-0 my-0 px-0">
     <div class="col-5 p-1">
-        <h6 class="m-0 font-weight-bold">Prediction</h6>
+        <h6 class="m-0 font-weight-bold ps-2">Prediction</h6>
     </div>
-    <div class="col-7 p-1" style="display: flex; justify-content: right; margin: auto;">
-        <button class="btn btn-primary m-1">1D</button>
-        <button class="btn btn-primary m-1">3D</button>
-        <button class="btn btn-primary m-1" (click)="PredictionWeek()">7D</button>
+    <div class="col-7 p-1 group" style="display: flex; justify-content: right; margin: auto;">
+        <button class="btn btn-primary m-1" id="prediction1" (click)="activateButton('prediction1')">1D</button>
+        <button class="btn btn-primary m-1" id="prediction2" (click)="activateButton('prediction2')">3D</button>
+        <button class="btn btn-primary m-1" id="prediction3" (click)="PredictionWeek('prediction3')">7D</button>
     </div>
 </div>
 <div class="card-body" style="width: 100%; margin: 0 auto;">
     <div class="w-100 px-0 py-0 mx-0 my-0" style="display: flex; justify-content: center; align-items: center;" id="predikcija">
         <h1
-            *ngIf="data.length === 0"
+            *ngIf="data.length == 0"
             style="
             text-align: center;
             margin-top: 15%;
-            opacity: 20%;
+            opacity: 60%;
             font-style: italic;
             font-weight: normal;
+            z-index: 100;
             "
         >
-            There is no available Data
+            There Is No Available Data
         </h1>
         <ngx-charts-bar-vertical-2d
-        *ngIf="production && consumption && data.length !== 0"
+        *ngIf="production && consumption && data.length != 0"
             [title]="'Realization'"
             [scheme]="colors"
             [results]="data"
@@ -43,7 +44,7 @@
             [legend]="false">
         </ngx-charts-bar-vertical-2d>
     </div>
-    <div class="legend w-100 ps-4">
+    <div class="legend w-100 ps-4" *ngIf="data.length != 0">
         <i class="fa fa-circle consumption">&nbsp;Consumption</i>&nbsp;&nbsp;&nbsp;
         <i class="fa fa-circle production">&nbsp;Production</i>
     </div>

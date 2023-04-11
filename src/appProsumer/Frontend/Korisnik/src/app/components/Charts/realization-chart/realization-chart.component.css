@@ -1,6 +1,23 @@
 .consumption{
-    color: red;
+    color: #c14b48;
 }
 .production{
-    color: blue;
+    color: #48bec1;
+}
+h6{
+    color: #466471;
+}
+.btn-primary{
+    background-color: #466471;
+    border-color: #466471;
+}
+.btn.active{
+    background-color: #c1dfd5;
+    border-color: #466471;
+    color: #466471;
+}
+.btn:not(.active)
+{
+    background-color: #466471;
+    border-color: #466471;
 }

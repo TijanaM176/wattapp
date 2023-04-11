@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { Color, ColorHelper, LegendPosition, ScaleType } from '@swimlane/ngx-charts';
 import { DeviceWidthService } from 'src/app/services/device-width.service';
 import { DevicesService } from 'src/app/services/devices.service';
@@ -19,7 +19,7 @@ export class RealizationChartComponent implements OnInit {
     name: 'mycolors',
     selectable: true,
     group: ScaleType.Ordinal,
-    domain: ['red', 'blue'],
+    domain: ['#c14b48', '#48bec1'],
   };
   showXAxis = true;
   showYAxis = true;
@@ -36,7 +36,8 @@ export class RealizationChartComponent implements OnInit {
   ngOnInit(): void {
     const grafik = document.getElementById('grafik');
     grafik!.style.height = (this.widthService.height*0.6)+'px';
-    this.HistoryWeek();
+    this.HistoryWeekInit();
+    document.getElementById("realization1")!.classList.add('active');
   }
 
   yAxisTickFormatting(value: number) 
@@ -56,7 +57,7 @@ export class RealizationChartComponent implements OnInit {
     );
   }
 
-  HistoryWeek() 
+  HistoryWeekInit() 
   {
     this.loadData(
       this.deviceService.history7Days.bind(this.deviceService),
@@ -70,7 +71,22 @@ export class RealizationChartComponent implements OnInit {
     );
   }
 
-  HistoryMonth() 
+  HistoryWeek(id : string) 
+  {
+    this.loadData(
+      this.deviceService.history7Days.bind(this.deviceService),
+      (myList: any[]) => {
+        return myList.map((item) => {
+          const date = new Date(item.name);
+          const dayName = date.toLocaleDateString('en-US', { weekday: 'long' });
+          this.activateButton(id);
+          return { name: dayName, series: item.series };
+        });
+      }
+    );
+  }
+
+  HistoryMonth(id : string) 
   {
     this.loadData(
       this.deviceService.history1Month.bind(this.deviceService),
@@ -78,13 +94,14 @@ export class RealizationChartComponent implements OnInit {
         return myList.map((item) => {
           const date = new Date(item.name);
           const weekNumber = this.getWeek(date);
+          this.activateButton(id);
           return { name: `Week ${weekNumber}`, series: item.series };
         });
       }
     );
   }
 
-  HistoryYear() 
+  HistoryYear(id : string) 
   {
     this.loadData(
       this.deviceService.history1Year.bind(this.deviceService),
@@ -92,6 +109,7 @@ export class RealizationChartComponent implements OnInit {
         return myList.map((item) => {
           const date = new Date(item.name);
           const monthName = date.toLocaleDateString('en-US', { month: 'long' });
+          this.activateButton(id);
           return { name: monthName, series: item.series };
         });
       }
@@ -122,5 +140,19 @@ export class RealizationChartComponent implements OnInit {
       );
       this.data = mapFunction(myList);
     });
+  }
+
+  activateButton(buttonNumber: string) {
+    const buttons = document.querySelectorAll('.btn');
+    buttons.forEach(button=>{
+      if(button.id == buttonNumber)
+      {
+        button.classList.add('active');
+      }
+      else
+      {
+        button.classList.remove('active');
+      }
+    })
   }
 }

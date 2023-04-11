@@ -22,6 +22,7 @@ export class DashboardComponent implements OnInit, OnDestroy, AfterViewInit{
   
 
   ngOnInit(): void {
+    this.widthService.deviceWidth = window.innerWidth;
     this.deviceWidth = this.widthService.deviceWidth;
     const content = document.getElementById('content');
     if(window.innerWidth<=280)
