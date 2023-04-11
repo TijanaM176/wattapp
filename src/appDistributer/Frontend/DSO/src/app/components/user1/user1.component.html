@@ -1,10 +1,11 @@
 <div class="glavni">
   <div class="levi">
-    <p>ddd</p>
+    <app-sidebar-potrosnja></app-sidebar-potrosnja>
   </div>
   <app-popup-add></app-popup-add>
   <app-popup-emp></app-popup-emp>
   <div class="centralni">
+    <div class="gore">
     <div class="clevo">
       <p class="plevo">First Name:</p>
       <p class="plevo">Last Name:</p>
@@ -20,15 +21,16 @@
       <p class="pdesno">{{ Region }}</p>
       <input
         id="edit"
-        class="dugme"
+       
         type="button"
         value="Edit"
         routerLink="/DsoApp/user/{{ id }}"
       />
     </div>
   </div>
+  </div>
 
   <div class="desni">
-    <app-sidebar-potrosnja></app-sidebar-potrosnja>
+    s
   </div>
 </div>
