@@ -98,7 +98,7 @@ export class PredictionChartComponent implements OnInit {
   }
 
   activateButton(buttonNumber: string) {
-    const buttons = document.querySelectorAll('.btn');
+    const buttons = document.querySelectorAll('.predictionbtn');
     buttons.forEach(button=>{
       if(button.id == buttonNumber)
       {

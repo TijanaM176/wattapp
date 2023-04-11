@@ -8,7 +8,7 @@ import { DevicesService } from 'src/app/services/devices.service';
   templateUrl: './realization-chart.component.html',
   styleUrls: ['./realization-chart.component.css']
 })
-export class RealizationChartComponent implements OnInit {
+export class RealizationChartComponent implements OnInit, AfterViewInit {
 
   data : any;
   dataConsumers: any[] = [];
@@ -33,11 +33,15 @@ export class RealizationChartComponent implements OnInit {
   
   constructor(private deviceService : DevicesService, private widthService : DeviceWidthService) {}
 
+  ngAfterViewInit(): void {
+    document.getElementById('realiz1')!.classList.add("active");
+  }
+
   ngOnInit(): void {
     const grafik = document.getElementById('grafik');
     grafik!.style.height = (this.widthService.height*0.6)+'px';
+    document.getElementById('realiz1')!.classList.add("active");
     this.HistoryWeekInit();
-    document.getElementById("realization1")!.classList.add('active');
   }
 
   yAxisTickFormatting(value: number) 
@@ -143,7 +147,7 @@ export class RealizationChartComponent implements OnInit {
   }
 
   activateButton(buttonNumber: string) {
-    const buttons = document.querySelectorAll('.btn');
+    const buttons = document.querySelectorAll('.realizationbtn');
     buttons.forEach(button=>{
       if(button.id == buttonNumber)
       {

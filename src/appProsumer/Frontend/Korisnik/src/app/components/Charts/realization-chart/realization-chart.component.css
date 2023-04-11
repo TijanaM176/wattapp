@@ -11,12 +11,12 @@ h6{
     background-color: #466471;
     border-color: #466471;
 }
-.btn.active{
+.realizationbtn.active{
     background-color: #c1dfd5;
     border-color: #466471;
     color: #466471;
 }
-.btn:not(.active)
+.realizationbtn:not(.active)
 {
     background-color: #466471;
     border-color: #466471;
