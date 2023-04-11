@@ -259,14 +259,15 @@ namespace API.Repositories.UserRepository
         public Task<bool> DeleteImage(String ProsumerId)
         {
             return prosumerRepository.DeleteImage(ProsumerId);
+        }
         public Task<List<ElectricityPrice>> Prices()
         {
             return dsoRepository.Prices();
         }
 
-        public Task<double> CurrentPrice()
+        public Task<double> GetPrice(DateTime date)
         {
-            return dsoRepository.CurrentPrice();
+            return dsoRepository.GetPrice(date);
         }
     }
 }
