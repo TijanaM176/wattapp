@@ -34,6 +34,31 @@
   </div>
 
   <div class="desni">
-    s
+    <div class="centralniGore">
+      <div class="clevo">
+        <p class="plevo">First Name:</p>
+        <p class="plevo">Last Name:</p>
+        <p class="plevo">Username:</p>
+        <p class="plevo">Email:</p>
+        <p class="plevo">Region:</p>
+      </div>
+      <div class="cdesno">
+        <p class="pdesno">{{ myData.firstName }}</p>
+        <p class="pdesno">{{ myData.lastName }}</p>
+        <p class="pdesno">{{ myData.username }}</p>
+        <p class="pdesno">{{ myData.email }}</p>
+        <p class="pdesno">{{ Region }}</p>
+        <input
+          id="edit"
+         
+          type="button"
+          value="Edit"
+          routerLink="/DsoApp/user/{{ id }}"
+        />
+      </div>
+    </div>
+    <div class="centralniDole">
+      <app-tabelaUredjaja></app-tabelaUredjaja> </div>
+    
   </div>
 </div>
