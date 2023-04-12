@@ -10,7 +10,7 @@ SQLite3
 ## MongoDB
 
 Pokrenuti MongoDB Compass i napraviti konekciju na `mongodb://localhost:27017`.  
-Napraviti bazu *DevicesDB* i u njoj kolekciju PowerUsage, u koju cete podatke uneti rucno, pomocu opcije AddData i ucitati `PowerUsage.json`.
+Napraviti bazu *DevicesDB* i u njoj kolekciju *PowerUsage*, u koju cete podatke uneti rucno, pomocu opcije AddData i ucitati `PowerUsage.json`.
 
 ## Pokretanje API-ja
 
