@@ -4,6 +4,7 @@ import { fromEvent, Observable, Subscription } from 'rxjs';
 import { ProsumerService } from 'src/app/services/prosumer.service';
 import { CookieService } from 'ngx-cookie-service';
 import { HouseComponent } from '../Charts/house/house.component';
+import { DevicesStatusComponent } from '../Charts/devices-status/devices-status.component';
 
 @Component({
   selector: 'app-Pocetna',
@@ -21,6 +22,7 @@ export class PocetnaComponent implements OnInit, AfterViewInit {
   numOfActiveDevices : number = 0;
   tariff : string = "HIGHER";
   @ViewChild('house',{ static:true }) house! : HouseComponent;
+  @ViewChild('devicesStatus',{ static:true }) devicesStatus! : DevicesStatusComponent;
 
   constructor(private widthService : DeviceWidthService,private service: ProsumerService, private cookie: CookieService) { }
 
@@ -55,6 +57,7 @@ export class PocetnaComponent implements OnInit, AfterViewInit {
         this.Usage(device.Id);
       });
       this.house.setDevices(this.devices,this.deviceUsages);
+      this.devicesStatus.setDevices(this.devices,this.deviceUsages);
     });
   }
   Usage(id: string)

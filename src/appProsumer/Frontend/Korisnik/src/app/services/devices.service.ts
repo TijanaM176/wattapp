@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { CookieService } from 'ngx-cookie-service';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -48,5 +49,11 @@ export class DevicesService {
   prediction1WeekTimestamps()
   {
     return this.http.get(this.baseUrl+'NextWeeksConsumptionAndProductionTimestamps');
+  }
+
+  
+  getCurrentConsumptionAndProduction( ): Observable<any>
+  {
+    return this.http.get<any>(this.baseUrl+'ConsumptionAndProductionByProsumer?id=' + this.cookie.get('id'));
   }
 }

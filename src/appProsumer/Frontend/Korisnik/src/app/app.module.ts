@@ -33,6 +33,7 @@ import { RealizationChartComponent } from './components/Charts/realization-chart
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { PredictionChartComponent } from './components/Charts/prediction-chart/prediction-chart.component';
 import { HouseComponent } from './components/Charts/house/house.component';
+import { DevicesStatusComponent } from './components/Charts/devices-status/devices-status.component';
 
 @NgModule({
   declarations: [
@@ -57,6 +58,7 @@ import { HouseComponent } from './components/Charts/house/house.component';
     RealizationChartComponent,
     PredictionChartComponent,
     HouseComponent,
+    DevicesStatusComponent,
   ],
   imports: [
     BrowserAnimationsModule,
