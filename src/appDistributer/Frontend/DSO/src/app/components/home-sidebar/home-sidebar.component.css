@@ -2,6 +2,10 @@ p {
   font-family: "Open Sans";
 }
 
+::ng-deep #grid text {
+  fill: white; /* Replace with your desired text color */
+}
+
 .container {
   width: 100%; /* or any desired value */
 }

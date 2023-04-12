@@ -14,9 +14,13 @@ export class PieChartProsumersComponent implements OnInit {
   isConsumersChecked = true;
   isProducersChecked = false;
   production = false;
+
   consumption = true;
   colorScheme: any = {
-    domain: ['#FF414E', '#80BC00', '#C7B42C'],
+    domain: ['#FF414E'],
+  };
+  colorScheme1: any = {
+    domain: ['#80BC00'],
   };
   dataConsumers: any = [];
   dataProducers: any = [];
@@ -75,12 +79,8 @@ export class PieChartProsumersComponent implements OnInit {
       }
     }
   }
-  percFormat(value: number): string {
-    const str = value.toFixed(1);
-    return str;
-  }
 
-  yAxisTickFormatting(value: number) {
+  labels(value: number): string {
     return value + ' kW';
   }
 }
