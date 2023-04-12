@@ -16,13 +16,13 @@
             <p class="text-sm mb-0 text-uppercase font-weight-bold">
               Current Consumption
             </p>
-            <h3 class="font-weight-bolder">{{ currConsumption }} kw</h3>
+            <h3 class="font-weight-bolder">{{ currConsumption }} kW</h3>
           </div>
           <div class="section mb-4">
             <p class="text-sm mb-0 text-uppercase font-weight-bold">
               Current Production
             </p>
-            <h3 class="font-weight-bolder">{{ currProduction }} kw</h3>
+            <h3 class="font-weight-bolder">{{ currProduction }} kW</h3>
           </div>
           <div class="section mb-4">
             <p class="text-sm mb-0 text-uppercase font-weight-bold">
@@ -31,7 +31,7 @@
             <div
               style="width: 100%; margin: 0 auto; margin-top: 1%; height: 100%"
             >
-              <ngx-charts-pie-grid
+              <ngx-charts-pie-grid id="grid"
                 style="z-index: 100000"
                 [results]="data"
                 [scheme]="colorScheme"

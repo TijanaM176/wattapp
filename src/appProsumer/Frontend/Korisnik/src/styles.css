@@ -2,3 +2,15 @@ body {
   padding: 0%;
   margin: 0%;
 }
+
+.mat-mdc-slide-toggle-thumb {
+  background-color: blue;
+}
+
+.mat-mdc-slide-toggle-bar {
+  background-color: blue;
+}
+
+.mat-mdc-slide-toggle-background {
+  background-color: lightgray;
+}

@@ -1,4 +1,4 @@
-<div>
+<div style="overflow-y: scroll">
   <h1
     style="
       margin: 1% 2% 1% 2%;
@@ -23,6 +23,8 @@
           type="checkbox"
           value="1"
           id="flexCheckDefault"
+          [(ngModel)]="consumers"
+          (change)="filterDevices()"
         />
         <p class="form-check-label" for="flexCheckDefault">Consumers</p>
       </div>
@@ -34,6 +36,8 @@
           type="checkbox"
           value="2"
           id="flexCheckDefault1"
+          [(ngModel)]="producers"
+          (change)="filterDevices()"
         />
         <label class="form-check-label" for="flexCheckDefault1">
           Producers
@@ -47,6 +51,8 @@
           type="checkbox"
           value="3"
           id="flexCheckDefault2"
+          [(ngModel)]="storages"
+          (change)="filterDevices()"
         />
         <label class="form-check-label" for="flexCheckDefault2">
           Storages
@@ -57,91 +63,98 @@
 </div>
 <div id="tabela">
   <div class="container">
-    <div id="cards">
-      <div class="row">
-        <div class="card" *ngFor="let device of devices" routerLink="/ProsumerApp/userDevices/{{ device.Id }}/deviceinfo">
-          <table style="margin: 2%">
-            <tr style="display: flex; justify-content: space-evenly">
-              <span [ngSwitch]="device.TypeId">
-                <div *ngSwitchCase="'1'">
-                  <img src="assets/images/fridge.png" />
-                </div>
-                <div *ngSwitchCase="'2'">
-                  <img src="assets/images/tv.png" />
-                </div>
-                <span *ngSwitchCase="'3'"
-                  ><img src="assets/images/oven.png"
-                /></span>
-                <span *ngSwitchCase="'4'"
-                  ><img src="assets/images/air-conditioner.png"
-                /></span>
-                <span *ngSwitchCase="'5'"
-                  ><img src="assets/images/microwave.png"
-                /></span>
-                <span *ngSwitchCase="'6'"
-                  ><img src="assets/images/dish-washer.png"
-                /></span>
-                <span *ngSwitchCase="'7'"
-                  ><img src="assets/images/coffee-machine.png"
-                /></span>
-                <span *ngSwitchCase="'8'"
-                  ><img src="assets/images/pc.png"
-                /></span>
-                <span *ngSwitchCase="'9'"
-                  ><img src="assets/images/washing-machine.png"
-                /></span>
-                <span *ngSwitchCase="'10'"
-                  ><img src="assets/images/dryer-machine.png"
-                /></span>
-                <span *ngSwitchCase="'11'"
-                  ><img src="assets/images/vacuum-cleaner.png"
-                /></span>
-                <span *ngSwitchCase="'12'"
-                  ><img src="assets/images/iron.png"
-                /></span>
-                <span *ngSwitchCase="'13'"
-                  ><img src="assets/images/dryer.png"
-                /></span>
-                <span *ngSwitchCase="'14'"
-                  ><img src="assets/images/water-heater.png"
-                /></span>
-                <span *ngSwitchCase="'15'"
-                  ><img src="assets/images/kettle.png"
-                /></span>
-                <span *ngSwitchCase="'16'"
-                  ><img src="assets/images/station-charging.png"
-                /></span>
-                <span *ngSwitchCase="'17'"
-                  ><img src="assets/images/playstation.png"
-                /></span>
-                <span *ngSwitchCase="'18'"
-                  ><img src="assets/images/smart-heater.png"
-                /></span>
-                <span *ngSwitchCase="'19'"
-                  ><img src="assets/images/solar-panel.png"
-                /></span>
-                <span *ngSwitchCase="'20'"
-                  ><img src="assets/images/windmill.png"
-                /></span>
-              </span>
-              <span [ngSwitch]="device.CategoryId">
-                <h6 *ngSwitchCase="'1'" style="text-align: center">
-                  Consumption {{ deviceUsages[device.Id] }} kW
-                </h6>
-                <h6 *ngSwitchCase="'2'" style="text-align: center">
-                  Production {{ deviceUsages[device.Id] }} kW
-                </h6>
-                <h6 *ngSwitchCase="'3'" style="text-align: center">
-                  Storage {{ deviceUsages[device.Id] }} kW
-                </h6>
-              </span>
-            </tr>
-          </table>
-          <h4>{{ device.Name }}</h4>
-          <tr style="display: flex; justify-content: space-between; width: 90%">
-            <h6>IP {{ device.ipAddress }}</h6>
+    <div class="row" style="width: 100%">
+      <div
+        class="card"
+        *ngFor="let device of devicesToShow"
+        routerLink="/ProsumerApp/userDevices/{{ device.Id }}/deviceinfo"
+      >
+        <table style="margin: 3%; width: 95%">
+          <tr style="display: flex; justify-content: space-between">
+            <span class="col-3" [ngSwitch]="device.TypeId">
+              <div *ngSwitchCase="'1'">
+                <img src="assets/images/fridge.png" />
+              </div>
+              <div *ngSwitchCase="'2'">
+                <img src="assets/images/tv.png" />
+              </div>
+              <span *ngSwitchCase="'3'"
+                ><img src="assets/images/oven.png"
+              /></span>
+              <span *ngSwitchCase="'4'"
+                ><img src="assets/images/air-conditioner.png"
+              /></span>
+              <span *ngSwitchCase="'5'"
+                ><img src="assets/images/microwave.png"
+              /></span>
+              <span *ngSwitchCase="'6'"
+                ><img src="assets/images/dish-washer.png"
+              /></span>
+              <span *ngSwitchCase="'7'"
+                ><img src="assets/images/coffee-machine.png"
+              /></span>
+              <span *ngSwitchCase="'8'"
+                ><img src="assets/images/pc.png"
+              /></span>
+              <span *ngSwitchCase="'9'"
+                ><img src="assets/images/washing-machine.png"
+              /></span>
+              <span *ngSwitchCase="'10'"
+                ><img src="assets/images/dryer-machine.png"
+              /></span>
+              <span *ngSwitchCase="'11'"
+                ><img src="assets/images/vacuum-cleaner.png"
+              /></span>
+              <span *ngSwitchCase="'12'"
+                ><img src="assets/images/iron.png"
+              /></span>
+              <span *ngSwitchCase="'13'"
+                ><img src="assets/images/dryer.png"
+              /></span>
+              <span *ngSwitchCase="'14'"
+                ><img src="assets/images/water-heater.png"
+              /></span>
+              <span *ngSwitchCase="'15'"
+                ><img src="assets/images/kettle.png"
+              /></span>
+              <span *ngSwitchCase="'16'"
+                ><img src="assets/images/station-charging.png"
+              /></span>
+              <span *ngSwitchCase="'17'"
+                ><img src="assets/images/playstation.png"
+              /></span>
+              <span *ngSwitchCase="'18'"
+                ><img src="assets/images/smart-heater.png"
+              /></span>
+              <span *ngSwitchCase="'19'"
+                ><img src="assets/images/solar-panel.png"
+              /></span>
+              <span *ngSwitchCase="'20'"
+                ><img src="assets/images/windmill.png"
+              /></span>
+            </span>
+            <span style="width: 50%" [ngSwitch]="device.CategoryId">
+              <h5 *ngSwitchCase="'1'" style="text-align: right">Consumption</h5>
+              <h5 *ngSwitchCase="'2'" style="text-align: right">Production</h5>
+              <h5 *ngSwitchCase="'3'" style="text-align: right">Storage</h5>
+              <h5 style="text-align: right">
+                {{ deviceUsages[device.Id].toFixed(2) }} kW
+              </h5>
+            </span>
+          </tr>
+
+          <tr>
+            <td>
+              <h4>{{ device.Name }}</h4>
+            </td>
+          </tr>
+          <tr
+            style="display: flex; justify-content: space-between; width: 100%"
+          >
+            <h5 class="h">IP {{ device.IpAddress }}</h5>
             <ng-template #other style="vertical-align: super">
               <mat-slide-toggle
+                id="toggleOff"
                 class="example-margin"
                 [color]="color"
                 [checked]="notChecked"
@@ -153,6 +166,7 @@
             <div *ngIf="deviceUsages[device.Id] !== 0; else other">
               <div>
                 <mat-slide-toggle
+                  id="toggleOn"
                   style="vertical-align: super"
                   class="example-margin"
                   [color]="color"
@@ -164,7 +178,7 @@
               </div>
             </div>
           </tr>
-        </div>
+        </table>
       </div>
     </div>
   </div>
