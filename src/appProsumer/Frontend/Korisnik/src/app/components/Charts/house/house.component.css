@@ -21,9 +21,6 @@
     color: #08376b;
     margin: 1%;
 }
-.card img {
-    width: 40%;
-}
 .text-container{
     width: 100%;
     text-align: center;
@@ -33,4 +30,14 @@
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+}
+@media only screen and (min-width: 768px) {
+    .card img {
+        width: 100%;
+    }
+}
+@media only screen and (max-width: 768px) {
+    .card img {
+        width: 40%;
+    }
 }
