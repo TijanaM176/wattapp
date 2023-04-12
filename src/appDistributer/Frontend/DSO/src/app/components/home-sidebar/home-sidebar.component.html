@@ -1,30 +1,54 @@
 <div class="container mx-0 my-0 px-0 py-0 h-100" id="container">
-    <div class="row h-100" style="margin: 0">
-        <div style="background-color: #5875a1;" class="h-100">
-            <div class="d-flex flex-column px-3 text-white text-center align-items-center justify-content-center">
-                <div class="container px-2 py-4 align-items-center justify-content-center" id="sadrzaj">
-                    <div class="section mb-4">
-                        <p class="mb-0">Region</p>
-                        <h3><b>{{region}}</b></h3>
-                    </div>
-                    <div class="section mb-4">
-                        <p class="mb-0">Current Consumption</p>
-                        <h3><b>{{currConsumption}} kw</b></h3>
-                    </div>
-                    <div class="section mb-4">
-                        <p class="mb-0">Current Production</p>
-                        <h3><b>{{currProduction}} kw</b></h3>
-                    </div>
-                    <div class="section mb-4">
-                        <p class="mb-0">Current System Status</p>
-                        <h3>Piechart Graph Here</h3>
-                    </div>
-                    <div class="section">
-                        <p class="mb-0">Num. Of Users</p>
-                        <h3><b>{{numOfUsers}}</b></h3>
-                    </div>
-                </div>
+  <div class="row h-100" style="margin: 0">
+    <div style="background-color: #5875a1" class="h-100">
+      <div
+        class="d-flex flex-column text-white text-center align-items-center justify-content-center"
+      >
+        <div
+          class="container py-4 align-items-center justify-content-center"
+          id="sadrzaj"
+        >
+          <div class="section mb-4">
+            <p class="text-sm mb-0 text-uppercase font-weight-bold">Region</p>
+            <h3 class="font-weight-bolder">{{ region }}</h3>
+          </div>
+          <div class="section mb-4">
+            <p class="text-sm mb-0 text-uppercase font-weight-bold">
+              Current Consumption
+            </p>
+            <h3 class="font-weight-bolder">{{ currConsumption }} kw</h3>
+          </div>
+          <div class="section mb-4">
+            <p class="text-sm mb-0 text-uppercase font-weight-bold">
+              Current Production
+            </p>
+            <h3 class="font-weight-bolder">{{ currProduction }} kw</h3>
+          </div>
+          <div class="section mb-4">
+            <p class="text-sm mb-0 text-uppercase font-weight-bold">
+              Current System Status
+            </p>
+            <div
+              style="width: 100%; margin: 0 auto; margin-top: 1%; height: 100%"
+            >
+              <ngx-charts-pie-grid
+                style="z-index: 100000"
+                [results]="data"
+                [scheme]="colorScheme"
+                [animations]="true"
+                [tooltipDisabled]="true"
+              >
+              </ngx-charts-pie-grid>
             </div>
+          </div>
+          <div class="section">
+            <p class="mb-0">Num. Of Users</p>
+            <h3>
+              <b>{{ numOfUsers }}</b>
+            </h3>
+          </div>
         </div>
+      </div>
     </div>
+  </div>
 </div>

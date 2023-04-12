@@ -44,6 +44,5 @@ export class Top5ProducersComponent implements OnInit {
         this.isProducersChecked = false;
       }
     }
-    console.log(this.isProducersChecked, this.isConsumersChecked);
   }
 }

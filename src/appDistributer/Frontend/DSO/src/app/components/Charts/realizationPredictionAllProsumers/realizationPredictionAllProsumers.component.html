@@ -48,10 +48,10 @@
       </button>
     </div>
   </div>
-  <div style="width: 99%; margin: 0 auto; margin-top: 1%; height: 100%">
+  <div style="width: 99%; margin: 0 auto; margin-top: 1%; height: 70%">
     <ngx-charts-line-chart
+      style="height: 80%"
       *ngIf="data"
-      [title]="'Realization And Predictions Char'"
       [scheme]="colors"
       [results]="data"
       [xAxis]="showXAxis"
@@ -65,7 +65,6 @@
       [tooltipDisabled]="true"
       [yAxisTickFormatting]="yAxisTickFormatting"
       [showGridLines]="true"
-      [curve]="curve"
       [legend]="true"
     >
     </ngx-charts-line-chart>

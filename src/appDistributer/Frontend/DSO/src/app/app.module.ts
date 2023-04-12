@@ -71,6 +71,8 @@ import { Top5ProducersComponent } from './components/Charts/top5Producers/top5Pr
 import { NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { PopupAddComponent } from './components/popup-add/popup-add.component';
 import { PopupEmpComponent } from './components/popup-emp/popup-emp.component';
+import { PieChartCitiesComponent } from './components/Charts/PieChartCities/PieChartCities.component';
+import { PieChartProsumersComponent } from './components/Charts/PieChartProsumers/PieChartProsumers.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -116,6 +118,8 @@ import { PopupEmpComponent } from './components/popup-emp/popup-emp.component';
     Top5ProducersComponent,
     PopupAddComponent,
     PopupEmpComponent,
+    PieChartCitiesComponent,
+    PieChartProsumersComponent,
   ],
   imports: [
     MatSliderModule,

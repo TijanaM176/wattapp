@@ -1,5 +1,18 @@
 @import "~leaflet/dist/leaflet.css";
 
+.ngx-charts-outer-label,
+.ngx-charts-legend-label {
+  font-size: 16px;
+  font-weight: bold;
+  fill: white; /* set the color of the label text */
+}
+
+.ngx-charts-pie-label,
+.ngx-charts-legend-label-value {
+  font-size: 14px;
+  fill: white; /* set the color of the value text */
+}
+
 html,
 body {
   min-height: 100vh;
