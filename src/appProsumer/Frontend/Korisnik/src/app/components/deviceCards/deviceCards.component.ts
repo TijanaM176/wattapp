@@ -36,7 +36,7 @@ export class DeviceCardsComponent implements OnInit {
       ];
       console.log(this.devices);
       this.devices.forEach((device) => {
-        this.Usage(device.id);
+        this.Usage(device.Id);
       });
     });
   }

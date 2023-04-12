@@ -19,12 +19,7 @@
                       class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                       <h6 class="m-0 font-weight-bold">Your Home</h6>
                   </div>
-                  <!-- Card Body -->
-                  <div class="card-body">
-                      <div class="chart-area">
-                          <canvas id="myAreaChart"></canvas>
-                      </div>
-                  </div>
+                  <app-house #house></app-house>
               </div>
           </div>
 
@@ -57,7 +52,7 @@
                           <div class="col mr-2">
                               <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
                                   Num of. Devices</div>
-                              <div class="h5 mb-0 font-weight-bold text-gray-800">10</div>
+                              <div class="h5 mb-0 font-weight-bold text-gray-800">{{numOfDevices}}</div>
                           </div>
                           <div class="col-auto">
                               <i class="fa fa-home fa-2x text-gray-300"></i>
@@ -75,7 +70,7 @@
                           <div class="col mr-2">
                               <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
                                   Num. of Active Devices</div>
-                              <div class="h5 mb-0 font-weight-bold text-gray-800">4</div>
+                              <div class="h5 mb-0 font-weight-bold text-gray-800">{{numOfActiveDevices}}</div>
                           </div>
                           <div class="col-auto">
                               <i class="fa fa-cogs fa-2x text-gray-300"></i>

@@ -70,7 +70,7 @@ export class LoginComponent implements OnInit{
             this.cookie.set('role',decodedToken['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'].toString().trim(),{path:'/'});
             this.cookie.set('id',decodedToken['sub'].toString().trim(),{path:'/'});
             this.cookie.set("token",res.token.toString().trim(),{path:'/'});
-            this.cookie.set("refresh",res.refreshToken.toString().trim());
+            this.cookie.set("refresh",res.refreshToken.toString().trim(),{path:'/'});
             this.toast.success({detail:"Successful Login!",duration: 2000});
             this.router.navigate([""]);
           },

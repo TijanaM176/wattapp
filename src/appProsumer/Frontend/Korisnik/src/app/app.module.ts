@@ -32,6 +32,7 @@ import { AddDeviceFormComponent } from './forms/add-device-form/add-device-form.
 import { RealizationChartComponent } from './components/Charts/realization-chart/realization-chart.component';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { PredictionChartComponent } from './components/Charts/prediction-chart/prediction-chart.component';
+import { HouseComponent } from './components/Charts/house/house.component';
 
 @NgModule({
   declarations: [
@@ -55,6 +56,7 @@ import { PredictionChartComponent } from './components/Charts/prediction-chart/p
     AddDeviceFormComponent,
     RealizationChartComponent,
     PredictionChartComponent,
+    HouseComponent,
   ],
   imports: [
     BrowserAnimationsModule,

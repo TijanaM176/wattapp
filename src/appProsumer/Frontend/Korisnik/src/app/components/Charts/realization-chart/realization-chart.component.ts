@@ -10,7 +10,7 @@ import { DevicesService } from 'src/app/services/devices.service';
 })
 export class RealizationChartComponent implements OnInit, AfterViewInit {
 
-  data : any;
+  data : any[] = [];
   dataConsumers: any[] = [];
   dataProducers: any[] = [];
   production = true;
@@ -34,13 +34,12 @@ export class RealizationChartComponent implements OnInit, AfterViewInit {
   constructor(private deviceService : DevicesService, private widthService : DeviceWidthService) {}
 
   ngAfterViewInit(): void {
+    const grafik = document.getElementById('grafik');
+    grafik!.style.height = (this.widthService.height*0.6)+'px';
     document.getElementById('realiz1')!.classList.add("active");
   }
 
   ngOnInit(): void {
-    const grafik = document.getElementById('grafik');
-    grafik!.style.height = (this.widthService.height*0.6)+'px';
-    document.getElementById('realiz1')!.classList.add("active");
     this.HistoryWeekInit();
   }
 

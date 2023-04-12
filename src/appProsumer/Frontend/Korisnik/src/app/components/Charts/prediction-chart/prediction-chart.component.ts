@@ -10,7 +10,7 @@ import { DevicesService } from 'src/app/services/devices.service';
 })
 export class PredictionChartComponent implements OnInit {
 
-  data : any;
+  data : any[] = [];
   dataConsumers: any[] = [];
   dataProducers: any[] = [];
   production = true;
