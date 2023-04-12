@@ -51,7 +51,6 @@
   <div style="width: 99%; margin: 0 auto; margin-top: 1%; height: 100%">
     <ngx-charts-line-chart
       *ngIf="data"
-      [title]="'Realization And Predictions Char'"
       [scheme]="colors"
       [results]="data"
       [xAxis]="showXAxis"
@@ -65,7 +64,6 @@
       [tooltipDisabled]="true"
       [yAxisTickFormatting]="yAxisTickFormatting"
       [showGridLines]="true"
-      [curve]="curve"
       [legend]="true"
     >
     </ngx-charts-line-chart>

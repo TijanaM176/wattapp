@@ -22,18 +22,6 @@ export class HistoryAllProsumersComponent implements OnInit {
     group: ScaleType.Ordinal,
     domain: ['#FF414E', '#80BC00'],
   };
-  colorsC: Color = {
-    name: 'mycolors1',
-    selectable: true,
-    group: ScaleType.Ordinal,
-    domain: ['#FF414E'],
-  };
-  colorsP: Color = {
-    name: 'mycolors2',
-    selectable: true,
-    group: ScaleType.Ordinal,
-    domain: ['#80BC00'],
-  };
   showXAxis = true;
   showYAxis = true;
   gradient = false;

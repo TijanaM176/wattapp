@@ -117,7 +117,6 @@ export class RealizationPredictionAllProsumersComponent implements OnInit {
 
   loadData(apiCall: any, mapFunction: any) {
     apiCall().subscribe((response: any) => {
-      console.log(response);
       const myList = Object.keys(response.consumption.timestamps).map(
         (name) => {
           let consumptionValue = response.consumption.timestamps[name];
@@ -146,7 +145,6 @@ export class RealizationPredictionAllProsumersComponent implements OnInit {
         }
       );
       this.data = mapFunction(myList);
-      console.log(this.data);
     });
   }
 }

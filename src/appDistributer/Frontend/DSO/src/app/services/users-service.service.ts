@@ -175,4 +175,11 @@ export class UsersServiceService {
   Top5Producers(): Observable<any[]> {
     return this.http.get<any[]>(this.deviceBaseUrl + 'Top5Producers');
   }
+
+  ConsumerProducerRatio(): Observable<any[]> {
+    return this.http.get<any[]>(this.deviceBaseUrl + 'ConsumerProducerRatio');
+  }
+  CityPercentages(): Observable<any[]> {
+    return this.http.get<any[]>(this.deviceBaseUrl + 'CityPercentages');
+  }
 }
