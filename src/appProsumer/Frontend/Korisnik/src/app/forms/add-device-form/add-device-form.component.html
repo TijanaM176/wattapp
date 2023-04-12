@@ -46,7 +46,7 @@
         class="form-control"
         style="background-color: #C1DFD5;width: 100%;color:#466471;"
         >
-        <option value="0">Choose Modal</option>                           
+        <option value="0">Choose Model</option>                           
         <option *ngFor="let item of models"
         [ngValue]='item'
                                       
@@ -57,15 +57,5 @@
     <label for="name" class="form-label">Device Name</label>
     <input type="text" class="form-control" (change)="ChangeName($event)"  id="name" style="background-color: #C1DFD5;color:#466471;"  [(ngModel)]="Name" placeholder="Device Name">
 </div>
-<div class="form-check">
-  <input class="form-check-input" type="checkbox" value="" id="flexCheck1">
-  <label class="form-check-label" for="flexCheck1">
-    Allow DSO to view
-  </label>
-</div>
-<div class="form-check">
-  <input class="form-check-input" type="checkbox" value="" id="flexCheck2">
-  <label class="form-check-label" for="flexCheck2">
-    Allow DSO to control
-  </label>
-</div>
+<mat-slide-toggle [(ngModel)]="DsoView" (click)="ChangeButton()">Allow DSO to view</mat-slide-toggle ><br/>
+<mat-slide-toggle [(ngModel)]="DsoControl" (click)="ChangeButton()">Allow DSO to control</mat-slide-toggle >

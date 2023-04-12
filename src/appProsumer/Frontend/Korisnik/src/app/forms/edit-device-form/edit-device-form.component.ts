@@ -1,6 +1,8 @@
 import { Component, Input } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { Device } from 'src/app/models/device';
 import { EditDevice } from 'src/app/models/deviceedit';
+import { Models } from 'src/app/models/models';
 import { DeviceserviceService } from 'src/app/services/deviceservice.service';
 
 @Component({
@@ -14,24 +16,40 @@ export class EditDeviceFormComponent {
   IpAddress : string = '';
   TypeName : string = '';
   Manufacturer : string = '';
+  ModelName:string='';
   Name:string='';
   notFilled : boolean = false;
   success : boolean = false;
   failure : boolean = false;
+  DsoView!:boolean;
+  Modelname!:string;
+  models:Models[]=[];
+  DsoControl!:boolean;
+  model:any=0;
+  ModelId:string='';
+  typeId!:number;
+  idDev!:string;
+  p:any=0;
 
-  privremeniId:string = '6420b43190d65ae1554350a9';
-
-  constructor(private service : DeviceserviceService) {}
+  constructor(private service : DeviceserviceService,private router1:ActivatedRoute) {}
 
   ngOnInit(): void {
     this.loadInfo()
-    
+    this.getModels();
+    this.model=this.ModelId;
   }
 
   loadInfo()
   {
     this.IpAddress = this.deviceData.IpAddress;
     this.Name=this.deviceData.Name;
+    this.ModelName=this.deviceData.ModelName;
+    this.DsoControl=this.deviceData.DsoControl;
+    this.DsoView=this.deviceData.DsoView;
+    this.service.type=this.deviceData.TypeId;
+    this.ModelId=this.deviceData.ModelId;
+    //this.model.id=this.deviceData.ModelId;
+   
   }
   editInfo()
   {
@@ -39,12 +57,15 @@ export class EditDeviceFormComponent {
     if(this.IpAddress!="" && this.Name!="")
     {
       this.allToFalse();
-
+      this.idDev= this.router1.snapshot.params['idDev'];
       let device : EditDevice = new EditDevice();
-      device.IpAddress = this.IpAddress;
+      device.ModelId=this.model;
       device.Name = this.Name;
-      console.log(this.privremeniId);
-      this.service.editInfo(this.privremeniId,device.Name,device.IpAddress)
+      device.IpAddress = this.IpAddress;
+      device.DsoView=this.DsoView;
+      device.DsoControl=this.DsoControl;
+      console.log(device);
+      this.service.editInfo(this.idDev,device)
       .subscribe({
         next:(res)=>{
           this.allToFalse();
@@ -70,5 +91,24 @@ export class EditDeviceFormComponent {
     this.success = false;
     this.failure = false;
   }
+  ChangeModel(e:any){
+    this.p=e.target.value;
+    console.log(this.p);
+    //this.Name=this.model;
+    
   
+  }
+  getModels(){
+    this.service.getModel().subscribe({
+      next:(response)=>{
+        this.models = response;
+        console.log(this.models);
+        
+      },
+      error:(err)=>
+      {
+        console.log(err.error);
+      }
+    })
+  }
 }

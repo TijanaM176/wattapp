@@ -363,6 +363,8 @@ namespace API.Repositories.DeviceRepository
                 { "Name", link.Name },
                 { "CategoryId", info.CategoryId },
                 { "TypeId", info.TypeId },
+                {"ModelId", info.Id },
+                {"ModelName", info.Name },
                 { "Manufacturer", info.Manufacturer },
                 { "Wattage", info.Wattage },
                 { "CurrentUsage", currentUsage},

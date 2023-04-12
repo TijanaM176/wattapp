@@ -24,7 +24,12 @@
         <app-add-device-form
           #c
         ></app-add-device-form>
+        <br/>
+        <small class="text-danger" *ngIf="notFilled">*All fileds must be populated</small>
+        <small class="text-success" *ngIf="success">Device successfully added!</small>
+        <small class="text-danger" *ngIf="failure">Error occurred. Try again later.</small>
       </div>
+
       <div class="modal-footer">
        
         <button
@@ -42,3 +47,4 @@
     </div>
   </div>
 </div>
+

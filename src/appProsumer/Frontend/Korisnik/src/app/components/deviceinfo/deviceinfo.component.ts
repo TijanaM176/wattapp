@@ -19,17 +19,22 @@ export class DeviceinfoComponent {
   IpAddress:string='';
   Manufacturer:string='';
   TypeName:string='';
+  TypeId:string='';
   Name:string='';
   MaxUsage:string='';
+  ModelName:string='';
   AvgUsage:string='';
   deviceData : any;
   disabled=false;
   checked=false;
   currentUsage!:number;
   idDev!:string;
+  DsoView!:boolean;
+  DsoControl!:boolean;
+  ModelId!:string;
   results: any;
   @ViewChild('editData', {static:false}) editData! : EditDeviceFormComponent;
-  constructor( private router: Router, private service: DeviceserviceService,private toast : NgToastService){}
+  constructor( private router: Router, private service: DeviceserviceService,private toast : NgToastService,private router1: ActivatedRoute){}
   /*infoForm = new FormGroup({
     IpAddress: new FormControl(''),
     TypeName: new FormControl(''),
@@ -43,8 +48,12 @@ export class DeviceinfoComponent {
     
     this.getInformation();
   }
+  isActive(){
+    
+  }
   getInformation(){
-    this.idDev='6420b43190d65ae1554350a9';
+    
+    this.idDev= this.router1.snapshot.params['idDev'];
     //this.idDev=this.router.snapshot.params['idDev'];
     this.service.getInfoDevice(this.idDev).subscribe(
       {
@@ -52,12 +61,15 @@ export class DeviceinfoComponent {
      
           this.IpAddress=res.IpAddress;
           this.TypeName=res.TypeName;
-          this.Manufacturer=res.Manufacturer;
+          this.ModelName=res.ModelName;
           this.Name=res.Name;
           this.MaxUsage=res.MaxUsage;
           this.AvgUsage=res.AvgUsage;
           this.currentUsage=res.CurrentUsage;
-     
+          this.DsoView=res.DsoView;
+          this.DsoControl=res.DsoControl;
+          this.TypeId=res.TypeId;
+          this.ModelId=res.ModelId;
 
           this.deviceData = res;
         },
@@ -74,7 +86,7 @@ export class DeviceinfoComponent {
     this.service.deleteDevice(this.idDev).subscribe(
       {
         next:(res)=>{
-          this.router.navigate(['ProsumerApp/home']);
+          this.router.navigate(['ProsumerApp/userDevices']);
           console.log("deleted");
           
         },
@@ -104,6 +116,7 @@ export class DeviceinfoComponent {
     }
     
     this.modalTitle = ''
+    
   }
   confirm(){
     if(this.showEdit)
