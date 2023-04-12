@@ -8,7 +8,9 @@
     height: auto;
        
 }
-
+.naslov{
+    text-align: center;
+}
 .centralni{
     
     width: 50%;  
@@ -19,7 +21,7 @@
 .centralniGore{
     display: flex;
     width: 100%;
-   
+    background-color:  #f2f2f2;
    
 }
 .centralniDole{
@@ -28,7 +30,6 @@
 }
 .desni{
     width: 50%;  
-    
     
 }
 .clevo{
@@ -49,20 +50,35 @@
    
 }
 .csredina{
+    
+  position: relative;
     width: 33%;
-    background-color: red;
+    background-color:  #f2f2f2;
+    text-align: center;
 }
 .pdesno{
     font-size: 18px;
     padding: 15px;
 }
 #edit{
-    width: 30%;
-    float: right;
+    width: 45%;
+    position:absolute;
   background-color: #5875a1;
   color: white;
   font-family: roboto;
-  
+bottom: 5px;
+right: 5px;
+  height: 30px;
+}
+#viewmore{
+    width: 45%;
+    height: 30px;
+    position:absolute;
+  background-color: #5875a1;
+  color: white;
+  font-family: roboto;
+bottom: 5px;
+left: 5px;
 }
  input{
     
@@ -89,6 +105,7 @@ p{
     float: right;
     margin-top: 10px;
     color: white;
+
 
 }
 

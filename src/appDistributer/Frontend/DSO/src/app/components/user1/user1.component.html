@@ -6,7 +6,8 @@
   <app-popup-emp></app-popup-emp>
   
   <div class="centralni">
-    <h1>User Information</h1>
+    <div class="naslov"> <h1>User Information</h1> </div>
+   
     <div class="centralniGore">
      
     <div class="clevo">
@@ -22,6 +23,16 @@
       <p class="pdesno">{{ myData.username }}</p>
       <p class="pdesno">{{ myData.email }}</p>
       <p class="pdesno">{{ Region }}</p>
+      
+    </div>
+    <div class="csredina">
+      <img
+                    src="assets/images/user.png"
+                    alt="User Profile Picture"
+                    class="rounded-circle"
+                    width="140"
+                    height="140"
+                  />
       <input
         id="edit"
        
@@ -29,9 +40,13 @@
         value="Edit"
         routerLink="/DsoApp/user/{{ id }}"
       />
-    </div>
-    <div class="csredina">
-      ss
+      <input
+      id="viewmore"
+     
+      type="button"
+      value="View more"
+    
+    />
     </div>
   </div>
   <div class="centralniDole">
@@ -53,6 +68,7 @@
         <p class="pdesno">{{ myData.username }}</p>
         <p class="pdesno">{{ myData.email }}</p>
         <p class="pdesno">{{ Region }}</p>
+        
         <input
           id="edit"
          
@@ -60,6 +76,7 @@
           value="Edit"
           routerLink="/DsoApp/user/{{ id }}"
         />
+        
       </div>
     </div>
     <div class="centralniDole">
