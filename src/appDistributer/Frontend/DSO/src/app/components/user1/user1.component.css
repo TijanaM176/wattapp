@@ -33,7 +33,7 @@
 }
 .clevo{
 
-    width: 50%;
+    width: 33%;
    
 }
 .plevo{
@@ -45,8 +45,12 @@
 .cdesno{
    
    
-    width: 50%;
+    width: 33%;
    
+}
+.csredina{
+    width: 33%;
+    background-color: red;
 }
 .pdesno{
     font-size: 18px;
