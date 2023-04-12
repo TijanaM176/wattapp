@@ -45,22 +45,23 @@ export class HistoryProsumerComponent implements OnInit {
       this.dataProducers = Object.entries(this.data.production).map(
         ([name, value]) => ({ name, value })
       );
-      const myList = Object.keys(this.data.consumption).map((name) => {
-        const consumptionValue = this.data.consumption[name];
-        let productionValue = this.data.production[name];
-        const cons: string = 'consumption';
-        const prod: string = 'producton';
-        if (productionValue == undefined) {
-          productionValue = 0.0;
+      const myList = Object.keys(this.data.consumption.timestamps).map(
+        (name) => {
+          const consumptionValue = this.data.consumption.timestamps[name];
+          let productionValue = this.data.production.timestamps[name];
+          const cons: string = 'consumption';
+          const prod: string = 'producton';
+          if (productionValue == undefined) {
+            productionValue = 0.0;
+          }
+          const series = [
+            { name: cons, value: consumptionValue },
+            { name: prod, value: productionValue },
+          ];
+          return { name, series };
         }
-        const series = [
-          { name: cons, value: consumptionValue },
-          { name: prod, value: productionValue },
-        ];
-        return { name, series };
-      });
+      );
       this.data = myList;
-      console.log(this.data);
     });
   }
 }

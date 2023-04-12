@@ -3,16 +3,16 @@
     class="card-header pb-0 pt-3 bg-transparent row"
     style="margin-left: 0; margin-right: 0"
   >
-    <div class="col-md-5">
+    <div class="col-md-6">
       <h6 class="text-capitalize" style="margin-bottom: 2px">
-        Production per City
+        Current Production per City
       </h6>
     </div>
     <div
-      class="col-7"
+      class="col-6"
       style="display: flex; justify-content: right; margin: auto; padding: 1px"
     >
-      <div class="form-check mx-3">
+      <div class="form-check mx-1">
         <input
           class="form-check-input"
           type="radio"
@@ -26,7 +26,7 @@
         </label>
       </div>
 
-      <div class="form-check mx-3">
+      <div class="form-check mx-1">
         <input
           class="form-check-input"
           type="radio"
@@ -45,10 +45,11 @@
     <div style="width: 100%; margin: 0 auto; margin-top: 1%; height: 100%">
       <ngx-charts-pie-grid
         [results]="dataProducers"
-        [scheme]="colorScheme"
-        [ariaLabel]="true"
+        [scheme]="colorScheme1"
+        [ariaLabel]="false"
         [tooltipDisabled]="true"
         [animations]="true"
+        [label]="'Total in kW'"
       >
       </ngx-charts-pie-grid>
       <h1
@@ -71,16 +72,16 @@
     class="card-header pb-0 pt-3 bg-transparent row"
     style="margin-left: 0; margin-right: 0"
   >
-    <div class="col-md-5">
+    <div class="col-md-6">
       <h6 class="text-capitalize" style="margin-bottom: 2px">
-        Consumption per City
+        Current Consumption per City
       </h6>
     </div>
     <div
-      class="col-7"
+      class="col-6"
       style="display: flex; justify-content: right; margin: auto; padding: 1px"
     >
-      <div class="form-check mx-3">
+      <div class="form-check mx-1">
         <input
           class="form-check-input"
           type="radio"
@@ -94,7 +95,7 @@
         </label>
       </div>
 
-      <div class="form-check mx-3">
+      <div class="form-check mx-1">
         <input
           class="form-check-input"
           type="radio"
