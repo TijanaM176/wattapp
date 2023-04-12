@@ -19,6 +19,7 @@ export class PocetnaComponent implements OnInit, AfterViewInit {
   deviceUsages: { [key: string]: number } = {};
   numOfDevices : number = 0;
   numOfActiveDevices : number = 0;
+  tariff : string = "HIGHER";
   @ViewChild('house',{ static:true }) house! : HouseComponent;
 
   constructor(private widthService : DeviceWidthService,private service: ProsumerService, private cookie: CookieService) { }
@@ -30,6 +31,15 @@ export class PocetnaComponent implements OnInit, AfterViewInit {
 
   ngOnInit() {
     this.getDevices();
+    let hour = new Date().getHours();
+    if(hour>=22 || hour<=6)
+    {
+      this.tariff = "LOWER";
+    }
+    else
+    {
+      this.tariff = "HIGHER"
+    }
   }
 
   getDevices()
