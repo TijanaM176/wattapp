@@ -9,22 +9,26 @@ import { DevicesStatusComponent } from '../Charts/devices-status/devices-status.
 @Component({
   selector: 'app-Pocetna',
   templateUrl: './Pocetna.component.html',
-  styleUrls: ['./Pocetna.component.css']
+  styleUrls: ['./Pocetna.component.css'],
 })
 export class PocetnaComponent implements OnInit, AfterViewInit {
-
   resizeObservable$!: Observable<Event>;
   resizeSubscription$!: Subscription;
 
   devices: any[] = [];
   deviceUsages: { [key: string]: number } = {};
-  numOfDevices : number = 0;
-  numOfActiveDevices : number = 0;
-  tariff : string = "HIGHER";
-  @ViewChild('house',{ static:true }) house! : HouseComponent;
-  @ViewChild('devicesStatus',{ static:true }) devicesStatus! : DevicesStatusComponent;
+  numOfDevices: number = 0;
+  numOfActiveDevices: number = 0;
+  tariff: string = 'HIGHER';
+  @ViewChild('house', { static: true }) house!: HouseComponent;
+  @ViewChild('devicesStatus', { static: true })
+  devicesStatus!: DevicesStatusComponent;
 
-  constructor(private widthService : DeviceWidthService,private service: ProsumerService, private cookie: CookieService) { }
+  constructor(
+    private widthService: DeviceWidthService,
+    private service: ProsumerService,
+    private cookie: CookieService
+  ) {}
 
   ngAfterViewInit(): void {
     // const homeCont = document.getElementById('homeCont');
@@ -34,39 +38,36 @@ export class PocetnaComponent implements OnInit, AfterViewInit {
   ngOnInit() {
     this.getDevices();
     let hour = new Date().getHours();
-    if(hour>=22 || hour<=6)
-    {
-      this.tariff = "LOWER";
-    }
-    else
-    {
-      this.tariff = "HIGHER"
+    if (hour >= 22 || hour <= 6) {
+      this.tariff = 'LOWER';
+    } else {
+      this.tariff = 'HIGHER';
     }
   }
 
-  getDevices()
-  {
-    this.service.getDevicesByProsumerId(this.cookie.get('id')).subscribe((response) => {
-      this.devices = [
-        ...response.consumers,
-        ...response.producers,
-        ...response.storage,
-      ];
-      this.numOfDevices = this.devices.length;
-      this.devices.forEach((device) => {
-        this.Usage(device.Id);
+  getDevices() {
+    this.service
+      .getDevicesByProsumerId(this.cookie.get('id'), this.cookie.get('role'))
+      .subscribe((response) => {
+        this.devices = [
+          ...response.consumers,
+          ...response.producers,
+          ...response.storage,
+        ];
+        console.log(response);
+        this.numOfDevices = this.devices.length;
+        this.devices.forEach((device) => {
+          this.Usage(device.Id);
+        });
+        this.house.setDevices(this.devices, this.deviceUsages);
+        this.devicesStatus.setDevices(this.devices, this.deviceUsages);
       });
-      this.house.setDevices(this.devices,this.deviceUsages);
-      this.devicesStatus.setDevices(this.devices,this.deviceUsages);
-    });
   }
-  Usage(id: string)
-  {
+  Usage(id: string) {
     this.service.getDeviceById(id).subscribe((response) => {
       this.deviceUsages[id] = response.CurrentUsage;
-      if(response.CurrentUsage != 0)
-      {
-        this.numOfActiveDevices+=1;
+      if (response.CurrentUsage != 0) {
+        this.numOfActiveDevices += 1;
       }
     });
   }
