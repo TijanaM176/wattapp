@@ -16,7 +16,7 @@
     align-self: normal;
     max-width: 23%;
     max-height: 23%;
-    background: #e5f5ed;
+    background: #b1d1c1;
     font-family: "Roboto";
     color: #08376b;
     margin: 1%;
@@ -40,4 +40,10 @@
     .card img {
         width: 40%;
     }
+}
+.activeDevice{
+    color: #8ee5c9;
+}
+.inactiveDevice{
+    color: #c8ebd9;
 }
