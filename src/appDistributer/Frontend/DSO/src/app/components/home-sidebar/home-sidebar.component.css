@@ -1,3 +1,20 @@
 p {
   font-family: "Open Sans";
 }
+
+.container {
+  width: 100%; /* or any desired value */
+}
+
+.arc {
+  stroke: #fff;
+  stroke-width: 2px;
+}
+
+#chart {
+  width: 100%; /* or any desired value */
+}
+
+svg {
+  overflow: visible;
+}

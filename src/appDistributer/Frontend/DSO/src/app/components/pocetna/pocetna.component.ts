@@ -11,7 +11,20 @@ import { BrowserModule } from '@angular/platform-browser';
   styleUrls: ['./pocetna.component.css'],
 })
 export class PocetnaComponent implements OnInit {
-  constructor() {}
+  data: any;
+  price: any;
+  percentagesChange: any;
+  sign: any;
+  constructor(private service: UsersServiceService) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.service.ElectricityPrice().subscribe((response) => {
+      console.log(response);
+      this.data = response;
+      this.price = this.data.Price;
+      this.percentagesChange = this.data.Percentage;
+      this.sign = Math.sign(this.percentagesChange);
+      console.log(this.sign);
+    });
+  }
 }

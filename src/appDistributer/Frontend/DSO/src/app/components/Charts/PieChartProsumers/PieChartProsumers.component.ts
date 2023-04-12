@@ -30,7 +30,6 @@ export class PieChartProsumersComponent implements OnInit {
 
   ngOnInit() {
     this.service.CityPercentages().subscribe((response) => {
-      console.log(response);
       this.data = response;
       this.dataConsumers = Object.entries(this.data.Consumption).map(
         ([name, value]) => ({
@@ -79,5 +78,9 @@ export class PieChartProsumersComponent implements OnInit {
   percFormat(value: number): string {
     const str = value.toFixed(1);
     return str;
+  }
+
+  yAxisTickFormatting(value: number) {
+    return value + ' kW';
   }
 }

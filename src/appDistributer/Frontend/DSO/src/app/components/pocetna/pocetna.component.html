@@ -55,14 +55,20 @@
               <div class="col-12">
                 <div class="numbers">
                   <p class="text-sm mb-0 text-uppercase font-weight-bold">
-                    New Clients
+                    Electricity Price
                   </p>
-                  <h5 class="font-weight-bolder">+3,462</h5>
-                  <p class="mb-0">
+                  <h5 class="font-weight-bolder">{{ price }} RSD</h5>
+                  <p class="mb-0" *ngIf="sign == -1">
                     <span class="text-danger text-sm font-weight-bolder"
-                      >-2%</span
+                      >{{ percentagesChange }}%</span
                     >
-                    since last quarter
+                    since yesterday
+                  </p>
+                  <p class="mb-0" *ngIf="sign == +1">
+                    <span class="text-success text-sm font-weight-bolder"
+                      >{{ percentagesChange }}%</span
+                    >
+                    since yesterday
                   </p>
                 </div>
               </div>
@@ -129,8 +135,8 @@
           <app-top5Producers></app-top5Producers>
         </div>
       </div>
-      <div class="col-lg-5 h-100">
-        <div class="card">
+      <div class="col-lg-5">
+        <div class="card h-100">
           <app-PieChartProsumers></app-PieChartProsumers>
         </div>
       </div>

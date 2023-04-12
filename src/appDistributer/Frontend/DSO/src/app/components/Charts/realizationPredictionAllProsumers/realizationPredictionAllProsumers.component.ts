@@ -2,18 +2,17 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { strings } from '@material/slider';
 import { UsersServiceService } from 'src/app/services/users-service.service';
-import { ScaleType, Color, LegendComponent } from '@swimlane/ngx-charts';
+import { ScaleType, Color, LegendPosition } from '@swimlane/ngx-charts';
 import { BrowserModule } from '@angular/platform-browser';
-import { curveBasis } from 'd3-shape';
 @Component({
   selector: 'app-realizationPredictionAllProsumers',
   templateUrl: './realizationPredictionAllProsumers.component.html',
   styleUrls: ['./realizationPredictionAllProsumers.component.css'],
 })
 export class RealizationPredictionAllProsumersComponent implements OnInit {
-  curve: any = curveBasis;
   production = true;
   consumption = true;
+  legendPosition: LegendPosition = 'below' as LegendPosition;
   id: string = '';
   data: any = [];
   dataConsumers: any = [];

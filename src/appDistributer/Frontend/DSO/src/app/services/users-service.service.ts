@@ -182,4 +182,8 @@ export class UsersServiceService {
   CityPercentages(): Observable<any[]> {
     return this.http.get<any[]>(this.deviceBaseUrl + 'CityPercentages');
   }
+
+  ElectricityPrice(): Observable<any[]> {
+    return this.http.get<any[]>('https://localhost:7156/api/Dso/CurrentPrice');
+  }
 }

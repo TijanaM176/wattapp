@@ -5,7 +5,7 @@
   >
     <div class="col-md-5">
       <h6 class="text-capitalize" style="margin-bottom: 2px">
-        Consumption per City
+        Production per City
       </h6>
     </div>
     <div
@@ -41,21 +41,18 @@
       </div>
     </div>
   </div>
-  <div class="card-body p-0">
+  <div class="card-body p-0" *ngIf="dataProducers.length > 0">
     <div style="width: 100%; margin: 0 auto; margin-top: 1%; height: 100%">
-      <ngx-charts-pie-chart
+      <ngx-charts-pie-grid
         [results]="dataProducers"
-        [doughnut]="false"
-        [explodeSlices]="true"
-        [gradient]="false"
-        [legend]="false"
-        [labels]="true"
         [scheme]="colorScheme"
         [ariaLabel]="true"
+        [tooltipDisabled]="true"
+        [animations]="true"
       >
-      </ngx-charts-pie-chart>
+      </ngx-charts-pie-grid>
       <h1
-        *ngIf="!production && !consumption"
+        *ngIf="!dataProducers.length"
         style="
           text-align: center;
           margin-top: 15%;
@@ -113,20 +110,20 @@
     </div>
   </div>
   <div class="card-body p-0">
-    <div style="width: 100%; margin: 0 auto; margin-top: 1%; height: 100%">
-      <ngx-charts-pie-chart
+    <div
+      style="width: 100%; margin: 0 auto; margin-top: 1%; height: 100%"
+      *ngIf="dataConsumers.length > 0"
+    >
+      <ngx-charts-pie-grid
         [results]="dataConsumers"
-        [doughnut]="false"
-        [explodeSlices]="true"
-        [gradient]="false"
-        [legend]="false"
-        [labels]="true"
         [scheme]="colorScheme"
         [ariaLabel]="true"
+        [tooltipDisabled]="true"
+        [animations]="true"
       >
-      </ngx-charts-pie-chart>
+      </ngx-charts-pie-grid>
       <h1
-        *ngIf="!production && !consumption"
+        *ngIf="!dataConsumers.length"
         style="
           text-align: center;
           margin-top: 15%;
