@@ -1,0 +1,179 @@
+<div class="card-body pt-0 pb-4">
+    <div class="row pt-0 mb-2" id="houseCont" style="display: flex; justify-content: center;">
+        <div class="roof mt-0" style="width: 100%; height: 35%; margin-top: 0%;">
+
+        </div>
+        <div class="walls px-1 pb-1" style="width: 85%; height: 65%;" id="houseWalls">
+            <div class="row px-0 py-0 mx-0 my-0" style="width: 100%; height: 100%; display: flex; justify-content: start; align-items: center; overflow-y: auto; overflow-x: hidden;">
+                <div class="card px-0 py-0" *ngFor="let device of devices" [ngStyle]="{'background-color':deviceUsages[device.Id]===0? '#c8ebd9' : '#8ee5c9'}">
+                    <span [ngSwitch]="device.TypeId" style="max-width: 100%; text-align: center;">
+                        <div *ngSwitchCase="'1'" class="pt-1 text-center row text-center p-md-2" >
+                            <div class="col-12 col-md-5">
+                                <img src="assets/images/fridge.png">
+                            </div>
+                            <div class="col-12 col-md-7">
+                                <a style="max-width: 96%; display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{device.Name}}</a>
+                            </div>
+                        </div>
+                        <div *ngSwitchCase="'2'"  class="pt-1 text-center row text-center p-md-2">
+                            <div class="col-12 col-md-5">
+                                <img src="assets/images/tv.png">
+                            </div>
+                            <div class="col-12 col-md-7">
+                                <a style="max-width: 96%; display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{device.Name}}</a>
+                            </div>
+                        </div>
+                        <div *ngSwitchCase="'3'" class="pt-1 text-center row text-center p-md-2">
+                            <div class="col-12 col-md-5">
+                                <img src="assets/images/oven.png">
+                            </div>
+                            <div class="col-12 col-md-7">
+                                <a style="max-width: 96%; display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{device.Name}}</a>
+                            </div>
+                        </div>
+                        <div *ngSwitchCase="'4'" class="pt-1 text-center row text-center p-md-2">
+                            <div class="col-12 col-md-5">
+                                <img src="assets/images/air-conditioner.png">
+                            </div>
+                            <div class="col-12 col-md-7">
+                                <a style="max-width: 96%; display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{device.Name}}</a>
+                            </div>
+                        </div>
+                        <div *ngSwitchCase="'5'" class="pt-1 text-center row text-center p-md-2">
+                            <div class="col-12 col-md-5">
+                                <img src="assets/images/microwave.png">
+                            </div>
+                            <div class="col-12 col-md-7">
+                                <a style="max-width: 96%; display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{device.Name}}</a>
+                            </div>
+                        </div>
+                        <div *ngSwitchCase="'6'" class="pt-1 text-center row text-center p-md-2">
+                            <div class="col-12 col-md-5">
+                                <img src="assets/images/dish-washer.png">
+                            </div>
+                            <div class="col-12 col-md-7">
+                                <a style="max-width: 96%; display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{device.Name}}</a>
+                            </div>
+                        </div>
+                        <div *ngSwitchCase="'7'" class="pt-1 text-center row text-center p-md-2">
+                            <div class="col-12 col-md-5">
+                                <img src="assets/images/coffee-machine.png">
+                            </div>
+                            <div class="col-12 col-md-7">
+                                <a style="max-width: 96%; display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{device.Name}}</a>
+                            </div>
+                        </div>
+                        <div *ngSwitchCase="'8'" class="pt-1 text-center row text-center p-md-2">
+                            <div class="col-12 col-md-5">
+                                <img src="assets/images/pc.png">
+                            </div>
+                            <div class="col-12 col-md-7">
+                                <a style="max-width: 96%; display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{device.Name}}</a>
+                            </div>
+                        </div>
+                        <div *ngSwitchCase="'9'" class="pt-1 text-center row text-center p-md-2">
+                            <div class="col-12 col-md-5">
+                                <img src="assets/images/washing-machine.png">
+                            </div>
+                            <div class="col-12 col-md-7">
+                                <a style="max-width: 96%; display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{device.Name}}</a>
+                            </div>
+                        </div>
+                        <div *ngSwitchCase="'10'" class="pt-1 text-center row text-center p-md-2">
+                            <div class="col-12 col-md-5">
+                                <img src="assets/images/dryer-machine.png">
+                            </div>
+                            <div class="col-12 col-md-7">
+                                <a style="max-width: 96%; display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{device.Name}}</a>
+                            </div>
+                        </div>
+                        <div *ngSwitchCase="'11'" class="pt-1 text-center row text-center p-md-2">
+                            <div class="col-12 col-md-5">
+                                <img src="assets/images/vacuum-cleaner.png">
+                            </div>
+                            <div class="col-12 col-md-7">
+                                <a style="max-width: 96%; display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{device.Name}}</a>
+                            </div>
+                        </div>
+                        <div *ngSwitchCase="'12'" class="pt-1 text-center row text-center p-md-2">
+                            <div class="col-12 col-md-5">
+                                <img src="assets/images/iron.png">
+                            </div>
+                            <div class="col-12 col-md-7">
+                                <a style="max-width: 96%; display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{device.Name}}</a>
+                            </div>
+                        </div>
+                        <div *ngSwitchCase="'13'" class="pt-1 text-center row text-center p-md-2">
+                            <div class="col-12 col-md-5">
+                                <img src="assets/images/dryer.png">
+                            </div>
+                            <div class="col-12 col-md-7">
+                                <a style="max-width: 96%; display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{device.Name}}</a>
+                            </div>
+                        </div>
+                        <div *ngSwitchCase="'14'" class="pt-1 text-center row text-center p-md-2">
+                            <div class="col-12 col-md-5">
+                                <img src="assets/images/water-heater.png">
+                            </div>
+                            <div class="col-12 col-md-7">
+                                <a style="max-width: 96%; display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{device.Name}}</a>
+                            </div>
+                        </div>
+                        <div *ngSwitchCase="'15'" class="pt-1 text-center row text-center p-md-2">
+                            <div class="col-12 col-md-5">
+                                <img src="assets/images/kettle.png">
+                            </div>
+                            <div class="col-12 col-md-7">
+                                <a style="max-width: 96%; display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{device.Name}}</a>
+                            </div>
+                        </div>
+                        <div *ngSwitchCase="'16'" class="pt-1 text-center row text-center p-md-2">
+                            <div class="col-12 col-md-5">
+                                <img src="assets/images/station-charging.png">
+                            </div>
+                            <div class="col-12 col-md-7">
+                                <a style="max-width: 96%; display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{device.Name}}</a>
+                            </div>
+                        </div>
+                        <div *ngSwitchCase="'17'" class="pt-1 text-center row text-center p-md-2">
+                            <div class="col-12 col-md-5">
+                                <img src="assets/images/playstation.png">
+                            </div>
+                            <div class="col-12 col-md-7">
+                                <a style="max-width: 96%; display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{device.Name}}</a>
+                            </div>
+                        </div>
+                        <div *ngSwitchCase="'18'" class="pt-1 text-center row text-center p-md-2">
+                            <div class="col-12 col-md-5">
+                                <img src="assets/images/smart-heater.png">
+                            </div>
+                            <div class="col-12 col-md-7">
+                                <a style="max-width: 96%; display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{device.Name}}</a>
+                            </div>
+                        </div>
+                        <div *ngSwitchCase="'19'" class="pt-1 text-center row text-center p-md-2">
+                            <div class="col-12 col-md-5">
+                                <img src="assets/images/solar-panel.png">
+                            </div>
+                            <div class="col-12 col-md-7">
+                                <a style="max-width: 96%; display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{device.Name}}</a>
+                            </div>
+                        </div>
+                        <div *ngSwitchCase="'20'" class="pt-1 text-center row text-center p-md-2">
+                            <div class="col-12 col-md-5">
+                                <img src="assets/images/windmill.png">
+                            </div>
+                            <div class="col-12 col-md-7">
+                                <a style="max-width: 96%; display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{device.Name}}</a>
+                            </div>
+                        </div>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="legend w-100 ps-4" *ngIf="devices.length != 0">
+        <i class="fa fa-circle activeDevice">&nbsp;Device is active</i>&nbsp;&nbsp;&nbsp;
+        <i class="fa fa-circle inactiveDevice">&nbsp;Device is inactive</i>
+      </div>
+</div>

@@ -31,26 +31,25 @@
           aria-label="Close"
         ></button>
       </div>
-      <div class="offcanvas-body">
-        <ul class="navbar-nav justify-content-end flex-grow-1 pe-1">
+      <div class="offcanvas-body" id="offcanvBody">
+        <ul class="navbar-nav justify-content-end flex-grow-1 pe-1" id="offcanv">
           <li class="nav-item active">
-            <a class="nav-link" aria-current="page" routerLink="home"
+            <a class="nav-link" data-bs-dismiss="offcanvas" routerLink="home"
               ><i class="fa fa-home"></i>&nbsp;Home</a
             >
           </li>
           <li class="nav-item">
-            <a class="nav-link" routerLink="userInfo"
+            <a class="nav-link" routerLink="userInfo" data-bs-dismiss="offcanvas"
               ><i class="fa fa-user"></i>&nbsp;View Profile</a
             >
           </li>
           <li class="nav-item">
-            <a class="nav-link" routerLink="deviceinfo"></a>
-            <a class="nav-link" routerLink="userDevices"
+            <a class="nav-link" routerLink="userDevices" data-bs-dismiss="offcanvas"
               ><i class="fa fa-list"></i>&nbsp;View Devices</a
             >
           </li>
           <li class="nav-item">
-            <a class="nav-link" routerLink="addDevice"
+            <a class="nav-link" data-bs-dismiss="offcanvas" data-bs-toggle="modal" data-bs-target="#staticBackdrop1"
               ><i class="fa fa-plus-square"></i>&nbsp;Add New Device</a
             >
           </li>

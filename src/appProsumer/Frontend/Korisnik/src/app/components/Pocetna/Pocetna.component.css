@@ -1,0 +1,11 @@
+.kartice{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+h6{
+    color: #466471;
+}
+.fa{
+    color: #466471;
+}

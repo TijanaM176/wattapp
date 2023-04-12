@@ -1,20 +1,153 @@
-<!-- <app-NavBar> </app-NavBar>
-<app-SideBar></app-SideBar> -->
-<section class="h-100 mx-0 my-0 px-0 py-0" style="background-color: #f4f5f7">
-  <div class="container-fluid h-100 px-0 py-0 mx-0 my-0">
-    <div
-      class="row d-flex justify-content-center align-items-center mx-0 my-0 px-0 py-0 h-100"
-    >
-      <div class="col px-0 mx-0 my-0 py-0 h-100">
-        <div class="card h-100" style="border-radius: 0">
-          <div
-            class="row g-0 h-100 justify-content-center align-items-center px-0 py-0"
-          >
-            <p>app-pocetna works!</p>
+<!-- <section class="h-100 w-100 mx-0 my-0 px-0 py-0">
+  <div class="container-fluid h-100 px-0 py-0 mx-0 my-0" id="homeCont">
+            <p>app-pocetna works! dgvbdfbdhbcsvgrdfgvdfvgr</p>
+  </div>
+</section> -->
+
+<div id="wrapper">
+  <div id="content-wrapper" class="d-flex flex-column">
+    <div id="content">
+      <div class="container-fluid pt-3">
+
+        <!-- content row -->
+        <div class="row">
+          <div class="col-xl-6 col-lg-6">
+              <div class="card shadow mb-4">
+                  <div
+                      class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                      <h6 class="m-0 font-weight-bold">Your Home</h6>
+                  </div>
+                  <app-house #house></app-house>
+              </div>
+          </div>
+
+          <div class="col-xl-6 col-lg-6">
+              <div class="card shadow mb-4">
+                  <div
+                      class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                      <h6 class="m-0 font-weight-bold">Devices Status</h6>
+                  </div>
+                  <app-devices-status #devicesStatus></app-devices-status>
+              </div>
           </div>
         </div>
+        <!-- end content row -->
+
+        <!-- content row -->
+        <div class="row">
+          <!-- Earnings (Monthly) Card Example -->
+          <div class="col-xl-3 col-md-6 mb-4">
+              <div class="card border-left-primary shadow h-100 py-2">
+                  <div class="card-body kartice">
+                      <div class="row no-gutters align-items-center">
+                          <div class="col mr-2">
+                              <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                                  Num of. Devices</div>
+                              <div class="h5 mb-0 font-weight-bold text-gray-800">{{numOfDevices}}</div>
+                          </div>
+                          <div class="col-auto">
+                              <i class="fa fa-home fa-2x text-gray-300"></i>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+
+          <!-- Earnings (Monthly) Card Example -->
+          <div class="col-xl-3 col-md-6 mb-4">
+              <div class="card border-left-success shadow h-100 py-2">
+                  <div class="card-body kartice">
+                      <div class="row no-gutters align-items-center">
+                          <div class="col mr-2">
+                              <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
+                                  Num. of Active Devices</div>
+                              <div class="h5 mb-0 font-weight-bold text-gray-800">{{numOfActiveDevices}}</div>
+                          </div>
+                          <div class="col-auto">
+                              <i class="fa fa-cogs fa-2x text-gray-300"></i>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+
+          <!-- Earnings (Monthly) Card Example -->
+          <div class="col-xl-3 col-md-6 mb-4">
+              <div class="card border-left-info shadow h-100 py-2">
+                  <div class="card-body kartice">
+                      <div class="row no-gutters align-items-center">
+                          <div class="col mr-2">
+                              <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
+                                Lower/Higher tariff
+                              </div>
+                              <div class="row no-gutters align-items-center">
+                                  <div class="col-auto">
+                                      <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">{{tariff}}</div>
+                                  </div>
+                              </div>
+                          </div>
+                          <div class="col-auto">
+                              <i class="fa fa-dashboard fa-2x text-gray-300"></i>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+
+          <!-- Pending Requests Card Example -->
+          <div class="col-xl-3 col-md-6 mb-4">
+              <div class="card border-left-warning shadow h-100 py-2">
+                  <div class="card-body kartice">
+                      <div class="row no-gutters align-items-center">
+                          <div class="col mr-2">
+                              <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                Electricity cost</div>
+                              <div class="h5 mb-0 font-weight-bold text-gray-800">54.258 din (per unit)</div>
+                          </div>
+                          <div class="col-auto">
+                              <i class="fa fa-bolt fa-2x text-gray-300"></i>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+        </div>
+        <!-- end content row -->
+
+        <!-- content row -->
+        <div class="row">
+
+          <!-- Content Column -->
+          <div class="col-lg-5 mb-4">
+
+              <!-- Project Card Example -->
+              <div class="card shadow"> <!-- mb-4-->
+                  <div class="card-header py-3">
+                      <h6 class="m-0 font-weight-bold">Consumption Limit</h6>
+                  </div>
+                  <div class="card-body">
+
+                  </div>
+              </div>
+          </div>
+
+          <div class="col-lg-7 mb-4">
+            <!-- realizationa -->
+            <div class="card shadow mb-4 pb-2">
+              <app-realization-chart></app-realization-chart>
+            </div>
+
+              <!-- prediction -->
+            <div class="card shadow mb-1 pb-2">
+                <app-prediction-chart></app-prediction-chart>
+            </div>
+
+          </div>
+        </div>
+        <!-- end content row -->
       </div>
     </div>
   </div>
-</section>
+</div>
+
 <app-add-device></app-add-device>

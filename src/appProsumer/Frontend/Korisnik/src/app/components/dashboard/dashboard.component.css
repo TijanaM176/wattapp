@@ -1,0 +1,6 @@
+#page{
+    overflow: hidden;
+}
+#scrollable-div{
+    overflow: auto;
+}

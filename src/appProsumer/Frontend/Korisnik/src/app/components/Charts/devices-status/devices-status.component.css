@@ -1,0 +1,22 @@
+.float-right {
+    float: right !important;
+}
+@media only screen and (max-width: 768px) {
+    .trenutneInformacije h5{
+        font-size: 95%;
+    }
+    .trenutneInformacije p{
+        font-size: 80%;
+        max-width: 100%;
+        display: block;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+}
+.devicesConsumption{
+    color: #c14b48;
+}
+.devicesProduction{
+    color: #48bec1;
+}

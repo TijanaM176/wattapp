@@ -1,0 +1,23 @@
+.consumption{
+    color: #c14b48;
+}
+.production{
+    color: #48bec1;
+}
+h6{
+    color: #466471;
+}
+.btn-primary{
+    background-color: #466471;
+    border-color: #466471;
+}
+.realizationbtn.active{
+    background-color: #c1dfd5;
+    border-color: #466471;
+    color: #466471;
+}
+.realizationbtn:not(.active)
+{
+    background-color: #466471;
+    border-color: #466471;
+}

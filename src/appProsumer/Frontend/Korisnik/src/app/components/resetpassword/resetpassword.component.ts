@@ -66,7 +66,7 @@ export class ResetpasswordComponent {
      this.reset.resetPassword(object)
      .subscribe(
       (res:any)=>{
-        this.cookie.delete('resetToken');
+        this.cookie.delete('resetToken','/');
         if(res.error==false){
           this.toast.success({detail:"Succes", summary: res.message,duration: 3000});
         }

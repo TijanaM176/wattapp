@@ -22,38 +22,48 @@ export class DashboardComponent implements OnInit, OnDestroy, AfterViewInit{
   
 
   ngOnInit(): void {
+    this.widthService.deviceWidth = window.innerWidth;
     this.deviceWidth = this.widthService.deviceWidth;
+    const content = document.getElementById('content');
+    if(window.innerWidth<=280)
+    {
+      let height = window.innerHeight - 104.69;
+      this.widthService.height = height;
+      content!.style.height = height + 'px';
+    }
+    else
+    {
+      let height = window.innerHeight - 65.09;
+      this.widthService.height = height;
+      content!.style.height = height + 'px';
+    }
+
     this.resizeObservable$ = fromEvent(window, 'resize');
     this.resizeSubscription$ = this.resizeObservable$.subscribe( evt => {
       this.widthService.deviceWidth = window.innerWidth;
       this.deviceWidth = this.widthService.deviceWidth;
-
       if(window.innerWidth<=280)
       {
         let height = window.innerHeight - 104.69;
-        this.content.style.height = height + 'px';
+        this.widthService.height = height;
+        content!.style.height = height + 'px';
       }
       else
       {
         let height = window.innerHeight - 65.09;
-        this.content.style.height = height + 'px';
+        this.widthService.height = height;
+        content!.style.height = height + 'px';
       }
     });
   }
 
   ngAfterViewInit(): void {
-    this.content = document.getElementById('content');
-    let height = window.innerHeight - 65.09;
-    this.content.style.height = height + 'px';
+    const content = document.getElementById('content');
+    content!.style.height = this.widthService.height + 'px';
   }
 
   ngOnDestroy(): void {
     this.resizeSubscription$.unsubscribe();
   }
-
-  // @HostListener('window:resize',['$event'])
-  // onResize(evet : any){
-  //   this.widthService.deviceWidth = evet.target.innerWidth;
-  // }
 
 }
