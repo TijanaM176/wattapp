@@ -4,6 +4,11 @@
   <div style="width: 100%">
     <app-popup-add></app-popup-add>
 <app-popup-emp></app-popup-emp>
-    <app-tabelaUredjaja></app-tabelaUredjaja>
+<div class="d-flex justify-content-center">
+  <div class="spinner-border" style="margin-top: 25%;" role="status" *ngIf="loader">
+    <span class="sr-only">Loading...</span>
+  </div>
+</div>
+    <app-tabelaUredjaja *ngIf="!loader"></app-tabelaUredjaja>
   </div>
 </div>

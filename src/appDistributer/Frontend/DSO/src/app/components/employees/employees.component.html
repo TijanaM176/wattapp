@@ -23,7 +23,12 @@
     $('[data-toggle="tooltip"]').tooltip();
   });
 </script>
-<div class="container-xl">
+<div class="d-flex justify-content-center">
+  <div class="spinner-border" style="margin-top: 25%;" role="status" *ngIf="loader">
+    <span class="sr-only">Loading...</span>
+  </div>
+</div>
+<div class="container-xl" *ngIf="!loader">
   <div class="table-responsive">
     <div class="table-wrapper">
       <div class="table-title">

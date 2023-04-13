@@ -14,7 +14,7 @@ import { fromEvent, Observable, Subscription } from 'rxjs';
   styleUrls: ['./map.component.css'],
 })
 export class MapComponent implements AfterViewInit, OnInit {
-
+  loader:boolean=true;
   map : any;
   resizeObservable$!: Observable<Event>
   resizeSubscription$!: Subscription;
@@ -102,6 +102,9 @@ export class MapComponent implements AfterViewInit, OnInit {
     this.mapService.getAllNeighborhoods().subscribe((response) => {
       this.Neighborhoods = response;
     });
+    setTimeout(()=>{
+      this.loader=false;
+    },3000);
     this.currentLocationIsSet = false;
     this.mapService.refreshList();
     this.markers = [];
@@ -116,6 +119,7 @@ export class MapComponent implements AfterViewInit, OnInit {
       const side = document.getElementById('side');
       side!.style.height = this.widthService.height + 'px';
     })
+    
   }
 
   ngAfterViewInit(): void {

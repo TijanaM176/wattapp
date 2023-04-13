@@ -15,6 +15,7 @@ export class PocetnaComponent implements OnInit {
   price: any;
   percentagesChange: any;
   sign: any;
+  loader:boolean=true;
   constructor(private service: UsersServiceService) {}
 
   ngOnInit() {
@@ -26,5 +27,8 @@ export class PocetnaComponent implements OnInit {
       this.sign = Math.sign(this.percentagesChange);
       console.log(this.sign);
     });
+    setTimeout(()=>{
+      this.loader=false;
+    },6000);
   }
 }

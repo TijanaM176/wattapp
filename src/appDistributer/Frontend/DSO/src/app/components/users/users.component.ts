@@ -12,6 +12,7 @@ export class UsersComponent implements OnInit {
   searchAddress: string = '';
   prosumer!: any;
   total!: number;
+  loader:boolean=true;
   perPage: number = 10;
   prosumers!: any;
   pagenum!: number;
@@ -20,6 +21,9 @@ export class UsersComponent implements OnInit {
   constructor(public service: UsersServiceService, private router: Router) {}
   ngOnInit(): void {
     this.service.ProsumersInfo();
+    setTimeout(()=>{
+      this.loader=false;
+    },2000);
   }
   Details(id: string) {
     this.service.detailsEmployee(id).subscribe((res) => {

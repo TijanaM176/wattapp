@@ -33,6 +33,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
   showModal: boolean = false;
   currentCountry:string = '';
   validInput: boolean = false;
+  loader:boolean=true;
 
   @ViewChild('exampleModal', { static: false }) modal!: ElementRef;
   @ViewChild('launchButton') launchButton!: ElementRef;
@@ -79,7 +80,9 @@ export class HomeComponent implements OnInit, AfterViewInit {
   ngOnInit(): void {
     this.getAllUsers();
 
-
+    setTimeout(()=>{
+      this.loader=false;
+    },2000);
     this.service.getAllCities().subscribe((response) => {
       this.cities = response;
     });
