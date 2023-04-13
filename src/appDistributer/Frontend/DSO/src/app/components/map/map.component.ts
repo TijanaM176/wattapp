@@ -14,9 +14,9 @@ import { fromEvent, Observable, Subscription } from 'rxjs';
   styleUrls: ['./map.component.css'],
 })
 export class MapComponent implements AfterViewInit, OnInit {
-  loader:boolean=true;
-  map : any;
-  resizeObservable$!: Observable<Event>
+  loader: boolean = true;
+  map: any;
+  resizeObservable$!: Observable<Event>;
   resizeSubscription$!: Subscription;
 
   minValueP: number = 0;
@@ -75,11 +75,11 @@ export class MapComponent implements AfterViewInit, OnInit {
   markers!: any[];
   currentLocation: any;
   currentLocationIsSet = false;
-  currentHour : any;
+  currentHour: any;
 
   constructor(
     private mapService: UsersServiceService,
-    private widthService : ScreenWidthService,
+    private widthService: ScreenWidthService,
     private toast: NgToastService,
     private cookie: CookieService
   ) {}
@@ -89,41 +89,39 @@ export class MapComponent implements AfterViewInit, OnInit {
   }
 
   ngOnInit(): void {
+    setTimeout(() => {
+      this.loader = false;
+    }, 3000);
     let t = 101;
-    if(window.innerWidth<320)
-    {
+    if (window.innerWidth < 320) {
       t = 140.6;
     }
-    let h = (window.innerHeight - t);
-    
+    let h = window.innerHeight - t;
+
     const sad = document.getElementById('sadrzaj');
     sad!.style.height = h + 'px';
     const mapCont = document.getElementById('mapCont');
-    mapCont!.style.height = h+'px';
+    mapCont!.style.height = h + 'px';
     const side = document.getElementById('side');
-    side!.style.height = h + 'px'; 
+    side!.style.height = h + 'px';
 
     this.mapService.getAllNeighborhoods().subscribe((response) => {
       this.Neighborhoods = response;
     });
-    setTimeout(()=>{
-      this.loader=false;
-    },3000);
     this.currentLocationIsSet = false;
     this.mapService.refreshList();
     this.markers = [];
     this.currentHour = new Date().getHours();
 
     this.resizeObservable$ = fromEvent(window, 'resize');
-    this.resizeSubscription$ = this.resizeObservable$.subscribe( evt => {
+    this.resizeSubscription$ = this.resizeObservable$.subscribe((evt) => {
       const sad = document.getElementById('sadrzaj');
       sad!.style.height = this.widthService.height + 'px';
       const mapCont = document.getElementById('mapCont');
       mapCont!.style.height = this.widthService.height + 'px';
       const side = document.getElementById('side');
       side!.style.height = this.widthService.height + 'px';
-    })
-    
+    });
   }
 
   ngAfterViewInit(): void {
@@ -131,12 +129,12 @@ export class MapComponent implements AfterViewInit, OnInit {
   }
 
   private initMap() {
-    let map = L.map('map', { minZoom: 8 });//.setView([44.012794, 20.911423], 15);
+    let map = L.map('map', { minZoom: 8 }); //.setView([44.012794, 20.911423], 15);
 
     var lat = this.cookie.get('lat');
     var long = this.cookie.get('long');
     map.setView([Number(lat), Number(long)], 12);
-    
+
     const tiles = new L.TileLayer(
       'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
       {
@@ -153,8 +151,12 @@ export class MapComponent implements AfterViewInit, OnInit {
       tooltipAnchor: [16, -28],
     });
 
-    let marker = L.marker([Number(lat), Number(long)],{icon:icon}).addTo(map);
-    marker.bindPopup("<h6>Center of region "+this.cookie.get('region')+"</h6>");
+    let marker = L.marker([Number(lat), Number(long)], { icon: icon }).addTo(
+      map
+    );
+    marker.bindPopup(
+      '<h6>Center of region ' + this.cookie.get('region') + '</h6>'
+    );
 
     const findMeControl = L.Control.extend({
       options: {
@@ -182,8 +184,8 @@ export class MapComponent implements AfterViewInit, OnInit {
     this.mapService.ProsumersInfo1().subscribe({
       next: (res) => {
         this.users = res;
-        let iconUrl ='assets/images/marker-icon-2x-blueviolet.png'
-        
+        let iconUrl = 'assets/images/marker-icon-2x-blueviolet.png';
+
         for (let user of this.users) {
           let lon = user.long;
           let lat = user.lat;
@@ -212,7 +214,7 @@ export class MapComponent implements AfterViewInit, OnInit {
                     ' kw</b> <br> Current production: <b>' +
                     res.production.toString() +
                     ' kw</b>' +
-                    "<br><br><a href='/DsoApp/user/'" +
+                    "<br><br><a href='/DsoApp/user/" +
                     user.id +
                     "'>View More</a>"
                 );
@@ -236,10 +238,10 @@ export class MapComponent implements AfterViewInit, OnInit {
                     '</b></h5><h6><b>' +
                     user.address +
                     '</b></h6>Current consumption: <b>? kw</b> <br> Current production: <b>? kw</b>' +
-                    "<br><br><a href='/DsoApp/user/'" +
+                    "<br><br><a href='/DsoApp/user/" +
                     user.id +
                     "'>View More</a>"
-                ); 
+                );
                 this.markers.push(marker);
                 console.log(err.error);
               },
@@ -259,7 +261,7 @@ export class MapComponent implements AfterViewInit, OnInit {
   }
 
   populateTheMap2(map: any) {
-    let iconUrl ='assets/images/marker-icon-2x-blueviolet.png';
+    let iconUrl = 'assets/images/marker-icon-2x-blueviolet.png';
     for (let user of this.users) {
       let lon = user.long;
       let lat = user.lat;
@@ -267,17 +269,17 @@ export class MapComponent implements AfterViewInit, OnInit {
         this.mapService.getUserProductionAndConsumption(user.id).subscribe({
           next: (res) => {
             iconUrl = this.decideOnMarker(res);
-                const prosumerIcon = L.icon({
-                  iconUrl: iconUrl,
-                  iconSize: [25, 41],
-                  iconAnchor: [12, 41],
-                  popupAnchor: [1, -34],
-                  tooltipAnchor: [16, -28],
-                });
-                let marker = L.marker(
-                  [Number(lat.toString()), Number(lon.toString())],
-                  { icon: prosumerIcon }
-                ).addTo(map);
+            const prosumerIcon = L.icon({
+              iconUrl: iconUrl,
+              iconSize: [25, 41],
+              iconAnchor: [12, 41],
+              popupAnchor: [1, -34],
+              tooltipAnchor: [16, -28],
+            });
+            let marker = L.marker(
+              [Number(lat.toString()), Number(lon.toString())],
+              { icon: prosumerIcon }
+            ).addTo(map);
             marker.bindPopup(
               '<h5><b>' +
                 user.username +
@@ -288,7 +290,7 @@ export class MapComponent implements AfterViewInit, OnInit {
                 ' kw</b> <br> Current production: <b>' +
                 res.production.toString() +
                 ' kw</b>' +
-                "<br><br><a href='/DsoApp/user/'" +
+                "<br><br><a href='/DsoApp/user/" +
                 user.id +
                 "'>View More</a>"
             );
@@ -312,7 +314,7 @@ export class MapComponent implements AfterViewInit, OnInit {
                 '</b></h5><h6><b>' +
                 user.address +
                 '</b></h6>Current consumption: <b>? kw</b> <br> Current production: <b>? kw</b>' +
-                "<br><br><a href='/DsoApp/user/'" +
+                "<br><br><a href='/DsoApp/user/" +
                 user.id +
                 "'>View More</a>"
             ); //"/user/{{item.id}}"
@@ -324,13 +326,13 @@ export class MapComponent implements AfterViewInit, OnInit {
     }
   }
 
-  deleteAllMarkers(map : any) {
+  deleteAllMarkers(map: any) {
     for (var marker of this.markers) {
       map.removeLayer(marker);
     }
   }
 
-  filterwithoutNeighborhood(map:any) {
+  filterwithoutNeighborhood(map: any) {
     this.deleteAllMarkers(map);
     this.mapService
       .prosumerFilter(
@@ -347,7 +349,7 @@ export class MapComponent implements AfterViewInit, OnInit {
         this.populateTheMap2(map);
       });
   }
-  filterwithNeighborhood(map : any) {
+  filterwithNeighborhood(map: any) {
     this.deleteAllMarkers(map);
     this.mapService
       .prosumerFilter2(
@@ -389,34 +391,24 @@ export class MapComponent implements AfterViewInit, OnInit {
     this.dropDownNeigh = 'b';
   }
 
-  private decideOnMarker(res : any) : string
-  {
+  private decideOnMarker(res: any): string {
     let conumption = Number(res.consumption);
     let production = Number(res.production);
     let razlika = conumption - production;
     let iconUrl = 'assets/images/marker-icon-2x-blueviolet.png';
-    if(razlika>0)
-    {
-      iconUrl='assets/images/marker-icon-2x-orange.png';
-      if(conumption<=0.4)
-      {
-        iconUrl='assets/images/marker-icon-2x-yellow.png';
+    if (razlika > 0) {
+      iconUrl = 'assets/images/marker-icon-2x-orange.png';
+      if (conumption <= 0.4) {
+        iconUrl = 'assets/images/marker-icon-2x-yellow.png';
+      } else if (conumption > 0.8) {
+        iconUrl = 'assets/images/marker-icon-2x-red.png';
       }
-      else if(conumption>0.8)
-      {
-        iconUrl='assets/images/marker-icon-2x-red.png';
-      }
-    }
-    else if(razlika<0)
-    {
-      iconUrl='assets/images/marker-icon-2x-lime.png';
-      if(production<0.17)
-      {
-        iconUrl='assets/images/marker-icon-2x-turquoise.png';
-      }
-      else if(production>0.21)
-      {
-        iconUrl='assets/images/marker-icon-2x-lightgreen.png';
+    } else if (razlika < 0) {
+      iconUrl = 'assets/images/marker-icon-2x-lime.png';
+      if (production < 0.17) {
+        iconUrl = 'assets/images/marker-icon-2x-turquoise.png';
+      } else if (production > 0.21) {
+        iconUrl = 'assets/images/marker-icon-2x-lightgreen.png';
       }
     }
     return iconUrl;
