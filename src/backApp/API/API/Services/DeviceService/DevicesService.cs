@@ -613,5 +613,26 @@ namespace API.Services.Devices
 
             return cities;
         }
+
+        public async Task<(double, double, string, List<DateTime>, List<DateTime>)> ThisWeekTotalProduction()
+        {
+
+            return await _repository.ThisWeekTotalProduction();
+        }
+        public async Task<(double, double, string, List<DateTime>, List<DateTime>)> ThisWeekTotalConsumption()
+        {
+
+            return await _repository.ThisWeekTotalConsumption();
+        }
+        public async Task<double> NextWeekTotalPredictedProduction()
+        {
+
+            return await _repository.NextWeekTotalPredictedProduction();
+        }
+        public async Task<double> NextWeekTotalPredictedConsumption()
+        {
+
+            return await _repository.NextWeekTotalPredictedConsumption();
+        }
     }
 }

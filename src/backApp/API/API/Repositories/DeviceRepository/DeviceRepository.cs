@@ -456,5 +456,337 @@ namespace API.Repositories.DeviceRepository
         {
             return (await _regContext.Cities.FirstOrDefaultAsync(x => x.Id == id)).Name;
         }
+        public async Task<List<Device>> GetDevicesByCategoryForAPeriodSTARTOFWEEK(string id, string catStr, int periodInDays)
+        {
+            var linkInfo = await GetLinksForProsumer(id);
+            var links = linkInfo.Select(x => x.ModelId);
+            var cat = await GetDeviceCategory(catStr);
+            var usages = await _usageContext.PowerUsage.Find(x => links.Contains(x.DeviceId)).ToListAsync();
+            var specs = await _regContext.Devices.Where(x => x.CategoryId == cat && links.Contains(x.Id)).ToListAsync();
+            var devices = from usage in usages
+                          join spec in specs on usage.DeviceId equals spec.Id
+                          join link in linkInfo on spec.Id equals link.ModelId
+                          select new { Usage = usage, Spec = spec, Link = link };
+
+            var startDate = DateTime.Today.AddDays(-periodInDays + 1);
+            var endDate = DateTime.Today;
+
+            var devicesData = devices.Select(d => new Device
+            {
+                Id = d.Link.Id,
+                IpAddress = d.Link.IpAddress,
+                Name = d.Link.Name,
+                TypeId = d.Spec.TypeId,
+                CategoryId = d.Spec.CategoryId,
+                Manufacturer = d.Spec.Manufacturer,
+                Wattage = d.Spec.Wattage,
+                Timestamps = d.Usage.Timestamps.Where(t => t.Date >= startDate && t.Date <= endDate).ToList(),
+                Predictions = d.Usage.Predictions.Where(t => t.Date >= startDate && t.Date <= endDate).ToList()
+            });
+            return devicesData.ToList();
+        }
+
+
+        public static (DateTime start, DateTime end) GetCurrentWeekDates()
+        {
+            DateTime today = DateTime.Now.Date;
+            DateTime monday = today.AddDays(-(int)today.DayOfWeek + 1);
+            //DateTime endOfWeek = monday.AddDays(6);
+
+            
+               
+                return (monday, today);
+        }
+        public static (DateTime start, DateTime end) GetPastWeekDates()
+        {
+
+            DateTime past = DateTime.Now.Date; 
+            past -= TimeSpan.FromDays(7);
+            
+            DateTime monday = past.AddDays(-(int)past.DayOfWeek + 1);
+           //DateTime endOfWeek = monday.AddDays(6);
+
+             return (monday, past);
+         
+        }
+        public static (DateTime start, DateTime end) GetFutureWeekDates()
+        {
+
+            DateTime future = DateTime.Now.Date;
+            future += TimeSpan.FromDays(7);
+
+            DateTime monday = future.AddDays(-(int)future.DayOfWeek + 1);
+            //DateTime endOfWeek = monday.AddDays(6);
+
+            
+                return (monday, future);
+           
+        }
+        public async Task<List<Device>> GetDevicesByCategoryForThisPastWeek(string id, string catStr, string answer)
+        {
+            DateTime startDate;
+            DateTime endDate;
+          
+            if (answer.Equals("this"))
+                 (startDate, endDate) = GetCurrentWeekDates();
+            else if(answer.Equals("past"))
+                 (startDate, endDate) = GetPastWeekDates();
+            else
+                (startDate, endDate) = GetFutureWeekDates();
+
+            var linkInfo = await GetLinksForProsumer(id);
+            var links = linkInfo.Select(x => x.ModelId);
+            var cat = await GetDeviceCategory(catStr);
+            var usages = await _usageContext.PowerUsage.Find(x => links.Contains(x.DeviceId)).ToListAsync();
+            var specs = await _regContext.Devices.Where(x => x.CategoryId == cat && links.Contains(x.Id)).ToListAsync();
+            var devices = from usage in usages
+                          join spec in specs on usage.DeviceId equals spec.Id
+                          join link in linkInfo on spec.Id equals link.ModelId
+                          select new { Usage = usage, Spec = spec, Link = link };
+
+            var devicesData = devices.Select(d => new Device
+            {
+                Id = d.Link.Id,
+                IpAddress = d.Link.IpAddress,
+                Name = d.Link.Name,
+                TypeId = d.Spec.TypeId,
+                CategoryId = d.Spec.CategoryId,
+                Manufacturer = d.Spec.Manufacturer,
+                Wattage = d.Spec.Wattage,
+                Timestamps = d.Usage.Timestamps.Where(t => t.Date >= startDate && t.Date <= endDate).ToList(),
+                Predictions = d.Usage.Predictions.Where(t => t.Date >= startDate && t.Date <= endDate).ToList()
+            });
+            return devicesData.ToList();
+        }
+        
+        public async Task<(double, double, string, List<DateTime>, List<DateTime>)> ThisWeekTotalConsumption()
+        {
+            DateTime thismonday, thisday;
+            (thismonday, thisday) = GetCurrentWeekDates();
+
+            List<DateTime> thisweek = new List<DateTime>();
+            thisweek.Add(thismonday);
+            thisweek.Add(thisday);
+
+            DateTime pastmonday, pastday;
+            (pastmonday, pastday) = GetPastWeekDates();
+
+            List<DateTime> lastweek = new List<DateTime>();
+            lastweek.Add(pastmonday);
+            lastweek.Add(pastday);
+
+            List<ProsumerLink> prosumersWithDevices = (await getAllProsumersWhoOwnDevice())
+                 .GroupBy(x => x.ProsumerId)
+                 .Select(g => g.First())
+                 .ToList();                                    
+
+            List<List<Device>> listDevicesbyAllProsumers = new List<List<Device>>();
+            double consumptionProsumersForThisWeek = 0.0;
+
+
+            foreach (var prosumer in prosumersWithDevices)
+            {
+                listDevicesbyAllProsumers.Add(await GetDevicesByCategoryForThisPastWeek(prosumer.ProsumerId, "Consumer", "this"));
+            }
+
+
+
+            foreach (var Prosumerdevices in listDevicesbyAllProsumers) // listDevicesbyAllProsumers - lista svih Uredjaja za Sve Prosumere
+            {
+                foreach (var device in Prosumerdevices) // Prosumerdevices - Lista uredjaja jednog Prosumera
+                {
+                    foreach (var ts in device.Timestamps) // Potrosnja za konkretan uredjaj
+                    {
+                        if (ts.ActivePower != 0)
+                        consumptionProsumersForThisWeek += ts.ActivePower;
+                        consumptionProsumersForThisWeek += ts.ReactivePower;
+                    }
+                }
+            }
+            double consumptionProsumersForLastWeek = 0.0;
+
+            foreach (var prosumer in prosumersWithDevices)
+            {
+                listDevicesbyAllProsumers.Add(await GetDevicesByCategoryForThisPastWeek(prosumer.ProsumerId, "Consumer", "past"));
+            }
+
+
+
+            foreach (var Prosumerdevices in listDevicesbyAllProsumers)
+            {
+                foreach (var device in Prosumerdevices) 
+                {
+                    foreach (var ts in device.Timestamps) 
+                    {
+                        if (ts.ActivePower != 0)
+                            consumptionProsumersForLastWeek += ts.ActivePower;
+                            consumptionProsumersForLastWeek += ts.ReactivePower;
+                    }
+                }
+            }
+
+            if (consumptionProsumersForLastWeek == 0 && consumptionProsumersForThisWeek == 0)
+                return (0.0, 0.0, "0", thisweek, lastweek);
+            else if (consumptionProsumersForLastWeek == 0)
+                return (consumptionProsumersForThisWeek, 0.0, "0", thisweek, lastweek);
+            else if (consumptionProsumersForThisWeek == 0)
+                return (0, consumptionProsumersForLastWeek, "0", thisweek, lastweek);
+            else
+            {
+               
+                double ratio = Math.Abs((consumptionProsumersForThisWeek - consumptionProsumersForLastWeek) / (double)consumptionProsumersForLastWeek) * 100;
+                ratio = Math.Round(ratio, 2);
+                if(consumptionProsumersForLastWeek > consumptionProsumersForThisWeek)
+                    return (consumptionProsumersForThisWeek, consumptionProsumersForLastWeek, (-ratio).ToString() + "%", thisweek, lastweek);
+                else
+                    return (consumptionProsumersForThisWeek, consumptionProsumersForLastWeek, ratio.ToString() + "%", thisweek, lastweek);
+            }
+        }
+        public async Task<(double, double, string, List<DateTime>, List<DateTime>)> ThisWeekTotalProduction()
+        {
+            DateTime thismonday, thisday;
+             (thismonday, thisday)= GetCurrentWeekDates();
+
+            List<DateTime> thisweek = new List<DateTime>();
+            thisweek.Add(thismonday);
+            thisweek.Add(thisday);
+
+            DateTime pastmonday, pastday;
+            (pastmonday, pastday) = GetPastWeekDates();
+
+            List<DateTime> lastweek = new List<DateTime>();
+            lastweek.Add(pastmonday);
+            lastweek.Add(pastday);
+
+
+            List<ProsumerLink> prosumersWithDevices = (await getAllProsumersWhoOwnDevice())
+                 .GroupBy(x => x.ProsumerId)
+                 .Select(g => g.First())
+                 .ToList();
+
+            List<List<Device>> listDevicesbyAllProsumers = new List<List<Device>>();
+            double productionProsumersForThisWeek = 0.0;
+
+
+            foreach (var prosumer in prosumersWithDevices)
+            {
+                listDevicesbyAllProsumers.Add(await GetDevicesByCategoryForThisPastWeek(prosumer.ProsumerId, "Producer", "this"));
+            }
+
+
+
+            foreach (var Prosumerdevices in listDevicesbyAllProsumers) 
+            {
+                foreach (var device in Prosumerdevices) 
+                {
+                    foreach (var ts in device.Timestamps) 
+                    {
+                        if (ts.ActivePower != 0)
+                            productionProsumersForThisWeek += ts.ActivePower;
+                    }
+                }
+            }
+            double productionProsumersForLastWeek = 0.0;
+
+            foreach (var prosumer in prosumersWithDevices)
+            {
+                listDevicesbyAllProsumers.Add(await GetDevicesByCategoryForThisPastWeek(prosumer.ProsumerId, "Producer", "past"));
+            }
+
+
+
+            foreach (var Prosumerdevices in listDevicesbyAllProsumers)
+            {
+                foreach (var device in Prosumerdevices) 
+                {
+                    foreach (var ts in device.Timestamps) 
+                    {
+                        if (ts.ActivePower != 0)
+                            productionProsumersForLastWeek += ts.ActivePower;
+                    }
+                }
+            }
+            if (productionProsumersForLastWeek == 0 && productionProsumersForThisWeek == 0)
+                return (0.0, 0.0, "0", thisweek, lastweek);
+            else if (productionProsumersForLastWeek == 0)
+                return (productionProsumersForThisWeek, 0.0, "0", thisweek, lastweek);
+            else if (productionProsumersForThisWeek == 0)
+                return (0, productionProsumersForLastWeek, "0", thisweek, lastweek);
+            else
+            {
+                double ratio = Math.Abs((productionProsumersForThisWeek - productionProsumersForLastWeek) / (double)productionProsumersForLastWeek) * 100;
+                ratio = Math.Round(ratio, 2);
+                if(productionProsumersForLastWeek > productionProsumersForThisWeek)
+                    return (productionProsumersForThisWeek, productionProsumersForLastWeek, (-ratio).ToString()+" %", thisweek, lastweek);
+                else
+                    return (productionProsumersForThisWeek, productionProsumersForLastWeek, (ratio).ToString()+" %", thisweek, lastweek);
+            }
+       }
+
+        public async Task<double> NextWeekTotalPredictedProduction()
+        {
+            List<ProsumerLink> prosumersWithDevices = (await getAllProsumersWhoOwnDevice())
+                .GroupBy(x => x.ProsumerId)
+                .Select(g => g.First())
+                .ToList();
+
+            List<List<Device>> listDevicesbyAllProsumers = new List<List<Device>>();
+            double productionProsumersForNextWeekPrediction = 0.0;
+
+
+            foreach (var prosumer in prosumersWithDevices)
+            {
+                listDevicesbyAllProsumers.Add(await GetDevicesByCategoryForThisPastWeek(prosumer.ProsumerId, "Producer", "future"));
+            }
+
+
+
+            foreach (var Prosumerdevices in listDevicesbyAllProsumers) 
+            {
+                foreach (var device in Prosumerdevices) 
+                {
+                    foreach (var ts in device.Predictions) 
+                    {
+                        if (ts.ActivePower != 0)
+                            productionProsumersForNextWeekPrediction += ts.ActivePower;
+                    }
+                }
+            }
+
+            return productionProsumersForNextWeekPrediction;
+        }
+        public async Task<double> NextWeekTotalPredictedConsumption()
+        {
+            List<ProsumerLink> prosumersWithDevices = (await getAllProsumersWhoOwnDevice())
+                .GroupBy(x => x.ProsumerId)
+                .Select(g => g.First())
+                .ToList();
+
+            List<List<Device>> listDevicesbyAllProsumers = new List<List<Device>>();
+            double consumptionProsumersForNextWeekPrediction = 0.0;
+
+
+            foreach (var prosumer in prosumersWithDevices)
+            {
+                listDevicesbyAllProsumers.Add(await GetDevicesByCategoryForThisPastWeek(prosumer.ProsumerId, "Consumer", "future"));
+            }
+
+
+
+            foreach (var Prosumerdevices in listDevicesbyAllProsumers)
+            {
+                foreach (var device in Prosumerdevices)
+                {
+                    foreach (var ts in device.Timestamps)
+                    {
+                        if (ts.ActivePower != 0)
+                            consumptionProsumersForNextWeekPrediction += ts.ActivePower;
+                        consumptionProsumersForNextWeekPrediction += ts.ReactivePower;
+                    }
+                }
+            }
+
+            return consumptionProsumersForNextWeekPrediction;
+        }
     }
 }

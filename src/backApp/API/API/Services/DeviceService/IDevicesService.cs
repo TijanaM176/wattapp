@@ -41,5 +41,9 @@ namespace API.Services.Devices
         public Task<List<Dictionary<string, object>>> Top5Producers();
         public Task<Dictionary<string, int>> ConsumerProducerRatio();
         public Task<Dictionary<string, Dictionary<string, double>>> CityPercentages();
+        public Task<(double, double, string, List<DateTime>, List<DateTime>)> ThisWeekTotalProduction();
+        public Task<(double, double, string, List<DateTime>, List<DateTime>)> ThisWeekTotalConsumption();
+        public Task<double> NextWeekTotalPredictedProduction();
+        public Task<double> NextWeekTotalPredictedConsumption();
     }
 }

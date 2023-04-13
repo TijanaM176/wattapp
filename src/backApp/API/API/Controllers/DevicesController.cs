@@ -578,6 +578,28 @@ namespace API.Controllers
                 return BadRequest(ex.Message);
             }
         }
+        [HttpGet("ThisWeekTotalProduction")]
+        public async Task<IActionResult> ThisWeekTotalProduction()
+        {
+            try
+            {
+                var result = await devService.ThisWeekTotalProduction();
+                
+                return Ok(new 
+                {
+                    productionforThisWeek = result.Item1,
+                    productionforLastWeek = result.Item2,
+                    ratio = result.Item3,
+                    thisweek = result.Item4,
+                    lastweek = result.Item5
+
+                });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
 
         [HttpGet("NextDaysConsumptionAndProduction")]
         public async Task<IActionResult> NextDaysConsumptionAndProduction(string id)
@@ -589,11 +611,61 @@ namespace API.Controllers
                     consumption = await devService.GroupedConProdForAPeriodForProsumer(id, 0, 1, 1),
                     production = await devService.GroupedConProdForAPeriodForProsumer(id, 1, 1, 1)
                 });
+            }catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        }
+        [HttpGet("ThisWeekTotalConsumption")]
+        public async Task<IActionResult> ThisWeekTotalConsumption()
+        {
+            try
+            {
+                var result = await devService.ThisWeekTotalConsumption();
+
+                return Ok(new
+                {
+                    productionforThisWeek = result.Item1,
+                    productionforLastWeek = result.Item2,
+                    ratio = result.Item3,
+                    thisweek = result.Item4,
+                    lastweek = result.Item5
+
+                });
             }
             catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }
+
+        }
+        [HttpGet("NextWeekTotalPredictedProduction")]
+        public async Task<IActionResult> NextWeekTotalPredictedProduction()
+        {
+            try
+            {
+                return Ok(await devService.NextWeekTotalPredictedProduction());
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
+        }
+        [HttpGet("NextWeekTotalPredictedConsumption")]
+        public async Task<IActionResult> NextWeekTotalPredictedConsumption()
+        {
+            try
+            {
+                return Ok(await devService.NextWeekTotalPredictedConsumption());
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
         }
     }
 }
