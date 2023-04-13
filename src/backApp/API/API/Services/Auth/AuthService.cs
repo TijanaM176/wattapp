@@ -382,12 +382,12 @@ namespace API.Services.Auth
 
                 //rola, region, neiborhood, city
                 prosumer.Role = await getRole("Prosumer");
-                prosumer.Region = await getRegion("Sumadija");
+                prosumer.Region = await getRegion("Šumadija");
                 prosumer.City = city;
                 prosumer.Neigborhood = neigborhood;
 
                 prosumer.RoleId = getRole("Prosumer").Id;
-                prosumer.RegionId = (await getRegion("Sumadija")).Id;
+                prosumer.RegionId = (await getRegion("Šumadija")).Id;
                 prosumer.NeigborhoodId = prosumer.Neigborhood.Id;
                 prosumer.CityId = prosumer.City.Id;
 
@@ -485,7 +485,7 @@ namespace API.Services.Auth
 
                
                 workerDSO.Role = await getRole("WorkerDso");
-                workerDSO.Region = await getRegion("Sumadija");
+                workerDSO.Region = await getRegion("Šumadija");
 
                 workerDSO.RoleId = workerDSO.Role.Id;
                 workerDSO.RegionId = workerDSO.Region.Id;
