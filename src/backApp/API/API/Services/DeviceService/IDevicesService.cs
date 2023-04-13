@@ -39,5 +39,9 @@ namespace API.Services.Devices
         public Task<List<DeviceInfo>> GetModels(long typeId);
         public Task<List<Dictionary<string, object>>> Top5Consumers();
         public Task<List<Dictionary<string, object>>> Top5Producers();
+        public Task<(double, double, string, List<DateTime>, List<DateTime>)> ThisWeekTotalProduction();
+        public Task<(double, double, string, List<DateTime>, List<DateTime>)> ThisWeekTotalConsumption();
+        public Task<double> NextWeekTotalPredictedProduction();
+        public Task<double> NextWeekTotalPredictedConsumption();
     }
 }
