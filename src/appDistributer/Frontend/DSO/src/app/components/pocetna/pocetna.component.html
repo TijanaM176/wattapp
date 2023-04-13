@@ -1,5 +1,10 @@
 <div class="d-flex justify-content-center">
-  <div class="spinner-border" style="margin-top: 25%;" role="status" *ngIf="loader">
+  <div
+    class="spinner-border"
+    style="margin-top: 25%"
+    role="status"
+    *ngIf="loader"
+  >
     <span class="sr-only">Loading...</span>
   </div>
 </div>
@@ -116,12 +121,19 @@
       </div>
     </div>
     <div class="row mt-4">
-      <div class="col-lg-7 mb-lg-0 mb-4">
+      <div class="col-lg-12 mb-lg-0 mb-4">
         <div class="card z-index-2 h-100">
           <app-realizationPredictionAllProsumers></app-realizationPredictionAllProsumers>
         </div>
       </div>
-      <div class="col-lg-5">
+    </div>
+    <div class="row mt-4">
+      <div class="col-lg-6 mb-lg-0 mb-4">
+        <div class="card z-index-2 h-100">
+          <app-PredictionAllUsers></app-PredictionAllUsers>
+        </div>
+      </div>
+      <div class="col-lg-6">
         <div class="card card-carousel overflow-hidden h-100 p-0">
           <div
             id="carouselExampleCaptions"

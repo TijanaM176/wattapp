@@ -72,6 +72,7 @@ import { NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { PopupAddComponent } from './components/popup-add/popup-add.component';
 import { PopupEmpComponent } from './components/popup-emp/popup-emp.component';
 import { PieChartProsumersComponent } from './components/Charts/PieChartProsumers/PieChartProsumers.component';
+import { PredictionAllUsersComponent } from './components/Charts/PredictionAllUsers/PredictionAllUsers.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -118,6 +119,7 @@ import { PieChartProsumersComponent } from './components/Charts/PieChartProsumer
     PopupAddComponent,
     PopupEmpComponent,
     PieChartProsumersComponent,
+    PredictionAllUsersComponent,
   ],
   imports: [
     MatSliderModule,

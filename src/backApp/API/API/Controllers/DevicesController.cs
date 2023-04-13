@@ -616,8 +616,6 @@ namespace API.Controllers
                 return BadRequest(ex.Message);
             }
         }
-
-        }
         [HttpGet("ThisWeekTotalConsumption")]
         public async Task<IActionResult> ThisWeekTotalConsumption()
         {
