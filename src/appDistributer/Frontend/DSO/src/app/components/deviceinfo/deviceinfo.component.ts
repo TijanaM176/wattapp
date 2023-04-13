@@ -18,7 +18,7 @@ export class DeviceinfoComponent implements OnInit {
   idDev!: string;
   results: Device = new Device();
   TypeName: any;
-
+  loader: boolean = true;
   constructor(
     private router: ActivatedRoute,
     private service: DeviceserviceService
@@ -47,5 +47,8 @@ export class DeviceinfoComponent implements OnInit {
       })*/
       this.currentUsage = res['CurrentUsage'];
     });
+    setTimeout(() => {
+      this.loader = false;
+    }, 2000);
   }
 }

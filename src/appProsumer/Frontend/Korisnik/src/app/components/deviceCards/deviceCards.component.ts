@@ -22,6 +22,7 @@ export class DeviceCardsComponent implements OnInit {
   devicesToShow: any[] = [];
   devices: any[] = [];
   role: string = '';
+  loader:boolean=true;
   constructor(
     private service: ProsumerService,
     private cookie: CookieService
@@ -44,6 +45,9 @@ export class DeviceCardsComponent implements OnInit {
           this.Usage(device.Id);
         });
       });
+      setTimeout(()=>{
+        this.loader=false;
+      },6000);
   }
 
   Usage(id: string) {

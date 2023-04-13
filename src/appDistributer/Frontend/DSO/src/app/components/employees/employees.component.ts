@@ -32,6 +32,7 @@ export class EmployeesComponent {
   Role:any;
   v!:string;
   RegionId:string='';
+  loader:boolean=true;
   
   public regionName:any;
   public roleName:any;
@@ -60,6 +61,9 @@ export class EmployeesComponent {
   constructor(public service: EmployeesServiceService, private router: Router,private cookie: CookieService) {
     this.Ucitaj();
     this.Paging();
+    setTimeout(()=>{
+      this.loader=false;
+    },2000);
   }
 
   ngOnInit(): void {

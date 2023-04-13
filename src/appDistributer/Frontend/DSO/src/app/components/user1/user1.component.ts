@@ -13,6 +13,7 @@ import { EmployeesServiceService } from 'src/app/services/employees-service.serv
 })
 export class User1Component {
   @ViewChild('sidebarInfo', { static: true }) sidebarInfo!: SidebarDsoComponent;
+  loader:boolean=true;
   constructor(
     private user1: EmployeesServiceService,
     private user: UsersServiceService,
@@ -36,5 +37,8 @@ export class User1Component {
           this.Region = dat;
         });
       });
+      setTimeout(()=>{
+        this.loader=false;
+      },2000);
   }
 }

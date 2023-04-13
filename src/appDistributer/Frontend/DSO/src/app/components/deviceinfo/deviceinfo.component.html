@@ -1,6 +1,11 @@
 <!-- <app-navBar></app-navBar> -->
 <div style="display: flex" class="h-100 px-0 py-0 mx-0 my-0">
   <app-sidebar-dso></app-sidebar-dso>
+  <div class="d-flex justify-content-center">
+    <div class="spinner-border" style="margin-top: 25%;" role="status" *ngIf="loader">
+      <span class="sr-only">Loading...</span>
+    </div>
+  </div>
   <div
     style="
       width: 100%;
@@ -9,6 +14,7 @@
       margin-left: 5%;
       justify-content: center;
     "
+    *ngIf="!loader"
   >
     <div class="col-md-6" style="float: left">
       <form style="padding-top: 20%; justify-content: center">
@@ -17,7 +23,7 @@
             style="
               color: #8ea2bf;
               font-weight: bold;
-              font-size: 20px;
+              font-size: 18px;
               width: 50%;
               float: left;
             "
@@ -30,7 +36,7 @@
               color: #5875a1;
               font-weight: bold;
               border: none;
-              font-size: 20px;
+              font-size: 18px;
               resize: none;
               margin-top: -1.5%;
               margin-bottom: 5%;
@@ -44,7 +50,7 @@
             style="
               color: #8ea2bf;
               font-weight: bold;
-              font-size: 20px;
+              font-size: 18px;
               width: 50%;
               float: left;
             "
@@ -57,7 +63,7 @@
               color: #5875a1;
               font-weight: bold;
               border: none;
-              font-size: 20px;
+              font-size: 18px;
               resize: none;
               margin-top: -1.5%;
               margin-bottom: 5%;
@@ -72,7 +78,7 @@
             style="
               color: #8ea2bf;
               font-weight: bold;
-              font-size: 20px;
+              font-size: 18px;
               width: 50%;
               float: left;
             "
@@ -85,7 +91,7 @@
               color: #5875a1;
               font-weight: bold;
               border: none;
-              font-size: 20px;
+              font-size: 18px;
               resize: none;
               margin-top: -1.5%;
               margin-bottom: 5%;
@@ -99,7 +105,7 @@
             style="
               color: #8ea2bf;
               font-weight: bold;
-              font-size: 20px;
+              font-size: 18px;
               width: 50%;
               float: left;
             "
@@ -112,7 +118,7 @@
               color: #5875a1;
               font-weight: bold;
               border: none;
-              font-size: 20px;
+              font-size: 18px;
               resize: none;
               margin-top: -1.5%;
               margin-bottom: 5%;
@@ -127,7 +133,7 @@
             style="
               color: #8ea2bf;
               font-weight: bold;
-              font-size: 20px;
+              font-size: 18px;
               width: 50%;
               float: left;
             "
@@ -140,7 +146,7 @@
               color: #5875a1;
               font-weight: bold;
               border: none;
-              font-size: 20px;
+              font-size: 18px;
               resize: none;
               margin-top: 1%;
               margin-bottom: 7%;
@@ -154,7 +160,7 @@
             style="
               color: #8ea2bf;
               font-weight: bold;
-              font-size: 20px;
+              font-size: 18px;
               width: 50%;
               float: left;
             "
@@ -167,7 +173,7 @@
               color: #5875a1;
               font-weight: bold;
               border: none;
-              font-size: 20px;
+              font-size: 18px;
               resize: none;
               margin-top: 1%;
               margin-bottom: 5%;

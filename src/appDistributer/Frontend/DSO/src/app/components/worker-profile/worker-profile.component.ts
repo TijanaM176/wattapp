@@ -15,7 +15,7 @@ export class WorkerProfileComponent implements OnInit, AfterViewInit {
   worker : any;
   side : any;
   sadrzaj : any;
-
+  loader:boolean=true;
   resizeObservable$!: Observable<Event>
   resizeSubscription$!: Subscription;
 
@@ -32,7 +32,6 @@ export class WorkerProfileComponent implements OnInit, AfterViewInit {
   ngOnInit(): void {
     this.sadrzaj = document.getElementById('sadrzaj');
     this.side = document.getElementById('side');
-    
     this.resizeObservable$ = fromEvent(window, 'resize');
     this.resizeSubscription$ = this.resizeObservable$.subscribe( evt => {
       this.sadrzaj.style.height = this.widthService.height+'px';
@@ -46,6 +45,9 @@ export class WorkerProfileComponent implements OnInit, AfterViewInit {
     {
       this.role = "Employee"
     }
+    setTimeout(()=>{
+      this.loader=false;
+    },2000);
   }
 
   private getInfo()

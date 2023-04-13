@@ -1,84 +1,163 @@
-<!-- <section class="h-100 mx-0 my-0 px-0 py-0" style="background-color: #f4f5f7;"> -->
-    <div class="container-fluid h-100 px-0 py-0 mx-0 my-0">
-        <div class="row d-flex justify-content-center align-items-start align-items-md-center mx-0 my-0 px-0 py-0 h-100">
-            <div class="col px-0 mx-0 my-0 py-0 h-100">
-                <div class="card h-100" style="border-radius: 0;">
-                    <div class="row g-0 h-100 justify-content-center align-items-start align-items-md-center px-0 py-0">
-                        <div class="col-md-8 justify-content-center align-items-center order-2 order-md-1 mx-0 my-0 px-0 py-0">
-                            <div class="card-body p-1 p-md-4">
-                                <h6 class="section">Information</h6>
-                                <hr class="mt-0 mb-4">
-                                <div class="row pt-1 mx-0 my-0">
-                                    <div class="col-6 mb-3">
-                                        <h4>{{username}}</h4>
-                                        <p class="text-muted">Username</p>
-                                    </div>
-                                    <div class="col-6 mb-3">
-                                        <h4>{{firstLastName}}</h4>
-                                        <p class="text-muted">Name</p>
-                                    </div>
-                                </div>
-                                <hr class="mt-0 mb-4">
-                                <div class="row pt-1 mx-0 my-0">
-                                    <div class="col-6 mb-3">
-                                        <h4>{{email}}</h4>
-                                        <p class="text-muted">E-mail</p>
-                                    </div>
-                                    <div class="col-6 mb-3">
-                                        <h4>{{address}}</h4>
-                                        <p class="text-muted">Address</p>
-                                    </div>
-                                </div>
-
-                                <hr class="mt-0 mb-4">
-                                <div class="row pt-1 mx-0 my-0">
-                                    <div class="col-6 mb-3">
-                                        <h4>{{city}}</h4>
-                                        <p class="text-muted">City</p>
-                                    </div>
-                                    <div class="col-6 mb-3">
-                                        <h4>{{neighborhood}}</h4>
-                                        <p class="text-muted">Neighborhood</p>
-                                    </div>
-                                </div>
-                                <hr class="mt-0 mb-4">
-                                <div class="d-flex justify-content-start mx-0 my-0">
-                                    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop" (click)="edit()"><i class="fa fa-edit fa-lg"></i><span class="d-none d-sm-inline-flex align-items-center">&nbsp;Edit Profile</span></button>
-                                    &nbsp;&nbsp;
-                                    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop" (click)="changePass()"><i class="fa fa-lock fa-lg"></i><span class="d-none d-sm-inline-flex align-items-center" style="white-space: nowrap">&nbsp;Change Password</span></button>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-4 gradient-custom d-flex flex-column justify-content-center align-items-center h-md-100 order-1 order-md-2 pb-5 pt-2 px-md-0 py-md-0 my-0 mx-0">
-                            <img src="assets/images/prosumer-default-profileimage.png" alt="Avatar" class="img-fluid rounded-circle" />
-                            <div class="mt-0">
-                              <a routerLink="/ProsumerApp/userInfo">Change Photo</a>
-                            </div>
-                        </div>                          
-                    </div>
+<div class="d-flex justify-content-center">
+  <div
+    class="spinner-border"
+    style="margin-top: 25%"
+    role="status"
+    *ngIf="loader"
+  >
+    <span class="sr-only">Loading...</span>
+  </div>
+</div>
+<section
+  class="h-100 mx-0 my-0 px-0 py-0"
+  *ngIf="!loader"
+  style="background-color: #f4f5f7"
+>
+  <div class="container-fluid h-100 px-0 py-0 mx-0 my-0">
+    <div
+      class="row d-flex justify-content-center align-items-start align-items-md-center mx-0 my-0 px-0 py-0 h-100"
+    >
+      <div class="col px-0 mx-0 my-0 py-0 h-100">
+        <div class="card h-100" style="border-radius: 0">
+          <div
+            class="row g-0 h-100 justify-content-center align-items-start align-items-md-center px-0 py-0"
+          >
+            <div
+              class="col-md-8 justify-content-center align-items-center order-2 order-md-1 mx-0 my-0 px-0 py-0"
+            >
+              <div class="card-body p-1 p-md-4">
+                <h6 class="section">Information</h6>
+                <hr class="mt-0 mb-4" />
+                <div class="row pt-1 mx-0 my-0">
+                  <div class="col-6 mb-3">
+                    <h4>{{ username }}</h4>
+                    <p class="text-muted">Username</p>
+                  </div>
+                  <div class="col-6 mb-3">
+                    <h4>{{ firstLastName }}</h4>
+                    <p class="text-muted">Name</p>
+                  </div>
                 </div>
-            </div>
-        </div>
-    </div>
-<!-- </section> -->
-<app-add-device></app-add-device>
+                <hr class="mt-0 mb-4" />
+                <div class="row pt-1 mx-0 my-0">
+                  <div class="col-6 mb-3">
+                    <h4>{{ email }}</h4>
+                    <p class="text-muted">E-mail</p>
+                  </div>
+                  <div class="col-6 mb-3">
+                    <h4>{{ address }}</h4>
+                    <p class="text-muted">Address</p>
+                  </div>
+                </div>
 
-<!-- Modal -->
-<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header text-white" style="background-color: #466471;">
-          <h5 class="modal-title" id="staticBackdropLabel">{{modalTitle}}</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="close()"></button>
-        </div>
-        <div class="modal-body">
-          <app-edit-info-form [userData]="userData" *ngIf="showEdit==true" #editData></app-edit-info-form>
-          <app-change-password *ngIf="showChangePass==true" #changePassword></app-change-password>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)="close()">Close</button>
-          <button type="button" class="btn btn-primary" (click)="confirm()">Confirm</button>
+                <hr class="mt-0 mb-4" />
+                <div class="row pt-1 mx-0 my-0">
+                  <div class="col-6 mb-3">
+                    <h4>{{ city }}</h4>
+                    <p class="text-muted">City</p>
+                  </div>
+                  <div class="col-6 mb-3">
+                    <h4>{{ neighborhood }}</h4>
+                    <p class="text-muted">Neighborhood</p>
+                  </div>
+                </div>
+                <hr class="mt-0 mb-4" />
+                <div class="d-flex justify-content-start mx-0 my-0">
+                  <button
+                    class="btn btn-primary"
+                    data-bs-toggle="modal"
+                    data-bs-target="#staticBackdrop"
+                    (click)="edit()"
+                  >
+                    <i class="fa fa-edit fa-lg"></i
+                    ><span class="d-none d-sm-inline-flex align-items-center"
+                      >&nbsp;Edit Profile</span
+                    >
+                  </button>
+                  &nbsp;&nbsp;
+                  <button
+                    class="btn btn-primary"
+                    data-bs-toggle="modal"
+                    data-bs-target="#staticBackdrop"
+                    (click)="changePass()"
+                  >
+                    <i class="fa fa-lock fa-lg"></i
+                    ><span
+                      class="d-none d-sm-inline-flex align-items-center"
+                      style="white-space: nowrap"
+                      >&nbsp;Change Password</span
+                    >
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div
+              class="col-md-4 gradient-custom d-flex flex-column justify-content-center align-items-center h-md-100 order-1 order-md-2 pb-5 pt-2 px-md-0 py-md-0 my-0 mx-0"
+            >
+              <img
+                src="assets/images/prosumer-default-profileimage.png"
+                alt="Avatar"
+                class="img-fluid rounded-circle"
+              />
+              <div class="mt-0">
+                <a routerLink="/ProsumerApp/userInfo">Change Photo</a>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
   </div>
+  <!-- </section> -->
+  <app-add-device></app-add-device>
+
+  <!-- Modal -->
+  <div
+    class="modal fade"
+    id="staticBackdrop"
+    data-bs-backdrop="static"
+    data-bs-keyboard="false"
+    tabindex="-1"
+    aria-labelledby="staticBackdropLabel"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header text-white" style="background-color: #466471">
+          <h5 class="modal-title" id="staticBackdropLabel">{{ modalTitle }}</h5>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+            (click)="close()"
+          ></button>
+        </div>
+        <div class="modal-body">
+          <app-edit-info-form
+            [userData]="userData"
+            *ngIf="showEdit == true"
+            #editData
+          ></app-edit-info-form>
+          <app-change-password
+            *ngIf="showChangePass == true"
+            #changePassword
+          ></app-change-password>
+        </div>
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-secondary"
+            data-bs-dismiss="modal"
+            (click)="close()"
+          >
+            Close
+          </button>
+          <button type="button" class="btn btn-primary" (click)="confirm()">
+            Confirm
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

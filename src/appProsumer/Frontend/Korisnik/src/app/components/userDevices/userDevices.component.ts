@@ -15,6 +15,7 @@ export class UserDevicesComponent implements OnInit, OnDestroy {
   deviceWidth!: number;
   resizeObservable$!: Observable<Event>;
   resizeSubscription$!: Subscription;
+  loader:boolean=true;
   constructor(private widthService: DeviceWidthService) {}
 
   ngOnInit() {
@@ -24,6 +25,9 @@ export class UserDevicesComponent implements OnInit, OnDestroy {
       this.widthService.deviceWidth = window.innerWidth;
       this.deviceWidth = this.widthService.deviceWidth;
     });
+    setTimeout(()=>{
+      this.loader=false;
+    },2000);
   }
 
   ngOnDestroy(): void {

@@ -14,7 +14,7 @@ import { DevicesStatusComponent } from '../Charts/devices-status/devices-status.
 export class PocetnaComponent implements OnInit, AfterViewInit {
   resizeObservable$!: Observable<Event>;
   resizeSubscription$!: Subscription;
-
+  loader: boolean = true;
   devices: any[] = [];
   deviceUsages: { [key: string]: number } = {};
   numOfDevices: number = 0;
@@ -36,6 +36,9 @@ export class PocetnaComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
+    setTimeout(() => {
+      this.loader = false;
+    }, 2000);
     this.getDevices();
     let hour = new Date().getHours();
     if (hour >= 22 || hour <= 6) {
