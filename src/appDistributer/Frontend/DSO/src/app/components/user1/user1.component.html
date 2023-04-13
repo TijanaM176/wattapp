@@ -2,58 +2,10 @@
   <div class="levi">
     <app-sidebar-potrosnja></app-sidebar-potrosnja>
   </div>
-  <app-popup-add></app-popup-add>
-  <app-popup-emp></app-popup-emp>
-  
-  <div class="centralni">
-    <div class="naslov"> <h1>User Information</h1> </div>
-   
-    <div class="centralniGore">
-     
-    <div class="clevo">
-      <p class="plevo">First Name:</p>
-      <p class="plevo">Last Name:</p>
-      <p class="plevo">Username:</p>
-      <p class="plevo">Email:</p>
-      <p class="plevo">Region:</p>
-    </div>
-    <div class="cdesno">
-      <p class="pdesno">{{ myData.firstName }}</p>
-      <p class="pdesno">{{ myData.lastName }}</p>
-      <p class="pdesno">{{ myData.username }}</p>
-      <p class="pdesno">{{ myData.email }}</p>
-      <p class="pdesno">{{ Region }}</p>
-      
-    </div>
-    <div class="csredina">
-      <img
-                    src="assets/images/user.png"
-                    alt="User Profile Picture"
-                    class="rounded-circle"
-                    width="140"
-                    height="140"
-                  />
-      <input
-        id="edit"
-       
-        type="button"
-        value="Edit"
-        routerLink="/DsoApp/user/{{ id }}"
-      />
-      <input
-      id="viewmore"
-     
-      type="button"
-      value="View more"
-    
-    />
-    </div>
-  </div>
-  <div class="centralniDole">
-    <app-tabelaUredjaja></app-tabelaUredjaja> </div>
-  </div>
 
-  <div class="desni">
+  <div class="centralni">
+    <div class="naslov"><h1>User Informations</h1></div>
+
     <div class="centralniGore">
       <div class="clevo">
         <p class="plevo">First Name:</p>
@@ -68,19 +20,34 @@
         <p class="pdesno">{{ myData.username }}</p>
         <p class="pdesno">{{ myData.email }}</p>
         <p class="pdesno">{{ Region }}</p>
-        
+      </div>
+      <div class="csredina">
+        <img
+          src="assets/images/user.png"
+          alt="User Profile Picture"
+          class="rounded-circle"
+          width="140"
+          height="140"
+        />
         <input
           id="edit"
-         
           type="button"
           value="Edit"
           routerLink="/DsoApp/user/{{ id }}"
         />
-        
+        <input id="viewmore" type="button" value="View more" />
       </div>
     </div>
     <div class="centralniDole">
-      <app-tabelaUredjaja></app-tabelaUredjaja> </div>
-    
+      <app-tabelaUredjaja></app-tabelaUredjaja>
+    </div>
+  </div>
+
+  <div class="desni">
+    <div class="centralniDole">
+      <app-history-Prosumer></app-history-Prosumer>
+    </div>
   </div>
 </div>
+<app-popup-add></app-popup-add>
+<app-popup-emp></app-popup-emp>

@@ -135,13 +135,13 @@ export class UsersServiceService {
         maxDev
     );
   }
-  HistoryProsumer7Days(id: string) {
+  HistoryProsumer7Days(id: string): Observable<any> {
     return this.http.get(
       this.deviceBaseUrl + `LastWeeksConsumptionAndProduction?id=` + id
     );
   }
 
-  HistoryAllProsumers7Days() {
+  HistoryAllProsumers7Days(): Observable<any> {
     return this.http.get(
       this.deviceBaseUrl + 'LastWeeksConsumptionAndProductionTimestamps'
     );

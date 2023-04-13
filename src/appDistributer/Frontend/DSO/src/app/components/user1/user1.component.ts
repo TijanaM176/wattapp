@@ -28,6 +28,7 @@ export class User1Component {
     this.user
       .detailsEmployee(this.router.snapshot.params['id'])
       .subscribe((data) => {
+        console.log(data);
         this.myData = data;
         this.id = this.router.snapshot.params['id'];
 

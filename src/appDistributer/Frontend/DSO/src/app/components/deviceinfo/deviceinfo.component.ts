@@ -8,18 +8,21 @@ import { DeviceserviceService } from 'src/app/services/deviceservice.service';
 @Component({
   selector: 'app-deviceinfo',
   templateUrl: './deviceinfo.component.html',
-  styleUrls: ['./deviceinfo.component.css']
+  styleUrls: ['./deviceinfo.component.css'],
 })
-export class DeviceinfoComponent implements OnInit{
-  color:ThemePalette='accent';
-  disabled=false;
-  checked=false;
-  currentUsage!:number;
-  idDev!:string;
-  results: Device = new Device;
-  TypeName:any;
-  
-  constructor( private router: ActivatedRoute, private service: DeviceserviceService){}
+export class DeviceinfoComponent implements OnInit {
+  color: ThemePalette = 'accent';
+  disabled = false;
+  checked = false;
+  currentUsage!: number;
+  idDev!: string;
+  results: Device = new Device();
+  TypeName: any;
+
+  constructor(
+    private router: ActivatedRoute,
+    private service: DeviceserviceService
+  ) {}
   /*infoForm = new FormGroup({
     IpAddress: new FormControl(''),
     TypeName: new FormControl(''),
@@ -29,10 +32,11 @@ export class DeviceinfoComponent implements OnInit{
     AvgUsage: new FormControl(''),
   });
 */
-  ngOnInit():void{
-    this.idDev=this.router.snapshot.params['idDev'];
-    this.service.getInfoDevice(this.idDev).subscribe((res:any)=>{
-      this.results=res;
+  ngOnInit(): void {
+    this.idDev = this.router.snapshot.params['idDev'];
+    this.service.getInfoDevice(this.idDev).subscribe((res: any) => {
+      this.results = res;
+      console.log(res);
       /*/this.infoForm=new FormGroup({
         IpAddress: new FormControl(res['IpAddress']),
         TypeName: new FormControl(res['TypeName']),
@@ -41,7 +45,7 @@ export class DeviceinfoComponent implements OnInit{
         MaxUsage: new FormControl(res['MaxUsage']),
         AvgUsage: new FormControl(res['AvgUsage']),
       })*/
-      this.currentUsage=res['CurrentUsage'];
-    })
+      this.currentUsage = res['CurrentUsage'];
+    });
   }
 }

@@ -2,8 +2,7 @@
   <div class="levi">
     <app-sidebar-dso #sidebarInfo></app-sidebar-dso>
   </div>
-  <app-popup-add></app-popup-add>
-  <app-popup-emp></app-popup-emp>
+
   <div class="centralni">
     <div class="divinput">
       <form [formGroup]="editUser" (ngSubmit)="UpdateData()">
@@ -24,6 +23,8 @@
     </div>
   </div>
   <div class="desni">
-    <app-sidebar-potrosnja></app-sidebar-potrosnja>
+    <!-- <app-sidebar-potrosnja></app-sidebar-potrosnja> -->
   </div>
 </div>
+<app-popup-add></app-popup-add>
+<app-popup-emp></app-popup-emp>

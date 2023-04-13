@@ -8,38 +8,28 @@ import { data } from 'jquery';
 @Component({
   selector: 'app-sidebar-potrosnja',
   templateUrl: './sidebar-potrosnja.component.html',
-  styleUrls: ['./sidebar-potrosnja.component.css']
+  styleUrls: ['./sidebar-potrosnja.component.css'],
 })
 export class SidebarPotrosnjaComponent {
   @ViewChild('sidebarInfo', { static: true }) sidebarInfo!: SidebarDsoComponent;
   constructor(
-      private user: UsersServiceService,
-      private router: ActivatedRoute )
-   
-      {
-    
-  
-      }
- 
-      
-  myData:any;
+    private user: UsersServiceService,
+    private router: ActivatedRoute
+  ) {}
 
- 
+  myData: any;
+
   ngOnInit(): void {
-    this.user.getUserProductionAndConsumption(this.router.snapshot.params['id']).subscribe
-    ((data) => {
-      this.myData=data;
-      
-      
-    })
-  
-  //this.user.getRegionById(this.myData.regionId).subscribe((data)=> {
-  //this.Region=data;
-   
- //})
+    this.user
+      .getUserProductionAndConsumption(this.router.snapshot.params['id'])
+      .subscribe((data) => {
+        this.myData = data;
+        console.log(data);
+      });
+
+    //this.user.getRegionById(this.myData.regionId).subscribe((data)=> {
+    //this.Region=data;
+
+    //})
+  }
 }
- }
-
-
-
-

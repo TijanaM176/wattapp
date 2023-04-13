@@ -79,7 +79,7 @@ export class TabelaUredjajaComponent implements OnInit {
 
   filterByName() {
     this.devicesToShow = this.devicesToShow.filter((device) =>
-      device.name.toLowerCase().includes(this.searchName.toLowerCase())
+      device.Name.toLowerCase().includes(this.searchName.toLowerCase())
     );
   }
 }

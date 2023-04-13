@@ -19,7 +19,7 @@ export class HistoryProsumerComponent implements OnInit {
     name: 'mycolors',
     selectable: true,
     group: ScaleType.Ordinal,
-    domain: ['red', 'blue'],
+    domain: ['#FF414E', '#80BC00'],
   };
   showXAxis = true;
   showYAxis = true;
@@ -37,22 +37,36 @@ export class HistoryProsumerComponent implements OnInit {
 
   ngOnInit() {
     this.id = this.router.snapshot.params['id'];
-    this.service.HistoryProsumer7Days(this.id).subscribe((response) => {
-      this.data = response;
-      this.dataConsumers = Object.entries(this.data.consumption).map(
-        ([name, value]) => ({ name, value })
-      );
-      this.dataProducers = Object.entries(this.data.production).map(
-        ([name, value]) => ({ name, value })
-      );
-      const myList = Object.keys(this.data.consumption.timestamps).map(
+    this.HistoryWeek();
+  }
+
+  HistoryWeek() {
+    this.loadData(
+      this.service.HistoryProsumer7Days.bind(this.service)(this.id),
+      (myList: any[]) => {
+        return myList.map((item) => {
+          const date = new Date(item.name);
+          const dayName = date.toLocaleDateString('en-US', { weekday: 'long' });
+          return { name: dayName, series: item.series };
+        });
+      }
+    );
+  }
+
+  loadData(apiCall: any, mapFunction: any) {
+    apiCall.subscribe((response: any) => {
+      console.log(response);
+      const myList = Object.keys(response.consumption.timestamps).map(
         (name) => {
-          const consumptionValue = this.data.consumption.timestamps[name];
-          let productionValue = this.data.production.timestamps[name];
+          let consumptionValue = response.consumption.timestamps[name];
+          let productionValue = response.production.timestamps[name];
           const cons: string = 'consumption';
           const prod: string = 'producton';
           if (productionValue == undefined) {
             productionValue = 0.0;
+          }
+          if (consumptionValue == undefined) {
+            consumptionValue = 0.0;
           }
           const series = [
             { name: cons, value: consumptionValue },
@@ -61,7 +75,7 @@ export class HistoryProsumerComponent implements OnInit {
           return { name, series };
         }
       );
-      this.data = myList;
+      this.data = mapFunction(myList);
     });
   }
 }
