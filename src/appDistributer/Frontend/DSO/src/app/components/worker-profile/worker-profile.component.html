@@ -11,7 +11,12 @@
         </div>
         <app-popup-add></app-popup-add>
 <app-popup-emp></app-popup-emp>
-        <div class="col-md-8 bg-white p-5 d-flex flex-column justify-content-center align-items-center">
+<div class="d-flex justify-content-center">
+    <div class="spinner-border" style="margin-top: 25%;" role="status" *ngIf="loader">
+      <span class="sr-only">Loading...</span>
+    </div>
+  </div>
+        <div class="col-md-8 bg-white p-5 d-flex flex-column justify-content-center align-items-center" *ngf="!loader">
             <div class="container-fluid">
                 <div class="card mb-3">
                     <div class="card-body p-1 p-md-4">

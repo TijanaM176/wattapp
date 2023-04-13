@@ -45,7 +45,9 @@ export class WorkerProfileComponent implements OnInit, AfterViewInit {
     {
       this.role = "Employee"
     }
-    
+    setTimeout(()=>{
+      this.loader=false;
+    },2000);
   }
 
   private getInfo()
