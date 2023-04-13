@@ -19,7 +19,7 @@ export class UserInfoComponent implements OnInit {
   address : string = '';
   city:string='';
   neighborhood:string='';
-
+  loader:boolean=true;
   modalTitle : string ='';
   userData : any;
   showEdit : boolean = false;
@@ -32,6 +32,9 @@ export class UserInfoComponent implements OnInit {
 
   ngOnInit(): void {
     this.getInformation();
+    setTimeout(()=>{
+      this.loader=false;
+    },2000);
   }
 
   private getInformation()
@@ -103,8 +106,13 @@ Neighborhood(){
   {
     if(this.showEdit)
     {
-      this.getInformation();
+      this.loader=true;
       this.showEdit = false;
+      this.getInformation();
+      setTimeout(()=>{
+        this.loader=false;
+      },2000);
+      
     }
     if(this.showChangePass)
     {

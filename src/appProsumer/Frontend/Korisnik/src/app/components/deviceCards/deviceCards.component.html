@@ -1,3 +1,4 @@
+
 <div style="overflow-y: scroll">
   <h1
     style="
@@ -61,7 +62,12 @@
     </div>
   </div>
 </div>
-<div id="tabela">
+<div class="d-flex justify-content-center">
+  <div class="spinner-border" style="margin-top: 25%;" role="status" *ngIf="loader">
+    <span class="sr-only">Loading...</span>
+  </div>
+</div>
+<div id="tabela" *ngIf="!loader">
   <div class="container">
     <div class="row" style="width: 100%">
       <div

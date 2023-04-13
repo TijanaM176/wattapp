@@ -33,6 +33,7 @@ export class DeviceinfoComponent {
   DsoControl!:boolean;
   ModelId!:string;
   results: any;
+  loader:boolean=true;
   @ViewChild('editData', {static:false}) editData! : EditDeviceFormComponent;
   constructor( private router: Router, private service: DeviceserviceService,private toast : NgToastService,private router1: ActivatedRoute){}
   /*infoForm = new FormGroup({
@@ -47,6 +48,9 @@ export class DeviceinfoComponent {
   ngOnInit():void{
     
     this.getInformation();
+    setTimeout(()=>{
+      this.loader=false;
+    },2000);
   }
   isActive(){
     
@@ -111,8 +115,12 @@ export class DeviceinfoComponent {
   {
     if(this.showEdit)
     {
-      this.getInformation();
+      this.loader=true;
       this.showEdit = false;
+      this.getInformation();
+      setTimeout(()=>{
+        this.loader=false;
+      },2000);
     }
     
     this.modalTitle = ''
