@@ -23,7 +23,7 @@
                                          <div class="form-group pt-3">
                                             <div class="input-field" [class.error]="signupWorkerForm.controls['firstName'].dirty && signupWorkerForm.hasError('required','firstName')">
                                                 <!-- <label class="lbl">FirstName:</label> -->
-                                                <span class="fa fa-user p-2" style="font-size: 16px"></span>   
+                                                <span class="fa fa-user p-2" style="font-size: 24px"></span>   
                                                 <input  formControlName="firstName" type="text" placeholder="First Name"/>
                                                     
                                             </div>
@@ -83,8 +83,8 @@
                                             <div class="form-group pt-3">
                                                 <div class="input-field" [class.error]="signupWorkerForm.controls['image'].dirty && signupWorkerForm.hasError('required','image')">
                                                     <!-- <label class="lbl">Image:</label> -->
-                                                    
-                                                    <input type="file" id="image" formControlName="image"  name="image" accept="image/png, image/jpeg">
+                                                    <span><i class="fa fa-image p-2"></i></span>
+                                                    <input type="file" id="image" formControlName="image"  name="images" accept="image/png, image/jpeg">
                                                     
                                                 </div>
                                             </div>
