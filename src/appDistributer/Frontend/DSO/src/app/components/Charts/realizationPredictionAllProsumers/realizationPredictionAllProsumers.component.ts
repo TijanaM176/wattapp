@@ -7,6 +7,8 @@ import { BrowserModule } from '@angular/platform-browser';
 import { line } from 'd3-shape';
 import { scaleBand, scaleLinear } from 'd3-scale';
 import { curveLinear } from 'd3-shape';
+import { Subscription } from 'rxjs';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-realizationPredictionAllProsumers',
@@ -31,26 +33,12 @@ export class RealizationPredictionAllProsumersComponent implements OnInit {
   showYAxis = true;
   gradient = false;
   showLegend = true;
-
-  // xScale: any = d3
-  //   .scaleBand()
-  //   .range([0])
-  //   .paddingInner(0.1)
-  //   .domain(this.data.map((d: any) => d.name));
-
-  // yScale: any = d3
-  //   .scaleLinear()
-  //   .range([0])
-  //   .domain([0, d3.max(this.data, (d) => d.value)]);
-
-  // curve = line()
-  //   .x((d: any) => this.xScale(d.name) + this.xScale.bandwidth() / 2)
-  //   .y((d: any) => this.yScale(d.value))
-  //   .curve(d3.curveLinear);
+  busy!: Subscription;
 
   constructor(
     private service: UsersServiceService,
-    private router: ActivatedRoute
+    private router: ActivatedRoute,
+    private spinner: NgxSpinnerService
   ) {}
 
   yAxisTickFormatting(value: number) {
@@ -58,6 +46,7 @@ export class RealizationPredictionAllProsumersComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.spinner.show();
     this.HistoryWeek();
   }
 
@@ -135,7 +124,7 @@ export class RealizationPredictionAllProsumersComponent implements OnInit {
   }
 
   loadData(apiCall: any, mapFunction: any) {
-    apiCall().subscribe((response: any) => {
+    this.busy = apiCall().subscribe((response: any) => {
       const myList = Object.keys(response.consumption.timestamps).map(
         (name) => {
           let consumptionValue = response.consumption.timestamps[name];
@@ -164,6 +153,7 @@ export class RealizationPredictionAllProsumersComponent implements OnInit {
         }
       );
       this.data = mapFunction(myList);
+      this.spinner.hide();
     });
   }
 }
