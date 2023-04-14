@@ -15,20 +15,18 @@ export class PocetnaComponent implements OnInit {
   price: any;
   percentagesChange: any;
   sign: any;
-  loader:boolean=true;
+  loader: boolean = true;
   constructor(private service: UsersServiceService) {}
 
   ngOnInit() {
     this.service.ElectricityPrice().subscribe((response) => {
-      console.log(response);
       this.data = response;
       this.price = this.data.Price;
       this.percentagesChange = this.data.Percentage;
       this.sign = Math.sign(this.percentagesChange);
-      console.log(this.sign);
     });
-    setTimeout(()=>{
-      this.loader=false;
-    },6000);
+    setTimeout(() => {
+      this.loader = false;
+    }, 6000);
   }
 }

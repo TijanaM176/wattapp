@@ -7,7 +7,6 @@ import { BrowserModule } from '@angular/platform-browser';
 import { line } from 'd3-shape';
 import { scaleBand, scaleLinear } from 'd3-scale';
 import { curveLinear } from 'd3-shape';
-import { Subscription } from 'rxjs';
 import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
@@ -33,7 +32,6 @@ export class RealizationPredictionAllProsumersComponent implements OnInit {
   showYAxis = true;
   gradient = false;
   showLegend = true;
-  busy!: Subscription;
 
   constructor(
     private service: UsersServiceService,
@@ -124,7 +122,7 @@ export class RealizationPredictionAllProsumersComponent implements OnInit {
   }
 
   loadData(apiCall: any, mapFunction: any) {
-    this.busy = apiCall().subscribe((response: any) => {
+    apiCall().subscribe((response: any) => {
       const myList = Object.keys(response.consumption.timestamps).map(
         (name) => {
           let consumptionValue = response.consumption.timestamps[name];

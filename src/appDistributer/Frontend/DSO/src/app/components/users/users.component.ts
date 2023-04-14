@@ -2,6 +2,7 @@ import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { Observable } from 'rxjs';
 import { UsersServiceService } from 'src/app/services/users-service.service';
 import { Router } from '@angular/router';
+import { NgxSpinnerService } from 'ngx-spinner';
 @Component({
   selector: 'app-users',
   templateUrl: './users.component.html',
@@ -12,18 +13,20 @@ export class UsersComponent implements OnInit {
   searchAddress: string = '';
   prosumer!: any;
   total!: number;
-  loader:boolean=true;
+  loader: boolean = true;
   perPage: number = 10;
   prosumers!: any;
   pagenum!: number;
   page: number = 1;
   tableSizes: any = [10, 15, 20];
-  constructor(public service: UsersServiceService, private router: Router) {}
+  constructor(
+    public service: UsersServiceService,
+    private router: Router,
+    private spiner: NgxSpinnerService
+  ) {}
   ngOnInit(): void {
+    this.spiner.show();
     this.service.ProsumersInfo();
-    setTimeout(()=>{
-      this.loader=false;
-    },2000);
   }
   Details(id: string) {
     this.service.detailsEmployee(id).subscribe((res) => {

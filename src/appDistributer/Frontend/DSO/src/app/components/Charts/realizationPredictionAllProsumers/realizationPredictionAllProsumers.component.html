@@ -1,10 +1,12 @@
 <ngx-spinner
   bdColor="rgba(0, 0, 0, 0.95)"
-  size="medium"
+  size="small"
   color="#fff"
-  type="ball-scale-multiple"
+  type="ball-clip-rotate"
+  [showSpinner]="true"
   [fullScreen]="true"
-  ><p style="font-size: 20px; color: white">Loading...</p></ngx-spinner
+  [zIndex]="9999"
+  ><p style="font-size: 25px; color: white">Loading Data...</p></ngx-spinner
 >
 <div>
   <div
@@ -13,10 +15,6 @@
   >
     <div class="col-5">
       <h6 class="text-capitalize">Realization and Prediction Chart</h6>
-      <!-- <p class="text-sm mb-0">
-        <i class="fa fa-arrow-up text-success"></i>
-        <span class="font-weight-bold">4% more</span> in 2021
-      </p> -->
     </div>
     <div
       class="col-7"

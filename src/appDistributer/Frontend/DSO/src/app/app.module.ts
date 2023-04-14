@@ -73,7 +73,6 @@ import { PopupAddComponent } from './components/popup-add/popup-add.component';
 import { PopupEmpComponent } from './components/popup-emp/popup-emp.component';
 import { PieChartProsumersComponent } from './components/Charts/PieChartProsumers/PieChartProsumers.component';
 import { PredictionAllUsersComponent } from './components/Charts/PredictionAllUsers/PredictionAllUsers.component';
-import { NgBusyModule } from 'ng-busy';
 import { NgxSpinnerModule } from 'ngx-spinner';
 @NgModule({
   declarations: [
@@ -148,7 +147,6 @@ import { NgxSpinnerModule } from 'ngx-spinner';
     PaginationModule,
     NgxChartsModule,
     NgbModule,
-    NgBusyModule,
     NgxSpinnerModule,
   ],
   providers: [
@@ -157,5 +155,6 @@ import { NgxSpinnerModule } from 'ngx-spinner';
   ],
 
   bootstrap: [AppComponent],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class AppModule {}

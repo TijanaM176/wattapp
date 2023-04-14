@@ -53,7 +53,6 @@ export class PredictionAllUsersComponent implements OnInit {
 
   PredictionWeek() {
     this.service.PredictionNextWeek().subscribe((response: any) => {
-      console.log(response);
       const myList = Object.keys(response.consumption.timestamps).map(
         (name) => {
           let consumptionValue = response.consumption.timestamps[name];
@@ -79,7 +78,6 @@ export class PredictionAllUsersComponent implements OnInit {
 
   Prediction3Days() {
     this.service.PredictionNext3Days().subscribe((response: any) => {
-      console.log(response);
       const myList = Object.keys(response.consumption.timestamps).map(
         (name) => {
           let consumptionValue = response.consumption.timestamps[name];
@@ -105,7 +103,6 @@ export class PredictionAllUsersComponent implements OnInit {
 
   PredictionDay() {
     this.service.PredictionNextDay().subscribe((response: any) => {
-      console.log(response);
       const myList = Object.keys(response.consumption.timestamps).map(
         (name) => {
           let consumptionValue = response.consumption.timestamps[name];
