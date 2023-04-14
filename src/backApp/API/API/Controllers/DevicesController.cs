@@ -2,6 +2,7 @@
 using API.Models.HelpModels;
 using API.Models.Users;
 using API.Services.Devices;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Runtime.Intrinsics.X86;
 
@@ -398,6 +399,7 @@ namespace API.Controllers
         }
 
         [HttpPut("EditDevice")]
+        [Authorize(Roles = "Prosumer")]
         public async Task<IActionResult> EditDevice(string IdDevice, string model, string DeviceName, string IpAddress, bool dsoView, bool dsoControl)
         {
             try
@@ -442,6 +444,7 @@ namespace API.Controllers
             }
         }
         [HttpPost("RegisterDevice")]
+        [Authorize(Roles = "Prosumer")]
         public async Task<IActionResult> RegisterDevice(string prosumerId, string modelId, string name, bool dsoView, bool dsoControl)
         {
             try
@@ -456,6 +459,7 @@ namespace API.Controllers
         }
 
         [HttpDelete("DeleteDevice")]
+        [Authorize(Roles = "Prosumer")]
         public async Task<IActionResult> DeleteDevice(string idDevice)
         {
             try
