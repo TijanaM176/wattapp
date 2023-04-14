@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-stranaUsers',
@@ -6,7 +7,9 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./stranaUsers.component.css'],
 })
 export class StranaUsersComponent implements OnInit {
-  constructor() {}
+  constructor(private spiner: NgxSpinnerService) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.spiner.show();
+  }
 }

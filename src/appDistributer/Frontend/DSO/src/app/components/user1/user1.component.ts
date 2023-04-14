@@ -5,6 +5,7 @@ import { FormGroup, FormControl } from '@angular/forms';
 import { SidebarDsoComponent } from '../sidebar-dso/sidebar-dso.component';
 import { data } from 'jquery';
 import { EmployeesServiceService } from 'src/app/services/employees-service.service';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-user1',
@@ -13,12 +14,13 @@ import { EmployeesServiceService } from 'src/app/services/employees-service.serv
 })
 export class User1Component {
   @ViewChild('sidebarInfo', { static: true }) sidebarInfo!: SidebarDsoComponent;
-  loader:boolean=true;
+  loader: boolean = true;
   constructor(
     private user1: EmployeesServiceService,
     private user: UsersServiceService,
     private router: ActivatedRoute,
-    private employyeService: EmployeesServiceService
+    private employyeService: EmployeesServiceService,
+    private spiner: NgxSpinnerService
   ) {}
 
   id: string = '';
@@ -26,6 +28,7 @@ export class User1Component {
   Region: any;
 
   ngOnInit(): void {
+    this.spiner.show();
     this.user
       .detailsEmployee(this.router.snapshot.params['id'])
       .subscribe((data) => {
@@ -37,8 +40,5 @@ export class User1Component {
           this.Region = dat;
         });
       });
-      setTimeout(()=>{
-        this.loader=false;
-      },2000);
   }
 }

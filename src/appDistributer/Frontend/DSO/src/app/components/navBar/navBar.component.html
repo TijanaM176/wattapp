@@ -27,7 +27,7 @@
         expand="lg"
       >
         <CDBNavbarNav class="d-flex align-items-center">
-          <CDBNavItem [active]="true" style="width: 140px">
+          <CDBNavItem [active]="true" style="width: 140px" id="home">
             <CDBBtn
               [flat]="true"
               color="dark"
@@ -42,12 +42,12 @@
                 vertical-align: middle;
               "
             >
-              <CDBNavLink routerLink="home" style="color: white">
+              <CDBNavLink routerLink="home" style="color: white" id="homeLink">
                 Home
               </CDBNavLink>
             </CDBBtn>
           </CDBNavItem>
-          <CDBNavItem style="width: 140px">
+          <CDBNavItem style="width: 140px" id="users">
             <CDBBtn
               [flat]="true"
               color="dark"
@@ -61,12 +61,15 @@
                 vertical-align: middle;
               "
             >
-              <CDBNavLink routerLink="users" style="color: #5875a1"
+              <CDBNavLink
+                routerLink="users"
+                style="color: #5875a1"
+                id="usersLink"
                 >Users
               </CDBNavLink>
             </CDBBtn>
           </CDBNavItem>
-          <CDBNavItem style="width: 140px">
+          <CDBNavItem style="width: 140px" id="employees">
             <CDBBtn
               [flat]="true"
               color="dark"
@@ -79,11 +82,14 @@
                 width: 90%;
                 vertical-align: middle;
               "
-            > 
-              <CDBNavLink routerLink="employees" style="color: #5875a1">
+            >
+              <CDBNavLink
+                routerLink="employees"
+                style="color: #5875a1"
+                id="employeessLink"
+              >
                 Employees
               </CDBNavLink>
-            
             </CDBBtn>
           </CDBNavItem>
           <CDBNavItem>
@@ -192,49 +198,55 @@
               Users
             </button>
             <CDBDropDownMenu #menu="cdbDropdownMenu" placement="bottom">
-              <CDBDropDownItem routerLink="users" style="cursor: pointer " 
+              <CDBDropDownItem routerLink="users" style="cursor: pointer"
                 >All users</CDBDropDownItem
               >
-              <CDBDropDownItem  style="cursor: pointer"
-              data-bs-toggle="modal" data-bs-target="#exampleModal3" id="a">Add new user</CDBDropDownItem
+              <CDBDropDownItem
+                style="cursor: pointer"
+                data-bs-toggle="modal"
+                data-bs-target="#exampleModal3"
+                id="a"
+                >Add new user</CDBDropDownItem
               >
             </CDBDropDownMenu>
           </div>
-          
         </CDBNavItem>
         <div *ngIf="value === 'Dso'">
-        <CDBNavItem style="width: 140px">
-          <div class="dropdown">
-            <button
-              style="
-                padding: 0;
-                background-color: #e8f3f8;
-                border: 0;
-                font-weight: bold;
-                border-radius: 20px;
-                width: 90%;
-                vertical-align: middle;
-                color: #5875a1;
-              "
-              type="button"
-              data-bs-toggle="dropdown"
-              aria-expanded="false"
-              (click)="menu1.toggleDropdown($event)"
-              toggle="true"
-            >
-              Employees
-            </button>
-            <CDBDropDownMenu #menu1="cdbDropdownMenu" placement="bottom">
-              <CDBDropDownItem routerLink="employees" style="cursor: pointer"
-                >All employees</CDBDropDownItem
+          <CDBNavItem style="width: 140px">
+            <div class="dropdown">
+              <button
+                style="
+                  padding: 0;
+                  background-color: #e8f3f8;
+                  border: 0;
+                  font-weight: bold;
+                  border-radius: 20px;
+                  width: 90%;
+                  vertical-align: middle;
+                  color: #5875a1;
+                "
+                type="button"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+                (click)="menu1.toggleDropdown($event)"
+                toggle="true"
               >
-              <CDBDropDownItem style="cursor: pointer"
-              data-bs-toggle="modal" data-bs-target="#exampleModal2" >Add new employee</CDBDropDownItem
-              >
-            </CDBDropDownMenu>
-          </div>
-        </CDBNavItem>
-      </div>
+                Employees
+              </button>
+              <CDBDropDownMenu #menu1="cdbDropdownMenu" placement="bottom">
+                <CDBDropDownItem routerLink="employees" style="cursor: pointer"
+                  >All employees</CDBDropDownItem
+                >
+                <CDBDropDownItem
+                  style="cursor: pointer"
+                  data-bs-toggle="modal"
+                  data-bs-target="#exampleModal2"
+                  >Add new employee</CDBDropDownItem
+                >
+              </CDBDropDownMenu>
+            </div>
+          </CDBNavItem>
+        </div>
         <CDBNavItem>
           <CDBDropDown
             class="nav-link"

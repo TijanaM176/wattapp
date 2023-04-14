@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { strings } from '@material/slider';
 import { ScaleType, Color } from '@swimlane/ngx-charts';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 import { UsersServiceService } from 'src/app/services/users-service.service';
 
@@ -32,10 +33,12 @@ export class HistoryProsumerComponent implements OnInit {
 
   constructor(
     private service: UsersServiceService,
-    private router: ActivatedRoute
+    private router: ActivatedRoute,
+    private spiner: NgxSpinnerService
   ) {}
 
   ngOnInit() {
+    this.spiner.show();
     this.id = this.router.snapshot.params['id'];
     this.HistoryWeek();
   }
@@ -55,7 +58,6 @@ export class HistoryProsumerComponent implements OnInit {
 
   loadData(apiCall: any, mapFunction: any) {
     apiCall.subscribe((response: any) => {
-      console.log(response);
       const myList = Object.keys(response.consumption.timestamps).map(
         (name) => {
           let consumptionValue = response.consumption.timestamps[name];
@@ -76,6 +78,7 @@ export class HistoryProsumerComponent implements OnInit {
         }
       );
       this.data = mapFunction(myList);
+      this.spiner.hide();
     });
   }
 }

@@ -11,7 +11,8 @@ import { AuthServiceService } from 'src/app/services/auth-service.service';
 })
 export class NavBarComponent implements OnInit {
   value: string = '';
-  
+  url: string = '';
+
   constructor(
     private router: Router,
     private cookie: CookieService,
@@ -21,18 +22,19 @@ export class NavBarComponent implements OnInit {
 
   ngOnInit() {
     this.value = this.cookie.get('role');
+    this.url = window.location.pathname;
   }
 
   LogOut() {
-    this.cookie.delete('token','/');
-    this.cookie.delete('refresh','/');
-    this.cookie.delete('id','/');
-    this.cookie.delete('role','/');
-    this.cookie.delete('username','/');
-    this.cookie.delete('lat','/');
-    this.cookie.delete('long','/');
-    this.cookie.delete('acc','/');
-    this.cookie.delete('country','/');
+    this.cookie.delete('token', '/');
+    this.cookie.delete('refresh', '/');
+    this.cookie.delete('id', '/');
+    this.cookie.delete('role', '/');
+    this.cookie.delete('username', '/');
+    this.cookie.delete('lat', '/');
+    this.cookie.delete('long', '/');
+    this.cookie.delete('acc', '/');
+    this.cookie.delete('country', '/');
     this.cookie.deleteAll();
     this.router.navigate(['login']);
   }
