@@ -190,62 +190,34 @@ export class MapComponent implements AfterViewInit, OnInit {
           let lon = user.long;
           let lat = user.lat;
           if (lon != null && lat != null) {
-            this.mapService.getUserProductionAndConsumption(user.id).subscribe({
-              next: (res) => {
-                iconUrl = this.decideOnMarker(res);
-                const prosumerIcon = L.icon({
-                  iconUrl: iconUrl,
-                  iconSize: [25, 41],
-                  iconAnchor: [12, 41],
-                  popupAnchor: [1, -34],
-                  tooltipAnchor: [16, -28],
-                });
-                let marker = L.marker(
-                  [Number(lat.toString()), Number(lon.toString())],
-                  { icon: prosumerIcon }
-                ).addTo(map);
-                marker.bindPopup(
-                  '<h5><b>' +
-                    user.username +
-                    '</b></h5><h6><b>' +
-                    user.address +
-                    '</b></h6>Current consumption: <b>' +
-                    res.consumption.toString() +
-                    ' kw</b> <br> Current production: <b>' +
-                    res.production.toString() +
-                    ' kw</b>' +
-                    "<br><br><a href='/DsoApp/user/" +
-                    user.id +
-                    "'>View More</a>"
-                );
-                this.markers.push(marker);
-              },
-              error: (err) => {
-                const prosumerIcon = L.icon({
-                  iconUrl: iconUrl,
-                  iconSize: [25, 41],
-                  iconAnchor: [12, 41],
-                  popupAnchor: [1, -34],
-                  tooltipAnchor: [16, -28],
-                });
-                let marker = L.marker(
-                  [Number(lat.toString()), Number(lon.toString())],
-                  { icon: prosumerIcon }
-                ).addTo(map);
-                marker.bindPopup(
-                  '<h5><b>' +
-                    user.username +
-                    '</b></h5><h6><b>' +
-                    user.address +
-                    '</b></h6>Current consumption: <b>? kw</b> <br> Current production: <b>? kw</b>' +
-                    "<br><br><a href='/DsoApp/user/" +
-                    user.id +
-                    "'>View More</a>"
-                );
-                this.markers.push(marker);
-                console.log(err.error);
-              },
+            iconUrl = this.decideOnMarker(user.consumption, user.production);
+            const prosumerIcon = L.icon({
+              iconUrl: iconUrl,
+              iconSize: [25, 41],
+              iconAnchor: [12, 41],
+              popupAnchor: [1, -34],
+              tooltipAnchor: [16, -28],
             });
+            let marker = L.marker(
+              [Number(lat.toString()), Number(lon.toString())],
+              { icon: prosumerIcon }
+            ).addTo(map);
+            marker.bindPopup(
+              '<h5><b>' +
+                user.username +
+                '</b></h5><h6><b>' +
+                user.address +
+                '</b></h6>Current consumption: <b>' +
+                Number(user.consumption).toFixed(3) +
+                ' kW</b> <br> Current production: <b>' +
+                Number(user.production).toFixed(3) +
+                ' kW</b> <br> Num. of devices: <b>' +
+                user.devCount.toString()+
+                "</b> <br><br><a href='/DsoApp/user/" +
+                user.id +
+                "'>View More</a>"
+            );
+            this.markers.push(marker);
           }
         }
       },
@@ -266,62 +238,34 @@ export class MapComponent implements AfterViewInit, OnInit {
       let lon = user.long;
       let lat = user.lat;
       if (lon != null && lat != null) {
-        this.mapService.getUserProductionAndConsumption(user.id).subscribe({
-          next: (res) => {
-            iconUrl = this.decideOnMarker(res);
-            const prosumerIcon = L.icon({
-              iconUrl: iconUrl,
-              iconSize: [25, 41],
-              iconAnchor: [12, 41],
-              popupAnchor: [1, -34],
-              tooltipAnchor: [16, -28],
-            });
-            let marker = L.marker(
-              [Number(lat.toString()), Number(lon.toString())],
-              { icon: prosumerIcon }
-            ).addTo(map);
-            marker.bindPopup(
-              '<h5><b>' +
-                user.username +
-                '</b></h5><h6><b>' +
-                user.address +
-                '</b></h6>Current consumption: <b>' +
-                res.consumption.toString() +
-                ' kw</b> <br> Current production: <b>' +
-                res.production.toString() +
-                ' kw</b>' +
-                "<br><br><a href='/DsoApp/user/" +
-                user.id +
-                "'>View More</a>"
-            );
-            this.markers.push(marker);
-          },
-          error: (err) => {
-            const prosumerIcon = L.icon({
-              iconUrl: iconUrl,
-              iconSize: [25, 41],
-              iconAnchor: [12, 41],
-              popupAnchor: [1, -34],
-              tooltipAnchor: [16, -28],
-            });
-            let marker = L.marker(
-              [Number(lat.toString()), Number(lon.toString())],
-              { icon: prosumerIcon }
-            ).addTo(map);
-            marker.bindPopup(
-              '<h5><b>' +
-                user.username +
-                '</b></h5><h6><b>' +
-                user.address +
-                '</b></h6>Current consumption: <b>? kw</b> <br> Current production: <b>? kw</b>' +
-                "<br><br><a href='/DsoApp/user/" +
-                user.id +
-                "'>View More</a>"
-            ); //"/user/{{item.id}}"
-            this.markers.push(marker);
-            console.log(err.error);
-          },
-        });
+        iconUrl = this.decideOnMarker(user.consumption, user.production);
+          const prosumerIcon = L.icon({
+            iconUrl: iconUrl,
+            iconSize: [25, 41],
+            iconAnchor: [12, 41],
+            popupAnchor: [1, -34],
+            tooltipAnchor: [16, -28],
+          });
+          let marker = L.marker(
+            [Number(lat.toString()), Number(lon.toString())],
+            { icon: prosumerIcon }
+          ).addTo(map);
+          marker.bindPopup(
+            '<h5><b>' +
+            user.username +
+            '</b></h5><h6><b>' +
+            user.address +
+            '</b></h6>Current consumption: <b>' +
+            Number(user.consumption).toFixed(3) +
+            ' kW</b> <br> Current production: <b>' +
+            Number(user.production).toFixed(3) +
+            ' kW</b> <br> Num. of devices: <b>' +
+            user.devCount.toString()+
+            "</b> <br><br><a href='/DsoApp/user/" +
+            user.id +
+            "'>View More</a>"
+          );
+        this.markers.push(marker);
       }
     }
   }
@@ -330,6 +274,7 @@ export class MapComponent implements AfterViewInit, OnInit {
     for (var marker of this.markers) {
       map.removeLayer(marker);
     }
+    this.markers = [];
   }
 
   filterwithoutNeighborhood(map: any) {
@@ -391,10 +336,10 @@ export class MapComponent implements AfterViewInit, OnInit {
     this.dropDownNeigh = 'b';
   }
 
-  private decideOnMarker(res: any): string {
+  private decideOnMarker(consumptionUser : any, productionUSer : any): string {
     let prag = 0.0001;
-    let conumption = Number(res.consumption);
-    let production = Number(res.production);
+    let conumption = Number(consumptionUser);
+    let production = Number(productionUSer);
     let razlika = conumption - production;
     let iconUrl = 'assets/images/marker-icon-2x-blueviolet.png';
     if (razlika > prag) {
