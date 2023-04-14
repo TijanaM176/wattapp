@@ -9,8 +9,7 @@ namespace API.Services.Devices
         public Task<List<Dictionary<string, object>>> GetDevicesByCategory(string id, string catStr, string role);
         public Task<double> CurrentConsumptionForProsumer(string id);
         public Task<double> CurrentProductionForProsumer(string id);
-        public Task<Dictionary<string, Dictionary<DateTime, double>>> ConsumptionForAPeriodForProsumer(string id, int period);
-        public Task<Dictionary<string, Dictionary<DateTime, double>>> ProductionForAPeriodForProsumer(string id, int period);
+        public Task<Dictionary<string, Dictionary<DateTime, double>>> ConsumptionProductionForAPeriodForProsumer(string id, int period, int type);
         public Task<Dictionary<string, Dictionary<DateTime, double>>> GroupedConProdForAPeriodForProsumer(string id, int type, int period, int step);
         public Task<Dictionary<string, Dictionary<DateTime, double>>> LastMonthsGroupedConProdByWeekForProsumer(string id, int type);
         public Task<double> ConsumptionForLastWeekForAllProsumers();   

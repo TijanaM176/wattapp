@@ -15,11 +15,11 @@ namespace API.Models.Devices
             set { _dateString = value.ToString("yyyy-MM-ddTHH:mm:ss.fffZ"); }
         }
 
-        [BsonElement("active_power")]
-        public double ActivePower { get; set; }
+        [BsonElement("power")]
+        public double Power { get; set; }
 
-        [BsonElement("reactive_power")]
-        public double ReactivePower { get; set; }
+        [BsonElement("predicted_power")]
+        public double PredictedPower { get; set; }
 
         [BsonIgnoreIfDefault]
         public ObjectId _id { get; set; }
