@@ -12,6 +12,7 @@ export class AuthService {
   }
   signupWorker(workerDto: any) {
     return this.http.post<any>(`${this.baseUrl}registerDsoWorker`, workerDto);
+   
   }
   setUserCoordinates(coordDto : any)
   {
