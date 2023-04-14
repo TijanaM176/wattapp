@@ -36,7 +36,7 @@ namespace API.Controllers
         }
 
         [HttpDelete("DeleteDsoWorker")]
-        [Authorize(Roles = "admin")]
+        [Authorize(Roles = "Dso")]
         public async Task<ActionResult> DeleteDsoWorker(string id)
         {
             if (await dsoService.DeleteDsoWorker(id)) return Ok(new { error = true, message = "Successfuly deleted user" });
@@ -45,7 +45,7 @@ namespace API.Controllers
         }
 
         [HttpPut("UpdateDsoWorker")]
-        [Authorize(Roles = "admin")]
+        [Authorize(Roles = "Dso")]
         public async Task<ActionResult> EditDsoWorker(string id, DsoEdit newValues)
         {
             if (!await dsoService.EditDsoWorker(id, newValues)) return BadRequest("User could not be updated!");
@@ -118,7 +118,6 @@ namespace API.Controllers
         }
 
         [HttpGet("GetRoles")]
-        [Authorize]
         public async Task<IActionResult> GetRoles()
         {
             try
@@ -132,7 +131,6 @@ namespace API.Controllers
         }
 
         [HttpGet("GetRegions")]
-        [Authorize]
         public async Task<IActionResult> GetRegions()
         {
             try
@@ -171,6 +169,7 @@ namespace API.Controllers
         }
 
         [HttpPut("UpdateProsumerByDso")]
+        [Authorize(Roles = "Dso")]
         public async Task<IActionResult> UpdateProsumerByDso(ChangeProsumerbyDSO change)
         {
             Prosumer prosumer = await dsoService.UpdateProsumerByDso(change);
@@ -203,7 +202,6 @@ namespace API.Controllers
         }
 
         [HttpGet("ProsumerCount")]
-        [Authorize]
         public async Task<IActionResult> ProsumerCount()
         {
             try

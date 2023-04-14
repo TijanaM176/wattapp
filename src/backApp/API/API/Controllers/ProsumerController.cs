@@ -27,27 +27,11 @@ namespace API.Controllers
             return await prosumerService.GetProsumers(prosumerParameters);
         }
         
-       // [Authorize(Roles = "WorkerDso")]
         [HttpGet("GetAllProsumers")]
         public async Task<IActionResult> ListRegisterProsumer()
         {
             return Ok(await prosumerService.GetAllProsumers());
         }
-
-        /*
-        [HttpGet("GetAllProsumers")]
-        public async Task<IActionResult> ListRegisterProsumer()
-        {
-            try
-            {
-                return Ok(await prosumerService.GetAllProsumers());
-            }
-            catch (Exception)
-            {
-                return BadRequest("No prosumers found!");
-            }
-        }
-        */
 
         [HttpGet("getProsumerByID")]
         public async Task<IActionResult> getProsumerByID(string id)
@@ -60,7 +44,7 @@ namespace API.Controllers
         }
 
         [HttpDelete("DeleteProsumer")]
-        //[Authorize(Roles = "Dso")]
+        [Authorize(Roles = "Dso")]
         public async Task<ActionResult> DeleteProsumer(string id)
         {
             if (await prosumerService.DeleteProsumer(id)) return Ok(new
@@ -73,7 +57,7 @@ namespace API.Controllers
         }
 
         [HttpPut("UpdateProsumer")]
-        [Authorize]
+        [Authorize(Roles = "Dso")]
         public async Task<ActionResult> EditProsumer(string id, ProsumerEdit newValues)
         {
             if (!await prosumerService.EditProsumer(id, newValues)) return BadRequest("User could not be updated!");
@@ -159,12 +143,15 @@ namespace API.Controllers
             return BadRequest("No found Prosumer!");
 
         }
-
+        
+        /*
         [HttpGet("AllLinks")]
         public async Task<IActionResult> AllLinks(string id)
         {
             return Ok(prosumerService.AllLinks(id));
         }
+        */
+
         [HttpGet("GetNeighborhoodByName")]
         public async Task<IActionResult> GetNeighborhoodByName(string id)
         {
