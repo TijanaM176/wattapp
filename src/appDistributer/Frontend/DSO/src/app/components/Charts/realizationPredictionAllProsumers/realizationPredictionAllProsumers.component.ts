@@ -4,6 +4,10 @@ import { strings } from '@material/slider';
 import { UsersServiceService } from 'src/app/services/users-service.service';
 import { ScaleType, Color, LegendPosition } from '@swimlane/ngx-charts';
 import { BrowserModule } from '@angular/platform-browser';
+import { line } from 'd3-shape';
+import { scaleBand, scaleLinear } from 'd3-scale';
+import { curveLinear } from 'd3-shape';
+
 @Component({
   selector: 'app-realizationPredictionAllProsumers',
   templateUrl: './realizationPredictionAllProsumers.component.html',
@@ -27,6 +31,22 @@ export class RealizationPredictionAllProsumersComponent implements OnInit {
   showYAxis = true;
   gradient = false;
   showLegend = true;
+
+  // xScale: any = d3
+  //   .scaleBand()
+  //   .range([0])
+  //   .paddingInner(0.1)
+  //   .domain(this.data.map((d: any) => d.name));
+
+  // yScale: any = d3
+  //   .scaleLinear()
+  //   .range([0])
+  //   .domain([0, d3.max(this.data, (d) => d.value)]);
+
+  // curve = line()
+  //   .x((d: any) => this.xScale(d.name) + this.xScale.bandwidth() / 2)
+  //   .y((d: any) => this.yScale(d.value))
+  //   .curve(d3.curveLinear);
 
   constructor(
     private service: UsersServiceService,

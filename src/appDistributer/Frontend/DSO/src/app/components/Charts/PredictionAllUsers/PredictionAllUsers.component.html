@@ -3,8 +3,10 @@
     class="card-header pb-0 pt-3 bg-transparent row"
     style="margin-left: 0; margin-right: 0"
   >
-    <div class="col-5">
-      <h6 class="text-capitalize">Realization and Prediction Chart</h6>
+    <div class="col-md-5">
+      <h6 class="text-capitalize" style="margin-bottom: 2px">
+        Consumption and Productin Prediction Chart
+      </h6>
       <!-- <p class="text-sm mb-0">
         <i class="fa fa-arrow-up text-success"></i>
         <span class="font-weight-bold">4% more</span> in 2021
@@ -12,62 +14,62 @@
     </div>
     <div
       class="col-7"
-      style="
-        display: flex;
-        justify-content: right;
-        margin: auto;
-        padding-bottom: 2px;
-      "
+      style="display: flex; justify-content: right; margin: 0px 0px 2px auto"
     >
       <button
         class="btn"
-        (click)="HistoryWeek()"
+        (click)="PredictionDay()"
         style="margin: 1px"
         type="button"
         class="btn btn-outline-primary"
       >
-        7Days
+        1D
       </button>
       <button
         class="btn"
-        (click)="HistoryMonth()"
+        (click)="Prediction3Days()"
         style="margin: 1px"
         type="button"
         class="btn btn-outline-primary"
       >
-        1Month
+        3D
       </button>
       <button
         class="btn"
-        (click)="HistoryYear()"
+        (click)="PredictionWeek()"
         type="button"
         style="margin: 1px"
         class="btn btn-outline-primary"
       >
-        1Year
+        7D
       </button>
     </div>
   </div>
-  <div style="width: 99%; margin: 0 auto; margin-top: 1%; height: 70%">
-    <ngx-charts-line-chart
+
+  <div style="width: 100%; margin: 0 auto; margin-top: 1%; height: 100%">
+    <ngx-charts-bar-vertical-2d
+      *ngIf="data.length !== 0"
+      [title]="'Production and Consumption History Chart'"
       [scheme]="colors"
       [results]="data"
       [xAxis]="showXAxis"
       [yAxis]="showYAxis"
       [showXAxisLabel]="false"
       [showYAxisLabel]="false"
-      [animations]="false"
-      [roundDomains]="false"
+      [showDataLabel]="false"
+      [animations]="true"
+      [barPadding]="3"
+      [roundDomains]="true"
       [showGridLines]="true"
       [trimYAxisTicks]="true"
       [tooltipDisabled]="false"
+      [noBarWhenZero]="true"
+      [yAxisTickFormatting]="yAxisTickFormatting"
       [showGridLines]="true"
-      [legend]="true"
     >
-    </ngx-charts-line-chart>
-
+    </ngx-charts-bar-vertical-2d>
     <h1
-      *ngIf="!data"
+      *ngIf="!production && !consumption"
       style="
         text-align: center;
         margin-top: 15%;

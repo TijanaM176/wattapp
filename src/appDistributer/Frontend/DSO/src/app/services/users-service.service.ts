@@ -186,4 +186,20 @@ export class UsersServiceService {
   ElectricityPrice(): Observable<any[]> {
     return this.http.get<any[]>('https://localhost:7156/api/Dso/CurrentPrice');
   }
+
+  PredictionNextWeek(): Observable<any> {
+    return this.http.get(
+      this.deviceBaseUrl + `NextDaysConsumptionAndProductionTimestamps`
+    );
+  }
+  PredictionNext3Days(): Observable<any> {
+    return this.http.get(
+      this.deviceBaseUrl + `ConsumptionAndProductionForNext3DaysTimestamps`
+    );
+  }
+  PredictionNextDay(): Observable<any> {
+    return this.http.get(
+      this.deviceBaseUrl + `NextWeeksConsumptionAndProductionTimestamps`
+    );
+  }
 }

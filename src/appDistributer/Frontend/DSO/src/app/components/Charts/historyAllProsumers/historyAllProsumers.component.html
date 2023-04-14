@@ -49,7 +49,7 @@
   <div style="width: 100%; margin: 0 auto; margin-top: 1%; height: 100%">
     <ngx-charts-bar-vertical-2d
       *ngIf="data.length !== 0"
-      [title]="'Production and Consumption History Chart'"
+      [title]="'Consumption and Production History Chart'"
       [scheme]="colors"
       [results]="data"
       [xAxis]="showXAxis"
@@ -62,9 +62,7 @@
       [roundDomains]="true"
       [showGridLines]="true"
       [trimYAxisTicks]="true"
-      [tooltipDisabled]="true"
-      [noBarWhenZero]="true"
-      [yAxisTickFormatting]="yAxisTickFormatting"
+      [tooltipDisabled]="false"
       [showGridLines]="true"
     >
     </ngx-charts-bar-vertical-2d>
