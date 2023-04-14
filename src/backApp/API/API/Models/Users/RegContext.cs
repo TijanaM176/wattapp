@@ -237,7 +237,17 @@ public partial class RegContext : DbContext
             new DeviceInfo { Id = "6420b43190d65ae1554350ca", Name = "Bojler TGR50SMT", CategoryId = 1, TypeId = 14, Manufacturer = "Gorenje", Wattage = 8 },
             new DeviceInfo { Id = "6420b43190d65ae1554350d0", Name = "Grejalica SIRIO 20", CategoryId = 1, TypeId = 18, Manufacturer = "Radialight", Wattage = 1.5 },
             new DeviceInfo { Id = "642339d634ce75fedb564cc8", Name = "Solarni panel 165M monokristalni", CategoryId = 2, TypeId = 19, Manufacturer = "Felicity", Wattage = 0.35 },
-            new DeviceInfo { Id = "642339d634ce75fedb564cc9", Name = "SD2 Wind Turbine", CategoryId = 2, TypeId = 20, Manufacturer = "SD", Wattage = 1.5 }
+            new DeviceInfo { Id = "642339d634ce75fedb564cc9", Name = "SD2 vetrenjača", CategoryId = 2, TypeId = 20, Manufacturer = "SD", Wattage = 1.5 },
+            new DeviceInfo { Id = "6420b43190d65ae1554350c3", Name = "SD1 vetrenjača", CategoryId = 2, TypeId = 20 , Manufacturer = "SD", Wattage = 0.75},
+            new DeviceInfo { Id = "6420b43190d65ae1554350c6", Name = "SD3 vetrenjača", CategoryId = 2, TypeId = 20, Manufacturer = "SD", Wattage = 1},
+            new DeviceInfo { Id = "6420b43190d65ae1554350c5", Name = "SD4 vetrenjača", CategoryId = 2, TypeId = 20, Manufacturer = "SD", Wattage = 1.08},
+            new DeviceInfo { Id = "6420b43190d65ae1554350c8", Name = "SD5 vetrenjača", CategoryId = 2, TypeId = 20, Manufacturer = "SD", Wattage = 2.1},
+            new DeviceInfo { Id = "6420b43190d65ae1554350cd", Name = "SD6 vetrenjača", CategoryId = 2, TypeId = 20, Manufacturer = "SD", Wattage = 1.9},
+            new DeviceInfo { Id = "6420b43190d65ae1554350b9", Name = "Solarni Panel 175M monokristalni", CategoryId = 2, TypeId = 19, Wattage = 0.4},
+            new DeviceInfo { Id = "6420b43190d65ae1554350c4", Name = "Solarni panel 60M monokristalni", CategoryId = 2, TypeId = 19, Wattage = 0.23},
+            new DeviceInfo { Id = "6420b43190d65ae1554350c9", Name = "Solarni panel 275M monokristalni", CategoryId = 2, TypeId = 19, Wattage = 2.5},
+            new DeviceInfo { Id = "6420b43190d65ae1554350c7", Name = "Solarni panel 250M monokristalni", CategoryId = 2, TypeId = 19, Wattage = 1.8},
+            new DeviceInfo { Id = "6420b43190d65ae1554350cc", Name = "Solarni panel 215M monokristalni", CategoryId = 2, TypeId = 19, Wattage = 1.4}
             );
 
         modelBuilder.Entity<DeviceType>().HasData(
@@ -276,6 +286,72 @@ public partial class RegContext : DbContext
                 HashPassword = hmac.ComputeHash(Encoding.UTF8.GetBytes("sifra"))
             }       
         );
+
+        modelBuilder.Entity<Prosumer>().HasData(
+            new Prosumer
+            {
+                Id = "2562a789-6d38-44bf-baf8-7b3a4f6c8ca5",
+                FirstName = "Nikola",
+                LastName = "Nikolic",
+                Username = "nikolanikolic6",
+                Email = "nikola@gmail.com",
+                Token = null,
+                TokenExpiry = null,
+                SaltPassword = hmac.Key,
+                HashPassword = hmac.ComputeHash(Encoding.UTF8.GetBytes("sifra")),
+                Address = "Daniciceva 12",
+                RegionId = "8963cd78-afa4-4723-9b67-331a3fc180f8",
+                CityId = 1,
+                NeigborhoodId = "c434223c-36e9-4d96-9114-d2dfe2cd76fa",
+                Image = null,
+                Latitude = "44.0111676",
+                Longitude = "20.9098523",
+                DateCreate = DateTime.Now.ToString(),
+                RoleId = 3
+            },
+            new Prosumer
+            {
+                Id = "44fbdf08-7ae3-4811-908f-6910c7e2c11c",
+                FirstName = "Pera",
+                LastName = "Peric",
+                Username = "peraperic6",
+                Email = "pera@gmail.com",
+                Token = null,
+                TokenExpiry = null,
+                SaltPassword = hmac.Key,
+                HashPassword = hmac.ComputeHash(Encoding.UTF8.GetBytes("sifra")),
+                Address = "Svetogorska 10",
+                RegionId = "8963cd78-afa4-4723-9b67-331a3fc180f8",
+                CityId = 1,
+                NeigborhoodId = "03c9e550-8811-4ece-b145-594f56d43a60",
+                Image = null,
+                Latitude = "44.02943",
+                Longitude = "20.91146",
+                DateCreate = DateTime.Now.ToString(),
+                RoleId = 3
+            },
+            new Prosumer
+            {
+                Id = "d2250fa2-2de2-4650-8945-c0578288afb9",
+                FirstName = "Mika",
+                LastName = "Mikic",
+                Username = "mikamikic6",
+                Email = "mika@gmail.com",
+                Token = null,
+                TokenExpiry = null,
+                SaltPassword = hmac.Key,
+                HashPassword = hmac.ComputeHash(Encoding.UTF8.GetBytes("sifra")),
+                Address = "Bulevar Kraljice Marije 8",
+                RegionId = "8963cd78-afa4-4723-9b67-331a3fc180f8",
+                CityId = 1,
+                NeigborhoodId = "e491da79-424d-48ce-841a-e82696ea9fb3",
+                Image = null,
+                Latitude = "44.0141",
+                Longitude = "20.90061",
+                DateCreate = DateTime.Now.ToString(),
+                RoleId = 3
+            }
+            );
 
         modelBuilder.Entity<Neigborhood>().HasData(
             new Neigborhood { Id = "e491da79-424d-48ce-841a-e82696ea9fb3", CityId = 1, NeigbName = "Erdoglija" },
