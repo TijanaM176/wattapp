@@ -118,6 +118,7 @@ namespace API.Controllers
         }
 
         [HttpGet("GetRoles")]
+        [Authorize]
         public async Task<IActionResult> GetRoles()
         {
             try
@@ -131,6 +132,7 @@ namespace API.Controllers
         }
 
         [HttpGet("GetRegions")]
+        [Authorize]
         public async Task<IActionResult> GetRegions()
         {
             try
@@ -198,6 +200,35 @@ namespace API.Controllers
             }
 
 
+        }
+
+        [HttpGet("ProsumerCount")]
+        [Authorize]
+        public async Task<IActionResult> ProsumerCount()
+        {
+            try
+            {
+                return Ok(new
+                {
+                    prosumerCount = (await dsoService.ProsumerCount()).ToString()
+                });
+            }catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet("Prices")]
+        public async Task<IActionResult> Prices()
+        {
+            try
+            {
+                return Ok(await dsoService.Prices());
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         [HttpGet("CurrentPrice")]

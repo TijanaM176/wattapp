@@ -2,7 +2,6 @@
 using API.Models.HelpModels;
 using API.Models.Users;
 using API.Services.Devices;
-using API.Services.DsoService;
 using Microsoft.AspNetCore.Mvc;
 using System.Runtime.Intrinsics.X86;
 
@@ -11,12 +10,10 @@ namespace API.Controllers
     public class DevicesController : Controller
     {
         private readonly IDevicesService devService;
-        private readonly IDsoService dsoService;
 
-        public DevicesController(IDevicesService devService, IDsoService dsoService)
+        public DevicesController(IDevicesService devService)
         {
             this.devService = devService;
-            this.dsoService = dsoService;
         }
 
         [HttpGet("GetAllDevicesForProsumer")]
@@ -377,13 +374,9 @@ namespace API.Controllers
             {
                 return Ok(new
                 {
-                    region = await dsoService.GetRegions(),
                     totalConsumption = (Math.Round(await devService.TotalCurrentConsumption(), 3)).ToString(),
                     totalProduction = (Math.Round(await devService.TotalCurrentProduction(), 3)).ToString(),
-                    userRatio = await devService.ConsumerProducerRatio(),
-                    userCount = await dsoService.ProsumerCount()
-
-                }) ;
+                });
             }
             catch (Exception ex)
             {
@@ -540,6 +533,20 @@ namespace API.Controllers
             {
                 return BadRequest(ex.Message);
             }
+        }
+
+        [HttpGet("ConsumerProducerRatio")]
+        public async Task<IActionResult> ConsumerProducerRatio()
+        {
+            try
+            {
+                return Ok(await devService.ConsumerProducerRatio());
+            }
+            catch(Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            
         }
 
         [HttpGet("CityPercentages")]
