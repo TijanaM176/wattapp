@@ -392,18 +392,19 @@ export class MapComponent implements AfterViewInit, OnInit {
   }
 
   private decideOnMarker(res: any): string {
+    let prag = 0.0001;
     let conumption = Number(res.consumption);
     let production = Number(res.production);
     let razlika = conumption - production;
     let iconUrl = 'assets/images/marker-icon-2x-blueviolet.png';
-    if (razlika > 0) {
+    if (razlika > prag) {
       iconUrl = 'assets/images/marker-icon-2x-orange.png';
       if (conumption <= 0.4) {
         iconUrl = 'assets/images/marker-icon-2x-yellow.png';
       } else if (conumption > 0.8) {
         iconUrl = 'assets/images/marker-icon-2x-red.png';
       }
-    } else if (razlika < 0) {
+    } else if (razlika < -prag) {
       iconUrl = 'assets/images/marker-icon-2x-lime.png';
       if (production < 0.17) {
         iconUrl = 'assets/images/marker-icon-2x-turquoise.png';
