@@ -48,8 +48,7 @@
     <table class="table align-items-center">
       <thead>
         <tr>
-          <th>FirstName</th>
-          <th>LastName</th>
+          <th>Name</th>
           <th>Address</th>
           <th>Consumption</th>
           <th>Production</th>
@@ -57,8 +56,7 @@
       </thead>
       <tbody>
         <tr *ngFor="let item of producers">
-          <td>{{ item.FirstName }}</td>
-          <td>{{ item.LastName }}</td>
+          <td>{{ item.FirstName }} {{ item.LastName }}</td>
           <td>{{ item.Address }}</td>
           <td>{{ item.Consumption.toFixed(2) }} kW</td>
           <td>{{ item.Production.toFixed(2) }} kW</td>
@@ -115,8 +113,7 @@
     <table class="table align-items-center">
       <thead>
         <tr>
-          <th>FirstName</th>
-          <th>LastName</th>
+          <th>Name</th>
           <th>Address</th>
           <th>Consumption</th>
           <th>Production</th>
@@ -124,8 +121,7 @@
       </thead>
       <tbody>
         <tr *ngFor="let item of consumers">
-          <td>{{ item.FirstName }}</td>
-          <td>{{ item.LastName }}</td>
+          <td>{{ item.FirstName }} {{ item.LastName }}</td>
           <td>{{ item.Address }}</td>
           <td>{{ item.Consumption.toFixed(2) }} kW</td>
           <td>{{ item.Production.toFixed(2) }} kW</td>

@@ -50,24 +50,22 @@
   </div>
   <div style="width: 99%; margin: 0 auto; margin-top: 1%; height: 70%">
     <ngx-charts-line-chart
-      style="height: 80%"
-      *ngIf="data"
       [scheme]="colors"
       [results]="data"
       [xAxis]="showXAxis"
       [yAxis]="showYAxis"
       [showXAxisLabel]="false"
       [showYAxisLabel]="false"
-      [animations]="true"
-      [roundDomains]="true"
+      [animations]="false"
+      [roundDomains]="false"
       [showGridLines]="true"
       [trimYAxisTicks]="true"
-      [tooltipDisabled]="true"
-      [yAxisTickFormatting]="yAxisTickFormatting"
+      [tooltipDisabled]="false"
       [showGridLines]="true"
       [legend]="true"
     >
     </ngx-charts-line-chart>
+
     <h1
       *ngIf="!data"
       style="

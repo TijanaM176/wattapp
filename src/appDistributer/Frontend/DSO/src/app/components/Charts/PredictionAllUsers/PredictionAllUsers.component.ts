@@ -50,47 +50,10 @@ export class PredictionAllUsersComponent implements OnInit {
         7
     );
   }
-  PredictionDay() {
-    this.loadData(
-      this.service.PredictionNextDay.bind(this.service),
-      (myList: any[]) => {
-        return myList.map((item) => {
-          const date = new Date(item.name);
-          const dayName = date.toLocaleDateString('en-US', { weekday: 'long' });
-          return { name: dayName, series: item.series };
-        });
-      }
-    );
-  }
-
-  Prediction3Days() {
-    this.loadData(
-      this.service.PredictionNext3Days.bind(this.service),
-      (myList: any[]) => {
-        return myList.map((item) => {
-          const date = new Date(item.name);
-          const weekNumber = this.getWeek(date);
-          return { name: `Week ${weekNumber}`, series: item.series };
-        });
-      }
-    );
-  }
 
   PredictionWeek() {
-    this.loadData(
-      this.service.PredictionNextWeek.bind(this.service),
-      (myList: any[]) => {
-        return myList.map((item) => {
-          const date = new Date(item.name);
-          const monthName = date.toLocaleDateString('en-US', { month: 'long' });
-          return { name: monthName, series: item.series };
-        });
-      }
-    );
-  }
-
-  loadData(apiCall: any, mapFunction: any) {
-    apiCall().subscribe((response: any) => {
+    this.service.PredictionNextWeek().subscribe((response: any) => {
+      console.log(response);
       const myList = Object.keys(response.consumption.timestamps).map(
         (name) => {
           let consumptionValue = response.consumption.timestamps[name];
@@ -110,7 +73,59 @@ export class PredictionAllUsersComponent implements OnInit {
           return { name, series };
         }
       );
-      this.data = mapFunction(myList);
+      this.data = myList;
+    });
+  }
+
+  Prediction3Days() {
+    this.service.PredictionNext3Days().subscribe((response: any) => {
+      console.log(response);
+      const myList = Object.keys(response.consumption.timestamps).map(
+        (name) => {
+          let consumptionValue = response.consumption.timestamps[name];
+          let productionValue = response.production.timestamps[name];
+          const cons: string = 'consumption';
+          const prod: string = 'producton';
+          if (productionValue == undefined) {
+            productionValue = 0.0;
+          }
+          if (consumptionValue == undefined) {
+            consumptionValue = 0.0;
+          }
+          const series = [
+            { name: cons, value: consumptionValue },
+            { name: prod, value: productionValue },
+          ];
+          return { name, series };
+        }
+      );
+      this.data = myList;
+    });
+  }
+
+  PredictionDay() {
+    this.service.PredictionNextDay().subscribe((response: any) => {
+      console.log(response);
+      const myList = Object.keys(response.consumption.timestamps).map(
+        (name) => {
+          let consumptionValue = response.consumption.timestamps[name];
+          let productionValue = response.production.timestamps[name];
+          const cons: string = 'consumption';
+          const prod: string = 'producton';
+          if (productionValue == undefined) {
+            productionValue = 0.0;
+          }
+          if (consumptionValue == undefined) {
+            consumptionValue = 0.0;
+          }
+          const series = [
+            { name: cons, value: consumptionValue },
+            { name: prod, value: productionValue },
+          ];
+          return { name, series };
+        }
+      );
+      this.data = myList;
     });
   }
 }
