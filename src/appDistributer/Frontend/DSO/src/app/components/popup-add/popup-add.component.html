@@ -5,17 +5,21 @@
         <div class="modal-header">
           <p class="modal-title" id="exampleModal2Label">
             <span style="color: #5875a1; font-size: 25px; font-weight: 700;">Add new Employee </span>
+        
           </p>
-        </div>
-        <div class="modal-body">
-         
-                
-                   
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
            
-                        
+          ></button>
+        </div>
+        <div class="modal-body">          
                             <div class="panelbor">
                                 <div class="panel-body">
-                                    <form [formGroup]="signupWorkerForm">                               
+                                    <form [formGroup]="signupWorkerForm">          
+                                               
                                          <div class="form-group pt-3">
                                             <div class="input-field" [class.error]="signupWorkerForm.controls['firstName'].dirty && signupWorkerForm.hasError('required','firstName')">
                                                 <!-- <label class="lbl">FirstName:</label> -->
@@ -76,18 +80,18 @@
                                                 </div>
                                             </div>
                                             <small *ngIf="signupWorkerForm.controls['salary'].dirty && signupWorkerForm.hasError('required','salary')" class="text-danger">*Salary is required</small>
-                                            
-                                            
                                             <div class="form-group pt-3">
                                                 <div class="input-field" [class.error]="signupWorkerForm.controls['image'].dirty && signupWorkerForm.hasError('required','image')">
                                                     <!-- <label class="lbl">Image:</label> -->
-                                                    <span class="fa fa-user p-2" style="font-size: 24px"></span>
-                                                    <input formControlName="image" type="text" placeholder="Image">
+                                                    
+                                                    <input type="file" id="image" formControlName="image"  name="image" accept="image/png, image/jpeg">
                                                     
                                                 </div>
                                             </div>
                                             <small *ngIf="signupWorkerForm.controls['image'].dirty && signupWorkerForm.hasError('required','image')" class="text-danger">*Salary is required</small>
-                                       
+                                                     
+                                            
+                                            
                                        
                                             <button type="submit"  class="btn col-md-5" (click)="onSubmit();">
                                             Confirm
@@ -102,8 +106,6 @@
             
         
       </div>
-          <div class="modal-footer">
-            <button type="button"  class="btn btn-primary" id="dugme" data-bs-dismiss="modal" >Close</button>
-          </div>
+         
     </div>
   </div>
