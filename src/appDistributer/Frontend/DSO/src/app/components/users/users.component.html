@@ -38,7 +38,7 @@
       });
   });
 </script>
-<div class="container-fluid"><app-popup-add></app-popup-add>
+<div class="container-fluid" style="height: calc(100% - 44px);"><app-popup-add></app-popup-add>
   <app-popup-emp></app-popup-emp>
   <div class="d-flex justify-content-center">
     <div class="spinner-border" style="margin-top: 25%;" role="status" *ngIf="loader">
@@ -142,7 +142,7 @@
           </tbody>
         </table>
 
-        <div style="float: left; padding-left: 35%; margin-top: 1.5%">
+        <div style="float: left; padding-left: 30%; margin-top: 1.5%; position: fixed; bottom: 0;">
           <pagination-controls
             previousLabel="Prev"
             nextLabel="Next"
