@@ -25,12 +25,13 @@ export class RealizationPredictionAllProsumersComponent implements OnInit {
     name: 'mycolors',
     selectable: true,
     group: ScaleType.Ordinal,
-    domain: ['#FF0000', '#93FF00 ', '#8C0000', '#068700'],
+    domain: ['#FF0000', '#93FF00 ', '#0028A4', '#068700'],
   };
   showXAxis = true;
   showYAxis = true;
   gradient = false;
   showLegend = true;
+  yAxisLabel = 'Energy in kWh';
 
   // xScale: any = d3
   //   .scaleBand()
