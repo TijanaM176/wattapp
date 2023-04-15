@@ -1,52 +1,103 @@
-<div class="glavni">
-  <div class="levi">
+<div class="container-fluid d-flex px-0 py-0 mx-0 my-0" style="height: calc(100%-101px);">
+  <div class="col-lg-2 mx-0 my-0 px-0 py-0">
     <app-sidebar-potrosnja></app-sidebar-potrosnja>
   </div>
-
-  <div class="centralni">
-    <div class="naslov"><h1>User Informations</h1></div>
-
-    <div class="centralniGore">
-      <div class="clevo">
-        <p class="plevo">First Name:</p>
-        <p class="plevo">Last Name:</p>
-        <p class="plevo">Username:</p>
-        <p class="plevo">Email:</p>
-        <p class="plevo">Region:</p>
+  <div class="col-lg-10 mx-0 my-0 px-0 py-0" style="overflow-y: auto; overflow-x: hidden;">
+    <main
+      class="main-content position-relative border-radius-lg col-12"
+      style="overflow-y: scroll; max-height: 89.1vh"
+    >
+      <div class="container-fluid py-4">
+        <div class="row mt-4">
+          <div class="col-lg-7 mb-lg-0 mb-4">
+            <div class="card z-index-2 h-100">
+              <div class="card-header" style="margin-left: 0; margin-right: 0">
+                <h6>User Information</h6>
+              </div>
+              <div class="card-body d-flex pt-5 ps-1 pe-0">
+                <div class="col-lg-8 row">
+                  <div class="container-fluid d-flex">
+                    <div class="col-lg-6">
+                      <h4 class="text-bold mb-0">{{ myData.firstName }}</h4>
+                      <small class="text-muted mt-0">first name</small>
+                    </div>
+                    <div class="col-lg-6">
+                      <h4 class="text-bold mb-0">{{ myData.lastName  }}</h4>
+                      <small class="text-muted mt-0">last name</small>
+                    </div>
+                  </div>
+                  <hr>
+                  <div class="container-fluid d-flex">
+                    <div class="col-lg-6">
+                      <h4 class="text-bold mb-0">{{ myData.username }}</h4>
+                      <small class="text-muted mt-0">username</small>
+                    </div>
+                    <div class="col-lg-6">
+                      <h4 class="text-bold mb-0">{{ myData.email }}</h4>
+                      <small class="text-muted mt-0">e-mail</small>
+                    </div>
+                  </div>
+                  <hr>
+                  <div class="container-fluid d-flex">
+                    <div class="col-lg-6">
+                      <h4 class="text-bold mb-0">{{ myData.address }}</h4>
+                      <small class="text-muted mt-0">address</small>
+                    </div>
+                    <div class="col-lg-6">
+                      <h4 class="text-bold mb-0">{{ city }}</h4>
+                      <small class="text-muted mt-0">city</small>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-4 row text-center mx-0 px-0">
+                  <div class="container-fluid pt-1" style="display: flex; align-items: start; justify-content: end;">
+                    <img src="assets/images/user.png" alt="User Profile Picture" class="rounded-circle" style="width: 80%;" />
+                  </div>
+                  <div class="container-fluid d-flex me-0 pe-0" style="display: flex; align-items: center; justify-content: end;">
+                    <div class="col-5 px-0 me-2">
+                      <input id="edit" type="button" value="Edit" routerLink="/DsoApp/user/{{ id }}"/>
+                    </div>
+                    <div class="col-5 px-0">
+                      <input id="delete" type="button" value="Delete" />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-5">
+            <div class="card p-0">
+              <div class="card-header">
+                <h6>Realization</h6>
+              </div>
+              <div class="card-body px-0 py-0 mx-0 my-0 pt-2">
+                <app-history-Prosumer></app-history-Prosumer>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row mt-4 mb-2">
+          <div class="col-lg-12">
+            <div class="card">
+              <div class="card-header">
+                <h6>Devices</h6>
+              </div>
+              <div class="card-body px-0 py-0 mx-0 my-0 pb-1">
+                <app-tabelaUredjaja></app-tabelaUredjaja>
+              </div>
+            </div>
+          </div>
+          <!-- <div class="col-lg-4">
+            <div class="card h-100">
+              <div class="card-header">
+                <h6>Prediction?</h6>
+              </div>
+              <div class="card-body"></div>
+            </div>
+          </div> -->
+        </div>
       </div>
-      <div class="cdesno">
-        <p class="pdesno">{{ myData.firstName }}</p>
-        <p class="pdesno">{{ myData.lastName }}</p>
-        <p class="pdesno">{{ myData.username }}</p>
-        <p class="pdesno">{{ myData.email }}</p>
-        <p class="pdesno">{{ Region }}</p>
-      </div>
-      <div class="csredina">
-        <img
-          src="assets/images/user.png"
-          alt="User Profile Picture"
-          class="rounded-circle"
-          width="140"
-          height="140"
-        />
-        <input
-          id="edit"
-          type="button"
-          value="Edit"
-          routerLink="/DsoApp/user/{{ id }}"
-        />
-        <input id="viewmore" type="button" value="View more" />
-      </div>
-    </div>
-    <div class="centralniDole">
-      <app-tabelaUredjaja></app-tabelaUredjaja>
-    </div>
-  </div>
-
-  <div class="desni">
-    <div class="centralniDole">
-      <app-history-Prosumer></app-history-Prosumer>
-    </div>
+    </main>
   </div>
 </div>
 <app-popup-add></app-popup-add>

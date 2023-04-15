@@ -6,6 +6,7 @@ import { SidebarDsoComponent } from '../sidebar-dso/sidebar-dso.component';
 import { data } from 'jquery';
 import { EmployeesServiceService } from 'src/app/services/employees-service.service';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { CookieService } from 'ngx-cookie-service';
 
 @Component({
   selector: 'app-user1',
@@ -20,12 +21,14 @@ export class User1Component {
     private user: UsersServiceService,
     private router: ActivatedRoute,
     private employyeService: EmployeesServiceService,
-    private spiner: NgxSpinnerService
+    private spiner: NgxSpinnerService,
+    private cookie : CookieService
   ) {}
 
   id: string = '';
   myData: any;
   Region: any;
+  city : any;
 
   ngOnInit(): void {
     this.spiner.show();
@@ -35,9 +38,9 @@ export class User1Component {
         console.log(data);
         this.myData = data;
         this.id = this.router.snapshot.params['id'];
-
-        this.user1.getRegionName(this.myData.regionId).subscribe((dat) => {
-          this.Region = dat;
+        this.Region = this.cookie.get('region');
+        this.user.getCityNameById(this.myData.cityId).subscribe((dat) => {
+          this.city = dat;
         });
       });
   }
