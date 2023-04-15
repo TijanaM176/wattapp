@@ -44,11 +44,9 @@ export class AddDeviceFormComponent {
     
   }
   ChangeCategory(e:any){
-    //this.cat=e.target.value;
-    //console.log(this.cat);
-    //this.category=this.cat;
+
     this.service.category=this.category;
-    //console.log(this.category);
+
     this.type=-1;
     this.getTypes();
     this.getModels();
@@ -59,8 +57,7 @@ export class AddDeviceFormComponent {
     this.service.getCategories().subscribe({
       next:(response)=>{
         this.categories = response;
-        //console.log(this.categories);
-        //this.dropDownCategory = true;
+
       },
       error:(err)=>
       {
@@ -69,12 +66,10 @@ export class AddDeviceFormComponent {
     })
   }
   ChangeType(e:any){
-    //this.typ=e.target.value;
-    //console.log(this.typ);
-    //this.type=this.typ;
+
     this.service.type=this.type;
     this.model=-1;
-    //console.log(this.type);
+
     this.getModels();
     this.Name="Device Name";
   }
@@ -82,7 +77,7 @@ export class AddDeviceFormComponent {
     this.service.getTypes().subscribe({
       next:(response)=>{
         this.types = response;
-        //console.log(this.types);
+
         this.dropDownType = true;
       },
       error:(err)=>
@@ -92,9 +87,7 @@ export class AddDeviceFormComponent {
     })
   }
   ChangeModels(e:any){
-    //this.mod=e.target.value;
-    //console.log(this.mod);
-    //console.log(this.model);
+
     this.service.model=this.model.id;
     this.Name=this.model.name;
     this.service.name=this.Name;
@@ -104,7 +97,6 @@ export class AddDeviceFormComponent {
     this.service.getModels().subscribe({
       next:(response)=>{
         this.models = response;
-        //console.log(this.models);
         this.dropDownModel = true;
       },
       error:(err)=>

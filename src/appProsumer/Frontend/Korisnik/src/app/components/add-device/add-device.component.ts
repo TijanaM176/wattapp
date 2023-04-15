@@ -41,15 +41,13 @@ export class AddDeviceComponent implements OnInit {
     public toast: NgToastService
   ) {}
   ngOnInit(): void {
-    //this.dropDownCategory = false;
-    //this.getCategories();
+
     this.show = true;
     this.allToFalse();
   }
 
   close() {
     if (this.show) {
-      //location.reload();
       this.show = false;
       
     }
@@ -60,8 +58,6 @@ export class AddDeviceComponent implements OnInit {
     this.service.model='';
     this.c.getModels();
     this.c.category=-1;
-    //this.c.type=-1;
-    //this.c.model=-1;
     this.c.Name="Device Name";
     this.c.DsoView=false;
     this.c.DsoControl=false;
