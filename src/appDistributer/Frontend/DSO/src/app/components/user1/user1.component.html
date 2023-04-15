@@ -1,8 +1,14 @@
-<div class="container-fluid d-flex px-0 py-0 mx-0 my-0" style="height: calc(100%-101px);">
+<div
+  class="container-fluid d-flex px-0 py-0 mx-0 my-0"
+  style="height: calc(100%-101px)"
+>
   <div class="col-lg-2 mx-0 my-0 px-0 py-0">
     <app-sidebar-potrosnja></app-sidebar-potrosnja>
   </div>
-  <div class="col-lg-10 mx-0 my-0 px-0 py-0" style="overflow-y: auto; overflow-x: hidden;">
+  <div
+    class="col-lg-10 mx-0 my-0 px-0 py-0"
+    style="overflow-y: auto; overflow-x: hidden"
+  >
     <main
       class="main-content position-relative border-radius-lg col-12"
       style="overflow-y: scroll; max-height: 89.1vh"
@@ -22,11 +28,11 @@
                       <small class="text-muted mt-0">first name</small>
                     </div>
                     <div class="col-lg-6">
-                      <h4 class="text-bold mb-0">{{ lastName  }}</h4>
+                      <h4 class="text-bold mb-0">{{ lastName }}</h4>
                       <small class="text-muted mt-0">last name</small>
                     </div>
                   </div>
-                  <hr>
+                  <hr />
                   <div class="container-fluid d-flex">
                     <div class="col-lg-6">
                       <h4 class="text-bold mb-0">{{ username }}</h4>
@@ -37,7 +43,7 @@
                       <small class="text-muted mt-0">e-mail</small>
                     </div>
                   </div>
-                  <hr>
+                  <hr />
                   <div class="container-fluid d-flex">
                     <div class="col-lg-6">
                       <h4 class="text-bold mb-0">{{ address }}</h4>
@@ -50,12 +56,36 @@
                   </div>
                 </div>
                 <div class="col-lg-4 row text-center mx-0 px-0">
-                  <div class="container-fluid pt-1" style="display: flex; align-items: start; justify-content: end;">
-                    <img src="assets/images/user.png" alt="User Profile Picture" class="rounded-circle" style="width: 80%;" />
+                  <div
+                    class="container-fluid pt-1"
+                    style="
+                      display: flex;
+                      align-items: start;
+                      justify-content: end;
+                    "
+                  >
+                    <img
+                      src="assets/images/user.png"
+                      alt="User Profile Picture"
+                      class="rounded-circle"
+                      style="width: 80%"
+                    />
                   </div>
-                  <div class="container-fluid d-flex me-0 pe-0" style="display: flex; align-items: center; justify-content: end;">
+                  <div
+                    class="container-fluid d-flex me-0 pe-0"
+                    style="
+                      display: flex;
+                      align-items: center;
+                      justify-content: end;
+                    "
+                  >
                     <div class="col-5 px-0 me-2">
-                      <input id="edit" type="button" value="Edit" routerLink="/DsoApp/user/{{ id }}"/>
+                      <input
+                        id="edit"
+                        type="button"
+                        value="Edit"
+                        routerLink="/DsoApp/user/{{ id }}"
+                      />
                     </div>
                     <div class="col-5 px-0">
                       <input id="delete" type="button" value="Delete" />
