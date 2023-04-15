@@ -32,7 +32,8 @@ export class EmployeesComponent {
   v!: string;
   RegionId: string = '';
   loader: boolean = true;
-
+  orderHeader:String='';
+  isDescOrder:boolean=true;
   public regionName: any;
   public roleName: any;
   role: string = '';
@@ -171,5 +172,9 @@ export class EmployeesComponent {
         },
       });
     }
+  }
+  sort(headerName:String){
+    this.isDescOrder=!this.isDescOrder;
+    this.orderHeader=headerName;
   }
 }

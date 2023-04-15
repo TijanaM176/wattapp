@@ -59,9 +59,9 @@
         <thead>
           <tr>
             <th></th>
-            <th>Username</th>
-            <th>Region</th>
-            <th>Assigned Role</th>
+            <th (click)="sort('username')">Username<i class="fa fa-sort"></i></th>
+            <th (click)="sort('region')">Region<i class="fa fa-sort"></i></th>
+            <th (click)="sort('role')">Assigned Role<i class="fa fa-sort"></i></th>
             <th>Options</th>
           </tr>
         </thead>
@@ -69,6 +69,7 @@
           <tr
             *ngFor="
               let item of service.employees
+                | orderBy:orderHeader:isDescOrder
                 | search : searchName
                 | paginate
                   : {
@@ -348,84 +349,6 @@
             </div>
           </form>
         </div>
-        <!--
-        <div class="deo">
-          <label style="color:#566787;font-weight: bold;">First Name</label>
-              <div class="div" style="background-color: #566787;padding-top:1%;font-weight:500;border-radius: 5px;height:20%;color:#F9F9F9;">
-                <div *ngIf="employee != undefined">
-
-                  <label style="margin-left:2%;"> {{employee.firstName}}</label>
-                </div>
-
-              </div>
-
-          </div>
-          <div class="deo">
-            <label style="color:#566787;font-weight: bold;">Last Name</label>
-                <div class="div" style="background-color: #566787;padding-top:1%;font-weight:500;border-radius: 5px;height:20%;color:#F9F9F9;">
-                  <div *ngIf="employee != undefined">
-
-                    <label style="margin-left:2%;"> {{employee.lastName}}</label>
-                  </div>
-
-                </div>
-
-          </div>
-          <div class="deo">
-            <label style="color:#566787;font-weight: bold;">Starting date</label>
-                <div class="div" style="background-color: #566787;padding-top:1%;font-weight:500;border-radius: 5px;height:20%;color:#F9F9F9;">
-                  <div *ngIf="employee != undefined">
-
-                    <label style="margin-left:2%;"> {{employee.dateCreate}}</label>
-                  </div>
-
-                </div>
-
-          </div>
-          <div class="deo">
-            <label style="color:#566787;font-weight: bold;">Salary</label>
-                <div class="div" style="background-color: #566787;padding-top:1%;font-weight:500;border-radius: 5px;height:20%;color:#F9F9F9;">
-                  <div *ngIf="employee != undefined">
-
-                    <label style="margin-left:2%;"> {{employee.salary}}</label>
-                  </div>
-
-                </div>
-
-          </div>
-          <div class="deo">
-            <label style="color:#566787;font-weight: bold;">Role</label>
-                <div class="div" style="background-color: #566787;padding-top:1%;font-weight:500;border-radius: 5px;height:20%;color:#F9F9F9;">
-                  <div *ngIf="employee != undefined">
-
-                    <label style="margin-left:2%;"> {{employee.role}}</label>
-                  </div>
-
-                </div>
-
-          </div>
-          <div class="deo">
-            <label style="color:#566787;font-weight: bold;">Region</label>
-                <div class="div" style="background-color: #566787;padding-top:1%;font-weight:500;border-radius: 5px;height:20%;color:#F9F9F9;">
-                  <div *ngIf="employee != undefined">
-
-                    <label style="margin-left:2%;"> {{employee.region}}</label>
-                  </div>
-
-                </div>
-
-          </div>
-          <div class="deo">
-            <label style="color:#566787;font-weight: bold;">Email</label>
-                <div class="div" style="background-color: #566787;padding-top:1%;font-weight:500;border-radius: 5px;height:20%;color:#F9F9F9;">
-                  <div *ngIf="employee != undefined">
-
-                    <label style="margin-left:2%;"> {{employee.email}}</label>
-                  </div>
-
-                </div>
-
-          </div>-->
       </div>
     </div>
   </div>
