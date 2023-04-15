@@ -26,8 +26,8 @@ export class UsersServiceService {
       (res) => (this.prosumers = res as Prosumer[])
     );
   }
-  detailsEmployee(id: string) {
-    return this.http.get(`${this.baseUrl}getProsumerByID` + `?id=` + id);
+  detailsEmployee(id: string) : Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}getProsumerByID` + `?id=` + id);
   }
   Page(page: number, pagesize: number) {
     return this.http.get(

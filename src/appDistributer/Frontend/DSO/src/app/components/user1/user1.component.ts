@@ -26,9 +26,13 @@ export class User1Component {
   ) {}
 
   id: string = '';
-  myData: any;
-  Region: any;
-  city : any;
+  firstName : string = '';
+  lastName : string = '';
+  username : string = '';
+  email : string = '';
+  address : string = '';
+  Region: string = '';
+  city : string = '';
 
   ngOnInit(): void {
     this.spiner.show();
@@ -36,10 +40,14 @@ export class User1Component {
       .detailsEmployee(this.router.snapshot.params['id'])
       .subscribe((data) => {
         console.log(data);
-        this.myData = data;
+        this.firstName = data.firstName;
+        this.lastName = data.lastName;
+        this.username = data.username;
+        this.email = data. email;
+        this.address = data.address;
         this.id = this.router.snapshot.params['id'];
         this.Region = this.cookie.get('region');
-        this.user.getCityNameById(this.myData.cityId).subscribe((dat) => {
+        this.user.getCityNameById(data.cityId).subscribe((dat) => {
           this.city = dat;
         });
       });
