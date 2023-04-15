@@ -184,21 +184,6 @@ namespace API.Services.Devices
             return await _repository.ProductionForLastWeekForAllProsumers();
         }
 
-        //izbaciti
-        public async Task<List<Prosumer>> ProsumerFilter(double minConsumption, double maxConsumption, double minProduction, double maxProduction, int minDeviceCount, int maxDeviceCount)
-        {
-            var prosumers = await _repository.ProsumerFilter(minConsumption, maxConsumption, minProduction, maxProduction, minDeviceCount, maxDeviceCount);
-            if (prosumers == null) throw new ArgumentException("No users fit that criteria!");
-            return prosumers;
-        }
-
-        //izbaciti
-        public async Task<List<Prosumer>> ProsumerFilter2(string neighbourhood, double minConsumption, double maxConsumption, double minProduction, double maxProduction, int minDeviceCount, int maxDeviceCount)
-        {
-            var prosumers = await ProsumerFilter(minConsumption, maxConsumption, minProduction, maxProduction, minDeviceCount, maxDeviceCount);
-            var filteredProsumers = prosumers.Where(x => x.NeigborhoodId == neighbourhood).ToList();
-            return filteredProsumers;
-        }
         public async Task<DeviceInfo> GetDeviceInfoById(string id)
         {
             var deviceinfo = await _repository.GetDeviceInfoById(id);
@@ -366,8 +351,8 @@ namespace API.Services.Devices
         public async Task<List<Dictionary<string, object>>> UpdatedProsumerFilter(double minConsumption, double maxConsumption, double minProduction, double maxProduction, int minDeviceCount, int maxDeviceCount)
         {
             var list = (await AllProsumerInfo()).Where(x => 
-                (double)x["consumption"] >= minConsumption/1000 && (double)x["consumption"] <= maxConsumption/1000 &&
-                (double)x["production"] >= minProduction/1000 && (double)x["production"] <= maxProduction/1000 &&
+                (double)x["consumption"] >= minConsumption/1000 && (double)x["consumption"] <= maxConsumption &&
+                (double)x["production"] >= minProduction/1000 && (double)x["production"] <= maxProduction &&
                 (double)x["devCount"] >= minDeviceCount && (double)x["devCount"] <= maxDeviceCount
                 ).ToList();
 
