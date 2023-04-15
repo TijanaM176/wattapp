@@ -64,12 +64,6 @@ namespace API.Repositories.DeviceRepository
                     t.Date.Month == DateTime.Now.Month &&
                     t.Date.Day == DateTime.Now.Day &&
                     t.Date.Hour == DateTime.Now.Hour
-                ).ToList(),
-                Predictions = d.Usage.Predictions.Where(t =>
-                    t.Date.Year == DateTime.Now.Year &&
-                    t.Date.Month == DateTime.Now.Month &&
-                    t.Date.Day == DateTime.Now.Day &&
-                    t.Date.Hour == DateTime.Now.Hour
                 ).ToList()
             });
             return devicesData.ToList();
@@ -98,9 +92,6 @@ namespace API.Repositories.DeviceRepository
                 Wattage = d.Spec.Wattage,
                 Timestamps = d.Usage.Timestamps.Where(t =>
                     t.Date >= DateTime.Now.AddDays(period) && t.Date <= DateTime.Now || t.Date <= DateTime.Now.AddDays(period) && t.Date >= DateTime.Now
-                ).ToList(),
-                Predictions = d.Usage.Predictions.Where(t =>
-                    t.Date >= DateTime.Now.AddDays(period) && t.Date <= DateTime.Now || t.Date <= DateTime.Now.AddDays(period) && t.Date >= DateTime.Now
                 ).ToList()
             });
             return devicesData.ToList();
@@ -127,8 +118,7 @@ namespace API.Repositories.DeviceRepository
             double currentConsumption = 0;
             foreach (var device in devices)
             {
-                currentConsumption += device.Timestamps[0].ActivePower;
-                currentConsumption += device.Timestamps[0].ReactivePower;
+                currentConsumption += device.Timestamps[0].Power;
             }
 
             return currentConsumption;
@@ -141,7 +131,7 @@ namespace API.Repositories.DeviceRepository
             double currentProduction = 0;
             foreach (var device in devices)
             {
-                currentProduction += device.Timestamps[0].ActivePower;
+                currentProduction += device.Timestamps[0].Power;
             }
 
             return currentProduction;
@@ -179,9 +169,8 @@ namespace API.Repositories.DeviceRepository
                 {
                     foreach (var ts in device.Timestamps) // Potrosnja za konkretan uredjaj
                     {
-                        if (ts.ActivePower != 0)
-                            consumptionProsumersForWeek += ts.ActivePower;
-                        consumptionProsumersForWeek += ts.ReactivePower;
+                        if (ts.Power != 0)
+                            consumptionProsumersForWeek += ts.Power;
                     }
                 }
             }
@@ -213,8 +202,8 @@ namespace API.Repositories.DeviceRepository
                 {
                     foreach (var ts in device.Timestamps) // Proizvodnja za konkretan uredjaj
                     {
-                        if (ts.ActivePower != 0)
-                            productionProsumersForWeek += ts.ActivePower;
+                        if (ts.Power != 0)
+                            productionProsumersForWeek += ts.Power;
                     }
                 }
             }
@@ -274,10 +263,6 @@ namespace API.Repositories.DeviceRepository
             device.Timestamps = usage.Timestamps.Where(t =>
                     t.Date >= DateTime.Now.AddDays(period) && t.Date <= DateTime.Now || t.Date <= DateTime.Now.AddDays(period) && t.Date >= DateTime.Now
                 ).ToList();
-            device.Predictions = usage.Predictions.Where(t =>
-                    t.Date >= DateTime.Now.AddDays(period) && t.Date <= DateTime.Now || t.Date <= DateTime.Now.AddDays(period) && t.Date >= DateTime.Now
-                ).ToList();
-
 
             return device;
         }
@@ -314,13 +299,13 @@ namespace API.Repositories.DeviceRepository
                     var prediction = device.Predictions[i];
                     if (datePowerByDevice["timestamps"].ContainsKey(timestamp.Date))
                     { 
-                        datePowerByDevice["timestamps"][timestamp.Date] += timestamp.ActivePower;
-                        datePowerByDevice["predictions"][timestamp.Date] += prediction.ActivePower;
+                        datePowerByDevice["timestamps"][timestamp.Date] += timestamp.Power;
+                        datePowerByDevice["predictions"][timestamp.Date] += prediction.PredictedPower;
                     }
                     else
                     {
-                        datePowerByDevice["timestamps"].Add(timestamp.Date, timestamp.ActivePower);
-                        datePowerByDevice["predictions"].Add(timestamp.Date, prediction.ActivePower);
+                        datePowerByDevice["timestamps"].Add(timestamp.Date, timestamp.Power);
+                        datePowerByDevice["predictions"].Add(timestamp.Date, prediction.PredictedPower);
                     }
                 }
             }
@@ -332,13 +317,13 @@ namespace API.Repositories.DeviceRepository
                     var prediction = device.Predictions[i];
                     if (datePowerByDevice["timestamps"].ContainsKey(timestamp.Date))
                     {
-                        datePowerByDevice["timestamps"][timestamp.Date] += timestamp.ActivePower + timestamp.ReactivePower;
-                        datePowerByDevice["predictions"][timestamp.Date] += prediction.ActivePower + prediction.ReactivePower;
+                        datePowerByDevice["timestamps"][timestamp.Date] += timestamp.Power;
+                        datePowerByDevice["predictions"][timestamp.Date] += prediction.PredictedPower;
                     }
                     else
                     {
-                        datePowerByDevice["timestamps"].Add(timestamp.Date, timestamp.ActivePower + timestamp.ReactivePower);
-                        datePowerByDevice["predictions"].Add(timestamp.Date, prediction.ActivePower + timestamp.ReactivePower);
+                        datePowerByDevice["timestamps"].Add(timestamp.Date, timestamp.Power);
+                        datePowerByDevice["predictions"].Add(timestamp.Date, prediction.PredictedPower);
                     }
                 }
             }
@@ -354,7 +339,7 @@ namespace API.Repositories.DeviceRepository
             var info = await _regContext.Devices.FirstOrDefaultAsync(x => x.Id == link.ModelId);
             var usage = await _usageContext.PowerUsage.Find(x => x.DeviceId == link.ModelId).FirstOrDefaultAsync();
             Timestamp ts = usage.Timestamps.Where(x => x.Date.Year ==  DateTime.Now.Year && x.Date.Month == DateTime.Now.Month && x.Date.Day == DateTime.Now.Day && x.Date.Hour == DateTime.Now.Hour).FirstOrDefault();
-            double currentUsage = Math.Round(ts.ActivePower, 4);
+            double currentUsage = Math.Round(ts.Power, 4);
             double max = await MaxUsage(link.ModelId);
             return new Dictionary<string, object>
             {
@@ -381,13 +366,13 @@ namespace API.Repositories.DeviceRepository
         public async Task<double> MaxUsage(string id)
         {
             DevicePower dev = await _usageContext.PowerUsage.Find(x => x.DeviceId == id).FirstOrDefaultAsync();
-            return Math.Round(dev.Timestamps.AsQueryable().Max(x => x.ActivePower), 4);
+            return Math.Round(dev.Timestamps.AsQueryable().Max(x => x.Power), 4);
         }
 
         public async Task<double> AvgUsage(string id)
         {
             DevicePower dev = await _usageContext.PowerUsage.Find(x => x.DeviceId == id).FirstOrDefaultAsync();
-            return Math.Round(dev.Timestamps.Average(x => x.ActivePower), 4);
+            return Math.Round(dev.Timestamps.Average(x => x.Power), 4);
         }
 
         public async Task<Prosumer> GetProsumer (string id)
@@ -481,7 +466,6 @@ namespace API.Repositories.DeviceRepository
                 Manufacturer = d.Spec.Manufacturer,
                 Wattage = d.Spec.Wattage,
                 Timestamps = d.Usage.Timestamps.Where(t => t.Date >= startDate && t.Date <= endDate).ToList(),
-                Predictions = d.Usage.Predictions.Where(t => t.Date >= startDate && t.Date <= endDate).ToList()
             });
             return devicesData.ToList();
         }
@@ -554,7 +538,6 @@ namespace API.Repositories.DeviceRepository
                 Manufacturer = d.Spec.Manufacturer,
                 Wattage = d.Spec.Wattage,
                 Timestamps = d.Usage.Timestamps.Where(t => t.Date >= startDate && t.Date <= endDate).ToList(),
-                Predictions = d.Usage.Predictions.Where(t => t.Date >= startDate && t.Date <= endDate).ToList()
             });
             return devicesData.ToList();
         }
@@ -597,9 +580,8 @@ namespace API.Repositories.DeviceRepository
                 {
                     foreach (var ts in device.Timestamps) // Potrosnja za konkretan uredjaj
                     {
-                        if (ts.ActivePower != 0)
-                        consumptionProsumersForThisWeek += ts.ActivePower;
-                        consumptionProsumersForThisWeek += ts.ReactivePower;
+                        if (ts.Power != 0)
+                        consumptionProsumersForThisWeek += ts.Power;
                     }
                 }
             }
@@ -618,9 +600,8 @@ namespace API.Repositories.DeviceRepository
                 {
                     foreach (var ts in device.Timestamps) 
                     {
-                        if (ts.ActivePower != 0)
-                            consumptionProsumersForLastWeek += ts.ActivePower;
-                            consumptionProsumersForLastWeek += ts.ReactivePower;
+                        if (ts.Power != 0)
+                            consumptionProsumersForLastWeek += ts.Power;
                     }
                 }
             }
@@ -681,8 +662,8 @@ namespace API.Repositories.DeviceRepository
                 {
                     foreach (var ts in device.Timestamps) 
                     {
-                        if (ts.ActivePower != 0)
-                            productionProsumersForThisWeek += ts.ActivePower;
+                        if (ts.Power != 0)
+                            productionProsumersForThisWeek += ts.Power;
                     }
                 }
             }
@@ -701,8 +682,8 @@ namespace API.Repositories.DeviceRepository
                 {
                     foreach (var ts in device.Timestamps) 
                     {
-                        if (ts.ActivePower != 0)
-                            productionProsumersForLastWeek += ts.ActivePower;
+                        if (ts.Power != 0)
+                            productionProsumersForLastWeek += ts.Power;
                     }
                 }
             }
@@ -747,8 +728,8 @@ namespace API.Repositories.DeviceRepository
                 {
                     foreach (var ts in device.Predictions) 
                     {
-                        if (ts.ActivePower != 0)
-                            productionProsumersForNextWeekPrediction += ts.ActivePower;
+                        if (ts.Power != 0)
+                            productionProsumersForNextWeekPrediction += ts.Power;
                     }
                 }
             }
@@ -779,9 +760,8 @@ namespace API.Repositories.DeviceRepository
                 {
                     foreach (var ts in device.Timestamps)
                     {
-                        if (ts.ActivePower != 0)
-                            consumptionProsumersForNextWeekPrediction += ts.ActivePower;
-                        consumptionProsumersForNextWeekPrediction += ts.ReactivePower;
+                        if (ts.Power != 0)
+                            consumptionProsumersForNextWeekPrediction += ts.Power;
                     }
                 }
             }
