@@ -4,6 +4,7 @@ import { strings } from '@material/slider';
 import { UsersServiceService } from 'src/app/services/users-service.service';
 import { ScaleType, Color, LegendComponent } from '@swimlane/ngx-charts';
 import { BrowserModule } from '@angular/platform-browser';
+import { NgxSpinnerService } from 'ngx-spinner';
 @Component({
   selector: 'app-historyAllProsumers',
   templateUrl: './historyAllProsumers.component.html',
@@ -90,25 +91,24 @@ export class HistoryAllProsumersComponent implements OnInit {
 
   loadData(apiCall: any, mapFunction: any) {
     apiCall().subscribe((response: any) => {
-      const myList = Object.keys(response.consumption.timestamps).map(
-        (name) => {
-          let consumptionValue = response.consumption.timestamps[name];
-          let productionValue = response.production.timestamps[name];
-          const cons: string = 'consumption';
-          const prod: string = 'producton';
-          if (productionValue == undefined) {
-            productionValue = 0.0;
-          }
-          if (consumptionValue == undefined) {
-            consumptionValue = 0.0;
-          }
-          const series = [
-            { name: cons, value: consumptionValue },
-            { name: prod, value: productionValue },
-          ];
-          return { name, series };
-        }
-      );
+      const myList: any = [];
+
+      const consumptionTimestamps = response.consumption.timestamps || {};
+      const productionTimestamps = response.production.timestamps || {};
+      const allTimestamps = {
+        ...consumptionTimestamps,
+        ...productionTimestamps,
+      };
+
+      Object.keys(allTimestamps).forEach((name) => {
+        const consumptionValue = consumptionTimestamps[name] || 0.0;
+        const productionValue = productionTimestamps[name] || 0.0;
+        const series = [
+          { name: 'consumption', value: consumptionValue },
+          { name: 'production', value: productionValue },
+        ];
+        myList.push({ name, series });
+      });
       this.data = mapFunction(myList);
     });
   }

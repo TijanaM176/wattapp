@@ -6,36 +6,43 @@ import { NgToastService } from 'ng-angular-popup';
 import { EditDeviceFormComponent } from 'src/app/forms/edit-device-form/edit-device-form.component';
 import { Device } from 'src/app/models/device';
 import { DeviceserviceService } from 'src/app/services/deviceservice.service';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-deviceinfo',
   templateUrl: './deviceinfo.component.html',
-  styleUrls: ['./deviceinfo.component.css']
+  styleUrls: ['./deviceinfo.component.css'],
 })
 export class DeviceinfoComponent {
-  color:ThemePalette='accent';
-  modalTitle : string ='';
-  showEdit : boolean = false;
-  IpAddress:string='';
-  Manufacturer:string='';
-  TypeName:string='';
-  TypeId:string='';
-  Name:string='';
-  MaxUsage:string='';
-  ModelName:string='';
-  AvgUsage:string='';
-  deviceData : any;
-  disabled=false;
-  checked=false;
-  currentUsage!:number;
-  idDev!:string;
-  DsoView!:boolean;
-  DsoControl!:boolean;
-  ModelId!:string;
+  color: ThemePalette = 'accent';
+  modalTitle: string = '';
+  showEdit: boolean = false;
+  IpAddress: string = '';
+  Manufacturer: string = '';
+  TypeName: string = '';
+  TypeId: string = '';
+  Name: string = '';
+  MaxUsage: string = '';
+  ModelName: string = '';
+  AvgUsage: string = '';
+  deviceData: any;
+  disabled = false;
+  checked = false;
+  currentUsage!: number;
+  idDev!: string;
+  DsoView!: boolean;
+  DsoControl!: boolean;
+  ModelId!: string;
   results: any;
-  loader:boolean=true;
-  @ViewChild('editData', {static:false}) editData! : EditDeviceFormComponent;
-  constructor( private router: Router, private service: DeviceserviceService,private toast : NgToastService,private router1: ActivatedRoute){}
+  loader: boolean = true;
+  @ViewChild('editData', { static: false }) editData!: EditDeviceFormComponent;
+  constructor(
+    private router: Router,
+    private service: DeviceserviceService,
+    private toast: NgToastService,
+    private router1: ActivatedRoute,
+    private spiner: NgxSpinnerService
+  ) {}
   /*infoForm = new FormGroup({
     IpAddress: new FormControl(''),
     TypeName: new FormControl(''),
@@ -45,94 +52,82 @@ export class DeviceinfoComponent {
     AvgUsage: new FormControl(''),
   });
 */
-  ngOnInit():void{
-    
+  ngOnInit(): void {
     this.getInformation();
-    setTimeout(()=>{
-      this.loader=false;
-    },2000);
+    this.spiner.show();
+    setTimeout(() => {
+      this.loader = false;
+    }, 2000);
   }
-  isActive(){
-    
-  }
-  getInformation(){
-    
-    this.idDev= this.router1.snapshot.params['idDev'];
+  isActive() {}
+  getInformation() {
+    this.idDev = this.router1.snapshot.params['idDev'];
     //this.idDev=this.router.snapshot.params['idDev'];
-    this.service.getInfoDevice(this.idDev).subscribe(
-      {
-        next:(res)=>{
-     
-          this.IpAddress=res.IpAddress;
-          this.TypeName=res.TypeName;
-          this.ModelName=res.ModelName;
-          this.Name=res.Name;
-          this.MaxUsage=res.MaxUsage;
-          this.AvgUsage=res.AvgUsage;
-          this.currentUsage=res.CurrentUsage;
-          this.DsoView=res.DsoView;
-          this.DsoControl=res.DsoControl;
-          this.TypeId=res.TypeId;
-          this.ModelId=res.ModelId;
+    this.service.getInfoDevice(this.idDev).subscribe({
+      next: (res) => {
+        this.IpAddress = res.IpAddress;
+        this.TypeName = res.TypeName;
+        this.ModelName = res.ModelName;
+        this.Name = res.Name;
+        this.MaxUsage = res.MaxUsage;
+        this.AvgUsage = res.AvgUsage;
+        this.currentUsage = res.CurrentUsage;
+        this.DsoView = res.DsoView;
+        this.DsoControl = res.DsoControl;
+        this.TypeId = res.TypeId;
+        this.ModelId = res.ModelId;
 
-          this.deviceData = res;
-        },
-        error:(err)=>{
-          this.toast.error({detail:"Error!",summary:"Unable to load device data.", duration:3000});
-          console.log(err.error);
-        }
-      }
-    )
+        this.deviceData = res;
+        this.spiner.hide();
+      },
+      error: (err) => {
+        this.toast.error({
+          detail: 'Error!',
+          summary: 'Unable to load device data.',
+          duration: 3000,
+        });
+        console.log(err.error);
+      },
+    });
   }
-  delete(id:string){
+  delete(id: string) {
     if (confirm('Do you want to delete ?')) {
-      
-    this.service.deleteDevice(this.idDev).subscribe(
-      {
-        next:(res)=>{
+      this.service.deleteDevice(this.idDev).subscribe({
+        next: (res) => {
           this.router.navigate(['ProsumerApp/userDevices']);
-          console.log("deleted");
-          
+          console.log('deleted');
         },
-        error:(err)=>{
-          this.toast.error({detail:"Error!",summary:"Unable to delete device data.", duration:3000});
+        error: (err) => {
+          this.toast.error({
+            detail: 'Error!',
+            summary: 'Unable to delete device data.',
+            duration: 3000,
+          });
           console.log(err.error);
-        }
-      }
-    
-    )
+        },
+      });
     }
-
-    
   }
-  edit(){
-
-    this.modalTitle = "Edit Information";
+  edit() {
+    this.modalTitle = 'Edit Information';
     this.showEdit = true;
-  
   }
-  close()
-  {
-    if(this.showEdit)
-    {
-      this.loader=true;
+  close() {
+    if (this.showEdit) {
+      this.loader = true;
       this.showEdit = false;
       this.getInformation();
-      setTimeout(()=>{
-        this.loader=false;
-      },2000);
+      setTimeout(() => {
+        this.loader = false;
+      }, 2000);
     }
-    
-    this.modalTitle = ''
-    
+
+    this.modalTitle = '';
   }
-  confirm(){
-    if(this.showEdit)
-    {
-      this.editData.editInfo()
+  confirm() {
+    if (this.showEdit) {
+      this.editData.editInfo();
       //this.showEdit = false;
     }
   }
-  
 }
-

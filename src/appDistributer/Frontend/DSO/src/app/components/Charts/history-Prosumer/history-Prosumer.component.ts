@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { strings } from '@material/slider';
 import { ScaleType, Color } from '@swimlane/ngx-charts';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 import { UsersServiceService } from 'src/app/services/users-service.service';
 
@@ -32,10 +33,12 @@ export class HistoryProsumerComponent implements OnInit {
 
   constructor(
     private service: UsersServiceService,
-    private router: ActivatedRoute
+    private router: ActivatedRoute,
+    private spiner: NgxSpinnerService
   ) {}
 
   ngOnInit() {
+    this.spiner.show();
     this.id = this.router.snapshot.params['id'];
     this.HistoryWeek();
   }
@@ -55,27 +58,27 @@ export class HistoryProsumerComponent implements OnInit {
 
   loadData(apiCall: any, mapFunction: any) {
     apiCall.subscribe((response: any) => {
-      console.log(response);
-      const myList = Object.keys(response.consumption.timestamps).map(
-        (name) => {
-          let consumptionValue = response.consumption.timestamps[name];
-          let productionValue = response.production.timestamps[name];
-          const cons: string = 'consumption';
-          const prod: string = 'producton';
-          if (productionValue == undefined) {
-            productionValue = 0.0;
-          }
-          if (consumptionValue == undefined) {
-            consumptionValue = 0.0;
-          }
-          const series = [
-            { name: cons, value: consumptionValue },
-            { name: prod, value: productionValue },
-          ];
-          return { name, series };
-        }
-      );
+      const myList: any = [];
+
+      const consumptionTimestamps = response.consumption.timestamps || {};
+      const productionTimestamps = response.production.timestamps || {};
+      const allTimestamps = {
+        ...consumptionTimestamps,
+        ...productionTimestamps,
+      };
+
+      Object.keys(allTimestamps).forEach((name) => {
+        const consumptionValue = consumptionTimestamps[name] || 0.0;
+        const productionValue = productionTimestamps[name] || 0.0;
+        const series = [
+          { name: 'consumption', value: consumptionValue },
+          { name: 'production', value: productionValue },
+        ];
+        myList.push({ name, series });
+      });
+
       this.data = mapFunction(myList);
+      this.spiner.hide();
     });
   }
 }

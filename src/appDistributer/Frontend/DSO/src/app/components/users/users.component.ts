@@ -2,6 +2,7 @@ import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { Observable } from 'rxjs';
 import { UsersServiceService } from 'src/app/services/users-service.service';
 import { Router } from '@angular/router';
+
 @Component({
   selector: 'app-users',
   templateUrl: './users.component.html',
@@ -12,7 +13,7 @@ export class UsersComponent implements OnInit {
   searchAddress: string = '';
   prosumer!: any;
   total!: number;
-  loader:boolean=true;
+  loader: boolean = true;
   perPage: number = 10;
   prosumers!: any;
   pagenum!: number;
@@ -21,9 +22,6 @@ export class UsersComponent implements OnInit {
   constructor(public service: UsersServiceService, private router: Router) {}
   ngOnInit(): void {
     this.service.ProsumersInfo();
-    setTimeout(()=>{
-      this.loader=false;
-    },2000);
   }
   Details(id: string) {
     this.service.detailsEmployee(id).subscribe((res) => {

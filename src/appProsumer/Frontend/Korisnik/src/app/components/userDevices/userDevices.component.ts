@@ -5,6 +5,7 @@ import { AuthServiceService } from 'src/app/services/auth-service.service';
 import { NgToastService } from 'ng-angular-popup';
 import { DeviceWidthService } from 'src/app/services/device-width.service';
 import { fromEvent, Observable, Subscription } from 'rxjs';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-userDevices',
@@ -15,19 +16,20 @@ export class UserDevicesComponent implements OnInit, OnDestroy {
   deviceWidth!: number;
   resizeObservable$!: Observable<Event>;
   resizeSubscription$!: Subscription;
-  loader:boolean=true;
-  constructor(private widthService: DeviceWidthService) {}
+  loader: boolean = true;
+  constructor(
+    private widthService: DeviceWidthService,
+    private spiner: NgxSpinnerService
+  ) {}
 
   ngOnInit() {
+    this.spiner.show();
     this.deviceWidth = this.widthService.deviceWidth;
     this.resizeObservable$ = fromEvent(window, 'resize');
     this.resizeSubscription$ = this.resizeObservable$.subscribe((evt) => {
       this.widthService.deviceWidth = window.innerWidth;
       this.deviceWidth = this.widthService.deviceWidth;
     });
-    setTimeout(()=>{
-      this.loader=false;
-    },2000);
   }
 
   ngOnDestroy(): void {

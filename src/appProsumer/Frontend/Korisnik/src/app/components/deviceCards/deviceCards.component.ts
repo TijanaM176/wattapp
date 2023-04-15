@@ -3,6 +3,7 @@ import { ProsumerService } from 'src/app/services/prosumer.service';
 import { ThemePalette } from '@angular/material/core';
 import { ActivatedRoute } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-deviceCards',
@@ -22,10 +23,11 @@ export class DeviceCardsComponent implements OnInit {
   devicesToShow: any[] = [];
   devices: any[] = [];
   role: string = '';
-  loader:boolean=true;
+  loader: boolean = true;
   constructor(
     private service: ProsumerService,
-    private cookie: CookieService
+    private cookie: CookieService,
+    private spiner: NgxSpinnerService
   ) {}
 
   ngOnInit() {
@@ -40,14 +42,11 @@ export class DeviceCardsComponent implements OnInit {
           ...response.storage,
         ];
         this.devicesToShow = this.devices;
-        console.log(this.devices);
         this.devices.forEach((device) => {
           this.Usage(device.Id);
         });
+        this.spiner.hide();
       });
-      setTimeout(()=>{
-        this.loader=false;
-      },6000);
   }
 
   Usage(id: string) {

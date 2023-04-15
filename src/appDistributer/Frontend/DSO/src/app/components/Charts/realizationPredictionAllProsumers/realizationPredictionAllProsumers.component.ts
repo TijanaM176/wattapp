@@ -7,6 +7,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { line } from 'd3-shape';
 import { scaleBand, scaleLinear } from 'd3-scale';
 import { curveLinear } from 'd3-shape';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-realizationPredictionAllProsumers',
@@ -32,25 +33,10 @@ export class RealizationPredictionAllProsumersComponent implements OnInit {
   gradient = false;
   showLegend = true;
 
-  // xScale: any = d3
-  //   .scaleBand()
-  //   .range([0])
-  //   .paddingInner(0.1)
-  //   .domain(this.data.map((d: any) => d.name));
-
-  // yScale: any = d3
-  //   .scaleLinear()
-  //   .range([0])
-  //   .domain([0, d3.max(this.data, (d) => d.value)]);
-
-  // curve = line()
-  //   .x((d: any) => this.xScale(d.name) + this.xScale.bandwidth() / 2)
-  //   .y((d: any) => this.yScale(d.value))
-  //   .curve(d3.curveLinear);
-
   constructor(
     private service: UsersServiceService,
-    private router: ActivatedRoute
+    private router: ActivatedRoute,
+    private spinner: NgxSpinnerService
   ) {}
 
   yAxisTickFormatting(value: number) {
@@ -58,6 +44,7 @@ export class RealizationPredictionAllProsumersComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.spinner.show();
     this.HistoryWeek();
   }
 
@@ -136,34 +123,42 @@ export class RealizationPredictionAllProsumersComponent implements OnInit {
 
   loadData(apiCall: any, mapFunction: any) {
     apiCall().subscribe((response: any) => {
-      const myList = Object.keys(response.consumption.timestamps).map(
-        (name) => {
-          let consumptionValue = response.consumption.timestamps[name];
-          let productionValue = response.production.timestamps[name];
-          let consPredValue = response.consumption.predictions[name];
-          let prodPredValue = response.production.predictions[name];
-          const series = [
-            {
-              name: 'Consumption',
-              value: consumptionValue !== undefined ? consumptionValue : 0,
-            },
-            {
-              name: 'Production',
-              value: productionValue !== undefined ? productionValue : 0,
-            },
-            {
-              name: 'Prediction for Consumption',
-              value: consPredValue !== undefined ? consPredValue : 0,
-            },
-            {
-              name: 'Prediction for Production',
-              value: prodPredValue !== undefined ? prodPredValue : 0,
-            },
-          ];
-          return { name, series };
-        }
-      );
+      const myList: any = [];
+
+      const consumptionTimestamps = response.consumption.timestamps || {};
+      const consumptionPredictions = response.consumption.predictions || {};
+      const productionTimestamps = response.production.timestamps || {};
+      const productionPredictions = response.production.predictions || {};
+
+      const allTimestamps = {
+        ...consumptionTimestamps,
+        ...productionTimestamps,
+      };
+
+      Object.keys(allTimestamps).forEach((name) => {
+        const consumptionValue = consumptionTimestamps[name] || 0.0;
+        const consumptionPredictionValue = consumptionPredictions[name] || 0.0;
+        const productionValue = productionTimestamps[name] || 0.0;
+        const productionPredictionValue = productionPredictions[name] || 0.0;
+
+        const series = [
+          { name: 'Consumption', value: consumptionValue },
+          { name: 'Production', value: productionValue },
+          {
+            name: 'Prediction for Consumption',
+            value: consumptionPredictionValue,
+          },
+          {
+            name: 'Prediction for Production',
+            value: productionPredictionValue,
+          },
+        ];
+
+        myList.push({ name, series });
+      });
+
       this.data = mapFunction(myList);
+      this.spinner.hide();
     });
   }
 }

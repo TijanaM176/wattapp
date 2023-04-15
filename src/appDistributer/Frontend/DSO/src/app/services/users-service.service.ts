@@ -5,6 +5,7 @@ import { Prosumer } from '../models/userstable';
 import { lastValueFrom } from 'rxjs';
 import { Neighborhood } from '../models/neighborhood';
 import { City } from '../models/city';
+import { NgxSpinnerService } from 'ngx-spinner';
 @Injectable({
   providedIn: 'root',
 })
@@ -13,7 +14,7 @@ export class UsersServiceService {
   production!: string;
   prosumers!: Prosumer[];
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private spiner: NgxSpinnerService) {}
 
   private baseUrl: string = 'https://localhost:7156/api/Prosumer/';
   private updateUserUrl: string =
@@ -161,9 +162,16 @@ export class UsersServiceService {
 
   ProsumersInfo() {
     lastValueFrom(this.http.get(this.deviceBaseUrl + 'AllProsumerInfo')).then(
-      (res) => (this.prosumers = res as Prosumer[])
+      (res) => {
+        this.prosumers = res as Prosumer[];
+        this.spiner.hide();
+      },
+      (err) => {
+        // Handle any errors here
+      }
     );
   }
+
   ProsumersInfo1(): Observable<any[]> {
     return this.http.get<any[]>(this.deviceBaseUrl + 'AllProsumerInfo');
   }

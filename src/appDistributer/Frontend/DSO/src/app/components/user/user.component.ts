@@ -4,6 +4,7 @@ import { UsersServiceService } from 'src/app/services/users-service.service';
 import { FormGroup, FormControl } from '@angular/forms';
 import { SidebarDsoComponent } from '../sidebar-dso/sidebar-dso.component';
 import { editUserDto } from 'src/app/models/editUserDto';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-user',
@@ -14,7 +15,8 @@ export class UserComponent implements OnInit {
   @ViewChild('sidebarInfo', { static: true }) sidebarInfo!: SidebarDsoComponent;
   constructor(
     private user: UsersServiceService,
-    private router: ActivatedRoute
+    private router: ActivatedRoute,
+    private spiner: NgxSpinnerService
   ) {}
   id: string = '';
   editUser = new FormGroup({
@@ -31,6 +33,7 @@ export class UserComponent implements OnInit {
   message: boolean = false;
   userOldInfo: any;
   ngOnInit(): void {
+    this.spiner.show();
     this.id = this.router.snapshot.params['id'];
     //console.log(this.router.snapshot.params['id'] );
     this.user
@@ -59,10 +62,8 @@ export class UserComponent implements OnInit {
     if (this.userOldInfo.email != this.editUser.value.Email) {
       dto.email = this.editUser.value.Email!;
     }
-    this.user
-      .updateUserData(dto.id,dto)
-      .subscribe((res) => {
-        console.log(res);
-      });
+    this.user.updateUserData(dto.id, dto).subscribe((res) => {
+      console.log(res);
+    });
   }
 }
