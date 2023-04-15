@@ -1,41 +1,16 @@
-<CDBSidebar
-  textColor="#5875A1"
-  backgroundColor="#DFEFF6"
-  style="margin: 0; height: 90vh; width: 100%"
->
-  <div class="informacije">
-    <CDBSidebarContent class="content" style="height: 100%">
-      <div class="image-container">
-        <img
-          src="assets/images/consumption.png"
-          style="width: 100px; height: 100px"
-        /><br />
-        <h6>Num. Of Devices</h6>
-      </div>
-
-      <div class="image-container">
-        <img
-          src="assets/images/consumption.png"
-          style="width: 100px; height: 100px"
-        /><br />
-        <p>{{ myData.consumption }} kW</p>
-        <p>Current consumption</p>
-      </div>
-
-      <div class="image-container">
-        <img
-          src="assets/images/production.png"
-          style="width: 100px; height: 100px"
-        /><br />
-        <p>{{ myData.production }} kW</p>
-        <p>Current production</p>
-      </div>
-
-      <div class="divdugmici2">
-        <div class="divdugmici">
-          <br />
-        </div>
-      </div>
-    </CDBSidebarContent>
+<div class="container-fluid row h-100 py-3 mx-0 my-0" style="background-color: #DFEFF6; color: #5875A1;">
+  <div class="image-container row w-100 text-center">
+    <img src="assets/images/consumption.png" style="width: 50%; height: 50%"/>
+    <h6>Num. Of Devices</h6>
   </div>
-</CDBSidebar>
+  <div class="image-container row w-100 text-center">
+    <img src="assets/images/consumption.png" style="width: 50%; height: 45%"/>
+    <h5>{{ consumption }} kW</h5>
+    <h6>Current Consumption</h6>
+  </div>
+  <div class="image-container row w-100 text-center">
+    <img src="assets/images/production.png" style="width: 50%; height: 45%"/>
+    <h5>{{ production }} kW</h5>
+    <h6>Current Production</h6>
+  </div>
+</div>

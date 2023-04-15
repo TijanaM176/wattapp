@@ -17,13 +17,15 @@ export class SidebarPotrosnjaComponent {
     private router: ActivatedRoute
   ) {}
 
-  myData: any;
+  consumption : number = 0;
+  production : number = 0;
 
   ngOnInit(): void {
     this.user
       .getUserProductionAndConsumption(this.router.snapshot.params['id'])
       .subscribe((data) => {
-        this.myData = data;
+        this.consumption = data.consumption;
+        this.production = data.production;
         console.log(data);
       });
 

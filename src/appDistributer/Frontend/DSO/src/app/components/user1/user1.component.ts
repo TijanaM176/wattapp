@@ -6,6 +6,7 @@ import { SidebarDsoComponent } from '../sidebar-dso/sidebar-dso.component';
 import { data } from 'jquery';
 import { EmployeesServiceService } from 'src/app/services/employees-service.service';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { CookieService } from 'ngx-cookie-service';
 
 @Component({
   selector: 'app-user1',
@@ -20,12 +21,18 @@ export class User1Component {
     private user: UsersServiceService,
     private router: ActivatedRoute,
     private employyeService: EmployeesServiceService,
-    private spiner: NgxSpinnerService
+    private spiner: NgxSpinnerService,
+    private cookie : CookieService
   ) {}
 
   id: string = '';
-  myData: any;
-  Region: any;
+  firstName : string = '';
+  lastName : string = '';
+  username : string = '';
+  email : string = '';
+  address : string = '';
+  Region: string = '';
+  city : string = '';
 
   ngOnInit(): void {
     this.spiner.show();
@@ -33,11 +40,15 @@ export class User1Component {
       .detailsEmployee(this.router.snapshot.params['id'])
       .subscribe((data) => {
         console.log(data);
-        this.myData = data;
+        this.firstName = data.firstName;
+        this.lastName = data.lastName;
+        this.username = data.username;
+        this.email = data. email;
+        this.address = data.address;
         this.id = this.router.snapshot.params['id'];
-
-        this.user1.getRegionName(this.myData.regionId).subscribe((dat) => {
-          this.Region = dat;
+        this.Region = this.cookie.get('region');
+        this.user.getCityNameById(data.cityId).subscribe((dat) => {
+          this.city = dat;
         });
       });
   }
