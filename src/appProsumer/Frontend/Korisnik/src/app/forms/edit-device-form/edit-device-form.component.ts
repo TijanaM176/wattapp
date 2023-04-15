@@ -48,12 +48,12 @@ export class EditDeviceFormComponent {
     this.DsoView=this.deviceData.DsoView;
     this.service.type=this.deviceData.TypeId;
     this.ModelId=this.deviceData.ModelId;
-    //this.model.id=this.deviceData.ModelId;
+
    
   }
   editInfo()
   {
-    //console.log(dto);
+
     if(this.IpAddress!="" && this.Name!="")
     {
       this.allToFalse();
@@ -64,7 +64,6 @@ export class EditDeviceFormComponent {
       device.IpAddress = this.IpAddress;
       device.DsoView=this.DsoView;
       device.DsoControl=this.DsoControl;
-      console.log(device);
       this.service.editInfo(this.idDev,device)
       .subscribe({
         next:(res)=>{
@@ -93,8 +92,6 @@ export class EditDeviceFormComponent {
   }
   ChangeModel(e:any){
     this.p=e.target.value;
-    console.log(this.p);
-    //this.Name=this.model;
     
   
   }
@@ -102,7 +99,6 @@ export class EditDeviceFormComponent {
     this.service.getModel().subscribe({
       next:(response)=>{
         this.models = response;
-        console.log(this.models);
         
       },
       error:(err)=>

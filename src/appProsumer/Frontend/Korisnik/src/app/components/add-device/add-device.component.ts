@@ -41,25 +41,29 @@ export class AddDeviceComponent implements OnInit {
     public toast: NgToastService
   ) {}
   ngOnInit(): void {
-    //this.dropDownCategory = false;
-    //this.getCategories();
+
     this.show = true;
     this.allToFalse();
   }
 
   close() {
     if (this.show) {
-      //location.reload();
       this.show = false;
-      if (this.router.url === '/ProsumerApp/userDevices') {
-        location.reload();
-      } else {
-        this.router.navigate(['/ProsumerApp/userDevices']);
-      }
+      
     }
+    this.service.category=-1;
+    this.c.getCategories();
+    this.service.type=-1;
+    this.c.getTypes();
+    this.service.model='';
+    this.c.getModels();
+    this.c.category=-1;
+    this.c.Name="Device Name";
+    this.c.DsoView=false;
+    this.c.DsoControl=false;
   }
   registerDevice() {
-    if (this.show) {
+    
       this.service.id = this.cookie.get('id');
       let device: AddDevice = new AddDevice();
       device.modelId = this.service.model;
@@ -80,7 +84,13 @@ export class AddDeviceComponent implements OnInit {
           this.failure = true;
         },
       });
-    }
+      if (this.router.url === '/ProsumerApp/userDevices') {
+        location.reload();
+      } else {
+        this.router.navigate(['/ProsumerApp/userDevices']);
+      }
+    
+    
   }
   private allToFalse() {
     this.success = false;

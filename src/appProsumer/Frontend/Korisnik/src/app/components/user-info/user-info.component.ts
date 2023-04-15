@@ -38,34 +38,32 @@ export class UserInfoComponent implements OnInit {
     this.getInformation();
   }
 
-  private getInformation() {
-    this.prosumerService.getInforamtion(this.cookie.get('id')).subscribe({
-      next: (res) => {
-        //console.log(res);
-        this.username = res.username;
-        this.firstLastName = res.firstName + ' ' + res.lastName;
-        this.email = res.email;
-        this.address = res.address;
-        console.log(res.cityId);
-        console.log(res.neigborhoodId);
-        //this.city=res.cityId;
-        //this.neighborhood=res.neigborhoodId;
-        this.prosumerService.cityId = res.cityId;
-        this.prosumerService.neighId = res.neigborhoodId;
-        this.City();
-        this.Neighborhood();
-        this.userData = res;
-      },
-      error: (err) => {
-        this.toast.error({
-          detail: 'Error!',
-          summary: 'Unable to load user data.',
-          duration: 3000,
-        });
-        console.log(err.error);
-      },
-    });
+  private getInformation()
+  {
+    this.prosumerService.getInforamtion(this.cookie.get('id'))
+    .subscribe(
+      {
+        next:(res)=>{
+
+          this.username = res.username;
+          this.firstLastName = res.firstName+' '+res.lastName;
+          this.email = res.email;
+          this.address = res.address;
+          this.prosumerService.cityId=res.cityId;
+          this.prosumerService.neighId=res.neigborhoodId;
+          this.City();
+          this.Neighborhood();
+          this.userData = res;
+        },
+        error:(err)=>{
+          this.toast.error({detail:"Error!",summary:"Unable to load user data.", duration:3000});
+          console.log(err.error);
+        }
+      }
+    )
+
   }
+
   City() {
     this.prosumerService.getCityById().subscribe({
       next: (res) => {
@@ -122,10 +120,11 @@ export class UserInfoComponent implements OnInit {
     }
     this.modalTitle = '';
   }
-  confirm() {
-    if (this.showEdit) {
-      this.editData.editInfo();
-      //this.showEdit = false;
+  confirm()
+  {
+    if(this.showEdit)
+    {
+      this.editData.editInfo()
     }
     if (this.showChangePass) {
       this.changePassword.changePass();

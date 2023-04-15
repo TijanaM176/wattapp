@@ -19,17 +19,19 @@ export class AddDeviceFormComponent {
   dropDownCategory: boolean = false;
   dropDownType:boolean=false;
   dropDownModel:boolean=false;
-  category:number=0;
-  type:number=0;
+  category:number=-1;
+  type:number=-1;
   types:DeviceType[]=[];
-  model:any=0;
+  model:any=-1;
   models:Models[]=[];
   Name:string='';
   manufacturer:string='';
   DsoView:boolean=false;
   DsoControl:boolean=false;
   id:string='';
-  p:any;
+  cat:any;
+  typ:any;
+  mod:any;
   constructor(private service:AdddeviceserviceService,private cookie:CookieService,public toast:NgToastService) { }
   ngOnInit(): void {
     this.dropDownCategory = false;
@@ -39,19 +41,13 @@ export class AddDeviceFormComponent {
     this.service.dsoControl=false;
     this.getCategories();
     
-  }
-  reset(){
     
-    this.category=0;
-    this.type=0;
-    this.model=0;
-    this.Name="Device Name";
   }
   ChangeCategory(e:any){
-    this.p=e.target.value;
-    console.log(this.p);
+
     this.service.category=this.category;
-    //console.log(this.category);
+
+    this.type=-1;
     this.getTypes();
     this.getModels();
     this.Name="Device Name";
@@ -61,8 +57,7 @@ export class AddDeviceFormComponent {
     this.service.getCategories().subscribe({
       next:(response)=>{
         this.categories = response;
-        //console.log(this.categories);
-        this.dropDownCategory = true;
+
       },
       error:(err)=>
       {
@@ -71,8 +66,10 @@ export class AddDeviceFormComponent {
     })
   }
   ChangeType(e:any){
+
     this.service.type=this.type;
-    //console.log(this.type);
+    this.model=-1;
+
     this.getModels();
     this.Name="Device Name";
   }
@@ -80,7 +77,7 @@ export class AddDeviceFormComponent {
     this.service.getTypes().subscribe({
       next:(response)=>{
         this.types = response;
-        //console.log(this.types);
+
         this.dropDownType = true;
       },
       error:(err)=>
@@ -90,7 +87,7 @@ export class AddDeviceFormComponent {
     })
   }
   ChangeModels(e:any){
-    //console.log(this.model);
+
     this.service.model=this.model.id;
     this.Name=this.model.name;
     this.service.name=this.Name;
@@ -100,7 +97,6 @@ export class AddDeviceFormComponent {
     this.service.getModels().subscribe({
       next:(response)=>{
         this.models = response;
-        //console.log(this.models);
         this.dropDownModel = true;
       },
       error:(err)=>
