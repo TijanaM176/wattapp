@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
 import { NgToastService } from 'ng-angular-popup';
 import { CookieService } from 'ngx-cookie-service';
 import { AuthServiceService } from 'src/app/services/auth-service.service';
+import { Router, NavigationEnd } from '@angular/router';
 
 @Component({
   selector: 'app-navBar',
@@ -20,9 +20,43 @@ export class NavBarComponent implements OnInit {
     private toast: NgToastService
   ) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.value = this.cookie.get('role');
     this.url = window.location.pathname;
+    this.ChangeActive();
+
+    this.router.events.subscribe((event) => {
+      if (event instanceof NavigationEnd) {
+        this.url = event.url;
+        this.ChangeActive();
+      }
+    });
+  }
+
+  ChangeActive() {
+    if (this.url === '/DsoApp/users') {
+      document.getElementById('navbarDropdownUsers')?.classList.add('active');
+      document.getElementById('home')?.classList.remove('active');
+      document
+        .getElementById('navbarDropdownEmployees')
+        ?.classList.remove('active');
+    } else if (this.url === '/DsoApp/home') {
+      document
+        .getElementById('navbarDropdownUsers')
+        ?.classList.remove('active');
+      document.getElementById('home')?.classList.add('active');
+      document
+        .getElementById('navbarDropdownEmployees')
+        ?.classList.remove('active');
+    } else if (this.url === '/DsoApp/employees') {
+      document
+        .getElementById('navbarDropdownUsers')
+        ?.classList.remove('active');
+      document.getElementById('home')?.classList.remove('active');
+      document
+        .getElementById('navbarDropdownEmployees')
+        ?.classList.add('active');
+    }
   }
 
   LogOut() {
