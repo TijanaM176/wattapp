@@ -123,33 +123,40 @@ export class RealizationPredictionAllProsumersComponent implements OnInit {
 
   loadData(apiCall: any, mapFunction: any) {
     apiCall().subscribe((response: any) => {
-      const myList = Object.keys(response.consumption.timestamps).map(
-        (name) => {
-          let consumptionValue = response.consumption.timestamps[name];
-          let productionValue = response.production.timestamps[name];
-          let consPredValue = response.consumption.predictions[name];
-          let prodPredValue = response.production.predictions[name];
-          const series = [
-            {
-              name: 'Consumption',
-              value: consumptionValue !== undefined ? consumptionValue : 0,
-            },
-            {
-              name: 'Production',
-              value: productionValue !== undefined ? productionValue : 0,
-            },
-            {
-              name: 'Prediction for Consumption',
-              value: consPredValue !== undefined ? consPredValue : 0,
-            },
-            {
-              name: 'Prediction for Production',
-              value: prodPredValue !== undefined ? prodPredValue : 0,
-            },
-          ];
-          return { name, series };
-        }
-      );
+      const myList: any = [];
+
+      const consumptionTimestamps = response.consumption.timestamps || {};
+      const consumptionPredictions = response.consumption.predictions || {};
+      const productionTimestamps = response.production.timestamps || {};
+      const productionPredictions = response.production.predictions || {};
+
+      const allTimestamps = {
+        ...consumptionTimestamps,
+        ...productionTimestamps,
+      };
+
+      Object.keys(allTimestamps).forEach((name) => {
+        const consumptionValue = consumptionTimestamps[name] || 0.0;
+        const consumptionPredictionValue = consumptionPredictions[name] || 0.0;
+        const productionValue = productionTimestamps[name] || 0.0;
+        const productionPredictionValue = productionPredictions[name] || 0.0;
+
+        const series = [
+          { name: 'Consumption', value: consumptionValue },
+          { name: 'Production', value: productionValue },
+          {
+            name: 'Prediction for Consumption',
+            value: consumptionPredictionValue,
+          },
+          {
+            name: 'Prediction for Production',
+            value: productionPredictionValue,
+          },
+        ];
+
+        myList.push({ name, series });
+      });
+
       this.data = mapFunction(myList);
       this.spinner.hide();
     });
