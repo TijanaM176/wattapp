@@ -89,8 +89,20 @@ namespace API.Services.Devices
             var ts = all["timestamps"];
             foreach (KeyValuePair<DateTime, double> pair in ts)
             {
-                var intervalStart = new DateTime(pair.Key.Year, pair.Key.Month, pair.Key.Day, (pair.Key.Hour / step) * step, 0, 0);
-                 if (grouped["timestamps"].ContainsKey(intervalStart))
+                DateTime intervalStart = new DateTime();
+                if (step <= 24) intervalStart = new DateTime(pair.Key.Year, pair.Key.Month, pair.Key.Day, (pair.Key.Hour / step) * step, 0, 0);
+                else if (step <= 24 * 7)  //na po nedelju
+                {
+                    intervalStart = pair.Key.AddDays(-(int)pair.Key.DayOfWeek).Date;
+                    intervalStart = new DateTime(intervalStart.Year, intervalStart.Month, intervalStart.Day, 0, 0, 0);
+                }
+                else //na mesec
+                {
+                    intervalStart = new DateTime(pair.Key.Year, pair.Key.Month, 1);
+                    intervalStart = new DateTime(intervalStart.Year, intervalStart.Month, intervalStart.Day, 0, 0, 0);
+                }
+
+                if (grouped["timestamps"].ContainsKey(intervalStart))
                     grouped["timestamps"][intervalStart] += pair.Value;
                 else
                     grouped["timestamps"].Add(intervalStart, pair.Value);
@@ -99,79 +111,25 @@ namespace API.Services.Devices
             var pr = all["predictions"];
             foreach (KeyValuePair<DateTime, double> pair in pr)
             {
-                var intervalStart = new DateTime(pair.Key.Year, pair.Key.Month, pair.Key.Day, (pair.Key.Hour / step) * step, 0, 0);
+                DateTime intervalStart = new DateTime();
+                if (step <= 24) intervalStart = new DateTime(pair.Key.Year, pair.Key.Month, pair.Key.Day, (pair.Key.Hour / step) * step, 0, 0);
+                else if (step <= 24 * 7)  //na po nedelju
+                {
+                    intervalStart = pair.Key.AddDays(-(int)pair.Key.DayOfWeek).Date;
+                    intervalStart = new DateTime(intervalStart.Year, intervalStart.Month, intervalStart.Day, 0, 0, 0);
+                }
+                else //na mesec
+                {
+                    intervalStart = new DateTime(pair.Key.Year, pair.Key.Month, 1);
+                    intervalStart = new DateTime(intervalStart.Year, intervalStart.Month, intervalStart.Day, 0, 0, 0);
+                }
+
                 if (grouped["predictions"].ContainsKey(intervalStart))
                     grouped["predictions"][intervalStart] += pair.Value;
                 else
                     grouped["predictions"].Add(intervalStart, pair.Value);
             }
             
-            return grouped;
-        }
-
-        public async Task<Dictionary<string, Dictionary<DateTime, double>>> LastMonthsGroupedConProdByWeekForProsumer(string id, int type)  //type 0 ako je consumption, 1 production
-        {
-            Dictionary<string, Dictionary<DateTime, double>> all = await ConsumptionProductionForAPeriodForProsumer(id, -30, type);
-
-            Dictionary<string, Dictionary<DateTime, double>> grouped = new Dictionary<string, Dictionary<DateTime, double>>();
-            grouped["timestamps"] = new Dictionary<DateTime, double>();
-            grouped["predictions"] = new Dictionary<DateTime, double>();
-
-            var ts = all["timestamps"];
-            foreach (KeyValuePair<DateTime, double> pair in ts)
-            {
-                var intervalStart = pair.Key.AddDays(-(int)pair.Key.DayOfWeek).Date;
-                intervalStart = new DateTime(intervalStart.Year, intervalStart.Month, intervalStart.Day, 0, 0, 0);
-                if (grouped["timestamps"].ContainsKey(intervalStart))
-                    grouped["timestamps"][intervalStart] += pair.Value;
-                else
-                    grouped["timestamps"].Add(intervalStart, pair.Value);
-            }
-
-            var pr = all["predictions"];
-            foreach (KeyValuePair<DateTime, double> pair in pr)
-            {
-                var intervalStart = pair.Key.AddDays(-(int)pair.Key.DayOfWeek).Date;
-                intervalStart = new DateTime(intervalStart.Year, intervalStart.Month, intervalStart.Day, 0, 0, 0);
-                if (grouped["predictions"].ContainsKey(intervalStart))
-                    grouped["predictions"][intervalStart] += pair.Value;
-                else
-                    grouped["predictions"].Add(intervalStart, pair.Value);
-            }
-
-            return grouped;
-        }
-
-        public async Task<Dictionary<string, Dictionary<DateTime, double>>> LastYearsGroupedConProdByMonthForProsumer(string id, int type)  //type 0 ako je consumption, 1 production
-        {
-            Dictionary<string, Dictionary<DateTime, double>> all = await ConsumptionProductionForAPeriodForProsumer(id, -365, type);
-
-            Dictionary<string, Dictionary<DateTime, double>> grouped = new Dictionary<string, Dictionary<DateTime, double>>();
-            grouped["timestamps"] = new Dictionary<DateTime, double>();
-            grouped["predictions"] = new Dictionary<DateTime, double>();
-
-            var ts = all["timestamps"];
-            foreach (KeyValuePair<DateTime, double> pair in ts)
-            {
-                var intervalStart = new DateTime(pair.Key.Year, pair.Key.Month, 1);
-                intervalStart = new DateTime(intervalStart.Year, intervalStart.Month, intervalStart.Day, 0, 0, 0);
-                if (grouped["timestamps"].ContainsKey(intervalStart))
-                    grouped["timestamps"][intervalStart] += pair.Value;
-                else
-                    grouped["timestamps"].Add(intervalStart, pair.Value);
-            }
-
-            var pr = all["predictions"];
-            foreach (KeyValuePair<DateTime, double> pair in pr)
-            {
-                var intervalStart = new DateTime(pair.Key.Year, pair.Key.Month, 1);
-                intervalStart = new DateTime(intervalStart.Year, intervalStart.Month, intervalStart.Day, 0, 0, 0);
-                if (grouped["predictions"].ContainsKey(intervalStart))
-                    grouped["predictions"][intervalStart] += pair.Value;
-                else
-                    grouped["predictions"].Add(intervalStart, pair.Value);
-            }
-
             return grouped;
         }
 
@@ -190,13 +148,6 @@ namespace API.Services.Devices
             if (deviceinfo == null)
                 throw new ArgumentException("No devices with that id!");
             return deviceinfo;
-        }
-        public async Task<Dictionary<string, Dictionary<DateTime, double>>> ProductionConsumptionForLastWeekForDevice(string idDevice)
-        {
-
-            var prodCon = await _repository.ProductionConsumptionForLastWeekForDevice(idDevice);
-            if (prodCon == null) throw new ArgumentException("No data for this device!");
-            return prodCon;
         }
         public async Task<EnumCategory.DeviceCatergory> getDeviceCategoryEnum(string idDevice)
         {
@@ -224,12 +175,11 @@ namespace API.Services.Devices
                 foreach (var cat in usagePerProsumer)
                 {
                     foreach (var timestamp in cat.Value)
-                    {
-                        var intervalStart = new DateTime(timestamp.Key.Year, timestamp.Key.Month, timestamp.Key.Day, (timestamp.Key.Hour / step) * step, 0, 0);
-                        if (data[cat.Key].ContainsKey(intervalStart))
-                            data[cat.Key][intervalStart] += timestamp.Value;
+                    { 
+                        if (data[cat.Key].ContainsKey(timestamp.Key))
+                            data[cat.Key][timestamp.Key] += timestamp.Value;
                         else
-                            data[cat.Key].Add(intervalStart, timestamp.Value);
+                            data[cat.Key].Add(timestamp.Key, timestamp.Value);
                     }
                 }
 
@@ -239,6 +189,7 @@ namespace API.Services.Devices
             return data;
         }
 
+        /*
         public async Task<Dictionary<string, Dictionary<DateTime, double>>> ConProdByWeekTimestamps(int type)     //type 0 cons 1 prod
         {
             var prosumers = (await _repository.getAllProsumersWhoOwnDevice()).Select(x => x.ProsumerId).Distinct();
@@ -293,7 +244,7 @@ namespace API.Services.Devices
 
             return data;
         }
-
+        */
         public async Task<double> TotalCurrentConsumption()
         {
             var prosumers = (await _repository.getAllProsumersWhoOwnDevice()).Select(x => x.ProsumerId).Distinct();
@@ -579,6 +530,63 @@ namespace API.Services.Devices
         {
 
             return await _repository.NextWeekTotalPredictedConsumption();
+        }
+
+        public async Task<Dictionary<string, Dictionary<DateTime, double>>> GroupedTimestampsForDevice(string deviceId, int period, int step)
+        {
+            Dictionary<string, Dictionary<DateTime, double>> all = await _repository.ProductionConsumptionTimestampsForDevice(deviceId, period);
+
+            Dictionary<string, Dictionary<DateTime, double>> grouped = new Dictionary<string, Dictionary<DateTime, double>>();
+            grouped["timestamps"] = new Dictionary<DateTime, double>();
+            grouped["predictions"] = new Dictionary<DateTime, double>();
+
+            var ts = all["timestamps"];
+            foreach (KeyValuePair<DateTime, double> pair in ts)
+            {
+                DateTime intervalStart = new DateTime();
+                if (step <= 24) intervalStart = new DateTime(pair.Key.Year, pair.Key.Month, pair.Key.Day, (pair.Key.Hour / step) * step, 0, 0);
+                else if (step <= 24*7)  //na po nedelju
+                {
+                    intervalStart = pair.Key.AddDays(-(int)pair.Key.DayOfWeek).Date;
+                    intervalStart = new DateTime(intervalStart.Year, intervalStart.Month, intervalStart.Day, 0, 0, 0);
+                }
+                else //na mesec
+                {
+                    intervalStart = new DateTime(pair.Key.Year, pair.Key.Month, 1);
+                    intervalStart = new DateTime(intervalStart.Year, intervalStart.Month, intervalStart.Day, 0, 0, 0);
+                }
+
+                if (grouped["timestamps"].ContainsKey(intervalStart))
+                    grouped["timestamps"][intervalStart] += pair.Value;
+                else
+                    grouped["timestamps"].Add(intervalStart, pair.Value);
+            }
+
+            var pr = all["predictions"];
+            foreach (KeyValuePair<DateTime, double> pair in pr)
+            {
+                DateTime intervalStart = new DateTime();
+                if (step <= 24) intervalStart = new DateTime(pair.Key.Year, pair.Key.Month, pair.Key.Day, (pair.Key.Hour / step) * step, 0, 0);
+                else if (step <= 24 * 7)  //na po nedelju
+                {
+                    intervalStart = pair.Key.AddDays(-(int)pair.Key.DayOfWeek).Date;
+                    intervalStart = new DateTime(intervalStart.Year, intervalStart.Month, intervalStart.Day, 0, 0, 0);
+                }
+                else //na mesec
+                {
+                    intervalStart = new DateTime(pair.Key.Year, pair.Key.Month, 1);
+                    intervalStart = new DateTime(intervalStart.Year, intervalStart.Month, intervalStart.Day, 0, 0, 0);
+                }
+
+                if (step <= 24) intervalStart = new DateTime(pair.Key.Year, pair.Key.Month, pair.Key.Day, (pair.Key.Hour / step) * step, 0, 0);
+
+                if (grouped["predictions"].ContainsKey(intervalStart))
+                    grouped["predictions"][intervalStart] += pair.Value;
+                else
+                    grouped["predictions"].Add(intervalStart, pair.Value);
+            }
+
+            return grouped;
         }
     }
 }

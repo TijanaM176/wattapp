@@ -281,49 +281,30 @@ namespace API.Repositories.DeviceRepository
 
             return deviceCategory;
         }
-        public async Task<Dictionary<string, Dictionary<DateTime, double>>> ProductionConsumptionForLastWeekForDevice(string idDevice)
+        public async Task<Dictionary<string, Dictionary<DateTime, double>>> ProductionConsumptionTimestampsForDevice(string idDevice, int period)
         {
             var id = (await _regContext.ProsumerLinks.FirstOrDefaultAsync(x => x.Id == idDevice)).ModelId;
             DeviceInfo deviceInfo = await GetDeviceInfoById(id);
             //if (deviceInfo == null); // greska
-            Device device = await GetDeviceByCategoryForAPeriod(deviceInfo, -7);
+            Device device = await GetDeviceByCategoryForAPeriod(deviceInfo, period);
             Dictionary<string, Dictionary<DateTime, double>> datePowerByDevice = new Dictionary<string, Dictionary<DateTime, double>>();
             datePowerByDevice["timestamps"] = new Dictionary<DateTime, double>();
             datePowerByDevice["predictions"] = new Dictionary<DateTime, double>();
 
-            if (deviceInfo.CategoryId == 1) // producer device
+            if (deviceInfo.CategoryId == 1 || deviceInfo.CategoryId == 2) // consumer / producer device
             {
                 for (int i = 0; i < device.Timestamps.Count; i++)
                 {
                     var timestamp = device.Timestamps[i];
-                    var prediction = device.Predictions[i];
                     if (datePowerByDevice["timestamps"].ContainsKey(timestamp.Date))
-                    { 
+                    {
                         datePowerByDevice["timestamps"][timestamp.Date] += timestamp.Power;
-                        datePowerByDevice["predictions"][timestamp.Date] += prediction.PredictedPower;
+                        datePowerByDevice["predictions"][timestamp.Date] += timestamp.PredictedPower;
                     }
                     else
                     {
                         datePowerByDevice["timestamps"].Add(timestamp.Date, timestamp.Power);
-                        datePowerByDevice["predictions"].Add(timestamp.Date, prediction.PredictedPower);
-                    }
-                }
-            }
-            else if (deviceInfo.CategoryId == 2) // consumer device
-            {
-                for (int i = 0; i < device.Timestamps.Count; i++)
-                {
-                    var timestamp = device.Timestamps[i];
-                    var prediction = device.Predictions[i];
-                    if (datePowerByDevice["timestamps"].ContainsKey(timestamp.Date))
-                    {
-                        datePowerByDevice["timestamps"][timestamp.Date] += timestamp.Power;
-                        datePowerByDevice["predictions"][timestamp.Date] += prediction.PredictedPower;
-                    }
-                    else
-                    {
-                        datePowerByDevice["timestamps"].Add(timestamp.Date, timestamp.Power);
-                        datePowerByDevice["predictions"].Add(timestamp.Date, prediction.PredictedPower);
+                        datePowerByDevice["predictions"].Add(timestamp.Date, timestamp.PredictedPower);
                     }
                 }
             }
@@ -726,10 +707,10 @@ namespace API.Repositories.DeviceRepository
             {
                 foreach (var device in Prosumerdevices) 
                 {
-                    foreach (var ts in device.Predictions) 
+                    foreach (var ts in device.Timestamps) 
                     {
-                        if (ts.Power != 0)
-                            productionProsumersForNextWeekPrediction += ts.Power;
+                        if (ts.PredictedPower != 0)
+                            productionProsumersForNextWeekPrediction += ts.PredictedPower;
                     }
                 }
             }
@@ -760,8 +741,8 @@ namespace API.Repositories.DeviceRepository
                 {
                     foreach (var ts in device.Timestamps)
                     {
-                        if (ts.Power != 0)
-                            consumptionProsumersForNextWeekPrediction += ts.Power;
+                        if (ts.PredictedPower != 0)
+                            consumptionProsumersForNextWeekPrediction += ts.PredictedPower;
                     }
                 }
             }

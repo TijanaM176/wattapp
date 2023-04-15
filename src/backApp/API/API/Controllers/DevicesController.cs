@@ -60,8 +60,8 @@ namespace API.Controllers
             {
                 return Ok(new
                 {
-                    consumption = await devService.GroupedConProdForAPeriodForProsumer(id, 0, -7, 12),
-                    production = await devService.GroupedConProdForAPeriodForProsumer(id, 1, -7, 12)
+                    consumption = await devService.GroupedConProdForAPeriodForProsumer(id, 0, -7, 24),
+                    production = await devService.GroupedConProdForAPeriodForProsumer(id, 1, -7, 24)
                 });
             }
             catch (Exception ex)
@@ -77,8 +77,8 @@ namespace API.Controllers
             {
                 return Ok(new
                 {
-                    consumption = await devService.LastMonthsGroupedConProdByWeekForProsumer(id, 0),
-                    production = await devService.LastMonthsGroupedConProdByWeekForProsumer(id, 1)
+                    consumption = await devService.GroupedConProdForAPeriodForProsumer(id, 0, -30, 24 * 7),
+                    production = await devService.GroupedConProdForAPeriodForProsumer(id, 1, -30, 24*7)
                 });
             }
             catch (Exception ex)
@@ -94,8 +94,8 @@ namespace API.Controllers
             {
                 return Ok(new
                 {
-                    consumption = await devService.LastYearsGroupedConProdByMonthForProsumer(id, 0),
-                    production = await devService.LastYearsGroupedConProdByMonthForProsumer(id, 1)
+                    consumption = await devService.GroupedConProdForAPeriodForProsumer(id, 0, -365, 24 * 30),
+                    production = await devService.GroupedConProdForAPeriodForProsumer(id, 1, -365, 24 * 30)
                 });
             }
             catch (Exception ex)
@@ -223,7 +223,7 @@ namespace API.Controllers
             try
             {
 
-                var prodConsDevice = (await devService.ProductionConsumptionForLastWeekForDevice(idDevice));
+                var prodConsDevice = (await devService.GroupedTimestampsForDevice(idDevice, -7, 24));
                 EnumCategory.DeviceCatergory deviceCategory = await devService.getDeviceCategoryEnum(idDevice);
 
                 if (deviceCategory == EnumCategory.DeviceCatergory.Consumer)
@@ -290,8 +290,8 @@ namespace API.Controllers
             {
                 return Ok(new
                 {
-                    consumption = await devService.ConProdByWeekTimestamps(0),
-                    production = await devService.ConProdByWeekTimestamps(1),
+                    consumption = await devService.ConProdForAPeriodTimestamps(0, -30, 24*7),
+                    production = await devService.ConProdForAPeriodTimestamps(1, -30, 24 * 7),
                 });
             }
             catch (Exception ex)
@@ -307,8 +307,8 @@ namespace API.Controllers
             {
                 return Ok(new
                 {
-                    consumption = await devService.ConProdByMonthTimestamps(0),
-                    production = await devService.ConProdByMonthTimestamps(1),
+                    consumption = await devService.ConProdForAPeriodTimestamps(0, -365, 24 * 30),
+                    production = await devService.ConProdForAPeriodTimestamps(1, -365, 24 * 30),
                 });
             }
             catch (Exception ex)
@@ -668,6 +668,66 @@ namespace API.Controllers
                 return BadRequest(ex.Message);
             }
 
+        }
+
+        [HttpGet("ProductionConsumptionForLastMonthForDevice")]
+        public async Task<IActionResult> ProductionConsumptionForLastMonthForDevice(string idDevice)
+        {
+
+            try
+            {
+                var prodConsDevice = (await devService.GroupedTimestampsForDevice(idDevice, -30, 24*7));
+                EnumCategory.DeviceCatergory deviceCategory = await devService.getDeviceCategoryEnum(idDevice);
+
+                if (deviceCategory == EnumCategory.DeviceCatergory.Consumer)
+                {
+                    return Ok(new
+                    {
+                        consumption = prodConsDevice
+                    });
+                }
+                else
+                {
+                    return Ok(new
+                    {
+                        production = prodConsDevice
+                    });
+                }
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet("ProductionConsumptionForLastYearForDevice")]
+        public async Task<IActionResult> ProductionConsumptionForLastYearForDevice(string idDevice)
+        {
+
+            try
+            {
+                var prodConsDevice = (await devService.GroupedTimestampsForDevice(idDevice, -365, 24 * 30));
+                EnumCategory.DeviceCatergory deviceCategory = await devService.getDeviceCategoryEnum(idDevice);
+
+                if (deviceCategory == EnumCategory.DeviceCatergory.Consumer)
+                {
+                    return Ok(new
+                    {
+                        consumption = prodConsDevice
+                    });
+                }
+                else
+                {
+                    return Ok(new
+                    {
+                        production = prodConsDevice
+                    });
+                }
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
     }
 }
