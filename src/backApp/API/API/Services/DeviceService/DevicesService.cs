@@ -517,7 +517,7 @@ namespace API.Services.Devices
 
                 if (consumerCount > 0 && producerCount > 0) prosumers++;
                 else if (consumerCount > 0) consumers++;
-                else if (producers > 0) producers++;
+                else if (producerCount > 0) producers++;
             }
 
             return new Dictionary<string, int> {
