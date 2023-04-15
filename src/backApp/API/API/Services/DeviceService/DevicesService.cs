@@ -580,5 +580,44 @@ namespace API.Services.Devices
 
             return await _repository.NextWeekTotalPredictedConsumption();
         }
+
+        public async Task<Dictionary<string, Dictionary<DateTime, double>>> GroupedTimestampsForDevice(string deviceId, int period, int step)
+        {
+            Dictionary<string, Dictionary<DateTime, double>> all = null;
+            if (period == -7) all = await _repository.ProductionConsumptionForLastWeekForDevice(deviceId);
+            else if (period == -30) { } //za mesec
+            else { }    //za godinu
+
+
+            Dictionary<string, Dictionary<DateTime, double>> grouped = new Dictionary<string, Dictionary<DateTime, double>>();
+            grouped["timestamps"] = new Dictionary<DateTime, double>();
+            grouped["predictions"] = new Dictionary<DateTime, double>();
+
+            var ts = all["timestamps"];
+            foreach (KeyValuePair<DateTime, double> pair in ts)
+            {
+                DateTime intervalStart = new DateTime();
+                if (step <= 24) intervalStart = new DateTime(pair.Key.Year, pair.Key.Month, pair.Key.Day, (pair.Key.Hour / step) * step, 0, 0);
+
+                if (grouped["timestamps"].ContainsKey(intervalStart))
+                    grouped["timestamps"][intervalStart] += pair.Value;
+                else
+                    grouped["timestamps"].Add(intervalStart, pair.Value);
+            }
+
+            var pr = all["predictions"];
+            foreach (KeyValuePair<DateTime, double> pair in pr)
+            {
+                DateTime intervalStart = new DateTime();
+                if (step <= 24) intervalStart = new DateTime(pair.Key.Year, pair.Key.Month, pair.Key.Day, (pair.Key.Hour / step) * step, 0, 0);
+
+                if (grouped["predictions"].ContainsKey(intervalStart))
+                    grouped["predictions"][intervalStart] += pair.Value;
+                else
+                    grouped["predictions"].Add(intervalStart, pair.Value);
+            }
+
+            return grouped;
+        }
     }
 }

@@ -223,7 +223,7 @@ namespace API.Controllers
             try
             {
 
-                var prodConsDevice = (await devService.ProductionConsumptionForLastWeekForDevice(idDevice));
+                var prodConsDevice = (await devService.GroupedTimestampsForDevice(idDevice, -7, 24));
                 EnumCategory.DeviceCatergory deviceCategory = await devService.getDeviceCategoryEnum(idDevice);
 
                 if (deviceCategory == EnumCategory.DeviceCatergory.Consumer)

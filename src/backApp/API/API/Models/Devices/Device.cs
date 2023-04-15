@@ -6,6 +6,5 @@ namespace API.Models.Devices
     {
         public string IpAddress { get; set; }
         public List<Timestamp> Timestamps { get; set; }
-        public List<Timestamp> Predictions { get; set; }
     }
 }
