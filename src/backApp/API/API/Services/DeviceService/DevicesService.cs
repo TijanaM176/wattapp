@@ -444,7 +444,7 @@ namespace API.Services.Devices
             var addresses = (await _repository.GetLinksForProsumer(prosumerId)).Select(x => x.IpAddress).ToList();
             string ipBase = "192.168.0.";
             if (addresses.Count() == 0)
-                return ipBase + "1";
+                return ipBase + "10";
             else
             {
                 //nalazimo poslednju najvecu ip adresu i povecavamo je za 1
