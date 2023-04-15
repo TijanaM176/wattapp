@@ -1,9 +1,29 @@
-@media (max-width: 950px) {
-  #myClass {
-    width: 100%;
-    display: flex;
-  }
+.nav-link.btn {
+  color: #5875a1 !important;
+  background-color: transparent !important;
+  border: 0 !important;
+  border-radius: 20px !important;
+  vertical-align: middle !important;
+  width: 130px !important;
+  font-weight: bold !important;
+  margin-left: 5px !important;
+  margin-right: 5px !important;
 }
-header {
+
+.nav-link.btn:not(.active) {
+  color: #5875a1 !important;
+  background-color: transparent !important;
+}
+
+.nav-link.btn.active {
+  color: white !important;
+  background-color: #5875a1 !important;
+}
+.nav-link.btn:focus {
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+.nav {
   height: 101px;
 }
