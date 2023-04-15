@@ -669,5 +669,65 @@ namespace API.Controllers
             }
 
         }
+
+        [HttpGet("ProductionConsumptionForLastMonthForDevice")]
+        public async Task<IActionResult> ProductionConsumptionForLastMonthForDevice(string idDevice)
+        {
+
+            try
+            {
+                var prodConsDevice = (await devService.GroupedTimestampsForDevice(idDevice, -30, 24*7));
+                EnumCategory.DeviceCatergory deviceCategory = await devService.getDeviceCategoryEnum(idDevice);
+
+                if (deviceCategory == EnumCategory.DeviceCatergory.Consumer)
+                {
+                    return Ok(new
+                    {
+                        consumption = prodConsDevice
+                    });
+                }
+                else
+                {
+                    return Ok(new
+                    {
+                        production = prodConsDevice
+                    });
+                }
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet("ProductionConsumptionForLastYearForDevice")]
+        public async Task<IActionResult> ProductionConsumptionForLastYearForDevice(string idDevice)
+        {
+
+            try
+            {
+                var prodConsDevice = (await devService.GroupedTimestampsForDevice(idDevice, -365, 24 * 30));
+                EnumCategory.DeviceCatergory deviceCategory = await devService.getDeviceCategoryEnum(idDevice);
+
+                if (deviceCategory == EnumCategory.DeviceCatergory.Consumer)
+                {
+                    return Ok(new
+                    {
+                        consumption = prodConsDevice
+                    });
+                }
+                else
+                {
+                    return Ok(new
+                    {
+                        production = prodConsDevice
+                    });
+                }
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }

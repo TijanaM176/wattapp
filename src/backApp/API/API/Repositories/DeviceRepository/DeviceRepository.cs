@@ -281,12 +281,12 @@ namespace API.Repositories.DeviceRepository
 
             return deviceCategory;
         }
-        public async Task<Dictionary<string, Dictionary<DateTime, double>>> ProductionConsumptionForLastWeekForDevice(string idDevice)
+        public async Task<Dictionary<string, Dictionary<DateTime, double>>> ProductionConsumptionTimestampsForDevice(string idDevice, int period)
         {
             var id = (await _regContext.ProsumerLinks.FirstOrDefaultAsync(x => x.Id == idDevice)).ModelId;
             DeviceInfo deviceInfo = await GetDeviceInfoById(id);
             //if (deviceInfo == null); // greska
-            Device device = await GetDeviceByCategoryForAPeriod(deviceInfo, -7);
+            Device device = await GetDeviceByCategoryForAPeriod(deviceInfo, period);
             Dictionary<string, Dictionary<DateTime, double>> datePowerByDevice = new Dictionary<string, Dictionary<DateTime, double>>();
             datePowerByDevice["timestamps"] = new Dictionary<DateTime, double>();
             datePowerByDevice["predictions"] = new Dictionary<DateTime, double>();
