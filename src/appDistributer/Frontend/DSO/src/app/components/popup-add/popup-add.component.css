@@ -88,10 +88,8 @@
   .btn {
     background-color: #5875a1;
     color: white;
-    font-size: 22px;
-    
-    width: 250px;
-    height: 45px;
+    font-size: 18px;
+    width: 25%;
     font-family: "Roboto", cursive;
   }
   
