@@ -26,7 +26,7 @@ export class EmployeesComponent {
   value!: string;
   dropDownRegion: string = '';
   dropDownRole: string = '';
-  region: string = '';
+  region: any;
   Region: any;
   Role: any;
   v!: string;
@@ -36,7 +36,7 @@ export class EmployeesComponent {
   isDescOrder:boolean=true;
   public regionName: any;
   public roleName: any;
-  role: string = '';
+  role: any;
   nameRo: string = '';
   nameRe: string = '';
   tableSizes: any = [10, 15, 20];
@@ -89,20 +89,16 @@ export class EmployeesComponent {
       this.employee = res;
       console.log(res);
       this.cookie.set('id', this.employee.id, { path: '/' });
-      //this.cookie.set("roleid",this.employee.roleId);
       this.value = this.cookie.get('role');
       this.RegionId = this.employee.regionId;
       this.service.getRegionName(this.employee.regionId).subscribe((res) => {
         console.log(res);
         this.regionName = res;
         this.cookie.set('regionName', this.regionName, { path: '/' });
-        //this.Region=res;
       });
       this.service.getRoleName(this.employee.roleId).subscribe((res) => {
         console.log(res);
         this.roleName = res;
-        //console.log(this.roleName);
-        //this.Role=res;
         this.cookie.set('roleName', this.roleName, { path: '/' });
       });
 
@@ -121,10 +117,32 @@ export class EmployeesComponent {
       });
     });
   }
-
+  getAllRegions(){
+    this.service.getAllRegions().subscribe({
+      next:(res)=>{
+        this.Region=res;
+      },
+      error:(err)=>{
+        //this.toast.error({detail:"Error!",summary:"Unable to load user data.", duration:3000});
+        console.log(err.error);
+      }
+    });
+  }
+  getAllRoles(){
+    this.service.getAllRoles().subscribe({
+      next:(res)=>{
+        this.Role=res;
+      },
+      error:(err)=>{
+        //this.toast.error({detail:"Error!",summary:"Unable to load user data.", duration:3000});
+        console.log(err.error);
+      }
+    });
+  }
   update(id: string) {
+    this.getAllRegions();
+    this.getAllRoles();
     this.service.detailsEmployee(id).subscribe((res) => {
-      //console.log(res);
       this.employee = res;
       this.updateForm = new FormGroup({
         firstName: new FormControl(this.employee.firstName),
@@ -145,27 +163,18 @@ export class EmployeesComponent {
     console.log(this.updateForm.value);
     this.service.updateEmployee(id, this.updateForm.value).subscribe((res) => {
       console.log(res);
-      //this.resetForm(this.updateForm);
       this.Details(id);
     });
     const buttonRef = document.getElementById('closeBtn1');
     buttonRef?.click();
   }
-  /*
-  resetForm(form:any){
-    form.form.reset();
-    this.infoForm=new FormGroup();
-  }*/
 
   onDelete(id: string) {
     if (confirm('Do you want to delete ?')) {
       this.service.deleteEmployee(id).subscribe({
         next: (res) => {
-          //alert(res.message);
           this.Ucitaj();
           this.Paging();
-          //console.log(res);
-          //console.log(this.resetPasswordEmail);
         },
         error: (err) => {
           console.log(err.error);
