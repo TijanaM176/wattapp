@@ -197,7 +197,7 @@ export class UsersServiceService {
 
   PredictionNextWeek(): Observable<any> {
     return this.http.get(
-      this.deviceBaseUrl + `NextDaysConsumptionAndProductionTimestamps`
+      this.deviceBaseUrl + `NextWeeksConsumptionAndProductionTimestamps`
     );
   }
   PredictionNext3Days(): Observable<any> {
@@ -207,7 +207,7 @@ export class UsersServiceService {
   }
   PredictionNextDay(): Observable<any> {
     return this.http.get(
-      this.deviceBaseUrl + `NextWeeksConsumptionAndProductionTimestamps`
+      this.deviceBaseUrl + `NextDaysConsumptionAndProductionTimestamps`
     );
   }
 }

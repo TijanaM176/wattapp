@@ -12,10 +12,8 @@ namespace API.Services.Devices
         public Task<Dictionary<string, Dictionary<DateTime, double>>> ConsumptionProductionForAPeriodForProsumer(string id, int period, int type);
         public Task<Dictionary<string, Dictionary<DateTime, double>>> GroupedConProdForAPeriodForProsumer(string id, int type, int period, int step);
         public Task<Dictionary<string, Dictionary<DateTime, double>>> LastMonthsGroupedConProdByWeekForProsumer(string id, int type);
-        public Task<double> ConsumptionForLastWeekForAllProsumers();   
+        public Task<double> ConsumptionForLastWeekForAllProsumers();
         public Task<double> ProductionForLastWeekForAllProsumers();
-        public Task<List<Prosumer>> ProsumerFilter(double minConsumption, double maxConsumption, double minProduction, double maxProduction, int minDeviceCount, int maxDeviceCount);
-        public Task<List<Prosumer>> ProsumerFilter2(string neighbourhood, double minConsumption, double maxConsumption, double minProduction, double maxProduction, int minDeviceCount, int maxDeviceCount);
         public Task<Dictionary<string, object>> GetDevice(string id);
         public Task<Dictionary<string, Dictionary<DateTime, double>>> ConProdForAPeriodTimestamps(int type, int period, int step);
         public Task<DeviceInfo> GetDeviceInfoById(string id);

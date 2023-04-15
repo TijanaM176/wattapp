@@ -40,21 +40,8 @@ export class PredictionAllUsersComponent implements OnInit {
     this.PredictionDay();
   }
 
-  getWeek(date: Date): number {
-    const oneJan = new Date(date.getFullYear(), 0, 1);
-    const millisecsInDay = 86400000;
-    return Math.ceil(
-      ((date.getTime() - oneJan.getTime()) / millisecsInDay +
-        oneJan.getDay() +
-        1) /
-        7
-    );
-  }
-
   PredictionWeek() {
     this.service.PredictionNextWeek().subscribe((response: any) => {
-      const myList: any = [];
-
       const consumptionTimestamps = response.consumption.timestamps || {};
       const productionTimestamps = response.production.timestamps || {};
       const allTimestamps = {
@@ -62,16 +49,32 @@ export class PredictionAllUsersComponent implements OnInit {
         ...productionTimestamps,
       };
 
-      Object.keys(allTimestamps).forEach((name) => {
-        const consumptionValue = consumptionTimestamps[name] || 0.0;
-        const productionValue = productionTimestamps[name] || 0.0;
+      const data = Object.entries(allTimestamps).map(([timestamp, value]) => {
+        const date = new Date(timestamp);
+        const dayOfWeek = date.toLocaleDateString('en-US', { weekday: 'long' });
+        return { dayOfWeek, timestamp, value };
+      });
+
+      const groupedData = data.reduce((acc: any, item: any) => {
+        if (!acc[item.dayOfWeek]) {
+          acc[item.dayOfWeek] = {
+            name: item.dayOfWeek,
+            series: [],
+          };
+        }
+        const consumptionValue = consumptionTimestamps[item.timestamp] || 0.0;
+        const productionValue = productionTimestamps[item.timestamp] || 0.0;
         const series = [
           { name: 'consumption', value: consumptionValue },
           { name: 'production', value: productionValue },
         ];
-        myList.push({ name, series });
-      });
-      this.data = myList;
+        acc[item.dayOfWeek].series.push(...series);
+        return acc;
+      }, {});
+
+      const finalList = Object.values(groupedData);
+
+      this.data = finalList;
     });
   }
 
@@ -86,16 +89,32 @@ export class PredictionAllUsersComponent implements OnInit {
         ...productionTimestamps,
       };
 
-      Object.keys(allTimestamps).forEach((name) => {
-        const consumptionValue = consumptionTimestamps[name] || 0.0;
-        const productionValue = productionTimestamps[name] || 0.0;
+      const data = Object.entries(allTimestamps).map(([timestamp, value]) => {
+        const date = new Date(timestamp);
+        const dayOfWeek = date.toLocaleDateString('en-US', { weekday: 'long' });
+        return { dayOfWeek, timestamp, value };
+      });
+
+      const groupedData = data.reduce((acc: any, item: any) => {
+        if (!acc[item.dayOfWeek]) {
+          acc[item.dayOfWeek] = {
+            name: item.dayOfWeek,
+            series: [],
+          };
+        }
+        const consumptionValue = consumptionTimestamps[item.timestamp] || 0.0;
+        const productionValue = productionTimestamps[item.timestamp] || 0.0;
         const series = [
           { name: 'consumption', value: consumptionValue },
           { name: 'production', value: productionValue },
         ];
-        myList.push({ name, series });
-      });
-      this.data = myList;
+        acc[item.dayOfWeek].series.push(...series);
+        return acc;
+      }, {});
+
+      const finalList = Object.values(groupedData);
+
+      this.data = finalList;
     });
   }
 
@@ -119,7 +138,26 @@ export class PredictionAllUsersComponent implements OnInit {
         ];
         myList.push({ name, series });
       });
-      this.data = myList;
+
+      const groupedData: any = {};
+
+      myList.forEach((item: any) => {
+        const date = new Date(item.name);
+        const hour = date.getHours();
+        const hourString = hour < 10 ? '0' + hour : hour.toString();
+        const name = hourString + ':00';
+        if (!groupedData[name]) {
+          groupedData[name] = {
+            name,
+            series: [],
+          };
+        }
+        groupedData[name].series.push(...item.series);
+      });
+
+      const finalList = Object.values(groupedData);
+
+      this.data = finalList;
     });
   }
 }
