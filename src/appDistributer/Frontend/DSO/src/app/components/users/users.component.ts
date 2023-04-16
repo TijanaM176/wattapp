@@ -19,6 +19,8 @@ export class UsersComponent implements OnInit {
   pagenum!: number;
   page: number = 1;
   tableSizes: any = [10, 15, 20];
+  orderHeader:String='';
+  isDescOrder:boolean=true;
   constructor(public service: UsersServiceService, private router: Router) {}
   ngOnInit(): void {
     this.service.ProsumersInfo();
@@ -45,11 +47,9 @@ export class UsersComponent implements OnInit {
     this.page = event;
     console.log(this.page);
     this.Paging();
-  } /*
-  onTableSizeChange(event:any):void
-{
-  this.perPage=event.target.value;
-  this.page=1;
-  this.Paging();
-}  */
+  } 
+  sort(headerName:String){
+    this.isDescOrder=!this.isDescOrder;
+    this.orderHeader=headerName;
+  }
 }

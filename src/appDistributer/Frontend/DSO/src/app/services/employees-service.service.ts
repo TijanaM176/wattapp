@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { Employee } from '../models/employeestable';
 import { lastValueFrom } from 'rxjs';
 import { FormGroup } from '@angular/forms';
+import { editEmployeeDto } from '../models/editEmployee';
 
 @Injectable({
   providedIn: 'root',
@@ -20,7 +21,7 @@ export class EmployeesServiceService {
   constructor(private http: HttpClient) {}
 
   private baseUrl: string = 'https://localhost:7156/api/Dso/';
-
+  private baseUrl1:string='https://localhost:7156/api/Dso/UpdateDsoWorker';
 
   getAllData() {
     return this.http
@@ -28,8 +29,8 @@ export class EmployeesServiceService {
       .subscribe((res) => (this.employees = res as Employee[]));
   }
 
-  updateEmployee(id: string, formUpdate: any) {
-    return this.http.put(`${this.baseUrl}UpdateDsoWorker` + `?id=` + id, formUpdate);
+  updateEmployee(id: string, dto: editEmployeeDto) {
+    return this.http.put(this.baseUrl1 + '?id=' + id, dto);
   }
 
   deleteEmployee(id: string) {

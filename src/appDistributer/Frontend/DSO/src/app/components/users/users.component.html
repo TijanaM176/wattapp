@@ -93,12 +93,12 @@
           <thead>
             <tr>
               <th></th>
-              <th>Username<i class="fa fa-sort"></i></th>
-              <th>Address<i class="fa fa-sort"></i></th>
+              <th (click)="sort('username')">Username<i class="fa fa-sort"></i></th>
+              <th (click)="sort('address')">Address<i class="fa fa-sort"></i></th>
 
-              <th>Consumption <i class="fa fa-sort"></i></th>
-              <th>Production <i class="fa fa-sort"></i></th>
-              <th>Number of devices <i class="fa fa-sort"></i></th>
+              <th (click)="sort('consumption')">Consumption <i class="fa fa-sort"></i></th>
+              <th (click)="sort('production')">Production <i class="fa fa-sort"></i></th>
+              <th (click)="sort('devCount')">Number of devices <i class="fa fa-sort"></i></th>
               <th></th>
             </tr>
           </thead>
@@ -106,6 +106,7 @@
             <tr
               *ngFor="
                 let item of service.prosumers
+                  | orderBy:orderHeader:isDescOrder
                   | search : searchName
                   | searchaddress : searchAddress
                   | paginate

@@ -74,6 +74,9 @@ import { PopupEmpComponent } from './components/popup-emp/popup-emp.component';
 import { PieChartProsumersComponent } from './components/Charts/PieChartProsumers/PieChartProsumers.component';
 import { PredictionAllUsersComponent } from './components/Charts/PredictionAllUsers/PredictionAllUsers.component';
 import { NgxSpinnerModule } from 'ngx-spinner';
+import { MatSortModule } from '@angular/material/sort';
+import { OrderModule } from 'ngx-order-pipe';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -148,6 +151,8 @@ import { NgxSpinnerModule } from 'ngx-spinner';
     NgxChartsModule,
     NgbModule,
     NgxSpinnerModule,
+    MatSortModule,
+    OrderModule
   ],
   providers: [
     CookieService,

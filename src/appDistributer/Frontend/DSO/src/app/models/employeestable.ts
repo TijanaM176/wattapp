@@ -12,4 +12,6 @@ export class Employee {
   roleId!: number;
   regionId!: string;
   image!: string;
+  regionName!:string
+  roleName!:string
 }
