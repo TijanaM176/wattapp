@@ -76,6 +76,7 @@ import { PredictionAllUsersComponent } from './components/Charts/PredictionAllUs
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { MatSortModule } from '@angular/material/sort';
 import { OrderModule } from 'ngx-order-pipe';
+
 @NgModule({
   declarations: [
     AppComponent,
