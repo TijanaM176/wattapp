@@ -9,13 +9,13 @@ export class DeviceserviceService {
 
   constructor(private http:HttpClient) { }
 
-  private baseUrl: string = 'https://localhost:7156/';
+  private baseUrl: string = 'https://localhost:7156/api/';
 
   getInfoDevice(id:string){
-    return this.http.get(`${this.baseUrl}GetDevice` + `?id=` + id);
+    return this.http.get(`${this.baseUrl}Device/GetDevice` + `?id=` + id);
   }
   getCurrConsumptionAndProduction():Observable<any>
   {
-    return this.http.get<any>(this.baseUrl+'DsoSidebarInfo');
+    return this.http.get<any>(this.baseUrl+'DashboardData/DsoSidebarInfo');
   }
 }

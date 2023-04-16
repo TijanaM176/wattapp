@@ -1,7 +1,6 @@
 ﻿using API.Models.HelpModels;
 using API.Models.Paging;
 using API.Models.Users;
-using API.Repositories;
 using API.Services.ProsumerService;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -13,7 +12,6 @@ namespace API.Controllers
     public class ProsumerController : Controller
     {
         private readonly IProsumerService prosumerService;
-        private static User user = new User();
 
         public ProsumerController(IProsumerService prosumerService)
         {
@@ -23,7 +21,6 @@ namespace API.Controllers
         [HttpGet("GetProsumersPaging")]
         public async Task<ActionResult<IEnumerable<Prosumer>>> getProsumersPaging([FromQuery] ProsumerParameters prosumerParameters)
         {
-
             return await prosumerService.GetProsumers(prosumerParameters);
         }
         
@@ -68,19 +65,6 @@ namespace API.Controllers
             });
         }
 
-        [HttpGet("GetAllNeighborhoods")]
-        public async Task<IActionResult> GetAllNeighborhoods()
-        {
-            try
-            {
-                return Ok(await prosumerService.GetNeigborhoods());
-            }
-            catch (Exception)
-            {
-                return BadRequest("No neighborhoods found!");
-            }
-        }
-
         [HttpGet("GetProsumersByNeighborhoodId")]
         public async Task<IActionResult> GetProsumersByNeighborhoodId(string id)
         {
@@ -93,85 +77,20 @@ namespace API.Controllers
                 return BadRequest("No users found in that neighborhood!");
             }
         }
-        [HttpGet("GetCities")]
-        public async Task<IActionResult> GetCities()
-        {
-            try
-            {
-                return Ok(await prosumerService.GetCities());
-            }
-            catch (Exception)
-            {
-                return BadRequest("No cities found!");
-            }
-
-        }
-        [HttpGet("GetNeighborhoodsByCityId")]
-        public async Task<IActionResult> GetNeighborhoodsByCityId(long id)
-        {
-           try
-            {
-                return Ok(await prosumerService.GetNeighborhoodByCityId(id));
-            }
-            catch (Exception)
-            {
-                return BadRequest("No Neighborhoods found!");
-            }
-
-        }
-
-        [HttpGet("GetCityNameById")]
-        public async Task<IActionResult> GetCityNameById(long id)
-        {
-            try
-            {
-                return Ok(await prosumerService.GetCityNameById(id));
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
-
-
 
         [HttpPut("SetCoordinates")]
         public async Task<ActionResult> SetCoordinates(SaveCoordsDto prosumerCoords)
         {
             if (await prosumerService.SetCoordinates(prosumerCoords)) return Ok(new { message ="Coordinates are set!" });
 
-            return BadRequest("No found Prosumer!");
-
+            return BadRequest("Prosumer not found!");
         }
-        
-        /*
-        [HttpGet("AllLinks")]
-        public async Task<IActionResult> AllLinks(string id)
-        {
-            return Ok(prosumerService.AllLinks(id));
-        }
-        */
 
-        [HttpGet("GetNeighborhoodByName")]
-        public async Task<IActionResult> GetNeighborhoodByName(string id)
-        {
-
-           try
-            {
-                return Ok(await prosumerService.GetNeighborhoodByName(id));
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
         [HttpPost("{UserID}/UploadImage")]
         public async Task<IActionResult> UploadImage([FromRoute][FromForm] SendPhoto sp)
         {
-         
             try
             {
-               
                 var result = await prosumerService.SaveImage(sp.UserId, sp.imageFile);
 
                 if (result.Item2 == true)
@@ -209,6 +128,6 @@ namespace API.Controllers
                 return StatusCode(500, ex.Message);
             }
         }
-
+  
     }
 }

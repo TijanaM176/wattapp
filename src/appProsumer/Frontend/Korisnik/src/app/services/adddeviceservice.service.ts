@@ -9,10 +9,10 @@ import { AddDevice } from '../models/adddevice';
 export class AdddeviceserviceService {
 
   constructor(private http:HttpClient) { }
-  private baseUrl: string = 'https://localhost:7156/GetCategories';
-  private baseUrl1:string='https://localhost:7156/GetTypesByCategory';
-  private baseUrl2:string='https://localhost:7156/GetModels';
-  private baseUrl3:string='https://localhost:7156/RegisterDevice';
+  private baseUrl: string = 'https://localhost:7156/api/GenericData/GetCategories';
+  private baseUrl1:string='https://localhost:7156/api/GenericData/GetTypesByCategory';
+  private baseUrl2:string='https://localhost:7156/api/GenericData/GetModels';
+  private baseUrl3:string='https://localhost:7156/api/Devices/RegisterDevice';
   category!:number;
   type!:number;
   model!:string;

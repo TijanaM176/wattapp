@@ -605,18 +605,23 @@ namespace API.Services.Devices
 
             return (predictionsFor1Day, predictionsFor3Day, predictionsFor7Day);
         }
-        public async Task<double> ThisMonthTotalConsumption()
+        public async Task<Tuple<double, double>> ThisMonthTotalConsumptionProductionForProsumer(string prosumerId)
         {
+            var producers = await _repository.GetDevicesByCategoryForAPeriod(prosumerId, "Producer", -30);
+            var consumers = await _repository.GetDevicesByCategoryForAPeriod(prosumerId, "Consumer", -30);
+            double production = 0;
+            double consumption = 0;
 
-            return await _repository.ThisMonthTotalConsumption();
+            foreach (var device in producers)
+                foreach (var ts in device.Timestamps)
+                    production += ts.Power;
+
+            foreach (var device in consumers)
+                foreach (var ts in device.Timestamps)
+                    consumption += ts.Power;
+
+            return new Tuple<double, double>(consumption, production);
+
         }
-        public async Task<double> ThisMonthTotalProduction()
-        {
-
-            return await _repository.ThisMonthTotalProduction();
-        }
-
-
-
     }
 }

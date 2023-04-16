@@ -19,7 +19,10 @@ export class UsersServiceService {
   private baseUrl: string = 'https://localhost:7156/api/Prosumer/';
   private updateUserUrl: string =
     'https://localhost:7156/api/Dso/UpdateProsumerByDso';
-  private deviceBaseUrl: string = 'https://localhost:7156/';
+  private deviceBaseUrl: string = 'https://localhost:7156/api/Devices/';
+  private dashboardBaseUrl: string = 'https://localhost:7156/api/DashboardData/';
+  private dataUrl: string = 'https://localhost:7156/api/GenericData/';
+  private timestampUrl: string = 'https://localhost:7156/api/Timestamp/';
 
   refreshList() {
     lastValueFrom(this.http.get(this.baseUrl + 'GetAllProsumers')).then(
@@ -39,7 +42,7 @@ export class UsersServiceService {
   }
 
   getAllNeighborhoods(): Observable<Neighborhood[]> {
-    return this.http.get<Neighborhood[]>(this.baseUrl + 'GetAllNeighborhoods');
+    return this.http.get<Neighborhood[]>(this.dataUrl + 'GetAllNeighborhoods');
   }
   GetProsumersByNeighborhoodId(id: string): Observable<Prosumer[]> {
     return this.http.get<Prosumer[]>(
@@ -51,16 +54,16 @@ export class UsersServiceService {
     return this.http.get<any[]>(this.baseUrl + 'GetAllProsumers');
   }
   getAllCities(): Observable<City[]> {
-    return this.http.get<City[]>(this.baseUrl + 'GetCities');
+    return this.http.get<City[]>(this.dataUrl + 'GetCities');
   }
   getAllNeighborhoodByCityId(id: number): Observable<Neighborhood[]> {
     return this.http.get<Neighborhood[]>(
-      this.baseUrl + 'GetNeighborhoodsByCityId?id=' + id
+      this.dataUrl + 'GetNeighborhoodsByCityId?id=' + id
     );
   }
 
   getCityNameById(id: number): Observable<string> {
-    return this.http.get(this.baseUrl + 'GetCityNameById?id=' + id, {
+    return this.http.get(this.dataUrl + 'GetCityNameById?id=' + id, {
       responseType: 'text',
     });
   }
@@ -138,25 +141,25 @@ export class UsersServiceService {
   }
   HistoryProsumer7Days(id: string): Observable<any> {
     return this.http.get(
-      this.deviceBaseUrl + `LastWeeksConsumptionAndProduction?id=` + id
+      this.timestampUrl + `LastWeeksConsumptionAndProduction?id=` + id
     );
   }
 
   HistoryAllProsumers7Days(): Observable<any> {
     return this.http.get(
-      this.deviceBaseUrl + 'LastWeeksConsumptionAndProductionTimestamps'
+      this.timestampUrl + 'LastWeeksConsumptionAndProductionTimestamps'
     );
   }
 
   HistoryAllProsumers1Month() {
     return this.http.get(
-      this.deviceBaseUrl + 'LastMonthsConsumptionAndProductionTimestamps'
+      this.timestampUrl + 'LastMonthsConsumptionAndProductionTimestamps'
     );
   }
 
   HistoryAllProsumers1Year() {
     return this.http.get(
-      this.deviceBaseUrl + 'LastYearsConsumptionAndProductionTimestamps'
+      this.timestampUrl + 'LastYearsConsumptionAndProductionTimestamps'
     );
   }
 
@@ -177,37 +180,37 @@ export class UsersServiceService {
   }
 
   Top5Consumers(): Observable<any[]> {
-    return this.http.get<any[]>(this.deviceBaseUrl + 'Top5Consumers');
+    return this.http.get<any[]>(this.dashboardBaseUrl + 'Top5Consumers');
   }
 
   Top5Producers(): Observable<any[]> {
-    return this.http.get<any[]>(this.deviceBaseUrl + 'Top5Producers');
+    return this.http.get<any[]>(this.dashboardBaseUrl + 'Top5Producers');
   }
 
   ConsumerProducerRatio(): Observable<any[]> {
-    return this.http.get<any[]>(this.deviceBaseUrl + 'ConsumerProducerRatio');
+    return this.http.get<any[]>(this.dashboardBaseUrl + 'ConsumerProducerRatio');
   }
   CityPercentages(): Observable<any[]> {
-    return this.http.get<any[]>(this.deviceBaseUrl + 'CityPercentages');
+    return this.http.get<any[]>(this.dashboardBaseUrl + 'CityPercentages');
   }
 
   ElectricityPrice(): Observable<any[]> {
-    return this.http.get<any[]>('https://localhost:7156/api/Dso/CurrentPrice');
+    return this.http.get<any[]>(this.dashboardBaseUrl + 'CurrentPrice');
   }
 
   PredictionNextWeek(): Observable<any> {
     return this.http.get(
-      this.deviceBaseUrl + `NextWeeksConsumptionAndProductionTimestamps`
+      this.timestampUrl + `NextWeeksConsumptionAndProductionTimestamps`
     );
   }
   PredictionNext3Days(): Observable<any> {
     return this.http.get(
-      this.deviceBaseUrl + `ConsumptionAndProductionForNext3DaysTimestamps`
+      this.timestampUrl + `Next3DaysConsumptionAndProductionTimestamps`
     );
   }
   PredictionNextDay(): Observable<any> {
     return this.http.get(
-      this.deviceBaseUrl + `NextDaysConsumptionAndProductionTimestamps`
+      this.timestampUrl + `NextDaysConsumptionAndProductionTimestamps`
     );
   }
 }

@@ -74,10 +74,11 @@ export class PredictionChartComponent implements OnInit {
   loadData(apiCall: any, mapFunction: any) 
   {
     apiCall().subscribe((response: any) => {
-      const myList = Object.keys(response.consumption.timestamps).map(
+      console.log(response);
+      const myList = Object.keys(response.consumption).map(
         (name) => {
-          let consumptionValue = response.consumption.timestamps[name];
-          let productionValue = response.production.timestamps[name];
+          let consumptionValue = response.consumption[name];
+          let productionValue = response.production[name];
           const cons: string = 'consumption';
           const prod: string = 'producton';
           if (productionValue == undefined) {

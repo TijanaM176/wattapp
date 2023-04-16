@@ -8,6 +8,8 @@ import { EditDto } from '../models/editDto';
 })
 export class ProsumerService {
   baseUrl: string = 'https://localhost:7156/api/Prosumer/';
+  deviceUrl: string = 'https://localhost:7156/api/Devices/';
+  dataUrl: string = 'https://localhost:7156/api/GenericData/';
   cityId!:number;
   neighId!:string;
   constructor(private http: HttpClient) {}
@@ -22,17 +24,17 @@ export class ProsumerService {
 
   getDevicesByProsumerId(id: string,role:string): Observable<any> {
     return this.http.get<any>(
-      'https://localhost:7156/GetAllDevicesForProsumer?id=' + id+'&role='+role
+      this.deviceUrl + 'GetAllDevicesForProsumer?id=' + id+'&role='+role
     );
   }
 
   getDeviceById(id: string): Observable<any> {
-    return this.http.get<any>('https://localhost:7156/GetDevice?id=' + id);
+    return this.http.get<any>(this.deviceUrl + 'GetDevice?id=' + id);
   }
   getCityById(): Observable<string> {
-    return this.http.get(this.baseUrl + 'GetCityNameById?id=' + this.cityId,{responseType:'text'});
+    return this.http.get(this.dataUrl + 'GetCityNameById?id=' + this.cityId,{responseType:'text'});
   }
   getNeighborhoodById(): Observable<string> {
-    return this.http.get(this.baseUrl + 'GetNeighborhoodByName?id=' + this.neighId,{responseType:'text'});
+    return this.http.get(this.dataUrl + 'GetNeighborhoodByName?id=' + this.neighId,{responseType:'text'});
   }
 }

@@ -10,7 +10,6 @@ import { editEmployeeDto } from '../models/editEmployee';
   providedIn: 'root',
 })
 export class EmployeesServiceService {
-
   update$: any;
 
   region: string = '';
@@ -21,11 +20,12 @@ export class EmployeesServiceService {
   constructor(private http: HttpClient) {}
 
   private baseUrl: string = 'https://localhost:7156/api/Dso/';
-  private baseUrl1:string='https://localhost:7156/api/Dso/UpdateDsoWorker';
+  private baseUrl1: string = 'https://localhost:7156/api/Dso/UpdateDsoWorker';
+  private dataUrl: string = 'https://localhost:7156/api/GenericData/';
 
   getAllData() {
     return this.http
-      .get(this.baseUrl+'GetAllDsoWorkers')
+      .get(this.baseUrl + 'GetAllDsoWorkers')
       .subscribe((res) => (this.employees = res as Employee[]));
   }
 
@@ -37,24 +37,27 @@ export class EmployeesServiceService {
     return this.http.delete(`${this.baseUrl}DeleteDsoWorker` + `?id=` + id);
   }
 
-  detailsEmployee(id: string):Observable<any> {
+  detailsEmployee(id: string): Observable<any> {
     return this.http.get<any>(`${this.baseUrl}GetDsoById` + `?id=` + id);
   }
 
   Page(page: number, pagesize: number) {
     return this.http.get(
-      `${this.baseUrl}GetDsoWorkerPaging?PageNumber=` + page + `&PageSize=` + pagesize
+      `${this.baseUrl}GetDsoWorkerPaging?PageNumber=` +
+        page +
+        `&PageSize=` +
+        pagesize
     );
   }
 
   getRoleName(id: number): Observable<string> {
-    return this.http.get(`${this.baseUrl}GetRoleName` + `?id=` + id, {
+    return this.http.get(`${this.dataUrl}GetRoleName` + `?id=` + id, {
       responseType: 'text',
     });
   }
 
   getRegionName(id: string): Observable<string> {
-    return this.http.get(`${this.baseUrl}GetRegionName` + `?id=` + id, {
+    return this.http.get(`${this.dataUrl}GetRegionName` + `?id=` + id, {
       responseType: 'text',
     });
   }
@@ -65,11 +68,11 @@ export class EmployeesServiceService {
   }
  */
   getAllRegions(): Observable<any[]> {
-    return this.http.get<any[]>(this.baseUrl + 'GetRegions');
+    return this.http.get<any[]>(this.dataUrl + 'GetRegions');
   }
 
   getAllRoles(): Observable<any[]> {
-    return this.http.get<any[]>(this.baseUrl + 'GetRoles');
+    return this.http.get<any[]>(this.dataUrl + 'GetRoles');
   }
 
   filter() {
@@ -85,7 +88,14 @@ export class EmployeesServiceService {
   }
 
   getWorkersByFilter() {
-    return this.http.get(this.baseUrl +'GetWorkerByFilter?RegionID=' + this.region + '&RoleID=' + this.role)
+    return this.http
+      .get(
+        this.baseUrl +
+          'GetWorkerByFilter?RegionID=' +
+          this.region +
+          '&RoleID=' +
+          this.role
+      )
       .subscribe({
         next: (res) => {
           this.employees = res as Employee[];
@@ -97,7 +107,8 @@ export class EmployeesServiceService {
   }
 
   getWorkersByRegionId() {
-    return this.http.get(this.baseUrl + 'GetWorkersByRegionId?RegionID=' + this.region)
+    return this.http
+      .get(this.baseUrl + 'GetWorkersByRegionId?RegionID=' + this.region)
       .subscribe({
         next: (res) => {
           this.employees = res as Employee[];
@@ -109,7 +120,8 @@ export class EmployeesServiceService {
   }
 
   getWorkersByRoleId() {
-    return this.http.get(this.baseUrl + 'GetWorkersByRoleId?RoleID=' + this.role)
+    return this.http
+      .get(this.baseUrl + 'GetWorkersByRoleId?RoleID=' + this.role)
       .subscribe({
         next: (res) => {
           this.employees = res as Employee[];
@@ -120,8 +132,9 @@ export class EmployeesServiceService {
       });
   }
 
-  getProsumerCout():Observable<any>
-  {
-    return this.http.get<any>(this.baseUrl + 'ProsumerCount');
+  getProsumerCout(): Observable<any> {
+    return this.http.get<any>(
+      'https://localhost:7156/api/DashboardData/ProsumerCount'
+    );
   }
 }

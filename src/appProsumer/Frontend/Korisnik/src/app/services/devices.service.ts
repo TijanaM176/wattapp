@@ -8,7 +8,8 @@ import { Observable } from 'rxjs';
 })
 export class DevicesService {
 
-  baseUrl : string = 'https://localhost:7156/';
+  baseUrl : string = 'https://localhost:7156/api/Timestamp/';
+  totalUrl : string = 'https://localhost:7156/api/TotalPowerUsage/';
 
   constructor(private http : HttpClient, private cookie : CookieService) { }
 
@@ -54,6 +55,6 @@ export class DevicesService {
   
   getCurrentConsumptionAndProduction( ): Observable<any>
   {
-    return this.http.get<any>(this.baseUrl+'ConsumptionAndProductionByProsumer?id=' + this.cookie.get('id'));
+    return this.http.get<any>(this.totalUrl+'ConsumptionAndProductionByProsumer?id=' + this.cookie.get('id'));
   }
 }
