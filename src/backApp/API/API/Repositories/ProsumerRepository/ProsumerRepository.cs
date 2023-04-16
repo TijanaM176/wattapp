@@ -142,7 +142,7 @@ namespace API.Repositories.ProsumerRepository
             return neigborhood.NeigbName;
         }
         
-        public async Task<bool> DeleteImage(String ProsumerId)
+        public async Task<bool> DeleteImageProsumer(String ProsumerId)
         {
             var user = await _context.Prosumers.FindAsync(ProsumerId);
             if (user == null || string.IsNullOrEmpty(user.Image))
@@ -171,42 +171,44 @@ namespace API.Repositories.ProsumerRepository
             return true;
         }
 
-        public async Task<bool> SaveImage(String ProsumerId, IFormFile imageFile)
+        public async Task<(String,Boolean)> SaveImageProsumer(String ProsumerId, IFormFile imageFile)
         {
             var user = await _context.Prosumers.FindAsync(ProsumerId);
             if (user == null)
-                return false;
+                return ("User not found!",false);
 
             // Check allowed extensions
             var ext = Path.GetExtension(imageFile.FileName);
             var allowedExtensions = new string[] { ".jpg", ".jpeg", ".png" };
             if (!allowedExtensions.Contains(ext))
-                return false;
+                return ("Extension is not allowed!",false);
 
-            // Generate file name using ProsumerId and file extension
-            var fileName = ProsumerId + ext;
-
-            var wwwPath = this.enviroment.ContentRootPath;
-            var imagePath = Path.Combine(wwwPath, "Uploads", fileName);
-
-            // Check if directory exists
-            var dirPath = Path.Combine(wwwPath, "Uploads");
-            if (!Directory.Exists(dirPath))
-                Directory.CreateDirectory(dirPath);
-
-            if (imageFile != null)
-            {
-                using (var ms = new MemoryStream())
+      
+  
+                // pročitaj sadržaj datoteke u byte array
+             try{    
+                byte[] imageBytes;
+                using (var stream = new MemoryStream())
                 {
-                    imageFile.CopyTo(ms);
-                    var imageBytes = ms.ToArray();
-                    var base64String = Convert.ToBase64String(imageBytes);
-                    user.Image = base64String;
+                    imageFile.CopyTo(stream);
+                    imageBytes = stream.ToArray();
                 }
+
+                // konvertuj sliku u Base64 string
+                var base64String = Convert.ToBase64String(imageBytes);
+                user.Image = base64String;
+
+                // vrati Base64 string kao drugi element n-torke
+                await _context.SaveChangesAsync();
+                return (base64String, true);
+            }
+            catch (Exception exc)
+            {
+                return ("String is not save!",false);
             }
 
             await _context.SaveChangesAsync();
-            return true;
+            return  ("OK", true);
         }
 
     }

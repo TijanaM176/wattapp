@@ -291,42 +291,28 @@ namespace API.Services.Auth
         //save image
         public (int,string) SaveImage(IFormFile ImageFile)
         {
-            try
-            {
-                var contentPath = this.enviroment.ContentRootPath;
-                //path = "c://projects/Imageapi/uploads"
-                var path = Path.Combine(contentPath, "Uploads");
-
-                if (!Directory.Exists(path))
+            
+                try
                 {
-                    Directory.CreateDirectory(path);
-                }
-                //Check the allowed extenstions
-                var ext = Path.GetExtension(ImageFile.FileName);
-                var allowedExtensions = new string[] { ".jpg", ".png", ".jpeg" };
+                    // pročitaj sadržaj datoteke u byte array
+                    byte[] imageBytes;
+                    using (var stream = new MemoryStream())
+                    {
+                        ImageFile.CopyTo(stream);
+                        imageBytes = stream.ToArray();
+                    }
 
-                if (!allowedExtensions.Contains(ext))
+                    // konvertuj sliku u Base64 string
+                    var base64String = Convert.ToBase64String(imageBytes);
+
+                    // vrati Base64 string kao drugi element n-torke
+                    return (1, base64String);
+                }
+                catch (Exception exc)
                 {
-                    string msg = string.Format("Only {0} extensions are allowed", string.Join(",", allowedExtensions));
-                    return (0,msg);
-
+                    return (0, "ERROR!");
                 }
-                string uniqueString = Guid.NewGuid().ToString();
-                //we are trying to create a unique filename here
-
-                var newFileName = uniqueString + ext;
-                var fileWithPath = Path.Combine(path, newFileName);
-                var stream = new FileStream(fileWithPath, FileMode.Create);
-
-                ImageFile.CopyTo(stream);
-                stream.Close();
-                return (1,newFileName);
-            }
-            catch (Exception exc)
-            {
-
-                return (0,"ERROR!");
-            }
+            
 
         }
         public Boolean DeleteImage(String PathImage)
@@ -401,34 +387,8 @@ namespace API.Services.Auth
 
 
                 //slika
-                if (request.imageFile != null)
-                {
-                    var result = this.SaveImage(request.imageFile);
-                    if (result.Item1 == 1) // to je dobro pakuj path
-                    {
-                       
-
-                        var image = result.Item2;
-                       
-                        var path = Path.Combine(enviroment.ContentRootPath, "Uploads", image);
-
-                        if (System.IO.File.Exists(path))
-                        {
-                            using (var stream = new FileStream(path, FileMode.Open))
-                            {
-                                var bytes = new byte[stream.Length];
-                                await stream.ReadAsync(bytes, 0, (int)stream.Length);
-
-                                prosumer.Image = Convert.ToBase64String(bytes);
-                            }
-                        }
-                        System.IO.File.Delete(path);
-                    }
-                  
-                }
-                else
-                {
-                    var defaultImage = "default.png";
+                
+                   var defaultImage = "default.png";
                     prosumer.Image = defaultImage;
                    var path = Path.Combine(enviroment.ContentRootPath,"Uploads",defaultImage);
 
@@ -447,7 +407,7 @@ namespace API.Services.Auth
                         // ako default slika ne postoji, koristi null umesto slike
                         prosumer.Image = null;
                     }
-                }
+                
              
 
 
@@ -476,28 +436,61 @@ namespace API.Services.Auth
                 workerDSO.FirstName = request.FirstName;
                 workerDSO.LastName = request.LastName;
                 workerDSO.Username = username; 
-                workerDSO.Email = request.Email; 
-                workerDSO.Image = request.Image;
+                workerDSO.Email = request.Email;
                 workerDSO.Salary = request.Salary;
                 
                 //token
                 workerDSO.Token = null;
 
                
-                workerDSO.Role = await getRole("WorkerDso");
-                workerDSO.Region = await getRegion("Šumadija");
+               // workerDSO.Role = await getRole("WorkerDso");
+               // workerDSO.Region = await getRegion("Šumadija");
 
-                workerDSO.RoleId = workerDSO.Role.Id;
-                workerDSO.RegionId = workerDSO.Region.Id;
+                workerDSO.RoleId = (await getRole("WorkerDso")).Id;
+                workerDSO.RegionId = (await getRegion("Šumadija")).Id;
 
 
-               //sifre
+                //sifre
                 workerDSO.HashPassword = passwordHash;
                 workerDSO.SaltPassword = passwordSalt;
               
                 //datum kreiranja
                 workerDSO.DateCreate = DateTime.Now.ToString("MM/dd/yyyy");
            
+            
+                if (request.imageFile != null)
+                {
+                    var result = this.SaveImage(request.imageFile);
+                    if (result.Item1 == 1) // to je dobro pakuj path
+                    {
+                        workerDSO.Image = result.Item2;
+
+                    }
+
+                }
+                else
+                {
+                    var defaultImage = "defaultWorker.png";
+                    workerDSO.Image = defaultImage;
+                    var path = Path.Combine(enviroment.ContentRootPath, "Uploads", defaultImage);
+
+                    if (System.IO.File.Exists(path))
+                    {
+                        using (var stream = new FileStream(path, FileMode.Open))
+                        {
+                            var bytes = new byte[stream.Length];
+                            await stream.ReadAsync(bytes, 0, (int)stream.Length);
+
+                            workerDSO.Image = Convert.ToBase64String(bytes);
+                        }
+                    }
+                    else
+                    {
+                        // ako default slika ne postoji, koristi null umesto slike
+                        workerDSO.Image = null;
+                    }
+                }
+
                 if (await InsertDSOWorker(workerDSO)) return workerDSO;   // sacuvaju se i izmene
 
             }

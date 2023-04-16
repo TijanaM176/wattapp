@@ -37,6 +37,11 @@ namespace API.Services.Devices
         public Task<(double, double, string, List<DateTime>, List<DateTime>)> ThisWeekTotalConsumption();
         public Task<double> NextWeekTotalPredictedProduction();
         public Task<double> NextWeekTotalPredictedConsumption();
+
         public Task<Dictionary<string, Dictionary<DateTime, double>>> GroupedTimestampsForDevice(string deviceId, int period, int step);
+
+        public Task<(Dictionary<string, Dictionary<DateTime, double>>, Dictionary<string, Dictionary<DateTime, double>>, Dictionary<string, Dictionary<DateTime, double>>)> PredictionForDevice(string idDevice);
+        public Task<double> ThisMonthTotalConsumption();
+        public Task<double> ThisMonthTotalProduction();
     }
 }

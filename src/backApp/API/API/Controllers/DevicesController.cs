@@ -729,5 +729,61 @@ namespace API.Controllers
                 return BadRequest(ex.Message);
             }
         }
+        [HttpGet("PredictionForDevice")]
+        public async Task<IActionResult> PredictionForDevice(string idDevice)
+        {
+            var DevicePrediction = await devService.PredictionForDevice(idDevice);
+            try
+            {
+                return Ok(new
+                {
+                    DevicePrediction.Item1,
+                    DevicePrediction.Item2,
+                    DevicePrediction.Item3
+
+                }) ;
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
+
+        }
+        [HttpGet("ThisMonthTotalConsumption")]
+        public async Task<IActionResult> ThisMonthTotalConsumption()
+        {
+            try
+            {
+                return Ok(new
+                {
+                    ThisMonthTotalConsumption = await devService.ThisMonthTotalConsumption()
+
+            });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+           
+        }
+        [HttpGet("ThisMonthTotalProduction")]
+        public async Task<IActionResult> ThisMonthTotalProduction()
+        {
+            try
+            {
+                return Ok(new
+                {
+                    ThisMonthTotalProduction = await devService.ThisMonthTotalProduction()
+
+                });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
+        }
+
     }
 }

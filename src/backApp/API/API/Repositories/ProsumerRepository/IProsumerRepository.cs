@@ -32,7 +32,7 @@ namespace API.Repositories.ProsumerRepository
         public Task<string> GetCityNameById(long id);
         public Task<List<ProsumerLink>> AllLinks(string id);
         public Task<string> GetNeighborhoodByName(string id);
-        public Task<bool> SaveImage(String ProsumerId, IFormFile imageFile);
-        public Task<bool> DeleteImage(String ProsumerId);
+        public Task<(String, Boolean)> SaveImageProsumer(String ProsumerId, IFormFile imageFile);
+        public Task<bool> DeleteImageProsumer(String ProsumerId);
     }
 }

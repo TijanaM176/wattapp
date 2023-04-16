@@ -70,7 +70,8 @@ namespace API.Controllers
 
         [HttpPost("registerDsoWorker")]
         [Authorize(Roles = "Dso")]
-        public async Task<IActionResult> Register(DsoWorkerDto request)
+        public async Task<IActionResult> Register([FromForm] DsoWorkerDto request)
+
         {
             Dso dso = await authService.Register(request);
             if (dso != null)

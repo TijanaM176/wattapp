@@ -2,7 +2,7 @@
 {
     public class SendPhoto
     {
-        public String ProsumerId { get; set; }
+        public String UserId { get; set; }
         public IFormFile imageFile { get; set; }
     }
 }

@@ -578,5 +578,19 @@ namespace API.Services.DsoService
                 { "Percentage", Math.Round(percentage, 2) }
             };
         }
+        public async Task<bool> DeleteImage(String WorkerID)
+        {
+            bool answer = await _repository.DeleteImageDso(WorkerID);
+            if (answer == null) throw new ArgumentException("ERORR DeleteImage");
+            return answer;
+        }
+
+        public async Task<(String, Boolean)> SaveImage(String WorkerID, IFormFile imageFile)
+        {
+            (String, Boolean) answer = await _repository.SaveImageDso(WorkerID, imageFile);
+            if (answer.Item2 == false) throw new ArgumentException(answer.Item1);
+
+            return answer;
+        }
     }
 }

@@ -241,5 +241,49 @@ namespace API.Controllers
                 return BadRequest(ex.Message);
             }
         }
+        [HttpPost("{UserID}/UploadImage")]
+        public async Task<IActionResult> UploadImage([FromRoute][FromForm] SendPhoto sp)
+        {
+
+            try
+            {
+
+                var result = await dsoService.SaveImage(sp.UserId, sp.imageFile);
+
+                if (result.Item2 == true)
+                {
+                    return Ok("Image is save");
+                }
+                else
+                {
+                    return BadRequest("ERROR!");
+                }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
+
+        [HttpDelete("{DsoWorkerID}/DeleteImage")]
+        public async Task<IActionResult> DeleteImage([FromRoute] String DsoWorkerID)
+        {
+            try
+            {
+                var result = await dsoService.DeleteImage(DsoWorkerID);
+                if (result)
+                {
+                    return Ok();
+                }
+                else
+                {
+                    return BadRequest("Image not found for consumer.");
+                }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
     }
 }

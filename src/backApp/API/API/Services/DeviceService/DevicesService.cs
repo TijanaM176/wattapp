@@ -532,6 +532,7 @@ namespace API.Services.Devices
             return await _repository.NextWeekTotalPredictedConsumption();
         }
 
+
         public async Task<Dictionary<string, Dictionary<DateTime, double>>> GroupedTimestampsForDevice(string deviceId, int period, int step)
         {
             Dictionary<string, Dictionary<DateTime, double>> all = await _repository.ProductionConsumptionTimestampsForDevice(deviceId, period);
@@ -588,5 +589,34 @@ namespace API.Services.Devices
 
             return grouped;
         }
+
+        public async Task<(Dictionary<string, Dictionary<DateTime, double>>, Dictionary<string, Dictionary<DateTime, double>>, Dictionary<string, Dictionary<DateTime, double>>)> PredictionForDevice(string idDevice)
+        {
+            var PredictionForDevices = await _repository.PredictionForDevice(idDevice);
+
+            if (PredictionForDevices.Item1 == null && PredictionForDevices.Item2 == null && PredictionForDevices.Item3 == null)
+            {
+                throw new ArgumentException("No data for this device!");
+            }
+
+            var predictionsFor1Day = PredictionForDevices.Item1?.Count > 0 ? PredictionForDevices.Item1 : null;
+            var predictionsFor3Day = PredictionForDevices.Item2?.Count > 0 ? PredictionForDevices.Item2 : null;
+            var predictionsFor7Day = PredictionForDevices.Item3?.Count > 0 ? PredictionForDevices.Item3 : null;
+
+            return (predictionsFor1Day, predictionsFor3Day, predictionsFor7Day);
+        }
+        public async Task<double> ThisMonthTotalConsumption()
+        {
+
+            return await _repository.ThisMonthTotalConsumption();
+        }
+        public async Task<double> ThisMonthTotalProduction()
+        {
+
+            return await _repository.ThisMonthTotalProduction();
+        }
+
+
+
     }
 }
