@@ -20,6 +20,7 @@ export class EmployeesServiceService {
   constructor(private http: HttpClient) {}
 
   private baseUrl: string = 'https://localhost:7156/api/Dso/';
+  private dataUrl: string = 'https://localhost:7156/api/GenericData/';
 
 
   getAllData() {
@@ -47,13 +48,13 @@ export class EmployeesServiceService {
   }
 
   getRoleName(id: number): Observable<string> {
-    return this.http.get(`${this.baseUrl}GetRoleName` + `?id=` + id, {
+    return this.http.get(`${this.dataUrl}GetRoleName` + `?id=` + id, {
       responseType: 'text',
     });
   }
 
   getRegionName(id: string): Observable<string> {
-    return this.http.get(`${this.baseUrl}GetRegionName` + `?id=` + id, {
+    return this.http.get(`${this.dataUrl}GetRegionName` + `?id=` + id, {
       responseType: 'text',
     });
   }
@@ -64,11 +65,11 @@ export class EmployeesServiceService {
   }
  */
   getAllRegions(): Observable<any[]> {
-    return this.http.get<any[]>(this.baseUrl + 'GetRegions');
+    return this.http.get<any[]>(this.dataUrl + 'GetRegions');
   }
 
   getAllRoles(): Observable<any[]> {
-    return this.http.get<any[]>(this.baseUrl + 'GetRoles');
+    return this.http.get<any[]>(this.dataUrl + 'GetRoles');
   }
 
   filter() {
@@ -121,6 +122,6 @@ export class EmployeesServiceService {
 
   getProsumerCout():Observable<any>
   {
-    return this.http.get<any>(this.baseUrl + 'ProsumerCount');
+    return this.http.get<any>('https://localhost:7156/api/DashboardData/ProsumerCount');
   }
 }

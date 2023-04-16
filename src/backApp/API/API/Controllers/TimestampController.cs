@@ -109,8 +109,8 @@ namespace API.Controllers
             {
                 return Ok(new
                 {
-                    consumption = await devService.GroupedConProdForAPeriodForProsumer(id, 0, 7, 12),
-                    production = await devService.GroupedConProdForAPeriodForProsumer(id, 1, 7, 12)
+                    consumption = (await devService.GroupedConProdForAPeriodForProsumer(id, 0, 7, 12))["predictions"],
+                    production = (await devService.GroupedConProdForAPeriodForProsumer(id, 1, 7, 12))["predictions"]
                 });
             }
             catch (Exception ex)

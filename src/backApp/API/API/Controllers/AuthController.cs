@@ -1,35 +1,11 @@
-﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration.UserSecrets;
-using System.Security.Cryptography;
-using System.Text;
-using Microsoft.EntityFrameworkCore;
-using System.Globalization;
-using System;
-using System.Security.Cryptography.Xml;
-using System.Runtime.CompilerServices;
-using System.Text.RegularExpressions;
-using System.Data;
-using Microsoft.EntityFrameworkCore.Storage.ValueConversion.Internal;
-using System.Security.Claims;
-using System.IdentityModel.Tokens;
-using Microsoft.IdentityModel.Tokens;
-using System.IdentityModel.Tokens.Jwt;
+﻿using Microsoft.AspNetCore.Mvc;
 using MimeKit;
 using MailKit.Net.Smtp;
 using MailKit.Security;
-using System.Reflection.Emit;
-using System.Xml.Linq;
-using System.ComponentModel;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using System.Security.Principal;
 using Microsoft.AspNetCore.Authorization;
 using API.Models.Users;
 using API.Services.Auth;
-using API.Services.ProsumerService;
 using API.Models.HelpModels;
-using Org.BouncyCastle.Utilities;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace API.Controllers
 {

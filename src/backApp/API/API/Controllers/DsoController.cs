@@ -2,7 +2,6 @@
 using API.Models.Paging;
 using API.Models.Users;
 using API.Services.DsoService;
-using API.Services.ProsumerService;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 

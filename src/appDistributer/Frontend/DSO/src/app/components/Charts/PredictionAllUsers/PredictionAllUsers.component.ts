@@ -42,8 +42,8 @@ export class PredictionAllUsersComponent implements OnInit {
 
   PredictionWeek() {
     this.service.PredictionNextWeek().subscribe((response: any) => {
-      const consumptionTimestamps = response.consumption.timestamps || {};
-      const productionTimestamps = response.production.timestamps || {};
+      const consumptionTimestamps = response.consumption || {};
+      const productionTimestamps = response.production || {};
       const allTimestamps = {
         ...consumptionTimestamps,
         ...productionTimestamps,
@@ -82,8 +82,8 @@ export class PredictionAllUsersComponent implements OnInit {
     this.service.PredictionNext3Days().subscribe((response: any) => {
       const myList: any = [];
 
-      const consumptionTimestamps = response.consumption.timestamps || {};
-      const productionTimestamps = response.production.timestamps || {};
+      const consumptionTimestamps = response.consumption || {};
+      const productionTimestamps = response.production || {};
       const allTimestamps = {
         ...consumptionTimestamps,
         ...productionTimestamps,
@@ -122,8 +122,8 @@ export class PredictionAllUsersComponent implements OnInit {
     this.service.PredictionNextDay().subscribe((response: any) => {
       const myList: any = [];
 
-      const consumptionTimestamps = response.consumption.timestamps || {};
-      const productionTimestamps = response.production.timestamps || {};
+      const consumptionTimestamps = response.consumption || {};
+      const productionTimestamps = response.production || {};
       const allTimestamps = {
         ...consumptionTimestamps,
         ...productionTimestamps,

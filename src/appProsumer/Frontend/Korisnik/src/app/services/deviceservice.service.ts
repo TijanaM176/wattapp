@@ -10,10 +10,10 @@ import { EditDevice } from '../models/deviceedit';
 export class DeviceserviceService {
 
   constructor(private http:HttpClient) { }
-  private baseUrl: string = 'https://localhost:7156/GetDevice';
-  private baseUrl1: string = 'https://localhost:7156/EditDevice';
-  private baseUrl2:string='https://localhost:7156/DeleteDevice';
-  private baseUrl3:string='https://localhost:7156/GetModels';
+  private baseUrl: string = 'https://localhost:7156/api/Devices/GetDevice';
+  private baseUrl1: string = 'https://localhost:7156/api/Devices/EditDevice';
+  private baseUrl2:string='https://localhost:7156/api/Devices/DeleteDevice';
+  private baseUrl3:string='https://localhost:7156/api/GenericData/GetModels';
   model:any=0;
   name:string='';
   type:number=0;
