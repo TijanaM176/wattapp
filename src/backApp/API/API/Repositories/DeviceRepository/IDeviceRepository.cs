@@ -36,7 +36,5 @@ namespace API.Repositories.DeviceRepository
         public Task<double> NextWeekTotalPredictedProduction();
         public Task<double> NextWeekTotalPredictedConsumption();
         public Task<(Dictionary<string, Dictionary<DateTime, double>>, Dictionary<string, Dictionary<DateTime, double>>, Dictionary<string, Dictionary<DateTime, double>>)> PredictionForDevice(string idDevice);
-        public Task<double> ThisMonthTotalConsumption();
-        public Task<double> ThisMonthTotalProduction();
     }
 }

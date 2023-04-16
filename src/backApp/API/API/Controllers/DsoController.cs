@@ -13,7 +13,6 @@ namespace API.Controllers
     public class DsoController : Controller
     {
         private readonly IDsoService dsoService;
-        private static User user = new User();
 
         public DsoController(IDsoService dsoService)
         {
@@ -50,7 +49,6 @@ namespace API.Controllers
         {
             if (!await dsoService.EditDsoWorker(id, newValues)) return BadRequest("User could not be updated!");
             return Ok(new { error = true, message = "User updated successfully!" });
-
         }
 
         [HttpGet("GetAllDsoWorkers")]
@@ -68,9 +66,7 @@ namespace API.Controllers
         [HttpGet("GetDsoWorkerPaging")]
         public async Task<ActionResult<IEnumerable<Dso>>> getProsumersPaging([FromQuery] DsoWorkerParameters dsoWorkersParameters)
         {
-
             return await dsoService.GetDsoWorkers(dsoWorkersParameters);
-           
         }
         [HttpGet("GetWorkersByRegionId")]
         public async Task<ActionResult<List<Dso>>> GetWorkersByRegionId(string RegionID)
@@ -86,6 +82,7 @@ namespace API.Controllers
                 return BadRequest("There is no workers for this region!");
             }
         }
+
         [HttpGet("GetWorkersByRoleId")]
         public async Task<ActionResult<List<Dso>>> GetWorkersbyRoleId(long RoleID)
         {
@@ -100,6 +97,7 @@ namespace API.Controllers
                 return BadRequest("There is no workers with this role!");
             }
         }
+
         [HttpGet("GetWorkerByFilter")]
         public async Task<ActionResult<IEnumerable<Dso>>> GetWorkerByFilter(string RegionID, long RoleID)
         {
@@ -114,58 +112,6 @@ namespace API.Controllers
             {
                 return BadRequest("There is no workers with this role!");
             }
-
-        }
-
-        [HttpGet("GetRoles")]
-        public async Task<IActionResult> GetRoles()
-        {
-            try
-            {
-                return Ok(await dsoService.GetRoles());
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
-
-        [HttpGet("GetRegions")]
-        public async Task<IActionResult> GetRegions()
-        {
-            try
-            {
-                return Ok(await dsoService.GetRegions());
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
-
-        [HttpGet("GetRoleName")]
-        public async Task<IActionResult> GetRoleName(long id)
-        {
-            try
-            {
-                return Ok(await dsoService.GetRoleName(id));
-            }catch(Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
-
-        [HttpGet("GetRegionName")]
-        public async Task<IActionResult> GetRegionName(string id)
-        {
-            try
-            {
-                return Ok(await dsoService.GetRegionName(id));
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
         }
 
         [HttpPut("UpdateProsumerByDso")]
@@ -176,7 +122,6 @@ namespace API.Controllers
             if(prosumer == null) return BadRequest("ID Prosumer is not exists in database!");
             try
             {
-
                 return Ok(new
                 {
                     UpdateProsumerID = prosumer.Id,
@@ -189,65 +134,19 @@ namespace API.Controllers
                     NeigborhoodID = prosumer.NeigborhoodId,
                     Latitude = prosumer.Latitude,
                     Longitude = prosumer.Longitude
-
                 });
             }
             catch(Exception ex)
             {
-
-                return BadRequest(ex.Message);
-            }
-
-
-        }
-
-        [HttpGet("ProsumerCount")]
-        public async Task<IActionResult> ProsumerCount()
-        {
-            try
-            {
-                return Ok(new
-                {
-                    prosumerCount = (await dsoService.ProsumerCount()).ToString()
-                });
-            }catch (Exception ex)
-            {
                 return BadRequest(ex.Message);
             }
         }
-
-        [HttpGet("Prices")]
-        public async Task<IActionResult> Prices()
-        {
-            try
-            {
-                return Ok(await dsoService.Prices());
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
-
-        [HttpGet("CurrentPrice")]
-        public async Task<IActionResult> CurrentPrice()
-        {
-            try
-            {
-                return Ok(await dsoService.CurrentPrice());
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
+        
         [HttpPost("{UserID}/UploadImage")]
         public async Task<IActionResult> UploadImage([FromRoute][FromForm] SendPhoto sp)
         {
-
             try
             {
-
                 var result = await dsoService.SaveImage(sp.UserId, sp.imageFile);
 
                 if (result.Item2 == true)

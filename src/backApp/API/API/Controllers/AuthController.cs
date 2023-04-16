@@ -105,7 +105,6 @@ namespace API.Controllers
 
         //loginovi bi trebalo nekako da se skrate
         [HttpPost("prosumerLogin")]
-
         public async Task<ActionResult<string>> ProsumerLogin(UserLogin request) // skratiti i ovo (1)
         {
             Prosumer prosumer;
@@ -179,23 +178,7 @@ namespace API.Controllers
                 refreshToken = refreshToken.Token,
             }) ;
         }
-        /*
-        //[Authorize(Roles = "Dso")]
-        /*[HttpGet("UsersProsumer")]
-        [HttpGet("UsersProsumer")]
-        public async Task<IActionResult> ListRegisterProsumer()
-        {
-            try
-            {
-                return Ok(await authService.GetAllProsumers());
-            }
-            catch (Exception)
-            {
-                return BadRequest("No Prosumers found!");
-            }
-            
-        }
-        */
+
         [HttpPost("refreshToken")]
         public async Task<ActionResult> RefreshToken([FromBody] ReceiveRefreshToken refreshToken)
         {
@@ -235,26 +218,20 @@ namespace API.Controllers
 
         }
 
-       
-
         [HttpPost("Send_E-mail")]
         public IActionResult SendEmail(string emailUser,string messagetoClientHTML)  // messagetoClinet mora biti HTML!!!
         {
 
-         
-            
             var message = new MimeMessage(); // Mime.Kit
             message.From.Add(MailboxAddress.Parse("VoltaDSO@gmail.com")); 
             message.To.Add(MailboxAddress.Parse(emailUser));//email how forgot a password
             message.Body = new TextPart(MimeKit.Text.TextFormat.Html)
             {
 
-
                 Text = messagetoClientHTML
-
             }; // koristimo html
             
-            message.Subject = "USER "+emailUser +" has forgotten his password!";
+            message.Subject = "Volta: User "+emailUser +" has forgotten their password!";
 
             var smtp = new SmtpClient(); //using MailKit.Net.Smtp;
             if (emailUser.Contains("gmail.com"))
@@ -270,17 +247,14 @@ namespace API.Controllers
             smtp.Send(message);
             smtp.Disconnect(true);
 
-
             return Ok();
         }
 
         //forgot passw
-        
         [HttpPost("forgot_passwordProsumer")]
         public async Task<ActionResult> ForgotPasswordProsumer(string email)// mora da se napravi trenutni token  i datum kada istice 
         {
             //saljemo email 
-
             Prosumer prosumer;
 
             try
@@ -293,7 +267,6 @@ namespace API.Controllers
             }
             
             if (!await authService.SaveToken(prosumer, authService.CreateRandomToken())) return BadRequest("Token could not be saved"); // kreiramo random token za prosumer-a koji ce da koristi za sesiju
-
 
             return Ok(new { error = false, resetToken = prosumer.Token });
         }
@@ -321,15 +294,14 @@ namespace API.Controllers
         [HttpPost("reset_passwordProsumer")]
         public async Task<ActionResult> ResetPasswordProsumer(ResetPassworkForm reset) // mora da se napravi trenutni token  i datum kada istice 
         {
-            //
             Prosumer prosumer;
+
             try
             {
                 prosumer = await authService.GetProsumerWithToken(reset.Token);
             }
             catch (Exception)
             {
-                
                 return Ok(new { error = true, message = "Prosumer is not found" });
             }
  
