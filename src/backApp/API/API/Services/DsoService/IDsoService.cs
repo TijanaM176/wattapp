@@ -25,5 +25,7 @@ namespace API.Services.DsoService
         public Task<double> ProsumerCount();
         public Task<List<ElectricityPrice>> Prices();
         public Task<Dictionary<string, double>> CurrentPrice();
+        public Task<bool> DeleteImage(String WorkerID);
+        public Task<(String, Boolean)> SaveImage(String WorkerID, IFormFile imageFile);
     }
 }

@@ -123,5 +123,58 @@ namespace API.Repositories.DsoRepository
         {
             return (await _context.ElectricityPrices.FirstOrDefaultAsync(x => x.Timestamp.Date == date.Date)).Price;
         }
+
+        public async Task<bool> DeleteImageDso(String DsoWorkerId)
+        {
+            var user = await _context.Dsos.FindAsync(DsoWorkerId);
+            if (user == null || string.IsNullOrEmpty(user.Image))
+                return false;
+  
+            user.Image = null;
+            await _context.SaveChangesAsync();
+
+            return true;
+        }
+
+        public async Task<(String, Boolean)> SaveImageDso(String DsoWorkerId, IFormFile imageFile)
+        {
+            var user = await _context.Dsos.FindAsync(DsoWorkerId);
+            if (user == null)
+                return ("User not found!", false);
+
+            // Check allowed extensions
+            var ext = Path.GetExtension(imageFile.FileName);
+            var allowedExtensions = new string[] { ".jpg", ".jpeg", ".png" };
+            if (!allowedExtensions.Contains(ext))
+                return ("Extension is not allowed!", false);
+
+
+
+            // pročitaj sadržaj datoteke u byte array
+            try
+            {
+                byte[] imageBytes;
+                using (var stream = new MemoryStream())
+                {
+                    imageFile.CopyTo(stream);
+                    imageBytes = stream.ToArray();
+                }
+
+                // konvertuj sliku u Base64 string
+                var base64String = Convert.ToBase64String(imageBytes);
+                user.Image = base64String;
+
+                // vrati Base64 string kao drugi element n-torke
+                await _context.SaveChangesAsync();
+                return (base64String, true);
+            }
+            catch (Exception exc)
+            {
+                return ("String is not save!", false);
+            }
+
+            await _context.SaveChangesAsync();
+            return ("OK", true);
+        }
     }
 }

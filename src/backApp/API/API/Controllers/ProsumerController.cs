@@ -165,16 +165,16 @@ namespace API.Controllers
                 return BadRequest(ex.Message);
             }
         }
-        [HttpPost("{ProsumerId}/UploadImage")]
-        public async Task<IActionResult> UploadImage([FromForm] SendPhoto sp)
+        [HttpPost("{UserID}/UploadImage")]
+        public async Task<IActionResult> UploadImage([FromRoute][FromForm] SendPhoto sp)
         {
          
             try
             {
                
-                var result = await prosumerService.SaveImage(sp.ProsumerId, sp.imageFile);
-                
-                if (result)
+                var result = await prosumerService.SaveImage(sp.UserId, sp.imageFile);
+
+                if (result.Item2 == true)
                 {
                     return Ok("Image is save");
                 }
@@ -190,7 +190,7 @@ namespace API.Controllers
         }
 
         [HttpDelete("{ProsumerId}/DeleteImage")]
-        public async Task<IActionResult> DeleteImage(String ProsumerId)
+        public async Task<IActionResult> DeleteImage([FromRoute]String ProsumerId)
         {
             try
             {

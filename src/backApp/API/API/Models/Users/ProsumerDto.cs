@@ -7,6 +7,6 @@ namespace API.Models.Users
         public string NeigbName { get; set; }
         public string Address { get; set; }
         public string City { get; set; }
-        public IFormFile? imageFile { get; set;}
+      
 }
 }

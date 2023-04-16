@@ -206,15 +206,16 @@ namespace API.Services.ProsumerService
         }
         public async Task<bool> DeleteImage(String prosumerID)
         {
-            bool answer =  await _repository.DeleteImage(prosumerID);
+            bool answer =  await _repository.DeleteImageProsumer(prosumerID);
             if (answer == null) throw new ArgumentException("ERORR DeleteImage");
             return answer;
         }
 
-        public async Task<bool> SaveImage(String prosumerID, IFormFile imageFile)
+        public async Task<(String, Boolean)> SaveImage(String ProsumerId, IFormFile imageFile)
         {
-            bool answer = await _repository.SaveImage(prosumerID, imageFile);
-            if (answer == null) throw new ArgumentException("ERORR SaveImage");
+            (String,Boolean) answer = await _repository.SaveImageProsumer(ProsumerId, imageFile);
+            if (answer.Item2 == false) throw new ArgumentException(answer.Item1);
+
             return answer;
         }
     }

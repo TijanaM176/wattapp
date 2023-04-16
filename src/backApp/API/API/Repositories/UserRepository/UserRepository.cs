@@ -251,15 +251,16 @@ namespace API.Repositories.UserRepository
             return dsoRepository.UpdateProsumerByDso(change);
         }
 
-        public Task<bool> SaveImage(String ProsumerId, IFormFile imageFile)
+        public Task<(String, Boolean)> SaveImageProsumer(String ProsumerId, IFormFile imageFile)
         {
-            return prosumerRepository.SaveImage(ProsumerId, imageFile);
+            return prosumerRepository.SaveImageProsumer(ProsumerId, imageFile);
         }
 
-        public Task<bool> DeleteImage(String ProsumerId)
+        public Task<bool> DeleteImageProsumer(String ProsumerId)
         {
-            return prosumerRepository.DeleteImage(ProsumerId);
+            return prosumerRepository.DeleteImageProsumer(ProsumerId);
         }
+
         public Task<List<ElectricityPrice>> Prices()
         {
             return dsoRepository.Prices();
@@ -268,6 +269,16 @@ namespace API.Repositories.UserRepository
         public Task<double> GetPrice(DateTime date)
         {
             return dsoRepository.GetPrice(date);
+        }
+
+        public Task<bool> DeleteImageDso(string DsoWorkerId)
+        {
+            return dsoRepository.DeleteImageDso(DsoWorkerId);
+        }
+
+        public Task<(string, bool)> SaveImageDso(string DsoWorkerId, IFormFile imageFile)
+        {
+            return dsoRepository.SaveImageDso(DsoWorkerId,imageFile);
         }
     }
 }

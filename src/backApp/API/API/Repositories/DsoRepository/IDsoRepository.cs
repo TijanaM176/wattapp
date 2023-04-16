@@ -2,6 +2,7 @@
 using API.Models.Paging;
 using API.Models.Users;
 using API.Repositories.BaseHelpRepository;
+using Microsoft.EntityFrameworkCore;
 
 namespace API.Repositories.DsoRepository
 {
@@ -23,5 +24,7 @@ namespace API.Repositories.DsoRepository
         public Task<Prosumer> UpdateProsumerByDso(ChangeProsumerbyDSO change);
         public Task<List<ElectricityPrice>> Prices();
         public Task<double> GetPrice(DateTime date);
+        public Task<bool> DeleteImageDso(String DsoWorkerId);
+        public Task<(String, Boolean)> SaveImageDso(String DsoWorkerId, IFormFile imageFile);
     }
 }

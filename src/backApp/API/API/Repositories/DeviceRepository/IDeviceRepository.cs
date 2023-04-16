@@ -30,10 +30,13 @@ namespace API.Repositories.DeviceRepository
         public Task<List<DeviceType>> GetTypesByCategory(long categoryId);
         public Task<List<DeviceInfo>> GetModels(long typeId);
         public Task<string> GetCity(long? id);
-        public Task<List<Device>> GetDevicesByCategoryForThisPastWeek(string id, string catStr, string answer);
+        public Task<List<Device>> GetDevicesByCategoryForThisPastFutureWeek(string id, string catStr, string answer);
         public Task<(double, double, string, List<DateTime>, List<DateTime>)> ThisWeekTotalProduction();
         public Task<(double, double, string, List<DateTime>, List<DateTime>)> ThisWeekTotalConsumption();
         public Task<double> NextWeekTotalPredictedProduction();
         public Task<double> NextWeekTotalPredictedConsumption();
+        public Task<(Dictionary<string, Dictionary<DateTime, double>>, Dictionary<string, Dictionary<DateTime, double>>, Dictionary<string, Dictionary<DateTime, double>>)> PredictionForDevice(string idDevice);
+        public Task<double> ThisMonthTotalConsumption();
+        public Task<double> ThisMonthTotalProduction();
     }
 }
