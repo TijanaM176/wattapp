@@ -1,6 +1,6 @@
 import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { NgToastService } from 'ng-angular-popup';
+import { ToastrService } from 'ngx-toastr';
 import { CookieService } from 'ngx-cookie-service';
 import { AuthServiceService } from 'src/app/services/auth-service.service';
 import { fromEvent, Observable, Subscription } from 'rxjs';
@@ -13,58 +13,50 @@ import * as L from 'leaflet';
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css'],
 })
-export class DashboardComponent implements OnInit, AfterViewInit{
-  
+export class DashboardComponent implements OnInit, AfterViewInit {
   deviceWidth!: number;
   navBarHeight!: number;
-  resizeObservable$!: Observable<Event>
+  resizeObservable$!: Observable<Event>;
   resizeSubscription$!: Subscription;
-  content : any;
-  region : string = '';
+  content: any;
+  region: string = '';
 
   constructor(
-    private widthService : ScreenWidthService,
-    private employeeService : EmployeesServiceService,
-    private cookie : CookieService
+    private widthService: ScreenWidthService,
+    private employeeService: EmployeesServiceService,
+    private cookie: CookieService
   ) {}
   ngAfterViewInit(): void {
-    this.content.style.height = this.widthService.height+'px';
+    this.content.style.height = this.widthService.height + 'px';
   }
 
   ngOnInit(): void {
-    this.content = document.getElementById("content");
-    if(window.innerWidth>320)
-    {
+    this.content = document.getElementById('content');
+    if (window.innerWidth > 320) {
       let height = window.innerHeight - 101;
       this.widthService.height = height;
-    }
-    else
-    {
+    } else {
       let height = window.innerHeight - 140.6;
       this.widthService.height = height;
     }
     this.resizeObservable$ = fromEvent(window, 'resize');
-    this.resizeSubscription$ = this.resizeObservable$.subscribe( evt => {
-      if(window.innerWidth>320)
-      {
+    this.resizeSubscription$ = this.resizeObservable$.subscribe((evt) => {
+      if (window.innerWidth > 320) {
         let height = window.innerHeight - 101;
         this.widthService.height = height;
-        this.content.style.height = this.widthService.height+'px';
-      }
-      else
-      {
+        this.content.style.height = this.widthService.height + 'px';
+      } else {
         let height = window.innerHeight - 140.6;
         this.widthService.height = height;
-        this.content.style.height = this.widthService.height+'px';
+        this.content.style.height = this.widthService.height + 'px';
       }
     });
     this.getRegion();
   }
 
-  private getRegion()
-  {
-    this.cookie.set('region', 'Šumadija', {path:'/'});
-    this.cookie.set('lat','43.983334', {path:'/'});
-    this.cookie.set('long','20.883333', {path:'/'})
+  private getRegion() {
+    this.cookie.set('region', 'Šumadija', { path: '/' });
+    this.cookie.set('lat', '43.983334', { path: '/' });
+    this.cookie.set('long', '20.883333', { path: '/' });
   }
 }
