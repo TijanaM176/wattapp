@@ -104,7 +104,7 @@ export class PredictionChartComponent implements OnInit {
   loadData(apiCall: any, mapFunction: any) 
   {
     apiCall().subscribe((response: any) => {
-      console.log(response);
+      //console.log(response);
       const myList = Object.keys(response.consumption).map(
         (name) => {
           let consumptionValue = response.consumption[name];

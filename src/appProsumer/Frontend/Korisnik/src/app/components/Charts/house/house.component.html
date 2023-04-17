@@ -5,7 +5,7 @@
         </div>
         <div class="walls px-1 pb-1" style="width: 85%; height: 65%;" id="houseWalls">
             <div class="row px-0 py-0 mx-0 my-0" style="width: 100%; height: 100%; display: flex; justify-content: start; align-items: center; overflow-y: auto; overflow-x: hidden;">
-                <div class="card px-0 py-0" *ngFor="let device of devices" [ngStyle]="{'background-color':deviceUsages[device.Id]===0? '#c8ebd9' : '#8ee5c9'}">
+                <div class="card px-0 py-0" *ngFor="let device of devices" [ngStyle]="{'background-color':deviceUsages[device.Id]===0? '#D8D8D8' : '#8ee5c9'}">
                     <span [ngSwitch]="device.TypeId" style="max-width: 100%; text-align: center;">
                         <div *ngSwitchCase="'1'" class="pt-1 text-center row text-center p-md-2" >
                             <div class="col-12 col-md-5">

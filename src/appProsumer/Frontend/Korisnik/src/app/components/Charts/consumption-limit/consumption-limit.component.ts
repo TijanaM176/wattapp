@@ -18,12 +18,22 @@ export class ConsumptionLimitComponent implements OnInit, AfterViewInit {
   constructor(private deviceService : DevicesService) {}
 
   ngAfterViewInit(): void {
-    document.getElementById('consumptionLimitBody')!.style.height = (window.innerHeight*0.6) + 'px';
+    let w = window.innerWidth;
+    let h = window.innerHeight;
+    if(w>=576)
+    {
+      document.getElementById('consumptionLimitBody')!.style.height = (h*0.6) + 'px';
+    }
+    else
+    {
+      document.getElementById('consumptionLimitBody')!.style.height = (h*0.4) + 'px';
+    }
   }
 
   ngOnInit(): void {
     this.loaded = false;
     this.width = document.getElementById('consumptionLimitCardBody')!.offsetWidth*0.9;
+    this.getConumptionAndProductionLimit();
   }
 
   getConumptionAndProductionLimit()
@@ -32,7 +42,7 @@ export class ConsumptionLimitComponent implements OnInit, AfterViewInit {
     .subscribe({
       next:(res)=>{
         this.loaded = true;
-        this.consumption = res.consumption;
+        this.consumption = res.consumption.toFixed(1);
       },
       error:(err)=>{
         this.loaded = false;

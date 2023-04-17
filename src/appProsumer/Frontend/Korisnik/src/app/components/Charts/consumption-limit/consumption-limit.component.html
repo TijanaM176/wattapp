@@ -2,7 +2,7 @@
     <h6 class="m-0 font-weight-bold">Consumption Limit</h6>
 </div>
 <div class="card-body" style="width: 100%; margin: 0 auto;" id="consumptionLimitCardBody">
-    <div class="w-100 px-0 py-0 mx-0 my-0 h-md-100" style="display: flex; justify-content: center; align-items: center;" id="consumptionLimitBody">
+    <div class="w-100 px-0 py-0 mx-0 my-0" style="display: flex; justify-content: center; align-items: center;" id="consumptionLimitBody">
         <!-- <h1
             *ngIf="loaded"
             style="
@@ -16,7 +16,7 @@
         >
             There Is No Available Data
         </h1> -->
-        <ngx-gauge
+        <ngx-gauge class="text-size"
             [type]="'semi'"
             [size]="width"
             [label]="gaugeLabel"
@@ -27,10 +27,10 @@
             [value]="consumption"
             [cap]="'butt'"
             [thick]="30"
-            [thresholds]="{'0':{color:'green',bgOpacity:.2},'350':{color:'blue', bgOpacity:.2},'1600':{color:'red', bgOpacity:.2}}">
+            [thresholds]="{'0':{color:'green',bgOpacity:.2},'350':{color:'#2a96d9', bgOpacity:.2},'1600':{color:'#c14b48', bgOpacity:.2}}">
         </ngx-gauge>
     </div>
-    <div class="legend w-100 text-center" *ngIf="true">
+    <div class="legend w-100 text-center" *ngIf="loaded">
         <i class="fa fa-circle greenZone">&nbsp;0-350 kW</i>&nbsp;&nbsp;&nbsp;
         <i class="fa fa-circle blueZone">&nbsp;351-1600 kW</i>&nbsp;&nbsp;&nbsp;
         <i class="fa fa-circle redZone">&nbsp;1601+ kW</i>

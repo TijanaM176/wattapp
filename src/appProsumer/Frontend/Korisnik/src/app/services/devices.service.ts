@@ -50,6 +50,6 @@ export class DevicesService {
 
   getConsumptionAndProductionLimit():Observable<any>
   {
-    return this.http.get<any>(this.totalUrl+'ThisMonthTotalConsumptionProductionForProsumer?id=' + this.cookie.get('id'));
+    return this.http.get<any>(this.totalUrl+'ThisMonthTotalConsumptionProductionForProsumer?prosumerId=' + this.cookie.get('id'));
   }
 }
