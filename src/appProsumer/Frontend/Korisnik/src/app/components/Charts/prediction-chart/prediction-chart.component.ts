@@ -95,7 +95,7 @@ export class PredictionChartComponent implements OnInit {
           const date = new Date(item.name);
           const hour = date.getHours();
           this.activateButton(id);
-          return { name: hour+'h', series: item.series };
+          return { name: hour+':00h', series: item.series };
         });
       }
     );

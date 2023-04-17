@@ -36,6 +36,8 @@ import { PredictionChartComponent } from './components/Charts/prediction-chart/p
 import { HouseComponent } from './components/Charts/house/house.component';
 import { DevicesStatusComponent } from './components/Charts/devices-status/devices-status.component';
 import { NgxSpinnerModule } from 'ngx-spinner';
+import { ConsumptionLimitComponent } from './components/Charts/consumption-limit/consumption-limit.component';
+import { NgxGaugeModule } from 'ngx-gauge';
 
 @NgModule({
   declarations: [
@@ -62,6 +64,7 @@ import { NgxSpinnerModule } from 'ngx-spinner';
     PredictionChartComponent,
     HouseComponent,
     DevicesStatusComponent,
+    ConsumptionLimitComponent,
   ],
   imports: [
     BrowserAnimationsModule,
@@ -80,6 +83,7 @@ import { NgxSpinnerModule } from 'ngx-spinner';
     MatButtonToggleModule,
     NgxChartsModule,
     NgxSpinnerModule,
+    NgxGaugeModule
   ],
   providers: [
     CookieService,

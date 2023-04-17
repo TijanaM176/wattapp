@@ -47,4 +47,9 @@ export class DevicesService {
   {
     return this.http.get<any>(this.totalUrl+'ConsumptionAndProductionByProsumer?id=' + this.cookie.get('id'));
   }
+
+  getConsumptionAndProductionLimit():Observable<any>
+  {
+    return this.http.get<any>(this.totalUrl+'ThisMonthTotalConsumptionProductionForProsumer?id=' + this.cookie.get('id'));
+  }
 }
