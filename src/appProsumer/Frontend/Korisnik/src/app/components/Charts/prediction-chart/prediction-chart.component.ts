@@ -71,6 +71,36 @@ export class PredictionChartComponent implements OnInit {
     );
   }
 
+  Prediction3Days(id : string)
+  {
+    this.loadData(
+      this.deviceService.prediction3Days.bind(this.deviceService),
+      (myList: any[]) => {
+        return myList.map((item) => {
+          const date = new Date(item.name);
+          const dayName = date.toLocaleDateString('en-US', { weekday: 'long' });
+          this.activateButton(id);
+          return { name: dayName, series: item.series };
+        });
+      }
+    );
+  }
+
+  Prediction1Day(id : string)
+  {
+    this.loadData(
+      this.deviceService.prediction1Day.bind(this.deviceService),
+      (myList: any[]) => {
+        return myList.map((item) => {
+          const date = new Date(item.name);
+          const hour = date.getHours();
+          this.activateButton(id);
+          return { name: hour+'h', series: item.series };
+        });
+      }
+    );
+  }
+
   loadData(apiCall: any, mapFunction: any) 
   {
     apiCall().subscribe((response: any) => {

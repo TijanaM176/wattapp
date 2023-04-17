@@ -17,41 +17,31 @@ export class DevicesService {
   {
     return this.http.get(this.baseUrl+'LastWeeksConsumptionAndProduction?id='+this.cookie.get('id'));
   }
-  history7DaysTimestamps()
-  {
-    return this.http.get(this.baseUrl+'LastWeeksConsumptionAndProductionTimestamps');
-  }
-
 
   history1Month()
   {
     return this.http.get(this.baseUrl+'LastMonthsConsumptionAndProduction?id='+this.cookie.get('id'));
   }
-  history1MonthTimestamps()
-  {
-    return this.http.get(this.baseUrl+'LastMonthsConsumptionAndProductionTimestamps');
-  }
-
 
   history1Year()
   {
     return this.http.get(this.baseUrl+'LastYearsConsumptionAndProduction?id='+this.cookie.get('id'));
   }
-  history1YearTimestamps()
-  {
-    return this.http.get(this.baseUrl+'LastYearsConsumptionAndProductionTimestamps');
-  }
-
 
   prediction1Week()
   {
     return this.http.get(this.baseUrl+'NextWeeksConsumptionAndProduction?id='+this.cookie.get('id'));
   }
-  prediction1WeekTimestamps()
+
+  prediction3Days()
   {
-    return this.http.get(this.baseUrl+'NextWeeksConsumptionAndProductionTimestamps');
+    return this.http.get(this.baseUrl+'Next3DaysConsumptionAndProduction?id='+this.cookie.get('id'));
   }
 
+  prediction1Day()
+  {
+    return this.http.get(this.baseUrl+'NextDaysConsumptionAndProduction?id='+this.cookie.get('id'));
+  }
   
   getCurrentConsumptionAndProduction( ): Observable<any>
   {
