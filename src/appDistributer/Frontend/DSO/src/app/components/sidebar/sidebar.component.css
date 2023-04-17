@@ -1,6 +1,6 @@
 .button1 {
   width: 20%;
-  margin-right: 25%;
+  margin-right: 35%;
   margin-left: 1%;
   text-align: center;
 }
@@ -8,4 +8,11 @@
   width: 20%;
   margin-right: 1%;
   text-align: center;
+}
+
+#side {
+  width: 280px;
+  height: calc(100vh);
+  background-color: #5875a1 !important;
+  overflow-y: auto;
 }

@@ -1,7 +1,5 @@
-
 .sidebar h3 {
   margin-top: 200px;
-  
 }
 #dugme {
   background-color: #5875a1;
@@ -16,7 +14,6 @@
 .div1 {
   background-color: #7a99b6;
 
-  
   height: 200%;
   margin: 10px;
   margin-top: 20px;
@@ -41,4 +38,11 @@
 }
 .informacije {
   text-align: center;
+}
+
+#side {
+  width: 280px;
+  height: calc(100vh);
+  background-color: #5875a1 !important;
+  overflow-y: scroll;
 }
