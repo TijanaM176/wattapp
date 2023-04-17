@@ -129,7 +129,7 @@
                       Electricity cost
                     </div>
                     <div class="h5 mb-0 font-weight-bold text-gray-800">
-                      54.258 din (per unit)
+                      {{currentPrice}} RSD
                     </div>
                   </div>
                   <div class="col-auto">
@@ -149,10 +149,7 @@
             <!-- Project Card Example -->
             <div class="card shadow">
               <!-- mb-4-->
-              <div class="card-header py-3">
-                <h6 class="m-0 font-weight-bold">Consumption Limit</h6>
-              </div>
-              <div class="card-body"></div>
+              <app-consumption-limit></app-consumption-limit>
             </div>
           </div>
 
