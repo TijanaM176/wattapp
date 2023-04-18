@@ -9,6 +9,9 @@ import { strings } from '@material/slider';
 import { UsersServiceService } from 'src/app/services/users-service.service';
 import { ScaleType, Color, LegendComponent } from '@swimlane/ngx-charts';
 import { BrowserModule } from '@angular/platform-browser';
+import { ToastrService } from 'ngx-toastr';
+import { DashboarddataService } from 'src/app/services/dashboarddata.service';
+import { DataService } from 'src/app/services/data.service';
 
 @Component({
   selector: 'app-home-sidebar',
@@ -38,9 +41,11 @@ export class HomeSidebarComponent implements OnInit, AfterViewInit {
   constructor(
     private deviceService: DeviceserviceService,
     private employeeService: EmployeesServiceService,
-    // private toast: NgToastService,
     private widthService: ScreenWidthService,
-    private service: UsersServiceService
+    private service: UsersServiceService,
+    public toast:ToastrService,
+    private servicedash:DashboarddataService,
+    private servicedata:DataService
   ) {}
 
   ngAfterViewInit(): void {
@@ -49,7 +54,7 @@ export class HomeSidebarComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
-    this.service.ConsumerProducerRatio().subscribe((response) => {
+    this.servicedash.ConsumerProducerRatio().subscribe((response) => {
       this.data = Object.entries(response).map(([name, value]) => ({
         name,
         value,
@@ -75,44 +80,38 @@ export class HomeSidebarComponent implements OnInit, AfterViewInit {
       },
       error: (err) => {
         console.log(err.error);
-        // this.toast.error({
-        //   detail: 'ERROR',
-        //   summary: 'Unable to load data',
-        //   duration: 3000,
-        // });
+        this.toast.error('Error!', 'Unable to load data.', {
+          timeOut: 2500,
+        });
       },
     });
   }
 
   private getProsumerCount() {
-    this.employeeService.getProsumerCout().subscribe({
+    this.servicedash.getProsumerCout().subscribe({
       next: (res) => {
         this.numOfUsers = res.prosumerCount;
       },
       error: (err) => {
         console.log(err.error);
-        // this.toast.error({
-        //   detail: 'ERROR',
-        //   summary: 'Unable to load data',
-        //   duration: 3000,
-        // });
+        this.toast.error('Error!', 'Unable to load data.', {
+          timeOut: 2500,
+        });
       },
     });
   }
 
   private getRegion() {
-    this.employeeService.getAllRegions().subscribe({
+    this.servicedata.getAllRegions().subscribe({
       next: (res) => {
         this.region = res[0].regionName;
         this.getProsumerCount();
       },
       error: (err) => {
         console.log(err.error);
-        // this.toast.error({
-        //   detail: 'ERROR',
-        //   summary: 'Unable to load data',
-        //   duration: 3000,
-        // });
+        this.toast.error('Error!', 'Unable to load data.', {
+          timeOut: 2500,
+        });
       },
     });
   }

@@ -4,6 +4,9 @@ import { CookieService } from 'ngx-cookie-service';
 import { EmployeesServiceService } from 'src/app/services/employees-service.service';
 import { ScreenWidthService } from 'src/app/services/screen-width.service';
 import { fromEvent, Observable, Subscription } from 'rxjs';
+import { ToastrService } from 'ngx-toastr';
+import { DeviceserviceService } from 'src/app/services/deviceservice.service';
+import { DataService } from 'src/app/services/data.service';
 
 @Component({
   selector: 'app-worker-profile',
@@ -23,8 +26,9 @@ export class WorkerProfileComponent implements OnInit, AfterViewInit {
 
   constructor(
     private workerService: EmployeesServiceService,
+    private dataService:DataService,
     private cookie: CookieService,
-    // private toast: NgToastService,
+    public toast:ToastrService,
     private widthService: ScreenWidthService
   ) {}
 
@@ -58,9 +62,10 @@ export class WorkerProfileComponent implements OnInit, AfterViewInit {
     this.workerService.detailsEmployee(id).subscribe({
       next: (res) => {
         this.worker = res;
-        this.workerService.getRegionName(this.worker.regionId).subscribe({
+        this.dataService.getRegionName(this.worker.regionId).subscribe({
           next: (res) => {
             this.region = res;
+            this.toast.success('Success','Successful get Region Name',{timeOut:2500});
             //console.log(this.region);
           },
         });
@@ -68,11 +73,9 @@ export class WorkerProfileComponent implements OnInit, AfterViewInit {
       },
       error: (err) => {
         console.log(err.error);
-        // this.toast.error({
-        //   detail: 'ERROR',
-        //   summary: 'Unable to get information',
-        //   duration: 3000,
-        // });
+        this.toast.error('Error!', 'Unable to get Region Name.', {
+          timeOut: 2500,
+        });
       },
     });
   }

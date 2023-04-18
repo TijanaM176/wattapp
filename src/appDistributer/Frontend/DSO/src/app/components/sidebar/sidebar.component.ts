@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { UsersServiceService } from 'src/app/services/users-service.service';
 import { Neighborhood } from 'src/app/models/neighborhood';
 import { Options, LabelType } from '@angular-slider/ngx-slider';
+import { DeviceserviceService } from 'src/app/services/deviceservice.service';
 @Component({
   selector: 'app-sidebar',
   templateUrl: './sidebar.component.html',
@@ -59,7 +60,7 @@ export class SidebarComponent implements OnInit {
   neighborhood: string = '';
   Neighborhoods: Neighborhood[] = [];
   dropDownNeigh: string = '';
-  constructor(private userService: UsersServiceService) {}
+  constructor(private userService: UsersServiceService,private deviceService:DeviceserviceService) {}
 
   ChangeNeighborhood(e: any) {
     this.dropDownNeigh = e.target.value;
@@ -72,7 +73,7 @@ export class SidebarComponent implements OnInit {
   }
 
   filterwithoutNeighborhood() {
-    this.userService
+    this.deviceService
       .prosumerFilter(
         this.minValueC,
         this.maxValueC,
@@ -90,12 +91,12 @@ export class SidebarComponent implements OnInit {
           this.minValue,
           this.maxValue
         );
-        this.userService.prosumers = response;
+        this.deviceService.prosumers = response;
         console.log(response);
       });
   }
   filterwithNeighborhood() {
-    this.userService
+    this.deviceService
       .prosumerFilter2(
         this.dropDownNeigh,
         this.minValueC,
@@ -106,7 +107,7 @@ export class SidebarComponent implements OnInit {
         this.maxValue
       )
       .subscribe((response) => {
-        this.userService.prosumers = response;
+        this.deviceService.prosumers = response;
         console.log(
           this.dropDownNeigh,
           this.minValueC,
@@ -134,6 +135,6 @@ export class SidebarComponent implements OnInit {
     this.maxValueP = 300;
     this.minValue = 0;
     this.maxValue = 50;
-    this.userService.refreshList();
+    this.deviceService.ProsumersInfo();
   }
 }

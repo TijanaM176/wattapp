@@ -7,6 +7,7 @@ import { data } from 'jquery';
 import { EmployeesServiceService } from 'src/app/services/employees-service.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { CookieService } from 'ngx-cookie-service';
+import { DataService } from 'src/app/services/data.service';
 
 @Component({
   selector: 'app-user1',
@@ -22,7 +23,8 @@ export class User1Component {
     private router: ActivatedRoute,
     private employyeService: EmployeesServiceService,
     private spiner: NgxSpinnerService,
-    private cookie : CookieService
+    private cookie : CookieService,
+    private serviceData:DataService
   ) {}
 
   id: string = '';
@@ -47,7 +49,7 @@ export class User1Component {
         this.address = data.address;
         this.id = this.router.snapshot.params['id'];
         this.Region = this.cookie.get('region');
-        this.user.getCityNameById(data.cityId).subscribe((dat) => {
+        this.serviceData.getCityNameById(data.cityId).subscribe((dat) => {
           this.city = dat;
         });
       });

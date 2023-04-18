@@ -8,6 +8,7 @@ import { Router } from '@angular/router';
 import { FormControl, FormGroup } from '@angular/forms';
 import { CookieService } from 'ngx-cookie-service';
 import { editEmployeeDto } from 'src/app/models/editEmployee';
+import { DataService } from 'src/app/services/data.service';
 
 @Component({
   selector: 'app-employees',
@@ -43,7 +44,8 @@ export class EmployeesComponent {
   constructor(
     public service: EmployeesServiceService,
     private router: Router,
-    private cookie: CookieService
+    private cookie: CookieService,
+    private serviceData:DataService
   ) {
   }
 
@@ -81,11 +83,11 @@ export class EmployeesComponent {
       this.role=res.roleId;
       this.region=res.regionId;
       console.log(res);
-      this.service.getRegionName(this.employee.regionId).subscribe((res) => {
+      this.serviceData.getRegionName(this.employee.regionId).subscribe((res) => {
         console.log(res);
         this.regionName = res;
       });
-      this.service.getRoleName(this.employee.roleId).subscribe((res) => {
+      this.serviceData.getRoleName(this.employee.roleId).subscribe((res) => {
         console.log(res);
         this.roleName = res;
       });   
@@ -99,12 +101,11 @@ export class EmployeesComponent {
     
   }
   getAllRegions(){
-    this.service.getAllRegions().subscribe({
+    this.serviceData.getAllRegions().subscribe({
       next:(res)=>{
         this.Region=res;
       },
       error:(err)=>{
-        //this.toast.error({detail:"Error!",summary:"Unable to load user data.", duration:3000});
         console.log(err.error);
       }
     });
@@ -113,7 +114,7 @@ export class EmployeesComponent {
     
   }
   getAllRoles(){
-    this.service.getAllRoles().subscribe({
+    this.serviceData.getAllRoles().subscribe({
       next:(res)=>{
         this.Role=res;
       },

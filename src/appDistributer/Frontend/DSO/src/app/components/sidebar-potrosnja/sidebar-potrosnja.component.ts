@@ -4,6 +4,7 @@ import { UsersServiceService } from 'src/app/services/users-service.service';
 import { FormGroup, FormControl } from '@angular/forms';
 import { SidebarDsoComponent } from '../sidebar-dso/sidebar-dso.component';
 import { data } from 'jquery';
+import { DeviceserviceService } from 'src/app/services/deviceservice.service';
 
 @Component({
   selector: 'app-sidebar-potrosnja',
@@ -14,14 +15,15 @@ export class SidebarPotrosnjaComponent {
   @ViewChild('sidebarInfo', { static: true }) sidebarInfo!: SidebarDsoComponent;
   constructor(
     private user: UsersServiceService,
-    private router: ActivatedRoute
+    private router: ActivatedRoute,
+    private deviceServer:DeviceserviceService
   ) {}
 
   consumption : number = 0;
   production : number = 0;
 
   ngOnInit(): void {
-    this.user
+    this.deviceServer
       .getUserProductionAndConsumption(this.router.snapshot.params['id'])
       .subscribe((data) => {
         this.consumption = data.consumption;

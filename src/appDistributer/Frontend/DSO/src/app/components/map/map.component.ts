@@ -7,6 +7,8 @@ import { Neighborhood } from 'src/app/models/neighborhood';
 import { Options, LabelType } from '@angular-slider/ngx-slider';
 import { ScreenWidthService } from 'src/app/services/screen-width.service';
 import { fromEvent, Observable, Subscription } from 'rxjs';
+import { ToastrService } from 'ngx-toastr';
+import { DeviceserviceService } from 'src/app/services/deviceservice.service';
 
 @Component({
   selector: 'app-map',
@@ -80,8 +82,9 @@ export class MapComponent implements AfterViewInit, OnInit {
   constructor(
     private mapService: UsersServiceService,
     private widthService: ScreenWidthService,
-    // private toast: NgToastService,
-    private cookie: CookieService
+    public toast:ToastrService,
+    private cookie: CookieService,
+    private deviceServer:DeviceserviceService
   ) {}
 
   ChangeNeighborhood(e: any) {
@@ -181,7 +184,7 @@ export class MapComponent implements AfterViewInit, OnInit {
   }
 
   populateTheMap(map: any) {
-    this.mapService.ProsumersInfo1().subscribe({
+    this.deviceServer.ProsumersInfo1().subscribe({
       next: (res) => {
         this.users = res;
         let iconUrl = 'assets/images/marker-icon-2x-blueviolet.png';
@@ -222,11 +225,10 @@ export class MapComponent implements AfterViewInit, OnInit {
         }
       },
       error: (err) => {
-        // this.toast.error({
-        //   detail: 'Error',
-        //   summary: 'Unable to retreive prosumer locations',
-        //   duration: 3000,
-        // });
+
+        this.toast.error('Error!', 'Unable to retreive prosumer locations.', {
+          timeOut: 2500,
+        });
         console.log(err.error);
       },
     });
@@ -279,7 +281,7 @@ export class MapComponent implements AfterViewInit, OnInit {
 
   filterwithoutNeighborhood(map: any) {
     this.deleteAllMarkers(map);
-    this.mapService
+    this.deviceServer
       .prosumerFilter(
         this.minValueC,
         this.maxValueC,
@@ -296,7 +298,7 @@ export class MapComponent implements AfterViewInit, OnInit {
   }
   filterwithNeighborhood(map: any) {
     this.deleteAllMarkers(map);
-    this.mapService
+    this.deviceServer
       .prosumerFilter2(
         this.dropDownNeigh,
         this.minValueC,

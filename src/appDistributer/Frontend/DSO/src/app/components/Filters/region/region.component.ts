@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Region } from 'src/app/models/region';
+import { DataService } from 'src/app/services/data.service';
 import { EmployeesServiceService } from 'src/app/services/employees-service.service';
 
 @Component({
@@ -13,7 +14,7 @@ export class RegionComponent implements OnInit {
   regions : Region[] = [];
   dropDownRegion: boolean = false;
 
-  constructor(private employeeService : EmployeesServiceService) {}
+  constructor(private employeeService : EmployeesServiceService,private serviceData:DataService) {}
 
   ngOnInit(): void {
     this.dropDownRegion = false;
@@ -25,7 +26,7 @@ export class RegionComponent implements OnInit {
 
   getRegions()
   {
-    this.employeeService.getAllRegions()
+    this.serviceData.getAllRegions()
     .subscribe({
       next:(response)=>{
         this.regions = response;

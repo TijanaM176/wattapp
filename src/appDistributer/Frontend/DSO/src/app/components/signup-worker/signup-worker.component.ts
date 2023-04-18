@@ -6,6 +6,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 // import { NgToastService } from 'ng-angular-popup';
 import { AuthService } from 'src/app/services/auth.service';
 @Component({
@@ -21,7 +22,8 @@ export class SignupWorkerComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private router: Router,
-    private auth: AuthService // private toast: NgToastService
+    private auth: AuthService,
+    public toast:ToastrService
   ) {}
   ngOnInit(): void {
     this.signupWorkerForm = this.fb.group({
@@ -58,22 +60,14 @@ export class SignupWorkerComponent implements OnInit {
     if (this.signupWorkerForm.valid) {
       this.auth.signupWorker(this.signupWorkerForm.value).subscribe({
         next: (res) => {
-          //alert(res);
-          // this.toast.success({
-          //   detail: 'Success!',
-          //   summary: 'New Employee Added',
-          //   duration: 2500,
-          // });
+          this.toast.success('Success','New Employee Added',{timeOut:2500});
           this.signupWorkerForm.reset();
           //this.router.navigate(['']);
         },
         error: (err) => {
-          //alert(err?.error)
-          // this.toast.error({
-          //   detail: 'Error!',
-          //   summary: err.error,
-          //   duration: 3000,
-          // });
+          this.toast.error('Error!', 'Unable to add new employee.', {
+            timeOut: 2500,
+          });
         },
       });
       console.log(this.signupWorkerForm.value);

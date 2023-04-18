@@ -2,6 +2,7 @@ import { Component, ViewChild, OnInit } from '@angular/core';
 import { EmployeesServiceService } from 'src/app/services/employees-service.service';
 import { RegionComponent } from '../Filters/region/region.component';
 import { RoleComponent } from '../Filters/role/role.component';
+import { DataService } from 'src/app/services/data.service';
 
 @Component({
   selector: 'app-employee-nav-bar',
@@ -13,7 +14,7 @@ export class EmployeeNavBarComponent implements OnInit{
   @ViewChild('region',{static: true}) region! : RegionComponent;
   @ViewChild('role',{static: true}) role! : RoleComponent;
 
-  constructor(private employeeService : EmployeesServiceService) {}
+  constructor(private employeeService : EmployeesServiceService,private serviceData:DataService) {}
 
   ngOnInit(): void {
     this.loadFilters();
@@ -33,11 +34,11 @@ export class EmployeeNavBarComponent implements OnInit{
 
   loadFilters()
   {
-    this.employeeService.getAllRegions()
+    this.serviceData.getAllRegions()
     .subscribe({
       next:(response)=>{
         this.region.regions = response;
-        this.employeeService.getAllRoles()
+        this.serviceData.getAllRoles()
         .subscribe({
           next:(response)=>{
             let index = response.findIndex(x=> x.roleName=='Prosumer');

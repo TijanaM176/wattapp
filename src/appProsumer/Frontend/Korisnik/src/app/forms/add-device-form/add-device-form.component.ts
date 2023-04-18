@@ -47,10 +47,8 @@ export class AddDeviceFormComponent {
   }
   ChangeCategory(e: any) {
     this.service.category = this.category;
-
     this.type = -1;
     this.getTypes();
-    this.getModels();
     this.Name = 'Device Name';
   }
   getCategories() {

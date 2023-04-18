@@ -50,30 +50,14 @@ export class EmployeesServiceService {
     );
   }
 
-  getRoleName(id: number): Observable<string> {
-    return this.http.get(`${this.dataUrl}GetRoleName` + `?id=` + id, {
-      responseType: 'text',
-    });
-  }
-
-  getRegionName(id: string): Observable<string> {
-    return this.http.get(`${this.dataUrl}GetRegionName` + `?id=` + id, {
-      responseType: 'text',
-    });
-  }
+  
   /*
   refreshList(){
     lastValueFrom(this.http.get(this.baseUrl))
     .then(res=>this.employees = res as Employee[] )
   }
  */
-  getAllRegions(): Observable<any[]> {
-    return this.http.get<any[]>(this.dataUrl + 'GetRegions');
-  }
 
-  getAllRoles(): Observable<any[]> {
-    return this.http.get<any[]>(this.dataUrl + 'GetRoles');
-  }
 
   filter() {
     if (this.role == 0 && this.region == '') {
@@ -132,9 +116,5 @@ export class EmployeesServiceService {
       });
   }
 
-  getProsumerCout(): Observable<any> {
-    return this.http.get<any>(
-      'https://localhost:7156/api/DashboardData/ProsumerCount'
-    );
-  }
+  
 }
