@@ -16,7 +16,7 @@ export class DeviceCardsComponent implements OnInit {
   checked = true;
   disabled = false;
   notChecked = false;
-  deviceUsages: { [key: string]: number } = {};
+  deviceUsages: { [id: string]: number } = {};
   consumers: any[] = [];
   producers: any[] = [];
   storages: any[] = [];
@@ -43,6 +43,7 @@ export class DeviceCardsComponent implements OnInit {
         ];
         this.devicesToShow = this.devices;
         this.devices.forEach((device) => {
+          this.deviceUsages[device.Id] = 0;
           this.Usage(device.Id);
         });
         this.spiner.hide();
@@ -51,7 +52,7 @@ export class DeviceCardsComponent implements OnInit {
 
   Usage(id: string) {
     this.service.getDeviceById(id).subscribe((response) => {
-      this.deviceUsages[id] = response.CurrentUsage;
+      this.deviceUsages[id] = Number(response.CurrentUsage);
     });
   }
 

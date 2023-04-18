@@ -2,11 +2,11 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { ThemePalette } from '@angular/material/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { NgToastService } from 'ng-angular-popup';
 import { EditDeviceFormComponent } from 'src/app/forms/edit-device-form/edit-device-form.component';
 import { Device } from 'src/app/models/device';
 import { DeviceserviceService } from 'src/app/services/deviceservice.service';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-deviceinfo',
@@ -39,7 +39,7 @@ export class DeviceinfoComponent {
   constructor(
     private router: Router,
     private service: DeviceserviceService,
-    private toast: NgToastService,
+    private toast: ToastrService,
     private router1: ActivatedRoute,
     private spiner: NgxSpinnerService
   ) {}
@@ -81,10 +81,8 @@ export class DeviceinfoComponent {
         this.spiner.hide();
       },
       error: (err) => {
-        this.toast.error({
-          detail: 'Error!',
-          summary: 'Unable to load device data.',
-          duration: 3000,
+        this.toast.error('Error!', 'Unable to load device data.', {
+          timeOut: 3000,
         });
         console.log(err.error);
       },
@@ -98,10 +96,8 @@ export class DeviceinfoComponent {
           console.log('deleted');
         },
         error: (err) => {
-          this.toast.error({
-            detail: 'Error!',
-            summary: 'Unable to delete device data.',
-            duration: 3000,
+          this.toast.error('Error!', 'Unable to delete device data.', {
+            timeOut: 3000,
           });
           console.log(err.error);
         },

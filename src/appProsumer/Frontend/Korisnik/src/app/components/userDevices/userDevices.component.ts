@@ -2,7 +2,6 @@ import { Component, OnInit, HostListener, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
 import { AuthServiceService } from 'src/app/services/auth-service.service';
-import { NgToastService } from 'ng-angular-popup';
 import { DeviceWidthService } from 'src/app/services/device-width.service';
 import { fromEvent, Observable, Subscription } from 'rxjs';
 import { NgxSpinnerService } from 'ngx-spinner';

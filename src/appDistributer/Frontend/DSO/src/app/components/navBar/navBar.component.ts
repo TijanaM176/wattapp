@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-import { NgToastService } from 'ng-angular-popup';
+// import { NgToastService } from 'ng-angular-popup';
 import { CookieService } from 'ngx-cookie-service';
 import { AuthServiceService } from 'src/app/services/auth-service.service';
 import { Router, NavigationEnd } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-navBar',
@@ -16,8 +16,7 @@ export class NavBarComponent implements OnInit {
   constructor(
     private router: Router,
     private cookie: CookieService,
-    private auth: AuthServiceService,
-    private toast: NgToastService
+    private auth: AuthServiceService // private toast: NgToastService
   ) {}
 
   ngOnInit(): void {

@@ -8,9 +8,9 @@ import {
 import { Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
 import { AuthServiceService } from 'src/app/services/auth-service.service';
-import { NgToastService } from 'ng-angular-popup';
 import { DeviceWidthService } from 'src/app/services/device-width.service';
 import { fromEvent, Observable, Subscription } from 'rxjs';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-dashboard',
@@ -27,7 +27,7 @@ export class DashboardComponent implements OnInit, OnDestroy, AfterViewInit {
     private router: Router,
     private cookie: CookieService,
     private auth: AuthServiceService,
-    private toast: NgToastService,
+    private toast: ToastrService,
     private widthService: DeviceWidthService
   ) {}
 

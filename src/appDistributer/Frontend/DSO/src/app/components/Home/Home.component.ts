@@ -6,7 +6,7 @@ import {
   ViewChild,
 } from '@angular/core';
 import { Router } from '@angular/router';
-import { NgToastService } from 'ng-angular-popup';
+import { ToastrService } from 'ngx-toastr';
 import { CookieService } from 'ngx-cookie-service';
 import { AuthServiceService } from 'src/app/services/auth-service.service';
 import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -62,7 +62,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
   constructor(
     private cookie: CookieService,
     private auth1: AuthServiceService,
-    private toast: NgToastService,
+    private toast: ToastrService,
     private modalService: NgbModal,
     private fb: FormBuilder,
     private auth: AuthService,
@@ -111,64 +111,13 @@ export class HomeComponent implements OnInit, AfterViewInit {
         this.users = res;
       },
       error: (err) => {
-        //alert(err.error.message);
-        this.toast.error({
-          detail: 'ERROR',
-          summary: err.error,
-          duration: 3000,
+        alert(err.error.message);
+        this.toast.error('Error', '', {
+          timeOut: 3000,
         });
       },
     });
   }
-
-  private getState() {
-    // if ('geolocation' in navigator) {
-    //   if(!this.cookie.check('country'))
-    //   {
-    //     navigator.geolocation.getCurrentPosition(
-    //       (position) => {
-    //         this.cookie.set('lat', position.coords.latitude.toString(),{path:'/'});
-    //         this.cookie.set('long', position.coords.longitude.toString(),{path:'/'});
-    //         var url = "https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=" + position.coords.latitude + "&lon=" + position.coords.longitude;
-    //         fetch(url)
-    //         .then(response => response.json())
-    //         .then(data => {
-    //           console.log(data.address.country);
-    //           this.cookie.set('country',data.address.country,{path:'/'});
-    //         })
-    //       },
-    //       (error) => {
-    //         // If the user denies permission or an error occurs, handle it appropriately
-    //         console.error("Error getting user's location:", error);
-    //         this.showModal = true;
-    //         /*this.toast.error({
-    //           detail: 'ERROR',
-    //           summary: 'Unable To Get Your Current Location.',
-    //           duration: 3000,
-    //         });*/
-    //       },{ enableHighAccuracy: true, timeout: 100 }
-    //     )
-    //   }
-    // }
-    // else {
-    //   // If the browser does not support the Geolocation API, handle it appropriately
-    //   this.showModal = true;
-    //   this.toast.error({
-    //     detail: 'ERROR',
-    //     summary: 'Geolocation is not supported by this browser.',
-    //     duration: 3000,
-    //   });
-    // }
-  }
-
-  // SaveCountry()
-  // {
-  //   if(this.currentCountry!="")
-  //   {
-  //     this.cookie.set('country',this.currentCountry,{path:'/'});
-  //     this.showModal = false;
-  //   }
-  // }
 
   Validate($event: any) {
     if (this.currentCountry != '') {
@@ -180,14 +129,14 @@ export class HomeComponent implements OnInit, AfterViewInit {
   open(content: any) {
     this.modalService
       .open(content, { ariaLabelledBy: 'modal-basic-title' })
-      .result.then(
-        (result) => {
-          this.closeResult = `Closed with: ${result}`;
-        },
-        (reason) => {
-          this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
-        }
-      );
+      .result.then
+      // (result) => {
+      //   this.closeResult = `Closed with: ${result}`;
+      // },
+      // (reason) => {
+      //   this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+      // }
+      ();
   }
 
   getDismissReason(reason: any): string {
@@ -238,11 +187,11 @@ export class HomeComponent implements OnInit, AfterViewInit {
       this.auth.signUp(this.signupForm.value).subscribe({
         next: (res) => {
           //alert(res);
-          this.toast.success({
-            detail: 'Success!',
-            summary: 'New Prosumer Added',
-            duration: 2500,
-          });
+          // this.toast.success({
+          //   detail: 'Success!',
+          //   summary: 'New Prosumer Added',
+          //   duration: 2500,
+          // });
 
           this.getCoordinates(this.address, res.username);
           console.log(res.username);
@@ -255,11 +204,11 @@ export class HomeComponent implements OnInit, AfterViewInit {
         },
         error: (err) => {
           //alert(err?.error)
-          this.toast.error({
-            detail: 'Error!',
-            summary: err.error,
-            duration: 3000,
-          });
+          // this.toast.error({
+          //   detail: 'Error!',
+          //   summary: err.error,
+          //   duration: 3000,
+          // });
         },
       });
       console.log(this.signupForm.value);
@@ -302,20 +251,20 @@ export class HomeComponent implements OnInit, AfterViewInit {
             console.log(res.message);
           },
           error: (err) => {
-            this.toast.error({
-              detail: 'Error!',
-              summary: err.error,
-              duration: 3000,
-            });
+            // this.toast.error({
+            //   detail: 'Error!',
+            //   summary: err.error,
+            //   duration: 3000,
+            // });
           },
         });
       })
       .catch((error) => {
-        this.toast.error({
-          detail: 'ERROR',
-          summary: 'Error fetching location data.',
-          duration: 3000,
-        });
+        // this.toast.error({
+        //   detail: 'ERROR',
+        //   summary: 'Error fetching location data.',
+        //   duration: 3000,
+        // });
         console.error(`Error fetching location data: ${error}`);
       });
   }

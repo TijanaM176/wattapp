@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, OnInit } from '@angular/core';
 import * as L from 'leaflet';
-import { NgToastService } from 'ng-angular-popup';
+// import { NgToastService } from 'ng-angular-popup';
 import { CookieService } from 'ngx-cookie-service';
 import { UsersServiceService } from 'src/app/services/users-service.service';
 import { Neighborhood } from 'src/app/models/neighborhood';
@@ -80,7 +80,7 @@ export class MapComponent implements AfterViewInit, OnInit {
   constructor(
     private mapService: UsersServiceService,
     private widthService: ScreenWidthService,
-    private toast: NgToastService,
+    // private toast: NgToastService,
     private cookie: CookieService
   ) {}
 
@@ -212,7 +212,7 @@ export class MapComponent implements AfterViewInit, OnInit {
                 ' kW</b> <br> Current production: <b>' +
                 Number(user.production).toFixed(3) +
                 ' kW</b> <br> Num. of devices: <b>' +
-                user.devCount.toString()+
+                user.devCount.toString() +
                 "</b> <br><br><a href='/DsoApp/user/" +
                 user.id +
                 "'>View More</a>"
@@ -222,11 +222,11 @@ export class MapComponent implements AfterViewInit, OnInit {
         }
       },
       error: (err) => {
-        this.toast.error({
-          detail: 'Error',
-          summary: 'Unable to retreive prosumer locations',
-          duration: 3000,
-        });
+        // this.toast.error({
+        //   detail: 'Error',
+        //   summary: 'Unable to retreive prosumer locations',
+        //   duration: 3000,
+        // });
         console.log(err.error);
       },
     });
@@ -239,19 +239,19 @@ export class MapComponent implements AfterViewInit, OnInit {
       let lat = user.lat;
       if (lon != null && lat != null) {
         iconUrl = this.decideOnMarker(user.consumption, user.production);
-          const prosumerIcon = L.icon({
-            iconUrl: iconUrl,
-            iconSize: [25, 41],
-            iconAnchor: [12, 41],
-            popupAnchor: [1, -34],
-            tooltipAnchor: [16, -28],
-          });
-          let marker = L.marker(
-            [Number(lat.toString()), Number(lon.toString())],
-            { icon: prosumerIcon }
-          ).addTo(map);
-          marker.bindPopup(
-            '<h5><b>' +
+        const prosumerIcon = L.icon({
+          iconUrl: iconUrl,
+          iconSize: [25, 41],
+          iconAnchor: [12, 41],
+          popupAnchor: [1, -34],
+          tooltipAnchor: [16, -28],
+        });
+        let marker = L.marker(
+          [Number(lat.toString()), Number(lon.toString())],
+          { icon: prosumerIcon }
+        ).addTo(map);
+        marker.bindPopup(
+          '<h5><b>' +
             user.username +
             '</b></h5><h6><b>' +
             user.address +
@@ -260,11 +260,11 @@ export class MapComponent implements AfterViewInit, OnInit {
             ' kW</b> <br> Current production: <b>' +
             Number(user.production).toFixed(3) +
             ' kW</b> <br> Num. of devices: <b>' +
-            user.devCount.toString()+
+            user.devCount.toString() +
             "</b> <br><br><a href='/DsoApp/user/" +
             user.id +
             "'>View More</a>"
-          );
+        );
         this.markers.push(marker);
       }
     }
@@ -336,7 +336,7 @@ export class MapComponent implements AfterViewInit, OnInit {
     this.dropDownNeigh = 'b';
   }
 
-  private decideOnMarker(consumptionUser : any, productionUSer : any): string {
+  private decideOnMarker(consumptionUser: any, productionUSer: any): string {
     let prag = 0.0001;
     let conumption = Number(consumptionUser);
     let production = Number(productionUSer);

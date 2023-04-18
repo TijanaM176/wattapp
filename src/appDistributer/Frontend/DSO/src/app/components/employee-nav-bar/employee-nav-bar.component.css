@@ -1,0 +1,14 @@
+#side {
+  width: 280px !important;
+  min-height: 100vh;
+  background-color: #5875a1 !important;
+  overflow-y: auto;
+}
+
+.list-group-flush > .list-group-item {
+  background-color: transparent;
+}
+
+#side .list-group-item {
+  border: 0px solid white;
+}

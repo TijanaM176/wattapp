@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { NgToastService } from 'ng-angular-popup';
 import { CookieService } from 'ngx-cookie-service';
+import { ToastrService } from 'ngx-toastr';
 import { ChangePasswordComponent } from 'src/app/forms/change-password/change-password.component';
 import { EditInfoFormComponent } from 'src/app/forms/edit-info-form/edit-info-form.component';
 import { EditableInfo } from 'src/app/models/editableInfo';
@@ -30,7 +30,7 @@ export class UserInfoComponent implements OnInit {
 
   constructor(
     private prosumerService: ProsumerService,
-    private toast: NgToastService,
+    private toast: ToastrService,
     private cookie: CookieService
   ) {}
 
@@ -38,30 +38,26 @@ export class UserInfoComponent implements OnInit {
     this.getInformation();
   }
 
-  private getInformation()
-  {
-    this.prosumerService.getInforamtion(this.cookie.get('id'))
-    .subscribe(
-      {
-        next:(res)=>{
-
-          this.username = res.username;
-          this.firstLastName = res.firstName+' '+res.lastName;
-          this.email = res.email;
-          this.address = res.address;
-          this.prosumerService.cityId=res.cityId;
-          this.prosumerService.neighId=res.neigborhoodId;
-          this.City();
-          this.Neighborhood();
-          this.userData = res;
-        },
-        error:(err)=>{
-          this.toast.error({detail:"Error!",summary:"Unable to load user data.", duration:3000});
-          console.log(err.error);
-        }
-      }
-    )
-
+  private getInformation() {
+    this.prosumerService.getInforamtion(this.cookie.get('id')).subscribe({
+      next: (res) => {
+        this.username = res.username;
+        this.firstLastName = res.firstName + ' ' + res.lastName;
+        this.email = res.email;
+        this.address = res.address;
+        this.prosumerService.cityId = res.cityId;
+        this.prosumerService.neighId = res.neigborhoodId;
+        this.City();
+        this.Neighborhood();
+        this.userData = res;
+      },
+      error: (err) => {
+        this.toast.error('Error!', 'Unable to load user data.', {
+          timeOut: 3000,
+        });
+        console.log(err.error);
+      },
+    });
   }
 
   City() {
@@ -71,10 +67,8 @@ export class UserInfoComponent implements OnInit {
         this.city = res;
       },
       error: (err) => {
-        this.toast.error({
-          detail: 'Error!',
-          summary: 'Unable to load user data.',
-          duration: 3000,
+        this.toast.error('Error!', 'Unable to load user data.', {
+          timeOut: 3000,
         });
         console.log(err.error);
       },
@@ -87,10 +81,8 @@ export class UserInfoComponent implements OnInit {
         this.neighborhood = res;
       },
       error: (err) => {
-        this.toast.error({
-          detail: 'Error!',
-          summary: 'Unable to load user data.',
-          duration: 3000,
+        this.toast.error('Error!', 'Unable to load user data.', {
+          timeOut: 3000,
         });
         console.log(err.error);
       },
@@ -120,11 +112,9 @@ export class UserInfoComponent implements OnInit {
     }
     this.modalTitle = '';
   }
-  confirm()
-  {
-    if(this.showEdit)
-    {
-      this.editData.editInfo()
+  confirm() {
+    if (this.showEdit) {
+      this.editData.editInfo();
     }
     if (this.showChangePass) {
       this.changePassword.changePass();
