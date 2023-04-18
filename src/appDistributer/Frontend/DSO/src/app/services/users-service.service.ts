@@ -6,6 +6,7 @@ import { lastValueFrom } from 'rxjs';
 import { Neighborhood } from '../models/neighborhood';
 import { City } from '../models/city';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { CookieService } from 'ngx-cookie-service';
 @Injectable({
   providedIn: 'root',
 })
@@ -14,7 +15,7 @@ export class UsersServiceService {
   production!: string;
   prosumers!: Prosumer[];
 
-  constructor(private http: HttpClient, private spiner: NgxSpinnerService) {}
+  constructor(private http: HttpClient, private spiner: NgxSpinnerService, private cookie : CookieService) {}
 
   private baseUrl: string = 'https://localhost:7156/api/Prosumer/';
   private updateUserUrl: string =
@@ -23,6 +24,7 @@ export class UsersServiceService {
   private dashboardBaseUrl: string = 'https://localhost:7156/api/DashboardData/';
   private dataUrl: string = 'https://localhost:7156/api/GenericData/';
   private timestampUrl: string = 'https://localhost:7156/api/Timestamp/';
+  private totalUrl : string = 'https://localhost:7156/api/TotalPowerUsage/'
 
   refreshList() {
     lastValueFrom(this.http.get(this.baseUrl + 'GetAllProsumers')).then(
@@ -70,12 +72,12 @@ export class UsersServiceService {
 
   getUserProductionAndConsumption(id: string): Observable<any> {
     return this.http.get<any>(
-      this.deviceBaseUrl + 'ConsumptionAndProductionByProsumer?id=' + id
+      this.totalUrl + 'ConsumptionAndProductionByProsumer?id=' + id
     );
   }
   getDevicesByProsumerId(id: string): Observable<any> {
     return this.http.get<any>(
-      this.deviceBaseUrl + 'GetAllDevicesForProsumer?id=' + id
+      this.deviceBaseUrl + 'GetAllDevicesForProsumer?id=' + id +'&role='+ this.cookie.get('role')
     );
   }
   // updateUserData(data: any) {
@@ -142,6 +144,12 @@ export class UsersServiceService {
   HistoryProsumer7Days(id: string): Observable<any> {
     return this.http.get(
       this.timestampUrl + `LastWeeksConsumptionAndProduction?id=` + id
+    );
+  }
+
+  PredictionProsumer7Days(id : string): Observable<any>{
+    return this.http.get(
+      this.timestampUrl + `NextWeeksConsumptionAndProduction?id=` + id
     );
   }
 

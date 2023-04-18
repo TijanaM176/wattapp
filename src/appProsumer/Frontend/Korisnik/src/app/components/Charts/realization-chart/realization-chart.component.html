@@ -36,17 +36,16 @@
         [animations]="true"
         [barPadding]="3"
         [roundDomains]="true"
-        [trimYAxisTicks]="true"
-        [tooltipDisabled]="true"
-        [noBarWhenZero]="true"
-        [yAxisTickFormatting]="yAxisTickFormatting"
         [showGridLines]="true"
-        [legend]="false"
-        [legendPosition]="legendPosition">
+        [trimYAxisTicks]="true"
+        [tooltipDisabled]="false"
+        [showGridLines]="true"
+        [yAxisTickFormatting]="yAxisTickFormatting"
+        [legend]="false">
     </ngx-charts-bar-vertical-2d>
   </div>
     
-  <div class="legend w-100 text-center" *ngIf="data.length != 0">
+  <div class="legend w-100 text-center" *ngIf="production && consumption && data.length != 0">
     <i class="fa fa-circle consumption">&nbsp;Consumption</i>&nbsp;&nbsp;&nbsp;
     <i class="fa fa-circle production">&nbsp;Production</i>
   </div>

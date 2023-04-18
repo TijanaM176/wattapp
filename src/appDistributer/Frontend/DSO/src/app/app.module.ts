@@ -64,6 +64,7 @@ import { MatSortModule } from '@angular/material/sort';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { ToastrModule } from 'ngx-toastr';
+import { PredictionProsumerComponent } from './components/Charts/prediction-prosumer/prediction-prosumer.component';
 
 @NgModule({
   declarations: [
@@ -111,6 +112,7 @@ import { ToastrModule } from 'ngx-toastr';
     PopupEmpComponent,
     PieChartProsumersComponent,
     PredictionAllUsersComponent,
+    PredictionProsumerComponent,
   ],
   imports: [
     MatSliderModule,
