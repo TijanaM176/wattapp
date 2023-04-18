@@ -29,6 +29,11 @@ export class UsersServiceService {
       (res) => (this.prosumers = res as Prosumer[])
     );
   }
+  getUsers(): Observable<any[]> {
+    return this.http.get<any>(
+      this.baseUrl+'Prosumer/GetAllProsumers'
+    );
+  }
   detailsEmployee(id: string) : Observable<any> {
     return this.http.get<any>(`${this.baseUrl}getProsumerByID` + `?id=` + id);
   }

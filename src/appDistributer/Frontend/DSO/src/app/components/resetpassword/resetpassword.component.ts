@@ -9,6 +9,7 @@ import { ResetPassword } from 'src/app/models/reset-password';
 import { ResetPasswordService } from 'src/app/services/reset-password.service';
 import { CookieService } from 'ngx-cookie-service';
 import { ToastrService } from 'ngx-toastr';
+import { AuthService } from 'src/app/services/auth.service';
 // import { NgToastService } from 'ng-angular-popup';
 @Component({
   selector: 'app-resetpassword',
@@ -23,7 +24,7 @@ export class ResetpasswordComponent implements OnInit {
   eyeIcon: string = 'fa-eye-slash';
   constructor(
     private fb: FormBuilder,
-    private reset: ResetPasswordService,
+    private reset: AuthService,
     private cookie: CookieService,
     public toast:ToastrService 
   ) {}

@@ -26,4 +26,22 @@ export class DataService {
       responseType: 'text',
     });
   }
+  getAllRegions(): Observable<any[]> {
+    return this.http.get<any[]>(this.dataUrl + 'GetRegions');
+  }
+
+  getAllRoles(): Observable<any[]> {
+    return this.http.get<any[]>(this.dataUrl + 'GetRoles');
+  }
+  getRoleName(id: number): Observable<string> {
+    return this.http.get(`${this.dataUrl}GetRoleName` + `?id=` + id, {
+      responseType: 'text',
+    });
+  }
+
+  getRegionName(id: string): Observable<string> {
+    return this.http.get(`${this.dataUrl}GetRegionName` + `?id=` + id, {
+      responseType: 'text',
+    });
+  }
 }

@@ -63,6 +63,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
   constructor(
     private cookie: CookieService,
     private auth1: AuthServiceService,
+    private serviceUser:UsersServiceService,
     public toast: ToastrService,
     private modalService: NgbModal,
     private fb: FormBuilder,
@@ -106,7 +107,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
   }
 
   getAllUsers() {
-    this.auth1.getUsers().subscribe({
+    this.serviceUser.getUsers().subscribe({
       next: (res) => {
         //console.log(res);
         this.users = res;

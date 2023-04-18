@@ -14,6 +14,7 @@ import { ResetPasswordService } from 'src/app/services/reset-password.service';
 import jwt_decode from 'jwt-decode';
 import { path } from 'd3';
 import { ToastrService } from 'ngx-toastr';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -31,7 +32,7 @@ export class LoginComponent implements OnInit {
     private fb: FormBuilder,
     private router: Router,
     private cookie: CookieService,
-    private auth: AuthServiceService,
+    private auth: AuthService,
     private reset: ResetPasswordService,
     public toast:ToastrService
   ) {}
@@ -129,7 +130,7 @@ export class LoginComponent implements OnInit {
   confirmToSend() {
     if (this.checkValidEmail(this.resetPasswordEmail)) {
       //console.log(this.resetPasswordEmail);
-      this.reset.sendResetPasswordLink(this.resetPasswordEmail).subscribe({
+      this.auth.sendResetPasswordLink(this.resetPasswordEmail).subscribe({
         next: (res) => {
           this.toast.success('Success','Successful Reset Password!',{timeOut:2500});
           this.resetPasswordEmail = '';
@@ -147,7 +148,7 @@ export class LoginComponent implements OnInit {
 
   PrivremeniToken() {
     //console.log(this.resetPasswordEmail);
-    this.reset.forgotPass(this.resetPasswordEmail).subscribe({
+    this.auth.forgotPass(this.resetPasswordEmail).subscribe({
       next: (res) => {
         //alert(res.message);
         this.cookie.set('resetToken', res.resetToken, { path: '/' });

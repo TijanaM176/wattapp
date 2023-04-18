@@ -28,4 +28,9 @@ export class DashboarddataService {
   ElectricityPrice(): Observable<any[]> {
     return this.http.get<any[]>(this.dashboardBaseUrl + 'CurrentPrice');
   }
+  getProsumerCout(): Observable<any> {
+    return this.http.get<any>(
+      'https://localhost:7156/api/DashboardData/ProsumerCount'
+    );
+  }
 }

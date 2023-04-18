@@ -14,6 +14,7 @@ import { RefreshTokenDto } from '../models/refreshTokenDto';
 import { Router } from '@angular/router';
 import { AuthServiceService } from '../services/auth-service.service';
 import jwt_decode from 'jwt-decode';
+import { AuthService } from '../services/auth.service';
 
 @Injectable()
 export class TokenInterceptor implements HttpInterceptor {
@@ -22,7 +23,7 @@ export class TokenInterceptor implements HttpInterceptor {
     private cookie: CookieService,
     // private toast: NgToastService,
     private router: Router,
-    private auth: AuthServiceService
+    private auth: AuthService
   ) {}
 
   intercept(
@@ -46,11 +47,7 @@ export class TokenInterceptor implements HttpInterceptor {
             return this.handleAuth(request, next);
           } else if (this.counter == 1) {
             this.counter = 0;
-            // this.toast.warning({
-            //   detail: 'Warning',
-            //   summary: err.error,
-            //   duration: 3000,
-            // });
+        
             this.cookie.deleteAll();
             this.router.navigate(['login']);
           }

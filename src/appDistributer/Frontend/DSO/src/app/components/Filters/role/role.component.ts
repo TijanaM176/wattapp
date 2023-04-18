@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Role } from 'src/app/models/role';
+import { DataService } from 'src/app/services/data.service';
 import { EmployeesServiceService } from 'src/app/services/employees-service.service';
 
 @Component({
@@ -13,7 +14,7 @@ export class RoleComponent implements OnInit {
   roles : Role[] = [];
   dropDownRole: boolean = false;
 
-  constructor(private employeeService : EmployeesServiceService) {}
+  constructor(private employeeService : EmployeesServiceService,private serviceData:DataService) {}
 
   ngOnInit(): void {
     this.employeeService.role = this.role;
@@ -28,7 +29,7 @@ export class RoleComponent implements OnInit {
 
   getRoles()
   {
-    this.employeeService.getAllRoles()
+    this.serviceData.getAllRoles()
     .subscribe({
       next:(response)=>{
         this.roles = response;

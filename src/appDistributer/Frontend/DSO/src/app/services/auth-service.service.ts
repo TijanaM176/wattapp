@@ -3,6 +3,8 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { SendRefreshToken } from '../models/sendRefreshToken';
 import { RefreshTokenDto } from '../models/refreshTokenDto';
+import { ResetPassword } from '../models/reset-password';
+import { ForgotPassword } from '../models/forgotpassword';
 
 @Injectable({
   providedIn: 'root',
@@ -12,20 +14,5 @@ export class AuthServiceService {
 
   constructor(private http: HttpClient) {}
 
-  login(loginDto: any) {
-    return this.http.post<any>(this.baseUrl + 'Auth/DSOLogin', loginDto);
-  }
-
-  getUsers(): Observable<any[]> {
-    return this.http.get<any>(
-      this.baseUrl+'Prosumer/GetAllProsumers'
-    );
-  }
-
-  refreshToken(refreshToken: SendRefreshToken) {
-    return this.http.post<RefreshTokenDto>(
-      this.baseUrl + 'Auth/refreshToken',
-      refreshToken
-    );
-  }
+ 
 }
