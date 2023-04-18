@@ -146,6 +146,16 @@ export class UsersServiceService {
       this.timestampUrl + `LastWeeksConsumptionAndProduction?id=` + id
     );
   }
+  HistoryProsumer1Month(id: string): Observable<any> {
+    return this.http.get(
+      this.timestampUrl + `LastMonthsConsumptionAndProduction?id=` + id
+    );
+  }
+  HistoryProsumer1Year(id: string): Observable<any> {
+    return this.http.get(
+      this.timestampUrl + `LastYearsConsumptionAndProduction?id=` + id
+    );
+  }
 
   PredictionProsumer7Days(id : string): Observable<any>{
     return this.http.get(
