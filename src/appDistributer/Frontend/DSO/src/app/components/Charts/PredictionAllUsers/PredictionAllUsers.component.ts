@@ -4,6 +4,7 @@ import { strings } from '@material/slider';
 import { UsersServiceService } from 'src/app/services/users-service.service';
 import { ScaleType, Color, LegendComponent } from '@swimlane/ngx-charts';
 import { BrowserModule } from '@angular/platform-browser';
+import { TimestampService } from 'src/app/services/timestamp.service';
 
 @Component({
   selector: 'app-PredictionAllUsers',
@@ -30,7 +31,8 @@ export class PredictionAllUsersComponent implements OnInit {
 
   constructor(
     private service: UsersServiceService,
-    private router: ActivatedRoute
+    private router: ActivatedRoute,
+    private servicetime:TimestampService
   ) {}
   yAxisTickFormatting(value: number) {
     return value + ' kW';
@@ -41,7 +43,7 @@ export class PredictionAllUsersComponent implements OnInit {
   }
 
   PredictionWeek() {
-    this.service.PredictionNextWeek().subscribe((response: any) => {
+    this.servicetime.PredictionNextWeek().subscribe((response: any) => {
       const consumptionTimestamps = response.consumption || {};
       const productionTimestamps = response.production || {};
       const allTimestamps = {
@@ -79,7 +81,7 @@ export class PredictionAllUsersComponent implements OnInit {
   }
 
   Prediction3Days() {
-    this.service.PredictionNext3Days().subscribe((response: any) => {
+    this.servicetime.PredictionNext3Days().subscribe((response: any) => {
       const myList: any = [];
 
       const consumptionTimestamps = response.consumption || {};
@@ -119,7 +121,7 @@ export class PredictionAllUsersComponent implements OnInit {
   }
 
   PredictionDay() {
-    this.service.PredictionNextDay().subscribe((response: any) => {
+    this.servicetime.PredictionNextDay().subscribe((response: any) => {
       const myList: any = [];
 
       const consumptionTimestamps = response.consumption || {};

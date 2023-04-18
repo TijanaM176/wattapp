@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { strings } from '@material/slider';
 import { ScaleType, Color } from '@swimlane/ngx-charts';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { TimestampService } from 'src/app/services/timestamp.service';
 
 import { UsersServiceService } from 'src/app/services/users-service.service';
 
@@ -34,7 +35,8 @@ export class HistoryProsumerComponent implements OnInit {
   constructor(
     private service: UsersServiceService,
     private router: ActivatedRoute,
-    private spiner: NgxSpinnerService
+    private spiner: NgxSpinnerService,
+    private servicetime:TimestampService
   ) {}
 
   ngOnInit() {
@@ -45,7 +47,7 @@ export class HistoryProsumerComponent implements OnInit {
 
   HistoryWeek() {
     this.loadData(
-      this.service.HistoryProsumer7Days.bind(this.service)(this.id),
+      this.servicetime.HistoryProsumer7Days.bind(this.service)(this.id),
       (myList: any[]) => {
         return myList.map((item) => {
           const date = new Date(item.name);

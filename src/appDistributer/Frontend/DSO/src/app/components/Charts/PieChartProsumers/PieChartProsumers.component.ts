@@ -4,6 +4,7 @@ import { strings } from '@material/slider';
 import { UsersServiceService } from 'src/app/services/users-service.service';
 import { ScaleType, Color, LegendComponent } from '@swimlane/ngx-charts';
 import { BrowserModule } from '@angular/platform-browser';
+import { DashboarddataService } from 'src/app/services/dashboarddata.service';
 
 @Component({
   selector: 'app-PieChartProsumers',
@@ -30,10 +31,10 @@ export class PieChartProsumersComponent implements OnInit {
   gradient = false;
   showLegend = true;
 
-  constructor(private service: UsersServiceService) {}
+  constructor(private service: UsersServiceService,private servicedash:DashboarddataService) {}
 
   ngOnInit() {
-    this.service.CityPercentages().subscribe((response) => {
+    this.servicedash.CityPercentages().subscribe((response) => {
       this.data = response;
       this.dataConsumers = Object.entries(this.data.Consumption).map(
         ([name, value]) => ({

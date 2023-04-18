@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { UsersServiceService } from 'src/app/services/users-service.service';
 import { Neighborhood } from 'src/app/models/neighborhood';
 import { Options, LabelType } from '@angular-slider/ngx-slider';
+import { DeviceserviceService } from 'src/app/services/deviceservice.service';
 @Component({
   selector: 'app-sidebar',
   templateUrl: './sidebar.component.html',
@@ -59,7 +60,7 @@ export class SidebarComponent implements OnInit {
   neighborhood: string = '';
   Neighborhoods: Neighborhood[] = [];
   dropDownNeigh: string = '';
-  constructor(private userService: UsersServiceService) {}
+  constructor(private userService: UsersServiceService,private deviceServer:DeviceserviceService) {}
 
   ChangeNeighborhood(e: any) {
     this.dropDownNeigh = e.target.value;
@@ -72,7 +73,7 @@ export class SidebarComponent implements OnInit {
   }
 
   filterwithoutNeighborhood() {
-    this.userService
+    this.deviceServer
       .prosumerFilter(
         this.minValueC,
         this.maxValueC,
@@ -95,7 +96,7 @@ export class SidebarComponent implements OnInit {
       });
   }
   filterwithNeighborhood() {
-    this.userService
+    this.deviceServer
       .prosumerFilter2(
         this.dropDownNeigh,
         this.minValueC,

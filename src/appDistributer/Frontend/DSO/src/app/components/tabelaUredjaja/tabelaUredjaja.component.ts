@@ -10,6 +10,7 @@ import { CookieService } from 'ngx-cookie-service';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute } from '@angular/router';
+import { DeviceserviceService } from 'src/app/services/deviceservice.service';
 
 @Component({
   selector: 'app-tabelaUredjaja',
@@ -33,12 +34,13 @@ export class TabelaUredjajaComponent implements OnInit {
   constructor(
     private userService: UsersServiceService,
     private cookie: CookieService,
-    private router: ActivatedRoute
+    private router: ActivatedRoute,
+    private deviceServer:DeviceserviceService
   ) {}
 
   ngOnInit() {
     this.id = this.router.snapshot.params['id'];
-    this.userService.getDevicesByProsumerId(this.id).subscribe((response) => {
+    this.deviceServer.getDevicesByProsumerId(this.id).subscribe((response) => {
       this.devicesToShow = [
         ...response.consumers,
         ...response.producers,

@@ -8,6 +8,7 @@ import { Options, LabelType } from '@angular-slider/ngx-slider';
 import { ScreenWidthService } from 'src/app/services/screen-width.service';
 import { fromEvent, Observable, Subscription } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
+import { DeviceserviceService } from 'src/app/services/deviceservice.service';
 
 @Component({
   selector: 'app-map',
@@ -82,7 +83,8 @@ export class MapComponent implements AfterViewInit, OnInit {
     private mapService: UsersServiceService,
     private widthService: ScreenWidthService,
     public toast:ToastrService,
-    private cookie: CookieService
+    private cookie: CookieService,
+    private deviceServer:DeviceserviceService
   ) {}
 
   ChangeNeighborhood(e: any) {
@@ -279,7 +281,7 @@ export class MapComponent implements AfterViewInit, OnInit {
 
   filterwithoutNeighborhood(map: any) {
     this.deleteAllMarkers(map);
-    this.mapService
+    this.deviceServer
       .prosumerFilter(
         this.minValueC,
         this.maxValueC,
@@ -296,7 +298,7 @@ export class MapComponent implements AfterViewInit, OnInit {
   }
   filterwithNeighborhood(map: any) {
     this.deleteAllMarkers(map);
-    this.mapService
+    this.deviceServer
       .prosumerFilter2(
         this.dropDownNeigh,
         this.minValueC,

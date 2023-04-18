@@ -10,6 +10,7 @@ import { UsersServiceService } from 'src/app/services/users-service.service';
 import { ScaleType, Color, LegendComponent } from '@swimlane/ngx-charts';
 import { BrowserModule } from '@angular/platform-browser';
 import { ToastrService } from 'ngx-toastr';
+import { DashboarddataService } from 'src/app/services/dashboarddata.service';
 
 @Component({
   selector: 'app-home-sidebar',
@@ -41,7 +42,8 @@ export class HomeSidebarComponent implements OnInit, AfterViewInit {
     private employeeService: EmployeesServiceService,
     private widthService: ScreenWidthService,
     private service: UsersServiceService,
-    public toast:ToastrService
+    public toast:ToastrService,
+    private servicedash:DashboarddataService
   ) {}
 
   ngAfterViewInit(): void {
@@ -50,7 +52,7 @@ export class HomeSidebarComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
-    this.service.ConsumerProducerRatio().subscribe((response) => {
+    this.servicedash.ConsumerProducerRatio().subscribe((response) => {
       this.data = Object.entries(response).map(([name, value]) => ({
         name,
         value,

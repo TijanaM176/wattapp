@@ -8,6 +8,8 @@ import { line } from 'd3-shape';
 import { scaleBand, scaleLinear } from 'd3-scale';
 import { curveLinear } from 'd3-shape';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { DashboarddataService } from 'src/app/services/dashboarddata.service';
+import { TimestampService } from 'src/app/services/timestamp.service';
 
 @Component({
   selector: 'app-realizationPredictionAllProsumers',
@@ -37,7 +39,8 @@ export class RealizationPredictionAllProsumersComponent implements OnInit {
   constructor(
     private service: UsersServiceService,
     private router: ActivatedRoute,
-    private spinner: NgxSpinnerService
+    private spinner: NgxSpinnerService,
+    private servicetime:TimestampService
   ) {}
 
   yAxisTickFormatting(value: number) {
@@ -60,7 +63,7 @@ export class RealizationPredictionAllProsumersComponent implements OnInit {
     );
   }
   HistoryWeek() {
-    const apiCall = this.service.HistoryAllProsumers7Days.bind(this.service);
+    const apiCall = this.servicetime.HistoryAllProsumers7Days.bind(this.service);
     this.loadData(apiCall, (myList: any[]) => {
       const seriesData: any = [];
       myList.forEach((item) => {
@@ -81,7 +84,7 @@ export class RealizationPredictionAllProsumersComponent implements OnInit {
   }
 
   HistoryMonth() {
-    let apiCall = this.service.HistoryAllProsumers1Month.bind(this.service);
+    let apiCall = this.servicetime.HistoryAllProsumers1Month.bind(this.service);
     this.loadData(apiCall, (myList: any[]) => {
       const seriesData: any = [];
       myList.forEach((item) => {
@@ -102,7 +105,7 @@ export class RealizationPredictionAllProsumersComponent implements OnInit {
   }
 
   HistoryYear() {
-    const apiCall = this.service.HistoryAllProsumers1Year.bind(this.service);
+    const apiCall = this.servicetime.HistoryAllProsumers1Year.bind(this.service);
     this.loadData(apiCall, (myList: any[]) => {
       const seriesData: any = [];
       myList.forEach((item) => {

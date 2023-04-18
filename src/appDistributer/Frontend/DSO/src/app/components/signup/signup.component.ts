@@ -16,6 +16,7 @@ import { UsersServiceService } from 'src/app/services/users-service.service';
 import { Neighborhood } from 'src/app/models/neighborhood';
 import { City } from 'src/app/models/city';
 import { ToastrService } from 'ngx-toastr';
+import { DataService } from 'src/app/services/data.service';
 
 @Component({
   selector: 'app-signup',
@@ -50,10 +51,11 @@ export class SignupComponent implements OnInit {
     private router: Router,
     public toast:ToastrService,
     private service: UsersServiceService,
-    private location1: Location
+    private location1: Location,
+    private serviceData:DataService
   ) {}
   ngOnInit(): void {
-    this.service.getAllCities().subscribe((response) => {
+    this.serviceData.getAllCities().subscribe((response) => {
       this.cities = response;
     });
     this.signupForm = this.fb.group({
@@ -70,11 +72,11 @@ export class SignupComponent implements OnInit {
   }
   getAllNeighborhoodById(e: any) {
     this.cityId = e.target.value;
-    this.service.getCityNameById(this.cityId).subscribe((response) => {
+    this.serviceData.getCityNameById(this.cityId).subscribe((response) => {
       this.cityName = response;
     });
     console.log(this.cityId);
-    this.service
+    this.serviceData
       .getAllNeighborhoodByCityId(this.cityId)
       .subscribe((response) => {
         this.neighborhoods = response;

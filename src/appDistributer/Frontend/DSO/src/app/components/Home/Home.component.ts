@@ -26,6 +26,7 @@ import { SetCoordsDto } from 'src/app/models/setCoordsDto';
 import { UsersServiceService } from 'src/app/services/users-service.service';
 import { Neighborhood } from 'src/app/models/neighborhood';
 import { City } from 'src/app/models/city';
+import { DataService } from 'src/app/services/data.service';
 @Component({
   selector: 'app-Home',
   templateUrl: './Home.component.html',
@@ -67,7 +68,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
     private fb: FormBuilder,
     private auth: AuthService,
     private router: Router,
-
+    private serviceData:DataService,
     private service: UsersServiceService,
     private location1: Location
   ) {}
@@ -83,7 +84,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
     setTimeout(() => {
       this.loader = false;
     }, 2000);
-    this.service.getAllCities().subscribe((response) => {
+    this.serviceData.getAllCities().subscribe((response) => {
       this.cities = response;
     });
     this.signupForm = this.fb.group({
@@ -151,11 +152,11 @@ export class HomeComponent implements OnInit, AfterViewInit {
 
   getAllNeighborhoodById(e: any) {
     this.cityId = e.target.value;
-    this.service.getCityNameById(this.cityId).subscribe((response) => {
+    this.serviceData.getCityNameById(this.cityId).subscribe((response) => {
       this.cityName = response;
     });
     console.log(this.cityId);
-    this.service
+    this.serviceData
       .getAllNeighborhoodByCityId(this.cityId)
       .subscribe((response) => {
         this.neighborhoods = response;

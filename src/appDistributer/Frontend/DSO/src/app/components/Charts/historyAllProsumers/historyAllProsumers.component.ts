@@ -5,6 +5,7 @@ import { UsersServiceService } from 'src/app/services/users-service.service';
 import { ScaleType, Color, LegendComponent } from '@swimlane/ngx-charts';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { TimestampService } from 'src/app/services/timestamp.service';
 @Component({
   selector: 'app-historyAllProsumers',
   templateUrl: './historyAllProsumers.component.html',
@@ -30,7 +31,8 @@ export class HistoryAllProsumersComponent implements OnInit {
 
   constructor(
     private service: UsersServiceService,
-    private router: ActivatedRoute
+    private router: ActivatedRoute,
+    private servicetime:TimestampService
   ) {}
   yAxisTickFormatting(value: number) {
     return value + ' kW';
@@ -52,7 +54,7 @@ export class HistoryAllProsumersComponent implements OnInit {
   }
   HistoryWeek() {
     this.loadData(
-      this.service.HistoryAllProsumers7Days.bind(this.service),
+      this.servicetime.HistoryAllProsumers7Days.bind(this.service),
       (myList: any[]) => {
         return myList.map((item) => {
           const date = new Date(item.name);
@@ -65,7 +67,7 @@ export class HistoryAllProsumersComponent implements OnInit {
 
   HistoryMonth() {
     this.loadData(
-      this.service.HistoryAllProsumers1Month.bind(this.service),
+      this.servicetime.HistoryAllProsumers1Month.bind(this.service),
       (myList: any[]) => {
         return myList.map((item) => {
           const date = new Date(item.name);
@@ -78,7 +80,7 @@ export class HistoryAllProsumersComponent implements OnInit {
 
   HistoryYear() {
     this.loadData(
-      this.service.HistoryAllProsumers1Year.bind(this.service),
+      this.servicetime.HistoryAllProsumers1Year.bind(this.service),
       (myList: any[]) => {
         return myList.map((item) => {
           const date = new Date(item.name);
