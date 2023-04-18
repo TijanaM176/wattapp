@@ -104,7 +104,6 @@ export class EmployeesComponent {
         this.Region=res;
       },
       error:(err)=>{
-        //this.toast.error({detail:"Error!",summary:"Unable to load user data.", duration:3000});
         console.log(err.error);
       }
     });

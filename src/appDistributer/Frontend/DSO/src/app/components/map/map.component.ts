@@ -7,6 +7,7 @@ import { Neighborhood } from 'src/app/models/neighborhood';
 import { Options, LabelType } from '@angular-slider/ngx-slider';
 import { ScreenWidthService } from 'src/app/services/screen-width.service';
 import { fromEvent, Observable, Subscription } from 'rxjs';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-map',
@@ -80,7 +81,7 @@ export class MapComponent implements AfterViewInit, OnInit {
   constructor(
     private mapService: UsersServiceService,
     private widthService: ScreenWidthService,
-    // private toast: NgToastService,
+    public toast:ToastrService,
     private cookie: CookieService
   ) {}
 
@@ -222,11 +223,10 @@ export class MapComponent implements AfterViewInit, OnInit {
         }
       },
       error: (err) => {
-        // this.toast.error({
-        //   detail: 'Error',
-        //   summary: 'Unable to retreive prosumer locations',
-        //   duration: 3000,
-        // });
+
+        this.toast.error('Error!', 'Unable to retreive prosumer locations.', {
+          timeOut: 2500,
+        });
         console.log(err.error);
       },
     });

@@ -9,6 +9,7 @@ import { strings } from '@material/slider';
 import { UsersServiceService } from 'src/app/services/users-service.service';
 import { ScaleType, Color, LegendComponent } from '@swimlane/ngx-charts';
 import { BrowserModule } from '@angular/platform-browser';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-home-sidebar',
@@ -38,9 +39,9 @@ export class HomeSidebarComponent implements OnInit, AfterViewInit {
   constructor(
     private deviceService: DeviceserviceService,
     private employeeService: EmployeesServiceService,
-    // private toast: NgToastService,
     private widthService: ScreenWidthService,
-    private service: UsersServiceService
+    private service: UsersServiceService,
+    public toast:ToastrService
   ) {}
 
   ngAfterViewInit(): void {
@@ -75,11 +76,9 @@ export class HomeSidebarComponent implements OnInit, AfterViewInit {
       },
       error: (err) => {
         console.log(err.error);
-        // this.toast.error({
-        //   detail: 'ERROR',
-        //   summary: 'Unable to load data',
-        //   duration: 3000,
-        // });
+        this.toast.error('Error!', 'Unable to load data.', {
+          timeOut: 2500,
+        });
       },
     });
   }
@@ -91,11 +90,9 @@ export class HomeSidebarComponent implements OnInit, AfterViewInit {
       },
       error: (err) => {
         console.log(err.error);
-        // this.toast.error({
-        //   detail: 'ERROR',
-        //   summary: 'Unable to load data',
-        //   duration: 3000,
-        // });
+        this.toast.error('Error!', 'Unable to load data.', {
+          timeOut: 2500,
+        });
       },
     });
   }
@@ -108,11 +105,9 @@ export class HomeSidebarComponent implements OnInit, AfterViewInit {
       },
       error: (err) => {
         console.log(err.error);
-        // this.toast.error({
-        //   detail: 'ERROR',
-        //   summary: 'Unable to load data',
-        //   duration: 3000,
-        // });
+        this.toast.error('Error!', 'Unable to load data.', {
+          timeOut: 2500,
+        });
       },
     });
   }

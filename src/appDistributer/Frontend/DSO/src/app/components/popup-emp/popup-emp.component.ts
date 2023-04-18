@@ -15,6 +15,7 @@ import { SetCoordsDto } from 'src/app/models/setCoordsDto';
 import { UsersServiceService } from 'src/app/services/users-service.service';
 import { Neighborhood } from 'src/app/models/neighborhood';
 import { City } from 'src/app/models/city';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-popup-emp',
@@ -47,7 +48,7 @@ export class PopupEmpComponent implements OnInit {
     private fb: FormBuilder,
     private auth: AuthService,
     private router: Router,
-    // private toast: NgToastService,
+    public toast:ToastrService,
     private service: UsersServiceService,
     private location1: Location
   ) {}
@@ -104,12 +105,7 @@ export class PopupEmpComponent implements OnInit {
 
       this.auth.signUp(this.signupForm.value).subscribe({
         next: (res) => {
-          //alert(res);
-          // this.toast.success({
-          //   detail: 'Success!',
-          //   summary: 'New Prosumer Added',
-          //   duration: 2500,
-          // });
+          this.toast.success('Success','New Prosumer Added!',{timeOut:2500});
 
           this.getCoordinates(this.address, res.username);
           console.log(res.username);
@@ -121,12 +117,9 @@ export class PopupEmpComponent implements OnInit {
             });
         },
         error: (err) => {
-          //alert(err?.error)
-          // this.toast.error({
-          //   detail: 'Error!',
-          //   summary: err.error,
-          //   duration: 3000,
-          // });
+          this.toast.error('Error!', 'Unable to add new Prosumer.', {
+            timeOut: 2500,
+          });
         },
       });
       console.log(this.signupForm.value);
@@ -169,20 +162,16 @@ export class PopupEmpComponent implements OnInit {
             console.log(res.message);
           },
           error: (err) => {
-            // this.toast.error({
-            //   detail: 'Error!',
-            //   summary: err.error,
-            //   duration: 3000,
-            // });
+            this.toast.error('Error!', 'Unable to get coordinates.', {
+              timeOut: 2500,
+            });
           },
         });
       })
       .catch((error) => {
-        // this.toast.error({
-        //   detail: 'ERROR',
-        //   summary: 'Error fetching location data.',
-        //   duration: 3000,
-        // });
+        this.toast.error('Error!', 'Unable to fetch location data.', {
+          timeOut: 2500,
+        });
         console.error(`Error fetching location data: ${error}`);
       });
   }

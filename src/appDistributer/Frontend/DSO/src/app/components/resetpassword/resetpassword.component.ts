@@ -8,6 +8,7 @@ import {
 import { ResetPassword } from 'src/app/models/reset-password';
 import { ResetPasswordService } from 'src/app/services/reset-password.service';
 import { CookieService } from 'ngx-cookie-service';
+import { ToastrService } from 'ngx-toastr';
 // import { NgToastService } from 'ng-angular-popup';
 @Component({
   selector: 'app-resetpassword',
@@ -23,7 +24,8 @@ export class ResetpasswordComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private reset: ResetPasswordService,
-    private cookie: CookieService // private toast: NgToastService
+    private cookie: CookieService,
+    public toast:ToastrService 
   ) {}
   ngOnInit() {
     this.resetForm = this.fb.group({
@@ -66,17 +68,13 @@ export class ResetpasswordComponent implements OnInit {
       this.reset.resetPassword(object).subscribe((res) => {
         this.cookie.delete('resetToken');
         if (res.error == false) {
-          // this.toast.success({
-          //   detail: 'Succes',
-          //   summary: res.message,
-          //   duration: 3000,
-          // });
+
+          this.toast.success('Success','Succesful resset password',{timeOut:2500});
         } else {
-          // this.toast.error({
-          //   detail: 'ERROR',
-          //   summary: res.message,
-          //   duration: 3000,
-          // });
+
+          this.toast.error('Error!', 'Unable to resset password.', {
+            timeOut: 2500,
+          });
         }
       });
     }

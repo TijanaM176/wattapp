@@ -62,7 +62,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
   constructor(
     private cookie: CookieService,
     private auth1: AuthServiceService,
-    private toast: ToastrService,
+    public toast: ToastrService,
     private modalService: NgbModal,
     private fb: FormBuilder,
     private auth: AuthService,
@@ -186,12 +186,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
 
       this.auth.signUp(this.signupForm.value).subscribe({
         next: (res) => {
-          //alert(res);
-          // this.toast.success({
-          //   detail: 'Success!',
-          //   summary: 'New Prosumer Added',
-          //   duration: 2500,
-          // });
+          this.toast.success('Success','New Prosumer Added',{timeOut:2500});
 
           this.getCoordinates(this.address, res.username);
           console.log(res.username);
@@ -203,12 +198,10 @@ export class HomeComponent implements OnInit, AfterViewInit {
             });
         },
         error: (err) => {
-          //alert(err?.error)
-          // this.toast.error({
-          //   detail: 'Error!',
-          //   summary: err.error,
-          //   duration: 3000,
-          // });
+
+          this.toast.error('Error!', 'Unable to add new prosumer.', {
+            timeOut: 2500,
+          });
         },
       });
       console.log(this.signupForm.value);
@@ -251,20 +244,17 @@ export class HomeComponent implements OnInit, AfterViewInit {
             console.log(res.message);
           },
           error: (err) => {
-            // this.toast.error({
-            //   detail: 'Error!',
-            //   summary: err.error,
-            //   duration: 3000,
-            // });
+            this.toast.error('Error!', 'Unable to set user coordinates.', {
+              timeOut: 2500,
+            });
           },
         });
       })
       .catch((error) => {
-        // this.toast.error({
-        //   detail: 'ERROR',
-        //   summary: 'Error fetching location data.',
-        //   duration: 3000,
-        // });
+
+        this.toast.error('Error!', 'Unable to fetch location data.', {
+          timeOut: 2500,
+        });
         console.error(`Error fetching location data: ${error}`);
       });
   }

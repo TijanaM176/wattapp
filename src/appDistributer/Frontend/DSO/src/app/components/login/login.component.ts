@@ -13,6 +13,7 @@ import { AuthServiceService } from 'src/app/services/auth-service.service';
 import { ResetPasswordService } from 'src/app/services/reset-password.service';
 import jwt_decode from 'jwt-decode';
 import { path } from 'd3';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-login',
@@ -29,10 +30,10 @@ export class LoginComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private router: Router,
-    // private toast: NgToastService,
     private cookie: CookieService,
     private auth: AuthServiceService,
-    private reset: ResetPasswordService
+    private reset: ResetPasswordService,
+    public toast:ToastrService
   ) {}
 
   ngOnInit(): void {
@@ -103,16 +104,13 @@ export class LoginComponent implements OnInit {
           this.cookie.set('refresh', res.refreshToken.toString().trim(), {
             path: '/',
           });
-          //console.log(this.cookie.get("refresh"));
-          // this.toast.success({ detail: 'Successful Login!', duration: 2000 });
+          this.toast.success('Success','Successful Login!',{timeOut:2500});
           this.router.navigate(['']);
         },
         error: (err) => {
-          // this.toast.error({
-          //   detail: 'ERROR',
-          //   summary: err.error.message,
-          //   duration: 3000,
-          // });
+          this.toast.error('Error!', 'Unable to Login.', {
+            timeOut: 2500,
+          });
         },
       });
     } else {
@@ -133,21 +131,15 @@ export class LoginComponent implements OnInit {
       //console.log(this.resetPasswordEmail);
       this.reset.sendResetPasswordLink(this.resetPasswordEmail).subscribe({
         next: (res) => {
-          // this.toast.success({
-          //   detail: 'Success',
-          //   summary: 'Reset Sucess!',
-          //   duration: 3000,
-          // });
+          this.toast.success('Success','Successful Reset Password!',{timeOut:2500});
           this.resetPasswordEmail = '';
           const buttonRef = document.getElementById('closeBtn');
           buttonRef?.click();
         },
         error: (err) => {
-          // this.toast.error({
-          //   detail: 'ERROR',
-          //   summary: 'Something went wrong',
-          //   duration: 3000,
-          // });
+          this.toast.error('Error!', 'Unable to Reset Password.', {
+            timeOut: 2500,
+          });
         },
       });
     }
@@ -163,11 +155,9 @@ export class LoginComponent implements OnInit {
         //console.log(this.resetPasswordEmail);
       },
       error: (err) => {
-        // this.toast.error({
-        //   detail: 'ERROR',
-        //   summary: err.error,
-        //   duration: 3000,
-        // });
+        this.toast.error('Error!', 'Error.', {
+          timeOut: 3000,
+        });
         console.log(err.error);
       },
     });
