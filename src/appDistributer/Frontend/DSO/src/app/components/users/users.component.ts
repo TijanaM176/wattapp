@@ -2,6 +2,7 @@ import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { Observable } from 'rxjs';
 import { UsersServiceService } from 'src/app/services/users-service.service';
 import { Router } from '@angular/router';
+import { DeviceserviceService } from 'src/app/services/deviceservice.service';
 
 @Component({
   selector: 'app-users',
@@ -21,9 +22,9 @@ export class UsersComponent implements OnInit {
   tableSizes: any = [10, 15, 20];
   orderHeader: String = '';
   isDescOrder: boolean = true;
-  constructor(public service: UsersServiceService, private router: Router) {}
+  constructor(public service: UsersServiceService, private router: Router,public serviceDevice:DeviceserviceService) {}
   ngOnInit(): void {
-    this.service.ProsumersInfo();
+    this.serviceDevice.ProsumersInfo();
   }
   Details(id: string) {
     this.service.detailsEmployee(id).subscribe((res) => {
@@ -40,7 +41,7 @@ export class UsersComponent implements OnInit {
   Paging() {
     this.service.Page(this.page, this.perPage).subscribe((res) => {
       this.prosumers = res;
-      console.log(this.service.prosumers);
+      console.log(this.serviceDevice.prosumers);
     });
   }
   onTableDataChange(event: any) {

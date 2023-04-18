@@ -60,7 +60,7 @@ export class SidebarComponent implements OnInit {
   neighborhood: string = '';
   Neighborhoods: Neighborhood[] = [];
   dropDownNeigh: string = '';
-  constructor(private userService: UsersServiceService,private deviceServer:DeviceserviceService) {}
+  constructor(private userService: UsersServiceService,private deviceService:DeviceserviceService) {}
 
   ChangeNeighborhood(e: any) {
     this.dropDownNeigh = e.target.value;
@@ -73,7 +73,7 @@ export class SidebarComponent implements OnInit {
   }
 
   filterwithoutNeighborhood() {
-    this.deviceServer
+    this.deviceService
       .prosumerFilter(
         this.minValueC,
         this.maxValueC,
@@ -91,12 +91,12 @@ export class SidebarComponent implements OnInit {
           this.minValue,
           this.maxValue
         );
-        this.userService.prosumers = response;
+        this.deviceService.prosumers = response;
         console.log(response);
       });
   }
   filterwithNeighborhood() {
-    this.deviceServer
+    this.deviceService
       .prosumerFilter2(
         this.dropDownNeigh,
         this.minValueC,
@@ -107,7 +107,7 @@ export class SidebarComponent implements OnInit {
         this.maxValue
       )
       .subscribe((response) => {
-        this.userService.prosumers = response;
+        this.deviceService.prosumers = response;
         console.log(
           this.dropDownNeigh,
           this.minValueC,
@@ -135,6 +135,6 @@ export class SidebarComponent implements OnInit {
     this.maxValueP = 300;
     this.minValue = 0;
     this.maxValue = 50;
-    this.userService.refreshList();
+    this.deviceService.ProsumersInfo();
   }
 }

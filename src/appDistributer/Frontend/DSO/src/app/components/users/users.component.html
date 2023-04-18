@@ -105,7 +105,7 @@
           <tbody>
             <tr
               *ngFor="
-                let item of service.prosumers
+                let item of serviceDevice.prosumers
                   | orderBy:orderHeader:isDescOrder
                   | search : searchName
                   | searchaddress : searchAddress

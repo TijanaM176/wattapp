@@ -2,16 +2,18 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, lastValueFrom } from 'rxjs';
 import { Prosumer } from '../models/userstable';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DeviceserviceService {
 
-  constructor(private http:HttpClient) { }
+  constructor(private http:HttpClient,private spiner: NgxSpinnerService) { }
 
   private baseUrl: string = 'https://localhost:7156/api/';
   private deviceBaseUrl: string = 'https://localhost:7156/api/Devices/';
+  prosumers!: Prosumer[];
 
   getInfoDevice(id:string){
     return this.http.get(`${this.baseUrl}Device/GetDevice` + `?id=` + id);
@@ -82,5 +84,19 @@ export class DeviceserviceService {
         maxDev
     );
   }
- 
+  ProsumersInfo() {
+    lastValueFrom(this.http.get(this.deviceBaseUrl + 'AllProsumerInfo')).then(
+      (res) => {
+        this.prosumers = res as Prosumer[];
+        this.spiner.hide();
+      },
+      (err) => {
+        // Handle any errors here
+      }
+    );
+  }
+
+  ProsumersInfo1(): Observable<any[]> {
+    return this.http.get<any[]>(this.deviceBaseUrl + 'AllProsumerInfo');
+  }
 }

@@ -31,7 +31,7 @@ export class UsersServiceService {
   }
   getUsers(): Observable<any[]> {
     return this.http.get<any>(
-      this.baseUrl+'Prosumer/GetAllProsumers'
+      this.baseUrl+'GetAllProsumers'
     );
   }
   detailsEmployee(id: string) : Observable<any> {
@@ -72,21 +72,7 @@ export class UsersServiceService {
   }
 
  
-  ProsumersInfo() {
-    lastValueFrom(this.http.get(this.deviceBaseUrl + 'AllProsumerInfo')).then(
-      (res) => {
-        this.prosumers = res as Prosumer[];
-        this.spiner.hide();
-      },
-      (err) => {
-        // Handle any errors here
-      }
-    );
-  }
-
-  ProsumersInfo1(): Observable<any[]> {
-    return this.http.get<any[]>(this.deviceBaseUrl + 'AllProsumerInfo');
-  }
+  
 
   
 

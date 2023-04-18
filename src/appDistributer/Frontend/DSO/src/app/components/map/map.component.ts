@@ -184,7 +184,7 @@ export class MapComponent implements AfterViewInit, OnInit {
   }
 
   populateTheMap(map: any) {
-    this.mapService.ProsumersInfo1().subscribe({
+    this.deviceServer.ProsumersInfo1().subscribe({
       next: (res) => {
         this.users = res;
         let iconUrl = 'assets/images/marker-icon-2x-blueviolet.png';
