@@ -1,17 +1,15 @@
-<div class="col-sm-12">
-    <select
-      class="dropdown dropdown-toggle"
-      style="width: 85%; margin: 0 auto"
-      name="Region"
-      (change)="ChangeRegion($event)"
-      class="form-control"
-      [(ngModel)]="region">
-      <option value="">All</option>
-      <option
-      *ngFor="let region of regions"
-      [value]="region.id"
-    >
+<div class="col-sm-12" style="padding: 0">
+  <select
+    class="dropdown dropdown-toggle"
+    style="width: 85%; margin: 0 auto"
+    name="Region"
+    (change)="ChangeRegion($event)"
+    class="form-control"
+    [(ngModel)]="region"
+  >
+    <option value="">All</option>
+    <option *ngFor="let region of regions" [value]="region.id">
       {{ region.regionName }}
     </option>
-    </select>
-  </div>
+  </select>
+</div>

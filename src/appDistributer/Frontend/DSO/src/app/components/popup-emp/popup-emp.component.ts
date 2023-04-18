@@ -8,7 +8,7 @@ import {
 } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
-import { NgToastService } from 'ng-angular-popup';
+// import { NgToastService } from 'ng-angular-popup';
 import { CookieService } from 'ngx-cookie-service';
 import { RegisterProsumerDto } from 'src/app/models/registerProsumerDto';
 import { SetCoordsDto } from 'src/app/models/setCoordsDto';
@@ -19,7 +19,7 @@ import { City } from 'src/app/models/city';
 @Component({
   selector: 'app-popup-emp',
   templateUrl: './popup-emp.component.html',
-  styleUrls: ['./popup-emp.component.css']
+  styleUrls: ['./popup-emp.component.css'],
 })
 export class PopupEmpComponent implements OnInit {
   neighName: string = '';
@@ -38,16 +38,16 @@ export class PopupEmpComponent implements OnInit {
 
   signupForm!: FormGroup;
   signupFormValues!: FormGroup;
-   closeResult: string='';
+  closeResult: string = '';
   users: any;
   showModal: boolean = false;
-  currentCountry:string = '';
+  currentCountry: string = '';
   validInput: boolean = false;
   constructor(
     private fb: FormBuilder,
     private auth: AuthService,
     private router: Router,
-    private toast: NgToastService,
+    // private toast: NgToastService,
     private service: UsersServiceService,
     private location1: Location
   ) {}
@@ -105,11 +105,11 @@ export class PopupEmpComponent implements OnInit {
       this.auth.signUp(this.signupForm.value).subscribe({
         next: (res) => {
           //alert(res);
-          this.toast.success({
-            detail: 'Success!',
-            summary: 'New Prosumer Added',
-            duration: 2500,
-          });
+          // this.toast.success({
+          //   detail: 'Success!',
+          //   summary: 'New Prosumer Added',
+          //   duration: 2500,
+          // });
 
           this.getCoordinates(this.address, res.username);
           console.log(res.username);
@@ -122,11 +122,11 @@ export class PopupEmpComponent implements OnInit {
         },
         error: (err) => {
           //alert(err?.error)
-          this.toast.error({
-            detail: 'Error!',
-            summary: err.error,
-            duration: 3000,
-          });
+          // this.toast.error({
+          //   detail: 'Error!',
+          //   summary: err.error,
+          //   duration: 3000,
+          // });
         },
       });
       console.log(this.signupForm.value);
@@ -169,23 +169,21 @@ export class PopupEmpComponent implements OnInit {
             console.log(res.message);
           },
           error: (err) => {
-            this.toast.error({
-              detail: 'Error!',
-              summary: err.error,
-              duration: 3000,
-            });
+            // this.toast.error({
+            //   detail: 'Error!',
+            //   summary: err.error,
+            //   duration: 3000,
+            // });
           },
         });
       })
       .catch((error) => {
-        this.toast.error({
-          detail: 'ERROR',
-          summary: 'Error fetching location data.',
-          duration: 3000,
-        });
+        // this.toast.error({
+        //   detail: 'ERROR',
+        //   summary: 'Error fetching location data.',
+        //   duration: 3000,
+        // });
         console.error(`Error fetching location data: ${error}`);
       });
   }
-
-
 }

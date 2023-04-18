@@ -12,7 +12,7 @@
 
 #side {
   width: 280px;
-  height: calc(100vh);
+  height: 100vh;
   background-color: #5875a1 !important;
   overflow-y: auto;
 }

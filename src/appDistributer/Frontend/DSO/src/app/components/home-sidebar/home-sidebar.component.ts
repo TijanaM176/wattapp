@@ -1,5 +1,5 @@
 import { Component, OnInit, AfterViewInit } from '@angular/core';
-import { NgToastService } from 'ng-angular-popup';
+// import { NgToastService } from 'ng-angular-popup';
 import { DeviceserviceService } from 'src/app/services/deviceservice.service';
 import { EmployeesServiceService } from 'src/app/services/employees-service.service';
 import { ScreenWidthService } from 'src/app/services/screen-width.service';
@@ -38,7 +38,7 @@ export class HomeSidebarComponent implements OnInit, AfterViewInit {
   constructor(
     private deviceService: DeviceserviceService,
     private employeeService: EmployeesServiceService,
-    private toast: NgToastService,
+    // private toast: NgToastService,
     private widthService: ScreenWidthService,
     private service: UsersServiceService
   ) {}
@@ -75,11 +75,11 @@ export class HomeSidebarComponent implements OnInit, AfterViewInit {
       },
       error: (err) => {
         console.log(err.error);
-        this.toast.error({
-          detail: 'ERROR',
-          summary: 'Unable to load data',
-          duration: 3000,
-        });
+        // this.toast.error({
+        //   detail: 'ERROR',
+        //   summary: 'Unable to load data',
+        //   duration: 3000,
+        // });
       },
     });
   }
@@ -91,11 +91,11 @@ export class HomeSidebarComponent implements OnInit, AfterViewInit {
       },
       error: (err) => {
         console.log(err.error);
-        this.toast.error({
-          detail: 'ERROR',
-          summary: 'Unable to load data',
-          duration: 3000,
-        });
+        // this.toast.error({
+        //   detail: 'ERROR',
+        //   summary: 'Unable to load data',
+        //   duration: 3000,
+        // });
       },
     });
   }
@@ -108,11 +108,11 @@ export class HomeSidebarComponent implements OnInit, AfterViewInit {
       },
       error: (err) => {
         console.log(err.error);
-        this.toast.error({
-          detail: 'ERROR',
-          summary: 'Unable to load data',
-          duration: 3000,
-        });
+        // this.toast.error({
+        //   detail: 'ERROR',
+        //   summary: 'Unable to load data',
+        //   duration: 3000,
+        // });
       },
     });
   }
