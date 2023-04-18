@@ -152,6 +152,16 @@ export class UsersServiceService {
       this.timestampUrl + `NextWeeksConsumptionAndProduction?id=` + id
     );
   }
+  PredictionProsumer3Days(id : string): Observable<any>{
+    return this.http.get(
+      this.timestampUrl + `Next3DaysConsumptionAndProduction?id=` + id
+    );
+  }
+  PredictionProsumer1Day(id : string): Observable<any>{
+    return this.http.get(
+      this.timestampUrl + `NextDaysConsumptionAndProduction?id=` + id
+    );
+  }
 
   HistoryAllProsumers7Days(): Observable<any> {
     return this.http.get(
