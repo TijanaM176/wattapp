@@ -10,7 +10,6 @@ import { catchError, Observable, switchMap, throwError } from 'rxjs';
 import { CookieService } from 'ngx-cookie-service';
 import { SendRefreshToken } from '../models/sendRefreshToken';
 import { RefreshTokenDto } from '../models/refreshTokenDto';
-// import { NgToastService } from 'ng-angular-popup';
 import { Router } from '@angular/router';
 import { AuthServiceService } from '../services/auth-service.service';
 import jwt_decode from 'jwt-decode';
@@ -21,7 +20,6 @@ export class TokenInterceptor implements HttpInterceptor {
   counter = 0;
   constructor(
     private cookie: CookieService,
-    // private toast: NgToastService,
     private router: Router,
     private auth: AuthService
   ) {}
@@ -47,7 +45,6 @@ export class TokenInterceptor implements HttpInterceptor {
             return this.handleAuth(request, next);
           } else if (this.counter == 1) {
             this.counter = 0;
-        
             this.cookie.deleteAll();
             this.router.navigate(['login']);
           }
