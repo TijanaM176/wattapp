@@ -1,0 +1,77 @@
+<div
+  class="card-header col-12 p-1 group"
+  style="display: flex; justify-content: right; margin: auto"
+>
+  <div class="col-3 p-1">
+    <h6 class="m-0 font-weight-bold ps-2">Prediction</h6>
+  </div>
+  <div class="col-9" style="display: flex; justify-content: right">
+    <button
+      class="btn btn-primary m-1 realizationbtn"
+      id="prediction1"
+      (click)="Prediction1Day('prediction1')"
+    >
+      7D
+    </button>
+    <button
+      class="btn btn-primary m-1 realizationbtn"
+      id="prediction2"
+      (click)="Prediction3Days('prediction2')"
+    >
+      1M
+    </button>
+    <button
+      class="btn btn-primary m-1 realizationbtn"
+      id="prediction3"
+      (click)="PredictionWeek('prediction3')"
+    >
+      1Y
+    </button>
+  </div>
+</div>
+<div class="card-body" style="width: 100%; margin: 0 auto">
+  <div
+    class="w-100 px-0 py-0 mx-0 my-0"
+    style="display: flex; justify-content: center; align-items: center"
+    id="predikcija"
+  >
+    <h1
+      *ngIf="data.length == 0"
+      style="
+        text-align: center;
+        margin-top: 15%;
+        opacity: 60%;
+        font-style: italic;
+        font-weight: normal;
+        z-index: 100;
+      "
+    >
+      There Is No Available Data
+    </h1>
+    <ngx-charts-bar-vertical-2d
+      *ngIf="production && consumption && data.length != 0"
+      [title]="'Realization'"
+      [scheme]="colors"
+      [results]="data"
+      [xAxis]="showXAxis"
+      [yAxis]="showYAxis"
+      [showXAxisLabel]="false"
+      [showYAxisLabel]="false"
+      [showDataLabel]="false"
+      [animations]="true"
+      [barPadding]="3"
+      [roundDomains]="true"
+      [trimYAxisTicks]="true"
+      [tooltipDisabled]="true"
+      [noBarWhenZero]="true"
+      [yAxisTickFormatting]="yAxisTickFormatting"
+      [showGridLines]="true"
+      [legend]="false"
+    >
+    </ngx-charts-bar-vertical-2d>
+  </div>
+  <div class="legend w-100 text-center" *ngIf="data.length != 0">
+    <i class="fa fa-circle consumption">&nbsp;Consumption</i>&nbsp;&nbsp;&nbsp;
+    <i class="fa fa-circle production">&nbsp;Production</i>
+  </div>
+</div>
