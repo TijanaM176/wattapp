@@ -40,7 +40,7 @@ export class UsersComponent implements OnInit {
   }
 
   Paging() {
-    this.service.Page(this.page, this.perPage).subscribe((res) => {
+    this.service.Page(this.page, this.perPage).subscribe((res:any) => {
       this.prosumers = res;
       console.log(this.serviceDevice.prosumers);
     });

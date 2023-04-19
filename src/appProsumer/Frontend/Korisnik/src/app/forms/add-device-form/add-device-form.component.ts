@@ -86,6 +86,7 @@ export class AddDeviceFormComponent {
     this.service.name = this.Name;
   }
   getModels() {
+    
     this.service.getModels().subscribe({
       next: (response) => {
         this.models = response;

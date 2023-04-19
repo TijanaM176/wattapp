@@ -17,39 +17,42 @@ export class DeviceinfoComponent implements OnInit {
   currentUsage!: number;
   idDev!: string;
   results: Device = new Device();
-  TypeName: any;
   loader: boolean = true;
+  IpAddress: string = '';
+  Manufacturer: string = '';
+  TypeName: string = '';
+  TypeId: string = '';
+  Name: string = '';
+  MaxUsage: string = '';
+  ModelName: string = '';
+  AvgUsage: string = '';
+  DsoView!: boolean;
+  DsoControl!: boolean;
+  ModelId:string='';
+  
   constructor(
     private router: ActivatedRoute,
     private service: DeviceserviceService
   ) {}
-  /*infoForm = new FormGroup({
-    IpAddress: new FormControl(''),
-    TypeName: new FormControl(''),
-    Manufacturer: new FormControl(''),
-    Name: new FormControl(''),
-    MaxUsage: new FormControl(''),
-    AvgUsage: new FormControl(''),
-  });
-*/
+
   ngOnInit(): void {
     this.idDev = this.router.snapshot.params['idDev'];
     this.service.getInfoDevice(this.idDev).subscribe((res: any) => {
       console.log(res);
       this.results = res;
-
-      /*/this.infoForm=new FormGroup({
-        IpAddress: new FormControl(res['IpAddress']),
-        TypeName: new FormControl(res['TypeName']),
-        Manufacturer: new FormControl(res['Manufacturer']),
-        Name: new FormControl(res['Name']),
-        MaxUsage: new FormControl(res['MaxUsage']),
-        AvgUsage: new FormControl(res['AvgUsage']),
-      })*/
+      this.IpAddress = res.IpAddress;
+        this.TypeName = res.TypeName;
+        this.ModelName = res.ModelName;
+        this.Name = res.Name;
+        this.MaxUsage = res.MaxUsage;
+        this.AvgUsage = res.AvgUsage;
+        this.currentUsage = res.CurrentUsage;
+        this.DsoView = res.DsoView;
+        this.DsoControl = res.DsoControl;
+        this.TypeId = res.TypeId;
+        this.ModelId = res.ModelId;
       this.currentUsage = res['CurrentUsage'];
     });
-    setTimeout(() => {
-      this.loader = false;
-    }, 2000);
+
   }
 }

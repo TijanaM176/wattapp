@@ -1,230 +1,68 @@
-<!-- <app-navBar></app-navBar> -->
+
 <div style="display: flex" class="h-100 px-0 py-0 mx-0 my-0">
-  <app-sidebar-dso></app-sidebar-dso>
   <div class="d-flex justify-content-center">
-    <div class="spinner-border" style="margin-top: 25%;" role="status" *ngIf="loader">
-      <span class="sr-only">Loading...</span>
-    </div>
   </div>
-  <div
-    style="
-      width: 100%;
-      height: 100%;
-      margin-top: 0%;
-      margin-left: 5%;
-      justify-content: center;
-    "
-    *ngIf="!loader"
-  >
-    <div class="col-md-6" style="float: left">
-      <form style="padding-top: 20%; justify-content: center">
-        <div style="width: 100%">
-          <label
-            style="
-              color: #8ea2bf;
-              font-weight: bold;
-              font-size: 18px;
-              width: 50%;
-              float: left;
-            "
-            >IP Address:</label
-          >
-          <label
-            style="
-              width: 50%;
-              float: left;
-              color: #5875a1;
-              font-weight: bold;
-              border: none;
-              font-size: 18px;
-              resize: none;
-              margin-top: -1.5%;
-              margin-bottom: 5%;
-            "
-            class="form-control"
-            >{{ results.IpAddress }}</label
-          >
+  <div class="container-fluid py-4" id="deviceInfoDataContainer">
+    <div class="row mt-4">
+  <div class="col-lg-5 mb-lg-0 mb-4">
+    <div class="card z-index-2 h-100">
+        <br />
+        <div class="card-header" style="margin-left: 0; margin-right: 0">
+          <h6>Device Information</h6>
         </div>
-        <div>
-          <label
-            style="
-              color: #8ea2bf;
-              font-weight: bold;
-              font-size: 18px;
-              width: 50%;
-              float: left;
-            "
-            >Device Type:</label
-          >
-          <label
-            style="
-              width: 50%;
-              float: left;
-              color: #5875a1;
-              font-weight: bold;
-              border: none;
-              font-size: 18px;
-              resize: none;
-              margin-top: -1.5%;
-              margin-bottom: 5%;
-            "
-            class="form-control"
-            >{{ results.TypeName }}</label
-          >
+        <hr class="mt-0 mb-4" />
+        <div class="row pt-1 mx-0 my-0">
+          <div class="col-6 mb-1">
+            <h6 style="color: #08376b">{{ IpAddress }}</h6>
+            <p class="text-muted">IP Address</p>
+          </div>
+          <div class="col-6 mb-1">
+            <h6 style="color: #08376b">{{ TypeName }}</h6>
+            <p class="text-muted">Device Type</p>
+          </div>
         </div>
+        <hr class="mt-0 mb-4" />
+        <div class="row pt-1 mx-0 my-0">
+          <div class="col-6 mb-1">
+            <h6 style="color: #08376b">{{ ModelName }}</h6>
+            <p class="text-muted">Device Model</p>
+          </div>
+          <div class="col-6 mb-1">
+            <h6 style="color: #08376b">{{ Name }}</h6>
+            <p class="text-muted">Device Name</p>
+          </div>
+        </div>
+        <hr class="mt-0 mb-4" />
 
-        <div>
-          <label
-            style="
-              color: #8ea2bf;
-              font-weight: bold;
-              font-size: 18px;
-              width: 50%;
-              float: left;
-            "
-            >Device Model:</label
-          >
-          <label
-            style="
-              width: 50%;
-              float: left;
-              color: #5875a1;
-              font-weight: bold;
-              border: none;
-              font-size: 18px;
-              resize: none;
-              margin-top: -1.5%;
-              margin-bottom: 5%;
-            "
-            class="form-control"
-            >{{ results.Manufacturer }}</label
-          >
-        </div>
-        <div>
-          <label
-            style="
-              color: #8ea2bf;
-              font-weight: bold;
-              font-size: 18px;
-              width: 50%;
-              float: left;
-            "
-            >Device Name:</label
-          >
-          <label
-            style="
-              width: 50%;
-              float: left;
-              color: #5875a1;
-              font-weight: bold;
-              border: none;
-              font-size: 18px;
-              resize: none;
-              margin-top: -1.5%;
-              margin-bottom: 5%;
-            "
-            class="form-control"
-            >{{ results.Name }}</label
-          >
-        </div>
-
-        <div>
-          <label
-            style="
-              color: #8ea2bf;
-              font-weight: bold;
-              font-size: 18px;
-              width: 50%;
-              float: left;
-            "
-            >Maximum hourly consumption:</label
-          >
-          <label
-            style="
-              width: 50%;
-              float: left;
-              color: #5875a1;
-              font-weight: bold;
-              border: none;
-              font-size: 18px;
-              resize: none;
-              margin-top: 1%;
-              margin-bottom: 7%;
-            "
-            class="form-control"
-            >{{ results.MaxUsage }}kWh</label
-          >
-        </div>
-        <div style="clear: both; padding-top: 5%">
-          <label
-            style="
-              color: #8ea2bf;
-              font-weight: bold;
-              font-size: 18px;
-              width: 50%;
-              float: left;
-            "
-            >Average hourly consumption:</label
-          >
-          <label
-            style="
-              width: 50%;
-              float: right;
-              color: #5875a1;
-              font-weight: bold;
-              border: none;
-              font-size: 18px;
-              resize: none;
-              margin-top: 1%;
-              margin-bottom: 5%;
-            "
-            class="form-control"
-            >{{ results.AvgUsage }}kWh</label
-          >
-        </div>
-        <div style="clear: both">
-          <!-- <mat-slide-toggle style="margin-top:7%;color:#566787;font-weight: bold;" [disabled]="disabled" [checked]="checked"  [color]="color">Allowed DSO to control</mat-slide-toggle>-->
-        </div>
-      </form>
-    </div>
-    <div
-      class="col-md-6"
-      style="background-color: #dfeff6; height: 90vh; float: left"
-    >
-      <button
-        type="button"
-        id="closeBtn1"
-        class="btn-close"
-        data-bs-dismiss="modal"
-        aria-label="Close"
-        style="margin-left: 95%; margin-top: 1%"
-      ></button>
-      <div style="display: flex; justify-content: center">
-        <div style="background-color: #dfeff6">
-          <div style="display: flex; justify-content: center">
-            <label style="font-size: 18px; color: #5875a1; font-weight: bold"
-              >Consumption</label
-            ><br />
+        <div class="row pt-1 mx-0 my-0">
+          <div class="col-6 mb-1">
+            <h6 style="color: #08376b">{{ MaxUsage }}kWh</h6>
+            <p class="text-muted">Maximum hourly consumption</p>
           </div>
-          <div style="display: flex; justify-content: center">
-            <label style="font-size: 18px; color: #5875a1; font-weight: bold"
-              >{{ currentUsage }}kWh</label
-            ><br />
+          <div class="col-6 mb-1">
+            <h6 style="color: #08376b">{{ AvgUsage }}kWh</h6>
+            <p class="text-muted">Average hourly consumption</p>
           </div>
-          <div style="display: flex; justify-content: center">
-            <img
-              src="assets/images/consumption2.png"
-              style="width: 50%; height: 50%"
-            />
-          </div>
+        </div>
+        <div class="row pt-1 mx-0 my-0">
+          <mat-slide-toggle [(ngModel)]="DsoView"
+            >Allow DSO to view</mat-slide-toggle
+          >
+          <mat-slide-toggle [(ngModel)]="DsoControl"
+            >Allow DSO to control</mat-slide-toggle
+          >
           <br />
-          <div style="display: flex; justify-content: center">
-            <label style="font-size: 18px; color: #5875a1; font-weight: bold"
-              >Realization and Prediction</label
-            >
-          </div>
         </div>
-      </div>
+        <div></div>
+        <div
+          class="d-flex justify-content-start"
+          style="margin-top: 5%"
+      >
+         
+          
+        </div>
     </div>
+    </div>
+   
   </div>
 </div>

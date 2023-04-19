@@ -61,6 +61,9 @@ export class AddDeviceComponent implements OnInit {
     this.c.DsoControl = false;
   }
   registerDevice() {
+    console.log(this.service.category);
+    console.log(this.service.type);
+    console.log(this.service.model);
     this.service.id = this.cookie.get('id');
     let device: AddDevice = new AddDevice();
     device.modelId = this.service.model;
@@ -80,7 +83,7 @@ export class AddDeviceComponent implements OnInit {
       },
     });
     if (this.router.url === '/ProsumerApp/userDevices') {
-      location.reload();
+      window.location.reload();
     } else {
       this.router.navigate(['/ProsumerApp/userDevices']);
     }
