@@ -65,6 +65,8 @@ import { NgxSpinnerModule } from 'ngx-spinner';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { ToastrModule } from 'ngx-toastr';
 import { PredictionProsumerComponent } from './components/Charts/prediction-prosumer/prediction-prosumer.component';
+import { UserInfoGaugeComponent } from './components/Charts/user-info-gauge/user-info-gauge.component';
+import { NgxGaugeModule } from 'ngx-gauge';
 
 @NgModule({
   declarations: [
@@ -113,6 +115,7 @@ import { PredictionProsumerComponent } from './components/Charts/prediction-pros
     PieChartProsumersComponent,
     PredictionAllUsersComponent,
     PredictionProsumerComponent,
+    UserInfoGaugeComponent,
   ],
   imports: [
     MatSliderModule,
@@ -134,6 +137,7 @@ import { PredictionProsumerComponent } from './components/Charts/prediction-pros
     NgxChartsModule,
     NgbModule,
     NgxPaginationModule,
+    NgxGaugeModule,
     ToastrModule.forRoot(),
   ],
   providers: [

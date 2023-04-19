@@ -241,4 +241,9 @@ export class UsersServiceService {
       this.timestampUrl + `NextDaysConsumptionAndProductionTimestamps`
     );
   }
+
+  ThisMonthsConsumptionAndProductionForProsumer(id : string) : Observable<any>
+  {
+    return this.http.get<any>(this.totalUrl+'ThisMonthTotalConsumptionProductionForProsumer?prosumerId='+id);
+  }
 }

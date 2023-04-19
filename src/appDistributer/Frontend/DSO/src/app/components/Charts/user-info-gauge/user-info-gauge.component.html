@@ -1,0 +1,26 @@
+<div class="card-header">
+    <h6>Devices</h6>
+</div>
+<div class="card-body" style="width: 100%; padding-top: 5%;" id="userInfoGaugeChartCardBody">
+    <div class="w-100 px-0 py-0 mx-0 my-0" style="display: flex; justify-content: center; align-items: center;" id="userInfoGaugeChart">
+        <ngx-gauge class="text-size"
+            [type]="'semi'"
+            [size]="width"
+            [label]="gaugeLabel"
+            [append]="gaugeAppendText"
+            [min]="0"
+            [max]="1700"
+            [markers]="{'0':{color:'black', label:'0'}, '350':{color:'black', label:'350'}, '1600':{color:'black', label:'1600'}}"
+            [value]="data"
+            [cap]="'butt'"
+            [thick]="40"
+            [thresholds]="{'0':{color:'green',bgOpacity:.2},'350':{color:'#2a96d9', bgOpacity:.2},'1600':{color:'#c14b48', bgOpacity:.2}}">
+        </ngx-gauge>
+    </div>
+    <div class="legend w-100 text-center" *ngIf="showLegend">
+        <i class="fa fa-circle greenZone">&nbsp;0-350 kW</i>&nbsp;&nbsp;&nbsp;
+        <i class="fa fa-circle blueZone">&nbsp;351-1600 kW</i>&nbsp;&nbsp;&nbsp;
+        <i class="fa fa-circle redZone">&nbsp;1601+ kW</i>
+    </div>
+</div>
+
