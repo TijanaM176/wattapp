@@ -10,6 +10,7 @@ import { DeviceserviceService } from 'src/app/services/deviceservice.service';
   styleUrls: ['./users.component.css'],
 })
 export class UsersComponent implements OnInit {
+  letValue: string = '';
   searchName: string = '';
   searchAddress: string = '';
   prosumer!: any;

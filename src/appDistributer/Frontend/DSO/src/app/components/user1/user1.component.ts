@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { UsersServiceService } from 'src/app/services/users-service.service';
 import { FormGroup, FormControl } from '@angular/forms';
 import { SidebarDsoComponent } from '../sidebar-dso/sidebar-dso.component';
@@ -10,6 +10,7 @@ import { CookieService } from 'ngx-cookie-service';
 import { DataService } from 'src/app/services/data.service';
 import { ScreenWidthService } from 'src/app/services/screen-width.service';
 import { fromEvent, Observable, Subscription } from 'rxjs';
+import { editUserDto } from 'src/app/models/editUserDto';
 
 @Component({
   selector: 'app-user1',
@@ -29,9 +30,10 @@ export class User1Component implements OnInit, AfterViewInit {
     private spiner: NgxSpinnerService,
     private cookie: CookieService,
     private serviceData: DataService,
-    private widthService: ScreenWidthService
+    private widthService: ScreenWidthService,
+    private r: Router
   ) {}
-
+  letValue: string = '';
   id: string = '';
   firstName: string = '';
   lastName: string = '';
@@ -40,16 +42,30 @@ export class User1Component implements OnInit, AfterViewInit {
   address: string = '';
   Region: string = '';
   city: string = '';
+  editUser = new FormGroup({
+    FirstName: new FormControl(''),
+    LastName: new FormControl(''),
+    Username: new FormControl(''),
+    Email: new FormControl(''),
+    Address: new FormControl(''),
+    NeigborhoodName: new FormControl(''),
+    Latitude: new FormControl(''),
+    Longitude: new FormControl(''),
+    CityName: new FormControl(''),
+  });
+  message: boolean = false;
+  userOldInfo: any;
 
   ngOnInit(): void {
     document.getElementById('sidebarPotrosnjaContainer')!.style.height =
       this.widthService.height + 'px';
     document.getElementById('userInfoDataContainer')!.style.height =
       this.widthService.height + 'px';
+    this.letValue = this.cookie.get('role');
     this.spiner.show();
     this.user
       .detailsEmployee(this.router.snapshot.params['id'])
-      .subscribe((data) => {
+      .subscribe((data: any) => {
         console.log(data);
         this.firstName = data.firstName;
         this.lastName = data.lastName;
@@ -60,6 +76,18 @@ export class User1Component implements OnInit, AfterViewInit {
         this.Region = this.cookie.get('region');
         this.serviceData.getCityNameById(data.cityId).subscribe((dat) => {
           this.city = dat;
+          this.userOldInfo = data;
+          this.editUser = new FormGroup({
+            FirstName: new FormControl(data['firstName']),
+            LastName: new FormControl(data['lastName']),
+            Username: new FormControl(data['username']),
+            Email: new FormControl(data['email']),
+            Address: new FormControl(data['address']),
+            NeigborhoodName: new FormControl(data['regionId']),
+            Latitude: new FormControl(''),
+            Longitude: new FormControl(''),
+            CityName: new FormControl(''),
+          });
         });
       });
 
@@ -77,5 +105,30 @@ export class User1Component implements OnInit, AfterViewInit {
       this.widthService.height + 'px';
     document.getElementById('userInfoDataContainer')!.style.height =
       this.widthService.height + 'px';
+  }
+  UpdateData() {
+    let dto: editUserDto = new editUserDto();
+    dto.id = this.router.snapshot.params['id'];
+    dto.firstName = this.editUser.value.FirstName!;
+    dto.lastName = this.editUser.value.LastName!;
+    if (this.userOldInfo.email != this.editUser.value.Email) {
+      dto.email = this.editUser.value.Email!;
+    }
+    this.user.updateUserData(dto.id, dto).subscribe((res) => {
+      console.log(res);
+    });
+  }
+
+  DeleteUser() {
+    //console.log(this.router.snapshot.params['id']);
+    this.user.deleteUser(this.router.snapshot.params['id']).subscribe({
+      next: (res) => {
+        console.log(res);
+        this.r.navigate(['/DsoApp/users']);
+      },
+      error: (err) => {
+        console.log(err.error);
+      },
+    });
   }
 }

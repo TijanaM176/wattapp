@@ -85,10 +85,19 @@
                         type="button"
                         value="Edit"
                         routerLink="/DsoApp/user/{{ id }}"
+                        data-bs-toggle="modal"
+                        data-bs-target="#exampleModal4"
                       />
                     </div>
                     <div class="col-5 px-0">
-                      <input id="delete" type="button" value="Delete" />
+                      <div *ngIf="letValue === 'Dso'">
+                        <input
+                          id="delete"
+                          type="button"
+                          value="Delete"
+                          (click)="DeleteUser()"
+                        />
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -123,7 +132,7 @@
         </div>
         <!-- <div class="row mt-4 mb-3">
           <div class="col-lg-5 p-0">
-            
+
           </div>
         </div> -->
       </div>
@@ -132,3 +141,67 @@
 </div>
 <app-popup-add></app-popup-add>
 <app-popup-emp></app-popup-emp>
+<div
+  class="modal fade"
+  id="exampleModal4"
+  tabindex="-1"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+  data-bs-backdrop="static"
+  data-bs-keyboard="false"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <p class="modal-title" id="exampleModalLabel">
+          <span style="color: #5875a1; font-size: 25px; font-weight: 700"
+            >Edit User
+          </span>
+        </p>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <div class="panelbor">
+          <div class="panel-body">
+            <div class="centralni">
+              <div class="divinput">
+                <form [formGroup]="editUser" (ngSubmit)="UpdateData()">
+                  <label>First name:</label><br />
+                  <input
+                    type="text"
+                    name="firstName"
+                    formControlName="FirstName"
+                  /><br />
+                  <label>Last name:</label><br />
+                  <input
+                    type="text"
+                    name="lastName"
+                    formControlName="LastName"
+                  /><br />
+                  <label>Email</label><br />
+                  <input
+                    type="text"
+                    name="email"
+                    formControlName="Email"
+                  /><br />
+                  <input
+                    id="dugme"
+                    type="button"
+                    value="Save"
+                    routerLink="/DsoApp/user/{{ id }}"
+                    (click)="UpdateData()"
+                  />
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
