@@ -11,12 +11,6 @@ import { UsersServiceService } from 'src/app/services/users-service.service';
 })
 export class UserInfoGaugeComponent implements OnInit, AfterViewInit {
   
-  colors: Color = {
-    name: 'mycolors',
-    selectable: true,
-    group: ScaleType.Ordinal,
-    domain: ['#FF414E', '#80BC00'],
-  };
   id : string = '';
   consumption = 0;
   production = 0;
@@ -25,6 +19,8 @@ export class UserInfoGaugeComponent implements OnInit, AfterViewInit {
   gaugeAppendText = "kW";
   width : number = 250;
   showLegend : boolean = true;
+  markers : any;
+  thresholds : any ;
 
   constructor(
     private service: UsersServiceService,
@@ -37,8 +33,10 @@ export class UserInfoGaugeComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     this.id = this.router.snapshot.params['id'];
-    document.getElementById('userInfoGaugeChart')!.style.height = (this.widthService.height*0.5) + 'px';
+    document.getElementById('userInfoGaugeChart')!.style.height = (this.widthService.height*0.4) + 'px';
     this.width = document.getElementById('userInfoGaugeChartCardBody')!.offsetWidth*0.7;
+    this.thresholds = {'0':{color:'green',bgOpacity:.2},'350':{color:'#2a96d9', bgOpacity:.2},'1600':{color:'#c14b48', bgOpacity:.2}};
+    this.markers = {'0':{color:'black', label:'0'}, '350':{color:'black', label:'350'}, '1600':{color:'black', label:'1600'}};
     this.getMonthsConsumptionAndProduction();
   }
 
@@ -49,19 +47,30 @@ export class UserInfoGaugeComponent implements OnInit, AfterViewInit {
       next:(res)=>{
         this.consumption = res.consumption.toFixed(1);
         this.production = res.production.toFixed(1);
+        console.log(this.production)
         this.data = this.consumption
-        // this.text = `Consumption: ${this.consumption} kW`;
-        // this.data = [
-        //   {
-        //     "name": "consumption",
-        //     "value": res.consumption
-        //   },
-        //   {
-        //     "name": "production",
-        //     "value": res.production
-        //   }
-        // ];
       }
     })
+  }
+  Consumption()
+  {
+    this.data = this.consumption;
+    this.markers = {'0':{color:'black', label:'0'}, '350':{color:'black', label:'350'}, '1600':{color:'black', label:'1600'}};
+    this.thresholds = {'0':{color:'green',bgOpacity:.2},'350':{color:'#2a96d9', bgOpacity:.2},'1600':{color:'#c14b48', bgOpacity:.2}};
+    this.gaugeLabel = "Consumption";
+    this.showLegend = true;
+  }
+  Production()
+  {
+    this.data = this.production;
+    this.markers = {'0':{color:'black', label:'0'}, '100':{color:'black', label:'100'}, '200':{color:'black', label:'200'},
+                    '300':{color:'black', label:'300'}, '400':{color:'black', label:'400'}, '500':{color:'black', label:'500'},
+                    '600':{color:'black', label:'600'}, '700':{color:'black', label:'700'}, '800':{color:'black', label:'800'},
+                    '900':{color:'black', label:'900'}, '1000':{color:'black', label:'1000'}, '1100':{color:'black', label:'1100'}, 
+                    '1200':{color:'black', label:'1200'}, '1300':{color:'black', label:'1300'}, '1400':{color:'black', label:'1400'},
+                    '1500':{color:'black', label:'1500'}, '1600':{color:'black', label:'1600'}, '1700':{color:'black', label:'1700'}};
+    this.thresholds = {'0':{color:'green',bgOpacity:.2}};
+    this.gaugeLabel = "Production";
+    this.showLegend = false;
   }
 }

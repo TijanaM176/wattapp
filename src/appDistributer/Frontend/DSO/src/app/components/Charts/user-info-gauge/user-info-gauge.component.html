@@ -1,5 +1,27 @@
 <div class="card-header">
-    <h6>Devices</h6>
+    <div class="row">
+        <div class="col-5 mx-0 my-0">
+            <h6>This Months Consumption/Production</h6>
+        </div>
+        <div class="col-7 mx-0 my-0" style="display: flex; justify-content: right; margin: 0px 0px 2px auto">
+            <button
+                (click)="Consumption()"
+                style="margin: 1px"
+                type="button"
+                class="btn btn-outline-primary"
+            >
+                Consumption
+            </button>
+            <button
+                (click)="Production()"
+                style="margin: 1px"
+                type="button"
+                class="btn btn-outline-primary"
+            >
+                Production
+            </button>
+        </div>
+    </div>
 </div>
 <div class="card-body" style="width: 100%; padding-top: 5%;" id="userInfoGaugeChartCardBody">
     <div class="w-100 px-0 py-0 mx-0 my-0" style="display: flex; justify-content: center; align-items: center;" id="userInfoGaugeChart">
@@ -10,14 +32,14 @@
             [append]="gaugeAppendText"
             [min]="0"
             [max]="1700"
-            [markers]="{'0':{color:'black', label:'0'}, '350':{color:'black', label:'350'}, '1600':{color:'black', label:'1600'}}"
+            [markers]="markers"
             [value]="data"
             [cap]="'butt'"
             [thick]="40"
-            [thresholds]="{'0':{color:'green',bgOpacity:.2},'350':{color:'#2a96d9', bgOpacity:.2},'1600':{color:'#c14b48', bgOpacity:.2}}">
+            [thresholds]="thresholds">
         </ngx-gauge>
     </div>
-    <div class="legend w-100 text-center" *ngIf="showLegend">
+    <div class="legend w-100 text-center mx-0 my-0" *ngIf="showLegend">
         <i class="fa fa-circle greenZone">&nbsp;0-350 kW</i>&nbsp;&nbsp;&nbsp;
         <i class="fa fa-circle blueZone">&nbsp;351-1600 kW</i>&nbsp;&nbsp;&nbsp;
         <i class="fa fa-circle redZone">&nbsp;1601+ kW</i>
