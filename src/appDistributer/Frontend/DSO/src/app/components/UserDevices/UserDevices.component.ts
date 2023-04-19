@@ -7,10 +7,10 @@ import { Component, OnInit } from '@angular/core';
 })
 export class UserDevicesComponent implements OnInit {
   constructor() {}
-  loader:boolean=true;
+  loader: boolean = true;
   ngOnInit() {
-    setTimeout(()=>{
-      this.loader=false;
-    },2000);
+    setTimeout(() => {
+      this.loader = false;
+    }, 2000);
   }
 }

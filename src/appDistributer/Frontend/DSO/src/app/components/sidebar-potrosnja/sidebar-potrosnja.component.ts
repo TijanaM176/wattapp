@@ -16,11 +16,11 @@ export class SidebarPotrosnjaComponent {
   constructor(
     private user: UsersServiceService,
     private router: ActivatedRoute,
-    private deviceServer:DeviceserviceService
+    private deviceServer: DeviceserviceService
   ) {}
 
-  consumption : number = 0;
-  production : number = 0;
+  consumption: number = 0;
+  production: number = 0;
 
   ngOnInit(): void {
     this.deviceServer
@@ -28,7 +28,6 @@ export class SidebarPotrosnjaComponent {
       .subscribe((data) => {
         this.consumption = data.consumption;
         this.production = data.production;
-        console.log(data);
       });
 
     //this.user.getRegionById(this.myData.regionId).subscribe((data)=> {

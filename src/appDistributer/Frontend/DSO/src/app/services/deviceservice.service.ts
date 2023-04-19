@@ -5,32 +5,31 @@ import { Prosumer } from '../models/userstable';
 import { NgxSpinnerService } from 'ngx-spinner';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class DeviceserviceService {
-
-  constructor(private http:HttpClient,private spiner: NgxSpinnerService) { }
+  constructor(private http: HttpClient, private spiner: NgxSpinnerService) {}
 
   private baseUrl: string = 'https://localhost:7156/api/';
   private deviceBaseUrl: string = 'https://localhost:7156/api/Devices/';
+  private totalUrl: string = 'https://localhost:7156/api/TotalPowerUsage/';
   prosumers!: Prosumer[];
 
-  getInfoDevice(id:string){
-    return this.http.get(`${this.baseUrl}Device/GetDevice` + `?id=` + id);
+  getInfoDevice(id: string) {
+    return this.http.get(`${this.deviceBaseUrl}GetDevice` + `?id=` + id);
   }
-  getCurrConsumptionAndProduction():Observable<any>
-  {
-    return this.http.get<any>(this.baseUrl+'DashboardData/DsoSidebarInfo');
+  getCurrConsumptionAndProduction(): Observable<any> {
+    return this.http.get<any>(this.baseUrl + 'DashboardData/DsoSidebarInfo');
   }
   getUserProductionAndConsumption(id: string): Observable<any> {
     return this.http.get<any>(
-      this.deviceBaseUrl + 'ConsumptionAndProductionByProsumer?id=' + id
+      this.totalUrl + 'ConsumptionAndProductionByProsumer?id=' + id
     );
   }
-  
+
   getDevicesByProsumerId(id: string): Observable<any> {
     return this.http.get<any>(
-      this.deviceBaseUrl + 'GetAllDevicesForProsumer?id=' + id
+      this.deviceBaseUrl + 'GetAllDevicesForProsumer?id=' + id + '&role=dso'
     );
   }
   prosumerFilter(
