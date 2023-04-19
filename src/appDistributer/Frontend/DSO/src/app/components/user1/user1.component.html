@@ -91,7 +91,9 @@
                       />
                     </div>
                     <div class="col-5 px-0">
-                      <input id="delete" type="button" value="Delete" />
+                      <div *ngIf="letValue === 'Dso'">
+                      <input id="delete" type="button" value="Delete"  (click)="DeleteUser()"/>
+                      </div>
                     </div>
                   </div>
                 </div>

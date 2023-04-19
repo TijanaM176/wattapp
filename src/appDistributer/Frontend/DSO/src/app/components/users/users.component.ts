@@ -9,6 +9,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./users.component.css'],
 })
 export class UsersComponent implements OnInit {
+  letValue: string = '';
   searchName: string = '';
   searchAddress: string = '';
   prosumer!: any;

@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { UsersServiceService } from 'src/app/services/users-service.service';
 import { FormGroup, FormControl } from '@angular/forms';
 import { SidebarDsoComponent } from '../sidebar-dso/sidebar-dso.component';
@@ -23,9 +23,10 @@ export class User1Component {
     private router: ActivatedRoute,
     private employyeService: EmployeesServiceService,
     private spiner: NgxSpinnerService,
-    private cookie : CookieService
+    private cookie : CookieService,
+    private r: Router,
   ) {}
-
+  letValue: string = '';
   id: string = '';
   firstName : string = '';
   lastName : string = '';
@@ -48,6 +49,7 @@ export class User1Component {
   message: boolean = false;
   userOldInfo: any;
   ngOnInit(): void {
+    this.letValue = this.cookie.get('role');
     this.spiner.show();
     this.user
       .detailsEmployee(this.router.snapshot.params['id'])
@@ -87,6 +89,19 @@ export class User1Component {
     }
     this.user.updateUserData(dto.id, dto).subscribe((res) => {
       console.log(res);
+    });
+  }
+
+  DeleteUser() {
+    //console.log(this.router.snapshot.params['id']);
+    this.user.deleteUser(this.router.snapshot.params['id']).subscribe({
+      next: (res) => {
+        console.log(res);
+        this.r.navigate(['/DsoApp/users']);
+      },
+      error: (err) => {
+        console.log(err.error);
+      },
     });
   }
 }
