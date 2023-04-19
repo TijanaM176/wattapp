@@ -190,14 +190,7 @@
             <td>{{ device.Wattage }}kW</td>
             <td>
               <ng-template #offToggle>
-                <div class="form-check form-switch">
-                  <input
-                    class="form-check-input"
-                    checked
-                    type="checkbox"
-                    role="switch"
-                    id="flexSwitchCheckDefault"
-                  />
+                <div class="form-check form-switch ps-0" style="color: red;">
                   <label class="form-check-label" for="flexSwitchCheckDefault"
                     >Inactive</label
                   >
@@ -206,16 +199,8 @@
               <div
                 *ngIf="
                   'consumer.Timestamps.activePower !== value; else #offToggle'
-                "
-              >
-                <div class="form-check form-switch">
-                  <input
-                    class="form-check-input"
-                    checked
-                    type="checkbox"
-                    role="switch"
-                    id="flexSwitchCheckDefault"
-                  />
+                ">
+                <div class="form-check form-switch ps-0" style="color: green;">
                   <label class="form-check-label" for="flexSwitchCheckDefault"
                     >Active</label
                   >

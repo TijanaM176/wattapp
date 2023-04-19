@@ -4,6 +4,7 @@ import { strings } from '@material/slider';
 import { ScaleType, Color } from '@swimlane/ngx-charts';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { TimestampService } from 'src/app/services/timestamp.service';
+import { ScreenWidthService } from 'src/app/services/screen-width.service';
 
 import { UsersServiceService } from 'src/app/services/users-service.service';
 
@@ -36,13 +37,27 @@ export class HistoryProsumerComponent implements OnInit {
     private service: UsersServiceService,
     private router: ActivatedRoute,
     private spiner: NgxSpinnerService,
-    private servicetime:TimestampService
+    private servicetime: TimestampService,
+    private widthService: ScreenWidthService
   ) {}
 
   ngOnInit() {
     this.spiner.show();
     this.id = this.router.snapshot.params['id'];
+    document.getElementById('realizationUserInfoCardBody')!.style.height =
+      this.widthService.height * 0.5 + 'px';
     this.HistoryWeek();
+  }
+
+  getWeek(date: Date): number {
+    const oneJan = new Date(date.getFullYear(), 0, 1);
+    const millisecsInDay = 86400000;
+    return Math.ceil(
+      ((date.getTime() - oneJan.getTime()) / millisecsInDay +
+        oneJan.getDay() +
+        1) /
+        7
+    );
   }
 
   HistoryWeek() {
@@ -53,6 +68,30 @@ export class HistoryProsumerComponent implements OnInit {
           const date = new Date(item.name);
           const dayName = date.toLocaleDateString('en-US', { weekday: 'long' });
           return { name: dayName, series: item.series };
+        });
+      }
+    );
+  }
+  HistoryMonth() {
+    this.loadData(
+      this.servicetime.HistoryProsumer1Month.bind(this.service)(this.id),
+      (myList: any[]) => {
+        return myList.map((item) => {
+          const date = new Date(item.name);
+          const weekNumber = this.getWeek(date);
+          return { name: `Week ${weekNumber}`, series: item.series };
+        });
+      }
+    );
+  }
+  HistoryYear() {
+    this.loadData(
+      this.servicetime.HistoryProsumer1Year.bind(this.service)(this.id),
+      (myList: any[]) => {
+        return myList.map((item) => {
+          const date = new Date(item.name);
+          const monthName = date.toLocaleDateString('en-US', { month: 'long' });
+          return { name: monthName, series: item.series };
         });
       }
     );
