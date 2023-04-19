@@ -1,4 +1,5 @@
 import { Component, OnInit, AfterViewInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import {
   Color,
   ColorHelper,
@@ -34,13 +35,16 @@ export class RealizationDeviceComponent implements OnInit, AfterViewInit {
   xAxisLabel = 'Time';
   showYAxisLabel = true;
   yAxisLabel = 'Energy in kWh';
+  idDev: string = '';
 
   constructor(
     private deviceService: DevicesService,
-    private widthService: DeviceWidthService
+    private widthService: DeviceWidthService,
+    private router1: ActivatedRoute
   ) {}
 
   ngAfterViewInit(): void {
+    this.idDev = this.router1.snapshot.params['idDev'];
     const grafik = document.getElementById('grafik');
     grafik!.style.height = this.widthService.height * 0.6 + 'px';
     document.getElementById('realiz1')!.classList.add('active');
@@ -80,7 +84,7 @@ export class RealizationDeviceComponent implements OnInit, AfterViewInit {
 
   HistoryWeek(id: string) {
     this.loadData(
-      this.deviceService.history7Days.bind(this.deviceService),
+      this.deviceService.historyDeviceWeek.bind(this.deviceService, this.idDev),
       (myList: any[]) => {
         return myList.map((item) => {
           const date = new Date(item.name);
@@ -94,7 +98,10 @@ export class RealizationDeviceComponent implements OnInit, AfterViewInit {
 
   HistoryMonth(id: string) {
     this.loadData(
-      this.deviceService.history1Month.bind(this.deviceService),
+      this.deviceService.historyDeviceMonth.bind(
+        this.deviceService,
+        this.idDev
+      ),
       (myList: any[]) => {
         return myList.map((item) => {
           const date = new Date(item.name);
@@ -108,7 +115,7 @@ export class RealizationDeviceComponent implements OnInit, AfterViewInit {
 
   HistoryYear(id: string) {
     this.loadData(
-      this.deviceService.history1Year.bind(this.deviceService),
+      this.deviceService.historyDeviceYear.bind(this.deviceService, this.idDev),
       (myList: any[]) => {
         return myList.map((item) => {
           const date = new Date(item.name);
@@ -125,18 +132,18 @@ export class RealizationDeviceComponent implements OnInit, AfterViewInit {
       const myList = Object.keys(response.consumption.timestamps).map(
         (name) => {
           let consumptionValue = response.consumption.timestamps[name];
-          let productionValue = response.production.timestamps[name];
+          let predictionValue = response.consumption.predictions[name];
           const cons: string = 'consumption';
-          const prod: string = 'producton';
-          if (productionValue == undefined) {
-            productionValue = 0.0;
+          const pred: string = 'prediction';
+          if (predictionValue == undefined) {
+            predictionValue = 0.0;
           }
           if (consumptionValue == undefined) {
             consumptionValue = 0.0;
           }
           const series = [
             { name: cons, value: consumptionValue },
-            { name: prod, value: productionValue },
+            { name: pred, value: predictionValue },
           ];
           return { name, series };
         }
