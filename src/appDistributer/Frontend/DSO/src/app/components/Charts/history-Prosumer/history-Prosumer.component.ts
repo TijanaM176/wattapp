@@ -15,7 +15,7 @@ import { UsersServiceService } from 'src/app/services/users-service.service';
 })
 export class HistoryProsumerComponent implements OnInit {
   id: string = '';
-  data: any;
+  data: any[] = [];
   dataConsumers: any = [];
   dataProducers: any = [];
   colors: Color = {

@@ -125,4 +125,11 @@ export class UsersServiceService {
         maxDev
     );
   }
+  ThisMonthsConsumptionAndProductionForProsumer(id: string): Observable<any> {
+    return this.http.get<any>(
+      this.totalUrl +
+        'ThisMonthTotalConsumptionProductionForProsumer?prosumerId=' +
+        id
+    );
+  }
 }
