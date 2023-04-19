@@ -34,7 +34,7 @@ export class UserInfoGaugeComponent implements OnInit, AfterViewInit {
   ngOnInit(): void {
     this.id = this.router.snapshot.params['id'];
     document.getElementById('userInfoGaugeChart')!.style.height = (this.widthService.height*0.4) + 'px';
-    this.width = document.getElementById('userInfoGaugeChartCardBody')!.offsetWidth*0.7;
+    this.width = document.getElementById('userInfoGaugeChartCardBody')!.offsetWidth*0.8;
     this.thresholds = {'0':{color:'green',bgOpacity:.2},'350':{color:'#2a96d9', bgOpacity:.2},'1600':{color:'#c14b48', bgOpacity:.2}};
     this.markers = {'0':{color:'black', label:'0'}, '350':{color:'black', label:'350'}, '1600':{color:'black', label:'1600'}};
     this.getMonthsConsumptionAndProduction();
