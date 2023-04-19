@@ -567,8 +567,8 @@ namespace API.Services.DsoService
 
         public async Task<Dictionary<string, double>> CurrentPrice()
         {
-            var price = await _repository.GetPrice(DateTime.UtcNow);
-            var yesterday = await _repository.GetPrice(DateTime.UtcNow.AddDays(-1));
+            var price = await _repository.GetPrice(DateTime.Now);
+            var yesterday = await _repository.GetPrice(DateTime.Now.AddDays(-1));
             var percentage = (100 * price / yesterday) - 100;
 
             if (price == null) throw new ArgumentException("No price!");
