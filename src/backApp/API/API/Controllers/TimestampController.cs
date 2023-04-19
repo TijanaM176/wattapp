@@ -229,33 +229,16 @@ namespace API.Controllers
         [HttpGet("ProductionConsumptionForLastWeekForDevice")]
         public async Task<IActionResult> ProductionConsumptionForLastWeekForDevice(string idDevice)
         {
-
             try
             {
+                var history = await devService.GroupedTimestampsForDevice(idDevice, -7, 24);
 
-                var prodConsDevice = (await devService.GroupedTimestampsForDevice(idDevice, -7, 24));
-                EnumCategory.DeviceCatergory deviceCategory = await devService.getDeviceCategoryEnum(idDevice);
-
-                if (deviceCategory == EnumCategory.DeviceCatergory.Consumer)
+                return Ok(new
                 {
-
-                    return Ok(new
-                    {
-                        consumption = prodConsDevice
-
-                    });
-                }
-                else
-                {
-                    return Ok(new
-                    {
-                        production = prodConsDevice
-
-                    });
-
-                }
-
-
+                    categoryId = (await devService.GetDevice(idDevice))["CategoryId"],
+                    timestamps = history["timestamps"],
+                    predictions = history["predictions"]
+                });
             }
             catch (Exception ex)
             {
@@ -266,26 +249,15 @@ namespace API.Controllers
         [HttpGet("ProductionConsumptionForLastMonthForDevice")]
         public async Task<IActionResult> ProductionConsumptionForLastMonthForDevice(string idDevice)
         {
-
             try
             {
-                var prodConsDevice = (await devService.GroupedTimestampsForDevice(idDevice, -30, 24 * 7));
-                EnumCategory.DeviceCatergory deviceCategory = await devService.getDeviceCategoryEnum(idDevice);
+                var history = await devService.GroupedTimestampsForDevice(idDevice, -30, 24 * 7);
 
-                if (deviceCategory == EnumCategory.DeviceCatergory.Consumer)
+                return Ok(new
                 {
-                    return Ok(new
-                    {
-                        consumption = prodConsDevice
-                    });
-                }
-                else
-                {
-                    return Ok(new
-                    {
-                        production = prodConsDevice
-                    });
-                }
+                    timestamps = history["timestamps"],
+                    predictions = history["predictions"]
+                });
             }
             catch (Exception ex)
             {
@@ -296,26 +268,15 @@ namespace API.Controllers
         [HttpGet("ProductionConsumptionForLastYearForDevice")]
         public async Task<IActionResult> ProductionConsumptionForLastYearForDevice(string idDevice)
         {
-
             try
             {
-                var prodConsDevice = (await devService.GroupedTimestampsForDevice(idDevice, -365, 24 * 30));
-                EnumCategory.DeviceCatergory deviceCategory = await devService.getDeviceCategoryEnum(idDevice);
+                var history = await devService.GroupedTimestampsForDevice(idDevice, -365, 24 * 30);
 
-                if (deviceCategory == EnumCategory.DeviceCatergory.Consumer)
+                return Ok(new
                 {
-                    return Ok(new
-                    {
-                        consumption = prodConsDevice
-                    });
-                }
-                else
-                {
-                    return Ok(new
-                    {
-                        production = prodConsDevice
-                    });
-                }
+                    timestamps = history["timestamps"],
+                    predictions = history["predictions"]
+                });
             }
             catch (Exception ex)
             {
@@ -331,6 +292,7 @@ namespace API.Controllers
             {
                 return Ok(new
                 {
+                    categoryId = (await devService.GetDevice(idDevice))["CategoryId"],
                     nextDay = (await devService.GroupedTimestampsForDevice(idDevice, 1, 2))["predictions"],
                     next3Days = (await devService.GroupedTimestampsForDevice(idDevice, 3, 6))["predictions"],
                     nextWeek = (await devService.GroupedTimestampsForDevice(idDevice, 7, 24))["predictions"]
