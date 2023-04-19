@@ -35,8 +35,9 @@ export class DeviceinfoComponent implements OnInit {
   ngOnInit(): void {
     this.idDev = this.router.snapshot.params['idDev'];
     this.service.getInfoDevice(this.idDev).subscribe((res: any) => {
-      this.results = res;
       console.log(res);
+      this.results = res;
+
       /*/this.infoForm=new FormGroup({
         IpAddress: new FormControl(res['IpAddress']),
         TypeName: new FormControl(res['TypeName']),

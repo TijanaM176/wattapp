@@ -57,7 +57,6 @@ export class UserInfoGaugeComponent implements OnInit, AfterViewInit {
         next: (res) => {
           this.consumption = res.consumption.toFixed(1);
           this.production = res.production.toFixed(1);
-          console.log(this.production);
           this.data = this.consumption;
         },
       });

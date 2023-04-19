@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Color, ScaleType } from '@swimlane/ngx-charts';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { DataService } from 'src/app/services/data.service';
 import { ScreenWidthService } from 'src/app/services/screen-width.service';
 import { TimestampService } from 'src/app/services/timestamp.service';
 import { UsersServiceService } from 'src/app/services/users-service.service';
@@ -36,7 +37,7 @@ export class PredictionProsumerComponent implements OnInit {
     private router: ActivatedRoute,
     private spiner: NgxSpinnerService,
     private widthService: ScreenWidthService,
-    private serviceTime: TimestampService
+    private serviceData: TimestampService
   ) {}
 
   ngOnInit() {
@@ -61,7 +62,7 @@ export class PredictionProsumerComponent implements OnInit {
     );
   }
   PredictionWeek() {
-    this.serviceTime
+    this.serviceData
       .PredictionProsumer7Days(this.id)
       .subscribe((response: any) => {
         const consumptionTimestamps = response.consumption || {};
@@ -102,7 +103,7 @@ export class PredictionProsumerComponent implements OnInit {
       });
   }
   Prediction3Days() {
-    this.serviceTime
+    this.serviceData
       .PredictionProsumer3Days(this.id)
       .subscribe((response: any) => {
         const myList: any = [];
@@ -145,7 +146,7 @@ export class PredictionProsumerComponent implements OnInit {
       });
   }
   PredictionDay() {
-    this.serviceTime
+    this.serviceData
       .PredictionProsumer1Day(this.id)
       .subscribe((response: any) => {
         const myList: any = [];

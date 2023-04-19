@@ -16,7 +16,7 @@ export class DeviceserviceService {
   prosumers!: Prosumer[];
 
   getInfoDevice(id: string) {
-    return this.http.get(`${this.baseUrl}Devices/GetDevice` + `?id=` + id);
+    return this.http.get(`${this.deviceBaseUrl}GetDevice` + `?id=` + id);
   }
   getCurrConsumptionAndProduction(): Observable<any> {
     return this.http.get<any>(this.baseUrl + 'DashboardData/DsoSidebarInfo');

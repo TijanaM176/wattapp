@@ -9,6 +9,7 @@ import { Observable } from 'rxjs';
 export class TimestampService {
   constructor(private http: HttpClient, private spiner: NgxSpinnerService) {}
   private timestampUrl: string = 'https://localhost:7156/api/Timestamp/';
+  private totalUrl: string = 'https://localhost:7156/api/TotalPowerUsage/';
   HistoryProsumer7Days(id: string): Observable<any> {
     return this.http.get(
       this.timestampUrl + `LastWeeksConsumptionAndProduction?id=` + id
