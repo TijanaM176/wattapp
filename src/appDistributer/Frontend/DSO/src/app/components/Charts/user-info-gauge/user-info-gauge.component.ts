@@ -21,6 +21,8 @@ export class UserInfoGaugeComponent implements OnInit, AfterViewInit {
   showLegend : boolean = true;
   markers : any;
   thresholds : any ;
+  isConsumptionChecked : boolean = true;
+  isProductionChecked : boolean = false;
 
   constructor(
     private service: UsersServiceService,
@@ -72,5 +74,40 @@ export class UserInfoGaugeComponent implements OnInit, AfterViewInit {
     this.thresholds = {'0':{color:'green',bgOpacity:.2}};
     this.gaugeLabel = "Production";
     this.showLegend = false;
+  }
+  onRadioButtonChange(event: any, type: string) 
+  {
+    if(type == 'consumption')
+    {
+      this.isConsumptionChecked = event.target.checked;
+      if(this.isConsumptionChecked)
+      {
+        this.isConsumptionChecked = true;
+        this.isProductionChecked = false;
+        this.Consumption();
+      }
+      else
+      {
+        this.isProductionChecked = true;
+        this.isConsumptionChecked = false;
+        this.Production();
+      }
+    }
+    else if(type == 'production')
+    {
+      this.isProductionChecked = event.target.checked;
+      if(this.isProductionChecked)
+      {
+        this.isProductionChecked = true;
+        this.isConsumptionChecked = false;
+        this.Production();
+      }
+      else
+      {
+        this.isConsumptionChecked = true;
+        this.isProductionChecked = false;
+        this.Consumption();
+      }
+    }
   }
 }
