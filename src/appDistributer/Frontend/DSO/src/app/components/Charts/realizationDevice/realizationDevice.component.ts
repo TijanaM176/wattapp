@@ -73,7 +73,7 @@ export class RealizationDeviceComponent implements OnInit, AfterViewInit {
 
   HistoryWeekInit() {
     this.loadData(
-      this.timeService.history7Days.bind(this.deviceService),
+      this.timeService.history7Days.bind(this.timeService),
       (myList: any[]) => {
         return myList.map((item) => {
           const date = new Date(item.name);
@@ -86,7 +86,7 @@ export class RealizationDeviceComponent implements OnInit, AfterViewInit {
 
   HistoryWeek(id: string) {
     this.loadData(
-      this.timeService.historyDeviceWeek.bind(this.deviceService, this.idDev),
+      this.timeService.historyDeviceWeek.bind(this.timeService, this.idDev),
       (myList: any[]) => {
         return myList.map((item) => {
           const date = new Date(item.name);
@@ -101,7 +101,7 @@ export class RealizationDeviceComponent implements OnInit, AfterViewInit {
   HistoryMonth(id: string) {
     this.loadData(
       this.timeService.historyDeviceMonth.bind(
-        this.deviceService,
+        this.timeService,
         this.idDev
       ),
       (myList: any[]) => {
@@ -117,7 +117,7 @@ export class RealizationDeviceComponent implements OnInit, AfterViewInit {
 
   HistoryYear(id: string) {
     this.loadData(
-      this.timeService.historyDeviceYear.bind(this.deviceService, this.idDev),
+      this.timeService.historyDeviceYear.bind(this.timeService, this.idDev),
       (myList: any[]) => {
         return myList.map((item) => {
           const date = new Date(item.name);
