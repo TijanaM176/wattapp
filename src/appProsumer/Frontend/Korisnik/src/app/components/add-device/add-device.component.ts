@@ -41,7 +41,7 @@ export class AddDeviceComponent implements OnInit {
     public toast: ToastrService,
     private active:ActivatedRoute
   ) {
-
+  
   }
   ngOnInit(): void {
     this.show = true;
@@ -87,9 +87,10 @@ export class AddDeviceComponent implements OnInit {
     });
     console.log(this.router.url);
     this.currentRoute=this.router.url;
-    if (this.router.url == '/ProsumerApp/userDevices') {
-      this.router.navigateByUrl('',{skipLocationChange:true}).then(()=>{
-        this.router.navigate([this.router.url]);
+    if (this.router.url === '/ProsumerApp/userDevices') {
+      this.router.navigateByUrl('/ProsumerApp/userInfo',{skipLocationChange:true}).then(()=>{
+        console.log(this.router.url);
+        this.router.navigate([this.currentRoute]);
       });
     } else {
       this.router.navigate(['/ProsumerApp/userDevices']);
