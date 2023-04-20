@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Color, ScaleType } from '@swimlane/ngx-charts';
 import { ScreenWidthService } from 'src/app/services/screen-width.service';
 import { DeviceserviceService } from 'src/app/services/deviceservice.service';
+import { TimestampService } from 'src/app/services/timestamp.service';
 
 @Component({
   selector: 'app-predictionDevice',
@@ -34,6 +35,7 @@ export class PredictionDeviceComponent implements OnInit {
   constructor(
     private deviceService: DeviceserviceService,
     private widthService: ScreenWidthService,
+    private timeService:TimestampService,
     private router1: ActivatedRoute
   ) {}
 
@@ -61,7 +63,7 @@ export class PredictionDeviceComponent implements OnInit {
   }
 
   PredictionWeek(id: string) {
-    this.deviceService
+    this.timeService
       .predictionDevice(this.idDev)
       .subscribe((response: any) => {
         console.log(response);
@@ -85,7 +87,7 @@ export class PredictionDeviceComponent implements OnInit {
   }
 
   Prediction3Days(id: string) {
-    this.deviceService
+    this.timeService
       .predictionDevice(this.idDev)
       .subscribe((response: any) => {
         const myList = Object.keys(response.next3Days).map((name) => {
@@ -108,7 +110,7 @@ export class PredictionDeviceComponent implements OnInit {
   }
 
   Prediction1Day(id: string) {
-    this.deviceService
+    this.timeService
       .predictionDevice(this.idDev)
       .subscribe((response: any) => {
         const myList = Object.keys(response.nextDay).map((name) => {

@@ -8,6 +8,7 @@ import {
 } from '@swimlane/ngx-charts';
 import { ScreenWidthService } from 'src/app/services/screen-width.service';
 import { DeviceserviceService } from 'src/app/services/deviceservice.service';
+import { TimestampService } from 'src/app/services/timestamp.service';
 
 @Component({
   selector: 'app-realizationDevice',
@@ -40,6 +41,7 @@ export class RealizationDeviceComponent implements OnInit, AfterViewInit {
   constructor(
     private deviceService: DeviceserviceService,
     private widthService: ScreenWidthService,
+    private timeService:TimestampService,
     private router1: ActivatedRoute
   ) {}
 
@@ -71,7 +73,7 @@ export class RealizationDeviceComponent implements OnInit, AfterViewInit {
 
   HistoryWeekInit() {
     this.loadData(
-      this.deviceService.history7Days.bind(this.deviceService),
+      this.timeService.history7Days.bind(this.deviceService),
       (myList: any[]) => {
         return myList.map((item) => {
           const date = new Date(item.name);
@@ -84,7 +86,7 @@ export class RealizationDeviceComponent implements OnInit, AfterViewInit {
 
   HistoryWeek(id: string) {
     this.loadData(
-      this.deviceService.historyDeviceWeek.bind(this.deviceService, this.idDev),
+      this.timeService.historyDeviceWeek.bind(this.deviceService, this.idDev),
       (myList: any[]) => {
         return myList.map((item) => {
           const date = new Date(item.name);
@@ -98,7 +100,7 @@ export class RealizationDeviceComponent implements OnInit, AfterViewInit {
 
   HistoryMonth(id: string) {
     this.loadData(
-      this.deviceService.historyDeviceMonth.bind(
+      this.timeService.historyDeviceMonth.bind(
         this.deviceService,
         this.idDev
       ),
@@ -115,7 +117,7 @@ export class RealizationDeviceComponent implements OnInit, AfterViewInit {
 
   HistoryYear(id: string) {
     this.loadData(
-      this.deviceService.historyDeviceYear.bind(this.deviceService, this.idDev),
+      this.timeService.historyDeviceYear.bind(this.deviceService, this.idDev),
       (myList: any[]) => {
         return myList.map((item) => {
           const date = new Date(item.name);

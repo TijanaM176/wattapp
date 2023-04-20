@@ -99,29 +99,5 @@ export class DeviceserviceService {
   ProsumersInfo1(): Observable<any[]> {
     return this.http.get<any[]>(this.deviceBaseUrl + 'AllProsumerInfo');
   }
-  predictionDevice(id: string): Observable<any> {
-    return this.http.get(this.baseUrl + 'PredictionForDevice?idDevice=' + id);
-  }
-  historyDeviceWeek(id: string): Observable<any> {
-    return this.http.get(
-      this.baseUrl + `ProductionConsumptionForLastWeekForDevice?idDevice=` + id
-    );
-  }
-  historyDeviceMonth(id: string): Observable<any> {
-    return this.http.get(
-      this.baseUrl + `ProductionConsumptionForLastMonthForDevice?idDevice=` + id
-    );
-  }
-  historyDeviceYear(id: string): Observable<any> {
-    return this.http.get(
-      this.baseUrl + `ProductionConsumptionForLastYearForDevice?idDevice=` + id
-    );
-  }
-  history7Days() {
-    return this.http.get(
-      this.baseUrl +
-        'LastWeeksConsumptionAndProduction?id=' +
-        this.cookie.get('id')
-    );
-  }
+  
 }
