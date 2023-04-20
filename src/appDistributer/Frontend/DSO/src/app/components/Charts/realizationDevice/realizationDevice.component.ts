@@ -82,6 +82,7 @@ export class RealizationDeviceComponent implements OnInit, AfterViewInit {
         });
       }
     );
+    
   }
 
   HistoryWeek(id: string) {

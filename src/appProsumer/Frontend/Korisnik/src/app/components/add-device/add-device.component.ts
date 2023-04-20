@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
 import { Observable } from 'rxjs';
 import { AddDeviceFormComponent } from 'src/app/forms/add-device-form/add-device-form.component';
@@ -38,8 +38,11 @@ export class AddDeviceComponent implements OnInit {
     private service: AdddeviceserviceService,
     private router: Router,
     private cookie: CookieService,
-    public toast: ToastrService
-  ) {}
+    public toast: ToastrService,
+    private active:ActivatedRoute
+  ) {
+
+  }
   ngOnInit(): void {
     this.show = true;
     this.allToFalse();
@@ -82,8 +85,12 @@ export class AddDeviceComponent implements OnInit {
         this.failure = true;
       },
     });
-    if (this.router.url === '/ProsumerApp/userDevices') {
-      window.location.reload();
+    console.log(this.router.url);
+    this.currentRoute=this.router.url;
+    if (this.router.url == '/ProsumerApp/userDevices') {
+      this.router.navigateByUrl('',{skipLocationChange:true}).then(()=>{
+        this.router.navigate([this.router.url]);
+      });
     } else {
       this.router.navigate(['/ProsumerApp/userDevices']);
     }
