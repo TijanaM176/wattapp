@@ -8,31 +8,29 @@
           class="container py-4 align-items-center justify-content-center"
           id="sadrzaj"
         >
-          <div class="section mb-4">
+          <div class="section mb-3">
             <p class="text-sm mb-0 text-uppercase font-weight-bold">Region</p>
             <h3 class="font-weight-bolder">{{ region }}</h3>
           </div>
-          <div class="section mb-4">
+          <div class="section mb-3">
             <p class="text-sm mb-0 text-uppercase font-weight-bold">
-              Current Consumption
+              Current Cons
             </p>
             <h3 class="font-weight-bolder">{{ currConsumption }} kW</h3>
           </div>
-          <div class="section mb-4">
+          <div class="section mb-3">
             <p class="text-sm mb-0 text-uppercase font-weight-bold">
               Current Production
             </p>
             <h3 class="font-weight-bolder">{{ currProduction }} kW</h3>
           </div>
-          <div class="section mb-4">
+          <div class="section mb-2">
             <p class="text-sm mb-0 text-uppercase font-weight-bold">
-              Current System Status
+              System Status
             </p>
-            <div
-              style="width: 100%; margin: 0 auto; margin-top: 1%; height: 100%"
-            >
-              <ngx-charts-pie-grid id="grid"
-                style="z-index: 100000"
+            <div style="width: 100%; margin: 0 auto; height: 100%">
+              <ngx-charts-pie-grid
+                id="grid"
                 [results]="data"
                 [scheme]="colorScheme"
                 [animations]="true"

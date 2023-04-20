@@ -4,12 +4,13 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { Observable } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class DashboarddataService {
-  
-  constructor(private http: HttpClient, private spiner: NgxSpinnerService) { }
-  private dashboardBaseUrl: string = 'https://localhost:7156/api/DashboardData/';
+  constructor(private http: HttpClient, private spiner: NgxSpinnerService) {}
+  private dashboardBaseUrl: string =
+    'https://localhost:7156/api/DashboardData/';
+  private totalUrl: string = 'https://localhost:7156/api/TotalPowerUsage/';
   Top5Consumers(): Observable<any[]> {
     return this.http.get<any[]>(this.dashboardBaseUrl + 'Top5Consumers');
   }
@@ -19,7 +20,9 @@ export class DashboarddataService {
   }
 
   ConsumerProducerRatio(): Observable<any[]> {
-    return this.http.get<any[]>(this.dashboardBaseUrl + 'ConsumerProducerRatio');
+    return this.http.get<any[]>(
+      this.dashboardBaseUrl + 'ConsumerProducerRatio'
+    );
   }
   CityPercentages(): Observable<any[]> {
     return this.http.get<any[]>(this.dashboardBaseUrl + 'CityPercentages');
@@ -31,6 +34,20 @@ export class DashboarddataService {
   getProsumerCout(): Observable<any> {
     return this.http.get<any>(
       'https://localhost:7156/api/DashboardData/ProsumerCount'
+    );
+  }
+
+  TotalProd(): Observable<any> {
+    return this.http.get(this.totalUrl + 'ThisWeekTotalProduction');
+  }
+
+  TotalCons(): Observable<any> {
+    return this.http.get(this.totalUrl + 'ThisWeekTotalConsumption');
+  }
+
+  nextWeekTotal(): Observable<any> {
+    return this.http.get(
+      this.totalUrl + 'NextWeekTotalPredictedConsumptionProduction'
     );
   }
 }

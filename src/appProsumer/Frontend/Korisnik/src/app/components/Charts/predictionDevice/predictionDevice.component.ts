@@ -68,7 +68,6 @@ export class PredictionDeviceComponent implements OnInit {
         const myList = Object.keys(response.nextWeek).map((name) => {
           let predictionValue = response.nextWeek[name];
           const cons: string = 'consumption';
-          const prod: string = 'producton';
           if (predictionValue == undefined) {
             predictionValue = 0.0;
           }

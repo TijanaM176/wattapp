@@ -11,14 +11,22 @@
               <div class="col-12">
                 <div class="numbers">
                   <p class="text-sm mb-0 text-uppercase font-weight-bold">
-                    Today's Consumption
+                    Period Consumption
                   </p>
-                  <h5 class="font-weight-bolder">$53,000</h5>
-                  <p class="mb-0">
-                    <span class="text-success text-sm font-weight-bolder"
-                      >+55%</span
-                    >
-                    since yesterday
+                  <h5 class="font-weight-bolder">
+                    {{ totalCons.toFixed(2) }} kW
+                  </h5>
+                  <p class="mb-0" *ngIf="ratioCons.charAt(0) == '+'">
+                    <span class="text-danger text-sm font-weight-bolder">{{
+                      ratioCons
+                    }}</span>
+                    for same period last week
+                  </p>
+                  <p class="mb-0" *ngIf="ratioCons.charAt(0) == '-'">
+                    <span class="text-success text-sm font-weight-bolder">{{
+                      ratioCons
+                    }}</span>
+                    for same period last week
                   </p>
                 </div>
               </div>
@@ -33,14 +41,22 @@
               <div class="col-12">
                 <div class="numbers">
                   <p class="text-sm mb-0 text-uppercase font-weight-bold">
-                    Today's Production
+                    Period Production
                   </p>
-                  <h5 class="font-weight-bolder">2,300</h5>
-                  <p class="mb-0">
-                    <span class="text-success text-sm font-weight-bolder"
-                      >+3%</span
-                    >
-                    since last week
+                  <h5 class="font-weight-bolder">
+                    {{ totalProd.toFixed(2) }} kW
+                  </h5>
+                  <p class="mb-0" *ngIf="ratioProd.charAt(0) == '-'">
+                    <span class="text-danger text-sm font-weight-bolder">{{
+                      ratioProd
+                    }}</span>
+                    for same period last week
+                  </p>
+                  <p class="mb-0" *ngIf="ratioProd.charAt(0) == '+'">
+                    <span class="text-success text-sm font-weight-bolder">{{
+                      ratioProd
+                    }}</span>
+                    for same period last week
                   </p>
                 </div>
               </div>
@@ -60,28 +76,18 @@
                   <h5 class="font-weight-bolder">{{ price }} RSD</h5>
                   <p class="mb-0" *ngIf="sign == -1">
                     <span class="text-danger text-sm font-weight-bolder"
-                      >{{ percentagesChange }}%</span
+                      >-{{ percentagesChange }}%</span
                     >
                     since yesterday
                   </p>
                   <p class="mb-0" *ngIf="sign == +1">
                     <span class="text-success text-sm font-weight-bolder"
-                      >{{ percentagesChange }}%</span
+                      >+{{ percentagesChange }}%</span
                     >
                     since yesterday
                   </p>
                 </div>
               </div>
-              <!-- <div class="col-2 text-end">
-                <div
-                  class="icon icon-shape bg-gradient-success shadow-success text-center rounded-circle"
-                >
-                  <i
-                    class="ni ni-paper-diploma text-lg opacity-10"
-                    aria-hidden="true"
-                  ></i>
-                </div>
-              </div> -->
             </div>
           </div>
         </div>
@@ -93,15 +99,12 @@
               <div class="col-12">
                 <div class="numbers">
                   <p class="text-sm mb-0 text-uppercase font-weight-bold">
-                    Sales
+                    Predicted Energy
                   </p>
-                  <h5 class="font-weight-bolder">$103,430</h5>
-                  <p class="mb-0">
-                    <span class="text-success text-sm font-weight-bolder"
-                      >+5%</span
-                    >
-                    than last month
-                  </p>
+                  <h5 class="font-weight-bolder">
+                    {{ nextCons.toFixed(2) }} kW
+                  </h5>
+                  <p class="mb-0">next week Consumption</p>
                 </div>
               </div>
             </div>

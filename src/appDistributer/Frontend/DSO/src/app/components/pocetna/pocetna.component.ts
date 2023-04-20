@@ -1,9 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { strings } from '@material/slider';
-import { UsersServiceService } from 'src/app/services/users-service.service';
-import { ScaleType, Color } from '@swimlane/ngx-charts';
-import { BrowserModule } from '@angular/platform-browser';
 import { DashboarddataService } from 'src/app/services/dashboarddata.service';
 
 @Component({
@@ -12,12 +7,18 @@ import { DashboarddataService } from 'src/app/services/dashboarddata.service';
   styleUrls: ['./pocetna.component.css'],
 })
 export class PocetnaComponent implements OnInit {
+  totalCons: number = 0;
+  ratioCons: string = '';
+  ratioProd: string = '';
+  totalProd: number = 0;
+  nextCons: number = 0;
+  nextProd: number = 0;
   data: any;
   price: any;
   percentagesChange: any;
   sign: any;
   loader: boolean = true;
-  constructor(private service: UsersServiceService,private servicedash:DashboarddataService) {}
+  constructor(private servicedash: DashboarddataService) {}
 
   ngOnInit() {
     this.servicedash.ElectricityPrice().subscribe((response) => {
@@ -26,8 +27,19 @@ export class PocetnaComponent implements OnInit {
       this.percentagesChange = this.data.Percentage;
       this.sign = Math.sign(this.percentagesChange);
     });
-    setTimeout(() => {
-      this.loader = false;
-    }, 6000);
+    this.servicedash.TotalCons().subscribe((response) => {
+      this.totalCons = response.productionforThisWeek;
+      this.ratioCons = response.ratio;
+      console.log(this.totalCons, this.ratioCons, this.ratioCons.charAt(0));
+    });
+    this.servicedash.TotalProd().subscribe((response) => {
+      this.totalProd = response.productionforThisWeek;
+      this.ratioProd = response.ratio;
+      console.log(this.totalProd, this.ratioProd);
+    });
+    this.servicedash.nextWeekTotal().subscribe((response) => {
+      this.nextCons = response.consumption;
+      this.nextProd = response.production;
+    });
   }
 }
