@@ -23,13 +23,13 @@ export class DeviceinfoComponent implements OnInit {
   TypeName: string = '';
   TypeId: string = '';
   Name: string = '';
-  MaxUsage: string = '';
+  MaxUsage: number = 0;
   ModelName: string = '';
-  AvgUsage: string = '';
+  AvgUsage: number = 0;
   DsoView!: boolean;
   DsoControl!: boolean;
   ModelId:string='';
-  
+
   constructor(
     private router: ActivatedRoute,
     private service: DeviceserviceService
