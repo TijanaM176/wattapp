@@ -37,7 +37,6 @@ import { NgxGaugeModule } from 'ngx-gauge';
 import { ToastrModule } from 'ngx-toastr';
 import { RealizationDeviceComponent } from './components/Charts/realizationDevice/realizationDevice.component';
 import { PredictionDeviceComponent } from './components/Charts/predictionDevice/predictionDevice.component';
-import { GaugeDeviceComponent } from './components/Charts/gaugeDevice/gaugeDevice.component';
 
 @NgModule({
   declarations: [
@@ -64,7 +63,6 @@ import { GaugeDeviceComponent } from './components/Charts/gaugeDevice/gaugeDevic
     ConsumptionLimitComponent,
     RealizationDeviceComponent,
     PredictionDeviceComponent,
-    GaugeDeviceComponent,
   ],
   imports: [
     BrowserAnimationsModule,

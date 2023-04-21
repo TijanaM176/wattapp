@@ -36,3 +36,16 @@
 .btn-secondary {
   background-color: #8d021f;
 }
+
+h6 {
+  color: #466471;
+}
+.greenZone {
+  color: green;
+}
+.blueZone {
+  color: #d96d2a;
+}
+.redZone {
+  color: #c14b48;
+}

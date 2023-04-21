@@ -35,6 +35,14 @@ export class DeviceinfoComponent {
   ModelId!: string;
   results: any;
   loader: boolean = true;
+  width: number = 250;
+  consumption: number = 0;
+  markers: object = {};
+  thresholds: object = {};
+  maxUsageNumber: number = 0;
+
+  gaugeLabel = 'Consumption';
+  gaugeAppendText = 'kWh';
   @ViewChild('editData', { static: false }) editData!: EditDeviceFormComponent;
   constructor(
     private router: Router,
@@ -43,28 +51,38 @@ export class DeviceinfoComponent {
     private router1: ActivatedRoute,
     private spiner: NgxSpinnerService
   ) {}
-  /*infoForm = new FormGroup({
-    IpAddress: new FormControl(''),
-    TypeName: new FormControl(''),
-    Manufacturer: new FormControl(''),
-    Name: new FormControl(''),
-    MaxUsage: new FormControl(''),
-    AvgUsage: new FormControl(''),
-  });
-*/
+
+  ngAfterViewInit(): void {
+    let w = window.innerWidth;
+    let h = window.innerHeight;
+    if (w >= 576) {
+      document.getElementById('consumptionLimitBody')!.style.height =
+        h * 0.6 + 'px';
+    } else {
+      document.getElementById('consumptionLimitBody')!.style.height =
+        h * 0.3 + 'px';
+    }
+  }
   ngOnInit(): void {
+    this.width =
+      document.getElementById('consumptionLimitCardBody')!.offsetWidth * 0.9;
     this.getInformation();
     this.spiner.show();
-    setTimeout(() => {
-      this.loader = false;
-    }, 2000);
   }
-  isActive() {}
+  formatValue(value: number): string {
+    return value.toFixed(4);
+  }
+
   getInformation() {
     this.idDev = this.router1.snapshot.params['idDev'];
     //this.idDev=this.router.snapshot.params['idDev'];
     this.service.getInfoDevice(this.idDev).subscribe({
       next: (res) => {
+        if (res.CategoryId == '1') {
+          this.gaugeLabel = 'Consumption';
+        } else if (res.CategoryId == '2') {
+          this.gaugeLabel = 'Production';
+        }
         this.IpAddress = res.IpAddress;
         this.TypeName = res.TypeName;
         this.ModelName = res.ModelName;
@@ -76,8 +94,34 @@ export class DeviceinfoComponent {
         this.DsoControl = res.DsoControl;
         this.TypeId = res.TypeId;
         this.ModelId = res.ModelId;
+        this.maxUsageNumber = Number(this.MaxUsage + Number(this.AvgUsage) / 6);
+        this.markers = {
+          '0': { color: 'black', label: '0kWh', fontSize: '16px' },
+          [this.AvgUsage]: {
+            color: 'black',
+            label: `${this.AvgUsage}` + 'kWh',
+            fontSize: '16px',
+          },
+          [this.MaxUsage]: {
+            color: 'black',
+            label: `${this.MaxUsage}` + 'kWh',
+            fontSize: '16px',
+          },
+        };
 
-        this.deviceData = res;
+        this.thresholds = {
+          '0': { color: 'green', bgOpacity: 0.2, fontSize: '16px' },
+          [this.AvgUsage]: {
+            color: '#d96d2a',
+            bgOpacity: 0.2,
+            fontSize: '16px',
+          },
+          [this.MaxUsage]: {
+            color: '#c14b48',
+            bgOpacity: 0.2,
+            fontSize: '16px',
+          },
+        };
         this.spiner.hide();
       },
       error: (err) => {
