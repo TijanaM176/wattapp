@@ -5,6 +5,7 @@
   <div class="container-fluid py-4 " id="deviceInfoDataContainer">
     <div class="row">
     <div class="col-lg-6 mb-lg-0 mb-4">
+    
     <div class="row mt-5">
     <div class="col-xl-4 col-sm-2 mb-xl-0 mb-4">
       <div class="card">
@@ -17,8 +18,10 @@
             [label]="'Current Consumption'"  
             [append]="'kW'"
             [min]="0"
-            [max]="0.5"
-            [size]="150">
+            [max]="maxUsageNumber"
+            [size]="150"
+            [cap]="'butt'"
+            [thick]="10">
             </ngx-gauge>
               </div>
             </div>  
@@ -37,9 +40,10 @@
             [label]="'Maximum hourly consumption'"  
             [append]="'kW'"
             [min]="0"
-            [max]="0.5"
+            [max]="maxUsageNumber"
             [size]="150"
-
+            [cap]="'butt'"
+            [thick]="10"
             >
             </ngx-gauge>
               </div>
@@ -60,8 +64,10 @@
             [label]="'Average hourly consumption'"  
             [append]="'kW'"
             [min]="0"
-            [max]="0.5"
-            [size]="150">
+            [max]="maxUsageNumber"
+            [size]="150"
+            [cap]="'butt'"
+            [thick]="10">
             </ngx-gauge>
               </div>
             </div>  

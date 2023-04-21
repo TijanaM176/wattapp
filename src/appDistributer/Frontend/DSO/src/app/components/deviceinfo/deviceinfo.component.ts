@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { ThemePalette } from '@angular/material/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { NgxSpinnerService } from 'ngx-spinner';
 import { Device } from 'src/app/models/device';
 import { DeviceserviceService } from 'src/app/services/deviceservice.service';
 
@@ -29,13 +30,16 @@ export class DeviceinfoComponent implements OnInit {
   DsoView!: boolean;
   DsoControl!: boolean;
   ModelId:string='';
-
+  maxUsageNumber!:number;
   constructor(
     private router: ActivatedRoute,
-    private service: DeviceserviceService
+    private service: DeviceserviceService,
+    private spiner: NgxSpinnerService,
+    private router1: Router,
   ) {}
-
+  
   ngOnInit(): void {
+
     this.idDev = this.router.snapshot.params['idDev'];
     this.service.getInfoDevice(this.idDev).subscribe((res: any) => {
       console.log(res);
@@ -47,12 +51,17 @@ export class DeviceinfoComponent implements OnInit {
         this.MaxUsage = res.MaxUsage;
         this.AvgUsage = res.AvgUsage;
         this.currentUsage = res.CurrentUsage;
+        this.maxUsageNumber = Number(this.MaxUsage + Number(this.AvgUsage) / 6);
         this.DsoView = res.DsoView;
         this.DsoControl = res.DsoControl;
         this.TypeId = res.TypeId;
         this.ModelId = res.ModelId;
-      this.currentUsage = res['CurrentUsage'];
+        this.currentUsage = res['CurrentUsage'];
+      
     });
 
+  }
+  formatValue(value: number): string {
+    return value.toFixed(4);
   }
 }

@@ -20,7 +20,7 @@ export class PredictionDeviceComponent implements OnInit {
     name: 'mycolors',
     selectable: true,
     group: ScaleType.Ordinal,
-    domain: ['#d96d2a', '#2a96d9'],
+    domain: ['#FF414E', '#80BC00'],
   };
   showXAxis = true;
   showYAxis = true;
