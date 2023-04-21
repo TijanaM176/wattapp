@@ -140,11 +140,11 @@ namespace API.Controllers
         }
 
         [HttpGet("ToggleActivity")]
-        public async Task<IActionResult> ToggleActivity(string deviceId)
+        public async Task<IActionResult> ToggleActivity(string deviceId, string role)
         {
             try
             {
-                return Ok(new { currentActivity = await prosumerService.ToggleActivity(deviceId) });
+                return Ok(new { currentActivity = await prosumerService.ToggleActivity(deviceId, role) });
             }
             catch (Exception ex)
             {

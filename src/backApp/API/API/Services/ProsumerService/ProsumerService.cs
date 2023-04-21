@@ -219,10 +219,11 @@ namespace API.Services.ProsumerService
             return answer;
         }
 
-        public async Task<bool> ToggleActivity(string deviceId)
+        public async Task<bool> ToggleActivity(string deviceId, string role)
         {
             var device = await _repository.getDevice(deviceId);
             if (device == null) throw new ArgumentException("Device not found!");
+            if (device.DsoControl == false && role != "Prosumer") throw new ArgumentException("You don't have the permission to do that!");
 
             if (device.Activity == true) device.Activity = false;
             else device.Activity = true;
