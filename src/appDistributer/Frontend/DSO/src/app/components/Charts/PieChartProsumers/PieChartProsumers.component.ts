@@ -26,6 +26,8 @@ export class PieChartProsumersComponent implements OnInit {
   dataConsumers: any = [];
   dataProducers: any = [];
   data: any = [];
+  currentData : any = [];
+  currentTitle : string = "Consumption";
   showXAxis = true;
   showYAxis = true;
   gradient = false;
@@ -48,6 +50,7 @@ export class PieChartProsumersComponent implements OnInit {
           value,
         })
       );
+      this.currentData = this.dataConsumers;
     });
   }
   getArcLabel(data: any): string {
@@ -65,18 +68,26 @@ export class PieChartProsumersComponent implements OnInit {
       if (this.isConsumersChecked) {
         this.isConsumersChecked = true;
         this.isProducersChecked = false;
+        this.currentData = this.dataConsumers;
+        this.currentTitle = "Consumption";
       } else {
         this.isConsumersChecked = false;
         this.isProducersChecked = true;
+        this.currentData = this.dataProducers;
+        this.currentTitle = "Production";
       }
     } else if (type === 'producers') {
       this.isProducersChecked = event.target.checked;
       if (this.isProducersChecked) {
         this.isConsumersChecked = false;
         this.isProducersChecked = true;
+        this.currentData = this.dataProducers;
+        this.currentTitle = "Production";
       } else {
         this.isConsumersChecked = true;
         this.isProducersChecked = false;
+        this.currentData = this.dataConsumers;
+        this.currentTitle = "Consumption";
       }
     }
   }

@@ -3,9 +3,12 @@
     class="card-header pb-0 pt-3 bg-transparent row"
     style="margin-left: 0; margin-right: 0"
   >
-    <div class="col-md-6">
+    <div class="col-md-6 pb-2">
       <h6 class="text-capitalize" style="margin-bottom: 2px">
         Current Production per City
+        &nbsp;<button class="btn btn-outline-primary p-0 px-1 m-0" data-bs-toggle="modal" data-bs-target="#pieChartProsumersTable">
+          <i class="fa fa-table"></i>
+        </button>
       </h6>
     </div>
     <div
@@ -72,13 +75,16 @@
     class="card-header pb-0 pt-3 bg-transparent row"
     style="margin-left: 0; margin-right: 0"
   >
-    <div class="col-md-6">
+    <div class="col-md-6 pb-2">
       <h6 class="text-capitalize" style="margin-bottom: 2px">
         Current Consumption per City
+        &nbsp;<button class="btn btn-outline-primary p-0 px-1 m-0" data-bs-toggle="modal" data-bs-target="#pieChartProsumersTable">
+          <i class="fa fa-table"></i>
+        </button>
       </h6>
     </div>
     <div
-      class="col-6"
+      class="col-md-6"
       style="display: flex; justify-content: right; margin: auto; padding: 1px"
     >
       <div class="form-check mx-1">
@@ -135,6 +141,22 @@
       >
         There is no available Data
       </h1>
+    </div>
+  </div>
+</div>
+<div class="modal fade modal-lg " id="pieChartProsumersTable" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="pieChartProsumersTableLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header text-white" style="background-color: #5875A1">
+        <h5 class="modal-title" id="pieChartProsumersTableLabel">Current {{currentTitle}} per City Table</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <app-pie-chart-prosumers-table [currentData]="currentData" [currentTitle]="currentTitle"></app-pie-chart-prosumers-table>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary">Export Table</button>
+      </div>
     </div>
   </div>
 </div>

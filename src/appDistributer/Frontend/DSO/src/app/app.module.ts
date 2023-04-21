@@ -67,6 +67,10 @@ import { ToastrModule } from 'ngx-toastr';
 import { PredictionProsumerComponent } from './components/Charts/prediction-prosumer/prediction-prosumer.component';
 import { UserInfoGaugeComponent } from './components/Charts/user-info-gauge/user-info-gauge.component';
 import { NgxGaugeModule } from 'ngx-gauge';
+import { RealizationPredictionAllProsumersTableComponent } from './components/chart-tables/realization-prediction-all-prosumers-table/realization-prediction-all-prosumers-table.component';
+import { HistoryAllProsumersTableComponent } from './components/chart-tables/history-all-prosumers-table/history-all-prosumers-table.component';
+import { PredictionAllProsumersTableComponent } from './components/chart-tables/prediction-all-prosumers-table/prediction-all-prosumers-table.component';
+import { PieChartProsumersTableComponent } from './components/chart-tables/pie-chart-prosumers-table/pie-chart-prosumers-table.component';
 
 @NgModule({
   declarations: [
@@ -116,6 +120,10 @@ import { NgxGaugeModule } from 'ngx-gauge';
     PredictionAllUsersComponent,
     PredictionProsumerComponent,
     UserInfoGaugeComponent,
+    RealizationPredictionAllProsumersTableComponent,
+    HistoryAllProsumersTableComponent,
+    PredictionAllProsumersTableComponent,
+    PieChartProsumersTableComponent,
   ],
   imports: [
     MatSliderModule,

@@ -34,7 +34,7 @@ export class RealizationPredictionAllProsumersComponent implements OnInit {
   showYAxis = true;
   gradient = false;
   showLegend = true;
-  yAxisLabel = 'Energy in kWh';
+  yAxisLabel = 'Energy in kW';
 
   constructor(
     private service: UsersServiceService,
@@ -44,7 +44,7 @@ export class RealizationPredictionAllProsumersComponent implements OnInit {
   ) {}
 
   yAxisTickFormatting(value: number) {
-    return value + ' kW';
+    return value;
   }
 
   ngOnInit() {

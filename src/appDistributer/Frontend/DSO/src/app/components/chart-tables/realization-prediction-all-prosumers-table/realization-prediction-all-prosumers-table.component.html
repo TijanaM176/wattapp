@@ -1,0 +1,20 @@
+<table class="table table-striped">
+    <thead>
+      <tr class="text-center">
+        <th scope="col"></th>
+        <th scope="col text-center px-0">Consumption</th>
+        <th scope="col text-center px-0">Prediction for Consumption</th>
+        <th scope="col text-center px-0">Production</th>
+        <th scope="col text-center px-0">Prediction for Production</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of data[0].series; index as i">
+        <th scope="row">{{item.name}}</th>
+        <td class="text-center px-0">{{item.value.toFixed(5)}} kW</td>
+        <td class="text-center px-0">{{data[2]?.series[i]?.value?.toFixed(5)}} kW</td>
+        <td class="text-center px-0">{{data[1]?.series[i]?.value?.toFixed(5)}} kW</td>
+        <td class="text-center px-0">{{data[3]?.series[i]?.value?.toFixed(5)}} kW</td>
+      </tr>
+    </tbody>
+</table>

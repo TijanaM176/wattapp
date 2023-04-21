@@ -147,7 +147,7 @@ export class PredictionAllUsersComponent implements OnInit {
         const date = new Date(item.name);
         const hour = date.getHours();
         const hourString = hour < 10 ? '0' + hour : hour.toString();
-        const name = hourString + ':00';
+        const name = hourString + ':00h';
         if (!groupedData[name]) {
           groupedData[name] = {
             name,
