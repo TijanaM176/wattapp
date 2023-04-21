@@ -71,7 +71,8 @@ import { RealizationPredictionAllProsumersTableComponent } from './components/ch
 import { HistoryAllProsumersTableComponent } from './components/chart-tables/history-all-prosumers-table/history-all-prosumers-table.component';
 import { PredictionAllProsumersTableComponent } from './components/chart-tables/prediction-all-prosumers-table/prediction-all-prosumers-table.component';
 import { PieChartProsumersTableComponent } from './components/chart-tables/pie-chart-prosumers-table/pie-chart-prosumers-table.component';
-
+import { RealizationDeviceComponent } from './components/Charts/realizationDevice/realizationDevice.component';
+import { PredictionDeviceComponent } from './components/Charts/predictionDevice/predictionDevice.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -122,11 +123,11 @@ import { PieChartProsumersTableComponent } from './components/chart-tables/pie-c
     UserInfoGaugeComponent,
     RealizationPredictionAllProsumersTableComponent,
     HistoryAllProsumersTableComponent,
-    PredictionAllProsumersTableComponent,
     PieChartProsumersTableComponent,
+    RealizationDeviceComponent,
+    PredictionDeviceComponent,
   ],
   imports: [
-    MatSliderModule,
     MatSlideToggleModule,
     BrowserAnimationsModule,
     MatCheckboxModule,

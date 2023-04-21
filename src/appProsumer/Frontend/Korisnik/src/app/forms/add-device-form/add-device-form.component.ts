@@ -48,8 +48,9 @@ export class AddDeviceFormComponent {
   }
   ChangeCategory(e: any) {
     this.service.category = this.category;
-    this.type = -1;
+    console.log(this.service.category);
     this.getTypes();
+    this.type = -1;
     this.Name = 'Device Name';
   }
   getCategories() {
@@ -64,9 +65,10 @@ export class AddDeviceFormComponent {
   }
   ChangeType(e: any) {
     this.service.type = this.type;
-    this.model = -1;
-
+    //this.model = -1;
+    console.log(this.service.type);
     this.getModels();
+    this.model = -1;
     this.Name = 'Device Name';
   }
   getTypes() {
@@ -83,10 +85,12 @@ export class AddDeviceFormComponent {
   }
   ChangeModels(e: any) {
     this.service.model = this.model.id;
+    console.log(this.service.model);
     this.Name = this.model.name;
     this.service.name = this.Name;
   }
   getModels() {
+    
     this.service.getModels().subscribe({
       next: (response) => {
         this.models = response;

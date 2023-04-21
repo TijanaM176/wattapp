@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
 import { Observable } from 'rxjs';
 import { AddDeviceFormComponent } from 'src/app/forms/add-device-form/add-device-form.component';
@@ -38,8 +38,11 @@ export class AddDeviceComponent implements OnInit {
     private service: AdddeviceserviceService,
     private router: Router,
     private cookie: CookieService,
-    public toast: ToastrService
-  ) {}
+    public toast: ToastrService,
+    private active:ActivatedRoute
+  ) {
+  
+  }
   ngOnInit(): void {
     this.show = true;
     this.allToFalse();
@@ -61,6 +64,9 @@ export class AddDeviceComponent implements OnInit {
     this.c.DsoControl = false;
   }
   registerDevice() {
+    console.log(this.service.category);
+    console.log(this.service.type);
+    console.log(this.service.model);
     this.service.id = this.cookie.get('id');
     let device: AddDevice = new AddDevice();
     device.modelId = this.service.model;
@@ -79,8 +85,13 @@ export class AddDeviceComponent implements OnInit {
         this.failure = true;
       },
     });
+    console.log(this.router.url);
+    this.currentRoute=this.router.url;
     if (this.router.url === '/ProsumerApp/userDevices') {
-      location.reload();
+      this.router.navigateByUrl('/ProsumerApp/userInfo',{skipLocationChange:true}).then(()=>{
+        console.log(this.router.url);
+        this.router.navigate([this.currentRoute]);
+      });
     } else {
       this.router.navigate(['/ProsumerApp/userDevices']);
     }

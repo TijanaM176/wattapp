@@ -1,0 +1,88 @@
+<div
+  class="flex-grow-1 d-flex flex-column justify-content-center"
+  style="flex-basis: 50%"
+>
+  <div
+    class="card-header col-12 p-1 group"
+    style="display: flex; justify-content: right; margin: auto"
+  >
+    <div class="col-5 p-1">
+      <h6 class="m-0 font-weight-bold ps-2">
+        Realization and Prediction History
+      </h6>
+    </div>
+    <div class="col-7" style="display: flex; justify-content: right">
+      <button
+        class="btn btn-primary m-1 realizationbtn"
+        id="realiz1"
+        (click)="HistoryWeek('realiz1')"
+      >
+        7D
+      </button>
+      <button
+        class="btn btn-primary m-1 realizationbtn"
+        id="realiz2"
+        (click)="HistoryMonth('realiz2')"
+      >
+        1M
+      </button>
+      <button
+        class="btn btn-primary m-1 realizationbtn"
+        id="realiz3"
+        (click)="HistoryYear('realiz3')"
+      >
+        1Y
+      </button>
+    </div>
+  </div>
+  <div class="card-body" style="width: 100%; margin: 0 auto">
+    <div
+      class="w-100 px-0 py-0 mx-0 my-0"
+      id="grafik"
+      style="display: flex; justify-content: center; align-items: center"
+    >
+      <h1
+        *ngIf="data.length == 0"
+        style="
+          text-align: center;
+          opacity: 60%;
+          font-style: italic;
+          font-weight: normal;
+          z-index: 100;
+        "
+      >
+        There Is No Available Data
+      </h1>
+      <ngx-charts-bar-vertical-2d
+        *ngIf="production && consumption && data.length != 0"
+        [title]="'Realization'"
+        [scheme]="colors"
+        [results]="data"
+        [xAxis]="showXAxis"
+        [yAxis]="showYAxis"
+        [showXAxisLabel]="false"
+        [showYAxisLabel]="false"
+        [showDataLabel]="false"
+        [animations]="true"
+        [barPadding]="3"
+        [roundDomains]="true"
+        [showGridLines]="true"
+        [trimYAxisTicks]="true"
+        [tooltipDisabled]="false"
+        [showGridLines]="true"
+        [yAxisTickFormatting]="yAxisTickFormatting"
+        [legend]="false"
+      >
+      </ngx-charts-bar-vertical-2d>
+    </div>
+
+    <div
+      class="legend w-100 text-center"
+      *ngIf="production && consumption && data.length != 0"
+    >
+      <i class="fa fa-circle consumption">&nbsp;Consumption</i
+      >&nbsp;&nbsp;&nbsp;
+      <i class="fa fa-circle production">&nbsp;Prediction</i>
+    </div>
+  </div>
+</div>
