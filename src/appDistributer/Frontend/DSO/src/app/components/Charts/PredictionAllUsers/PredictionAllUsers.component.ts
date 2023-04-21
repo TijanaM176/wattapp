@@ -77,7 +77,6 @@ export class PredictionAllUsersComponent implements OnInit {
       const finalList = Object.values(groupedData);
 
       this.data = finalList;
-      console.log(this.data);
     });
   }
 
@@ -118,7 +117,6 @@ export class PredictionAllUsersComponent implements OnInit {
       const finalList = Object.values(groupedData);
 
       this.data = finalList;
-      console.log(this.data);
     });
   }
 
@@ -162,7 +160,6 @@ export class PredictionAllUsersComponent implements OnInit {
       const finalList = Object.values(groupedData);
 
       this.data = finalList;
-      console.log(this.data);
     });
   }
 }
