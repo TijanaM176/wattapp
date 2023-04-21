@@ -116,7 +116,9 @@ export class User1Component implements OnInit, AfterViewInit {
     }
     this.user.updateUserData(dto.id, dto).subscribe((res) => {
       console.log(res);
+      window.location.reload;
     });
+    
   }
 
   DeleteUser() {
