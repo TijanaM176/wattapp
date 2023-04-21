@@ -1,0 +1,16 @@
+<table class="table table-striped">
+    <thead>
+      <tr class="text-center">
+        <th scope="col"></th>
+        <th scope="col text-center">Consumption</th>
+        <th scope="col text-center">Production</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of data; index as i">
+        <th scope="row" class="ps-4">{{item.name}}</th>
+        <td class="text-center">{{item?.series[item?.series.length-2]?.value?.toFixed(5)}} kW</td>
+        <td class="text-center">{{item?.series[item?.series.length-1]?.value?.toFixed(5)}} kW</td>
+      </tr>
+    </tbody>
+</table>
