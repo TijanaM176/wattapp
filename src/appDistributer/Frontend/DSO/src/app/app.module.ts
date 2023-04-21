@@ -67,6 +67,7 @@ import { ToastrModule } from 'ngx-toastr';
 import { PredictionProsumerComponent } from './components/Charts/prediction-prosumer/prediction-prosumer.component';
 import { UserInfoGaugeComponent } from './components/Charts/user-info-gauge/user-info-gauge.component';
 import { NgxGaugeModule } from 'ngx-gauge';
+import { RealizationPredictionAllProsumersTableComponent } from './components/chart-tables/realization-prediction-all-prosumers-table/realization-prediction-all-prosumers-table.component';
 
 @NgModule({
   declarations: [
@@ -116,6 +117,7 @@ import { NgxGaugeModule } from 'ngx-gauge';
     PredictionAllUsersComponent,
     PredictionProsumerComponent,
     UserInfoGaugeComponent,
+    RealizationPredictionAllProsumersTableComponent,
   ],
   imports: [
     MatSliderModule,

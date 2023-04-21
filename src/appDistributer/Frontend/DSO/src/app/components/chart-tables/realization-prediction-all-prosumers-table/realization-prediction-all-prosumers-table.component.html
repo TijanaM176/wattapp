@@ -1,0 +1,20 @@
+<table class="table table-striped">
+    <thead>
+      <tr>
+        <th scope="col"></th>
+        <th scope="col">Consumption</th>
+        <th scope="col">Prediction for Consumption</th>
+        <th scope="col">Production</th>
+        <th scope="col">Prediction for Production</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of data[0].series; index as i">
+        <th scope="row">{{item.name}}</th>
+        <td>{{item.value}}</td>
+        <td>{{data[2].series[i].value}}</td>
+        <td>{{data[1].series[i].value}}</td>
+        <td>{{data[3].series[i].value}}</td>
+      </tr>
+    </tbody>
+  </table>
