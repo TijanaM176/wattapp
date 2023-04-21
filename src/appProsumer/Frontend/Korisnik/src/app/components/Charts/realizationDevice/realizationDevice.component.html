@@ -54,7 +54,7 @@
         There Is No Available Data
       </h1>
       <ngx-charts-bar-vertical-2d
-        *ngIf="production && consumption && data.length != 0"
+        *ngIf="production && consumption && data.length != 0 && cat == '1'"
         [title]="'Realization'"
         [scheme]="colors"
         [results]="data"
@@ -74,15 +74,39 @@
         [legend]="false"
       >
       </ngx-charts-bar-vertical-2d>
+      <ngx-charts-bar-vertical-2d
+        *ngIf="production && consumption && data.length != 0 && cat == '2'"
+        [title]="'Realization'"
+        [scheme]="colors1"
+        [results]="data"
+        [xAxis]="showXAxis"
+        [yAxis]="showYAxis"
+        [showXAxisLabel]="false"
+        [showYAxisLabel]="false"
+        [showDataLabel]="false"
+        [animations]="true"
+        [barPadding]="3"
+        [roundDomains]="true"
+        [trimYAxisTicks]="true"
+        [tooltipDisabled]="true"
+        [noBarWhenZero]="true"
+        [yAxisTickFormatting]="yAxisTickFormatting"
+        [showGridLines]="true"
+        [legend]="false"
+      >
+      </ngx-charts-bar-vertical-2d>
     </div>
 
     <div
       class="legend w-100 text-center"
       *ngIf="production && consumption && data.length != 0"
     >
-      <i class="fa fa-circle consumption">&nbsp;Consumption</i
+      <i class="fa fa-circle consumption" *ngIf="cat == '1'"
+        >&nbsp;Consumption</i
       >&nbsp;&nbsp;&nbsp;
-      <i class="fa fa-circle production">&nbsp;Prediction</i>
+      <i class="fa fa-circle production" *ngIf="cat == '2'">&nbsp;Production</i
+      >&nbsp;&nbsp;&nbsp;
+      <i class="fa fa-circle prediction">&nbsp;Prediction</i>
     </div>
   </div>
 </div>

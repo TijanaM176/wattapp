@@ -3,20 +3,24 @@ p {
 }
 
 ::ng-deep #grid text {
-  fill: white; /* Replace with your desired text color */
+  fill: white;
+}
+
+::ng-deep #grid .pie-grid-item {
+  display: block;
+}
+::ng-deep #grid .pie-grid-chart {
+  display: block;
+  width: 100%;
 }
 
 .container {
-  width: 100%; /* or any desired value */
+  width: 100%;
 }
 
 .arc {
   stroke: #fff;
   stroke-width: 2px;
-}
-
-#chart {
-  width: 100%; /* or any desired value */
 }
 
 svg {

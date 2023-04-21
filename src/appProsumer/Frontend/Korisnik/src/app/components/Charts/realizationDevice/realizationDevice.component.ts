@@ -26,6 +26,12 @@ export class RealizationDeviceComponent implements OnInit, AfterViewInit {
     group: ScaleType.Ordinal,
     domain: ['#c14b48', '#48bec1'],
   };
+  colors1: Color = {
+    name: 'mycolors',
+    selectable: true,
+    group: ScaleType.Ordinal,
+    domain: ['#80BC00', '#48bec1'],
+  };
   showXAxis = true;
   showYAxis = true;
   gradient = false;
@@ -36,6 +42,7 @@ export class RealizationDeviceComponent implements OnInit, AfterViewInit {
   showYAxisLabel = true;
   yAxisLabel = 'Energy in kWh';
   idDev: string = '';
+  cat: string = '';
 
   constructor(
     private deviceService: DevicesService,
@@ -51,7 +58,8 @@ export class RealizationDeviceComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
-    this.HistoryWeekInit();
+    this.idDev = this.router1.snapshot.params['idDev'];
+    this.HistoryWeek('realiz1');
   }
 
   yAxisTickFormatting(value: number) {
@@ -66,19 +74,6 @@ export class RealizationDeviceComponent implements OnInit, AfterViewInit {
         oneJan.getDay() +
         1) /
         7
-    );
-  }
-
-  HistoryWeekInit() {
-    this.loadData(
-      this.deviceService.history7Days.bind(this.deviceService),
-      (myList: any[]) => {
-        return myList.map((item) => {
-          const date = new Date(item.name);
-          const dayName = date.toLocaleDateString('en-US', { weekday: 'long' });
-          return { name: dayName, series: item.series };
-        });
-      }
     );
   }
 
@@ -128,26 +123,28 @@ export class RealizationDeviceComponent implements OnInit, AfterViewInit {
   }
 
   loadData(apiCall: any, mapFunction: any) {
+    const isFirstCall = !this.cat;
     apiCall().subscribe((response: any) => {
-      const myList = Object.keys(response.consumption.timestamps).map(
-        (name) => {
-          let consumptionValue = response.consumption.timestamps[name];
-          let predictionValue = response.consumption.predictions[name];
-          const cons: string = 'consumption';
-          const pred: string = 'prediction';
-          if (predictionValue == undefined) {
-            predictionValue = 0.0;
-          }
-          if (consumptionValue == undefined) {
-            consumptionValue = 0.0;
-          }
-          const series = [
-            { name: cons, value: consumptionValue },
-            { name: pred, value: predictionValue },
-          ];
-          return { name, series };
+      if (isFirstCall) {
+        this.cat = response.categoryId;
+      }
+      const myList = Object.keys(response.timestamps).map((name) => {
+        let consumptionValue = response.timestamps[name];
+        let predictionValue = response.predictions[name];
+        const cons: string = 'consumption';
+        const pred: string = 'prediction';
+        if (predictionValue == undefined) {
+          predictionValue = 0.0;
         }
-      );
+        if (consumptionValue == undefined) {
+          consumptionValue = 0.0;
+        }
+        const series = [
+          { name: cons, value: consumptionValue },
+          { name: pred, value: predictionValue },
+        ];
+        return { name, series };
+      });
       this.data = mapFunction(myList);
     });
   }

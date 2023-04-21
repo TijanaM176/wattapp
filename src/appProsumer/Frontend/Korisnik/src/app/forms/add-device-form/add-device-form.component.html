@@ -1,61 +1,73 @@
 <div class="mb-3">
-    <select
-        class="dropdown dropdown-toggle"
-        name="type"
-        (change)="ChangeCategory($event)"
-        [(ngModel)]="category"
-       
-        class="form-control"
-        style="background-color: #466471;color:white;width:50%;text-align: center;"
-        >
-        <option value="-1" >Choose Category</option>
-        <option *ngFor="let item of categories"
-        [value]="item.id"
-        
-        >{{item.name}}</option>
-        
-        </select>
+  <select
+    class="dropdown dropdown-toggle"
+    name="type"
+    (change)="ChangeCategory($event)"
+    [(ngModel)]="category"
+    class="form-control"
+    style="
+      background-color: #466471;
+      color: white;
+      width: 50%;
+      text-align: center;
+    "
+  >
+    <option value="-1">Choose Category</option>
+    <option *ngFor="let item of categories" [value]="item.id">
+      {{ item.name }}
+    </option>
+  </select>
 </div>
 <div class="mb-3">
-    <label for="type" class="form-label">Device Type</label>
-    <select
-        class="dropdown dropdown-toggle"
-        name="type"
-        (change)="ChangeType($event)"
-        [(ngModel)]="type"
-        [value]="-1"
-        class="form-control"
-        style="background-color: #C1DFD5;width: 100%;color:#466471;"
-        >
-        
-        <option value="-1">Choose Type</option>  
-        <option *ngFor="let item of types"
-        [value]="item.id"
-        >{{item.name}}</option>
-        </select>
+  <label for="type" class="form-label">Device Type</label>
+  <select
+    class="dropdown dropdown-toggle"
+    name="type"
+    (change)="ChangeType($event)"
+    [(ngModel)]="type"
+    [value]="-1"
+    class="form-control"
+    style="background-color: #c1dfd5; width: 100%; color: #466471"
+  >
+    <option value="-1">Choose Type</option>
+    <option *ngFor="let item of types" [value]="item.id">
+      {{ item.name }}
+    </option>
+  </select>
 </div>
-  <div class="mb-3">
-    <label for="Name"class="form-label">Device Model</label>
-       <select
-        class="dropdown dropdown-toggle"
-        name="model"
-        [(ngModel)]="model"
-                                      
-        (change)="ChangeModels($event)"
-        [value]="0"                             
-        class="form-control"
-        style="background-color: #C1DFD5;width: 100%;color:#466471;"
-        >
-        <option value="-1">Choose Model</option>                           
-        <option *ngFor="let item of models"
-        [ngValue]='item'
-                                      
-        >{{item.name}}</option>
-        </select>
-  </div>
-  <div class="mb-3">
-    <label for="name" class="form-label">Device Name</label>
-    <input type="text" class="form-control" (change)="ChangeName($event)"  id="name" style="background-color: #C1DFD5;color:#466471;"  [(ngModel)]="Name" placeholder="Device Name">
+<div class="mb-3">
+  <label for="Name" class="form-label">Device Model</label>
+  <select
+    class="dropdown dropdown-toggle"
+    name="model"
+    [(ngModel)]="model"
+    (change)="ChangeModels($event)"
+    [value]="0"
+    class="form-control"
+    style="background-color: #c1dfd5; width: 100%; color: #466471"
+  >
+    <option value="-1">Choose Model</option>
+    <option *ngFor="let item of models" [ngValue]="item">
+      {{ item.name }}
+    </option>
+  </select>
 </div>
-<mat-slide-toggle [(ngModel)]="DsoView" (click)="ChangeButton()">Allow DSO to view</mat-slide-toggle ><br/>
-<mat-slide-toggle [(ngModel)]="DsoControl" (click)="ChangeButton()">Allow DSO to control</mat-slide-toggle >
+<div class="mb-3">
+  <label for="name" class="form-label">Device Name</label>
+  <input
+    type="text"
+    maxlength="18"
+    class="form-control"
+    (change)="ChangeName($event)"
+    id="name"
+    style="background-color: #c1dfd5; color: #466471"
+    [(ngModel)]="Name"
+    placeholder="Device Name"
+  />
+</div>
+<mat-slide-toggle [(ngModel)]="DsoView" (click)="ChangeButton()"
+  >Allow DSO to view</mat-slide-toggle
+><br />
+<mat-slide-toggle [(ngModel)]="DsoControl" (click)="ChangeButton()"
+  >Allow DSO to control</mat-slide-toggle
+>
