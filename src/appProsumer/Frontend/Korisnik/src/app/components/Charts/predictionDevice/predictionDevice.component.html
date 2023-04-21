@@ -71,7 +71,11 @@
     </ngx-charts-bar-vertical-2d>
   </div>
   <div class="legend w-100 text-center" *ngIf="data.length != 0">
-    <i class="fa fa-circle consumption">&nbsp;Consumption</i>&nbsp;&nbsp;&nbsp;
-    <i class="fa fa-circle production">&nbsp;Production</i>
+    <i class="fa fa-circle consumption" *ngIf="cat == '1'"
+      >&nbsp;Predicted Consumption</i
+    >&nbsp;&nbsp;&nbsp;
+    <i class="fa fa-circle consumption" *ngIf="cat == '2'"
+      >&nbsp;Predicted Production</i
+    >&nbsp;&nbsp;&nbsp;
   </div>
 </div>

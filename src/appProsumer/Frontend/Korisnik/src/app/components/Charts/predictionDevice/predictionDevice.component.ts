@@ -30,6 +30,7 @@ export class PredictionDeviceComponent implements OnInit {
   showYAxisLabel = true;
   yAxisLabel = 'Energy in kWh';
   idDev: string = '';
+  cat: string = '';
 
   constructor(
     private deviceService: DevicesService,
@@ -64,7 +65,7 @@ export class PredictionDeviceComponent implements OnInit {
     this.deviceService
       .predictionDevice(this.idDev)
       .subscribe((response: any) => {
-        console.log(response);
+        this.cat = response.categoryId;
         const myList = Object.keys(response.nextWeek).map((name) => {
           let predictionValue = response.nextWeek[name];
           const cons: string = 'consumption';
@@ -79,7 +80,6 @@ export class PredictionDeviceComponent implements OnInit {
           return { name: formattedName, series };
         });
         this.data = myList;
-        console.log(this.data);
       });
   }
 
@@ -87,6 +87,7 @@ export class PredictionDeviceComponent implements OnInit {
     this.deviceService
       .predictionDevice(this.idDev)
       .subscribe((response: any) => {
+        this.cat = response.categoryId;
         const myList = Object.keys(response.next3Days).map((name) => {
           let predictionValue = response.nextWeek[name];
           const cons: string = 'consumption';
@@ -102,7 +103,6 @@ export class PredictionDeviceComponent implements OnInit {
           return { name: formattedName, series };
         });
         this.data = myList;
-        console.log(this.data);
       });
   }
 
@@ -110,6 +110,7 @@ export class PredictionDeviceComponent implements OnInit {
     this.deviceService
       .predictionDevice(this.idDev)
       .subscribe((response: any) => {
+        this.cat = response.categoryId;
         const myList = Object.keys(response.nextDay).map((name) => {
           let predictionValue = response.nextDay[name];
           const cons: string = 'consumption';
@@ -126,7 +127,6 @@ export class PredictionDeviceComponent implements OnInit {
           return { name: formattedName, series };
         });
         this.data = myList;
-        console.log(this.data);
       });
   }
 

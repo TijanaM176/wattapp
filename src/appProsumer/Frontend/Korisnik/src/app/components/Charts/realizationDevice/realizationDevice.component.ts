@@ -26,6 +26,12 @@ export class RealizationDeviceComponent implements OnInit, AfterViewInit {
     group: ScaleType.Ordinal,
     domain: ['#c14b48', '#48bec1'],
   };
+  colors1: Color = {
+    name: 'mycolors',
+    selectable: true,
+    group: ScaleType.Ordinal,
+    domain: ['#80BC00', '#48bec1'],
+  };
   showXAxis = true;
   showYAxis = true;
   gradient = false;
@@ -117,9 +123,11 @@ export class RealizationDeviceComponent implements OnInit, AfterViewInit {
   }
 
   loadData(apiCall: any, mapFunction: any) {
+    const isFirstCall = !this.cat;
     apiCall().subscribe((response: any) => {
-      this.cat = response.categoryId;
-      console.log(this.cat);
+      if (isFirstCall) {
+        this.cat = response.categoryId;
+      }
       const myList = Object.keys(response.timestamps).map((name) => {
         let consumptionValue = response.timestamps[name];
         let predictionValue = response.predictions[name];

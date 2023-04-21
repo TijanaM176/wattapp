@@ -32,6 +32,7 @@ export class AddDeviceFormComponent {
   cat: any;
   typ: any;
   mod: any;
+  maxlength: number = 18;
   constructor(
     private service: AdddeviceserviceService,
     private cookie: CookieService,
@@ -103,4 +104,22 @@ export class AddDeviceFormComponent {
     this.service.dsoView = this.DsoView;
     this.service.dsoControl = this.DsoControl;
   }
+  // input-validator.ts
+
+  // checkInputLength(input: HTMLInputElement) {
+  //   const maxLength = parseInt(input.getAttribute('maxlength')!);
+  //   const currentLength = input.value.length;
+  //   const errorMsg = document.getElementById('errorMsg');
+
+  //   if (currentLength > maxLength) {
+  //     input.value = input.value.substring(0, maxLength);
+  //     if (errorMsg) {
+  //       errorMsg.style.display = 'block';
+  //     }
+  //   } else {
+  //     if (errorMsg) {
+  //       errorMsg.style.display = 'none';
+  //     }
+  //   }
+  // }
 }
