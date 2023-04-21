@@ -68,6 +68,7 @@ import { PredictionProsumerComponent } from './components/Charts/prediction-pros
 import { UserInfoGaugeComponent } from './components/Charts/user-info-gauge/user-info-gauge.component';
 import { NgxGaugeModule } from 'ngx-gauge';
 import { RealizationPredictionAllProsumersTableComponent } from './components/chart-tables/realization-prediction-all-prosumers-table/realization-prediction-all-prosumers-table.component';
+import { HistoryAllProsumersTableComponent } from './components/chart-tables/history-all-prosumers-table/history-all-prosumers-table.component';
 
 @NgModule({
   declarations: [
@@ -118,6 +119,7 @@ import { RealizationPredictionAllProsumersTableComponent } from './components/ch
     PredictionProsumerComponent,
     UserInfoGaugeComponent,
     RealizationPredictionAllProsumersTableComponent,
+    HistoryAllProsumersTableComponent,
   ],
   imports: [
     MatSliderModule,

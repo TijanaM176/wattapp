@@ -112,6 +112,7 @@ export class HistoryAllProsumersComponent implements OnInit {
         myList.push({ name, series });
       });
       this.data = mapFunction(myList);
+      console.log(this.data);
     });
   }
 }

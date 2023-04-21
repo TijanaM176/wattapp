@@ -163,7 +163,6 @@ export class RealizationPredictionAllProsumersComponent implements OnInit {
 
       this.data = mapFunction(myList);
       this.spinner.hide();
-      console.log(this.data);
     });
   }
 }
