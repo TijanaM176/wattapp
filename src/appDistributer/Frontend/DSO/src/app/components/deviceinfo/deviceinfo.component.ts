@@ -31,15 +31,24 @@ export class DeviceinfoComponent implements OnInit {
   DsoControl!: boolean;
   ModelId:string='';
   maxUsageNumber!:number;
+  markers: object = {};
+  thresholds: object = {};
+  width: number = 250;
   constructor(
     private router: ActivatedRoute,
     private service: DeviceserviceService,
     private spiner: NgxSpinnerService,
     private router1: Router,
   ) {}
-  
-  ngOnInit(): void {
 
+  ngOnInit(): void {
+    this.width =
+      document.getElementById('consumptionLimitCardBody')!.offsetWidth * 0.6;
+    this.getInfo();
+    this.spiner.show();
+
+  }
+  getInfo(){
     this.idDev = this.router.snapshot.params['idDev'];
     this.service.getInfoDevice(this.idDev).subscribe((res: any) => {
       console.log(res);
@@ -56,10 +65,35 @@ export class DeviceinfoComponent implements OnInit {
         this.DsoControl = res.DsoControl;
         this.TypeId = res.TypeId;
         this.ModelId = res.ModelId;
-        this.currentUsage = res['CurrentUsage'];
+        this.markers = {
+          '0': { color: 'black', label: '0kWh', fontSize: '16px' },
+          [this.AvgUsage]: {
+            color: 'black',
+            label: `${this.AvgUsage}` + 'kWh',
+            fontSize: '16px',
+          },
+          [this.MaxUsage]: {
+            color: 'black',
+            label: `${this.MaxUsage}` + 'kWh',
+            fontSize: '16px',
+          },
+        };
+
+        this.thresholds = {
+          '0': { color: 'green', bgOpacity: 0.2, fontSize: '16px' },
+          [this.AvgUsage]: {
+            color: '#d96d2a',
+            bgOpacity: 0.2,
+            fontSize: '16px',
+          },
+          [this.MaxUsage]: {
+            color: '#c14b48',
+            bgOpacity: 0.2,
+            fontSize: '16px',
+          },
+        };
       
     });
-
   }
   formatValue(value: number): string {
     return value.toFixed(4);
