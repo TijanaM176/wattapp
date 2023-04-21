@@ -4,6 +4,7 @@ using API.Models.Users;
 using API.Services.ProsumerService;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Xml.Linq;
 
 namespace API.Controllers
 {
@@ -79,18 +80,19 @@ namespace API.Controllers
         }
 
         [HttpPut("SetCoordinates")]
-        public async Task<ActionResult> SetCoordinates(SaveCoordsDto prosumerCoords)
+        public async Task<ActionResult> SetCoordinates([FromForm] SaveCoordsDto prosumerCoords)
         {
             if (await prosumerService.SetCoordinates(prosumerCoords)) return Ok(new { message ="Coordinates are set!" });
 
             return BadRequest("Prosumer not found!");
         }
 
-        [HttpPost("{UserID}/UploadImage")]
+        [HttpPost("{UserId}/UploadImage")]
         public async Task<IActionResult> UploadImage([FromRoute][FromForm] SendPhoto sp)
         {
             try
             {
+              
                 var result = await prosumerService.SaveImage(sp.UserId, sp.imageFile);
 
                 if (result.Item2 == true)
@@ -104,7 +106,7 @@ namespace API.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(500, ex.Message);
+                return StatusCode(500, HttpContext.Request.RouteValues["UserId"].ToString() +"  is not found");
             }
         }
 

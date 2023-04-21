@@ -141,7 +141,7 @@ namespace API.Controllers
             }
         }
         
-        [HttpPost("{UserID}/UploadImage")]
+        [HttpPost("{UserId}/UploadImage")]
         public async Task<IActionResult> UploadImage([FromRoute][FromForm] SendPhoto sp)
         {
             try
