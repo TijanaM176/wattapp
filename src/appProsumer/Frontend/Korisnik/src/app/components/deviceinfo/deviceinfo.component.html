@@ -22,7 +22,48 @@
             <div
               class="col-md-6 justify-content-center align-items-center h-md-100 order-1 order-md-1 mx-0 my-0 px-0 py-0"
             >
-              <app-gaugeDevice></app-gaugeDevice>
+              <div
+                class="card-body"
+                style="width: 80%; margin: 0 auto"
+                id="consumptionLimitCardBody"
+              >
+                <div
+                  class="w-80 px-0 py-0 mx-0 my-0"
+                  style="
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                  "
+                  id="consumptionLimitBody"
+                >
+                  <ngx-gauge
+                    class="text-size"
+                    [type]="'semi'"
+                    [size]="width"
+                    [label]="gaugeLabel"
+                    [append]="gaugeAppendText"
+                    [min]="0"
+                    [max]="maxUsageNumber"
+                    [markers]="markers"
+                    [value]="currentUsage"
+                    [valueFormatting]="formatValue"
+                    [cap]="'butt'"
+                    [thick]="45"
+                    [thresholds]="thresholds"
+                  >
+                  </ngx-gauge>
+                </div>
+                <div class="legend w-100 text-center">
+                  <i class="fa fa-circle greenZone"
+                    >&nbsp;0-{{ AvgUsage }} kWh</i
+                  >&nbsp;&nbsp;&nbsp;
+                  <i class="fa fa-circle blueZone"
+                    >&nbsp; {{ AvgUsage }}-{{ MaxUsage }} kWh</i
+                  >&nbsp;&nbsp;&nbsp;
+                  <i class="fa fa-circle redZone">&nbsp;{{ MaxUsage }}+ kWh</i>
+                </div>
+              </div>
+
               <div class="card-body p-1 p-md-4">
                 <br />
                 <h6 class="section">Device Information</h6>
