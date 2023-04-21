@@ -218,5 +218,24 @@ namespace API.Services.ProsumerService
 
             return answer;
         }
+
+        public async Task<bool> ToggleActivity(string deviceId)
+        {
+            var device = await _repository.getDevice(deviceId);
+            if (device == null) throw new ArgumentException("Device not found!");
+
+            if (device.Activity == true) device.Activity = false;
+            else device.Activity = true;
+
+            try
+            {
+                await _repository.Save();
+                return device.Activity;
+            }
+            catch (Exception)
+            {
+                throw new ArgumentException("Changes could not be saved!");
+            }
+        }
     }
 }

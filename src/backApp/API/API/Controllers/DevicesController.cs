@@ -1,4 +1,5 @@
 ﻿using API.Services.Devices;
+using API.Services.ProsumerService;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,10 +10,12 @@ namespace API.Controllers
     public class DevicesController : Controller
     {
         private readonly IDevicesService devService;
+        private readonly IProsumerService prosumerService;
 
-        public DevicesController(IDevicesService devService)
+        public DevicesController(IDevicesService devService, IProsumerService prosumerService)
         {
             this.devService = devService;
+            this.prosumerService = prosumerService;
         }
 
         [HttpGet("GetAllDevicesForProsumer")]
@@ -131,6 +134,19 @@ namespace API.Controllers
                     minProduction, maxProduction, minDeviceCount, maxDeviceCount));
             }
              catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet("ToggleActivity")]
+        public async Task<IActionResult> ToggleActivity(string deviceId)
+        {
+            try
+            {
+                return Ok(new { currentActivity = await prosumerService.ToggleActivity(deviceId) });
+            }
+            catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }
