@@ -1,67 +1,89 @@
-<div class="card-header">
-  <div class="row">
-    <div class="col-5 mx-0 my-0">
-      <h6>Realization</h6>
+<div>
+  <div class="card-header">
+    <div class="row">
+      <div class="col-md-5" style="display: flex; flex-direction: column; align-items: start; justify-content: center;">
+        <h6>Realization
+          &nbsp;<button class="btn btn-outline-primary p-0 px-1 m-0" data-bs-toggle="modal" data-bs-target="#historyProsumerTable">
+            <i class="fa fa-table"></i>
+          </button>
+        </h6>
+      </div>
+      <div
+        class="col-md-7 mx-0 my-0"
+        style="display: flex; justify-content: right; margin: 0px 0px 2px auto"
+      >
+        <button
+          (click)="HistoryWeek()"
+          style="margin: 1px"
+          type="button"
+          class="btn btn-outline-primary"
+        >
+          7Days
+        </button>
+        <button
+          (click)="HistoryMonth()"
+          style="margin: 1px"
+          type="button"
+          class="btn btn-outline-primary"
+        >
+          1Month
+        </button>
+        <button
+          (click)="HistoryYear()"
+          type="button"
+          style="margin: 1px"
+          class="btn btn-outline-primary"
+        >
+          1Year
+        </button>
+      </div>
     </div>
-    <div
-      class="col-7 mx-0 my-0"
-      style="display: flex; justify-content: right; margin: 0px 0px 2px auto"
-    >
-      <button
-        (click)="HistoryWeek()"
-        style="margin: 1px"
-        type="button"
-        class="btn btn-outline-primary"
+  </div>
+  <div
+    class="card-body px-0 py-0 mx-0 my-0 pt-3"
+    id="realizationUserInfoCardBody"
+  >
+    <div style="width: 100%; height: 100%">
+      <h1
+        *ngIf="data.length == 0"
+        style="
+          text-align: center;
+          margin-top: 15%;
+          opacity: 20%;
+          font-style: italic;
+          font-weight: normal;
+        "
       >
-        7Days
-      </button>
-      <button
-        (click)="HistoryMonth()"
-        style="margin: 1px"
-        type="button"
-        class="btn btn-outline-primary"
+        There is no available Data
+      </h1>
+      <ngx-charts-bar-vertical-2d
+        *ngIf="data.length != 0"
+        [scheme]="colors"
+        [results]="data"
+        [gradient]="gradient"
+        [xAxis]="showXAxis"
+        [yAxis]="showYAxis"
+        [showXAxisLabel]="showXAxisLabel"
+        [showYAxisLabel]="showYAxisLabel"
+        [yAxisLabel]="yAxisLabel"
       >
-        1Month
-      </button>
-      <button
-        (click)="HistoryYear()"
-        type="button"
-        style="margin: 1px"
-        class="btn btn-outline-primary"
-      >
-        1Year
-      </button>
+      </ngx-charts-bar-vertical-2d>
     </div>
   </div>
 </div>
-<div
-  class="card-body px-0 py-0 mx-0 my-0 pt-3"
-  id="realizationUserInfoCardBody"
->
-  <div style="width: 100%; height: 100%">
-    <h1
-      *ngIf="data.length == 0"
-      style="
-        text-align: center;
-        margin-top: 15%;
-        opacity: 20%;
-        font-style: italic;
-        font-weight: normal;
-      "
-    >
-      There is no available Data
-    </h1>
-    <ngx-charts-bar-vertical-2d
-      *ngIf="data.length != 0"
-      [scheme]="colors"
-      [results]="data"
-      [gradient]="gradient"
-      [xAxis]="showXAxis"
-      [yAxis]="showYAxis"
-      [showXAxisLabel]="showXAxisLabel"
-      [showYAxisLabel]="showYAxisLabel"
-      [yAxisLabel]="yAxisLabel"
-    >
-    </ngx-charts-bar-vertical-2d>
+<div class="modal fade" id="historyProsumerTable" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="historyProsumerTableLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content">
+      <div class="modal-header text-white" style="background-color: #5875A1">
+        <h5 class="modal-title" id="historyProsumerTableLabel">Realization Table</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <app-history-prosumer-table [data]="data"></app-history-prosumer-table>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary">Export Table</button>
+      </div>
+    </div>
   </div>
 </div>

@@ -93,13 +93,13 @@ namespace API.Controllers
                     Id = prosumer.Id,
                     FirstName = prosumer.FirstName,
                     LastName = prosumer.LastName,
-                    UserName = prosumer.Username,
+                    Username = prosumer.Username,
                     Email = prosumer.Email,
                     Address = prosumer.Address,
                     Latitude = prosumer.Latitude,
                     Longitude = prosumer.Longitude,
-                    ProsumerCreationDate = prosumer.DateCreate
-
+                    ProsumerCreationDate = prosumer.DateCreate,
+                    cityId = prosumer.CityId,
 
                 });
             }

@@ -31,7 +31,7 @@ export class HistoryProsumerComponent implements OnInit {
   showXAxisLabel = true;
   xAxisLabel = 'Time';
   showYAxisLabel = true;
-  yAxisLabel = 'Energy in kWh';
+  yAxisLabel = 'Energy in kW';
 
   constructor(
     private service: UsersServiceService,
@@ -47,6 +47,8 @@ export class HistoryProsumerComponent implements OnInit {
     document.getElementById('realizationUserInfoCardBody')!.style.height =
       this.widthService.height * 0.5 + 'px';
     this.HistoryWeek();
+
+    document.getElementById('historyProsumerTable')!.style.width = window.innerWidth + 'px';
   }
 
   getWeek(date: Date): number {
@@ -120,6 +122,7 @@ export class HistoryProsumerComponent implements OnInit {
 
       this.data = mapFunction(myList);
       this.spiner.hide();
+      console.log(this.data);
     });
   }
 }

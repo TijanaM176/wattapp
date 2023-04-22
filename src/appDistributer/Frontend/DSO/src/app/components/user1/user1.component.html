@@ -1,3 +1,4 @@
+<div>
 <div
   class="container-fluid d-flex px-0 py-0 mx-0 my-0"
   style="height: calc(100%-101px)"
@@ -11,7 +12,7 @@
   >
     <main
       class="main-content position-relative border-radius-lg col-12"
-      style="overflow-y: scroll; max-height: 89.1vh"
+      style="overflow-y: scroll; max-height: 89.1vh;"
     >
       <div class="container-fluid py-4" id="userInfoDataContainer">
         <div class="row mt-4">
@@ -90,12 +91,14 @@
                       />
                     </div>
                     <div class="col-5 px-0">
-                      <div *ngIf="letValue === 'Dso'">
+                      <div>
                         <input
                           id="delete"
                           type="button"
                           value="Delete"
+                          disabled="{{!(letValue === 'Dso')}}"
                           (click)="DeleteUser()"
+                          class="btn"
                         />
                       </div>
                     </div>
@@ -150,14 +153,10 @@
   data-bs-backdrop="static"
   data-bs-keyboard="false"
 >
-  <div class="modal-dialog">
+  <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
-      <div class="modal-header">
-        <p class="modal-title" id="exampleModalLabel">
-          <span style="color: #5875a1; font-size: 25px; font-weight: 700"
-            >Edit User
-          </span>
-        </p>
+      <div class="modal-header text-white" style="background-color: #5875a1;">
+        <h6>Edit User</h6>
         <button
           type="button"
           class="btn-close"
@@ -169,26 +168,27 @@
         <div class="panelbor">
           <div class="panel-body">
             <div class="centralni">
-              <div class="divinput">
+              <div class="divinput row">
                 <form [formGroup]="editUser" (ngSubmit)="UpdateData()">
-                  <label>First name:</label><br />
+                  <label class="mb-0 mt-3">First name:</label>
                   <input
                     type="text"
                     name="firstName"
                     formControlName="FirstName"
-                  /><br />
-                  <label>Last name:</label><br />
+                  />
+                  <label class="mb-0 mt-4">Last name:</label>
                   <input
                     type="text"
                     name="lastName"
                     formControlName="LastName"
-                  /><br />
-                  <label>Email</label><br />
+                  />
+                  <label class="mb-0 mt-4">Email</label>
                   <input
                     type="text"
                     name="email"
                     formControlName="Email"
-                  /><br />
+                    class="mb-4"
+                  />
                   <input
                     id="dugme"
                     type="button"
@@ -204,4 +204,5 @@
       </div>
     </div>
   </div>
+</div>
 </div>

@@ -7,6 +7,6 @@ import { Component, Input } from '@angular/core';
 })
 export class RealizationPredictionAllProsumersTableComponent {
 
-  @Input() data : any = [];
+  @Input() data : any[] = [];
 
 }
