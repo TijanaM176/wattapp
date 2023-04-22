@@ -74,6 +74,7 @@ import { PieChartProsumersTableComponent } from './components/chart-tables/pie-c
 import { RealizationDeviceComponent } from './components/Charts/realizationDevice/realizationDevice.component';
 import { PredictionDeviceComponent } from './components/Charts/predictionDevice/predictionDevice.component';
 import { HistoryProsumerTableComponent } from './components/chart-tables/history-prosumer-table/history-prosumer-table.component';
+import { PredictionProsumerTableComponent } from './components/chart-tables/prediction-prosumer-table/prediction-prosumer-table.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -128,7 +129,8 @@ import { HistoryProsumerTableComponent } from './components/chart-tables/history
     RealizationDeviceComponent,
     PredictionDeviceComponent,
     PredictionAllProsumersTableComponent,
-    HistoryProsumerTableComponent
+    HistoryProsumerTableComponent,
+    PredictionProsumerTableComponent
   ],
   imports: [
     MatSlideToggleModule,

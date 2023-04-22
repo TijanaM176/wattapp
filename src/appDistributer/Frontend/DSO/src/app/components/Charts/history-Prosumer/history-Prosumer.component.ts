@@ -122,7 +122,6 @@ export class HistoryProsumerComponent implements OnInit {
 
       this.data = mapFunction(myList);
       this.spiner.hide();
-      console.log(this.data);
     });
   }
 }

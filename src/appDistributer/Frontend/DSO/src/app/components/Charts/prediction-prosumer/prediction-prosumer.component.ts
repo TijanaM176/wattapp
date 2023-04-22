@@ -100,6 +100,7 @@ export class PredictionProsumerComponent implements OnInit {
         const finalList = Object.values(groupedData);
 
         this.data = finalList;
+        console.log(this.data);
       });
   }
   Prediction3Days() {
@@ -143,6 +144,7 @@ export class PredictionProsumerComponent implements OnInit {
         const finalList = Object.values(groupedData);
 
         this.data = finalList;
+        console.log(this.data);
       });
   }
   PredictionDay() {
@@ -187,6 +189,7 @@ export class PredictionProsumerComponent implements OnInit {
         const finalList = Object.values(groupedData);
 
         this.data = finalList;
+        console.log(this.data);
       });
   }
 }
