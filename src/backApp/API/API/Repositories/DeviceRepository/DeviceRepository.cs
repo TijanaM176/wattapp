@@ -890,5 +890,24 @@ namespace API.Repositories.DeviceRepository
             });
             return devicesData.ToList();
         }
+
+        public async Task ToggleActivity(string deviceId, string role)
+        {
+            var device = await GetProsumerLink(deviceId);
+            if (device == null) throw new ArgumentException("Device not found!");
+            if (device.DsoControl == false && role != "Prosumer") throw new ArgumentException("You don't have the permission to do that!");
+
+            if ((bool)device.Activity == true) device.Activity = false;
+            else device.Activity = true;
+
+            try
+            {
+                await _regContext.SaveChangesAsync();
+            }
+            catch (Exception)
+            {
+                throw new ArgumentException("Changes could not be saved!");
+            }
+        }
     }
 }

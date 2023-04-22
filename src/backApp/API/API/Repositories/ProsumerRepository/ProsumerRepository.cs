@@ -210,8 +210,6 @@ namespace API.Repositories.ProsumerRepository
                 return ("String is not save!",false);
             }
 
-            await _context.SaveChangesAsync();
-            return  ("OK", true);
         }
 
     }

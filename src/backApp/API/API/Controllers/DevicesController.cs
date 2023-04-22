@@ -1,4 +1,5 @@
 ﻿using API.Services.Devices;
+using API.Services.ProsumerService;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -131,6 +132,19 @@ namespace API.Controllers
                     minProduction, maxProduction, minDeviceCount, maxDeviceCount));
             }
              catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPut("ToggleActivity")]
+        public async Task<IActionResult> ToggleActivity(string deviceId, string role)
+        {
+            try
+            {
+                return Ok(await devService.ToggleActivity(deviceId, role));
+            }
+            catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }
