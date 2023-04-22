@@ -42,5 +42,6 @@ namespace API.Services.Devices
 
         public Task<(Dictionary<string, Dictionary<DateTime, double>>, Dictionary<string, Dictionary<DateTime, double>>, Dictionary<string, Dictionary<DateTime, double>>)> PredictionForDevice(string idDevice);
         public Task<Tuple<double, double>> ThisMonthTotalConsumptionProductionForProsumer(string prosumerId);
+        public Task<bool> ToggleActivity(string deviceId, string role);
     }
 }

@@ -207,13 +207,6 @@ namespace API.Repositories.ProsumerRepository
                 return ("String is not save!",false);
             }
 
-            await _context.SaveChangesAsync();
-            return  ("OK", true);
-        }
-
-        public async Task<ProsumerLink> getDevice(string deviceId)
-        {
-            return await _context.ProsumerLinks.FirstOrDefaultAsync(x => x.Id == deviceId);
         }
 
     }

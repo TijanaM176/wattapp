@@ -10,12 +10,10 @@ namespace API.Controllers
     public class DevicesController : Controller
     {
         private readonly IDevicesService devService;
-        private readonly IProsumerService prosumerService;
 
-        public DevicesController(IDevicesService devService, IProsumerService prosumerService)
+        public DevicesController(IDevicesService devService)
         {
             this.devService = devService;
-            this.prosumerService = prosumerService;
         }
 
         [HttpGet("GetAllDevicesForProsumer")]
@@ -139,12 +137,13 @@ namespace API.Controllers
             }
         }
 
-        [HttpGet("ToggleActivity")]
+        [HttpPut("ToggleActivity")]
         public async Task<IActionResult> ToggleActivity(string deviceId, string role)
         {
             try
             {
-                return Ok(new { currentActivity = await prosumerService.ToggleActivity(deviceId, role) });
+                await devService.ToggleActivity(deviceId, role);
+                return Ok("Activity successfully changed!");
             }
             catch (Exception ex)
             {

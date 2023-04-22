@@ -280,10 +280,5 @@ namespace API.Repositories.UserRepository
         {
             return dsoRepository.SaveImageDso(DsoWorkerId,imageFile);
         }
-
-        public Task<ProsumerLink> getDevice(string deviceId)
-        {
-            return prosumerRepository.getDevice(deviceId);
-        }
     }
 }

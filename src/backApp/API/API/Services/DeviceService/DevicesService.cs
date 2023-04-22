@@ -623,5 +623,17 @@ namespace API.Services.Devices
             return new Tuple<double, double>(consumption, production);
 
         }
+
+        public async Task<bool> ToggleActivity(string deviceId, string role)
+        {
+            try
+            {
+                await _repository.ToggleActivity(deviceId, role);
+                return true;
+            }catch (Exception ex)
+            {
+                throw new ArgumentException(ex.Message);
+            }
+        }
     }
 }
