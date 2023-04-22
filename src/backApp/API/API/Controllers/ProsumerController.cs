@@ -4,6 +4,8 @@ using API.Models.Users;
 using API.Services.ProsumerService;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Data;
+using System.Xml.Linq;
 
 namespace API.Controllers
 {
@@ -21,23 +23,86 @@ namespace API.Controllers
         [HttpGet("GetProsumersPaging")]
         public async Task<ActionResult<IEnumerable<Prosumer>>> getProsumersPaging([FromQuery] ProsumerParameters prosumerParameters)
         {
-            return await prosumerService.GetProsumers(prosumerParameters);
+
+
+            try
+            {
+                var prosumers = await prosumerService.GetProsumers(prosumerParameters);
+
+                var simplifiedProsumers = prosumers.Select(p => new
+                {
+                    Id = p.Id,
+                    FirstName = p.FirstName,
+                    LastName = p.LastName,
+                    UserName = p.Username,
+                    Email = p.Email,
+                    Address = p.Address,
+                    Latitude = p.Latitude,
+                    Longitude = p.Longitude,
+                    ProsumerCreationDate = p.DateCreate
+                }).ToList();
+                return Ok(simplifiedProsumers);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+
+            }
         }
-        
+
         [HttpGet("GetAllProsumers")]
         public async Task<IActionResult> ListRegisterProsumer()
         {
-            return Ok(await prosumerService.GetAllProsumers());
+
+            try
+            {
+                var prosumers = await prosumerService.GetAllProsumers();
+
+                var simplifiedProsumers = prosumers.Select(p => new
+                {
+                    Id = p.Id,
+                    FirstName = p.FirstName,
+                    LastName = p.LastName,
+                    UserName = p.Username,
+                    Email = p.Email,
+                    Address = p.Address,
+                    Latitude = p.Latitude,
+                    Longitude = p.Longitude,
+                    ProsumerCreationDate = p.DateCreate
+                }).ToList();
+                return Ok(simplifiedProsumers);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+
+            }
         }
 
         [HttpGet("getProsumerByID")]
         public async Task<IActionResult> getProsumerByID(string id)
         {
-            var prosumer = prosumerService.GetProsumerById(id);
+            var prosumer = await prosumerService.GetProsumerById(id);
             if (prosumer == null)
                 return BadRequest("Prosumer with id " + id + " is not found");
 
-            return Ok(await prosumer);
+            else
+            {
+                return Ok(new
+                {
+                    Id = prosumer.Id,
+                    FirstName = prosumer.FirstName,
+                    LastName = prosumer.LastName,
+                    UserName = prosumer.Username,
+                    Email = prosumer.Email,
+                    Address = prosumer.Address,
+                    Latitude = prosumer.Latitude,
+                    Longitude = prosumer.Longitude,
+                    ProsumerCreationDate = prosumer.DateCreate
+
+
+                });
+            }
         }
 
         [HttpDelete("DeleteProsumer")]
@@ -55,7 +120,7 @@ namespace API.Controllers
 
         [HttpPut("UpdateProsumer")]
         [Authorize(Roles = "Dso")]
-        public async Task<ActionResult> EditProsumer(string id, ProsumerEdit newValues)
+        public async Task<ActionResult> EditProsumer(string id,[FromBody] ProsumerEdit newValues)
         {
             if (!await prosumerService.EditProsumer(id, newValues)) return BadRequest("User could not be updated!");
             return Ok(new
@@ -68,9 +133,24 @@ namespace API.Controllers
         [HttpGet("GetProsumersByNeighborhoodId")]
         public async Task<IActionResult> GetProsumersByNeighborhoodId(string id)
         {
+          
             try
             {
-                return Ok(await prosumerService.GetProsumersByNeighborhoodId(id));
+                var prosumers = await prosumerService.GetProsumersByNeighborhoodId(id);
+
+                var simplifiedProsumers = prosumers.Select(p => new
+                {
+                    Id = p.Id,
+                    FirstName = p.FirstName,
+                    LastName = p.LastName,
+                    UserName = p.Username,
+                    Email = p.Email,
+                    Address = p.Address,
+                    Latitude = p.Latitude,
+                    Longitude = p.Longitude,
+                    ProsumerCreationDate = p.DateCreate
+                }).ToList();
+                return Ok(simplifiedProsumers);
             }
             catch (Exception)
             {
@@ -79,18 +159,19 @@ namespace API.Controllers
         }
 
         [HttpPut("SetCoordinates")]
-        public async Task<ActionResult> SetCoordinates(SaveCoordsDto prosumerCoords)
+        public async Task<ActionResult> SetCoordinates([FromForm] SaveCoordsDto prosumerCoords)
         {
             if (await prosumerService.SetCoordinates(prosumerCoords)) return Ok(new { message ="Coordinates are set!" });
 
             return BadRequest("Prosumer not found!");
         }
 
-        [HttpPost("{UserID}/UploadImage")]
+        [HttpPost("{UserId}/UploadImage")]
         public async Task<IActionResult> UploadImage([FromRoute][FromForm] SendPhoto sp)
         {
             try
             {
+              
                 var result = await prosumerService.SaveImage(sp.UserId, sp.imageFile);
 
                 if (result.Item2 == true)
@@ -104,7 +185,7 @@ namespace API.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(500, ex.Message);
+                return StatusCode(500, HttpContext.Request.RouteValues["UserId"].ToString() +"  is not found");
             }
         }
 

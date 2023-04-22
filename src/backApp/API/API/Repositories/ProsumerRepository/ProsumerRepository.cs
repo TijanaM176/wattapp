@@ -130,7 +130,10 @@ namespace API.Repositories.ProsumerRepository
 
         public async Task<string> GetCityNameById(long id)
         {
-            return (await _context.Cities.FirstOrDefaultAsync(x => x.Id == id)).Name;
+            var city = await _context.Cities.FirstOrDefaultAsync(x => x.Id == id);
+            if (city == null)
+              return null;
+            return city.Name;
         }
         public async Task<string> GetNeighborhoodByName(string id)
         {
@@ -173,7 +176,7 @@ namespace API.Repositories.ProsumerRepository
 
         public async Task<(String,Boolean)> SaveImageProsumer(String ProsumerId, IFormFile imageFile)
         {
-            var user = await _context.Prosumers.FindAsync(ProsumerId);
+            var user = await GetProsumerById(ProsumerId);
             if (user == null)
                 return ("User not found!",false);
 

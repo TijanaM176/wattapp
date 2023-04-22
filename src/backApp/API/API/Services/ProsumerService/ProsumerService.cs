@@ -77,7 +77,7 @@ namespace API.Services.ProsumerService
                 return false; //ako ne moze da ga nadje, nije editovan
             }
 
-            if (newValues.Email.Length > 0)
+            if (!string.IsNullOrEmpty(newValues.Email))
             {
                 if (prosumer.Email.Equals(newValues.Email) || await checkEmail(newValues.Email))
                     prosumer.Email = newValues.Email;
@@ -86,7 +86,7 @@ namespace API.Services.ProsumerService
             }
 
             //sifra
-            if (newValues.Password.Length > 0) { 
+            if (!string.IsNullOrEmpty(newValues.Password)) { 
 
                 var hmac = new HMACSHA512();
                 byte[] passwordSalt = hmac.Key;
@@ -95,8 +95,8 @@ namespace API.Services.ProsumerService
                 prosumer.SaltPassword = passwordSalt;
             }
 
-            if (newValues.FirstName.Length > 0) prosumer.FirstName = newValues.FirstName;
-            if (newValues.LastName.Length > 0) prosumer.LastName = newValues.LastName;
+            if (!string.IsNullOrEmpty(newValues.FirstName)) prosumer.FirstName = newValues.FirstName;
+            if (!string.IsNullOrEmpty(newValues.LastName)) prosumer.LastName = newValues.LastName;
 
             try
             {
