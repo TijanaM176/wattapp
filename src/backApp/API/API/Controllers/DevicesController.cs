@@ -142,8 +142,7 @@ namespace API.Controllers
         {
             try
             {
-                await devService.ToggleActivity(deviceId, role);
-                return Ok("Activity successfully changed!");
+                return Ok(await devService.ToggleActivity(deviceId, role));
             }
             catch (Exception ex)
             {

@@ -189,62 +189,6 @@ namespace API.Services.Devices
             return data;
         }
 
-        /*
-        public async Task<Dictionary<string, Dictionary<DateTime, double>>> ConProdByWeekTimestamps(int type)     //type 0 cons 1 prod
-        {
-            var prosumers = (await _repository.getAllProsumersWhoOwnDevice()).Select(x => x.ProsumerId).Distinct();
-            Dictionary<string, Dictionary<DateTime, double>> data = new Dictionary<string, Dictionary<DateTime, double>>();
-            data["timestamps"] = new Dictionary<DateTime, double>();
-            data["predictions"] = new Dictionary<DateTime, double>();
-
-            foreach (var prosumer in prosumers)
-            {
-                Dictionary<string, Dictionary<DateTime, double>> usagePerProsumer = await LastMonthsGroupedConProdByWeekForProsumer(prosumer, type);
-                
-                foreach (var cat in usagePerProsumer)
-                {
-                    foreach (var timestamp in cat.Value)
-                    {
-                        var intervalStart = timestamp.Key.AddDays(-(int)timestamp.Key.DayOfWeek).Date;
-                        intervalStart = new DateTime(intervalStart.Year, intervalStart.Month, intervalStart.Day, 0, 0, 0);
-                        if (data[cat.Key].ContainsKey(intervalStart))
-                            data[cat.Key][intervalStart] += timestamp.Value;
-                        else
-                            data[cat.Key].Add(intervalStart, timestamp.Value);
-                    }
-                }
-            }
-
-            return data;
-        }
-
-        public async Task<Dictionary<string, Dictionary<DateTime, double>>> ConProdByMonthTimestamps(int type)     //type 0 cons 1 prod
-        {
-            var prosumers = (await _repository.getAllProsumersWhoOwnDevice()).Select(x => x.ProsumerId).Distinct();
-            Dictionary<string, Dictionary<DateTime, double>> data = new Dictionary<string, Dictionary<DateTime, double>>();
-            data["timestamps"] = new Dictionary<DateTime, double>();
-            data["predictions"] = new Dictionary<DateTime, double>();
-
-            foreach (var prosumer in prosumers)
-            {
-                Dictionary<string, Dictionary<DateTime, double>> usagePerProsumer = await LastYearsGroupedConProdByMonthForProsumer(prosumer, type);
-
-                foreach (var cat in usagePerProsumer)
-                {
-                    foreach (var timestamp in cat.Value)
-                    {
-                        var intervalStart = new DateTime(timestamp.Key.Year, timestamp.Key.Month, 1);
-                        if (data[cat.Key].ContainsKey(intervalStart))
-                            data[cat.Key][intervalStart] += timestamp.Value;
-                        else
-                            data[cat.Key].Add(intervalStart, timestamp.Value);
-                    }
-                }
-            }
-
-            return data;
-        }
-        */
         public async Task<double> TotalCurrentConsumption()
         {
             var prosumers = (await _repository.getAllProsumersWhoOwnDevice()).Select(x => x.ProsumerId).Distinct();
@@ -463,7 +407,7 @@ namespace API.Services.Devices
             };
         }
 
-        public async Task<Dictionary<string, Dictionary<string, double>>> CityPercentages()
+        public async Task<Dictionary<string, Dictionary<string, Dictionary<string, double>>>> CityPercentages()
         {
             var prosumers = (await _repository.GetProsumers()).Select(x => new { Id = x.Id, CityId = x.CityId });
             Dictionary<string, Dictionary<string, double>> cities = new Dictionary<string, Dictionary<string, double>>();
@@ -499,16 +443,32 @@ namespace API.Services.Devices
                 }
             }
 
+            Dictionary<string, Dictionary<string, double>> percentages = new Dictionary<string, Dictionary<string, double>>();
+            percentages["Consumption"] = new Dictionary<string, double>();
+            percentages["Production"] = new Dictionary<string, double>();
+
+            Dictionary<string, Dictionary<string, double>> numbers = new Dictionary<string, Dictionary<string, double>>();
+            numbers["Consumption"] = new Dictionary<string, double>();
+            numbers["Production"] = new Dictionary<string, double>();
+
             foreach (var typepair in cities)
             {
                 foreach (var pair in typepair.Value)
                 {
-                    if (typepair.Key == "Consumption") cities[typepair.Key][pair.Key] = Math.Round((pair.Value / totalConsumption) * 100, 2);
-                    else cities[typepair.Key][pair.Key] = Math.Round((pair.Value / totalProduction) * 100, 2);
+                    if (typepair.Key == "Consumption")
+                    {
+                        numbers[typepair.Key].Add(pair.Key, pair.Value);
+                        percentages[typepair.Key].Add(pair.Key, Math.Round((pair.Value / totalConsumption) * 100, 2));
+                    }
+                    else
+                    {
+                        numbers[typepair.Key].Add(pair.Key, pair.Value);
+                        percentages[typepair.Key].Add(pair.Key, Math.Round((pair.Value / totalProduction) * 100, 2));
+                    }
                 }
             }
 
-            return cities;
+            return new Dictionary<string, Dictionary<string, Dictionary<string, double>>> { { "numbers", numbers }, { "percentages", percentages } };
         }
 
         public async Task<(double, double, string, List<DateTime>, List<DateTime>)> ThisWeekTotalProduction()
@@ -624,12 +584,16 @@ namespace API.Services.Devices
 
         }
 
-        public async Task<bool> ToggleActivity(string deviceId, string role)
+        public async Task<double> ToggleActivity(string deviceId, string role)
         {
             try
             {
                 await _repository.ToggleActivity(deviceId, role);
-                return true;
+                var dev = await _repository.GetDevice(deviceId);
+
+                if ((bool)dev["Activity"] == true) return (double)dev["AvgUsage"];
+                return 0;
+
             }catch (Exception ex)
             {
                 throw new ArgumentException(ex.Message);
