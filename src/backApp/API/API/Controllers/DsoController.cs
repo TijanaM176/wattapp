@@ -2,6 +2,7 @@
 using API.Models.Paging;
 using API.Models.Users;
 using API.Services.DsoService;
+using API.Services.ProsumerService;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -25,13 +26,26 @@ namespace API.Controllers
             try
             {
                 worker = await dsoService.GetDsoWorkerById(id);
-                return Ok(worker);
+
+           
+                    return Ok(new
+                    {
+                        Id = worker.Id,
+                        FirstName = worker.FirstName,
+                        LastName = worker.LastName,
+                        UserName = worker.Username,
+                        Email = worker.Email,
+                        Salary = worker.Salary,
+                        ProsumerCreationDate = worker.DateCreate
+
+                    });
+             }
+                catch (Exception ex)
+                {
+                    return BadRequest(ex.Message);
+
+                }
             }
-            catch (Exception)
-            {
-                return BadRequest("No DSO Worker with that id!");
-            }
-        }
 
         [HttpDelete("DeleteDsoWorker")]
         [Authorize(Roles = "Dso")]
@@ -53,65 +67,133 @@ namespace API.Controllers
         [HttpGet("GetAllDsoWorkers")]
         public async Task<ActionResult> GetAllDsoWorkers()
         {
-            try
-            {
-                return Ok(await dsoService.GetAllDsos());
-            }
-            catch (Exception)
-            {
-                return BadRequest("No DSO Workers found!");
-            }
-        }
+        
+                try
+                {
+                    var dsoworkers = await dsoService.GetAllDsos();
+
+                    var simplifiedDsoworkers = dsoworkers.Select(d => new
+                    {
+                        Id = d.Id,
+                        FirstName = d.FirstName,
+                        LastName = d.LastName,
+                        UserName = d.Username,
+                        Email = d.Email,
+                        Salary = d.Salary,
+                        ProsumerCreationDate = d.DateCreate
+                    }).ToList();
+                    return Ok(simplifiedDsoworkers);
+                }
+                catch (Exception ex)
+                {
+                    return BadRequest(ex.Message);
+
+                }
+         }
         [HttpGet("GetDsoWorkerPaging")]
         public async Task<ActionResult<IEnumerable<Dso>>> getProsumersPaging([FromQuery] DsoWorkerParameters dsoWorkersParameters)
         {
-            return await dsoService.GetDsoWorkers(dsoWorkersParameters);
+            
+            try
+            {
+                var dsoworkers = await dsoService.GetDsoWorkers(dsoWorkersParameters);
+
+                var simplifiedDsoworkers = dsoworkers.Select(d => new
+                {
+                    Id = d.Id,
+                    FirstName = d.FirstName,
+                    LastName = d.LastName,
+                    UserName = d.Username,
+                    Email = d.Email,
+                    Salary = d.Salary,
+                    ProsumerCreationDate = d.DateCreate
+                }).ToList();
+                return Ok(simplifiedDsoworkers);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+
+            }
         }
         [HttpGet("GetWorkersByRegionId")]
         public async Task<ActionResult<List<Dso>>> GetWorkersByRegionId(string RegionID)
         {
-            List<Dso> workers;
             try
             {
-                workers = await dsoService.GetDsoWorkersByRegionId(RegionID);
-                return Ok(workers);
+                var dsoworkers = await dsoService.GetDsoWorkersByRegionId(RegionID);
+
+                var simplifiedDsoworkers = dsoworkers.Select(d => new
+                {
+                    Id = d.Id,
+                    FirstName = d.FirstName,
+                    LastName = d.LastName,
+                    UserName = d.Username,
+                    Email = d.Email,
+                    Salary = d.Salary,
+                    ProsumerCreationDate = d.DateCreate
+                }).ToList();
+                return Ok(simplifiedDsoworkers);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                return BadRequest("There is no workers for this region!");
+                return BadRequest(ex.Message);
+
             }
         }
 
         [HttpGet("GetWorkersByRoleId")]
         public async Task<ActionResult<List<Dso>>> GetWorkersbyRoleId(long RoleID)
         {
-            List<Dso> workers;
-            try
-            {
-                workers = await dsoService.GetWorkersbyRoleId(RoleID);
-                return Ok(workers);
-            }
-            catch (Exception)
-            {
-                return BadRequest("There is no workers with this role!");
-            }
+                try
+                {
+                    var dsoworkers = await dsoService.GetWorkersbyRoleId(RoleID);
+
+                    var simplifiedDsoworkers = dsoworkers.Select(d => new
+                    {
+                        Id = d.Id,
+                        FirstName = d.FirstName,
+                        LastName = d.LastName,
+                        UserName = d.Username,
+                        Email = d.Email,
+                        Salary = d.Salary,
+                        ProsumerCreationDate = d.DateCreate
+                    }).ToList();
+                    return Ok(simplifiedDsoworkers);
+                }
+                catch (Exception ex)
+                {
+                    return BadRequest(ex.Message);
+
+                }
         }
 
         [HttpGet("GetWorkerByFilter")]
         public async Task<ActionResult<IEnumerable<Dso>>> GetWorkerByFilter(string RegionID, long RoleID)
         {
-            IEnumerable<Dso> workersFiler;
-            try
-            {
-                workersFiler = await dsoService.GetWorkerByFilter( RegionID, RoleID);
+         
+                try
+                {
+                    var dsoworkers = await dsoService.GetWorkerByFilter(RegionID, RoleID);
 
-                return Ok(workersFiler);
+                    var simplifiedDsoworkers = dsoworkers.Select(d => new
+                    {
+                        Id = d.Id,
+                        FirstName = d.FirstName,
+                        LastName = d.LastName,
+                        UserName = d.Username,
+                        Email = d.Email,
+                        Salary = d.Salary,
+                        ProsumerCreationDate = d.DateCreate
+                    }).ToList();
+                    return Ok(simplifiedDsoworkers);
+                }
+                catch (Exception ex)
+                {
+                    return BadRequest(ex.Message);
+
+                }
             }
-            catch (Exception)
-            {
-                return BadRequest("There is no workers with this role!");
-            }
-        }
 
         [HttpPut("UpdateProsumerByDso")]
         [Authorize(Roles = "Dso")]
