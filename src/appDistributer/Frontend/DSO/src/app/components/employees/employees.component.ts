@@ -45,13 +45,14 @@ export class EmployeesComponent {
     public service: EmployeesServiceService,
     private router: Router,
     private cookie: CookieService,
-    private serviceData:DataService
+    public serviceData:DataService
   ) {
   }
 
   ngOnInit(): void {
     this.Ucitaj();
     this.Paging();
+    this.regionName = this.cookie.get('region');
   }
 
   Ucitaj() {
@@ -78,17 +79,17 @@ export class EmployeesComponent {
       this.firstName=res.firstName;
       this.lastName=res.lastName;
       this.salary=res.salary;
-      this.dateCreate=res.dateCreate;
+      this.dateCreate=res.prosumerCreationDate;
       this.email=res.email;
       this.role=res.roleId;
       this.region=res.regionId;
-      console.log(res);
-      this.serviceData.getRegionName(this.employee.regionId).subscribe((res) => {
-        console.log(res);
-        this.regionName = res;
-      });
+      // console.log(res);
+      // this.serviceData.getRegionName(this.employee.regionId).subscribe((res) => {
+      //   console.log(res);
+      //   this.regionName = res;
+      // });
       this.serviceData.getRoleName(this.employee.roleId).subscribe((res) => {
-        console.log(res);
+        // console.log(res);
         this.roleName = res;
       });   
     });

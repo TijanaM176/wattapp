@@ -36,7 +36,8 @@ namespace API.Controllers
                         UserName = worker.Username,
                         Email = worker.Email,
                         Salary = worker.Salary,
-                        ProsumerCreationDate = worker.DateCreate
+                        ProsumerCreationDate = worker.DateCreate,
+                        roleId = worker.RoleId,
 
                     });
              }
@@ -80,7 +81,8 @@ namespace API.Controllers
                         UserName = d.Username,
                         Email = d.Email,
                         Salary = d.Salary,
-                        ProsumerCreationDate = d.DateCreate
+                        ProsumerCreationDate = d.DateCreate,
+                        roleId= d.RoleId,
                     }).ToList();
                     return Ok(simplifiedDsoworkers);
                 }
@@ -106,7 +108,8 @@ namespace API.Controllers
                     UserName = d.Username,
                     Email = d.Email,
                     Salary = d.Salary,
-                    ProsumerCreationDate = d.DateCreate
+                    ProsumerCreationDate = d.DateCreate,
+                    roleId = d.RoleId,
                 }).ToList();
                 return Ok(simplifiedDsoworkers);
             }
@@ -131,7 +134,8 @@ namespace API.Controllers
                     UserName = d.Username,
                     Email = d.Email,
                     Salary = d.Salary,
-                    ProsumerCreationDate = d.DateCreate
+                    ProsumerCreationDate = d.DateCreate,
+                    roleId = d.RoleId,
                 }).ToList();
                 return Ok(simplifiedDsoworkers);
             }
@@ -157,7 +161,8 @@ namespace API.Controllers
                         UserName = d.Username,
                         Email = d.Email,
                         Salary = d.Salary,
-                        ProsumerCreationDate = d.DateCreate
+                        ProsumerCreationDate = d.DateCreate,
+                        roleId = d.RoleId,
                     }).ToList();
                     return Ok(simplifiedDsoworkers);
                 }
@@ -184,7 +189,8 @@ namespace API.Controllers
                         UserName = d.Username,
                         Email = d.Email,
                         Salary = d.Salary,
-                        ProsumerCreationDate = d.DateCreate
+                        ProsumerCreationDate = d.DateCreate,
+                        roleId = d.RoleId,
                     }).ToList();
                     return Ok(simplifiedDsoworkers);
                 }

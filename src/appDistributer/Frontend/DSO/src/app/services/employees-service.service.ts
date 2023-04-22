@@ -26,7 +26,7 @@ export class EmployeesServiceService {
   getAllData() {
     return this.http
       .get(this.baseUrl + 'GetAllDsoWorkers')
-      .subscribe((res) => (this.employees = res as Employee[]));
+      .subscribe((res) => {this.employees = res as Employee[];});
   }
 
   updateEmployee(id: string, dto: editEmployeeDto) {
