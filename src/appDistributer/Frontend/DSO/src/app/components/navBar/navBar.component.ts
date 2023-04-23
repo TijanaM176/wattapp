@@ -12,7 +12,7 @@ import { Component, OnInit } from '@angular/core';
 export class NavBarComponent implements OnInit {
   value: string = '';
   url: string = '';
-
+  letValue: string = '';
   constructor(
     private router: Router,
     private cookie: CookieService,
@@ -23,7 +23,7 @@ export class NavBarComponent implements OnInit {
     this.value = this.cookie.get('role');
     this.url = window.location.pathname;
     this.ChangeActive();
-
+    this.letValue = this.cookie.get('role');
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
         this.url = event.url;

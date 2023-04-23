@@ -78,7 +78,7 @@
                       align-items: center;
                       justify-content: end;
                     "
-                  >
+                  ><div *ngIf="letValue === 'Dso'">
                     <div class="col-5 px-0 me-2">
                       <input
                         id="edit"
@@ -90,7 +90,7 @@
                       />
                     </div>
                     <div class="col-5 px-0">
-                      <div *ngIf="letValue === 'Dso'">
+                      
                         <input
                           id="delete"
                           type="button"
