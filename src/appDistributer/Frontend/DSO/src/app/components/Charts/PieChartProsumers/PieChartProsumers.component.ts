@@ -26,25 +26,28 @@ export class PieChartProsumersComponent implements OnInit {
   dataConsumers: any = [];
   dataProducers: any = [];
   data: any = [];
-  currentData : any = [];
-  currentTitle : string = "Consumption";
+  currentData: any = [];
+  currentTitle: string = 'Consumption';
   showXAxis = true;
   showYAxis = true;
   gradient = false;
   showLegend = true;
 
-  constructor(private service: UsersServiceService,private servicedash:DashboarddataService) {}
+  constructor(
+    private service: UsersServiceService,
+    private servicedash: DashboarddataService
+  ) {}
 
   ngOnInit() {
     this.servicedash.CityPercentages().subscribe((response) => {
       this.data = response;
-      this.dataConsumers = Object.entries(this.data.Consumption).map(
+      this.dataConsumers = Object.entries(this.data.numbers.Consumption).map(
         ([name, value]) => ({
           name,
           value,
         })
       );
-      this.dataProducers = Object.entries(this.data.Production).map(
+      this.dataProducers = Object.entries(this.data.numbers.Production).map(
         ([name, value]) => ({
           name,
           value,
@@ -53,42 +56,26 @@ export class PieChartProsumersComponent implements OnInit {
       this.currentData = this.dataConsumers;
     });
   }
-  getArcLabel(data: any): string {
-    const total = this.data.reduce(
-      (acc: any, curr: any) => acc + curr.value,
-      0
-    );
-    const percentage = ((data.value / total) * 100).toFixed(2);
-    return `${percentage}%`;
-  }
 
   onRadioButtonChange(event: any, type: string) {
     if (type === 'consumers') {
       this.isConsumersChecked = event.target.checked;
-      if (this.isConsumersChecked) {
-        this.isConsumersChecked = true;
-        this.isProducersChecked = false;
-        this.currentData = this.dataConsumers;
-        this.currentTitle = "Consumption";
-      } else {
-        this.isConsumersChecked = false;
-        this.isProducersChecked = true;
-        this.currentData = this.dataProducers;
-        this.currentTitle = "Production";
-      }
+      this.isProducersChecked = !this.isConsumersChecked;
+      this.currentData = this.isConsumersChecked
+        ? this.dataConsumers
+        : this.dataProducers;
+      this.currentTitle = this.isConsumersChecked
+        ? 'Consumption'
+        : 'Production';
     } else if (type === 'producers') {
       this.isProducersChecked = event.target.checked;
-      if (this.isProducersChecked) {
-        this.isConsumersChecked = false;
-        this.isProducersChecked = true;
-        this.currentData = this.dataProducers;
-        this.currentTitle = "Production";
-      } else {
-        this.isConsumersChecked = true;
-        this.isProducersChecked = false;
-        this.currentData = this.dataConsumers;
-        this.currentTitle = "Consumption";
-      }
+      this.isConsumersChecked = !this.isProducersChecked;
+      this.currentData = this.isProducersChecked
+        ? this.dataProducers
+        : this.dataConsumers;
+      this.currentTitle = this.isProducersChecked
+        ? 'Production'
+        : 'Consumption';
     }
   }
 

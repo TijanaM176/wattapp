@@ -30,12 +30,10 @@ export class PocetnaComponent implements OnInit {
     this.servicedash.TotalCons().subscribe((response) => {
       this.totalCons = response.productionforThisWeek;
       this.ratioCons = response.ratio;
-      console.log(this.totalCons, this.ratioCons, this.ratioCons.charAt(0));
     });
     this.servicedash.TotalProd().subscribe((response) => {
       this.totalProd = response.productionforThisWeek;
       this.ratioProd = response.ratio;
-      console.log(this.totalProd, this.ratioProd);
     });
     this.servicedash.nextWeekTotal().subscribe((response) => {
       this.nextCons = response.consumption;

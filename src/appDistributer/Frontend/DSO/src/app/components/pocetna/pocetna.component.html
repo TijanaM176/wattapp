@@ -17,13 +17,13 @@
                     {{ totalCons.toFixed(2) }} kW
                   </h5>
                   <p class="mb-0" *ngIf="ratioCons.charAt(0) == '+'">
-                    <span class="text-danger text-sm font-weight-bolder">{{
+                    <span class="text-success text-sm font-weight-bolder">{{
                       ratioCons
                     }}</span>
                     for same period last week
                   </p>
                   <p class="mb-0" *ngIf="ratioCons.charAt(0) == '-'">
-                    <span class="text-success text-sm font-weight-bolder">{{
+                    <span class="text-danger text-sm font-weight-bolder">{{
                       ratioCons
                     }}</span>
                     for same period last week
