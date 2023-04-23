@@ -41,7 +41,7 @@ export class RealizationDeviceComponent implements OnInit, AfterViewInit {
   constructor(
     private deviceService: DeviceserviceService,
     private widthService: ScreenWidthService,
-    private timeService:TimestampService,
+    private timeService: TimestampService,
     private router1: ActivatedRoute
   ) {}
 
@@ -53,7 +53,8 @@ export class RealizationDeviceComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
-    this.HistoryWeekInit();
+    this.idDev = this.router1.snapshot.params['idDev'];
+    this.HistoryWeek('realiz1');
   }
 
   yAxisTickFormatting(value: number) {
@@ -69,20 +70,6 @@ export class RealizationDeviceComponent implements OnInit, AfterViewInit {
         1) /
         7
     );
-  }
-
-  HistoryWeekInit() {
-    this.loadData(
-      this.timeService.history7Days.bind(this.timeService),
-      (myList: any[]) => {
-        return myList.map((item) => {
-          const date = new Date(item.name);
-          const dayName = date.toLocaleDateString('en-US', { weekday: 'long' });
-          return { name: dayName, series: item.series };
-        });
-      }
-    );
-    
   }
 
   HistoryWeek(id: string) {
@@ -101,10 +88,7 @@ export class RealizationDeviceComponent implements OnInit, AfterViewInit {
 
   HistoryMonth(id: string) {
     this.loadData(
-      this.timeService.historyDeviceMonth.bind(
-        this.timeService,
-        this.idDev
-      ),
+      this.timeService.historyDeviceMonth.bind(this.timeService, this.idDev),
       (myList: any[]) => {
         return myList.map((item) => {
           const date = new Date(item.name);
@@ -132,25 +116,23 @@ export class RealizationDeviceComponent implements OnInit, AfterViewInit {
 
   loadData(apiCall: any, mapFunction: any) {
     apiCall().subscribe((response: any) => {
-      const myList = Object.keys(response.consumption.timestamps).map(
-        (name) => {
-          let consumptionValue = response.consumption.timestamps[name];
-          let predictionValue = response.consumption.predictions[name];
-          const cons: string = 'consumption';
-          const pred: string = 'prediction';
-          if (predictionValue == undefined) {
-            predictionValue = 0.0;
-          }
-          if (consumptionValue == undefined) {
-            consumptionValue = 0.0;
-          }
-          const series = [
-            { name: cons, value: consumptionValue },
-            { name: pred, value: predictionValue },
-          ];
-          return { name, series };
+      const myList = Object.keys(response.timestamps).map((name) => {
+        let consumptionValue = response.timestamps[name];
+        let predictionValue = response.predictions[name];
+        const cons: string = 'consumption';
+        const pred: string = 'prediction';
+        if (predictionValue == undefined) {
+          predictionValue = 0.0;
         }
-      );
+        if (consumptionValue == undefined) {
+          consumptionValue = 0.0;
+        }
+        const series = [
+          { name: cons, value: consumptionValue },
+          { name: pred, value: predictionValue },
+        ];
+        return { name, series };
+      });
       this.data = mapFunction(myList);
     });
   }
