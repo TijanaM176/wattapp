@@ -126,6 +126,7 @@ import { PredictionDeviceComponent } from './components/Charts/predictionDevice/
     PieChartProsumersTableComponent,
     RealizationDeviceComponent,
     PredictionDeviceComponent,
+    PredictionAllProsumersTableComponent,
   ],
   imports: [
     MatSlideToggleModule,
