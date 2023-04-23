@@ -1,22 +1,36 @@
 .consumption {
   color: #FF414E;
 }
-.production {
+.production{
   color: #80BC00;
+}
+.storage{
+  color: #2a96d9;
+}
+.prediction {
+  color: #F4C430;
 }
 h6 {
   color: #466471;
 }
-.btn-primary {
-  background-color: #466471;
-  border-color: #466471;
-}
 .realizationbtn.active {
-  background-color: #c1dfd5;
-  border-color: #466471;
-  color: #466471;
+  background-color: #bbd9eb;
+  border-color: #5875A1;
+  color: #5875A1;
 }
 .realizationbtn:not(.active) {
-  background-color: #466471;
-  border-color: #466471;
+  background-color: #5875A1;
+  border-color: #5875A1;
+}
+.btn:focus {
+  outline: none;
+  box-shadow: none;
+}
+.btn-close{
+  color: white;
+  background-color: white;
+}
+.btn-primary{
+  background-color: #5875A1;
+  border-color: #5875A1;
 }

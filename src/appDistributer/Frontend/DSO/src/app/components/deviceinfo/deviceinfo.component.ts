@@ -34,6 +34,8 @@ export class DeviceinfoComponent implements OnInit {
   markers: object = {};
   thresholds: object = {};
   width: number = 250;
+  type : string = '';
+
   constructor(
     private router: ActivatedRoute,
     private service: DeviceserviceService,
@@ -51,7 +53,8 @@ export class DeviceinfoComponent implements OnInit {
   getInfo(){
     this.idDev = this.router.snapshot.params['idDev'];
     this.service.getInfoDevice(this.idDev).subscribe((res: any) => {
-      console.log(res);
+      // console.log(res);
+      this.setType(res.CategoryId);
       this.results = res;
       this.IpAddress = res.IpAddress;
         this.TypeName = res.TypeName;
@@ -97,5 +100,21 @@ export class DeviceinfoComponent implements OnInit {
   }
   formatValue(value: number): string {
     return value.toFixed(4);
+  }
+
+  setType(typeId : number)
+  {
+    if(typeId == 1)
+    {
+      this.type = 'Consumption';
+    }
+    else if(typeId == 2)
+    {
+      this.type = 'Production';
+    }
+    else
+    {
+      this.type = 'Storage';
+    }
   }
 }

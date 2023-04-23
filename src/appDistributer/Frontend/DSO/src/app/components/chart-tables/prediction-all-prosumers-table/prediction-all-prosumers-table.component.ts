@@ -6,5 +6,5 @@ import { Component, Input } from '@angular/core';
   styleUrls: ['./prediction-all-prosumers-table.component.css']
 })
 export class PredictionAllProsumersTableComponent {
-  @Input() data : any = [];
+  @Input() data : any[] = [];
 }

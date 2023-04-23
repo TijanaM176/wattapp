@@ -63,10 +63,11 @@ export class User1Component implements OnInit, AfterViewInit {
       this.widthService.height + 'px';
     this.letValue = this.cookie.get('role');
     this.spiner.show();
+    this.disableDelete(this.letValue);
     this.user
       .detailsEmployee(this.router.snapshot.params['id'])
       .subscribe((data: any) => {
-        console.log(data);
+        // console.log(data);
         this.firstName = data.firstName;
         this.lastName = data.lastName;
         this.username = data.username;
@@ -75,6 +76,7 @@ export class User1Component implements OnInit, AfterViewInit {
         this.id = this.router.snapshot.params['id'];
         this.Region = this.cookie.get('region');
         this.serviceData.getCityNameById(data.cityId).subscribe((dat) => {
+          // console.log(dat)
           this.city = dat;
           this.userOldInfo = data;
           this.editUser = new FormGroup({
@@ -115,7 +117,7 @@ export class User1Component implements OnInit, AfterViewInit {
       dto.email = this.editUser.value.Email!;
     }
     this.user.updateUserData(dto.id, dto).subscribe((res) => {
-      console.log(res);
+      // console.log(res);
       window.location.reload;
     });
     
@@ -125,12 +127,25 @@ export class User1Component implements OnInit, AfterViewInit {
     //console.log(this.router.snapshot.params['id']);
     this.user.deleteUser(this.router.snapshot.params['id']).subscribe({
       next: (res) => {
-        console.log(res);
+        // console.log(res);
         this.r.navigate(['/DsoApp/users']);
       },
       error: (err) => {
         console.log(err.error);
       },
     });
+  }
+
+  disableDelete(role : string)
+  {
+    let deleteBtn = document.getElementById('delete');
+    if(role=='Dso')
+    {
+      deleteBtn?.removeAttribute('disabled');
+    }
+    else
+    {
+      deleteBtn?.setAttribute('disabled','disabled');
+    }
   }
 }

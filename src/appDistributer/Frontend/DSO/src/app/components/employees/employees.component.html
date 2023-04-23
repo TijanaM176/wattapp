@@ -90,9 +90,9 @@
                 style="width: 30px; height: 30px"
               />
             </td>
-            <td>{{ item.username }}</td>
-            <td>{{ item.region }}</td>
-            <td>{{ item.role }}</td>
+            <td>{{ item.userName }}</td>
+            <td>{{ regionName }}</td>
+            <td>{{ item.roleId }}</td>
             <td>
               <a
                 (click)="Details(item.id)"
@@ -147,8 +147,8 @@
 >
   <div class="modal-dialog modal-lg" style="width: 60%">
     <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel" style="color: #566787">
+      <div class="modal-header text-white" style="background-color: #566787;">
+        <h5 class="modal-title" id="exampleModalLabel">
           Employee Info
         </h5>
         <button
@@ -159,7 +159,7 @@
           aria-label="Close"
         ></button>
       </div>
-      <div class="modal-body">
+      <div class="modal-body" style="justify-content: center; align-items: center; padding-left: 7%;">
         <div class="slika">
           <img
             src="assets/images/default-image.png"
@@ -400,8 +400,8 @@
 >
   <div class="modal-dialog modal-lg" style="width: 60%">
     <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="Modal2Label" style="color: #566787">
+      <div class="modal-header text-white" style="background-color: #566787;">
+        <h5 class="modal-title" id="Modal2Label">
           Edit Employee
         </h5>
         <button

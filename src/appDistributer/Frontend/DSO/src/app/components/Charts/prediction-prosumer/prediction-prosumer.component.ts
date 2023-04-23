@@ -21,7 +21,7 @@ export class PredictionProsumerComponent implements OnInit {
     name: 'mycolors',
     selectable: true,
     group: ScaleType.Ordinal,
-    domain: ['#FF414E', '#80BC00'],
+    domain: ['#ff7d41', '#00bcb3'],
   };
   showXAxis = true;
   showYAxis = true;
@@ -43,7 +43,7 @@ export class PredictionProsumerComponent implements OnInit {
   ngOnInit() {
     this.id = this.router.snapshot.params['id'];
     document.getElementById('predictionUserInfoCardBody')!.style.height =
-      this.widthService.height * 0.5 + 'px';
+      this.widthService.height * 0.55 + 'px';
     this.PredictionWeek();
   }
 
@@ -100,6 +100,7 @@ export class PredictionProsumerComponent implements OnInit {
         const finalList = Object.values(groupedData);
 
         this.data = finalList;
+        console.log(this.data);
       });
   }
   Prediction3Days() {
@@ -143,6 +144,7 @@ export class PredictionProsumerComponent implements OnInit {
         const finalList = Object.values(groupedData);
 
         this.data = finalList;
+        console.log(this.data);
       });
   }
   PredictionDay() {
@@ -187,6 +189,7 @@ export class PredictionProsumerComponent implements OnInit {
         const finalList = Object.values(groupedData);
 
         this.data = finalList;
+        console.log(this.data);
       });
   }
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit, Input } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import {
   Color,
@@ -25,7 +25,7 @@ export class RealizationDeviceComponent implements OnInit, AfterViewInit {
     name: 'mycolors',
     selectable: true,
     group: ScaleType.Ordinal,
-    domain: ['#FF414E', '#80BC00'],
+    domain: ['#FF414E', '#F4C430'],
   };
   showXAxis = true;
   showYAxis = true;
@@ -37,6 +37,7 @@ export class RealizationDeviceComponent implements OnInit, AfterViewInit {
   showYAxisLabel = true;
   yAxisLabel = 'Energy in kWh';
   idDev: string = '';
+  @Input() type: string = '';
 
   constructor(
     private deviceService: DeviceserviceService,
@@ -50,6 +51,7 @@ export class RealizationDeviceComponent implements OnInit, AfterViewInit {
     const grafik = document.getElementById('grafik');
     grafik!.style.height = this.widthService.height * 0.6 + 'px';
     document.getElementById('realiz1')!.classList.add('active');
+    this.HistoryWeek('realiz1');
   }
 
   ngOnInit(): void {
@@ -119,8 +121,24 @@ export class RealizationDeviceComponent implements OnInit, AfterViewInit {
       const myList = Object.keys(response.timestamps).map((name) => {
         let consumptionValue = response.timestamps[name];
         let predictionValue = response.predictions[name];
-        const cons: string = 'consumption';
+        const cons: string = this.type.toLowerCase();
         const pred: string = 'prediction';
+        if (this.type == 'Production') {
+          this.colors = {
+            name: 'mycolors',
+            selectable: true,
+            group: ScaleType.Ordinal,
+            domain: ['#80BC00', '#F4C430'],
+          };
+        }
+        if (this.type == 'Storage') {
+          this.colors = {
+            name: 'mycolors',
+            selectable: true,
+            group: ScaleType.Ordinal,
+            domain: ['#2a96d9', '#F4C430'],
+          };
+        }
         if (predictionValue == undefined) {
           predictionValue = 0.0;
         }
