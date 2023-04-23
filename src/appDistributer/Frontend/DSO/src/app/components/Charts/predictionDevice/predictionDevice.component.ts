@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit, Input } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Color, ScaleType } from '@swimlane/ngx-charts';
 import { ScreenWidthService } from 'src/app/services/screen-width.service';
@@ -20,7 +20,7 @@ export class PredictionDeviceComponent implements OnInit {
     name: 'mycolors',
     selectable: true,
     group: ScaleType.Ordinal,
-    domain: ['#FF414E', '#80BC00'],
+    domain: ['#F4C430'],
   };
   showXAxis = true;
   showYAxis = true;
@@ -31,6 +31,8 @@ export class PredictionDeviceComponent implements OnInit {
   showYAxisLabel = true;
   yAxisLabel = 'Energy in kWh';
   idDev: string = '';
+
+  @Input() type : string = '';
 
   constructor(
     private deviceService: DeviceserviceService,
@@ -43,7 +45,7 @@ export class PredictionDeviceComponent implements OnInit {
     this.idDev = this.router1.snapshot.params['idDev'];
     const grafik = document.getElementById('predikcija');
     grafik!.style.height = this.widthService.height * 0.6 + 'px';
-    this.Prediction1Day('prediction1');
+    this.Prediction1Day('predictionDevice1');
     //document.getElementById("prediction3")!.classList.add('active');
   }
 
@@ -69,8 +71,7 @@ export class PredictionDeviceComponent implements OnInit {
         console.log(response);
         const myList = Object.keys(response.nextWeek).map((name) => {
           let predictionValue = response.nextWeek[name];
-          const cons: string = 'consumption';
-          const prod: string = 'producton';
+          const cons: string = this.type.toLowerCase();
           if (predictionValue == undefined) {
             predictionValue = 0.0;
           }
@@ -82,6 +83,7 @@ export class PredictionDeviceComponent implements OnInit {
           return { name: formattedName, series };
         });
         this.data = myList;
+        this.activateButton(id);
         // console.log(this.data);
       });
   }
@@ -92,8 +94,7 @@ export class PredictionDeviceComponent implements OnInit {
       .subscribe((response: any) => {
         const myList = Object.keys(response.next3Days).map((name) => {
           let predictionValue = response.nextWeek[name];
-          const cons: string = 'consumption';
-          const prod: string = 'producton';
+          const cons: string = this.type.toLowerCase();
           if (predictionValue == undefined) {
             predictionValue = 0.0;
           }
@@ -105,6 +106,7 @@ export class PredictionDeviceComponent implements OnInit {
           return { name: formattedName, series };
         });
         this.data = myList;
+        this.activateButton(id);
         // console.log(this.data);
       });
   }
@@ -115,8 +117,7 @@ export class PredictionDeviceComponent implements OnInit {
       .subscribe((response: any) => {
         const myList = Object.keys(response.nextDay).map((name) => {
           let predictionValue = response.nextDay[name];
-          const cons: string = 'consumption';
-          const prod: string = 'producton';
+          const cons: string = this.type.toLowerCase();
           if (predictionValue == undefined) {
             predictionValue = 0.0;
           }
@@ -129,12 +130,13 @@ export class PredictionDeviceComponent implements OnInit {
           return { name: formattedName, series };
         });
         this.data = myList;
+        this.activateButton(id);
         // console.log(this.data);
       });
   }
 
   activateButton(buttonNumber: string) {
-    const buttons = document.querySelectorAll('.predictionbtn');
+    const buttons = document.querySelectorAll('.predictionDeviceBtns');
     buttons.forEach((button) => {
       if (button.id == buttonNumber) {
         button.classList.add('active');

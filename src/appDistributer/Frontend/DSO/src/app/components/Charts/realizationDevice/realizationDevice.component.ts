@@ -137,7 +137,7 @@ export class RealizationDeviceComponent implements OnInit, AfterViewInit {
             name: 'mycolors',
             selectable: true,
             group: ScaleType.Ordinal,
-            domain: ['blue', '#F4C430'],
+            domain: ['#2a96d9', '#F4C430'],
           };
         }
         if (predictionValue == undefined) {

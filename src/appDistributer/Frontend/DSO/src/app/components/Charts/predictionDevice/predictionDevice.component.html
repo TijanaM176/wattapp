@@ -1,31 +1,31 @@
 <div
-  class="card-header col-12 p-1 group"
-  style="display: flex; justify-content: right; margin: auto"
+  class="card-header col-12 group"
+  style="  margin-left: 0; margin-right: 0; display: flex; align-items: center; padding-top: 1%; padding-bottom: 1%; padding-left: 3%;"
 >
-  <div class="col-3 p-1">
+  <div class="col-3 p-1" style="display: flex; align-items: center;">
     <h6 class="m-0 font-weight-bold ps-2">Prediction</h6>
   </div>
   <div class="col-9" style="display: flex; justify-content: right">
     <button
-      class="btn btn-primary m-1 realizationbtn"
-      id="prediction1"
-      (click)="Prediction1Day('prediction1')"
+      class="btn btn-primary m-1 predictionDeviceBtns"
+      id="predictionDevice1"
+      (click)="Prediction1Day('predictionDevice1')"
     >
       24H
     </button>
     <button
-      class="btn btn-primary m-1 realizationbtn"
-      id="prediction2"
-      (click)="Prediction3Days('prediction2')"
+      class="btn btn-primary m-1 predictionDeviceBtns"
+      id="predictionDevice2"
+      (click)="Prediction3Days('predictionDevice2')"
     >
-      3D
+      3Days
     </button>
     <button
-      class="btn btn-primary m-1 realizationbtn"
-      id="prediction3"
-      (click)="PredictionWeek('prediction3')"
+      class="btn btn-primary m-1 predictionDeviceBtns"
+      id="predictionDevice3"
+      (click)="PredictionWeek('predictionDevice3')"
     >
-      Week
+      1Week
     </button>
   </div>
 </div>
@@ -71,7 +71,6 @@
     </ngx-charts-bar-vertical-2d>
   </div>
   <div class="legend w-100 text-center" *ngIf="data.length != 0">
-    <i class="fa fa-circle consumption">&nbsp;Consumption</i>&nbsp;&nbsp;&nbsp;
-    <i class="fa fa-circle production">&nbsp;Production</i>
+    <i class="fa fa-circle prediction">&nbsp;Predicion for {{type}}</i>
   </div>
 </div>

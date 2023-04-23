@@ -5,7 +5,7 @@
   color: #80BC00;
 }
 .storage{
-  color: blue;
+  color: #2a96d9;
 }
 .prediction {
   color: #F4C430;
@@ -19,8 +19,8 @@ h6 {
   color: #5875A1;
 }
 .realizationbtn:not(.active) {
-  background-color: #466471;
-  border-color: #466471;
+  background-color: #5875A1;
+  border-color: #5875A1;
 }
 .btn:focus {
   outline: none;

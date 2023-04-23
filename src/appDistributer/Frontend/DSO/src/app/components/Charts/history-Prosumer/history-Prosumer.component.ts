@@ -45,7 +45,7 @@ export class HistoryProsumerComponent implements OnInit {
     this.spiner.show();
     this.id = this.router.snapshot.params['id'];
     document.getElementById('realizationUserInfoCardBody')!.style.height =
-      this.widthService.height * 0.5 + 'px';
+      this.widthService.height * 0.55 + 'px';
     this.HistoryWeek();
 
     document.getElementById('historyProsumerTable')!.style.width = window.innerWidth + 'px';

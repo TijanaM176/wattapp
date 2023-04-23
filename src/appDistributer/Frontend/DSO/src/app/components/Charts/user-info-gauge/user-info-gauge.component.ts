@@ -40,7 +40,7 @@ export class UserInfoGaugeComponent implements OnInit, AfterViewInit {
     this.thresholds = {
       '0': { color: 'green', bgOpacity: 0.2 },
       '350': { color: '#2a96d9', bgOpacity: 0.2 },
-      '1600': { color: '#c14b48', bgOpacity: 0.2 },
+      '1600': { color: '#FF414E', bgOpacity: 0.2 },
     };
     this.markers = {
       '0': { color: 'black', label: '0' },
@@ -71,7 +71,7 @@ export class UserInfoGaugeComponent implements OnInit, AfterViewInit {
     this.thresholds = {
       '0': { color: 'green', bgOpacity: 0.2 },
       '350': { color: '#2a96d9', bgOpacity: 0.2 },
-      '1600': { color: '#c14b48', bgOpacity: 0.2 },
+      '1600': { color: '#FF414E', bgOpacity: 0.2 },
     };
     this.gaugeLabel = 'Consumption';
     this.showLegend = true;
