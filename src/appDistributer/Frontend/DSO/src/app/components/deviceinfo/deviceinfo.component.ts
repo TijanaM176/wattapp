@@ -51,7 +51,7 @@ export class DeviceinfoComponent implements OnInit {
   getInfo(){
     this.idDev = this.router.snapshot.params['idDev'];
     this.service.getInfoDevice(this.idDev).subscribe((res: any) => {
-      console.log(res);
+      // console.log(res);
       this.results = res;
       this.IpAddress = res.IpAddress;
         this.TypeName = res.TypeName;
