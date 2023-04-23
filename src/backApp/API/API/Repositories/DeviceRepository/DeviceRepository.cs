@@ -777,7 +777,24 @@ namespace API.Repositories.DeviceRepository
             return consumptionProsumersForNextWeekPrediction;
         }
 
+        public async Task<Device> GetDeviceByCategoryForAPeriodForDays(DeviceInfo deviceinfo, int period)
+        {
 
+            var usage = await _usageContext.PowerUsage.Find(x => deviceinfo.Id.Equals(x.DeviceId)).FirstAsync();
+
+            var device = new Device();
+            device.Id = deviceinfo.Id;
+            //device.IpAddress = deviceinfo.IpAddress;
+            device.Name = deviceinfo.Name;
+            device.TypeId = deviceinfo.TypeId;
+            device.CategoryId = deviceinfo.CategoryId;
+            device.Manufacturer = deviceinfo.Manufacturer;
+            device.Wattage = deviceinfo.Wattage;
+            device.Timestamps = usage.Timestamps.Where(t => t.Date >= DateTime.Now.AddDays(1).Date && t.Date < DateTime.Now.AddDays(period + 1).Date
+                ).ToList();
+
+            return device;
+        }
         public async Task<(Dictionary<string, Dictionary<DateTime, double>>, Dictionary<string, Dictionary<DateTime, double>>, Dictionary<string, Dictionary<DateTime, double>>)> PredictionForDevice(string idDevice)
         {
             
@@ -786,9 +803,9 @@ namespace API.Repositories.DeviceRepository
             DeviceInfo deviceInfo = await GetDeviceInfoById(id);
             //if (deviceInfo == null); // greska
 
-            Device device1 = await GetDeviceByCategoryForAPeriod(deviceInfo, 1); // jedan dan
-            Device device3 = await GetDeviceByCategoryForAPeriod(deviceInfo, 3); // za dva dana
-            Device device7 = await GetDeviceByCategoryForAPeriod(deviceInfo, 7); // za sedam dana
+            Device device1 = await GetDeviceByCategoryForAPeriodForDays(deviceInfo, 1); // jedan dan
+            Device device3 = await GetDeviceByCategoryForAPeriodForDays(deviceInfo, 3); // za dva dana
+            Device device7 = await GetDeviceByCategoryForAPeriodForDays(deviceInfo, 7); // za sedam dana
 
             Dictionary<string, Dictionary<DateTime, double>> datePowerByDevicePredicitionFor1Day = new Dictionary<string, Dictionary<DateTime, double>>();
             Dictionary<string, Dictionary<DateTime, double>> datePowerByDevicePredicitionFor3Day = new Dictionary<string, Dictionary<DateTime, double>>();
@@ -798,60 +815,82 @@ namespace API.Repositories.DeviceRepository
             datePowerByDevicePredicitionFor3Day["Predictions For 3 day"] = new Dictionary<DateTime, double>();
             datePowerByDevicePredicitionFor7Day["Predictions For 7 day"] = new Dictionary<DateTime, double>();
 
-            if(deviceInfo.CategoryId == 1 || deviceInfo.CategoryId == 2) // consumer / producer device
+            if (deviceInfo.CategoryId == 1 || deviceInfo.CategoryId == 2) // consumer / producer device
             {
                 for (int i = 0; i < device1.Timestamps.Count; i++)
                 {
                     var timestamp = device1.Timestamps[i];
-                    if (datePowerByDevicePredicitionFor1Day["Predictions For 1 day"].ContainsKey(timestamp.Date))
+                    var roundedTime = new DateTime(timestamp.Date.Year, timestamp.Date.Month, timestamp.Date.Day, timestamp.Date.Hour, timestamp.Date.Minute / 2 * 2, 0); // zaokruzi vreme na svaka dva minuta
+                    var twoHourTime = new DateTime(roundedTime.Year, roundedTime.Month, roundedTime.Day, roundedTime.Hour - (roundedTime.Hour % 2), 0, 0); // zaokruzi vreme na svaka dva sata
+
+                    if (datePowerByDevicePredicitionFor1Day["Predictions For 1 day"].ContainsKey(twoHourTime))
                     {
-                        
-                        datePowerByDevicePredicitionFor1Day["Predictions For 1 day"][timestamp.Date] += timestamp.PredictedPower;
+                        datePowerByDevicePredicitionFor1Day["Predictions For 1 day"][twoHourTime] += timestamp.PredictedPower;
                     }
                     else
                     {
-                        
-                        datePowerByDevicePredicitionFor1Day["Predictions For 1 day"].Add(timestamp.Date, timestamp.PredictedPower);
+                        datePowerByDevicePredicitionFor1Day["Predictions For 1 day"].Add(twoHourTime, timestamp.PredictedPower);
                     }
                 }
+
+                // Prolazi kroz agregirane vrednosti i saberi vrednosti za svaka dva sata
+                var tempDict = new Dictionary<DateTime, double>();
+                foreach (var kvp in datePowerByDevicePredicitionFor1Day["Predictions For 1 day"])
+                {
+                    var twoHourTime = new DateTime(kvp.Key.Year, kvp.Key.Month, kvp.Key.Day, kvp.Key.Hour - (kvp.Key.Hour % 2), 0, 0); // zaokruzi vreme na svaka dva sata
+                    if (tempDict.ContainsKey(twoHourTime))
+                    {
+                        tempDict[twoHourTime] += kvp.Value;
+                    }
+                    else
+                    {
+                        tempDict.Add(twoHourTime, kvp.Value);
+                    }
+                }
+                datePowerByDevicePredicitionFor1Day["Predictions For 1 day"] = tempDict;
             }
-            else throw new ArgumentException("Devices is Storage!"); ; // storage device, greska
+            else
+            {
+                throw new ArgumentException("Devices is Storage!");
+            }
             if (deviceInfo.CategoryId == 1 || deviceInfo.CategoryId == 2) // consumer / producer device
             {
                 for (int i = 0; i < device3.Timestamps.Count; i++)
                 {
                     var timestamp = device3.Timestamps[i];
-                    if (datePowerByDevicePredicitionFor3Day["Predictions For 3 day"].ContainsKey(timestamp.Date))
+                    var roundedDate = new DateTime(timestamp.Date.Year, timestamp.Date.Month, timestamp.Date.Day);
+                    if (datePowerByDevicePredicitionFor3Day["Predictions For 3 day"].ContainsKey(roundedDate))
                     {
-
-                        datePowerByDevicePredicitionFor3Day["Predictions For 3 day"][timestamp.Date] += timestamp.PredictedPower;
+                        datePowerByDevicePredicitionFor3Day["Predictions For 3 day"][roundedDate] += timestamp.PredictedPower;
                     }
                     else
                     {
-
-                        datePowerByDevicePredicitionFor3Day["Predictions For 3 day"].Add(timestamp.Date, timestamp.PredictedPower);
+                        datePowerByDevicePredicitionFor3Day["Predictions For 3 day"].Add(roundedDate, timestamp.PredictedPower);
                     }
                 }
             }
-            else throw new ArgumentException("Devices is Storage!"); ; // storage device, greska
+            else
+            {
+                throw new ArgumentException("Devices is Storage!");
+            }
             if (deviceInfo.CategoryId == 1 || deviceInfo.CategoryId == 2) // consumer / producer device
             {
                 for (int i = 0; i < device7.Timestamps.Count; i++)
                 {
                     var timestamp = device7.Timestamps[i];
-                    if (datePowerByDevicePredicitionFor7Day["Predictions For 7 day"].ContainsKey(timestamp.Date))
+                    var roundedTime = new DateTime(timestamp.Date.Year, timestamp.Date.Month, timestamp.Date.Day, 0, 0, 0); // round time to start of day
+                    if (datePowerByDevicePredicitionFor7Day["Predictions For 7 day"].ContainsKey(roundedTime))
                     {
-
-                        datePowerByDevicePredicitionFor7Day["Predictions For 7 day"][timestamp.Date] += timestamp.PredictedPower;
+                        datePowerByDevicePredicitionFor7Day["Predictions For 7 day"][roundedTime] += timestamp.PredictedPower;
                     }
                     else
                     {
-
-                        datePowerByDevicePredicitionFor7Day["Predictions For 7 day"].Add(timestamp.Date, timestamp.PredictedPower);
+                        datePowerByDevicePredicitionFor7Day["Predictions For 7 day"].Add(roundedTime, timestamp.PredictedPower);
                     }
                 }
             }
-            else throw new ArgumentException("Devices is Storage!"); ; // storage device, greska
+            else throw new ArgumentException("Devices is Storage!"); // storage device, error message
+
 
 
             return (datePowerByDevicePredicitionFor1Day, datePowerByDevicePredicitionFor3Day, datePowerByDevicePredicitionFor7Day);

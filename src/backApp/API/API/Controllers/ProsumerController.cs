@@ -39,7 +39,12 @@ namespace API.Controllers
                     Address = p.Address,
                     Latitude = p.Latitude,
                     Longitude = p.Longitude,
-                    ProsumerCreationDate = p.DateCreate
+                    ProsumerCreationDate = p.DateCreate,
+                    RegionId = p.RegionId,
+                    CityId = p.CityId,
+                    NeigborhoodId = p.NeigborhoodId,
+                    Image = p.Image,
+                    RoleId = p.RoleId
                 }).ToList();
                 return Ok(simplifiedProsumers);
             }
@@ -68,7 +73,12 @@ namespace API.Controllers
                     Address = p.Address,
                     Latitude = p.Latitude,
                     Longitude = p.Longitude,
-                    ProsumerCreationDate = p.DateCreate
+                    ProsumerCreationDate = p.DateCreate,
+                    RegionId = p.RegionId,
+                    CityId = p.CityId,
+                    NeigborhoodId = p.NeigborhoodId,
+                    Image = p.Image,
+                    RoleId = p.RoleId
                 }).ToList();
                 return Ok(simplifiedProsumers);
             }
@@ -98,9 +108,12 @@ namespace API.Controllers
                     Address = prosumer.Address,
                     Latitude = prosumer.Latitude,
                     Longitude = prosumer.Longitude,
-                    ProsumerCreationDate = prosumer.DateCreate
-
-
+                    ProsumerCreationDate = prosumer.DateCreate,
+                    RegionId = prosumer.RegionId,
+                    CityId = prosumer.CityId,
+                    NeigborhoodId = prosumer.NeigborhoodId,
+                    Image = prosumer.Image,
+                    RoleId = prosumer.RoleId
                 });
             }
         }
@@ -148,7 +161,12 @@ namespace API.Controllers
                     Address = p.Address,
                     Latitude = p.Latitude,
                     Longitude = p.Longitude,
-                    ProsumerCreationDate = p.DateCreate
+                    ProsumerCreationDate = p.DateCreate,
+                    RegionId = p.RegionId,
+                    CityId = p.CityId,
+                    NeigborhoodId = p.NeigborhoodId,
+                    Image = p.Image,
+                    RoleId = p.RoleId
                 }).ToList();
                 return Ok(simplifiedProsumers);
             }
