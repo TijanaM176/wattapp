@@ -3,7 +3,12 @@
   style="  margin-left: 0; margin-right: 0; display: flex; align-items: center; padding-top: 1%; padding-bottom: 1%; padding-left: 3%;"
 >
   <div class="col-3 p-1" style="display: flex; align-items: center;">
-    <h6 class="m-0 font-weight-bold ps-2">Prediction</h6>
+    <h6 class="m-0 font-weight-bold ps-2">
+      Prediction
+      &nbsp;<button class="btn btn-outline-primary p-0 px-1 m-0" data-bs-toggle="modal" data-bs-target="#predictionDeviceTable">
+        <i class="fa fa-table"></i>
+      </button>
+    </h6>
   </div>
   <div class="col-9" style="display: flex; justify-content: right">
     <button
@@ -50,7 +55,7 @@
     </h1>
     <ngx-charts-bar-vertical-2d
       *ngIf="production && consumption && data.length != 0"
-      [title]="'Realization'"
+      [title]="'Prediction'"
       [scheme]="colors"
       [results]="data"
       [xAxis]="showXAxis"
@@ -62,7 +67,7 @@
       [barPadding]="3"
       [roundDomains]="true"
       [trimYAxisTicks]="true"
-      [tooltipDisabled]="true"
+      [tooltipDisabled]="false"
       [noBarWhenZero]="true"
       [yAxisTickFormatting]="yAxisTickFormatting"
       [showGridLines]="true"
@@ -71,6 +76,22 @@
     </ngx-charts-bar-vertical-2d>
   </div>
   <div class="legend w-100 text-center" *ngIf="data.length != 0">
-    <i class="fa fa-circle prediction">&nbsp;Predicion for {{type}}</i>
+    <i class="fa fa-circle prediction">&nbsp;Prediction for {{type}}</i>
+  </div>
+</div>
+<div class="modal fade modal-lg " id="predictionDeviceTable" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="predictionDeviceTableLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header text-white" style="background-color: #5875A1">
+        <h5 class="modal-title" id="predictionDeviceTableLabel">Prediction for {{type}} Table</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <app-prediction-device-table [type]="type" [data]="data"></app-prediction-device-table>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary">Export Table</button>
+      </div>
+    </div>
   </div>
 </div>

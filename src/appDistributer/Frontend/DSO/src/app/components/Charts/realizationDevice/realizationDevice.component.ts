@@ -153,7 +153,7 @@ export class RealizationDeviceComponent implements OnInit, AfterViewInit {
         return { name, series };
       });
       this.data = mapFunction(myList);
-      console.log(this.data);
+      // console.log(this.data);
     });
   }
 

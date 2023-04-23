@@ -68,7 +68,7 @@ export class PredictionDeviceComponent implements OnInit {
     this.timeService
       .predictionDevice(this.idDev)
       .subscribe((response: any) => {
-        console.log(response);
+        // console.log(response);
         const myList = Object.keys(response.nextWeek).map((name) => {
           let predictionValue = response.nextWeek[name];
           const cons: string = this.type.toLowerCase();

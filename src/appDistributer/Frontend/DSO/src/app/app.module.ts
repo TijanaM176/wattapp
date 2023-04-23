@@ -76,6 +76,7 @@ import { PredictionDeviceComponent } from './components/Charts/predictionDevice/
 import { HistoryProsumerTableComponent } from './components/chart-tables/history-prosumer-table/history-prosumer-table.component';
 import { PredictionProsumerTableComponent } from './components/chart-tables/prediction-prosumer-table/prediction-prosumer-table.component';
 import { RealizationDeviceTableComponent } from './components/chart-tables/realization-device-table/realization-device-table.component';
+import { PredictionDeviceTableComponent } from './components/chart-tables/prediction-device-table/prediction-device-table.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -132,7 +133,8 @@ import { RealizationDeviceTableComponent } from './components/chart-tables/reali
     PredictionAllProsumersTableComponent,
     HistoryProsumerTableComponent,
     PredictionProsumerTableComponent,
-    RealizationDeviceTableComponent
+    RealizationDeviceTableComponent,
+    PredictionDeviceTableComponent
   ],
   imports: [
     MatSlideToggleModule,
