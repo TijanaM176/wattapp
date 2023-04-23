@@ -35,8 +35,11 @@ namespace API.Controllers
                     Firstname = prosumer.FirstName,
                     Lastname = prosumer.LastName,
                     Username = prosumer.Username,
-                    Email = prosumer.Email
-
+                    Email = prosumer.Email,
+                    RoleId = prosumer.RoleId,
+                    RegionId = prosumer.RegionId,
+                    CityId = prosumer.CityId,
+                    NeigborhoodId = prosumer.NeigborhoodId
                 };
                 return Ok(json);
             }
@@ -59,7 +62,10 @@ namespace API.Controllers
                     Lastname = dso.LastName,
                     Username = dso.Username,
                     Email = dso.Email,
-                    Salary = dso.Salary
+                    Salary = dso.Salary,
+                    RoleId = dso.RoleId,
+                    RegionId = dso.RegionId
+                  
 
                 };
                 return Ok(json);

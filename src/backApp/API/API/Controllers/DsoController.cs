@@ -37,7 +37,9 @@ namespace API.Controllers
                         Email = worker.Email,
                         Salary = worker.Salary,
                         ProsumerCreationDate = worker.DateCreate,
-                        roleId = worker.RoleId,
+                        RoleId = worker.RoleId,
+                        RegionId = worker.RegionId,
+                        Image = worker.Image
 
                     });
              }
@@ -82,7 +84,9 @@ namespace API.Controllers
                         Email = d.Email,
                         Salary = d.Salary,
                         ProsumerCreationDate = d.DateCreate,
-                        roleId= d.RoleId,
+                        RoleId = d.RoleId,
+                        RegionId = d.RegionId,
+                        Image = d.Image
                     }).ToList();
                     return Ok(simplifiedDsoworkers);
                 }
@@ -109,7 +113,9 @@ namespace API.Controllers
                     Email = d.Email,
                     Salary = d.Salary,
                     ProsumerCreationDate = d.DateCreate,
-                    roleId = d.RoleId,
+                    RoleId = d.RoleId,
+                    RegionId = d.RegionId,
+                    Image = d.Image
                 }).ToList();
                 return Ok(simplifiedDsoworkers);
             }
@@ -135,7 +141,9 @@ namespace API.Controllers
                     Email = d.Email,
                     Salary = d.Salary,
                     ProsumerCreationDate = d.DateCreate,
-                    roleId = d.RoleId,
+                    RoleId = d.RoleId,
+                    RegionId = d.RegionId,
+                    Image = d.Image
                 }).ToList();
                 return Ok(simplifiedDsoworkers);
             }
@@ -162,7 +170,9 @@ namespace API.Controllers
                         Email = d.Email,
                         Salary = d.Salary,
                         ProsumerCreationDate = d.DateCreate,
-                        roleId = d.RoleId,
+                        RoleId = d.RoleId,
+                        RegionId = d.RegionId,
+                        Image = d.Image
                     }).ToList();
                     return Ok(simplifiedDsoworkers);
                 }
@@ -190,7 +200,9 @@ namespace API.Controllers
                         Email = d.Email,
                         Salary = d.Salary,
                         ProsumerCreationDate = d.DateCreate,
-                        roleId = d.RoleId,
+                        RoleId = d.RoleId,
+                        RegionId = d.RegionId,
+                        Image = d.Image
                     }).ToList();
                     return Ok(simplifiedDsoworkers);
                 }
@@ -220,7 +232,12 @@ namespace API.Controllers
                     CityID = prosumer.CityId,
                     NeigborhoodID = prosumer.NeigborhoodId,
                     Latitude = prosumer.Latitude,
-                    Longitude = prosumer.Longitude
+                    Longitude = prosumer.Longitude,
+                    RegionId = prosumer.RegionId,
+                    CityId = prosumer.CityId,
+                    NeigborhoodId = prosumer.NeigborhoodId,
+                    Image = prosumer.Image,
+                    RoleId = prosumer.RoleId
                 });
             }
             catch(Exception ex)

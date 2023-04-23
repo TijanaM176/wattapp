@@ -290,14 +290,21 @@ namespace API.Controllers
 
             try
             {
+                var prediction = await devService.PredictionForDevice(idDevice);
                 return Ok(new
                 {
                     categoryId = (await devService.GetDevice(idDevice))["CategoryId"],
-                    nextDay = (await devService.GroupedTimestampsForDevice(idDevice, 1, 2))["predictions"],
-                    next3Days = (await devService.GroupedTimestampsForDevice(idDevice, 3, 6))["predictions"],
-                    nextWeek = (await devService.GroupedTimestampsForDevice(idDevice, 7, 24))["predictions"]
+                    nextDay = prediction.Item1,
+                    next3Day = prediction.Item2,
+                    nextWeek = prediction.Item3
+                    
+                    //nextDay = (await devService.GroupedTimestampsForDevice(idDevice, 1, 2))["predictions"],
+                    //next3Days = (await devService.GroupedTimestampsForDevice(idDevice, 3, 6))["predictions"],
+                    //nextWeek = (await devService.GroupedTimestampsForDevice(idDevice, 7, 24))["predictions"]
+                
 
                 });
+
             }
             catch (Exception ex)
             {
