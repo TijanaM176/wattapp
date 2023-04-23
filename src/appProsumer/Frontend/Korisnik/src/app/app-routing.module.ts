@@ -8,6 +8,7 @@ import { UserInfoComponent } from './components/user-info/user-info.component';
 import { DeviceinfoComponent } from './components/deviceinfo/deviceinfo.component';
 import { UserDevicesComponent } from './components/userDevices/userDevices.component';
 import { AddDeviceComponent } from './components/add-device/add-device.component';
+import { AuthGuard } from './guards/auth.guard';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -15,7 +16,7 @@ const routes: Routes = [
   {
     path: 'ProsumerApp',
     component: DashboardComponent,
-    //canActivate: [AuthGuard],
+    canActivate: [AuthGuard],
     children: [
       { path: '', redirectTo: 'home', pathMatch: 'full' },
       { path: 'home', component: PocetnaComponent },

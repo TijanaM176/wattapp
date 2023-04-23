@@ -20,7 +20,15 @@ export class HouseComponent implements OnInit,AfterViewInit {
 
   ngAfterViewInit(): void {
     const houseCont = document.getElementById('houseCont');
-    let houseHeight = this.widthService.height*0.65;
+    let houseHeight;
+    if(window.innerHeight >= window.innerWidth*2)
+    {
+      houseHeight = this.widthService.height*0.5;
+    }
+    else
+    {
+      houseHeight = this.widthService.height*0.6;
+    }
     houseCont!.style.height = houseHeight + 'px';
   }
   
@@ -29,7 +37,15 @@ export class HouseComponent implements OnInit,AfterViewInit {
     this.resizeObservable$ = fromEvent(window, 'resize');
     this.resizeSubscription$ = this.resizeObservable$.subscribe( evt => {
       const houseCont = document.getElementById('houseCont');
-      let houseHeight = this.widthService.height*0.65;
+      let houseHeight;
+      if(window.innerHeight >= window.innerWidth*2)
+      {
+        houseHeight = this.widthService.height*0.5;
+      }
+      else
+      {
+        houseHeight = this.widthService.height*0.6;
+      }
       houseCont!.style.height = houseHeight + 'px';
     });
   }

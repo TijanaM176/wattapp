@@ -100,7 +100,7 @@ namespace API.Controllers
                     Longitude = prosumer.Longitude,
                     ProsumerCreationDate = prosumer.DateCreate,
                     cityId = prosumer.CityId,
-
+                    neigborhoodId = prosumer.NeigborhoodId
                 });
             }
         }
