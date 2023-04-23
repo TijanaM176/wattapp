@@ -82,7 +82,7 @@ export class PredictionDeviceComponent implements OnInit {
           return { name: formattedName, series };
         });
         this.data = myList;
-        console.log(this.data);
+        // console.log(this.data);
       });
   }
 
@@ -105,7 +105,7 @@ export class PredictionDeviceComponent implements OnInit {
           return { name: formattedName, series };
         });
         this.data = myList;
-        console.log(this.data);
+        // console.log(this.data);
       });
   }
 
@@ -129,7 +129,7 @@ export class PredictionDeviceComponent implements OnInit {
           return { name: formattedName, series };
         });
         this.data = myList;
-        console.log(this.data);
+        // console.log(this.data);
       });
   }
 

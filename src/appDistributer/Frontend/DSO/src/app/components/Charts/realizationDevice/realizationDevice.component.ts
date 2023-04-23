@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit, Input } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import {
   Color,
@@ -25,7 +25,7 @@ export class RealizationDeviceComponent implements OnInit, AfterViewInit {
     name: 'mycolors',
     selectable: true,
     group: ScaleType.Ordinal,
-    domain: ['#FF414E', '#80BC00'],
+    domain: ['#FF414E', '#F4C430'],
   };
   showXAxis = true;
   showYAxis = true;
@@ -37,11 +37,12 @@ export class RealizationDeviceComponent implements OnInit, AfterViewInit {
   showYAxisLabel = true;
   yAxisLabel = 'Energy in kWh';
   idDev: string = '';
+  @Input() type : string = '';
 
   constructor(
     private deviceService: DeviceserviceService,
     private widthService: ScreenWidthService,
-    private timeService:TimestampService,
+    private timeService: TimestampService,
     private router1: ActivatedRoute
   ) {}
 
@@ -50,10 +51,11 @@ export class RealizationDeviceComponent implements OnInit, AfterViewInit {
     const grafik = document.getElementById('grafik');
     grafik!.style.height = this.widthService.height * 0.6 + 'px';
     document.getElementById('realiz1')!.classList.add('active');
+    this.HistoryWeek('realiz1');
   }
 
   ngOnInit(): void {
-    this.HistoryWeekInit();
+    this.idDev = this.router1.snapshot.params['idDev'];
   }
 
   yAxisTickFormatting(value: number) {
@@ -69,20 +71,6 @@ export class RealizationDeviceComponent implements OnInit, AfterViewInit {
         1) /
         7
     );
-  }
-
-  HistoryWeekInit() {
-    this.loadData(
-      this.timeService.history7Days.bind(this.timeService),
-      (myList: any[]) => {
-        return myList.map((item) => {
-          const date = new Date(item.name);
-          const dayName = date.toLocaleDateString('en-US', { weekday: 'long' });
-          return { name: dayName, series: item.series };
-        });
-      }
-    );
-    
   }
 
   HistoryWeek(id: string) {
@@ -101,10 +89,7 @@ export class RealizationDeviceComponent implements OnInit, AfterViewInit {
 
   HistoryMonth(id: string) {
     this.loadData(
-      this.timeService.historyDeviceMonth.bind(
-        this.timeService,
-        this.idDev
-      ),
+      this.timeService.historyDeviceMonth.bind(this.timeService, this.idDev),
       (myList: any[]) => {
         return myList.map((item) => {
           const date = new Date(item.name);
@@ -132,26 +117,43 @@ export class RealizationDeviceComponent implements OnInit, AfterViewInit {
 
   loadData(apiCall: any, mapFunction: any) {
     apiCall().subscribe((response: any) => {
-      const myList = Object.keys(response.consumption.timestamps).map(
-        (name) => {
-          let consumptionValue = response.consumption.timestamps[name];
-          let predictionValue = response.consumption.predictions[name];
-          const cons: string = 'consumption';
-          const pred: string = 'prediction';
-          if (predictionValue == undefined) {
-            predictionValue = 0.0;
-          }
-          if (consumptionValue == undefined) {
-            consumptionValue = 0.0;
-          }
-          const series = [
-            { name: cons, value: consumptionValue },
-            { name: pred, value: predictionValue },
-          ];
-          return { name, series };
+      const myList = Object.keys(response.timestamps).map((name) => {
+        let consumptionValue = response.timestamps[name];
+        let predictionValue = response.predictions[name];
+        const cons: string = this.type.toLowerCase();
+        const pred: string = 'prediction';
+        if(this.type == 'Production')
+        {
+          this.colors = {
+            name: 'mycolors',
+            selectable: true,
+            group: ScaleType.Ordinal,
+            domain: ['#80BC00', '#F4C430'],
+          };
         }
-      );
+        if(this.type == 'Storage')
+        {
+          this.colors = {
+            name: 'mycolors',
+            selectable: true,
+            group: ScaleType.Ordinal,
+            domain: ['blue', '#F4C430'],
+          };
+        }
+        if (predictionValue == undefined) {
+          predictionValue = 0.0;
+        }
+        if (consumptionValue == undefined) {
+          consumptionValue = 0.0;
+        }
+        const series = [
+          { name: cons, value: consumptionValue },
+          { name: pred, value: predictionValue },
+        ];
+        return { name, series };
+      });
       this.data = mapFunction(myList);
+      console.log(this.data);
     });
   }
 

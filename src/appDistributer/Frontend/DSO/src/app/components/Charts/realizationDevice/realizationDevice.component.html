@@ -6,9 +6,11 @@
     class="card-header col-12 p-1 group"
     style="display: flex; justify-content: right; margin: auto"
   >
-    <div class="col-5 p-1">
-      <h6 class="m-0 font-weight-bold ps-2">
-        Realization and Prediction History
+    <div class="col-5 p-1" style="display: flex; align-items: center; padding-top: 3%; padding-bottom: 3%;">
+      <h6 class="m-0 font-weight-bold ps-3">
+        Realization and Prediction History&nbsp;<button class="btn btn-outline-primary p-0 px-1 m-0" data-bs-toggle="modal" data-bs-target="#realizationDeviceTable">
+          <i class="fa fa-table"></i>
+        </button>
       </h6>
     </div>
     <div class="col-7" style="display: flex; justify-content: right">
@@ -80,9 +82,29 @@
       class="legend w-100 text-center"
       *ngIf="production && consumption && data.length != 0"
     >
-      <i class="fa fa-circle consumption">&nbsp;Consumption</i
+      <i class="fa fa-circle consumption" *ngIf="type=='Consumption'">&nbsp;{{type}}</i
       >&nbsp;&nbsp;&nbsp;
-      <i class="fa fa-circle production">&nbsp;Prediction</i>
+      <i class="fa fa-circle production" *ngIf="type=='Production'">&nbsp;{{type}}</i
+      >&nbsp;&nbsp;&nbsp;
+      <i class="fa fa-circle storage" *ngIf="type=='Storage'">&nbsp;{{type}}</i
+      >&nbsp;&nbsp;&nbsp;
+      <i class="fa fa-circle prediction">&nbsp;Prediction</i>
+    </div>
+  </div>
+</div>
+<div class="modal fade modal-lg " id="realizationDeviceTable" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="realizationDeviceTableLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header text-white" style="background-color: #5875A1">
+        <h5 class="modal-title" id="realizationDeviceTableLabel">Consumption and Prediction History Table</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <app-realization-device-table [type]="type" [data]="data"></app-realization-device-table>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary">Export Table</button>
+      </div>
     </div>
   </div>
 </div>

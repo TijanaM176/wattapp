@@ -63,6 +63,7 @@ export class User1Component implements OnInit, AfterViewInit {
       this.widthService.height + 'px';
     this.letValue = this.cookie.get('role');
     this.spiner.show();
+    this.disableDelete(this.letValue);
     this.user
       .detailsEmployee(this.router.snapshot.params['id'])
       .subscribe((data: any) => {
@@ -133,5 +134,18 @@ export class User1Component implements OnInit, AfterViewInit {
         console.log(err.error);
       },
     });
+  }
+
+  disableDelete(role : string)
+  {
+    let deleteBtn = document.getElementById('delete');
+    if(role=='Dso')
+    {
+      deleteBtn?.removeAttribute('disabled');
+    }
+    else
+    {
+      deleteBtn?.setAttribute('disabled','disabled');
+    }
   }
 }
