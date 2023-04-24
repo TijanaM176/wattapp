@@ -11,6 +11,7 @@ import { DataService } from 'src/app/services/data.service';
 import { ScreenWidthService } from 'src/app/services/screen-width.service';
 import { fromEvent, Observable, Subscription } from 'rxjs';
 import { editUserDto } from 'src/app/models/editUserDto';
+import { DeviceserviceService } from 'src/app/services/deviceservice.service';
 
 @Component({
   selector: 'app-user1',
@@ -31,7 +32,8 @@ export class User1Component implements OnInit, AfterViewInit {
     private cookie: CookieService,
     private serviceData: DataService,
     private widthService: ScreenWidthService,
-    private r: Router
+    private r: Router,
+    private deviceService:DeviceserviceService
   ) {}
   letValue: string = '';
   id: string = '';
@@ -42,6 +44,9 @@ export class User1Component implements OnInit, AfterViewInit {
   address: string = '';
   Region: string = '';
   city: string = '';
+  type : string = '';
+  consumption: number = 0;
+  production: number = 0;
   editUser = new FormGroup({
     FirstName: new FormControl(''),
     LastName: new FormControl(''),
@@ -55,10 +60,10 @@ export class User1Component implements OnInit, AfterViewInit {
   });
   message: boolean = false;
   userOldInfo: any;
+  thresholds: object = {};
 
   ngOnInit(): void {
-    document.getElementById('sidebarPotrosnjaContainer')!.style.height =
-      this.widthService.height + 'px';
+
     document.getElementById('userInfoDataContainer')!.style.height =
       this.widthService.height + 'px';
     this.letValue = this.cookie.get('role');
@@ -91,20 +96,21 @@ export class User1Component implements OnInit, AfterViewInit {
             CityName: new FormControl(''),
           });
         });
+        this.thresholds = {
+          '0': { color: '#5875A1', bgOpacity: 0.2, fontSize: '16px' },
+        };
       });
-
+    this.ConsumptionAndProduction();
     this.resizeObservable$ = fromEvent(window, 'resize');
     this.resizeSubscription$ = this.resizeObservable$.subscribe((evt) => {
-      document.getElementById('sidebarPotrosnjaContainer')!.style.height =
-        this.widthService.height + 'px';
+
       document.getElementById('userInfoDataContainer')!.style.height =
         this.widthService.height + 'px';
     });
   }
 
   ngAfterViewInit(): void {
-    document.getElementById('sidebarPotrosnjaContainer')!.style.height =
-      this.widthService.height + 'px';
+
     document.getElementById('userInfoDataContainer')!.style.height =
       this.widthService.height + 'px';
   }
@@ -148,4 +154,14 @@ export class User1Component implements OnInit, AfterViewInit {
       deleteBtn?.setAttribute('disabled','disabled');
     }
   }
+
+  ConsumptionAndProduction() {
+    this.deviceService
+      .getUserProductionAndConsumption(this.router.snapshot.params['id'])
+      .subscribe((data) => {
+        this.consumption = data.consumption;
+        this.production = data.production;
+      });
+    }
+    
 }
