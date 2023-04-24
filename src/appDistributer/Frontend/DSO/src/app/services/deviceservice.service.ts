@@ -4,6 +4,7 @@ import { Observable, lastValueFrom } from 'rxjs';
 import { Prosumer } from '../models/userstable';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { CookieService } from 'ngx-cookie-service';
+import { enviroment } from 'src/enviroments/enviroment';
 
 @Injectable({
   providedIn: 'root',
@@ -15,8 +16,7 @@ export class DeviceserviceService {
     private cookie: CookieService
   ) {}
 
-  private baseUrl: string = 'https://localhost:7156/api/';
-  private totalUrl: string = 'https://localhost:7156/api/TotalPowerUsage/';
+  private baseUrl = enviroment.apiUrl;
   prosumers!: Prosumer[];
 
   getInfoDevice(id: string) {
@@ -27,7 +27,9 @@ export class DeviceserviceService {
   }
   getUserProductionAndConsumption(id: string): Observable<any> {
     return this.http.get<any>(
-      this.totalUrl + 'ConsumptionAndProductionByProsumer?id=' + id
+      this.baseUrl +
+        'TotalPowerUsage/ConsumptionAndProductionByProsumer?id=' +
+        id
     );
   }
 

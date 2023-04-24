@@ -2,12 +2,13 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { CookieService } from 'ngx-cookie-service';
 import { Observable } from 'rxjs';
+import { enviroment } from 'src/enviroments/enviroment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class DevicesService {
-  baseUrl: string = 'https://localhost:7156/api/';
+  private baseUrl = enviroment.apiUrl;
 
   constructor(private http: HttpClient, private cookie: CookieService) {}
 
@@ -83,21 +84,21 @@ export class DevicesService {
   historyDeviceWeek(id: string): Observable<any> {
     return this.http.get(
       this.baseUrl +
-        `Timestamp/ProductionConsumptionForLastWeekForDevice?idDevice=` +
+        'Timestamp/ProductionConsumptionForLastWeekForDevice?idDevice=' +
         id
     );
   }
   historyDeviceMonth(id: string): Observable<any> {
     return this.http.get(
       this.baseUrl +
-        `Timestamp/ProductionConsumptionForLastMonthForDevice?idDevice=` +
+        'Timestamp/ProductionConsumptionForLastMonthForDevice?idDevice=' +
         id
     );
   }
   historyDeviceYear(id: string): Observable<any> {
     return this.http.get(
       this.baseUrl +
-        `Timestamp/ProductionConsumptionForLastYearForDevice?idDevice=` +
+        'Timestamp/ProductionConsumptionForLastYearForDevice?idDevice=' +
         id
     );
   }

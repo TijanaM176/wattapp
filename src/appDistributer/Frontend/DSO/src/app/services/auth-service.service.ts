@@ -5,14 +5,13 @@ import { SendRefreshToken } from '../models/sendRefreshToken';
 import { RefreshTokenDto } from '../models/refreshTokenDto';
 import { ResetPassword } from '../models/reset-password';
 import { ForgotPassword } from '../models/forgotpassword';
+import { enviroment } from 'src/enviroments/enviroment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthServiceService {
-  private baseUrl: string = 'https://localhost:7156/api/';
+  private baseUrl = enviroment.apiUrl;
 
   constructor(private http: HttpClient) {}
-
- 
 }

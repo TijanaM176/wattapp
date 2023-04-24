@@ -4,13 +4,14 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { Observable } from 'rxjs';
 import { City } from '../models/city';
 import { Neighborhood } from '../models/neighborhood';
+import { enviroment } from 'src/enviroments/enviroment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class DataService {
   constructor(private http: HttpClient, private spiner: NgxSpinnerService) {}
-  private dataUrl: string = 'https://localhost:7156/api/';
+  private dataUrl = enviroment.apiUrl;
   getAllCities(): Observable<City[]> {
     return this.http.get<City[]>(this.dataUrl + 'GenericData/GetCities');
   }

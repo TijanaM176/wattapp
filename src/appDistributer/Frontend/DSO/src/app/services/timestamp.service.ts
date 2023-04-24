@@ -2,16 +2,17 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { CookieService } from 'ngx-cookie-service';
 import { Observable } from 'rxjs';
+import { enviroment } from 'src/enviroments/enviroment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class TimestampService {
   constructor(private http: HttpClient, private cookie: CookieService) {}
-  private timestampUrl: string = 'https://localhost:7156/api/';
+  private timestampUrl = enviroment.apiUrl;
   HistoryProsumer7Days(id: string): Observable<any> {
     return this.http.get(
-      this.timestampUrl + `Timestamp/LastWeeksConsumptionAndProduction?id=` + id
+      this.timestampUrl + 'Timestamp/LastWeeksConsumptionAndProduction?id=' + id
     );
   }
 
@@ -37,46 +38,46 @@ export class TimestampService {
   PredictionNextWeek(): Observable<any> {
     return this.http.get(
       this.timestampUrl +
-        `Timestamp/NextWeeksConsumptionAndProductionTimestamps`
+        'Timestamp/NextWeeksConsumptionAndProductionTimestamps'
     );
   }
   PredictionNext3Days(): Observable<any> {
     return this.http.get(
       this.timestampUrl +
-        `Timestamp/Next3DaysConsumptionAndProductionTimestamps`
+        'Timestamp/Next3DaysConsumptionAndProductionTimestamps'
     );
   }
   PredictionNextDay(): Observable<any> {
     return this.http.get(
-      this.timestampUrl + `Timestamp/NextDaysConsumptionAndProductionTimestamps`
+      this.timestampUrl + 'Timestamp/NextDaysConsumptionAndProductionTimestamps'
     );
   }
 
   PredictionProsumer7Days(id: string): Observable<any> {
     return this.http.get(
-      this.timestampUrl + `Timestamp/NextWeeksConsumptionAndProduction?id=` + id
+      this.timestampUrl + 'Timestamp/NextWeeksConsumptionAndProduction?id=' + id
     );
   }
   PredictionProsumer3Days(id: string): Observable<any> {
     return this.http.get(
-      this.timestampUrl + `Timestamp/Next3DaysConsumptionAndProduction?id=` + id
+      this.timestampUrl + 'Timestamp/Next3DaysConsumptionAndProduction?id=' + id
     );
   }
   PredictionProsumer1Day(id: string): Observable<any> {
     return this.http.get(
-      this.timestampUrl + `Timestamp/NextDaysConsumptionAndProduction?id=` + id
+      this.timestampUrl + 'Timestamp/NextDaysConsumptionAndProduction?id=' + id
     );
   }
   HistoryProsumer1Month(id: string): Observable<any> {
     return this.http.get(
       this.timestampUrl +
-        `Timestamp/LastMonthsConsumptionAndProduction?id=` +
+        'Timestamp/LastMonthsConsumptionAndProduction?id=' +
         id
     );
   }
   HistoryProsumer1Year(id: string): Observable<any> {
     return this.http.get(
-      this.timestampUrl + `Timestamp/LastYearsConsumptionAndProduction?id=` + id
+      this.timestampUrl + 'Timestamp/LastYearsConsumptionAndProduction?id=' + id
     );
   }
   predictionDevice(id: string): Observable<any> {
@@ -87,21 +88,21 @@ export class TimestampService {
   historyDeviceWeek(id: string): Observable<any> {
     return this.http.get(
       this.timestampUrl +
-        `Timestamp/ProductionConsumptionForLastWeekForDevice?idDevice=` +
+        'Timestamp/ProductionConsumptionForLastWeekForDevice?idDevice=' +
         id
     );
   }
   historyDeviceMonth(id: string): Observable<any> {
     return this.http.get(
       this.timestampUrl +
-        `Timestamp/ProductionConsumptionForLastMonthForDevice?idDevice=` +
+        'Timestamp/ProductionConsumptionForLastMonthForDevice?idDevice=' +
         id
     );
   }
   historyDeviceYear(id: string): Observable<any> {
     return this.http.get(
       this.timestampUrl +
-        `Timestamp/ProductionConsumptionForLastYearForDevice?idDevice=` +
+        'Timestamp/ProductionConsumptionForLastYearForDevice?idDevice=' +
         id
     );
   }

@@ -67,8 +67,8 @@ builder.Services.AddControllersWithViews()
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options => { 
     options.TokenValidationParameters = new TokenValidationParameters
     {
-        ValidateIssuer = true,
-        ValidateAudience = true,
+        ValidateIssuer = false,
+        ValidateAudience = false,
         ValidateLifetime = true,
         ValidateIssuerSigningKey = true,
         ValidIssuer = builder.Configuration["AppSettings:Issuer"],
@@ -86,6 +86,8 @@ builder.Services.AddAuthorization();
 
 var app = builder.Build();
 
+// string uploadsFolder = Path.Combine("Uploads");
+// IFileProvider fileProvider = new PhysicalFileProvider(uploadsFolder);
 app.UseStaticFiles(new StaticFileOptions
 {
     FileProvider = new PhysicalFileProvider(Path.Combine(builder.Environment.ContentRootPath, "Uploads")),

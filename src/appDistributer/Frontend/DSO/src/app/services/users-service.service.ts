@@ -4,9 +4,7 @@ import { Observable } from 'rxjs';
 import { Prosumer } from '../models/userstable';
 import { lastValueFrom } from 'rxjs';
 import { Neighborhood } from '../models/neighborhood';
-import { City } from '../models/city';
-import { NgxSpinnerService } from 'ngx-spinner';
-import { CookieService } from 'ngx-cookie-service';
+import { enviroment } from 'src/enviroments/enviroment';
 @Injectable({
   providedIn: 'root',
 })
@@ -17,12 +15,12 @@ export class UsersServiceService {
 
   constructor(private http: HttpClient) {}
 
-  private baseUrl: string = 'https://localhost:7156/api/';
+  private baseUrl = enviroment.apiUrl;
 
   refreshList() {
-    lastValueFrom(this.http.get(this.baseUrl + 'GetAllProsumers')).then(
-      (res) => (this.prosumers = res as Prosumer[])
-    );
+    lastValueFrom(
+      this.http.get(this.baseUrl + 'Prosumer/GetAllProsumers')
+    ).then((res) => (this.prosumers = res as Prosumer[]));
   }
   getUsers(): Observable<any[]> {
     return this.http.get<any>(this.baseUrl + 'Prosumer/GetAllProsumers');
@@ -53,7 +51,7 @@ export class UsersServiceService {
   }
 
   getAllProsumers(): Observable<any[]> {
-    return this.http.get<any[]>(this.baseUrl + 'GetAllProsumers');
+    return this.http.get<any[]>(this.baseUrl + 'Prosumer/GetAllProsumers');
   }
 
   // updateUserData(data: any) {
@@ -66,7 +64,9 @@ export class UsersServiceService {
   }
 
   deleteUser(id: any) {
-    return this.http.delete(`${this.baseUrl}DeleteProsumer` + `?id=` + id);
+    return this.http.delete(
+      `${this.baseUrl}Prosumer/DeleteProsumer` + `?id=` + id
+    );
   }
 
   prosumerFilter(

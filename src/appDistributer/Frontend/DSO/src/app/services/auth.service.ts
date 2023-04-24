@@ -4,11 +4,12 @@ import { SendRefreshToken } from '../models/sendRefreshToken';
 import { RefreshTokenDto } from '../models/refreshTokenDto';
 import { ResetPassword } from '../models/reset-password';
 import { ForgotPassword } from '../models/forgotpassword';
+import { enviroment } from 'src/enviroments/enviroment';
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  private baseUrl: string = 'https://localhost:7156/api/';
+  private baseUrl = enviroment.apiUrl;
   constructor(private http: HttpClient) {}
   signUp(userObj: any) {
     return this.http.post<any>(`${this.baseUrl}Auth/registerProsumer`, userObj);

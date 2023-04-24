@@ -2,13 +2,14 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { Observable } from 'rxjs';
+import { enviroment } from 'src/enviroments/enviroment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class DashboarddataService {
   constructor(private http: HttpClient) {}
-  private dashboardBaseUrl: string = 'https://localhost:7156/api/';
+  private dashboardBaseUrl = enviroment.apiUrl;
   Top5Consumers(): Observable<any[]> {
     return this.http.get<any[]>(
       this.dashboardBaseUrl + 'DashboardData/Top5Consumers'
@@ -23,7 +24,7 @@ export class DashboarddataService {
 
   ConsumerProducerRatio(): Observable<any[]> {
     return this.http.get<any[]>(
-      this.dashboardBaseUrl + 'ConsumerProducerRatio'
+      this.dashboardBaseUrl + 'DashboardData/ConsumerProducerRatio'
     );
   }
   CityPercentages(): Observable<any[]> {

@@ -2,13 +2,14 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { AddDevice } from '../models/adddevice';
+import { enviroment } from 'src/enviroments/enviroment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AdddeviceserviceService {
   constructor(private http: HttpClient) {}
-  private baseUrl: string = 'https://localhost:7156/api/';
+  private baseUrl = enviroment.apiUrl;
   category!: number;
   type!: number;
   model!: string;

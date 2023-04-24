@@ -3,13 +3,14 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Device } from '../models/device';
 import { EditDevice } from '../models/deviceedit';
+import { enviroment } from 'src/enviroments/enviroment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class DeviceserviceService {
   constructor(private http: HttpClient) {}
-  private baseUrl: string = 'https://localhost:7156/api/';
+  private baseUrl = enviroment.apiUrl;
   model: any = 0;
   name: string = '';
   type: number = 0;

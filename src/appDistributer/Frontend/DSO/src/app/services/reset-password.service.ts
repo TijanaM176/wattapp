@@ -7,12 +7,13 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
+import { enviroment } from 'src/enviroments/enviroment';
 import { ForgotPassword } from '../models/forgotpassword';
 @Injectable({
   providedIn: 'root',
 })
 export class ResetPasswordService {
-  private baseUrl: string = 'https://localhost:7156/api/Auth/';
+  private baseUrl = enviroment.apiUrl;
   resetForm!: FormGroup;
   constructor(private http: HttpClient) {}
 }

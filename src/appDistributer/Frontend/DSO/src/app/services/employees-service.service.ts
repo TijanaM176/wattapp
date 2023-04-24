@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Employee } from '../models/employeestable';
 import { editEmployeeDto } from '../models/editEmployee';
+import { enviroment } from 'src/enviroments/enviroment';
 
 @Injectable({
   providedIn: 'root',
@@ -17,7 +18,7 @@ export class EmployeesServiceService {
 
   constructor(private http: HttpClient) {}
 
-  private baseUrl: string = 'https://localhost:7156/api/';
+  private baseUrl = enviroment.apiUrl;
 
   getAllData() {
     return this.http

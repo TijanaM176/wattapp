@@ -7,12 +7,13 @@ import { Injectable } from '@angular/core';
 import { catchError, map, Observable, throwError } from 'rxjs';
 import { RefreshTokenDto } from '../models/refreshTokenDto';
 import { SendRefreshToken } from '../models/sendRefreshToken';
+import { enviroment } from 'src/enviroments/enviroment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthServiceService {
-  private baseUrl: string = 'https://localhost:7156/api/';
+  private baseUrl = enviroment.apiUrl;
 
   constructor(private http: HttpClient) {}
 
@@ -26,7 +27,7 @@ export class AuthServiceService {
 
   refreshToken(refreshToken: SendRefreshToken) {
     return this.http.post<RefreshTokenDto>(
-      this.baseUrl + 'refreshToken',
+      this.baseUrl + 'Auth/refreshToken',
       refreshToken
     );
   }
