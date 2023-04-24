@@ -105,10 +105,10 @@
         <thead>
           <tr>
             <th></th>
-            <th>IP Address<i class="fa fa-sort"></i></th>
-            <th>Device Name<i class="fa fa-sort"></i></th>
+            <th (click)="sort('IpAddress')">IP Address<i class="fa fa-sort"></i></th>
+            <th (click)="sort('Name')">Device Name<i class="fa fa-sort"></i></th>
 
-            <th>Energy <i class="fa fa-sort"></i></th>
+            <th (click)="sort('Wattage')">Energy <i class="fa fa-sort"></i></th>
             <th>Activity</th>
             <th></th>
           </tr>
@@ -119,6 +119,7 @@
               | slice
                 : (currentPage - 1) * itemsPerPage
                 : currentPage * itemsPerPage
+              | orderBy:orderHeader:isDescOrder
           "
         >
           <tr>

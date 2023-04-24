@@ -16,14 +16,14 @@ export class SidebarPotrosnjaComponent {
   constructor(
     private user: UsersServiceService,
     private router: ActivatedRoute,
-    private deviceServer: DeviceserviceService
+    private deviceService: DeviceserviceService
   ) {}
 
   consumption: number = 0;
   production: number = 0;
 
   ngOnInit(): void {
-    this.deviceServer
+    this.deviceService
       .getUserProductionAndConsumption(this.router.snapshot.params['id'])
       .subscribe((data) => {
         this.consumption = data.consumption;

@@ -1,22 +1,66 @@
-<div>
-  <div
-    class="container-fluid d-flex px-0 py-0 mx-0 my-0"
-    style="height: calc(100%-101px)"
-  >
-    <div class="col-lg-2 mx-0 my-0 px-0 py-0" id="sidebarPotrosnjaContainer">
-      <app-sidebar-potrosnja></app-sidebar-potrosnja>
-    </div>
-    <div
-      class="col-lg-10 mx-0 my-0 px-0 py-0"
-      style="overflow-y: auto; overflow-x: hidden"
-    >
+
       <main
         class="main-content position-relative border-radius-lg col-12"
         style="overflow-y: scroll; max-height: 89.1vh"
       >
         <div class="container-fluid py-4" id="userInfoDataContainer">
-          <div class="row mt-4">
+          <div class="row">
             <div class="col-lg-7 mb-lg-0 mb-4">
+              <div class="row mt-2">
+                <div class="col-xl-4 col-sm-2 mb-xl-0 mb-4"  style="display:flex;justify-content: center;">
+                  <div class="card" style="display:flex;justify-content: center;">
+                    <div class="card-body" >
+                      <div class="col-lg-12" >
+                        <div class="row">
+                          <div class="d-flex" style="justify-content: center;">
+                        <img src="assets/images/num3.png" style="width: 38%;display:flex;justify-content: center;">
+                      </div>
+                      
+                      <h5 style="display:flex;justify-content: center;" >{{numberD}}</h5>
+                      <small class="text-muted mt-0" style="display:flex;justify-content: center;">Number of devices</small>
+                      </div>
+                   
+                    </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-xl-4 col-sm-2 mb-xl-0 mb-4"  style="display:flex;justify-content: center;">
+                  <div class="card" style="display:flex;justify-content: center;">
+                    <div class="card-body" >
+                      <div class="col-lg-12" >
+                        <div class="row">
+                          <div class="d-flex" style="justify-content: center;">
+                        <img src="assets/images/potrosnjaCon.png" style="width: 38%;display:flex;justify-content: center;">
+                      </div>
+                      
+                      <h5 style="display:flex;justify-content: center;" >{{consumption}}kWh</h5>
+                      <small class="text-muted mt-0" style="display:flex;justify-content: center;">Current Consumption</small>
+                      </div>
+                   
+                    </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-xl-4 col-sm-2 mb-xl-0 mb-4"  style="display:flex;justify-content: center;">
+                  <div class="card" style="display:flex;justify-content: center;">
+                    <div class="card-body" >
+                      <div class="col-lg-12" >
+                        <div class="row">
+                          <div class="d-flex" style="justify-content: center;">
+                        <img src="assets/images/proizvodnjaPro.png" style="width: 38%;display:flex;justify-content: center;margin-bottom:8%;">
+                      </div>
+                      
+                      <h5 style="display:flex;justify-content: center;" >{{production}}kWh</h5>
+                      <small class="text-muted mt-0" style="display:flex;justify-content: center;">Current Production</small>
+                      </div>
+                   
+                    </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row mt-3" >
+              <div class="col-lg-12 mb-lg-0 mb-4 ">
               <div class="card z-index-2 h-100">
                 <div
                   class="card-header"
@@ -28,34 +72,34 @@
                   <div class="col-lg-8 row">
                     <div class="container-fluid d-flex">
                       <div class="col-lg-6">
-                        <h4 class="text-bold mb-0">{{ firstName }}</h4>
-                        <small class="text-muted mt-0">first name</small>
+                        <h5 class="text-bold mb-0">{{ firstName }}</h5>
+                        <small class="text-muted mt-0">First Name</small>
                       </div>
                       <div class="col-lg-6">
-                        <h4 class="text-bold mb-0">{{ lastName }}</h4>
-                        <small class="text-muted mt-0">last name</small>
-                      </div>
-                    </div>
-                    <hr />
-                    <div class="container-fluid d-flex">
-                      <div class="col-lg-6">
-                        <h4 class="text-bold mb-0">{{ username }}</h4>
-                        <small class="text-muted mt-0">username</small>
-                      </div>
-                      <div class="col-lg-6">
-                        <h4 class="text-bold mb-0">{{ email }}</h4>
-                        <small class="text-muted mt-0">e-mail</small>
+                        <h5 class="text-bold mb-0">{{ lastName }}</h5>
+                        <small class="text-muted mt-0">Last Name</small>
                       </div>
                     </div>
                     <hr />
                     <div class="container-fluid d-flex">
                       <div class="col-lg-6">
-                        <h4 class="text-bold mb-0">{{ address }}</h4>
-                        <small class="text-muted mt-0">address</small>
+                        <h5 class="text-bold mb-0">{{ username }}</h5>
+                        <small class="text-muted mt-0">Username</small>
                       </div>
                       <div class="col-lg-6">
-                        <h4 class="text-bold mb-0">{{ city }}</h4>
-                        <small class="text-muted mt-0">city</small>
+                        <h5 class="text-bold mb-0">{{ email }}</h5>
+                        <small class="text-muted mt-0">E-mail</small>
+                      </div>
+                    </div>
+                    <hr />
+                    <div class="container-fluid d-flex">
+                      <div class="col-lg-6">
+                        <h5 class="text-bold mb-0">{{ address }}</h5>
+                        <small class="text-muted mt-0">Address</small>
+                      </div>
+                      <div class="col-lg-6">
+                        <h5 class="text-bold mb-0">{{ city }}</h5>
+                        <small class="text-muted mt-0">City</small>
                       </div>
                     </div>
                   </div>
@@ -66,6 +110,7 @@
                         display: flex;
                         align-items: start;
                         justify-content: end;
+                        
                       "
                     >
                       <img
@@ -76,15 +121,20 @@
                       />
                     </div>
                     <div
-                      class="container-fluid d-flex me-0 pe-0"
+                      class="container-fluid d-flex pe-0"
                       style="
                         display: flex;
                         align-items: center;
-                        justify-content: end;
+                        justify-content: center;
+                        margin-top:10%;
+                        margin-left:7%;
                       "
                     >
                       <div *ngIf="letValue === 'Dso'">
-                        <div class="col-5 px-0 me-2">
+                        <div class="col-6" style="float:left;display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        ">
                           <input
                             id="edit"
                             type="button"
@@ -93,15 +143,20 @@
                             data-bs-toggle="modal"
                             data-bs-target="#exampleModal4"
                             class="btn"
+                            
                           />
+                          <br/>
                         </div>
-                        <div class="col-5 px-0">
+                        <div class="col-6" style="float:left;display: flex;
+                        align-items: center;
+                        justify-content: center;">
                           <input
                             id="delete"
                             type="button"
                             value="Delete"
                             (click)="DeleteUser()"
                             class="btn"
+                            style="display: flex;justify-content: center;"
                           />
                         </div>
                       </div>
@@ -109,15 +164,10 @@
                   </div>
                 </div>
               </div>
-            </div>
-            <div class="col-lg-5">
-              <div class="card p-0">
-                <app-history-Prosumer></app-history-Prosumer>
               </div>
             </div>
-          </div>
-          <div class="row mt-4 mb-2">
-            <div class="col-lg-7">
+            <div class="row mt-3">
+              <div class="col-lg-12 mb-lg-0 mb-4 ">
               <div class="card">
                 <div class="card-header">
                   <h6>Devices</h6>
@@ -127,25 +177,27 @@
                 </div>
               </div>
             </div>
+          </div>
+            </div>
             <div class="col-lg-5">
+              
+              <div class="card p-0 mb-4">
+                <app-history-Prosumer></app-history-Prosumer>
+              </div>
               <div class="card p-0 mb-4">
                 <app-prediction-prosumer></app-prediction-prosumer>
               </div>
               <div class="card p-0">
                 <app-user-info-gauge></app-user-info-gauge>
-                <!-- moze da se doda tabela al da od pocetkam meseca do danas po satu prikazuje podatke -->
               </div>
             </div>
-          </div>
-          <!-- <div class="row mt-4 mb-3">
-          <div class="col-lg-5 p-0">
-
-          </div>
-        </div> -->
+          
+            
         </div>
+      </div>
+
       </main>
-    </div>
-  </div>
+
   <app-popup-add></app-popup-add>
   <app-popup-emp></app-popup-emp>
   <div
@@ -166,6 +218,7 @@
             class="btn-close"
             data-bs-dismiss="modal"
             aria-label="Close"
+            id="closeBtn1"
           ></button>
         </div>
         <div class="modal-body">
@@ -173,7 +226,7 @@
             <div class="panel-body">
               <div class="centralni">
                 <div class="divinput row">
-                  <form [formGroup]="editUser" (ngSubmit)="UpdateData()">
+                  <form [formGroup]="editUser">
                     <label class="mb-0 mt-3">First name:</label>
                     <input
                       type="text"
@@ -198,7 +251,7 @@
                       type="button"
                       value="Save"
                       routerLink="/DsoApp/user/{{ id }}"
-                      (click)="UpdateData()"
+                      (click)="UpdateData();"
                     />
                   </form>
                 </div>
@@ -209,4 +262,4 @@
       </div>
     </div>
   </div>
-</div>
+

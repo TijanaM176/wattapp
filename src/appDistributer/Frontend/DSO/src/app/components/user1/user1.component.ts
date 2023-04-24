@@ -11,6 +11,8 @@ import { DataService } from 'src/app/services/data.service';
 import { ScreenWidthService } from 'src/app/services/screen-width.service';
 import { fromEvent, Observable, Subscription } from 'rxjs';
 import { editUserDto } from 'src/app/models/editUserDto';
+import { DeviceserviceService } from 'src/app/services/deviceservice.service';
+import { TabelaUredjajaComponent } from '../tabelaUredjaja/tabelaUredjaja.component';
 
 @Component({
   selector: 'app-user1',
@@ -22,6 +24,7 @@ export class User1Component implements OnInit, AfterViewInit {
   loader: boolean = true;
   resizeObservable$!: Observable<Event>;
   resizeSubscription$!: Subscription;
+  numberD:number=0;
   constructor(
     private user1: EmployeesServiceService,
     private user: UsersServiceService,
@@ -31,7 +34,8 @@ export class User1Component implements OnInit, AfterViewInit {
     private cookie: CookieService,
     private serviceData: DataService,
     private widthService: ScreenWidthService,
-    private r: Router
+    private r: Router,
+    private deviceService:DeviceserviceService
   ) {}
   letValue: string = '';
   id: string = '';
@@ -42,6 +46,9 @@ export class User1Component implements OnInit, AfterViewInit {
   address: string = '';
   Region: string = '';
   city: string = '';
+  type : string = '';
+  consumption: number = 0;
+  production: number = 0;
   editUser = new FormGroup({
     FirstName: new FormControl(''),
     LastName: new FormControl(''),
@@ -55,10 +62,10 @@ export class User1Component implements OnInit, AfterViewInit {
   });
   message: boolean = false;
   userOldInfo: any;
+  thresholds: object = {};
 
   ngOnInit(): void {
-    document.getElementById('sidebarPotrosnjaContainer')!.style.height =
-      this.widthService.height + 'px';
+
     document.getElementById('userInfoDataContainer')!.style.height =
       this.widthService.height + 'px';
     this.letValue = this.cookie.get('role');
@@ -91,20 +98,21 @@ export class User1Component implements OnInit, AfterViewInit {
             CityName: new FormControl(''),
           });
         });
+        this.thresholds = {
+          '0': { color: '#5875A1', bgOpacity: 0.2, fontSize: '16px' },
+        };
       });
-
+    this.ConsumptionAndProduction();
     this.resizeObservable$ = fromEvent(window, 'resize');
     this.resizeSubscription$ = this.resizeObservable$.subscribe((evt) => {
-      document.getElementById('sidebarPotrosnjaContainer')!.style.height =
-        this.widthService.height + 'px';
+
       document.getElementById('userInfoDataContainer')!.style.height =
         this.widthService.height + 'px';
     });
   }
 
   ngAfterViewInit(): void {
-    document.getElementById('sidebarPotrosnjaContainer')!.style.height =
-      this.widthService.height + 'px';
+
     document.getElementById('userInfoDataContainer')!.style.height =
       this.widthService.height + 'px';
   }
@@ -116,15 +124,19 @@ export class User1Component implements OnInit, AfterViewInit {
     if (this.userOldInfo.email != this.editUser.value.Email) {
       dto.email = this.editUser.value.Email!;
     }
+    console.log(dto);
     this.user.updateUserData(dto.id, dto).subscribe((res) => {
-      // console.log(res);
+      console.log(res);
       window.location.reload;
     });
+    const buttonRef = document.getElementById('closeBtn1');
+    buttonRef?.click();
     
   }
 
   DeleteUser() {
     //console.log(this.router.snapshot.params['id']);
+    if (confirm('Do you want to delete ?')) {
     this.user.deleteUser(this.router.snapshot.params['id']).subscribe({
       next: (res) => {
         // console.log(res);
@@ -134,6 +146,7 @@ export class User1Component implements OnInit, AfterViewInit {
         console.log(err.error);
       },
     });
+  }
   }
 
   disableDelete(role : string)
@@ -148,4 +161,14 @@ export class User1Component implements OnInit, AfterViewInit {
       deleteBtn?.setAttribute('disabled','disabled');
     }
   }
+
+  ConsumptionAndProduction() {
+    this.deviceService
+      .getUserProductionAndConsumption(this.router.snapshot.params['id'])
+      .subscribe((data) => {
+        this.consumption = data.consumption;
+        this.production = data.production;
+      });
+    }
+    
 }
