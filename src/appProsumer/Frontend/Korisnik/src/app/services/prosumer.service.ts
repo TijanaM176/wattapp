@@ -7,34 +7,49 @@ import { EditDto } from '../models/editDto';
   providedIn: 'root',
 })
 export class ProsumerService {
-  baseUrl: string = 'https://localhost:7156/api/Prosumer/';
-  deviceUrl: string = 'https://localhost:7156/api/Devices/';
-  dataUrl: string = 'https://localhost:7156/api/GenericData/';
-  cityId!:number;
-  neighId!:string;
+  baseUrl: string = 'https://localhost:7156/api/';
+  cityId!: number;
+  neighId!: string;
   constructor(private http: HttpClient) {}
 
   getInforamtion(id: string): Observable<any> {
-    return this.http.get<any>(this.baseUrl + 'getProsumerByID?id=' + id);
+    return this.http.get<any>(
+      this.baseUrl + 'Prosumer/getProsumerByID?id=' + id
+    );
   }
 
   editInfo(id: string, dto: EditDto) {
-    return this.http.put(this.baseUrl + 'UpdateProsumer?id=' + id, dto);
+    return this.http.put(
+      this.baseUrl + 'Prosumer/UpdateProsumer?id=' + id,
+      dto
+    );
   }
 
-  getDevicesByProsumerId(id: string,role:string): Observable<any> {
+  getDevicesByProsumerId(id: string, role: string): Observable<any> {
     return this.http.get<any>(
-      this.deviceUrl + 'GetAllDevicesForProsumer?id=' + id+'&role='+role
+      this.baseUrl +
+        'Devices/GetAllDevicesForProsumer?id=' +
+        id +
+        '&role=' +
+        role
     );
   }
 
   getDeviceById(id: string): Observable<any> {
-    return this.http.get<any>(this.deviceUrl + 'GetDevice?id=' + id);
+    return this.http.get<any>(this.baseUrl + 'Devices/GetDevice?id=' + id);
   }
   getCityById(): Observable<string> {
-    return this.http.get(this.dataUrl + 'GetCityNameById?id=' + this.cityId,{responseType:'text'});
+    return this.http.get(
+      this.baseUrl + 'GenericData/GetCityNameById?id=' + this.cityId,
+      {
+        responseType: 'text',
+      }
+    );
   }
   getNeighborhoodById(): Observable<string> {
-    return this.http.get(this.dataUrl + 'GetNeighborhoodByName?id=' + this.neighId,{responseType:'text'});
+    return this.http.get(
+      this.baseUrl + 'GenericData/GetNeighborhoodByName?id=' + this.neighId,
+      { responseType: 'text' }
+    );
   }
 }

@@ -9,15 +9,18 @@ import { CookieService } from 'ngx-cookie-service';
   providedIn: 'root',
 })
 export class DeviceserviceService {
-  constructor(private http: HttpClient, private spiner: NgxSpinnerService,private cookie: CookieService) {}
+  constructor(
+    private http: HttpClient,
+    private spiner: NgxSpinnerService,
+    private cookie: CookieService
+  ) {}
 
   private baseUrl: string = 'https://localhost:7156/api/';
-  private deviceBaseUrl: string = 'https://localhost:7156/api/Devices/';
   private totalUrl: string = 'https://localhost:7156/api/TotalPowerUsage/';
   prosumers!: Prosumer[];
 
   getInfoDevice(id: string) {
-    return this.http.get(`${this.deviceBaseUrl}GetDevice` + `?id=` + id);
+    return this.http.get(`${this.baseUrl}Devices/GetDevice` + `?id=` + id);
   }
   getCurrConsumptionAndProduction(): Observable<any> {
     return this.http.get<any>(this.baseUrl + 'DashboardData/DsoSidebarInfo');
@@ -30,7 +33,7 @@ export class DeviceserviceService {
 
   getDevicesByProsumerId(id: string): Observable<any> {
     return this.http.get<any>(
-      this.deviceBaseUrl + 'GetAllDevicesForProsumer?id=' + id + '&role=dso'
+      this.baseUrl + 'Devices/GetAllDevicesForProsumer?id=' + id + '&role=dso'
     );
   }
   prosumerFilter(
@@ -42,8 +45,8 @@ export class DeviceserviceService {
     maxDev: number
   ): Observable<Prosumer[]> {
     return this.http.get<Prosumer[]>(
-      this.deviceBaseUrl +
-        'UpdatedProsumerFilter?minConsumption=' +
+      this.baseUrl +
+        'Devices/UpdatedProsumerFilter?minConsumption=' +
         minCon +
         '&maxConsumption=' +
         maxCon +
@@ -67,8 +70,8 @@ export class DeviceserviceService {
     maxDev: number
   ): Observable<Prosumer[]> {
     return this.http.get<Prosumer[]>(
-      this.deviceBaseUrl +
-        'UpdatedProsumerFilter2?neighborhood=' +
+      this.baseUrl +
+        'Devices/UpdatedProsumerFilter2?neighborhood=' +
         idNaselja +
         '&minConsumption=' +
         minCon +
@@ -85,7 +88,7 @@ export class DeviceserviceService {
     );
   }
   ProsumersInfo() {
-    lastValueFrom(this.http.get(this.deviceBaseUrl + 'AllProsumerInfo')).then(
+    lastValueFrom(this.http.get(this.baseUrl + 'Devices/AllProsumerInfo')).then(
       (res) => {
         this.prosumers = res as Prosumer[];
         this.spiner.hide();
@@ -97,7 +100,6 @@ export class DeviceserviceService {
   }
 
   ProsumersInfo1(): Observable<any[]> {
-    return this.http.get<any[]>(this.deviceBaseUrl + 'AllProsumerInfo');
+    return this.http.get<any[]>(this.baseUrl + 'Devices/AllProsumerInfo');
   }
-  
 }

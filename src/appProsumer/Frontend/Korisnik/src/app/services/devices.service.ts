@@ -7,15 +7,14 @@ import { Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class DevicesService {
-  baseUrl: string = 'https://localhost:7156/api/Timestamp/';
-  totalUrl: string = 'https://localhost:7156/api/TotalPowerUsage/';
+  baseUrl: string = 'https://localhost:7156/api/';
 
   constructor(private http: HttpClient, private cookie: CookieService) {}
 
   history7Days() {
     return this.http.get(
       this.baseUrl +
-        'LastWeeksConsumptionAndProduction?id=' +
+        'Timestamp/LastWeeksConsumptionAndProduction?id=' +
         this.cookie.get('id')
     );
   }
@@ -23,7 +22,7 @@ export class DevicesService {
   history1Month() {
     return this.http.get(
       this.baseUrl +
-        'LastMonthsConsumptionAndProduction?id=' +
+        'Timestamp/LastMonthsConsumptionAndProduction?id=' +
         this.cookie.get('id')
     );
   }
@@ -31,7 +30,7 @@ export class DevicesService {
   history1Year() {
     return this.http.get(
       this.baseUrl +
-        'LastYearsConsumptionAndProduction?id=' +
+        'Timestamp/LastYearsConsumptionAndProduction?id=' +
         this.cookie.get('id')
     );
   }
@@ -39,7 +38,7 @@ export class DevicesService {
   prediction1Week() {
     return this.http.get(
       this.baseUrl +
-        'NextWeeksConsumptionAndProduction?id=' +
+        'Timestamp/NextWeeksConsumptionAndProduction?id=' +
         this.cookie.get('id')
     );
   }
@@ -47,7 +46,7 @@ export class DevicesService {
   prediction3Days() {
     return this.http.get(
       this.baseUrl +
-        'Next3DaysConsumptionAndProduction?id=' +
+        'Timestamp/Next3DaysConsumptionAndProduction?id=' +
         this.cookie.get('id')
     );
   }
@@ -55,43 +54,51 @@ export class DevicesService {
   prediction1Day() {
     return this.http.get(
       this.baseUrl +
-        'NextDaysConsumptionAndProduction?id=' +
+        'Timestamp/NextDaysConsumptionAndProduction?id=' +
         this.cookie.get('id')
     );
   }
 
   getCurrentConsumptionAndProduction(): Observable<any> {
     return this.http.get<any>(
-      this.totalUrl +
-        'ConsumptionAndProductionByProsumer?id=' +
+      this.baseUrl +
+        'TotalPowerUsage/ConsumptionAndProductionByProsumer?id=' +
         this.cookie.get('id')
     );
   }
 
   getConsumptionAndProductionLimit(): Observable<any> {
     return this.http.get<any>(
-      this.totalUrl +
-        'ThisMonthTotalConsumptionProductionForProsumer?prosumerId=' +
+      this.baseUrl +
+        'TotalPowerUsage/ThisMonthTotalConsumptionProductionForProsumer?prosumerId=' +
         this.cookie.get('id')
     );
   }
   predictionDevice(id: string): Observable<any> {
-    return this.http.get(this.baseUrl + 'PredictionForDevice?idDevice=' + id);
+    return this.http.get(
+      this.baseUrl + 'Timestamp/PredictionForDevice?idDevice=' + id
+    );
   }
 
   historyDeviceWeek(id: string): Observable<any> {
     return this.http.get(
-      this.baseUrl + `ProductionConsumptionForLastWeekForDevice?idDevice=` + id
+      this.baseUrl +
+        `Timestamp/ProductionConsumptionForLastWeekForDevice?idDevice=` +
+        id
     );
   }
   historyDeviceMonth(id: string): Observable<any> {
     return this.http.get(
-      this.baseUrl + `ProductionConsumptionForLastMonthForDevice?idDevice=` + id
+      this.baseUrl +
+        `Timestamp/ProductionConsumptionForLastMonthForDevice?idDevice=` +
+        id
     );
   }
   historyDeviceYear(id: string): Observable<any> {
     return this.http.get(
-      this.baseUrl + `ProductionConsumptionForLastYearForDevice?idDevice=` + id
+      this.baseUrl +
+        `Timestamp/ProductionConsumptionForLastYearForDevice?idDevice=` +
+        id
     );
   }
 }
