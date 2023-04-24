@@ -142,6 +142,7 @@ export class RealizationChartComponent implements OnInit, AfterViewInit {
         }
       );
       this.data = mapFunction(myList);
+      console.log(this.data);
     });
   }
 

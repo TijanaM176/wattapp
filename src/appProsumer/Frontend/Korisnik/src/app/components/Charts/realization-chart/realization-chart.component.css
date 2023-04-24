@@ -7,6 +7,9 @@
 h6{
     color: #466471;
 }
+#realizationProsumerTableLabel{
+    color: white;
+}
 .btn-primary{
     background-color: #466471;
     border-color: #466471;
@@ -19,5 +22,13 @@ h6{
 .realizationbtn:not(.active)
 {
     background-color: #466471;
+    border-color: #466471;
+}
+.btn-close{
+    color: white;
+    background-color: white;
+}
+.btn-outline-primary{
+    color: #466471;
     border-color: #466471;
 }
