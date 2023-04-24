@@ -1,6 +1,11 @@
 <div class="card-header py-3 row mx-0 my-0 px-0">
-    <div class="col-5 p-1">
-        <h6 class="m-0 font-weight-bold ps-2">Prediction</h6>
+    <div class="col-5" style="display: flex; flex-direction: column; align-items: start; justify-content: center;">
+        <h6 class="m-0 font-weight-bold ps-2">
+            Prediction
+            &nbsp;<button class="btn btn-outline-primary p-0 px-1 m-0" data-bs-toggle="modal" data-bs-target="#predictionProsumerTable">
+                <i class="fa fa-table"></i>
+            </button>
+        </h6>
     </div>
     <div class="col-7 p-1 group" style="display: flex; justify-content: right; margin: auto;">
         <button class="btn btn-primary m-1 predictionbtn" id="prediction1" (click)="Prediction1Day('prediction1')">1D</button>
@@ -49,3 +54,20 @@
         <i class="fa fa-circle production">&nbsp;Production</i>
     </div>
 </div>
+
+<div class="modal fade" id="predictionProsumerTable" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="predictionProsumerTableLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content">
+        <div class="modal-header text-white" style="background-color: #466471">
+          <h6 class="modal-title" id="predictionProsumerTableLabel">Prediction Table</h6>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <app-prediction-chart-table [data]="data"></app-prediction-chart-table>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary">Export Table</button>
+        </div>
+      </div>
+    </div>
+  </div>

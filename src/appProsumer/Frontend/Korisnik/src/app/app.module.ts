@@ -38,6 +38,7 @@ import { ToastrModule } from 'ngx-toastr';
 import { RealizationDeviceComponent } from './components/Charts/realizationDevice/realizationDevice.component';
 import { PredictionDeviceComponent } from './components/Charts/predictionDevice/predictionDevice.component';
 import { RealizationChartTableComponent } from './components/Charts-tables/realization-chart-table/realization-chart-table.component';
+import { PredictionChartTableComponent } from './components/Charts-tables/prediction-chart-table/prediction-chart-table.component';
 
 @NgModule({
   declarations: [
@@ -65,6 +66,7 @@ import { RealizationChartTableComponent } from './components/Charts-tables/reali
     RealizationDeviceComponent,
     PredictionDeviceComponent,
     RealizationChartTableComponent,
+    PredictionChartTableComponent,
   ],
   imports: [
     BrowserAnimationsModule,
