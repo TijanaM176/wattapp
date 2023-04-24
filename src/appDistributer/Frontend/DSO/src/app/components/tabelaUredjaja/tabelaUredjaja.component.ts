@@ -30,17 +30,20 @@ export class TabelaUredjajaComponent implements OnInit {
   devices: any[] = [];
   devicesToShow: any[] = [];
   filteredDevices: any[] = [];
+  numofdevices:number=0;
+  orderHeader: String = '';
+  isDescOrder: boolean = true;
   dataSource = new MatTableDataSource<any[]>(this.devices);
   constructor(
     private userService: UsersServiceService,
     private cookie: CookieService,
     private router: ActivatedRoute,
-    private deviceServer: DeviceserviceService
+    private deviceService: DeviceserviceService
   ) {}
 
-  ngOnInit() {
+  ngOnInit():void {
     this.id = this.router.snapshot.params['id'];
-    this.deviceServer.getDevicesByProsumerId(this.id).subscribe((response) => {
+    this.deviceService.getDevicesByProsumerId(this.id).subscribe((response) => {
       console.log(response);
       this.devicesToShow = [
         ...response.consumers,
@@ -53,6 +56,7 @@ export class TabelaUredjajaComponent implements OnInit {
         ...response.storage,
       ];
     });
+
   }
   get pages() {
     const totalPages = Math.ceil(this.devicesToShow.length / this.itemsPerPage);
@@ -84,5 +88,9 @@ export class TabelaUredjajaComponent implements OnInit {
     this.devicesToShow = this.devicesToShow.filter((device) =>
       device.Name.toLowerCase().includes(this.searchName.toLowerCase())
     );
+  }
+  sort(headerName: String) {
+    this.isDescOrder = !this.isDescOrder;
+    this.orderHeader = headerName;
   }
 }

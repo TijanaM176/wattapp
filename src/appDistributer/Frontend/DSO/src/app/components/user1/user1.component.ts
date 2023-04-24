@@ -12,6 +12,7 @@ import { ScreenWidthService } from 'src/app/services/screen-width.service';
 import { fromEvent, Observable, Subscription } from 'rxjs';
 import { editUserDto } from 'src/app/models/editUserDto';
 import { DeviceserviceService } from 'src/app/services/deviceservice.service';
+import { TabelaUredjajaComponent } from '../tabelaUredjaja/tabelaUredjaja.component';
 
 @Component({
   selector: 'app-user1',
@@ -23,6 +24,7 @@ export class User1Component implements OnInit, AfterViewInit {
   loader: boolean = true;
   resizeObservable$!: Observable<Event>;
   resizeSubscription$!: Subscription;
+  numberD:number=0;
   constructor(
     private user1: EmployeesServiceService,
     private user: UsersServiceService,

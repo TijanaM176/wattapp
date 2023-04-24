@@ -15,6 +15,7 @@ export class DeviceserviceService {
   private deviceBaseUrl: string = 'https://localhost:7156/api/Devices/';
   private totalUrl: string = 'https://localhost:7156/api/TotalPowerUsage/';
   prosumers!: Prosumer[];
+  numofdevices!:number;
 
   getInfoDevice(id: string) {
     return this.http.get(`${this.deviceBaseUrl}GetDevice` + `?id=` + id);
