@@ -231,6 +231,7 @@
             class="btn-close"
             data-bs-dismiss="modal"
             aria-label="Close"
+            id="closeBtn1"
           ></button>
         </div>
         <div class="modal-body">
@@ -238,7 +239,7 @@
             <div class="panel-body">
               <div class="centralni">
                 <div class="divinput row">
-                  <form [formGroup]="editUser" (ngSubmit)="UpdateData()">
+                  <form [formGroup]="editUser">
                     <label class="mb-0 mt-3">First name:</label>
                     <input
                       type="text"
@@ -263,7 +264,7 @@
                       type="button"
                       value="Save"
                       routerLink="/DsoApp/user/{{ id }}"
-                      (click)="UpdateData()"
+                      (click)="UpdateData();"
                     />
                   </form>
                 </div>

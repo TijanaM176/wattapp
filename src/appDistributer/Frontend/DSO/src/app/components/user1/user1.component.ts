@@ -124,15 +124,19 @@ export class User1Component implements OnInit, AfterViewInit {
     if (this.userOldInfo.email != this.editUser.value.Email) {
       dto.email = this.editUser.value.Email!;
     }
+    console.log(dto);
     this.user.updateUserData(dto.id, dto).subscribe((res) => {
-      // console.log(res);
+      console.log(res);
       window.location.reload;
     });
+    const buttonRef = document.getElementById('closeBtn1');
+    buttonRef?.click();
     
   }
 
   DeleteUser() {
     //console.log(this.router.snapshot.params['id']);
+    if (confirm('Do you want to delete ?')) {
     this.user.deleteUser(this.router.snapshot.params['id']).subscribe({
       next: (res) => {
         // console.log(res);
@@ -142,6 +146,7 @@ export class User1Component implements OnInit, AfterViewInit {
         console.log(err.error);
       },
     });
+  }
   }
 
   disableDelete(role : string)
