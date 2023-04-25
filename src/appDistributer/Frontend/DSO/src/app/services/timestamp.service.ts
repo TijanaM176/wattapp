@@ -12,104 +12,101 @@ export class TimestampService {
   private timestampUrl = enviroment.apiUrl;
   HistoryProsumer7Days(id: string): Observable<any> {
     return this.http.get(
-      this.timestampUrl + 'Timestamp/LastWeeksConsumptionAndProduction?id=' + id
+      'http://softeng.pmf.kg.ac.rs:10071/api/Timestamp/LastWeeksConsumptionAndProduction?id=' +
+        id
     );
   }
 
   HistoryAllProsumers7Days(): Observable<any> {
     return this.http.get(
-      this.timestampUrl +
-        'Timestamp/LastWeeksConsumptionAndProductionTimestamps'
+      'http://softeng.pmf.kg.ac.rs:10071/api/Timestamp/LastWeeksConsumptionAndProductionTimestamps'
     );
   }
 
-  HistoryAllProsumers1Month() {
+  HistoryAllProsumers1Month(): Observable<any> {
     return this.http.get(
-      this.timestampUrl +
-        'Timestamp/LastMonthsConsumptionAndProductionTimestamps'
+      'http://softeng.pmf.kg.ac.rs:10071/api/Timestamp/LastMonthsConsumptionAndProductionTimestamps'
     );
   }
-  HistoryAllProsumers1Year() {
+  HistoryAllProsumers1Year(): Observable<any> {
     return this.http.get(
-      this.timestampUrl +
-        'Timestamp/LastYearsConsumptionAndProductionTimestamps'
+      'http://softeng.pmf.kg.ac.rs:10071/api/Timestamp/LastYearsConsumptionAndProductionTimestamps'
     );
   }
   PredictionNextWeek(): Observable<any> {
     return this.http.get(
-      this.timestampUrl +
-        'Timestamp/NextWeeksConsumptionAndProductionTimestamps'
+      'http://softeng.pmf.kg.ac.rs:10071/api/Timestamp/NextWeeksConsumptionAndProductionTimestamps'
     );
   }
   PredictionNext3Days(): Observable<any> {
     return this.http.get(
-      this.timestampUrl +
-        'Timestamp/Next3DaysConsumptionAndProductionTimestamps'
+      'http://softeng.pmf.kg.ac.rs:10071/api/Timestamp/Next3DaysConsumptionAndProductionTimestamps'
     );
   }
   PredictionNextDay(): Observable<any> {
     return this.http.get(
-      this.timestampUrl + 'Timestamp/NextDaysConsumptionAndProductionTimestamps'
+      'http://softeng.pmf.kg.ac.rs:10071/api/Timestamp/NextDaysConsumptionAndProductionTimestamps'
     );
   }
 
   PredictionProsumer7Days(id: string): Observable<any> {
     return this.http.get(
-      this.timestampUrl + 'Timestamp/NextWeeksConsumptionAndProduction?id=' + id
+      'http://softeng.pmf.kg.ac.rs:10071/api/Timestamp/NextWeeksConsumptionAndProduction?id=' +
+        id
     );
   }
   PredictionProsumer3Days(id: string): Observable<any> {
     return this.http.get(
-      this.timestampUrl + 'Timestamp/Next3DaysConsumptionAndProduction?id=' + id
+      'http://softeng.pmf.kg.ac.rs:10071/api/Timestamp/Next3DaysConsumptionAndProduction?id=' +
+        id
     );
   }
   PredictionProsumer1Day(id: string): Observable<any> {
     return this.http.get(
-      this.timestampUrl + 'Timestamp/NextDaysConsumptionAndProduction?id=' + id
+      'http://softeng.pmf.kg.ac.rs:10071/api/Timestamp/NextDaysConsumptionAndProduction?id=' +
+        id
     );
   }
   HistoryProsumer1Month(id: string): Observable<any> {
     return this.http.get(
-      this.timestampUrl +
-        'Timestamp/LastMonthsConsumptionAndProduction?id=' +
+      'http://softeng.pmf.kg.ac.rs:10071/api/Timestamp/LastMonthsConsumptionAndProduction?id=' +
         id
     );
   }
   HistoryProsumer1Year(id: string): Observable<any> {
     return this.http.get(
-      this.timestampUrl + 'Timestamp/LastYearsConsumptionAndProduction?id=' + id
+      'http://softeng.pmf.kg.ac.rs:10071/api/Timestamp/LastYearsConsumptionAndProduction?id=' +
+        id
     );
   }
   predictionDevice(id: string): Observable<any> {
     return this.http.get(
-      this.timestampUrl + 'Timestamp/PredictionForDevice?idDevice=' + id
+      'http://softeng.pmf.kg.ac.rs:10071/api/Timestamp/PredictionForDevice?idDevice=' +
+        id
     );
   }
   historyDeviceWeek(id: string): Observable<any> {
     return this.http.get(
-      this.timestampUrl +
-        'Timestamp/ProductionConsumptionForLastWeekForDevice?idDevice=' +
+      'http://softeng.pmf.kg.ac.rs:10071/api/Timestamp/ProductionConsumptionForLastWeekForDevice?idDevice=' +
         id
     );
   }
   historyDeviceMonth(id: string): Observable<any> {
     return this.http.get(
-      this.timestampUrl +
-        'Timestamp/ProductionConsumptionForLastMonthForDevice?idDevice=' +
+      'http://softeng.pmf.kg.ac.rs:10071/api/Timestamp/ProductionConsumptionForLastMonthForDevice?idDevice=' +
         id
     );
   }
   historyDeviceYear(id: string): Observable<any> {
     return this.http.get(
-      this.timestampUrl +
-        'Timestamp/ProductionConsumptionForLastYearForDevice?idDevice=' +
+      'http://softeng.pmf.kg.ac.rs:10071/api/Timestamp/ProductionConsumptionForLastYearForDevice?idDevice=' +
         id
     );
   }
-  history7Days() {
+  history7Days(): Observable<any> {
     return this.http.get(
       this.timestampUrl +
-        'Timestamp/LastWeeksConsumptionAndProduction?id=' +
+        'http://softeng.pmf.kg.ac.rs:10071/api/Timestamp/LastWeeksConsumptionAndProduction?id=' +
         this.cookie.get('id')
     );
   }
