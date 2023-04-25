@@ -811,9 +811,9 @@ namespace API.Repositories.DeviceRepository
             Dictionary<string, Dictionary<DateTime, double>> datePowerByDevicePredicitionFor3Day = new Dictionary<string, Dictionary<DateTime, double>>();
             Dictionary<string, Dictionary<DateTime, double>> datePowerByDevicePredicitionFor7Day = new Dictionary<string, Dictionary<DateTime, double>>();
 
-            datePowerByDevicePredicitionFor1Day["Predictions For 1 day"] = new Dictionary<DateTime, double>();
-            datePowerByDevicePredicitionFor3Day["Predictions For 3 day"] = new Dictionary<DateTime, double>();
-            datePowerByDevicePredicitionFor7Day["Predictions For 7 day"] = new Dictionary<DateTime, double>();
+            datePowerByDevicePredicitionFor1Day["PredictionsFor1day"] = new Dictionary<DateTime, double>();
+            datePowerByDevicePredicitionFor3Day["PredictionsFor3day"] = new Dictionary<DateTime, double>();
+            datePowerByDevicePredicitionFor7Day["PredictionsFor7day"] = new Dictionary<DateTime, double>();
 
             if (deviceInfo.CategoryId == 1 || deviceInfo.CategoryId == 2) // consumer / producer device
             {
@@ -823,19 +823,19 @@ namespace API.Repositories.DeviceRepository
                     var roundedTime = new DateTime(timestamp.Date.Year, timestamp.Date.Month, timestamp.Date.Day, timestamp.Date.Hour, timestamp.Date.Minute / 2 * 2, 0); // zaokruzi vreme na svaka dva minuta
                     var twoHourTime = new DateTime(roundedTime.Year, roundedTime.Month, roundedTime.Day, roundedTime.Hour - (roundedTime.Hour % 2), 0, 0); // zaokruzi vreme na svaka dva sata
 
-                    if (datePowerByDevicePredicitionFor1Day["Predictions For 1 day"].ContainsKey(twoHourTime))
+                    if (datePowerByDevicePredicitionFor1Day["PredictionsFor1day"].ContainsKey(twoHourTime))
                     {
-                        datePowerByDevicePredicitionFor1Day["Predictions For 1 day"][twoHourTime] += timestamp.PredictedPower;
+                        datePowerByDevicePredicitionFor1Day["PredictionsFor1day"][twoHourTime] += timestamp.PredictedPower;
                     }
                     else
                     {
-                        datePowerByDevicePredicitionFor1Day["Predictions For 1 day"].Add(twoHourTime, timestamp.PredictedPower);
+                        datePowerByDevicePredicitionFor1Day["PredictionsFor1day"].Add(twoHourTime, timestamp.PredictedPower);
                     }
                 }
 
                 // Prolazi kroz agregirane vrednosti i saberi vrednosti za svaka dva sata
                 var tempDict = new Dictionary<DateTime, double>();
-                foreach (var kvp in datePowerByDevicePredicitionFor1Day["Predictions For 1 day"])
+                foreach (var kvp in datePowerByDevicePredicitionFor1Day["PredictionsFor1day"])
                 {
                     var twoHourTime = new DateTime(kvp.Key.Year, kvp.Key.Month, kvp.Key.Day, kvp.Key.Hour - (kvp.Key.Hour % 2), 0, 0); // zaokruzi vreme na svaka dva sata
                     if (tempDict.ContainsKey(twoHourTime))
@@ -847,7 +847,7 @@ namespace API.Repositories.DeviceRepository
                         tempDict.Add(twoHourTime, kvp.Value);
                     }
                 }
-                datePowerByDevicePredicitionFor1Day["Predictions For 1 day"] = tempDict;
+                datePowerByDevicePredicitionFor1Day["PredictionsFor1day"] = tempDict;
             }
             else
             {
@@ -859,13 +859,13 @@ namespace API.Repositories.DeviceRepository
                 {
                     var timestamp = device3.Timestamps[i];
                     var roundedDate = new DateTime(timestamp.Date.Year, timestamp.Date.Month, timestamp.Date.Day);
-                    if (datePowerByDevicePredicitionFor3Day["Predictions For 3 day"].ContainsKey(roundedDate))
+                    if (datePowerByDevicePredicitionFor3Day["PredictionsFor3day"].ContainsKey(roundedDate))
                     {
-                        datePowerByDevicePredicitionFor3Day["Predictions For 3 day"][roundedDate] += timestamp.PredictedPower;
+                        datePowerByDevicePredicitionFor3Day["PredictionsFor3day"][roundedDate] += timestamp.PredictedPower;
                     }
                     else
                     {
-                        datePowerByDevicePredicitionFor3Day["Predictions For 3 day"].Add(roundedDate, timestamp.PredictedPower);
+                        datePowerByDevicePredicitionFor3Day["PredictionsFor3day"].Add(roundedDate, timestamp.PredictedPower);
                     }
                 }
             }
@@ -879,13 +879,13 @@ namespace API.Repositories.DeviceRepository
                 {
                     var timestamp = device7.Timestamps[i];
                     var roundedTime = new DateTime(timestamp.Date.Year, timestamp.Date.Month, timestamp.Date.Day, 0, 0, 0); // round time to start of day
-                    if (datePowerByDevicePredicitionFor7Day["Predictions For 7 day"].ContainsKey(roundedTime))
+                    if (datePowerByDevicePredicitionFor7Day["PredictionsFor7day"].ContainsKey(roundedTime))
                     {
-                        datePowerByDevicePredicitionFor7Day["Predictions For 7 day"][roundedTime] += timestamp.PredictedPower;
+                        datePowerByDevicePredicitionFor7Day["PredictionsFor7day"][roundedTime] += timestamp.PredictedPower;
                     }
                     else
                     {
-                        datePowerByDevicePredicitionFor7Day["Predictions For 7 day"].Add(roundedTime, timestamp.PredictedPower);
+                        datePowerByDevicePredicitionFor7Day["PredictionsFor7day"].Add(roundedTime, timestamp.PredictedPower);
                     }
                 }
             }

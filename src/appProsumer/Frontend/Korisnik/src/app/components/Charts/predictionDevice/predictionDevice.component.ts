@@ -66,19 +66,21 @@ export class PredictionDeviceComponent implements OnInit {
       .predictionDevice(this.idDev)
       .subscribe((response: any) => {
         this.cat = response.categoryId;
-        const myList = Object.keys(response.nextWeek).map((name) => {
-          let predictionValue = response.nextWeek[name];
-          const cons: string = 'consumption';
-          if (predictionValue == undefined) {
-            predictionValue = 0.0;
+        const myList = Object.keys(response.nextWeek.PredictionsFor7day).map(
+          (name) => {
+            let predictionValue = response.nextWeek.PredictionsFor7day[name];
+            const cons: string = 'consumption';
+            if (predictionValue == undefined) {
+              predictionValue = 0.0;
+            }
+            const series = [{ name: cons, value: predictionValue }];
+            const date = new Date(name);
+            const formattedName = date.toLocaleDateString('en-US', {
+              weekday: 'long',
+            });
+            return { name: formattedName, series };
           }
-          const series = [{ name: cons, value: predictionValue }];
-          const date = new Date(name);
-          const formattedName = date.toLocaleDateString('en-US', {
-            weekday: 'long',
-          });
-          return { name: formattedName, series };
-        });
+        );
         this.data = myList;
       });
   }
@@ -88,20 +90,22 @@ export class PredictionDeviceComponent implements OnInit {
       .predictionDevice(this.idDev)
       .subscribe((response: any) => {
         this.cat = response.categoryId;
-        const myList = Object.keys(response.next3Days).map((name) => {
-          let predictionValue = response.nextWeek[name];
-          const cons: string = 'consumption';
-          const prod: string = 'producton';
-          if (predictionValue == undefined) {
-            predictionValue = 0.0;
+        const myList = Object.keys(response.next3Day.PredictionsFor3day).map(
+          (name) => {
+            let predictionValue = response.next3Day.PredictionsFor3day[name];
+            const cons: string = 'consumption';
+            const prod: string = 'producton';
+            if (predictionValue == undefined) {
+              predictionValue = 0.0;
+            }
+            const series = [{ name: cons, value: predictionValue }];
+            const date = new Date(name);
+            const formattedName = date.toLocaleDateString('en-US', {
+              weekday: 'long',
+            });
+            return { name: formattedName, series };
           }
-          const series = [{ name: cons, value: predictionValue }];
-          const date = new Date(name);
-          const formattedName = date.toLocaleDateString('en-US', {
-            weekday: 'long',
-          });
-          return { name: formattedName, series };
-        });
+        );
         this.data = myList;
       });
   }
@@ -111,21 +115,23 @@ export class PredictionDeviceComponent implements OnInit {
       .predictionDevice(this.idDev)
       .subscribe((response: any) => {
         this.cat = response.categoryId;
-        const myList = Object.keys(response.nextDay).map((name) => {
-          let predictionValue = response.nextDay[name];
-          const cons: string = 'consumption';
-          const prod: string = 'producton';
-          if (predictionValue == undefined) {
-            predictionValue = 0.0;
+        const myList = Object.keys(response.nextDay.PredictionsFor1day).map(
+          (name) => {
+            let predictionValue = response.nextDay.PredictionsFor1day[name];
+            const cons: string = 'consumption';
+            const prod: string = 'producton';
+            if (predictionValue == undefined) {
+              predictionValue = 0.0;
+            }
+            const series = [{ name: cons, value: predictionValue }];
+            const date = new Date(name);
+            const formattedHour = date.toLocaleTimeString([], {
+              hour: '2-digit',
+            });
+            const formattedName = formattedHour.split(':')[0] + 'H';
+            return { name: formattedName, series };
           }
-          const series = [{ name: cons, value: predictionValue }];
-          const date = new Date(name);
-          const formattedHour = date.toLocaleTimeString([], {
-            hour: '2-digit',
-          });
-          const formattedName = formattedHour.split(':')[0] + 'H';
-          return { name: formattedName, series };
-        });
+        );
         this.data = myList;
       });
   }

@@ -32,12 +32,12 @@ export class PredictionDeviceComponent implements OnInit {
   yAxisLabel = 'Energy in kWh';
   idDev: string = '';
 
-  @Input() type : string = '';
+  @Input() type: string = '';
 
   constructor(
     private deviceService: DeviceserviceService,
     private widthService: ScreenWidthService,
-    private timeService:TimestampService,
+    private timeService: TimestampService,
     private router1: ActivatedRoute
   ) {}
 
@@ -65,12 +65,11 @@ export class PredictionDeviceComponent implements OnInit {
   }
 
   PredictionWeek(id: string) {
-    this.timeService
-      .predictionDevice(this.idDev)
-      .subscribe((response: any) => {
-        // console.log(response);
-        const myList = Object.keys(response.nextWeek).map((name) => {
-          let predictionValue = response.nextWeek[name];
+    this.timeService.predictionDevice(this.idDev).subscribe((response: any) => {
+      // console.log(response);
+      const myList = Object.keys(response.nextWeek.PredictionsFor7day).map(
+        (name) => {
+          let predictionValue = response.nextWeek.PredictionsFor7day[name];
           const cons: string = this.type.toLowerCase();
           if (predictionValue == undefined) {
             predictionValue = 0.0;
@@ -81,19 +80,19 @@ export class PredictionDeviceComponent implements OnInit {
             weekday: 'long',
           });
           return { name: formattedName, series };
-        });
-        this.data = myList;
-        this.activateButton(id);
-        // console.log(this.data);
-      });
+        }
+      );
+      this.data = myList;
+      this.activateButton(id);
+      // console.log(this.data);
+    });
   }
 
   Prediction3Days(id: string) {
-    this.timeService
-      .predictionDevice(this.idDev)
-      .subscribe((response: any) => {
-        const myList = Object.keys(response.next3Days).map((name) => {
-          let predictionValue = response.nextWeek[name];
+    this.timeService.predictionDevice(this.idDev).subscribe((response: any) => {
+      const myList = Object.keys(response.next3Day.PredictionsFor3day).map(
+        (name) => {
+          let predictionValue = response.next3Day.PredictionsFor3day[name];
           const cons: string = this.type.toLowerCase();
           if (predictionValue == undefined) {
             predictionValue = 0.0;
@@ -104,19 +103,19 @@ export class PredictionDeviceComponent implements OnInit {
             weekday: 'long',
           });
           return { name: formattedName, series };
-        });
-        this.data = myList;
-        this.activateButton(id);
-        // console.log(this.data);
-      });
+        }
+      );
+      this.data = myList;
+      this.activateButton(id);
+      // console.log(this.data);
+    });
   }
 
   Prediction1Day(id: string) {
-    this.timeService
-      .predictionDevice(this.idDev)
-      .subscribe((response: any) => {
-        const myList = Object.keys(response.nextDay).map((name) => {
-          let predictionValue = response.nextDay[name];
+    this.timeService.predictionDevice(this.idDev).subscribe((response: any) => {
+      const myList = Object.keys(response.nextDay.PredictionsFor1day).map(
+        (name) => {
+          let predictionValue = response.nextDay.PredictionsFor1day[name];
           const cons: string = this.type.toLowerCase();
           if (predictionValue == undefined) {
             predictionValue = 0.0;
@@ -128,11 +127,12 @@ export class PredictionDeviceComponent implements OnInit {
           });
           const formattedName = formattedHour.split(':')[0] + 'H';
           return { name: formattedName, series };
-        });
-        this.data = myList;
-        this.activateButton(id);
-        // console.log(this.data);
-      });
+        }
+      );
+      this.data = myList;
+      this.activateButton(id);
+      // console.log(this.data);
+    });
   }
 
   activateButton(buttonNumber: string) {
