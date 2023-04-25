@@ -128,7 +128,7 @@
           <select (change)="getAllNeighborhoodById($event)">
             <option value="" selected disabled>--Select City --</option>
             <option *ngFor="let city of cities" [value]="city.id">
-              {{ city.name }}
+              {{ city.cityName }}
             </option>
           </select>
         </div>

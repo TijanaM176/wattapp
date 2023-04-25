@@ -24,6 +24,7 @@
                     signupWorkerForm.controls['firstName'].dirty &&
                     signupWorkerForm.hasError('required', 'firstName')
                   "
+                  style="display:flex;justify-content: center;"
                 >
                   <!-- <label class="lbl">FirstName:</label> -->
                   <span class="fa fa-user p-2" style="font-size: 24px"></span>
@@ -31,6 +32,7 @@
                     formControlName="firstName"
                     type="text"
                     placeholder="First Name"
+                    
                   />
                 </div>
               </div>
@@ -49,6 +51,7 @@
                     signupWorkerForm.controls['lastName'].dirty &&
                     signupWorkerForm.hasError('required', 'lastName')
                   "
+                  style="display:flex;justify-content: center;"
                 >
                   <!-- <label class="lbl">LastName:</label> -->
                   <span class="fa fa-user p-2" style="font-size: 24px"></span>
@@ -74,11 +77,12 @@
                     signupWorkerForm.controls['password'].dirty &&
                     signupWorkerForm.hasError('required', 'password')
                   "
+                  style="display:flex;justify-content: center;"
                 >
                   <!-- <label class="lbl">Password:</label> -->
                   <span
                     class="fa fa-lock p-2"
-                    style="font-size: 24px; margin-left: -10px"
+                    style="font-size: 24px;"
                   ></span>
                   <input
                     formControlName="password"
@@ -86,10 +90,14 @@
                     placeholder="Password"
                   />
                   <span
+                  class="p-viewer"
+                  style="z-index: 9999;
+                  position: absolute;
+                  right:10%;"
                     ><i
                       (click)="hideShowPass()"
                       class="fa {{ eyeIcon }}"
-                      style="margin-left: -30px; font-size: 20px"
+                      style=" font-size: 20px;margin-top:60%;"
                     ></i
                   ></span>
                 </div>
@@ -110,11 +118,12 @@
                     signupWorkerForm.controls['email'].dirty &&
                     signupWorkerForm.hasError('required', 'email')
                   "
+                  style="display:flex;justify-content: center;"
                 >
                   <!-- <label class="lbl">Email:</label> -->
                   <span
                     class="fa fa-envelope p-2"
-                    style="font-size: 20px; margin-left: -4px"
+                    style="font-size: 20px;"
                   ></span>
                   <input
                     formControlName="email"
@@ -149,6 +158,7 @@
                     signupWorkerForm.controls['salary'].dirty &&
                     signupWorkerForm.hasError('required', 'salary')
                   "
+                  style="display:flex;justify-content: center;"
                 >
                   <!-- <label class="lbl">Salary:</label> -->
                   <span><i class="fa fa-money p-2"></i></span>
@@ -174,6 +184,7 @@
                     signupWorkerForm.controls['image'].dirty &&
                     signupWorkerForm.hasError('required', 'image')
                   "
+                  style="display:flex;justify-content: center;"
                 >
                   <!-- <label class="lbl">Image:</label> -->
                   <span><i class="fa fa-image p-2"></i></span>

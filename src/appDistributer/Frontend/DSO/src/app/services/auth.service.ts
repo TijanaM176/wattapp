@@ -13,7 +13,8 @@ export class AuthService {
     'https://localhost:7156/api/Auth/';
   constructor(private http: HttpClient) {}
   signUp(userObj: any) {
-    return this.http.post<any>(`${this.baseUrl}registerProsumer`, userObj);
+    console.log(userObj);
+    return this.http.post<any>(`https://localhost:7156/api/Auth/registerProsumer`,userObj);
   }
   signupWorker(workerDto: any) {
     return this.http.post<any>(`${this.baseUrl}registerDsoWorker`, workerDto);
