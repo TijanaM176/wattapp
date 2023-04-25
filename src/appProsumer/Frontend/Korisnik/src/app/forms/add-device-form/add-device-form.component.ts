@@ -51,7 +51,6 @@ export class AddDeviceFormComponent {
     console.log(this.service.category);
     this.getTypes();
     this.type = -1;
-    this.Name = 'Device Name';
   }
   getCategories() {
     this.service.getCategories().subscribe({
@@ -69,7 +68,6 @@ export class AddDeviceFormComponent {
     console.log(this.service.type);
     this.getModels();
     this.model = -1;
-    this.Name = 'Device Name';
   }
   getTypes() {
     this.service.getTypes().subscribe({
@@ -86,8 +84,7 @@ export class AddDeviceFormComponent {
   ChangeModels(e: any) {
     this.service.model = this.model.id;
     console.log(this.service.model);
-    this.Name = this.model.name;
-    this.service.name = this.Name;
+ 
   }
   getModels() {
     
