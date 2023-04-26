@@ -40,6 +40,7 @@ import { PredictionDeviceComponent } from './components/Charts/predictionDevice/
 import { RealizationChartTableComponent } from './components/Charts-tables/realization-chart-table/realization-chart-table.component';
 import { PredictionChartTableComponent } from './components/Charts-tables/prediction-chart-table/prediction-chart-table.component';
 import { RealizationDeviceTableComponent } from './components/Charts-tables/realization-device-table/realization-device-table.component';
+import { PredictionDeviceTableComponent } from './components/Charts-tables/prediction-device-table/prediction-device-table.component';
 
 @NgModule({
   declarations: [
@@ -69,6 +70,7 @@ import { RealizationDeviceTableComponent } from './components/Charts-tables/real
     RealizationChartTableComponent,
     PredictionChartTableComponent,
     RealizationDeviceTableComponent,
+    PredictionDeviceTableComponent,
   ],
   imports: [
     BrowserAnimationsModule,

@@ -48,7 +48,7 @@
                     [value]="currentUsage"
                     [valueFormatting]="formatValue"
                     [cap]="'butt'"
-                    [thick]="45"
+                    [thick]="35"
                     [thresholds]="thresholds"
                   >
                   </ngx-gauge>
@@ -66,9 +66,9 @@
 
               <div class="card-body p-1 p-md-4">
                 <br />
-                <h6 class="section">Device Information</h6>
+                <h6 class="section ps-2">Device Information</h6>
                 <hr class="mt-0 mb-4" />
-                <div class="row pt-1 mx-0 my-0">
+                <div class="row pt-1 mx-0 my-0 text-center">
                   <div class="col-6 mb-1">
                     <h6 style="color: #08376b">{{ IpAddress }}</h6>
                     <p class="text-muted">IP Address</p>
@@ -79,7 +79,7 @@
                   </div>
                 </div>
                 <hr class="mt-0 mb-4" />
-                <div class="row pt-1 mx-0 my-0">
+                <div class="row pt-1 mx-0 my-0 text-center">
                   <div class="col-6 mb-1">
                     <h6 style="color: #08376b">{{ ModelName }}</h6>
                     <p class="text-muted">Device Model</p>
@@ -91,7 +91,7 @@
                 </div>
                 <hr class="mt-0 mb-4" />
 
-                <div class="row pt-1 mx-0 my-0">
+                <div class="row pt-1 mx-0 my-0 text-center">
                   <div class="col-6 mb-1">
                     <h6 style="color: #08376b">{{ MaxUsage }}kWh</h6>
                     <p class="text-muted">Maximum hourly consumption</p>
@@ -113,7 +113,7 @@
                 <div></div>
                 <div
                   class="d-flex justify-content-start"
-                  style="margin-top: 5%"
+                  style="margin-top: 5%; margin-bottom: 3%; padding-left: 4%;"
                 >
                   <button
                     class="btn btn-primary"

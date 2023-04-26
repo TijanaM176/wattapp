@@ -81,6 +81,7 @@ export class PredictionDeviceComponent implements OnInit {
         });
         this.activateButton(id);
         this.data = myList;
+        // console.log(this.data);
       });
   }
 
@@ -104,6 +105,7 @@ export class PredictionDeviceComponent implements OnInit {
         });
         this.activateButton(id);
         this.data = myList;
+        // console.log(this.data);
       });
   }
 
@@ -128,6 +130,7 @@ export class PredictionDeviceComponent implements OnInit {
         });
         this.activateButton(id);
         this.data = myList;
+        // console.log(this.data);
       });
   }
 
