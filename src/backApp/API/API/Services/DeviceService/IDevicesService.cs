@@ -43,5 +43,9 @@ namespace API.Services.Devices
         public Task<(Dictionary<string, Dictionary<DateTime, double>>, Dictionary<string, Dictionary<DateTime, double>>, Dictionary<string, Dictionary<DateTime, double>>)> PredictionForDevice(string idDevice);
         public Task<Tuple<double, double>> ThisMonthTotalConsumptionProductionForProsumer(string prosumerId);
         public Task<double> ToggleActivity(string deviceId, string role);
+        public Task<(double, double, string)> TodayAndYesterdayTotalConsumptionAndRatio();
+        public Task<(double, double, string)> TodayAndYesterdayTotalProductionAndRatio();
+        public Task<(double, double, string)> TodayAndTomorrowPredictionTotalConsumptionAndRatio();
+        public Task<(double, double, string)> TodayAndTomorrowPredictionTotalProductionAndRatio();
     }
 }

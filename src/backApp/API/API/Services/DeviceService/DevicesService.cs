@@ -610,5 +610,26 @@ namespace API.Services.Devices
                 throw new ArgumentException(ex.Message);
             }
         }
+        public async Task<(double, double, string)> TodayAndYesterdayTotalConsumptionAndRatio()
+        {
+
+            return await _repository.TodayAndYesterdayTotalConsumptionAndRatio();
+        }
+        public async Task<(double, double, string)> TodayAndYesterdayTotalProductionAndRatio()
+        {
+
+            return await _repository.TodayAndYesterdayTotalProductionAndRatio();
+        }
+        public async Task<(double, double, string)> TodayAndTomorrowPredictionTotalConsumptionAndRatio()
+        {
+
+
+            return await _repository.TodayAndTomorrowPredictionTotalConsumptionAndRatio();
+        }
+        public async Task<(double, double, string)> TodayAndTomorrowPredictionTotalProductionAndRatio()
+        {
+
+            return await _repository.TodayAndTomorrowPredictionTotalProductionAndRatio();
+        }
     }
 }
