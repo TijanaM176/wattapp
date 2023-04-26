@@ -89,7 +89,7 @@ export class DeviceinfoComponent {
         this.Name = res.Name;
         this.MaxUsage = res.MaxUsage;
         this.AvgUsage = res.AvgUsage;
-        this.currentUsage = res.CurrentUsage;
+        this.currentUsage = res.CurrentUsage.toFixed(2);
         this.DsoView = res.DsoView;
         this.DsoControl = res.DsoControl;
         this.TypeId = res.TypeId;

@@ -48,7 +48,7 @@
                     [value]="currentUsage"
                     [valueFormatting]="formatValue"
                     [cap]="'butt'"
-                    [thick]="45"
+                    [thick]="35"
                     [thresholds]="thresholds"
                   >
                   </ngx-gauge>
@@ -76,7 +76,7 @@
                   </div>
                 </div>
                 <hr class="mt-0 mb-3" />
-                <div class="row pt-1 mx-0 my-0">
+                <div class="row pt-1 mx-0 my-0 text-center">
                   <div class="col-6 mb-1">
                     <h6 style="color: #08376b">{{ IpAddress }}</h6>
                     <p class="text-muted">IP Address</p>
@@ -87,7 +87,7 @@
                   </div>
                 </div>
                 <hr class="mt-0 mb-3" />
-                <div class="row pt-1 mx-0 my-0">
+                <div class="row pt-1 mx-0 my-0 text-center">
                   <div class="col-6 mb-1">
                     <h6 style="color: #08376b">{{ ModelName }}</h6>
                     <p class="text-muted">Device Model</p>
@@ -99,7 +99,7 @@
                 </div>
                 <hr class="mt-0 mb-3" />
 
-                <div class="row pt-1 mx-0 my-0">
+                <div class="row pt-1 mx-0 my-0 text-center">
                   <div class="col-6 mb-1">
                     <h6 style="color: #08376b">{{ MaxUsage }}kWh</h6>
                     <p class="text-muted">Maximum hourly consumption</p>
@@ -121,7 +121,7 @@
                 <div></div>
                 <div
                   class="d-flex justify-content-start"
-                  style="margin-top: 5%"
+                  style="margin-top: 5%; margin-bottom: 3%; padding-left: 4%"
                 >
                   <button
                     class="btn btn-primary"
@@ -148,8 +148,14 @@
             <div
               class="col-md-6 gradient-custom d-flex flex-column align-items-center h-md-100 order-2 order-md-2"
             >
-              <app-realizationDevice class="w-100"></app-realizationDevice>
-              <app-predictionDevice class="w-100"></app-predictionDevice>
+              <app-realizationDevice
+                [type]="gaugeLabel"
+                class="w-100"
+              ></app-realizationDevice>
+              <app-predictionDevice
+                [type]="gaugeLabel"
+                class="w-100"
+              ></app-predictionDevice>
             </div>
           </div>
         </div>

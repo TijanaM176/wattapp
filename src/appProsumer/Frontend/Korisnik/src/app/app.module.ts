@@ -37,6 +37,10 @@ import { NgxGaugeModule } from 'ngx-gauge';
 import { ToastrModule } from 'ngx-toastr';
 import { RealizationDeviceComponent } from './components/Charts/realizationDevice/realizationDevice.component';
 import { PredictionDeviceComponent } from './components/Charts/predictionDevice/predictionDevice.component';
+import { RealizationChartTableComponent } from './components/Charts-tables/realization-chart-table/realization-chart-table.component';
+import { PredictionChartTableComponent } from './components/Charts-tables/prediction-chart-table/prediction-chart-table.component';
+import { RealizationDeviceTableComponent } from './components/Charts-tables/realization-device-table/realization-device-table.component';
+import { PredictionDeviceTableComponent } from './components/Charts-tables/prediction-device-table/prediction-device-table.component';
 
 @NgModule({
   declarations: [
@@ -63,6 +67,10 @@ import { PredictionDeviceComponent } from './components/Charts/predictionDevice/
     ConsumptionLimitComponent,
     RealizationDeviceComponent,
     PredictionDeviceComponent,
+    RealizationChartTableComponent,
+    PredictionChartTableComponent,
+    RealizationDeviceTableComponent,
+    PredictionDeviceTableComponent,
   ],
   imports: [
     BrowserAnimationsModule,

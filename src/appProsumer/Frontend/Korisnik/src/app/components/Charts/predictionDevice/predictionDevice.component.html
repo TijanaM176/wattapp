@@ -1,29 +1,34 @@
 <div
   class="card-header col-12 p-1 group"
-  style="display: flex; justify-content: right; margin: auto"
+  style="display: flex; justify-content: right; align-items: center; margin: auto;"
 >
-  <div class="col-3 p-1">
-    <h6 class="m-0 font-weight-bold ps-2">Prediction</h6>
+  <div class="col-5 p-1">
+    <h6 class="m-0 font-weight-bold ps-2">
+      Prediction
+      &nbsp;<button class="btn btn-outline-primary p-0 px-1 m-0" data-bs-toggle="modal" data-bs-target="#predictionDeviceTable">
+        <i class="fa fa-table"></i>
+      </button>
+    </h6>
   </div>
-  <div class="col-9" style="display: flex; justify-content: right">
+  <div class="col-7" style="display: flex; justify-content: right; align-items: center;">
     <button
-      class="btn btn-primary m-1 realizationbtn"
-      id="prediction1"
-      (click)="Prediction1Day('prediction1')"
+      class="btn btn-primary m-1 py-2 predictionDevbtn"
+      id="predictionDev1"
+      (click)="Prediction1Day('predictionDev1')"
     >
       1D
     </button>
     <button
-      class="btn btn-primary m-1 realizationbtn"
-      id="prediction2"
-      (click)="Prediction3Days('prediction2')"
+      class="btn btn-primary m-1 py-2 predictionDevbtn"
+      id="predictionDev2"
+      (click)="Prediction3Days('predictionDev2')"
     >
       3D
     </button>
     <button
-      class="btn btn-primary m-1 realizationbtn"
-      id="prediction3"
-      (click)="PredictionWeek('prediction3')"
+      class="btn btn-primary m-1 py-2 predictionDevbtn"
+      id="predictionDev3"
+      (click)="PredictionWeek('predictionDev3')"
     >
       7D
     </button>
@@ -70,12 +75,29 @@
     >
     </ngx-charts-bar-vertical-2d>
   </div>
-  <div class="legend w-100 text-center" *ngIf="data.length != 0">
+  <div class="legend w-100 ps-4 text-center" *ngIf="data.length != 0">
     <i class="fa fa-circle consumption" *ngIf="cat == '1'"
       >&nbsp;Predicted Consumption</i
     >&nbsp;&nbsp;&nbsp;
     <i class="fa fa-circle consumption" *ngIf="cat == '2'"
       >&nbsp;Predicted Production</i
     >&nbsp;&nbsp;&nbsp;
+  </div>
+</div>
+
+<div class="modal fade" id="predictionDeviceTable" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="predictionDeviceTableLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content">
+      <div class="modal-header text-white" style="background-color: #466471">
+        <h6 class="modal-title" id="predictionDeviceTableLabel">Predicted {{type}}</h6>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <app-prediction-device-table [type]="type" [data]="data"></app-prediction-device-table>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary">Export Table</button>
+      </div>
+    </div>
   </div>
 </div>

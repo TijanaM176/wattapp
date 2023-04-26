@@ -10,16 +10,27 @@
 h6 {
   color: #466471;
 }
+#realizationDeviceTableLabel{
+  color: white;
+}
 .btn-primary {
   background-color: #466471;
   border-color: #466471;
 }
-.realizationbtn.active {
+.realizationDevicebtn.active {
   background-color: #c1dfd5;
   border-color: #466471;
   color: #466471;
 }
-.realizationbtn:not(.active) {
+.realizationDevicebtn:not(.active) {
   background-color: #466471;
+  border-color: #466471;
+}
+.btn-close{
+  color: white;
+  background-color: white;
+}
+.btn-outline-primary{
+  color: #466471;
   border-color: #466471;
 }

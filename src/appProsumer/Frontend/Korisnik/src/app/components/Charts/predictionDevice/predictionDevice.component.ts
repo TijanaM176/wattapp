@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit, Input } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Color, ScaleType } from '@swimlane/ngx-charts';
 import { DeviceWidthService } from 'src/app/services/device-width.service';
@@ -31,6 +31,7 @@ export class PredictionDeviceComponent implements OnInit {
   yAxisLabel = 'Energy in kWh';
   idDev: string = '';
   cat: string = '';
+  @Input() type: string = '';
 
   constructor(
     private deviceService: DevicesService,
@@ -42,8 +43,7 @@ export class PredictionDeviceComponent implements OnInit {
     this.idDev = this.router1.snapshot.params['idDev'];
     const grafik = document.getElementById('predikcija');
     grafik!.style.height = this.widthService.height * 0.6 + 'px';
-    this.Prediction1Day('prediction1');
-    //document.getElementById("prediction3")!.classList.add('active');
+    this.Prediction1Day('predictionDev1');
   }
 
   yAxisTickFormatting(value: number) {
@@ -82,6 +82,7 @@ export class PredictionDeviceComponent implements OnInit {
           }
         );
         this.data = myList;
+        // console.log(this.data);
       });
   }
 
@@ -107,6 +108,7 @@ export class PredictionDeviceComponent implements OnInit {
           }
         );
         this.data = myList;
+        // console.log(this.data);
       });
   }
 
@@ -137,7 +139,7 @@ export class PredictionDeviceComponent implements OnInit {
   }
 
   activateButton(buttonNumber: string) {
-    const buttons = document.querySelectorAll('.predictionbtn');
+    const buttons = document.querySelectorAll('.predictionDevbtn');
     buttons.forEach((button) => {
       if (button.id == buttonNumber) {
         button.classList.add('active');

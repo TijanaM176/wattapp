@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit, Input } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import {
   Color,
@@ -43,6 +43,7 @@ export class RealizationDeviceComponent implements OnInit, AfterViewInit {
   yAxisLabel = 'Energy in kWh';
   idDev: string = '';
   cat: string = '';
+  @Input() type : string = '';
 
   constructor(
     private deviceService: DevicesService,
@@ -54,12 +55,12 @@ export class RealizationDeviceComponent implements OnInit, AfterViewInit {
     this.idDev = this.router1.snapshot.params['idDev'];
     const grafik = document.getElementById('grafik');
     grafik!.style.height = this.widthService.height * 0.6 + 'px';
-    document.getElementById('realiz1')!.classList.add('active');
+    document.getElementById('realizDev1')!.classList.add('active');
   }
 
   ngOnInit(): void {
     this.idDev = this.router1.snapshot.params['idDev'];
-    this.HistoryWeek('realiz1');
+    this.HistoryWeek('realizDev1');
   }
 
   yAxisTickFormatting(value: number) {
@@ -146,11 +147,12 @@ export class RealizationDeviceComponent implements OnInit, AfterViewInit {
         return { name, series };
       });
       this.data = mapFunction(myList);
+      // console.log(this.data);
     });
   }
 
   activateButton(buttonNumber: string) {
-    const buttons = document.querySelectorAll('.realizationbtn');
+    const buttons = document.querySelectorAll('.realizationDevicebtn');
     buttons.forEach((button) => {
       if (button.id == buttonNumber) {
         button.classList.add('active');
