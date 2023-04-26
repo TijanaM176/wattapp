@@ -41,7 +41,7 @@ export class UserInfoComponent implements OnInit {
   private getInformation() {
     this.prosumerService.getInforamtion(this.cookie.get('id')).subscribe({
       next: (res) => {
-        this.username = res.userName;
+        this.username = res.username;
         this.firstLastName = res.firstName + ' ' + res.lastName;
         this.email = res.email;
         this.address = res.address;

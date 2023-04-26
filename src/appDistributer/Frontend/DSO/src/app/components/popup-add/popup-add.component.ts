@@ -57,6 +57,9 @@ export class PopupAddComponent implements OnInit {
       }
     });
   }
+  close(){
+    this.signupWorkerForm.reset();
+  }
   onSubmit() {
     if (this.signupWorkerForm.valid) {
       this.auth.signupWorker(this.signupWorkerForm.value).subscribe({

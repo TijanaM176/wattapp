@@ -95,7 +95,9 @@ export class PopupEmpComponent implements OnInit {
   get fields() {
     return this.signupForm.controls;
   }
-
+  close(){
+    this.signupForm.reset();
+  }
   onSignUp() {
     if (this.signupForm.valid) {
       this.address =

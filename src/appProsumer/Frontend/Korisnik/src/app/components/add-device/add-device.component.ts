@@ -59,7 +59,7 @@ export class AddDeviceComponent implements OnInit {
     this.service.model = '';
     this.c.getModels();
     this.c.category = -1;
-    this.c.Name = 'Device Name';
+    this.c.Name = '';
     this.c.DsoView = false;
     this.c.DsoControl = false;
   }

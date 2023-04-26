@@ -64,8 +64,6 @@ export class DeviceinfoComponent implements OnInit {
         this.AvgUsage = res.AvgUsage;
         this.currentUsage = res.CurrentUsage;
         this.maxUsageNumber = Number(this.MaxUsage + Number(this.AvgUsage) / 6);
-        this.DsoView = res.DsoView;
-        this.DsoControl = res.DsoControl;
         this.TypeId = res.TypeId;
         this.ModelId = res.ModelId;
         this.markers = {
