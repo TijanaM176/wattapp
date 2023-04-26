@@ -7,7 +7,6 @@ import {
 } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-// import { NgToastService } from 'ng-angular-popup';
 import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
@@ -20,21 +19,21 @@ export class PopupAddComponent implements OnInit {
   eyeIcon: string = 'fa-eye-slash';
   type: string = 'password';
   isText: boolean = false;
+  image: string = '';
   constructor(
     private fb: FormBuilder,
     private router: Router,
     private auth: AuthService,
-    public toast:ToastrService
+    public toast: ToastrService
   ) {}
   ngOnInit(): void {
     this.signupWorkerForm = this.fb.group({
+      salary: ['', Validators.required],
+      image: ['', Validators.required],
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
       password: ['', Validators.required],
       email: ['', Validators.required],
-      // address:['',Validators.required],
-      salary: ['', Validators.required],
-      image: ['', Validators.required],
     });
   }
   get fields() {
@@ -57,16 +56,25 @@ export class PopupAddComponent implements OnInit {
       }
     });
   }
-  close(){
+  close() {
     this.signupWorkerForm.reset();
   }
   onSubmit() {
+    if (!this.signupWorkerForm.value.image) {
+      this.signupWorkerForm.value.image = null;
+    }
+    this.signupWorkerForm.value.image;
+    this.signupWorkerForm.value.salary = Number(
+      this.signupWorkerForm.value.salary
+    );
+
     if (this.signupWorkerForm.valid) {
       this.auth.signupWorker(this.signupWorkerForm.value).subscribe({
         next: (res) => {
-          this.toast.success('Success','New Employee Added!',{timeOut:2500});
+          this.toast.success('Success', 'New Employee Added!', {
+            timeOut: 2500,
+          });
           this.signupWorkerForm.reset();
-          //this.router.navigate(['']);
         },
         error: (err) => {
           this.toast.error('Error!', 'Unable to add new Employee.', {

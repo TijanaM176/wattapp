@@ -73,7 +73,6 @@ export class User1Component implements OnInit, AfterViewInit {
     this.user
       .detailsEmployee(this.router.snapshot.params['id'])
       .subscribe((data: any) => {
-        // console.log(data);
         this.firstName = data.firstName;
         this.lastName = data.lastName;
         this.username = data.username;
@@ -121,9 +120,7 @@ export class User1Component implements OnInit, AfterViewInit {
     if (this.userOldInfo.email != this.editUser.value.Email) {
       dto.email = this.editUser.value.Email!;
     }
-    console.log(dto);
     this.user.updateUserData(dto.id, dto).subscribe((res) => {
-      console.log(res);
       window.location.reload;
     });
     const buttonRef = document.getElementById('closeBtn1');

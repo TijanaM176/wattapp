@@ -1,101 +1,236 @@
-<div class="modal fade" id="exampleModal3" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header text-white" style="background-color: #5875A1">
-          <h5 class="modal-title" id="exampleModalLabel">Add New Prosumer</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="close();"></button>
+<div
+  class="modal fade"
+  id="exampleModal3"
+  tabindex="-1"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+  data-bs-backdrop="static"
+  data-bs-keyboard="false"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header text-white" style="background-color: #5875a1">
+        <h5 class="modal-title" id="exampleModalLabel">Add New Prosumer</h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+          (click)="close()"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <div class="panelbor">
+          <div class="panel-body">
+            <form [formGroup]="signupForm" (ngSubmit)="onSignUp()">
+              <div class="form-group pt-3 text-start">
+                <div
+                  class="input-field"
+                  [class.error]="
+                    signupForm.controls['firstName'].dirty &&
+                    signupForm.hasError('required', 'firstName')
+                  "
+                  style="display: flex; justify-content: center"
+                >
+                  <span
+                    class="fa fa-user p-2"
+                    style="font-size: 24px; margin-top: 1%"
+                  ></span>
+                  <input
+                    formControlName="firstName"
+                    type="text"
+                    placeholder="FirstName"
+                  />
+                </div>
+                <small
+                  *ngIf="
+                    signupForm.controls['firstName'].dirty &&
+                    signupForm.hasError('required', 'firstName')
+                  "
+                  class="text-danger ps-5"
+                  >*FirstName is required</small
+                >
+              </div>
+              <div class="form-group pt-1 text-start">
+                <div
+                  class="input-field"
+                  [class.error]="
+                    signupForm.controls['lastName'].dirty &&
+                    signupForm.hasError('required', 'lastName')
+                  "
+                  style="display: flex; justify-content: center"
+                >
+                  <span
+                    class="fa fa-user p-2"
+                    style="font-size: 24px; margin-top: 1%"
+                  ></span>
+                  <input
+                    formControlName="lastName"
+                    type="text"
+                    placeholder="LastName"
+                  />
+                </div>
+                <small
+                  *ngIf="
+                    signupForm.controls['lastName'].dirty &&
+                    signupForm.hasError('required', 'lastName')
+                  "
+                  class="text-danger ps-5"
+                  >*LastName is required</small
+                >
+              </div>
+              <div class="form-group pt-1 text-start">
+                <div
+                  class="input-field"
+                  [class.error]="
+                    signupForm.controls['password'].dirty &&
+                    signupForm.hasError('required', 'password')
+                  "
+                  style="display: flex; justify-content: center"
+                >
+                  <span
+                    class="fa fa-lock p-2"
+                    style="font-size: 24px; margin-top: 1%"
+                  >
+                  </span>
+                  <input
+                    formControlName="password"
+                    [type]="type"
+                    placeholder="Password"
+                  />
+                  <span
+                    class="p-viewer"
+                    style="z-index: 9999; position: absolute; right: 10%"
+                  >
+                    <i
+                      (click)="hideShowPass()"
+                      class="fa {{ eyeIcon }}"
+                      style="font-size: 20px; margin-top: 60%"
+                    >
+                    </i
+                  ></span>
+                </div>
+                <small
+                  *ngIf="
+                    signupForm.controls['password'].dirty &&
+                    signupForm.hasError('required', 'password')
+                  "
+                  class="text-danger ps-5"
+                  >*Password is required</small
+                >
+              </div>
+              <div class="form-group pt-1 text-start">
+                <div
+                  class="input-field"
+                  [class.error]="
+                    signupForm.controls['email'].dirty &&
+                    signupForm.hasError('required', 'email')
+                  "
+                  style="display: flex; justify-content: center"
+                >
+                  <span
+                    class="fa fa-envelope p-2"
+                    style="font-size: 20px; margin-top: 2%"
+                  ></span>
+                  <input
+                    formControlName="email"
+                    type="text"
+                    placeholder="User E-mail Address"
+                  />
+                </div>
+                <small
+                  *ngIf="
+                    signupForm.controls['email'].dirty &&
+                    signupForm.hasError('required', 'email')
+                  "
+                  class="text-danger ps-5"
+                  >*Email is required</small
+                >
+              </div>
+              <div class="form-group pt-1 text-start">
+                <div
+                  class="input-field"
+                  style="display: flex; justify-content: center"
+                >
+                  <span
+                    class="fa fa-home p-2"
+                    style="font-size: 22px; margin-top: 1%"
+                  ></span>
+                  <select (change)="getAllNeighborhoodById($event)">
+                    <option value="" selected disabled>--Select City --</option>
+                    <option *ngFor="let city of cities" [value]="city.id">
+                      {{ city.cityName }}
+                    </option>
+                  </select>
+                </div>
+              </div>
+              <div class="form-group pt-1 text-start">
+                <div
+                  class="input-field"
+                  style="display: flex; justify-content: center"
+                >
+                  <span
+                    class="fa fa-home p-2"
+                    style="font-size: 22px; margin-top: 1%"
+                  ></span>
+                  <select
+                    [(ngModel)]="neighName"
+                    formControlName="neigbName"
+                    (change)="getNeighId($event)"
+                  >
+                    <option value="" disabled selected>
+                      --Select Neighborhood --
+                    </option>
+                    <option
+                      *ngFor="let neig of neighborhoods"
+                      [value]="neig.neigbName"
+                    >
+                      {{ neig.neigbName }}
+                    </option>
+                  </select>
+                </div>
+              </div>
+              <div class="form-group pt-1 text-start">
+                <div
+                  class="input-field"
+                  [class.error]="
+                    signupForm.controls['address'].dirty &&
+                    signupForm.hasError('required', 'address')
+                  "
+                  style="display: flex; justify-content: center"
+                >
+                  <span
+                    class="fa fa-home p-2"
+                    style="font-size: 22px; margin-top: 1%"
+                  ></span>
+                  <input
+                    formControlName="address"
+                    type="text"
+                    placeholder="User Address "
+                  />
+                  <input type="hidden" formControlName="city" />
+                </div>
+                <small
+                  *ngIf="
+                    signupForm.controls['address'].dirty &&
+                    signupForm.hasError('required', 'address')
+                  "
+                  class="text-danger ps-5"
+                  >*Address is required</small
+                >
+              </div>
+              <input
+                formControlName="city"
+                type="hidden"
+                [(ngModel)]="cityName"
+              />
+            </form>
+          </div>
         </div>
-        <div class="modal-body">
-              <div class="panelbor">
-                <div class="panel-body">
-                  <form [formGroup]="signupForm" (ngSubmit)="onSignUp()">
-                    <div class="form-group pt-3 text-start">
-                      <div class="input-field" 
-                      [class.error]="signupForm.controls['firstName'].dirty && signupForm.hasError('required', 'firstName')"
-                      style="display:flex;justify-content: center;">
-                        <span class="fa fa-user p-2" style="font-size: 24px;margin-top:1%;"></span>
-                        <input formControlName="firstName" type="text" placeholder="FirstName"/>
-                      </div>
-                      <small *ngIf="signupForm.controls['firstName'].dirty && signupForm.hasError('required', 'firstName')" class="text-danger ps-5">*FirstName is required</small>
-                    </div>
-                    <div class="form-group pt-1 text-start">
-                      <div class="input-field" 
-                      [class.error]="signupForm.controls['lastName'].dirty && signupForm.hasError('required', 'lastName')"
-                      style="display:flex;justify-content: center;">
-                        <span class="fa fa-user p-2" style="font-size: 24px;margin-top:1%;"></span>
-                        <input formControlName="lastName" type="text" placeholder="LastName"/>
-                      </div>
-                      <small *ngIf="signupForm.controls['lastName'].dirty && signupForm.hasError('required', 'lastName')" class="text-danger ps-5">*LastName is required</small>
-                    </div>
-                  <div class="form-group pt-1 text-start">
-                    <div class="input-field"
-                     [class.error]="signupForm.controls['password'].dirty && signupForm.hasError('required', 'password')"
-                     style="display:flex;justify-content: center;">
-                      <span  class="fa fa-lock p-2" style="font-size: 24px;margin-top:1%;">
-                      </span>
-                      <input formControlName="password" [type]="type" placeholder="Password"/>
-                      <span class="p-viewer"
-                      style="z-index: 9999;
-                      position: absolute;
-                      right:10%;">
-                        <i  (click)="hideShowPass()"
-                        class="fa {{ eyeIcon }}"
-                        style=" font-size: 20px;margin-top:60%;">
-                        </i></span>
-                    </div>
-                    <small *ngIf="signupForm.controls['password'].dirty && signupForm.hasError('required', 'password')" class="text-danger ps-5">*Password is required</small>
-                  </div>
-                  <div class="form-group pt-1 text-start">
-                    <div class="input-field"
-                     [class.error]="signupForm.controls['email'].dirty && signupForm.hasError('required', 'email')"
-                     style="display:flex;justify-content: center;">
-                      <span class="fa fa-envelope p-2" style="font-size: 20px;margin-top:2%;"></span>
-                      <input formControlName="email" type="text" placeholder="User E-mail Address"/>
-                    </div>
-                    <small *ngIf="signupForm.controls['email'].dirty && signupForm.hasError('required', 'email')" class="text-danger ps-5">*Email is required</small>
-                  </div>
-                  <div class="form-group pt-1 text-start">
-                    <div class="input-field"
-                    style="display:flex;justify-content: center;">
-                      <span class="fa fa-home p-2" style="font-size: 22px;margin-top:1%;" ></span>
-                      <select (change)="getAllNeighborhoodById($event)">
-                        <option value="" selected disabled>--Select City --</option>
-                        <option *ngFor="let city of cities" [value]="city.id">{{ city.cityName }}</option>
-                      </select>
-                    </div>
-                  </div>
-                  <div class="form-group pt-1 text-start">
-                    <div class="input-field" 
-                    style="display:flex;justify-content: center;">
-                        <span class="fa fa-home p-2" style="font-size: 22px;margin-top:1%;"></span>
-                        <select [(ngModel)]="neighName" formControlName="neigbName" (change)="getNeighId($event)">
-                        <option value="" disabled selected>--Select Neighborhood --</option>
-                        <option *ngFor="let neig of neighborhoods" [value]="neig.neigbName">{{ neig.neigbName }}</option>
-                      </select>
-                    </div>
-                  </div>
-                  <div class="form-group pt-1 text-start">
-                    <div class="input-field"
-                     [class.error]="signupForm.controls['address'].dirty && signupForm.hasError('required', 'address')"
-                     style="display:flex;justify-content: center;">
-                      <span class="fa fa-home p-2" style="font-size: 22px;margin-top:1%;"></span>
-                      <input formControlName="address" type="text" placeholder="User Address "/>
-                      <input type="hidden" formControlName="city" />
-                    </div>
-                    <small *ngIf="signupForm.controls['address'].dirty && signupForm.hasError('required', 'address')" class="text-danger ps-5">*Address is required</small>
-                  </div>
-                  <input formControlName="city" type="hidden" [(ngModel)]="cityName"/>
-                </form>
-        </div>
-      </div> 
-    </div>
-    <div class="modal-footer">
-      <button type="submit" class="btn">Confirm</button>
-      <!-- <button type="button"  class="btn btn-primary" id="dugme" data-bs-dismiss="modal">Close form</button> -->
+      </div>
+      <div class="modal-footer">
+        <button type="submit" class="btn" (click)="onSignUp()">Confirm</button>
+      </div>
     </div>
   </div>
 </div>
-
-
-
-

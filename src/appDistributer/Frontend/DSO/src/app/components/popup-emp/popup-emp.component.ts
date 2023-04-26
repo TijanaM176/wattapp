@@ -49,10 +49,10 @@ export class PopupEmpComponent implements OnInit {
     private fb: FormBuilder,
     private auth: AuthService,
     private router: Router,
-    public toast:ToastrService,
+    public toast: ToastrService,
     private service: UsersServiceService,
     private location1: Location,
-    private serviceData:DataService
+    private serviceData: DataService
   ) {}
   ngOnInit(): void {
     this.serviceData.getAllCities().subscribe((response) => {
@@ -66,7 +66,6 @@ export class PopupEmpComponent implements OnInit {
       neigbName: [this.neighName],
       address: ['', Validators.required],
       city: [''],
-      image: [''],
     });
     this.signupForm.removeControl('s');
   }
@@ -75,7 +74,6 @@ export class PopupEmpComponent implements OnInit {
     this.serviceData.getCityNameById(this.cityId).subscribe((response) => {
       this.cityName = response;
     });
-    console.log(this.cityId);
     this.serviceData
       .getAllNeighborhoodByCityId(this.cityId)
       .subscribe((response) => {
@@ -84,7 +82,6 @@ export class PopupEmpComponent implements OnInit {
   }
   getNeighId(e: any) {
     this.neighName = e.target.value;
-    console.log(this.neighName);
   }
 
   hideShowPass() {
@@ -95,7 +92,7 @@ export class PopupEmpComponent implements OnInit {
   get fields() {
     return this.signupForm.controls;
   }
-  close(){
+  close() {
     this.signupForm.reset();
   }
   onSignUp() {
@@ -109,7 +106,9 @@ export class PopupEmpComponent implements OnInit {
 
       this.auth.signUp(this.signupForm.value).subscribe({
         next: (res) => {
-          this.toast.success('Success','New Prosumer Added!',{timeOut:2500});
+          this.toast.success('Success', 'New Prosumer Added!', {
+            timeOut: 2500,
+          });
 
           this.getCoordinates(this.address, res.username);
           console.log(res.username);
@@ -126,7 +125,6 @@ export class PopupEmpComponent implements OnInit {
           });
         },
       });
-      console.log(this.signupForm.value);
     } else {
       this.validateAllFormFields(this.signupForm);
     }
