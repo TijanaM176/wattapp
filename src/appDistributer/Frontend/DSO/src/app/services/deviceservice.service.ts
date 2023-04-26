@@ -9,13 +9,17 @@ import { CookieService } from 'ngx-cookie-service';
   providedIn: 'root',
 })
 export class DeviceserviceService {
-  constructor(private http: HttpClient, private spiner: NgxSpinnerService,private cookie: CookieService) {}
+  constructor(
+    private http: HttpClient,
+    private spiner: NgxSpinnerService,
+    private cookie: CookieService
+  ) {}
 
   private baseUrl: string = 'https://localhost:7156/api/';
   private deviceBaseUrl: string = 'https://localhost:7156/api/Devices/';
   private totalUrl: string = 'https://localhost:7156/api/TotalPowerUsage/';
   prosumers!: Prosumer[];
-  numofdevices!:number;
+  numofdevices!: number;
 
   getInfoDevice(id: string) {
     return this.http.get(`${this.deviceBaseUrl}GetDevice` + `?id=` + id);
@@ -100,5 +104,11 @@ export class DeviceserviceService {
   ProsumersInfo1(): Observable<any[]> {
     return this.http.get<any[]>(this.deviceBaseUrl + 'AllProsumerInfo');
   }
-  
+
+  toggleDevice(id: string, state: boolean): Observable<any> {
+    return this.http.put<any>(
+      this.deviceBaseUrl + 'ToggleActivity?deviceId=' + id + '&role=Dso',
+      { active: state }
+    );
+  }
 }

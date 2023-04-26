@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ProsumerService } from 'src/app/services/prosumer.service';
 import { ThemePalette } from '@angular/material/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
 import { NgxSpinnerService } from 'ngx-spinner';
 
@@ -24,10 +24,13 @@ export class DeviceCardsComponent implements OnInit {
   devices: any[] = [];
   role: string = '';
   loader: boolean = true;
+  toggleClicked = false;
+
   constructor(
     private service: ProsumerService,
     private cookie: CookieService,
-    private spiner: NgxSpinnerService
+    private spiner: NgxSpinnerService,
+    private router: Router
   ) {}
 
   ngOnInit() {
@@ -70,5 +73,8 @@ export class DeviceCardsComponent implements OnInit {
       );
     }
     return this.devicesToShow;
+  }
+  navigateToDevice(deviceId: number) {
+    this.router.navigate(['/ProsumerApp/userDevices', deviceId, 'deviceinfo']);
   }
 }

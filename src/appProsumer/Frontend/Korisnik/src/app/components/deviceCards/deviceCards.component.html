@@ -77,9 +77,9 @@
       <div
         class="card"
         *ngFor="let device of devicesToShow"
-        routerLink="/ProsumerApp/userDevices/{{ device.Id }}/deviceinfo"
+        (click)="navigateToDevice(device.Id)"
       >
-        <table style="margin: 3%; width: 95%">
+        <table style="margin: 3%; width: 95%; margin: auto; height: 95%">
           <tr style="display: flex; justify-content: space-between">
             <span class="col-3" [ngSwitch]="device.TypeId">
               <div *ngSwitchCase="'1'">
@@ -162,30 +162,16 @@
             style="display: flex; justify-content: space-between; width: 100%"
           >
             <h5 class="h">IP {{ device.IpAddress }}</h5>
-            <ng-template #other style="vertical-align: super">
-              <mat-slide-toggle
-                id="toggleOff"
-                class="example-margin"
-                [color]="color"
-                [checked]="notChecked"
-                [disabled]="disabled"
-              >
-                Off
-              </mat-slide-toggle></ng-template
-            >
-            <div *ngIf="deviceUsages[device.Id] !== 0; else other">
-              <div>
-                <mat-slide-toggle
-                  id="toggleOn"
-                  style="vertical-align: super"
-                  class="example-margin"
-                  [color]="color"
-                  [checked]="checked"
-                  [disabled]="disabled"
-                >
-                  On
-                </mat-slide-toggle>
+            <ng-template #other>
+              <div style="padding: 2px 5px 2px 2px">
+                <i class="fa fa-circle off"></i>
               </div>
+            </ng-template>
+            <div
+              style="padding: 2px 5px 2px 2px"
+              *ngIf="deviceUsages[device.Id] !== 0; else other"
+            >
+              <i class="fa fa-circle on"></i>
             </div>
           </tr>
         </table>
@@ -193,4 +179,3 @@
     </div>
   </div>
 </div>
-

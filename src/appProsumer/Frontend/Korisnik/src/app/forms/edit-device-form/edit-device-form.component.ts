@@ -8,103 +8,92 @@ import { DeviceserviceService } from 'src/app/services/deviceservice.service';
 @Component({
   selector: 'app-edit-device-form',
   templateUrl: './edit-device-form.component.html',
-  styleUrls: ['./edit-device-form.component.css']
+  styleUrls: ['./edit-device-form.component.css'],
 })
 export class EditDeviceFormComponent {
-  @Input() deviceData:any;
+  @Input() deviceData: any;
 
-  IpAddress : string = '';
-  TypeName : string = '';
-  Manufacturer : string = '';
-  ModelName:string='';
-  Name:string='';
-  notFilled : boolean = false;
-  success : boolean = false;
-  failure : boolean = false;
-  DsoView!:boolean;
-  Modelname!:string;
-  models:Models[]=[];
-  DsoControl!:boolean;
-  model:any=0;
-  ModelId:string='';
-  typeId!:number;
-  idDev!:string;
-  p:any=0;
+  IpAddress: string = '';
+  TypeName: string = '';
+  Manufacturer: string = '';
+  ModelName: string = '';
+  Name: string = '';
+  notFilled: boolean = false;
+  success: boolean = false;
+  failure: boolean = false;
+  DsoView!: boolean;
+  Modelname!: string;
+  models: Models[] = [];
+  DsoControl!: boolean;
+  model: any = 0;
+  ModelId: string = '';
+  typeId!: number;
+  idDev!: string;
+  p: any = 0;
 
-  constructor(private service : DeviceserviceService,private router1:ActivatedRoute) {}
+  constructor(
+    private service: DeviceserviceService,
+    private router1: ActivatedRoute
+  ) {}
 
   ngOnInit(): void {
-    this.loadInfo()
+    this.loadInfo();
     this.getModels();
-    this.model=this.ModelId;
+    this.model = this.ModelId;
   }
 
-  loadInfo()
-  {
+  loadInfo() {
     this.IpAddress = this.deviceData.IpAddress;
-    this.Name=this.deviceData.Name;
-    this.ModelName=this.deviceData.ModelName;
-    this.DsoControl=this.deviceData.DsoControl;
-    this.DsoView=this.deviceData.DsoView;
-    this.service.type=this.deviceData.TypeId;
-    this.ModelId=this.deviceData.ModelId;
-
-   
+    this.Name = this.deviceData.Name;
+    this.ModelName = this.deviceData.ModelName;
+    this.DsoControl = this.deviceData.DsoControl;
+    this.DsoView = this.deviceData.DsoView;
+    this.service.type = this.deviceData.TypeId;
+    this.ModelId = this.deviceData.ModelId;
   }
-  editInfo()
-  {
-
-    if(this.IpAddress!="" && this.Name!="")
-    {
+  editInfo() {
+    if (this.IpAddress != '' && this.Name != '') {
       this.allToFalse();
-      this.idDev= this.router1.snapshot.params['idDev'];
-      let device : EditDevice = new EditDevice();
-      device.ModelId=this.model;
+      this.idDev = this.router1.snapshot.params['idDev'];
+      let device: EditDevice = new EditDevice();
+      device.ModelId = this.model;
       device.Name = this.Name;
       device.IpAddress = this.IpAddress;
-      device.DsoView=this.DsoView;
-      device.DsoControl=this.DsoControl;
-      this.service.editInfo(this.idDev,device)
-      .subscribe({
-        next:(res)=>{
+      device.DsoView = this.DsoView;
+      device.DsoControl = this.DsoControl;
+      this.service.editInfo(this.idDev, device).subscribe({
+        next: (res) => {
           this.allToFalse();
           this.success = true;
         },
-        error:(err)=>{
+        error: (err) => {
           this.allToFalse();
           console.log(err.error);
           this.failure = true;
-        }
-      })
-    }
-    else
-    {
+        },
+      });
+    } else {
       this.allToFalse();
       this.notFilled = true;
     }
   }
 
-  private allToFalse()
-  {
+  private allToFalse() {
     this.notFilled = false;
     this.success = false;
     this.failure = false;
   }
-  ChangeModel(e:any){
-    this.p=e.target.value;
-    
-  
+  ChangeModel(e: any) {
+    this.p = e.target.value;
   }
-  getModels(){
+  getModels() {
     this.service.getModel().subscribe({
-      next:(response)=>{
+      next: (response) => {
         this.models = response;
-        
       },
-      error:(err)=>
-      {
+      error: (err) => {
         console.log(err.error);
-      }
-    })
+      },
+    });
   }
 }
