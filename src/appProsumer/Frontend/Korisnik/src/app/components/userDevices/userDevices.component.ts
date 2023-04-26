@@ -22,12 +22,14 @@ export class UserDevicesComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
+    document.getElementById('card-container')!.style.width = this.widthService.deviceWidth + 'px';
     this.spiner.show();
     this.deviceWidth = this.widthService.deviceWidth;
     this.resizeObservable$ = fromEvent(window, 'resize');
     this.resizeSubscription$ = this.resizeObservable$.subscribe((evt) => {
       this.widthService.deviceWidth = window.innerWidth;
       this.deviceWidth = this.widthService.deviceWidth;
+      document.getElementById('card-container')!.style.width = this.widthService.deviceWidth + 'px';
     });
   }
 
