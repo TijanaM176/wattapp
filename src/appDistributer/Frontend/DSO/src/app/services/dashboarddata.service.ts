@@ -38,16 +38,20 @@ export class DashboarddataService {
   }
 
   TotalProd(): Observable<any> {
-    return this.http.get(this.totalUrl + 'ThisWeekTotalProduction');
+    return this.http.get(
+      this.totalUrl + 'TodayAndYesterdayTotalProductionAndRatio'
+    );
   }
 
   TotalCons(): Observable<any> {
-    return this.http.get(this.totalUrl + 'ThisWeekTotalConsumption');
+    return this.http.get(
+      this.totalUrl + 'TodayAndYesterdayTotalConsumptionAndRatio'
+    );
   }
 
   nextWeekTotal(): Observable<any> {
     return this.http.get(
-      this.totalUrl + 'NextWeekTotalPredictedConsumptionProduction'
+      this.totalUrl + 'TodayAndTomorrowPredictionTotalConsumptionAndRatio'
     );
   }
 }

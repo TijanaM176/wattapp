@@ -1094,7 +1094,7 @@ namespace API.Repositories.DeviceRepository
                 if (consumptionProsumersForYesterday > consumptionProsumersForThisDay)
                     return (consumptionProsumersForThisDay, consumptionProsumersForYesterday, (-ratio).ToString() + "%");
                 else
-                    return (consumptionProsumersForThisDay, consumptionProsumersForYesterday, ratio.ToString() + "%");
+                    return (consumptionProsumersForThisDay, consumptionProsumersForYesterday, (+ratio).ToString() + "%");
             }
 
 
@@ -1169,7 +1169,7 @@ namespace API.Repositories.DeviceRepository
                 if (productionProsumersForYesterday > productionProsumersForThisDay)
                     return (productionProsumersForThisDay, productionProsumersForYesterday, (-ratio).ToString() + "%");
                 else
-                    return (productionProsumersForThisDay, productionProsumersForYesterday, ratio.ToString() + "%");
+                    return (productionProsumersForThisDay, productionProsumersForYesterday, (+ratio).ToString() + "%");
             }
 
 

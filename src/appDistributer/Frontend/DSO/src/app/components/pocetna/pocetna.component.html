@@ -11,22 +11,22 @@
               <div class="col-12">
                 <div class="numbers">
                   <p class="text-sm mb-0 text-uppercase font-weight-bold">
-                    Period Consumption
+                    Today's Consumption
                   </p>
                   <h5 class="font-weight-bolder">
                     {{ totalCons.toFixed(2) }} kW
                   </h5>
-                  <p class="mb-0" *ngIf="ratioCons.charAt(0) == '+'">
-                    <span class="text-success text-sm font-weight-bolder">{{
-                      ratioCons
-                    }}</span>
-                    for same period last week
+                  <p class="mb-0" *ngIf="ratioCons.charAt(0) != '-'">
+                    <span class="text-success text-sm font-weight-bolder"
+                      >+{{ ratioCons }}</span
+                    >
+                    less than yesterday
                   </p>
                   <p class="mb-0" *ngIf="ratioCons.charAt(0) == '-'">
                     <span class="text-danger text-sm font-weight-bolder">{{
                       ratioCons
                     }}</span>
-                    for same period last week
+                    more than yesterday
                   </p>
                 </div>
               </div>
@@ -41,7 +41,7 @@
               <div class="col-12">
                 <div class="numbers">
                   <p class="text-sm mb-0 text-uppercase font-weight-bold">
-                    Period Production
+                    Today's Production
                   </p>
                   <h5 class="font-weight-bolder">
                     {{ totalProd.toFixed(2) }} kW
@@ -50,13 +50,13 @@
                     <span class="text-danger text-sm font-weight-bolder">{{
                       ratioProd
                     }}</span>
-                    for same period last week
+                    less than yesterday
                   </p>
-                  <p class="mb-0" *ngIf="ratioProd.charAt(0) == '+'">
-                    <span class="text-success text-sm font-weight-bolder">{{
-                      ratioProd
-                    }}</span>
-                    for same period last week
+                  <p class="mb-0" *ngIf="ratioProd.charAt(0) != '+'">
+                    <span class="text-success text-sm font-weight-bolder"
+                      >+{{ ratioProd }}</span
+                    >
+                    more than yesterday
                   </p>
                 </div>
               </div>
@@ -99,12 +99,12 @@
               <div class="col-12">
                 <div class="numbers">
                   <p class="text-sm mb-0 text-uppercase font-weight-bold">
-                    Predicted Energy
+                    Predicted Consumption
                   </p>
                   <h5 class="font-weight-bolder">
                     {{ nextCons.toFixed(2) }} kW
                   </h5>
-                  <p class="mb-0">next week Consumption</p>
+                  <p class="mb-0">Tomorrow's Consumption</p>
                 </div>
               </div>
             </div>

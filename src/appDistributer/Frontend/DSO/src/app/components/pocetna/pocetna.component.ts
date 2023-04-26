@@ -28,16 +28,16 @@ export class PocetnaComponent implements OnInit {
       this.sign = Math.sign(this.percentagesChange);
     });
     this.servicedash.TotalCons().subscribe((response) => {
-      this.totalCons = response.productionforThisWeek;
+      this.totalCons = response.consumptionforToday;
       this.ratioCons = response.ratio;
     });
     this.servicedash.TotalProd().subscribe((response) => {
-      this.totalProd = response.productionforThisWeek;
+      this.totalProd = response.productionforToday;
       this.ratioProd = response.ratio;
     });
     this.servicedash.nextWeekTotal().subscribe((response) => {
-      this.nextCons = response.consumption;
-      this.nextProd = response.production;
+      this.nextCons = response.predictedConsumptionforTomorrow;
+      this.nextProd = response.ratio;
     });
   }
 }
