@@ -954,12 +954,48 @@ namespace API.Repositories.DeviceRepository
             }
         }
 
-        public async Task<List<Device>> GetDevicesByCategoryForDate(string id, string catStr, DateTime datetime)
+        public async Task<List<Device>> GetDevicesByCategoryForDateRealTime(string id, string catStr, DateTime datetime)
         {
             var begin = datetime + TimeSpan.Zero;
             var end = datetime.Add(DateTime.Now.TimeOfDay);
 
             if(begin > end)
+            {
+                var help = begin;
+                begin = end;
+                end = help;
+            }
+            var linkInfo = await GetLinksForProsumer(id);
+            var links = linkInfo.Select(x => x.ModelId);
+            var cat = await GetDeviceCategory(catStr);
+            var usages = await _usageContext.PowerUsage.Find(x => links.Contains(x.DeviceId)).ToListAsync();
+            var specs = await _regContext.Devices.Where(x => x.CategoryId == cat && links.Contains(x.Id)).ToListAsync();
+            var devices = from usage in usages
+                          join spec in specs on usage.DeviceId equals spec.Id
+                          join link in linkInfo on spec.Id equals link.ModelId
+                          select new { Usage = usage, Spec = spec, Link = link };
+
+            var devicesData = devices.Select(d => new Device
+            {
+                Id = d.Link.Id,
+                IpAddress = d.Link.IpAddress,
+                Name = d.Link.Name,
+                TypeId = d.Spec.TypeId,
+                CategoryId = d.Spec.CategoryId,
+                Manufacturer = d.Spec.Manufacturer,
+                Wattage = d.Spec.Wattage,
+                Timestamps = d.Usage.Timestamps.Where(t =>
+                    t.Date >= begin && t.Date <= end
+                ).ToList()
+            });
+            return devicesData.ToList();
+        }
+        public async Task<List<Device>> GetDevicesByCategoryForDate(string id, string catStr, DateTime datetime)
+        {
+            var begin = datetime + TimeSpan.Zero;
+            var end = datetime + new TimeSpan(23, 59, 59);
+
+            if (begin > end)
             {
                 var help = begin;
                 begin = end;
@@ -1006,7 +1042,7 @@ namespace API.Repositories.DeviceRepository
             foreach (var prosumer in prosumersWithDevices)
             {
                 
-                listDevicesbyAllProsumers.Add(await GetDevicesByCategoryForDate(prosumer.ProsumerId, "Consumer", DateTime.Now.Date));
+                listDevicesbyAllProsumers.Add(await GetDevicesByCategoryForDateRealTime(prosumer.ProsumerId, "Consumer", DateTime.Now.Date));
             }
 
 
@@ -1027,7 +1063,7 @@ namespace API.Repositories.DeviceRepository
 
             foreach (var prosumer in prosumersWithDevices)
             {
-                listDevicesbyAllProsumers.Add(await GetDevicesByCategoryForDate(prosumer.ProsumerId, "Consumer", DateTime.Now.AddDays(-1).Date));
+                listDevicesbyAllProsumers.Add(await GetDevicesByCategoryForDateRealTime(prosumer.ProsumerId, "Consumer", DateTime.Now.AddDays(-1).Date));
             }
 
 
@@ -1080,7 +1116,7 @@ namespace API.Repositories.DeviceRepository
             foreach (var prosumer in prosumersWithDevices)
             {
 
-                listDevicesbyAllProsumers.Add(await GetDevicesByCategoryForDate(prosumer.ProsumerId, "Producer", DateTime.Now.Date));
+                listDevicesbyAllProsumers.Add(await GetDevicesByCategoryForDateRealTime(prosumer.ProsumerId, "Producer", DateTime.Now.Date));
             }
 
 
@@ -1102,7 +1138,7 @@ namespace API.Repositories.DeviceRepository
 
             foreach (var prosumer in prosumersWithDevices)
             {
-                listDevicesbyAllProsumers.Add(await GetDevicesByCategoryForDate(prosumer.ProsumerId, "Producer", DateTime.Now.AddDays(-1).Date));
+                listDevicesbyAllProsumers.Add(await GetDevicesByCategoryForDateRealTime(prosumer.ProsumerId, "Producer", DateTime.Now.AddDays(-1).Date));
             }
 
 
