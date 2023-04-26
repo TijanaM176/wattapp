@@ -5,25 +5,25 @@
   <div class="col-3 p-1">
     <h6 class="m-0 font-weight-bold ps-2">Prediction</h6>
   </div>
-  <div class="col-9" style="display: flex; justify-content: right">
+  <div class="col-9" style="display: flex; justify-content: right; align-items: center;">
     <button
-      class="btn btn-primary m-1 realizationbtn"
-      id="prediction1"
-      (click)="Prediction1Day('prediction1')"
+      class="btn btn-primary m-1 py-2 predictionDevbtn"
+      id="predictionDev1"
+      (click)="Prediction1Day('predictionDev1')"
     >
       1D
     </button>
     <button
-      class="btn btn-primary m-1 realizationbtn"
-      id="prediction2"
-      (click)="Prediction3Days('prediction2')"
+      class="btn btn-primary m-1 py-2 predictionDevbtn"
+      id="predictionDev2"
+      (click)="Prediction3Days('predictionDev2')"
     >
       3D
     </button>
     <button
-      class="btn btn-primary m-1 realizationbtn"
-      id="prediction3"
-      (click)="PredictionWeek('prediction3')"
+      class="btn btn-primary m-1 py-2 predictionDevbtn"
+      id="predictionDev3"
+      (click)="PredictionWeek('predictionDev3')"
     >
       7D
     </button>
@@ -70,7 +70,7 @@
     >
     </ngx-charts-bar-vertical-2d>
   </div>
-  <div class="legend w-100 text-center" *ngIf="data.length != 0">
+  <div class="legend w-100 ps-4 text-center" *ngIf="data.length != 0">
     <i class="fa fa-circle consumption" *ngIf="cat == '1'"
       >&nbsp;Predicted Consumption</i
     >&nbsp;&nbsp;&nbsp;

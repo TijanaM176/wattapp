@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit, Input } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Color, ScaleType } from '@swimlane/ngx-charts';
 import { DeviceWidthService } from 'src/app/services/device-width.service';
@@ -31,6 +31,7 @@ export class PredictionDeviceComponent implements OnInit {
   yAxisLabel = 'Energy in kWh';
   idDev: string = '';
   cat: string = '';
+  @Input() type : string = '';
 
   constructor(
     private deviceService: DevicesService,
@@ -42,8 +43,7 @@ export class PredictionDeviceComponent implements OnInit {
     this.idDev = this.router1.snapshot.params['idDev'];
     const grafik = document.getElementById('predikcija');
     grafik!.style.height = this.widthService.height * 0.6 + 'px';
-    this.Prediction1Day('prediction1');
-    //document.getElementById("prediction3")!.classList.add('active');
+    this.Prediction1Day('predictionDev1');
   }
 
   yAxisTickFormatting(value: number) {
@@ -66,9 +66,9 @@ export class PredictionDeviceComponent implements OnInit {
       .predictionDevice(this.idDev)
       .subscribe((response: any) => {
         this.cat = response.categoryId;
-        const myList = Object.keys(response.nextWeek).map((name) => {
-          let predictionValue = response.nextWeek[name];
-          const cons: string = 'consumption';
+        const myList = Object.keys(response.nextWeek['Predictions For 7 day']).map((name) => {
+          let predictionValue = response.nextWeek['Predictions For 7 day'][name];
+          const cons: string = this.type.toLowerCase();
           if (predictionValue == undefined) {
             predictionValue = 0.0;
           }
@@ -79,6 +79,7 @@ export class PredictionDeviceComponent implements OnInit {
           });
           return { name: formattedName, series };
         });
+        this.activateButton(id);
         this.data = myList;
       });
   }
@@ -88,10 +89,9 @@ export class PredictionDeviceComponent implements OnInit {
       .predictionDevice(this.idDev)
       .subscribe((response: any) => {
         this.cat = response.categoryId;
-        const myList = Object.keys(response.next3Days).map((name) => {
-          let predictionValue = response.nextWeek[name];
-          const cons: string = 'consumption';
-          const prod: string = 'producton';
+        const myList = Object.keys(response.next3Day['Predictions For 3 day']).map((name) => {
+          let predictionValue = response.next3Day['Predictions For 3 day'][name];
+          const cons: string = this.type.toLowerCase();
           if (predictionValue == undefined) {
             predictionValue = 0.0;
           }
@@ -102,6 +102,7 @@ export class PredictionDeviceComponent implements OnInit {
           });
           return { name: formattedName, series };
         });
+        this.activateButton(id);
         this.data = myList;
       });
   }
@@ -111,10 +112,9 @@ export class PredictionDeviceComponent implements OnInit {
       .predictionDevice(this.idDev)
       .subscribe((response: any) => {
         this.cat = response.categoryId;
-        const myList = Object.keys(response.nextDay).map((name) => {
-          let predictionValue = response.nextDay[name];
-          const cons: string = 'consumption';
-          const prod: string = 'producton';
+        const myList = Object.keys(response.nextDay['Predictions For 1 day']).map((name) => {
+          let predictionValue = response.nextDay['Predictions For 1 day'][name];
+          const cons: string = this.type.toLowerCase();
           if (predictionValue == undefined) {
             predictionValue = 0.0;
           }
@@ -126,12 +126,13 @@ export class PredictionDeviceComponent implements OnInit {
           const formattedName = formattedHour.split(':')[0] + 'H';
           return { name: formattedName, series };
         });
+        this.activateButton(id);
         this.data = myList;
       });
   }
 
   activateButton(buttonNumber: string) {
-    const buttons = document.querySelectorAll('.predictionbtn');
+    const buttons = document.querySelectorAll('.predictionDevbtn');
     buttons.forEach((button) => {
       if (button.id == buttonNumber) {
         button.classList.add('active');

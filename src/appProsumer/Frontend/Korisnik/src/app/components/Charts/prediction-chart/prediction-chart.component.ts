@@ -125,7 +125,7 @@ export class PredictionChartComponent implements OnInit {
         }
       );
       this.data = mapFunction(myList);
-      console.log(this.data);
+      // console.log(this.data);
     });
   }
 
