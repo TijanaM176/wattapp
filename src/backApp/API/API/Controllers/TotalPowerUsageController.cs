@@ -101,8 +101,8 @@ namespace API.Controllers
 
                 return Ok(new
                 {
-                    productionforThisWeek = result.Item1,
-                    productionforLastWeek = result.Item2,
+                    consumptionforThisWeek = result.Item1,
+                    consumptionforLastWeek = result.Item2,
                     ratio = result.Item3,
                     thisweek = result.Item4,
                     lastweek = result.Item5
@@ -132,6 +132,90 @@ namespace API.Controllers
                 return BadRequest(ex.Message);
             }
 
-        }        
+        }
+        [HttpGet("TodayAndYesterdayTotalConsumptionAndRatio")]
+        public async Task<IActionResult> TodayAndYesterdayTotalConsumptionAndRatio()
+        {
+            try
+            {
+                var result = await devService.TodayAndYesterdayTotalConsumptionAndRatio();
+
+                return Ok(new
+                {
+                    consumptionforToday = result.Item1,
+                    consumptionforYesterday = result.Item2,
+                    ratio = result.Item3
+
+                });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
+        }
+        [HttpGet("TodayAndYesterdayTotalProductionAndRatio")]
+        public async Task<IActionResult> TodayAndYesterdayTotalProductionAndRatio()
+        {
+            try
+            {
+                var result = await devService.TodayAndYesterdayTotalProductionAndRatio();
+
+                return Ok(new
+                {
+                    productionforToday = result.Item1,
+                    productionforYesterday = result.Item2,
+                    ratio = result.Item3
+
+                });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
+        }
+        [HttpGet("TodayAndTomorrowPredictionTotalConsumptionAndRatio")]
+        public async Task<IActionResult> TodayAndTomorrowPredictionTotalConsumptionAndRatio()
+        {
+            try
+            {
+                var result = await devService.TodayAndTomorrowPredictionTotalConsumptionAndRatio();
+
+                return Ok(new
+                {
+                    predictedConsumptionforToday = result.Item1,
+                    predictedConsumptionforTomorrow = result.Item2,
+                    ratio = result.Item3
+
+                });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
+        }
+        [HttpGet("TodayAndTomorrowPredictionTotalProductionAndRatio")]
+        public async Task<IActionResult> TodayAndTomorrowPredictionTotalProductionAndRatio()
+        {
+            try
+            {
+                var result = await devService.TodayAndTomorrowPredictionTotalProductionAndRatio();
+
+                return Ok(new
+                {
+                    predictedProductionforToday = result.Item1,
+                    predictedProductionforTomorrow = result.Item2,
+                    ratio = result.Item3
+
+                });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
+        }
     }
 }

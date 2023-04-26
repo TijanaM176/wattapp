@@ -16,6 +16,7 @@ using System.Xml.Linq;
 using API.Models.HelpModels;
 using Microsoft.EntityFrameworkCore;
 using API.Models;
+using SharpCompress.Common;
 
 namespace API.Repositories.DeviceRepository
 {
@@ -595,6 +596,9 @@ namespace API.Repositories.DeviceRepository
             }
             double consumptionProsumersForLastWeek = 0.0;
 
+
+            listDevicesbyAllProsumers.Clear();
+
             foreach (var prosumer in prosumersWithDevices)
             {
                 listDevicesbyAllProsumers.Add(await GetDevicesByCategoryForThisPastFutureWeek(prosumer.ProsumerId, "Consumer", "past"));
@@ -675,6 +679,7 @@ namespace API.Repositories.DeviceRepository
                     }
                 }
             }
+            listDevicesbyAllProsumers.Clear();
             double productionProsumersForLastWeek = 0.0;
 
             foreach (var prosumer in prosumersWithDevices)
@@ -948,5 +953,377 @@ namespace API.Repositories.DeviceRepository
                 throw new ArgumentException("Changes could not be saved!");
             }
         }
+
+        public async Task<List<Device>> GetDevicesByCategoryForDateRealTime(string id, string catStr, DateTime datetime)
+        {
+            var begin = datetime + TimeSpan.Zero;
+            var end = datetime.Add(DateTime.Now.TimeOfDay);
+
+            if(begin > end)
+            {
+                var help = begin;
+                begin = end;
+                end = help;
+            }
+            var linkInfo = await GetLinksForProsumer(id);
+            var links = linkInfo.Select(x => x.ModelId);
+            var cat = await GetDeviceCategory(catStr);
+            var usages = await _usageContext.PowerUsage.Find(x => links.Contains(x.DeviceId)).ToListAsync();
+            var specs = await _regContext.Devices.Where(x => x.CategoryId == cat && links.Contains(x.Id)).ToListAsync();
+            var devices = from usage in usages
+                          join spec in specs on usage.DeviceId equals spec.Id
+                          join link in linkInfo on spec.Id equals link.ModelId
+                          select new { Usage = usage, Spec = spec, Link = link };
+
+            var devicesData = devices.Select(d => new Device
+            {
+                Id = d.Link.Id,
+                IpAddress = d.Link.IpAddress,
+                Name = d.Link.Name,
+                TypeId = d.Spec.TypeId,
+                CategoryId = d.Spec.CategoryId,
+                Manufacturer = d.Spec.Manufacturer,
+                Wattage = d.Spec.Wattage,
+                Timestamps = d.Usage.Timestamps.Where(t =>
+                    t.Date >= begin && t.Date <= end
+                ).ToList()
+            });
+            return devicesData.ToList();
+        }
+        public async Task<List<Device>> GetDevicesByCategoryForDate(string id, string catStr, DateTime datetime)
+        {
+            var begin = datetime + TimeSpan.Zero;
+            var end = datetime + new TimeSpan(23, 59, 59);
+
+            if (begin > end)
+            {
+                var help = begin;
+                begin = end;
+                end = help;
+            }
+            var linkInfo = await GetLinksForProsumer(id);
+            var links = linkInfo.Select(x => x.ModelId);
+            var cat = await GetDeviceCategory(catStr);
+            var usages = await _usageContext.PowerUsage.Find(x => links.Contains(x.DeviceId)).ToListAsync();
+            var specs = await _regContext.Devices.Where(x => x.CategoryId == cat && links.Contains(x.Id)).ToListAsync();
+            var devices = from usage in usages
+                          join spec in specs on usage.DeviceId equals spec.Id
+                          join link in linkInfo on spec.Id equals link.ModelId
+                          select new { Usage = usage, Spec = spec, Link = link };
+
+            var devicesData = devices.Select(d => new Device
+            {
+                Id = d.Link.Id,
+                IpAddress = d.Link.IpAddress,
+                Name = d.Link.Name,
+                TypeId = d.Spec.TypeId,
+                CategoryId = d.Spec.CategoryId,
+                Manufacturer = d.Spec.Manufacturer,
+                Wattage = d.Spec.Wattage,
+                Timestamps = d.Usage.Timestamps.Where(t =>
+                    t.Date >= begin && t.Date <= end
+                ).ToList()
+            });
+            return devicesData.ToList();
+        }
+        public async Task<(double, double, string)> TodayAndYesterdayTotalConsumptionAndRatio()
+        {
+            
+
+            List<ProsumerLink> prosumersWithDevices = (await getAllProsumersWhoOwnDevice())
+                 .GroupBy(x => x.ProsumerId)
+                 .Select(g => g.First())
+                 .ToList();
+
+            List<List<Device>> listDevicesbyAllProsumers = new List<List<Device>>();
+            double consumptionProsumersForThisDay = 0.0;
+
+
+            foreach (var prosumer in prosumersWithDevices)
+            {
+                
+                listDevicesbyAllProsumers.Add(await GetDevicesByCategoryForDateRealTime(prosumer.ProsumerId, "Consumer", DateTime.Now.Date));
+            }
+
+
+
+            foreach (var Prosumerdevices in listDevicesbyAllProsumers) 
+            {
+                foreach (var device in Prosumerdevices) 
+                {
+                    foreach (var ts in device.Timestamps) 
+                    {
+                        if (ts.Power != 0)
+                            consumptionProsumersForThisDay += ts.Power;
+                    }
+                }
+            }
+            listDevicesbyAllProsumers.Clear();
+            double consumptionProsumersForYesterday = 0.0;
+
+            foreach (var prosumer in prosumersWithDevices)
+            {
+                listDevicesbyAllProsumers.Add(await GetDevicesByCategoryForDateRealTime(prosumer.ProsumerId, "Consumer", DateTime.Now.AddDays(-1).Date));
+            }
+
+
+
+            foreach (var Prosumerdevices in listDevicesbyAllProsumers)
+            {
+                foreach (var device in Prosumerdevices)
+                {
+                    foreach (var ts in device.Timestamps)
+                    {
+                        if (ts.Power != 0)
+                            consumptionProsumersForYesterday += ts.Power;
+                    }
+                }
+            }
+
+            if (consumptionProsumersForYesterday == 0 && consumptionProsumersForThisDay == 0)
+                return (0.0, 0.0, "0");
+            else if (consumptionProsumersForYesterday == 0)
+                return (consumptionProsumersForThisDay, 0.0, "0");
+            else if (consumptionProsumersForThisDay == 0)
+                return (0, consumptionProsumersForYesterday, "0");
+            else
+            {
+
+                double ratio = Math.Abs((consumptionProsumersForThisDay - consumptionProsumersForYesterday) / (double)consumptionProsumersForYesterday) * 100;
+                ratio = Math.Round(ratio, 2);
+                if (consumptionProsumersForYesterday > consumptionProsumersForThisDay)
+                    return (consumptionProsumersForThisDay, consumptionProsumersForYesterday, (-ratio).ToString() + "%");
+                else
+                    return (consumptionProsumersForThisDay, consumptionProsumersForYesterday, ratio.ToString() + "%");
+            }
+
+
+
+        }
+        public async Task<(double, double, string)> TodayAndYesterdayTotalProductionAndRatio()
+        {
+            
+
+            List<ProsumerLink> prosumersWithDevices = (await getAllProsumersWhoOwnDevice())
+                 .GroupBy(x => x.ProsumerId)
+                 .Select(g => g.First())
+                 .ToList();
+
+            List<List<Device>> listDevicesbyAllProsumers = new List<List<Device>>();
+            double productionProsumersForThisDay = 0.0;
+
+
+            foreach (var prosumer in prosumersWithDevices)
+            {
+
+                listDevicesbyAllProsumers.Add(await GetDevicesByCategoryForDateRealTime(prosumer.ProsumerId, "Producer", DateTime.Now.Date));
+            }
+
+
+
+            foreach (var Prosumerdevices in listDevicesbyAllProsumers)
+            {
+                foreach (var device in Prosumerdevices)
+                {
+                    foreach (var ts in device.Timestamps)
+                    {
+                        if (ts.Power != 0)
+                            productionProsumersForThisDay += ts.Power;
+                    }
+                }
+            }
+            
+            double productionProsumersForYesterday = 0.0;
+            listDevicesbyAllProsumers.Clear();
+
+            foreach (var prosumer in prosumersWithDevices)
+            {
+                listDevicesbyAllProsumers.Add(await GetDevicesByCategoryForDateRealTime(prosumer.ProsumerId, "Producer", DateTime.Now.AddDays(-1).Date));
+            }
+
+
+
+            foreach (var Prosumerdevices in listDevicesbyAllProsumers)
+            {
+                foreach (var device in Prosumerdevices)
+                {
+                    foreach (var ts in device.Timestamps)
+                    {
+                        if (ts.Power != 0)
+                            productionProsumersForYesterday += ts.Power;
+                    }
+                }
+            }
+
+            if (productionProsumersForYesterday == 0 && productionProsumersForThisDay == 0)
+                return (0.0, 0.0, "0");
+            else if (productionProsumersForYesterday == 0)
+                return (productionProsumersForThisDay, 0.0, "0");
+            else if (productionProsumersForThisDay == 0)
+                return (0, productionProsumersForYesterday, "0");
+            else
+            {
+
+                double ratio = Math.Abs((productionProsumersForThisDay - productionProsumersForYesterday) / (double)productionProsumersForYesterday) * 100;
+                ratio = Math.Round(ratio, 2);
+                if (productionProsumersForYesterday > productionProsumersForThisDay)
+                    return (productionProsumersForThisDay, productionProsumersForYesterday, (-ratio).ToString() + "%");
+                else
+                    return (productionProsumersForThisDay, productionProsumersForYesterday, ratio.ToString() + "%");
+            }
+
+
+
+        }
+        public async Task<(double, double, string)> TodayAndTomorrowPredictionTotalConsumptionAndRatio()
+        {
+
+
+            List<ProsumerLink> prosumersWithDevices = (await getAllProsumersWhoOwnDevice())
+                 .GroupBy(x => x.ProsumerId)
+                 .Select(g => g.First())
+                 .ToList();
+
+            List<List<Device>> listDevicesbyAllProsumers = new List<List<Device>>();
+            double predictionconsumptionProsumersForThisDay = 0.0;
+
+
+            foreach (var prosumer in prosumersWithDevices)
+            {
+
+                listDevicesbyAllProsumers.Add(await GetDevicesByCategoryForDate(prosumer.ProsumerId, "Consumer", DateTime.Now.Date));
+            }
+
+
+
+            foreach (var Prosumerdevices in listDevicesbyAllProsumers)
+            {
+                foreach (var device in Prosumerdevices)
+                {
+                    foreach (var ts in device.Timestamps)
+                    {
+                        if (ts.PredictedPower != 0)
+                            predictionconsumptionProsumersForThisDay += ts.PredictedPower;
+                    }
+                }
+            }
+            listDevicesbyAllProsumers.Clear();
+            double predictionconsumptionProsumersForTomorrow = 0.0;
+
+            foreach (var prosumer in prosumersWithDevices)
+            {
+                listDevicesbyAllProsumers.Add(await GetDevicesByCategoryForDate(prosumer.ProsumerId, "Consumer", DateTime.Now.AddDays(+1).Date));
+            }
+
+
+
+            foreach (var Prosumerdevices in listDevicesbyAllProsumers)
+            {
+                foreach (var device in Prosumerdevices)
+                {
+                    foreach (var ts in device.Timestamps)
+                    {
+                        if (ts.PredictedPower != 0)
+                            predictionconsumptionProsumersForTomorrow += ts.PredictedPower;
+                    }
+                }
+            }
+
+            if (predictionconsumptionProsumersForTomorrow == 0 && predictionconsumptionProsumersForThisDay == 0)
+                return (0.0, 0.0, "0");
+            else if (predictionconsumptionProsumersForTomorrow == 0)
+                return (predictionconsumptionProsumersForThisDay, 0.0, "0");
+            else if (predictionconsumptionProsumersForThisDay == 0)
+                return (0, predictionconsumptionProsumersForTomorrow, "0");
+            else
+            {
+
+                double ratio = Math.Abs((predictionconsumptionProsumersForThisDay - predictionconsumptionProsumersForTomorrow) / (double)predictionconsumptionProsumersForThisDay) * 100;
+                ratio = Math.Round(ratio, 2);
+                if (predictionconsumptionProsumersForTomorrow > predictionconsumptionProsumersForThisDay)
+                    return (predictionconsumptionProsumersForThisDay, predictionconsumptionProsumersForTomorrow, (-ratio).ToString() + "%");
+                else
+                    return (predictionconsumptionProsumersForThisDay, predictionconsumptionProsumersForTomorrow, ratio.ToString() + "%");
+            }
+
+
+
+        }
+        public async Task<(double, double, string)> TodayAndTomorrowPredictionTotalProductionAndRatio()
+        {
+
+
+            List<ProsumerLink> prosumersWithDevices = (await getAllProsumersWhoOwnDevice())
+                 .GroupBy(x => x.ProsumerId)
+                 .Select(g => g.First())
+                 .ToList();
+
+            List<List<Device>> listDevicesbyAllProsumers = new List<List<Device>>();
+            double predictionproductionProsumersForThisDay = 0.0;
+
+
+            foreach (var prosumer in prosumersWithDevices)
+            {
+
+                listDevicesbyAllProsumers.Add(await GetDevicesByCategoryForDate(prosumer.ProsumerId, "Producer", DateTime.Now.Date));
+            }
+
+
+
+            foreach (var Prosumerdevices in listDevicesbyAllProsumers)
+            {
+                foreach (var device in Prosumerdevices)
+                {
+                    foreach (var ts in device.Timestamps)
+                    {
+                        if (ts.PredictedPower != 0)
+                            predictionproductionProsumersForThisDay += ts.PredictedPower;
+                    }
+                }
+            }
+
+            double predictionproductionProsumersForTomorrow = 0.0;
+            listDevicesbyAllProsumers.Clear();
+
+            foreach (var prosumer in prosumersWithDevices)
+            {
+                listDevicesbyAllProsumers.Add(await GetDevicesByCategoryForDate(prosumer.ProsumerId, "Producer", DateTime.Now.AddDays(1).Date));
+            }
+
+
+
+            foreach (var Prosumerdevices in listDevicesbyAllProsumers)
+            {
+                foreach (var device in Prosumerdevices)
+                {
+                    foreach (var ts in device.Timestamps)
+                    {
+                        if (ts.PredictedPower != 0)
+                            predictionproductionProsumersForTomorrow += ts.PredictedPower;
+                    }
+                }
+            }
+
+            if (predictionproductionProsumersForTomorrow == 0 && predictionproductionProsumersForThisDay == 0)
+                return (0.0, 0.0, "0");
+            else if (predictionproductionProsumersForTomorrow == 0)
+                return (predictionproductionProsumersForThisDay, 0.0, "0");
+            else if (predictionproductionProsumersForThisDay == 0)
+                return (0, predictionproductionProsumersForTomorrow, "0");
+            else
+            {
+
+                double ratio = Math.Abs((predictionproductionProsumersForThisDay - predictionproductionProsumersForTomorrow) / (double)predictionproductionProsumersForTomorrow) * 100;
+                ratio = Math.Round(ratio, 2);
+                if (predictionproductionProsumersForTomorrow > predictionproductionProsumersForThisDay)
+                    return (predictionproductionProsumersForThisDay, predictionproductionProsumersForTomorrow, (-ratio).ToString() + "%");
+                else
+                    return (predictionproductionProsumersForThisDay, predictionproductionProsumersForTomorrow, ratio.ToString() + "%");
+            }
+
+
+
+        }
+
     }
 }
