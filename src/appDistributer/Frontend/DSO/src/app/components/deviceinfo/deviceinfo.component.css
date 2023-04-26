@@ -1,9 +1,18 @@
 .greenZone {
-    color: green;
-  }
-  .blueZone {
-    color: #d96d2a;
-  }
-  .redZone {
-    color: #c14b48;
-  }
+  color: green;
+}
+.blueZone {
+  color: #d96d2a;
+}
+.redZone {
+  color: #c14b48;
+}
+
+.off {
+  color: red;
+  font-size: 24px;
+}
+.on {
+  color: green;
+  font-size: 24px;
+}

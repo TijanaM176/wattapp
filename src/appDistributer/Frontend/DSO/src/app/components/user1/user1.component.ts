@@ -24,7 +24,7 @@ export class User1Component implements OnInit, AfterViewInit {
   loader: boolean = true;
   resizeObservable$!: Observable<Event>;
   resizeSubscription$!: Subscription;
-  numberD:number=0;
+  numberD: number = 0;
   constructor(
     private user1: EmployeesServiceService,
     private user: UsersServiceService,
@@ -35,7 +35,7 @@ export class User1Component implements OnInit, AfterViewInit {
     private serviceData: DataService,
     private widthService: ScreenWidthService,
     private r: Router,
-    private deviceService:DeviceserviceService
+    private deviceService: DeviceserviceService
   ) {}
   letValue: string = '';
   id: string = '';
@@ -46,7 +46,7 @@ export class User1Component implements OnInit, AfterViewInit {
   address: string = '';
   Region: string = '';
   city: string = '';
-  type : string = '';
+  type: string = '';
   consumption: number = 0;
   production: number = 0;
   editUser = new FormGroup({
@@ -65,7 +65,6 @@ export class User1Component implements OnInit, AfterViewInit {
   thresholds: object = {};
 
   ngOnInit(): void {
-
     document.getElementById('userInfoDataContainer')!.style.height =
       this.widthService.height + 'px';
     this.letValue = this.cookie.get('role');
@@ -105,14 +104,12 @@ export class User1Component implements OnInit, AfterViewInit {
     this.ConsumptionAndProduction();
     this.resizeObservable$ = fromEvent(window, 'resize');
     this.resizeSubscription$ = this.resizeObservable$.subscribe((evt) => {
-
       document.getElementById('userInfoDataContainer')!.style.height =
         this.widthService.height + 'px';
     });
   }
 
   ngAfterViewInit(): void {
-
     document.getElementById('userInfoDataContainer')!.style.height =
       this.widthService.height + 'px';
   }
@@ -131,34 +128,29 @@ export class User1Component implements OnInit, AfterViewInit {
     });
     const buttonRef = document.getElementById('closeBtn1');
     buttonRef?.click();
-    
   }
 
   DeleteUser() {
     //console.log(this.router.snapshot.params['id']);
     if (confirm('Do you want to delete ?')) {
-    this.user.deleteUser(this.router.snapshot.params['id']).subscribe({
-      next: (res) => {
-        // console.log(res);
-        this.r.navigate(['/DsoApp/users']);
-      },
-      error: (err) => {
-        console.log(err.error);
-      },
-    });
-  }
+      this.user.deleteUser(this.router.snapshot.params['id']).subscribe({
+        next: (res) => {
+          // console.log(res);
+          this.r.navigate(['/DsoApp/users']);
+        },
+        error: (err) => {
+          console.log(err.error);
+        },
+      });
+    }
   }
 
-  disableDelete(role : string)
-  {
+  disableDelete(role: string) {
     let deleteBtn = document.getElementById('delete');
-    if(role=='Dso')
-    {
+    if (role == 'Dso') {
       deleteBtn?.removeAttribute('disabled');
-    }
-    else
-    {
-      deleteBtn?.setAttribute('disabled','disabled');
+    } else {
+      deleteBtn?.setAttribute('disabled', 'disabled');
     }
   }
 
@@ -169,6 +161,5 @@ export class User1Component implements OnInit, AfterViewInit {
         this.consumption = data.consumption;
         this.production = data.production;
       });
-    }
-    
+  }
 }

@@ -66,8 +66,16 @@
 
               <div class="card-body p-1 p-md-4">
                 <br />
-                <h6 class="section">Device Information</h6>
-                <hr class="mt-0 mb-4" />
+                <div style="display: flex; justify-content: space-between">
+                  <h6 class="section">Device Information</h6>
+                  <div *ngIf="currentUsage == 0" (click)="toggle()">
+                    <i class="fa fa-power-off fa-lg off"></i>&nbsp;Turn On
+                  </div>
+                  <div *ngIf="currentUsage != 0" (click)="toggle()">
+                    <i class="fa fa-power-off fa-lg on"></i>&nbsp;Turn Off
+                  </div>
+                </div>
+                <hr class="mt-0 mb-3" />
                 <div class="row pt-1 mx-0 my-0">
                   <div class="col-6 mb-1">
                     <h6 style="color: #08376b">{{ IpAddress }}</h6>
@@ -78,7 +86,7 @@
                     <p class="text-muted">Device Type</p>
                   </div>
                 </div>
-                <hr class="mt-0 mb-4" />
+                <hr class="mt-0 mb-3" />
                 <div class="row pt-1 mx-0 my-0">
                   <div class="col-6 mb-1">
                     <h6 style="color: #08376b">{{ ModelName }}</h6>
@@ -89,7 +97,7 @@
                     <p class="text-muted">Device Name</p>
                   </div>
                 </div>
-                <hr class="mt-0 mb-4" />
+                <hr class="mt-0 mb-3" />
 
                 <div class="row pt-1 mx-0 my-0">
                   <div class="col-6 mb-1">
@@ -131,8 +139,8 @@
                   </button>
                   &nbsp;&nbsp;
                   <button class="btn btn-primary" (click)="delete(idDev)">
-                    <i class="fa fa-trash fa-lg"></i>&nbsp;Delete
-                  </button>
+                    <i class="fa fa-trash fa-lg"></i>&nbsp;Delete</button
+                  >&nbsp;&nbsp;
                 </div>
               </div>
             </div>

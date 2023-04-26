@@ -2,19 +2,57 @@
   class="main-content position-relative border-radius-lg"
   style="overflow-y: scroll; max-height: 89.1vh"
 >
-  <div class="container-fluid py-4 " id="deviceInfoDataContainer">
+  <div class="container-fluid py-4" id="deviceInfoDataContainer">
     <div class="row">
       <div class="col-lg-6 mb-lg-0 mb-4">
-        <div class="row" >
-          <div class="col-lg-12 mb-lg-0 mb-4 ">
+        <div class="row">
+          <div class="col-lg-12 mb-lg-0 mb-4">
             <div class="card z-index-2 h-100">
-              <div class="card-header" style="margin-left: 0; margin-right: 0; display: flex; align-items: center; padding-top: 2%; padding-bottom: 2%; padding-left: 3%;">
-                <h6 style="color:#08376b;">Device Information</h6>
-                <br/>
+              <div
+                class="card-header"
+                style="
+                  margin-left: 0;
+                  margin-right: 0;
+                  display: flex;
+                  justify-content: space-between;
+                  align-items: center;
+                  padding-top: 2%;
+                  padding-bottom: 2%;
+                  padding-left: 3%;
+                "
+              >
+                <h6 class="col-6" style="color: #08376b; margin: 0">
+                  Device Information
+                </h6>
+                <div
+                  class="col-6"
+                  *ngIf="currentUsage == 0"
+                  (click)="toggle()"
+                  style="
+                    display: flex;
+                    justify-content: right;
+                    align-items: center;
+                  "
+                >
+                  <i class="fa fa-power-off fa-lg off"></i>&nbsp; Turn On
+                </div>
+                <div
+                  class="col-6"
+                  *ngIf="currentUsage != 0"
+                  (click)="toggle()"
+                  style="
+                    display: flex;
+                    justify-content: right;
+                    align-items: center;
+                  "
+                >
+                  <i class="fa fa-power-off fa-lg on"></i>&nbsp; Turn Off
+                </div>
+                <br />
               </div>
               <hr class="mt-0 mb-4" />
               <div class="row pt-1 mx-0 my-0">
-                <div class="col-6 mb-1" style="padding-left: 3%;">
+                <div class="col-6 mb-1" style="padding-left: 3%">
                   <h6 style="color: #08376b">{{ IpAddress }}</h6>
                   <p class="text-muted">IP Address</p>
                 </div>
@@ -25,7 +63,7 @@
               </div>
               <hr class="mt-0 mb-4" />
               <div class="row pt-1 mx-0 my-0">
-                <div class="col-6 mb-1" style="padding-left: 3%;">
+                <div class="col-6 mb-1" style="padding-left: 3%">
                   <h6 style="color: #08376b">{{ ModelName }}</h6>
                   <p class="text-muted">Device Model</p>
                 </div>
@@ -34,20 +72,24 @@
                   <p class="text-muted">Device Name</p>
                 </div>
               </div>
-              
             </div>
           </div>
         </div>
         <div class="row mt-3">
-          <div class="col-xl-12 col-sm-2 mb-xl-0 mb-4" >
+          <div class="col-xl-12 col-sm-2 mb-xl-0 mb-4">
             <div class="card">
-              <div class="card-body p-3" id="consumptionLimitCardBody" style="display:flex;justify-content: center;">
-                <div class="row" >
+              <div
+                class="card-body p-3"
+                id="consumptionLimitCardBody"
+                style="display: flex; justify-content: center"
+              >
+                <div class="row">
                   <div class="col-12" id="consumptionLimitBody">
-                    <div class="numbers" >
-                      <ngx-gauge [type]="'semi'" 
+                    <div class="numbers">
+                      <ngx-gauge
+                        [type]="'semi'"
                         [value]="currentUsage"
-                        [label]="type"  
+                        [label]="type"
                         [append]="'kWh'"
                         [min]="0"
                         [max]="maxUsageNumber"
@@ -63,28 +105,34 @@
                     <div class="legend w-100 text-center">
                       <i class="fa fa-circle greenZone"
                         >&nbsp;0-{{ AvgUsage }} kWh</i
-                        >&nbsp;&nbsp;&nbsp;
+                      >&nbsp;&nbsp;&nbsp;
                       <i class="fa fa-circle blueZone"
                         >&nbsp; {{ AvgUsage }}-{{ MaxUsage }} kWh</i
-                        >&nbsp;&nbsp;&nbsp;
-                      <i class="fa fa-circle redZone">&nbsp;{{ MaxUsage }}+ kWh</i>
+                      >&nbsp;&nbsp;&nbsp;
+                      <i class="fa fa-circle redZone"
+                        >&nbsp;{{ MaxUsage }}+ kWh</i
+                      >
                     </div>
-                  </div>  
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
         <div class="row mt-2">
-          <div class="col-xl-6 col-sm-2 mb-xl-0 mb-4"  >
-            <div class="card" style="display:flex;justify-content: center;">
-              <div class="card-body p-3" style="display:flex;justify-content: center;">
+          <div class="col-xl-6 col-sm-2 mb-xl-0 mb-4">
+            <div class="card" style="display: flex; justify-content: center">
+              <div
+                class="card-body p-3"
+                style="display: flex; justify-content: center"
+              >
                 <div class="row">
                   <div class="col-12">
                     <div class="numbers">
-                      <ngx-gauge [type]="'semi'" 
+                      <ngx-gauge
+                        [type]="'semi'"
                         [value]="MaxUsage"
-                        [label]="'Maximum hourly '+ type"  
+                        [label]="'Maximum hourly ' + type"
                         [append]="'kWh'"
                         [min]="0"
                         [max]="maxUsageNumber"
@@ -94,29 +142,34 @@
                       >
                       </ngx-gauge>
                     </div>
-                  </div>  
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-          <div class="col-xl-6 col-sm-2 mb-xl-0 mb-4" >
-            <div class="card" style="display:flex;justify-content: center;">
-              <div class="card-body p-3" style="display:flex;justify-content: center;">
+          <div class="col-xl-6 col-sm-2 mb-xl-0 mb-4">
+            <div class="card" style="display: flex; justify-content: center">
+              <div
+                class="card-body p-3"
+                style="display: flex; justify-content: center"
+              >
                 <div class="row">
                   <div class="col-12">
                     <div class="numbers">
-                    <ngx-gauge [type]="'semi'" 
-                      [value]="AvgUsage"
-                      [label]="'Average hourly '+type"  
-                      [append]="'kWh'"
-                      [min]="0"
-                      [max]="maxUsageNumber"
-                      [size]="150"
-                      [cap]="'butt'"
-                      [thick]="10">
-                  </ngx-gauge>
+                      <ngx-gauge
+                        [type]="'semi'"
+                        [value]="AvgUsage"
+                        [label]="'Average hourly ' + type"
+                        [append]="'kWh'"
+                        [min]="0"
+                        [max]="maxUsageNumber"
+                        [size]="150"
+                        [cap]="'butt'"
+                        [thick]="10"
+                      >
+                      </ngx-gauge>
                     </div>
-                  </div>  
+                  </div>
                 </div>
               </div>
             </div>
@@ -130,7 +183,7 @@
         <div class="card p-0 mb-4">
           <app-predictionDevice [type]="type"></app-predictionDevice>
         </div>
-      </div>       
+      </div>
     </div>
   </div>
 </main>

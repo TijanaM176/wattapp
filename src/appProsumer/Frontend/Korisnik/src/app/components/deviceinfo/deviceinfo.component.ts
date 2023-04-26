@@ -170,4 +170,12 @@ export class DeviceinfoComponent {
       //this.showEdit = false;
     }
   }
+
+  toggle() {
+    this.service
+      .toggleDevice(this.router1.snapshot.params['idDev'], true)
+      .subscribe((response) => {
+        this.currentUsage = response;
+      });
+  }
 }

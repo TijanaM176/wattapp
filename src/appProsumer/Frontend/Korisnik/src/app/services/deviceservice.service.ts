@@ -13,6 +13,8 @@ export class DeviceserviceService {
   private baseUrl1: string = 'https://localhost:7156/api/Devices/EditDevice';
   private baseUrl2: string = 'https://localhost:7156/api/Devices/DeleteDevice';
   private baseUrl3: string = 'https://localhost:7156/api/GenericData/GetModels';
+  private baseUrl4: string =
+    'https://localhost:7156/api/Devices/ToggleActivity';
   model: any = 0;
   name: string = '';
   type: number = 0;
@@ -51,5 +53,12 @@ export class DeviceserviceService {
     return this.http.delete(this.baseUrl2 + '?IdDevice=' + id, {
       responseType: 'text',
     });
+  }
+
+  toggleDevice(id: string, state: boolean): Observable<any> {
+    return this.http.put<any>(
+      this.baseUrl4 + '?deviceId=' + id + '&role=Prosumer',
+      { active: state }
+    );
   }
 }
