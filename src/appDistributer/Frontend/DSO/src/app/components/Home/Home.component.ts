@@ -8,7 +8,6 @@ import {
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { CookieService } from 'ngx-cookie-service';
-import { AuthServiceService } from 'src/app/services/auth-service.service';
 import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { Location } from '@angular/common';
@@ -20,7 +19,6 @@ import {
 } from '@angular/forms';
 
 import { AuthService } from 'src/app/services/auth.service';
-
 import { RegisterProsumerDto } from 'src/app/models/registerProsumerDto';
 import { SetCoordsDto } from 'src/app/models/setCoordsDto';
 import { UsersServiceService } from 'src/app/services/users-service.service';
@@ -62,14 +60,13 @@ export class HomeComponent implements OnInit, AfterViewInit {
 
   constructor(
     private cookie: CookieService,
-    private auth1: AuthServiceService,
-    private serviceUser:UsersServiceService,
+    private serviceUser: UsersServiceService,
     public toast: ToastrService,
     private modalService: NgbModal,
     private fb: FormBuilder,
     private auth: AuthService,
     private router: Router,
-    private serviceData:DataService,
+    private serviceData: DataService,
     private service: UsersServiceService,
     private location1: Location
   ) {}
@@ -188,7 +185,9 @@ export class HomeComponent implements OnInit, AfterViewInit {
 
       this.auth.signUp(this.signupForm.value).subscribe({
         next: (res) => {
-          this.toast.success('Success','New Prosumer Added',{timeOut:2500});
+          this.toast.success('Success', 'New Prosumer Added', {
+            timeOut: 2500,
+          });
 
           this.getCoordinates(this.address, res.username);
           console.log(res.username);
@@ -200,7 +199,6 @@ export class HomeComponent implements OnInit, AfterViewInit {
             });
         },
         error: (err) => {
-
           this.toast.error('Error!', 'Unable to add new prosumer.', {
             timeOut: 2500,
           });
@@ -253,7 +251,6 @@ export class HomeComponent implements OnInit, AfterViewInit {
         });
       })
       .catch((error) => {
-
         this.toast.error('Error!', 'Unable to fetch location data.', {
           timeOut: 2500,
         });

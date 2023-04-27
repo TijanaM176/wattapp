@@ -1,6 +1,5 @@
 // import { NgToastService } from 'ng-angular-popup';
 import { CookieService } from 'ngx-cookie-service';
-import { AuthServiceService } from 'src/app/services/auth-service.service';
 import { Router, NavigationEnd } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 
@@ -13,11 +12,7 @@ export class NavBarComponent implements OnInit {
   value: string = '';
   url: string = '';
   letValue: string = '';
-  constructor(
-    private router: Router,
-    private cookie: CookieService,
-    private auth: AuthServiceService // private toast: NgToastService
-  ) {}
+  constructor(private router: Router, private cookie: CookieService) {}
 
   ngOnInit(): void {
     this.value = this.cookie.get('role');

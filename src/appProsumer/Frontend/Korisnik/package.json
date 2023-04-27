@@ -1,5 +1,5 @@
 {
-  "name": "prosumer-log-in",
+  "name": "prosumer",
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
@@ -11,7 +11,7 @@
   "private": true,
   "dependencies": {
     "@angular/animations": "^15.2.1",
-    "@angular/cdk": "^15.2.8",
+    "@angular/cdk": "^15.2.1",
     "@angular/common": "^15.2.1",
     "@angular/compiler": "^15.2.1",
     "@angular/core": "^15.2.1",

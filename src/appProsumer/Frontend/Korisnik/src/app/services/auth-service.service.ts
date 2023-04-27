@@ -9,12 +9,13 @@ import { ToastrService } from 'ngx-toastr';
 import { CookieService } from 'ngx-cookie-service';
 import { RefreshTokenDto } from '../models/refreshTokenDto';
 import { SendRefreshToken } from '../models/sendRefreshToken';
+import { environment } from 'src/enviroment/enviroment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthServiceService {
-  private baseUrl: string = 'https://localhost:7156/api/Auth/';
+  private baseUrl = environment.apiUrl;
 
   constructor(
     private http: HttpClient,
@@ -23,16 +24,16 @@ export class AuthServiceService {
   ) {}
 
   login(loginDto: any) {
-    return this.http.post<any>(this.baseUrl + 'prosumerLogin', loginDto);
+    return this.http.post<any>(this.baseUrl + 'Auth/prosumerLogin', loginDto);
   }
 
   getUsers(): Observable<any[]> {
-    return this.http.get<any>(this.baseUrl + 'UsersProsumer');
+    return this.http.get<any>(this.baseUrl + 'Auth/UsersProsumer');
   }
 
   refreshToken(refreshToken: SendRefreshToken) {
     return this.http.post<RefreshTokenDto>(
-      this.baseUrl + 'refreshToken',
+      this.baseUrl + 'Auth/refreshToken',
       refreshToken
     );
   }

@@ -26,13 +26,13 @@ export class TabelaUredjajaComponent implements OnInit {
   currentPage = 1;
   itemsPerPage = 10;
   searchName: string = '';
-  value: string = '0';
   devices: any[] = [];
   devicesToShow: any[] = [];
   filteredDevices: any[] = [];
-  numofdevices:number=0;
+  numofdevices: number = 0;
   orderHeader: String = '';
   isDescOrder: boolean = true;
+  deviceUsages: { [id: string]: number } = {};
   dataSource = new MatTableDataSource<any[]>(this.devices);
   constructor(
     private userService: UsersServiceService,
@@ -41,7 +41,7 @@ export class TabelaUredjajaComponent implements OnInit {
     private deviceService: DeviceserviceService
   ) {}
 
-  ngOnInit():void {
+  ngOnInit(): void {
     this.id = this.router.snapshot.params['id'];
     this.deviceService.getDevicesByProsumerId(this.id).subscribe((response) => {
       console.log(response);
@@ -56,8 +56,8 @@ export class TabelaUredjajaComponent implements OnInit {
         ...response.storage,
       ];
     });
-
   }
+
   get pages() {
     const totalPages = Math.ceil(this.devicesToShow.length / this.itemsPerPage);
     return Array(totalPages)

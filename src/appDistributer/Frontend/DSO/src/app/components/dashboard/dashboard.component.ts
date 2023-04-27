@@ -2,7 +2,6 @@ import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { CookieService } from 'ngx-cookie-service';
-import { AuthServiceService } from 'src/app/services/auth-service.service';
 import { fromEvent, Observable, Subscription } from 'rxjs';
 import { ScreenWidthService } from 'src/app/services/screen-width.service';
 import { EmployeesServiceService } from 'src/app/services/employees-service.service';
