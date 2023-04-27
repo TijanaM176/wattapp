@@ -602,7 +602,16 @@ namespace API.Services.Devices
                 await _repository.ToggleActivity(deviceId, role);
                 var dev = await _repository.GetDevice(deviceId);
 
-                if ((bool)dev["Activity"]) return (double)dev["AvgUsage"];
+                if ((bool)dev["Activity"])
+                {
+                    if ((double)dev["CurrentUsage"] == 0)
+                    {
+                        Random random = new Random();
+                        return (double)dev["AvgUsage"] * random.Next(95, 105) / 100;
+                    }
+                    else return (double)dev["CurrentUsage"];
+                }
+                
                 return 0;
 
             }catch (Exception ex)

@@ -323,6 +323,20 @@ namespace API.Repositories.DeviceRepository
             Timestamp ts = usage.Timestamps.Where(x => x.Date.Year ==  DateTime.Now.Year && x.Date.Month == DateTime.Now.Month && x.Date.Day == DateTime.Now.Day && x.Date.Hour == DateTime.Now.Hour).FirstOrDefault();
             double currentUsage = Math.Round(ts.Power, 4);
             double max = await MaxUsage(link.ModelId);
+            
+            double curr;
+            double avg = await AvgUsage(link.ModelId);
+            if (link.Activity)
+            {
+                if (currentUsage == 0)
+                {
+                    Random random = new Random();
+                    curr = avg * random.Next(95, 105) / 100;
+                }
+                else curr = currentUsage;
+            }
+            else curr = 0;
+
             return new Dictionary<string, object>
             {
                 { "Id", id },
@@ -334,11 +348,11 @@ namespace API.Repositories.DeviceRepository
                 {"ModelName", info.Name },
                 { "Manufacturer", info.Manufacturer },
                 { "Wattage", info.Wattage },
-                { "CurrentUsage", currentUsage},
+                { "CurrentUsage", curr},
                 { "CategoryName", (await GetDeviceCat(info.CategoryId)).Name },
                 { "TypeName", (await GetDeviceType(info.TypeId)).Name },
                 { "MaxUsage", max},
-                { "AvgUsage", await AvgUsage(link.ModelId) },
+                { "AvgUsage", avg},
                 { "DsoView", link.DsoView },
                 { "DsoControl", link.DsoControl },
                 { "Activity", link.Activity }
