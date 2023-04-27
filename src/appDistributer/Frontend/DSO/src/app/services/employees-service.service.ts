@@ -5,6 +5,7 @@ import { Employee } from '../models/employeestable';
 import { lastValueFrom } from 'rxjs';
 import { FormGroup } from '@angular/forms';
 import { editEmployeeDto } from '../models/editEmployee';
+import { environment } from 'src/enviroments/enviroment';
 
 @Injectable({
   providedIn: 'root',
@@ -19,45 +20,36 @@ export class EmployeesServiceService {
 
   constructor(private http: HttpClient) {}
 
-  private baseUrl: string = 'https://localhost:7156/api/Dso/';
-  private baseUrl1: string = 'https://localhost:7156/api/Dso/UpdateDsoWorker';
-  private dataUrl: string = 'https://localhost:7156/api/GenericData/';
+  private baseUrl = environment.apiUrl;
 
   getAllData() {
     return this.http
-      .get(this.baseUrl + 'GetAllDsoWorkers')
-      .subscribe((res) => {this.employees = res as Employee[];});
+      .get(this.baseUrl + 'Dso/GetAllDsoWorkers')
+      .subscribe((res) => {
+        this.employees = res as Employee[];
+      });
   }
 
   updateEmployee(id: string, dto: editEmployeeDto) {
-    return this.http.put(this.baseUrl1 + '?id=' + id, dto);
+    return this.http.put(this.baseUrl + 'Dso/UpdateDsoWorker?id=' + id, dto);
   }
 
   deleteEmployee(id: string) {
-    return this.http.delete(`${this.baseUrl}DeleteDsoWorker` + `?id=` + id);
+    return this.http.delete(`${this.baseUrl}Dso/DeleteDsoWorker` + `?id=` + id);
   }
 
   detailsEmployee(id: string): Observable<any> {
-    return this.http.get<any>(`${this.baseUrl}GetDsoById` + `?id=` + id);
+    return this.http.get<any>(`${this.baseUrl}Dso/GetDsoById` + `?id=` + id);
   }
 
   Page(page: number, pagesize: number) {
     return this.http.get(
-      `${this.baseUrl}GetDsoWorkerPaging?PageNumber=` +
+      `${this.baseUrl}Dso/GetDsoWorkerPaging?PageNumber=` +
         page +
         `&PageSize=` +
         pagesize
     );
   }
-
-  
-  /*
-  refreshList(){
-    lastValueFrom(this.http.get(this.baseUrl))
-    .then(res=>this.employees = res as Employee[] )
-  }
- */
-
 
   filter() {
     if (this.role == 0 && this.region == '') {
@@ -75,7 +67,7 @@ export class EmployeesServiceService {
     return this.http
       .get(
         this.baseUrl +
-          'GetWorkerByFilter?RegionID=' +
+          'Dso/GetWorkerByFilter?RegionID=' +
           this.region +
           '&RoleID=' +
           this.role
@@ -92,7 +84,7 @@ export class EmployeesServiceService {
 
   getWorkersByRegionId() {
     return this.http
-      .get(this.baseUrl + 'GetWorkersByRegionId?RegionID=' + this.region)
+      .get(this.baseUrl + 'Dso/GetWorkersByRegionId?RegionID=' + this.region)
       .subscribe({
         next: (res) => {
           this.employees = res as Employee[];
@@ -105,7 +97,7 @@ export class EmployeesServiceService {
 
   getWorkersByRoleId() {
     return this.http
-      .get(this.baseUrl + 'GetWorkersByRoleId?RoleID=' + this.role)
+      .get(this.baseUrl + 'Dso/GetWorkersByRoleId?RoleID=' + this.role)
       .subscribe({
         next: (res) => {
           this.employees = res as Employee[];
@@ -115,6 +107,4 @@ export class EmployeesServiceService {
         },
       });
   }
-
-  
 }

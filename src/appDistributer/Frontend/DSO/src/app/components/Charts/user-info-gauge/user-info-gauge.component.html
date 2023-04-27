@@ -1,58 +1,70 @@
 <div class="card-header">
-    <div class="row">
-        <div class="col-5 mx-0 my-0">
-            <h6>This Months {{gaugeLabel}}</h6>
-        </div>
-        <div class="col-7 mx-0 my-0" style="display: flex; justify-content: right; margin: auto; padding: 2%;">
-            <div class="form-check mx-1">
-                <input
-                  class="form-check-input"
-                  type="radio"
-                  name="gaugeChartOption"
-                  id="gaugeOptionConsumption"
-                  (change)="onRadioButtonChange($event, 'consumption')"
-                  [checked]="isConsumptionChecked"
-                />
-                <label class="form-check-label" for="gaugeOptionConsumption">
-                    Consumption
-                </label>
-              </div>
-              <div class="form-check mx-3">
-                <input
-                  class="form-check-input"
-                  type="radio"
-                  name="gaugeChartOption"
-                  id="gaugeOptionProduction"
-                  (change)="onRadioButtonChange($event, 'production')"
-                  [checked]="isProductionChecked"
-                />
-                <label class="form-check-label" for="gaugeOptionProduction">
-                    Production
-                </label>
-              </div>
-        </div>
+  <div class="row">
+    <div class="col-5 mx-0 my-0">
+      <h6>This Months {{ gaugeLabel }}</h6>
     </div>
+    <div
+      class="col-7 mx-0 my-0"
+      style="display: flex; justify-content: right; margin: auto; padding: 2%"
+    >
+      <div class="form-check mx-1">
+        <input
+          class="form-check-input"
+          type="radio"
+          name="gaugeChartOption"
+          id="gaugeOptionConsumption"
+          (change)="onRadioButtonChange($event, 'consumption')"
+          [checked]="isConsumptionChecked"
+        />
+        <label class="form-check-label" for="gaugeOptionConsumption">
+          Consumption
+        </label>
+      </div>
+      <div class="form-check mx-3">
+        <input
+          class="form-check-input"
+          type="radio"
+          name="gaugeChartOption"
+          id="gaugeOptionProduction"
+          (change)="onRadioButtonChange($event, 'production')"
+          [checked]="isProductionChecked"
+        />
+        <label class="form-check-label" for="gaugeOptionProduction">
+          Production
+        </label>
+      </div>
+    </div>
+  </div>
 </div>
-<div class="card-body" style="width: 100%; padding-top: 5%;" id="userInfoGaugeChartCardBody">
-    <div class="w-100 px-0 py-0 mb-0 mt-4 my-0" style="display: flex; justify-content: center; align-items: center;" id="userInfoGaugeChart">
-        <ngx-gauge class="text-size"
-            [type]="'semi'"
-            [size]="width"
-            [label]="gaugeLabel"
-            [append]="gaugeAppendText"
-            [min]="0"
-            [max]="1700"
-            [markers]="markers"
-            [value]="data"
-            [cap]="'butt'"
-            [thick]="40"
-            [thresholds]="thresholds">
-        </ngx-gauge>
-    </div>
-    <div class="legend w-100 text-center mx-0 my-0" *ngIf="showLegend">
-        <i class="fa fa-circle greenZone">&nbsp;0-350 kW</i>&nbsp;&nbsp;&nbsp;
-        <i class="fa fa-circle blueZone">&nbsp;351-1600 kW</i>&nbsp;&nbsp;&nbsp;
-        <i class="fa fa-circle redZone">&nbsp;1600+ kW</i>
-    </div>
+<div
+  class="card-body"
+  style="width: 100%; padding-top: 5%"
+  id="userInfoGaugeChartCardBody"
+>
+  <div
+    class="w-100 px-0 py-0 mb-0 mt-4 my-0"
+    style="display: flex; justify-content: center; align-items: center"
+    id="userInfoGaugeChart"
+  >
+    <ngx-gauge
+      class="text-size"
+      [type]="'semi'"
+      [size]="width"
+      [label]="gaugeLabel"
+      [append]="gaugeAppendText"
+      [min]="0"
+      [max]="1700"
+      [markers]="markers"
+      [value]="data"
+      [cap]="'butt'"
+      [thick]="40"
+      [thresholds]="thresholds"
+    >
+    </ngx-gauge>
+  </div>
 </div>
-
+<div class="legend w-100 text-center mx-0 mb-0 mt-2" *ngIf="showLegend">
+  <i class="fa fa-circle greenZone">&nbsp;0-350 kW</i>&nbsp;&nbsp;&nbsp;
+  <i class="fa fa-circle blueZone">&nbsp;351-1600 kW</i>&nbsp;&nbsp;&nbsp;
+  <i class="fa fa-circle redZone">&nbsp;1600+ kW</i>
+</div>

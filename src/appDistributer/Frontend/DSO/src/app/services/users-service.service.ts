@@ -7,6 +7,7 @@ import { Neighborhood } from '../models/neighborhood';
 import { City } from '../models/city';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { CookieService } from 'ngx-cookie-service';
+import { environment } from 'src/enviroments/enviroment';
 @Injectable({
   providedIn: 'root',
 })
@@ -21,30 +22,24 @@ export class UsersServiceService {
     private cookie: CookieService
   ) {}
 
-  private baseUrl: string = 'https://localhost:7156/api/Prosumer/';
-  private updateUserUrl: string =
-    'https://localhost:7156/api/Dso/UpdateProsumerByDso';
-  private deviceBaseUrl: string = 'https://localhost:7156/api/Devices/';
-  private dashboardBaseUrl: string =
-    'https://localhost:7156/api/DashboardData/';
-  private dataUrl: string = 'https://localhost:7156/api/GenericData/';
-  private timestampUrl: string = 'https://localhost:7156/api/Timestamp/';
-  private totalUrl: string = 'https://localhost:7156/api/TotalPowerUsage/';
+  private baseUrl = environment.apiUrl;
 
   refreshList() {
-    lastValueFrom(this.http.get(this.baseUrl + 'GetAllProsumers')).then(
-      (res) => (this.prosumers = res as Prosumer[])
-    );
+    lastValueFrom(
+      this.http.get(this.baseUrl + 'Prosumer/GetAllProsumers')
+    ).then((res) => (this.prosumers = res as Prosumer[]));
   }
   getUsers(): Observable<any[]> {
-    return this.http.get<any>(this.baseUrl + 'GetAllProsumers');
+    return this.http.get<any>(this.baseUrl + 'Prosumer/GetAllProsumers');
   }
   detailsEmployee(id: string): Observable<any> {
-    return this.http.get<any>(`${this.baseUrl}getProsumerByID` + `?id=` + id);
+    return this.http.get<any>(
+      `${this.baseUrl}Prosumer/getProsumerByID` + `?id=` + id
+    );
   }
   Page(page: number, pagesize: number) {
     return this.http.get(
-      `${this.baseUrl}GetProsumersPaging?PageNumber=` +
+      `${this.baseUrl}Prosumer/GetProsumersPaging?PageNumber=` +
         page +
         `&PageSize=` +
         pagesize
@@ -52,26 +47,33 @@ export class UsersServiceService {
   }
 
   getAllNeighborhoods(): Observable<Neighborhood[]> {
-    return this.http.get<Neighborhood[]>(this.dataUrl + 'GetAllNeighborhoods');
+    return this.http.get<Neighborhood[]>(
+      this.baseUrl + 'GenericData/GetAllNeighborhoods'
+    );
   }
   GetProsumersByNeighborhoodId(id: string): Observable<Prosumer[]> {
     return this.http.get<Prosumer[]>(
-      this.baseUrl + 'GetProsumersByNeighborhoodId?id=' + id
+      this.baseUrl + 'Prosumer/GetProsumersByNeighborhoodId?id=' + id
     );
   }
 
   getAllProsumers(): Observable<any[]> {
-    return this.http.get<any[]>(this.baseUrl + 'GetAllProsumers');
+    return this.http.get<any[]>(this.baseUrl + 'Prosumer/GetAllProsumers');
   }
 
   // updateUserData(data: any) {
   //   return this.http.put(`${this.baseUrl3}`, data);
   updateUserData(id: any, data: any) {
-    return this.http.put(`${this.updateUserUrl}` + `?id=` + id, data);
+    return this.http.put(
+      `${this.baseUrl}` + `Dso/UpdateProsumerByDso'?id=` + id,
+      data
+    );
   }
 
   deleteUser(id: any) {
-    return this.http.delete(`${this.baseUrl}DeleteProsumer` + `?id=` + id);
+    return this.http.delete(
+      `${this.baseUrl}Prosumer/DeleteProsumer` + `?id=` + id
+    );
   }
 
   prosumerFilter(
@@ -83,8 +85,8 @@ export class UsersServiceService {
     maxDev: number
   ): Observable<Prosumer[]> {
     return this.http.get<Prosumer[]>(
-      this.deviceBaseUrl +
-        'UpdatedProsumerFilter?minConsumption=' +
+      this.baseUrl +
+        'Devices/UpdatedProsumerFilter?minConsumption=' +
         minCon +
         '&maxConsumption=' +
         maxCon +
@@ -108,8 +110,8 @@ export class UsersServiceService {
     maxDev: number
   ): Observable<Prosumer[]> {
     return this.http.get<Prosumer[]>(
-      this.deviceBaseUrl +
-        'UpdatedProsumerFilter2?neighborhood=' +
+      this.baseUrl +
+        'Devices/UpdatedProsumerFilter2?neighborhood=' +
         idNaselja +
         '&minConsumption=' +
         minCon +
@@ -127,8 +129,8 @@ export class UsersServiceService {
   }
   ThisMonthsConsumptionAndProductionForProsumer(id: string): Observable<any> {
     return this.http.get<any>(
-      this.totalUrl +
-        'ThisMonthTotalConsumptionProductionForProsumer?prosumerId=' +
+      this.baseUrl +
+        'TotalPowerUsage/ThisMonthTotalConsumptionProductionForProsumer?prosumerId=' +
         id
     );
   }

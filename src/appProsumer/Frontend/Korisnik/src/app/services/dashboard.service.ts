@@ -2,18 +2,17 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { CookieService } from 'ngx-cookie-service';
 import { Observable } from 'rxjs';
+import { environment } from 'src/enviroment/enviroment';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class DashboardService {
+  baseUrl = environment.apiUrl;
 
-  baseUrl : string = 'https://localhost:7156/api/DashboardData/';
+  constructor(private http: HttpClient, private cookie: CookieService) {}
 
-  constructor(private http : HttpClient, private cookie : CookieService) { }
-
-  getCurrentElecticityPrice() : Observable<any>
-  {
-    return this.http.get<any>(this.baseUrl+'CurrentPrice')
+  getCurrentElecticityPrice(): Observable<any> {
+    return this.http.get<any>(this.baseUrl + 'DashboardData/CurrentPrice');
   }
 }

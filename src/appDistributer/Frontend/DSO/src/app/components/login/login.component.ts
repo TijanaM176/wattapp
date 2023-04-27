@@ -9,7 +9,6 @@ import {
 import { Router } from '@angular/router';
 // import { NgToastService } from 'ng-angular-popup';
 import { CookieService } from 'ngx-cookie-service';
-import { AuthServiceService } from 'src/app/services/auth-service.service';
 import { ResetPasswordService } from 'src/app/services/reset-password.service';
 import jwt_decode from 'jwt-decode';
 import { path } from 'd3';
@@ -34,7 +33,7 @@ export class LoginComponent implements OnInit {
     private cookie: CookieService,
     private auth: AuthService,
     private reset: ResetPasswordService,
-    public toast:ToastrService
+    public toast: ToastrService
   ) {}
 
   ngOnInit(): void {
@@ -105,7 +104,7 @@ export class LoginComponent implements OnInit {
           this.cookie.set('refresh', res.refreshToken.toString().trim(), {
             path: '/',
           });
-          this.toast.success('Success','Successful Login!',{timeOut:2500});
+          this.toast.success('Success', 'Successful Login!', { timeOut: 2500 });
           this.router.navigate(['']);
         },
         error: (err) => {
@@ -132,7 +131,9 @@ export class LoginComponent implements OnInit {
       //console.log(this.resetPasswordEmail);
       this.auth.sendResetPasswordLink(this.resetPasswordEmail).subscribe({
         next: (res) => {
-          this.toast.success('Success','Successful Reset Password!',{timeOut:2500});
+          this.toast.success('Success', 'Successful Reset Password!', {
+            timeOut: 2500,
+          });
           this.resetPasswordEmail = '';
           const buttonRef = document.getElementById('closeBtn');
           buttonRef?.click();

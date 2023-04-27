@@ -2,56 +2,66 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { Observable } from 'rxjs';
+import { environment } from 'src/enviroments/enviroment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class DashboarddataService {
   constructor(private http: HttpClient, private spiner: NgxSpinnerService) {}
-  private dashboardBaseUrl: string =
-    'https://localhost:7156/api/DashboardData/';
-  private totalUrl: string = 'https://localhost:7156/api/TotalPowerUsage/';
+  private dashboardBaseUrl = environment.apiUrl;
   Top5Consumers(): Observable<any[]> {
-    return this.http.get<any[]>(this.dashboardBaseUrl + 'Top5Consumers');
+    return this.http.get<any[]>(
+      this.dashboardBaseUrl + 'DashboardData/Top5Consumers'
+    );
   }
 
   Top5Producers(): Observable<any[]> {
-    return this.http.get<any[]>(this.dashboardBaseUrl + 'Top5Producers');
+    return this.http.get<any[]>(
+      this.dashboardBaseUrl + 'DashboardData/Top5Producers'
+    );
   }
 
   ConsumerProducerRatio(): Observable<any[]> {
     return this.http.get<any[]>(
-      this.dashboardBaseUrl + 'ConsumerProducerRatio'
+      this.dashboardBaseUrl + 'DashboardData/ConsumerProducerRatio'
     );
   }
   CityPercentages(): Observable<any[]> {
-    return this.http.get<any[]>(this.dashboardBaseUrl + 'CityPercentages');
+    return this.http.get<any[]>(
+      this.dashboardBaseUrl + 'DashboardData/CityPercentages'
+    );
   }
 
   ElectricityPrice(): Observable<any[]> {
-    return this.http.get<any[]>(this.dashboardBaseUrl + 'CurrentPrice');
+    return this.http.get<any[]>(
+      this.dashboardBaseUrl + 'DashboardData/CurrentPrice'
+    );
   }
   getProsumerCout(): Observable<any> {
     return this.http.get<any>(
-      'https://localhost:7156/api/DashboardData/ProsumerCount'
+      this.dashboardBaseUrl + 'DashboardData/ProsumerCount'
     );
   }
 
   TotalProd(): Observable<any> {
     return this.http.get(
-      this.totalUrl + 'TodayAndYesterdayTotalProductionAndRatio'
+      this.dashboardBaseUrl +
+        'TotalPowerUsage/TodayAndYesterdayTotalProductionAndRatio'
     );
   }
 
   TotalCons(): Observable<any> {
     return this.http.get(
-      this.totalUrl + 'TodayAndYesterdayTotalConsumptionAndRatio'
+      this.dashboardBaseUrl +
+        'TotalPowerUsage/TodayAndYesterdayTotalConsumptionAndRatio'
     );
   }
 
   nextWeekTotal(): Observable<any> {
     return this.http.get(
-      this.totalUrl + 'TodayAndTomorrowPredictionTotalConsumptionAndRatio'
+      this.dashboardBaseUrl +
+        'TotalPowerUsage/TodayAndTomorrowPredictionTotalConsumptionAndRatio'
     );
   }
 }
