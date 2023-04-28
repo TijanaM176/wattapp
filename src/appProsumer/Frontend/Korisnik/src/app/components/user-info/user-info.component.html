@@ -13,7 +13,27 @@
               class="col-md-8 justify-content-center align-items-center order-2 order-md-1 mx-0 my-0 px-0 py-0"
             >
               <div class="card-body p-1 p-md-4">
-                <h6 class="section ps-3">Information</h6>
+                <div class="col-12 pt-2" style="width: 100%; display: flex;">
+                  <h6 class="section ps-3">Information</h6>
+                  <!-- <div class="col-6 py-0" style="display: flex; justify-content: start; align-items: last baseline;">
+                    <h6 class="section ps-3">Information</h6>
+                  </div>
+                  <div class="col-6 py-2 pe-3" style="display: flex; justify-content: end; align-items: center;">
+                    <button
+                      class="btn btn-primary"
+                      data-bs-toggle="modal"
+                      data-bs-target="#staticBackdrop"
+                      (click)="changePass()"
+                    >
+                      <i class="fa fa-lock fa-lg"></i
+                      ><span
+                        class="d-none d-sm-inline-flex align-items-center"
+                        style="white-space: nowrap"
+                        >&nbsp;Change Password</span
+                      >
+                    </button>
+                  </div> -->
+                </div>
                 <hr class="mt-0 mb-4" />
                 <div class="row pt-1 mx-0 my-0">
                   <div class="col-6 mb-3">
@@ -47,9 +67,9 @@
                     <p class="text-muted">Neighborhood</p>
                   </div>
                 </div>
-                <hr class="mt-0 mb-4" />
-                <div class="d-flex justify-content-start mx-0 my-0 ps-3">
-                  <button
+                <hr class="mt-0 mb-3" />
+                <div class="d-flex justify-content-start mx-0 my-0 ps-2 pb-2">
+                  <!-- <button
                     class="btn btn-primary"
                     data-bs-toggle="modal"
                     data-bs-target="#staticBackdrop"
@@ -60,7 +80,7 @@
                       >&nbsp;Edit Profile</span
                     >
                   </button>
-                  &nbsp;&nbsp;
+                  &nbsp;&nbsp; -->
                   <button
                     class="btn btn-primary"
                     data-bs-toggle="modal"
@@ -69,7 +89,7 @@
                   >
                     <i class="fa fa-lock fa-lg"></i
                     ><span
-                      class="d-none d-sm-inline-flex align-items-center"
+                      class="align-items-center"
                       style="white-space: nowrap"
                       >&nbsp;Change Password</span
                     >
@@ -107,7 +127,7 @@
     aria-labelledby="staticBackdropLabel"
     aria-hidden="true"
   >
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
         <div class="modal-header text-white" style="background-color: #466471">
           <h5 class="modal-title" id="staticBackdropLabel">{{ modalTitle }}</h5>
@@ -120,13 +140,12 @@
           ></button>
         </div>
         <div class="modal-body">
-          <app-edit-info-form
+          <!-- <app-edit-info-form
             [userData]="userData"
             *ngIf="showEdit == true"
             #editData
-          ></app-edit-info-form>
+          ></app-edit-info-form> -->
           <app-change-password
-            *ngIf="showChangePass == true"
             #changePassword
           ></app-change-password>
         </div>
