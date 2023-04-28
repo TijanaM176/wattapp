@@ -17,6 +17,7 @@ export class EmployeesServiceService {
   role!: number;
   employees!: Employee[];
   formData: Employee = new Employee();
+  idEmp!:string;
 
   constructor(private http: HttpClient) {}
 

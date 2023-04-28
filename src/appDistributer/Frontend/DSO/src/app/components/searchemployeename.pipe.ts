@@ -10,8 +10,8 @@ export class SearchemployeenamePipe implements PipeTransform {
     if(!employees || !searchName) return employees;
     
     return employees.filter((item:any)=>{
-    if(item.username!==null)
-       return item.username.toLocaleLowerCase().includes(searchName.toLocaleLowerCase())});
+    if(item.firstName!==null)
+       return item.firstName.toLocaleLowerCase().includes(searchName.toLocaleLowerCase())});
       
   }
 }

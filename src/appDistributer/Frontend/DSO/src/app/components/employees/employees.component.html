@@ -48,7 +48,7 @@
                   [(ngModel)]="searchName"
                   style="background-color: #f8f8fa; border-radius: 10px"
                   class="form-control"
-                  placeholder="Search By Username"
+                  placeholder="Search By First Name"
                 />
               </div>
             </div>
@@ -59,6 +59,8 @@
         <thead>
           <tr>
             <th></th>
+            <th (click)="sort('firstName')">First Name<i class="fa fa-sort"></i></th>
+            <th (click)="sort('lastName')">Last Name<i class="fa fa-sort"></i></th>
             <th (click)="sort('username')">
               Username<i class="fa fa-sort"></i>
             </th>
@@ -74,7 +76,7 @@
             *ngFor="
               let item of service.employees
                 | orderBy : orderHeader : isDescOrder
-                | search : searchName
+                | searchemployeename : searchName
                 | paginate
                   : {
                       itemsPerPage: perPage,
@@ -90,9 +92,11 @@
                 style="width: 30px; height: 30px"
               />
             </td>
+            <td>{{item.firstName}}</td>
+            <td>{{item.lastName}}</td>
             <td>{{ item.userName }}</td>
             <td>{{ regionName }}</td>
-            <td>{{ item.roleId }}</td>
+            <td>{{ roleName }}</td>
             <td>
               <a
                 (click)="Details(item.id)"
@@ -118,12 +122,14 @@
       </table>
       <app-popup-add></app-popup-add>
       <app-popup-emp></app-popup-emp>
+      <app-employeedetail></app-employeedetail>
+      <app-editemployee></app-editemployee>
       <div
         style="
           text-align: center;
           margin-top: 1.5%;
           justify-content: center;
-          position: fixed;
+          position: flex;
           bottom: 0;
         "
         class="start-50"
@@ -138,495 +144,6 @@
     </div>
   </div>
 </div>
-<div
-  class="modal fade"
-  id="exampleModal"
-  tabindex="-1"
-  aria-labelledby="exampleModalLabel"
-  aria-hidden="true"
->
-  <div class="modal-dialog modal-lg" style="width: 60%">
-    <div class="modal-content">
-      <div class="modal-header text-white" style="background-color: #566787;">
-        <h5 class="modal-title" id="exampleModalLabel">
-          Employee Info
-        </h5>
-        <button
-          type="button"
-          id="closeBtn"
-          class="btn-close"
-          data-bs-dismiss="modal"
-          aria-label="Close"
-        ></button>
-      </div>
-      <div class="modal-body" style="justify-content: center; align-items: center; padding-left: 7%;">
-        <div class="slika">
-          <img
-            src="assets/images/default-image.png"
-            style="
-              height: 15%;
-              width: 15%;
-              justify-content: center;
-              margin-left: 40%;
-            "
-          />
-          <div style="margin-top: 5%; margin-left: 23%; margin-bottom: 3%">
-            <button
-              data-bs-target="#Modal2"
-              data-bs-toggle="modal"
-              (click)="update(id)"
-              style="
-                background-color: #d6d9df;
-                margin-left: 10%;
-                text-align: center;
-                color: #566787;
-                font-weight: bold;
-                font-size: 16px;
-                border: none;
-                width: 100px;
-                border-radius: 5px;
-              "
-            >
-              <span
-                style="
-                  display: flex;
-                  justify-content: center;
-                  align-items: center;
-                "
-                ><i
-                  style="color: #566787; font-size: 16px; margin-top: 5%"
-                  class="material-icons"
-                  >edit</i
-                >
-                Edit</span
-              >
-            </button>
-            <button
-              (click)="onDelete(id)"
-              data-bs-dismiss="modal"
-              style="
-                background-color: #d6d9df;
-                margin-left: 10%;
-                text-align: center;
-                color: #566787;
-                font-weight: bold;
-                font-size: 16px;
-                border: none;
-                width: 100px;
-                border-radius: 5px;
-              "
-            >
-              <span
-                style="
-                  display: flex;
-                  justify-content: center;
-                  align-items: center;
-                "
-                ><i
-                  style="color: #566787; font-size: 16px; margin-top: 5%"
-                  class="material-icons"
-                  >delete</i
-                >
-                Delete</span
-              >
-            </button>
-          </div>
-          <div class="mb-3">
-            <label
-              for="firstName"
-              class="form-label"
-              style="width: 90%; color: #566787; font-weight: bold"
-              >First Name</label
-            >
-            <input
-              [disabled]="true"
-              type="text"
-              class="form-control"
-              id="firstName"
-              [(ngModel)]="firstName"
-              placeholder="First Name"
-              style="
-                width: 95%;
-                color: #d6d9df;
-                background-color: #566787;
-                font-weight: bold;
-              "
-            />
-          </div>
-          <div class="mb-3">
-            <label
-              for="lastName"
-              class="form-label"
-              style="width: 90%; color: #566787; font-weight: bold"
-              >Last Name</label
-            >
-            <input
-              [disabled]="true"
-              type="text"
-              class="form-control"
-              id="lastName"
-              [(ngModel)]="lastName"
-              placeholder="Last Name"
-              style="
-                width: 95%;
-                color: #d6d9df;
-                background-color: #566787;
-                font-weight: bold;
-              "
-            />
-          </div>
-          <div class="mb-3" style="width: 50%; float: left">
-            <label
-              for="dateCreate"
-              class="form-label"
-              style="width: 90%; color: #566787; font-weight: bold"
-              >Starting Date</label
-            >
-            <input
-              [disabled]="true"
-              type="text"
-              class="form-control"
-              id="dateCreate"
-              [(ngModel)]="dateCreate"
-              placeholder="Date Create"
-              style="
-                width: 90%;
-                color: #d6d9df;
-                background-color: #566787;
-                font-weight: bold;
-              "
-            />
-          </div>
-          <div class="mb-3" style="width: 50%; float: left">
-            <label
-              for="salary"
-              class="form-label"
-              style="width: 90%; color: #566787; font-weight: bold"
-              >Salary</label
-            >
-            <input
-              [disabled]="true"
-              type="text"
-              class="form-control"
-              id="salary"
-              [(ngModel)]="salary"
-              placeholder="Salary"
-              style="
-                width: 90%;
-                color: #d6d9df;
-                background-color: #566787;
-                font-weight: bold;
-              "
-            />
-          </div>
-          <div class="mb-3" style="width: 50%; float: left">
-            <label
-              for="role"
-              class="form-label"
-              style="width: 90%; color: #566787; font-weight: bold"
-              >Role</label
-            >
-            <input
-              [disabled]="true"
-              type="text"
-              class="form-control"
-              id="role"
-              [(ngModel)]="roleName"
-              placeholder="Role"
-              style="
-                width: 90%;
-                color: #d6d9df;
-                background-color: #566787;
-                font-weight: bold;
-              "
-            />
-          </div>
-          <div class="mb-3" style="width: 50%; float: left">
-            <label
-              for="region"
-              class="form-label"
-              style="width: 90%; color: #566787; font-weight: bold"
-              >Region</label
-            >
-            <input
-              [disabled]="true"
-              type="text"
-              class="form-control"
-              id="region"
-              [(ngModel)]="regionName"
-              placeholder="Region"
-              style="
-                width: 90%;
-                color: #d6d9df;
-                background-color: #566787;
-                font-weight: bold;
-              "
-            />
-          </div>
-          <div class="mb-3">
-            <label
-              for="email"
-              class="form-label"
-              style="width: 90%; color: #566787; font-weight: bold"
-              >E-mail</label
-            >
-            <input
-              [disabled]="true"
-              type="text"
-              class="form-control"
-              id="email"
-              [(ngModel)]="email"
-              placeholder="E-mail"
-              style="
-                width: 95%;
-                color: #d6d9df;
-                background-color: #566787;
-                font-weight: bold;
-              "
-            />
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
 
-<div
-  class="modal fade"
-  id="Modal2"
-  tabindex="-1"
-  aria-labelledby="Modal2Label"
-  aria-hidden="true"
->
-  <div class="modal-dialog modal-lg" style="width: 60%">
-    <div class="modal-content">
-      <div class="modal-header text-white" style="background-color: #566787;">
-        <h5 class="modal-title" id="Modal2Label">
-          Edit Employee
-        </h5>
-        <button
-          type="button"
-          class="btn-close"
-          data-bs-dismiss="modal"
-          aria-label="Close"
-          id="closeBtn1"
-          (click)="close()"
-        ></button>
-      </div>
-      <div class="modal-body">
-        <div class="mb-3">
-          <img
-            src="assets/images/default-image.png"
-            style="
-              height: 15%;
-              width: 15%;
-              justify-content: center;
-              margin-bottom: 2%;
-            "
-          />
 
-          <button
-            style="
-              background-color: #566787;
-              margin-left: 10%;
-              text-align: center;
-              color: white;
-              font-weight: bold;
-              font-size: 14px;
-              border: none;
-              width: 20%;
-              border-radius: 5px;
-            "
-          >
-            <span
-              ><i
-                style="color: #d6d9df; font-size: 16px; margin-top: 0%"
-                class="material-icons"
-                >edit</i
-              >
-              Change photo</span
-            >
-          </button>
-        </div>
-        <div class="mb-3" style="width: 50%; float: left">
-          <label
-            for="firstName"
-            class="form-label"
-            style="width: 90%; color: #566787; font-weight: bold"
-            >First Name</label
-          >
-          <input
-            type="text"
-            class="form-control"
-            id="firstName"
-            [(ngModel)]="firstName"
-            placeholder="First Name"
-            style="
-              width: 90%;
-              border: 1px solid #566787;
-              color: #566787;
-              background-color: #e8f3f8;
-              font-weight: 600;
-            "
-          />
-        </div>
-        <div class="mb-3" style="width: 50%; float: left">
-          <label
-            for="lastName"
-            class="form-label"
-            style="width: 90%; color: #566787; font-weight: bold"
-            >Last Name</label
-          >
-          <input
-            type="text"
-            class="form-control"
-            id="lastName"
-            [(ngModel)]="lastName"
-            placeholder="Last Name"
-            style="
-              width: 90%;
-              border: 1px solid #566787;
-              color: #566787;
-              background-color: #e8f3f8;
-              font-weight: 600;
-            "
-          />
-        </div>
-        <div class="mb-3" style="width: 50%; float: left">
-          <label
-            for="salary"
-            class="form-label"
-            style="width: 90%; color: #566787; font-weight: bold"
-            >Salary</label
-          >
-          <input
-            type="text"
-            class="form-control"
-            id="salary"
-            [(ngModel)]="salary"
-            placeholder="Salary"
-            style="
-              width: 90%;
-              border: 1px solid #566787;
-              color: #566787;
-              background-color: #e8f3f8;
-              font-weight: 600;
-            "
-          />
-        </div>
-        <div class="mb-3" style="width: 50%; float: left">
-          <div class="mb-3">
-            <label
-              for="role"
-              class="form-label"
-              style="width: 90%; color: #566787; font-weight: bold"
-              >Role</label
-            >
-            <select
-              class="dropdown dropdown-toggle"
-              name="model"
-              [(ngModel)]="role"
-              (change)="ChangeRole($event)"
-              class="form-control"
-              style="
-                width: 90%;
-                border: 1px solid #566787;
-                color: #566787;
-                background-color: #e8f3f8;
-                font-weight: 600;
-              "
-            >
-              <option value="0">Choose Role</option>
-              <option *ngFor="let item of Role" [ngValue]="item.id">
-                {{ item.roleName }}
-              </option>
-            </select>
-          </div>
-        </div>
-        <div class="mb-3" style="width: 50%; float: left">
-          <div class="mb-3">
-            <label
-              for="role"
-              class="form-label"
-              style="width: 90%; color: #566787; font-weight: bold"
-              >Role</label
-            >
-            <select
-              class="dropdown dropdown-toggle"
-              name="model"
-              [(ngModel)]="region"
-              (change)="ChangeRole($event)"
-              class="form-control"
-              style="
-                width: 90%;
-                border: 1px solid #566787;
-                color: #566787;
-                background-color: #e8f3f8;
-                font-weight: 600;
-              "
-            >
-              <option value="0">Choose Role</option>
-              <option *ngFor="let item of Region" [ngValue]="item.id">
-                {{ item.regionName }}
-              </option>
-            </select>
-          </div>
-        </div>
-        <div class="mb-3" style="width: 50%; float: left">
-          <label
-            for="email"
-            class="form-label"
-            style="width: 90%; color: #566787; font-weight: bold"
-            >Email</label
-          >
-          <input
-            type="text"
-            class="form-control"
-            id="email"
-            [(ngModel)]="email"
-            placeholder="Email"
-            style="
-              width: 90%;
-              border: 1px solid #566787;
-              color: #566787;
-              background-color: #e8f3f8;
-              font-weight: 600;
-            "
-          />
-        </div>
-        <div class="mb-3" style="width: 50%;">
-          <label
-            for="password"
-            class="form-label"
-            style="width: 90%; color: #566787; font-weight: bold"
-            >Password</label
-          >
-          <input
-            type="text"
-            class="form-control"
-            id="password"
-            [(ngModel)]="password"
-            placeholder="Password"
-            style="
-              width: 90%;
-              border: 1px solid #566787;
-              color: #566787;
-              background-color: #e8f3f8;
-              font-weight: 600;
-            "
-          />
-        </div>
-      </div>
-      <div class="modal-footer" style="display: flex; justify-content: center">
-        <button
-          type="button"
-          class="btn"
-          style="background-color: #566787; color: white; width: 40%"
-          (click)="onUpdate(id)"
-        >
-          Confirm
-        </button>
-      </div>
-    </div>
-  </div>
-</div>
+

@@ -33,6 +33,9 @@ export class AddDeviceFormComponent {
   typ: any;
   mod: any;
   maxlength: number = 18;
+  dropdownCategory:boolean=false;
+  dropdownType:boolean=true;
+  dropdownModel:boolean=true;
   constructor(
     private service: AdddeviceserviceService,
     private cookie: CookieService,
@@ -47,6 +50,7 @@ export class AddDeviceFormComponent {
     this.getCategories();
   }
   ChangeCategory(e: any) {
+    this.dropdownType=!this.dropdownType;
     this.service.category = this.category;
     console.log(this.service.category);
     this.getTypes();
@@ -63,6 +67,7 @@ export class AddDeviceFormComponent {
     });
   }
   ChangeType(e: any) {
+    this.dropdownModel=!this.dropdownModel;
     this.service.type = this.type;
     //this.model = -1;
     console.log(this.service.type);

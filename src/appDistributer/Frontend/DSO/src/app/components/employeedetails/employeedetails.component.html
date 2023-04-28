@@ -19,9 +19,35 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
 <app-popup-add></app-popup-add>
 <app-popup-emp></app-popup-emp>
-<div style="display: flex">
-  <app-employee-nav-bar></app-employee-nav-bar>
-  <div style="width: 100%">
+<app-employeedetail>
+</app-employeedetail>
+<app-editemployee></app-editemployee>
+<div
+    class="modal fade"
+    id="staticBackdrop"
+    data-bs-backdrop="static"
+    data-bs-keyboard="false"
+    tabindex="-1"
+    aria-labelledby="staticBackdropLabel"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog modal-xl" style="width:100%;">
+      <div class="modal-content" >
+        <div class="modal-header text-white" >
+          <h5 class="modal-title" id="staticBackdropLabel"></h5>
+          <button
+            type="button"
+            class="btn-close"
+            id="closeBtn3"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          ></button>
+        </div>
+        <div class="modal-body">
     <app-employees></app-employees>
-  </div>
+
 </div>
+</div>
+</div>
+</div>
+

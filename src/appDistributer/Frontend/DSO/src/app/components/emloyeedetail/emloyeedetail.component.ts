@@ -1,21 +1,15 @@
-import { Component, OnInit } from '@angular/core';
-import { EmployeesServiceService } from 'src/app/services/employees-service.service';
-import { lastValueFrom, Observable, tap } from 'rxjs';
-import { ToastrService } from 'ngx-toastr';
-import { Toast } from 'ngx-toastr';
-import { Employee } from 'src/app/models/employeestable';
+import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { FormControl, FormGroup } from '@angular/forms';
 import { CookieService } from 'ngx-cookie-service';
-import { editEmployeeDto } from 'src/app/models/editEmployee';
 import { DataService } from 'src/app/services/data.service';
+import { EmployeesServiceService } from 'src/app/services/employees-service.service';
 
 @Component({
-  selector: 'app-employees',
-  templateUrl: './employees.component.html',
-  styleUrls: ['./employees.component.css'],
+  selector: 'app-emloyeedetail',
+  templateUrl: './emloyeedetail.component.html',
+  styleUrls: ['./emloyeedetail.component.css']
 })
-export class EmployeesComponent {
+export class EmloyeedetailComponent{
   searchName: string = '';
   employees: any;
   employee: any;
@@ -41,6 +35,7 @@ export class EmployeesComponent {
   roleId!:number;
   regionId!:string;
   id!:string;
+  idEmp!:string;
   constructor(
     public service: EmployeesServiceService,
     private router: Router,
@@ -48,33 +43,13 @@ export class EmployeesComponent {
     public serviceData:DataService
   ) {
   }
-
-  ngOnInit(): void {
-    this.Ucitaj();
-    this.Paging();
-    this.regionName = this.cookie.get('region');
+  ngOnInit(): void{
+    
   }
-
-  Ucitaj() {
-    this.service.getAllData();
-    this.employees = this.service.employees;
-
-  }
-  Paging() {
-    this.service.Page(this.page, this.perPage).subscribe((res) => {
-      this.employees = res;
-    });
-  }
-  onTableDataChange(event: any) {
-    this.page = event;
-    console.log(this.page);
-    this.Paging();
-  }
-
-  Details(id: string) {
-    this.service.idEmp=id;
-    console.log(this.service.idEmp);
-    this.service.detailsEmployee(id).subscribe((res) => {
+  Details() {
+    this.idEmp=this.service.idEmp;
+    console.log(this.idEmp);
+    this.service.detailsEmployee(this.idEmp).subscribe((res) => {
       this.employee = res;
       this.id=res.id;
       this.firstName=res.firstName;
@@ -96,9 +71,6 @@ export class EmployeesComponent {
     });
     const buttonRef = document.getElementById('closeBtn3');
     buttonRef?.click();
-
-  }
-  close(){
 
   }
   ChangeRegion(e:any){
@@ -137,31 +109,11 @@ export class EmployeesComponent {
     buttonRef?.click();
     
   }
-  onUpdate(id: string) {
-    //console.log(this.updateForm.value);
-    let dto:editEmployeeDto=new editEmployeeDto();
-    dto.firstName=this.firstName;
-    dto.lastName=this.lastName;
-    dto.salary=this.salary;
-    dto.regionId=this.region;
-    dto.roleId=this.role;
-    dto.email=this.email;
-    dto.password=this.password;
-    console.log(dto);
-
-    this.service.updateEmployee(id,dto).subscribe((res) => {
-      console.log(res);
-    });
-    const buttonRef = document.getElementById('closeBtn1');
-    buttonRef?.click();
-  }
-
   onDelete(id: string) {
     if (confirm('Do you want to delete ?')) {
       this.service.deleteEmployee(id).subscribe({
         next: (res) => {
-          this.Ucitaj();
-          this.Paging();
+
         },
         error: (err) => {
           console.log(err.error);
@@ -169,8 +121,5 @@ export class EmployeesComponent {
       });
     }
   }
-  sort(headerName:String){
-    this.isDescOrder=!this.isDescOrder;
-    this.orderHeader=headerName;
-  }
+  
 }
