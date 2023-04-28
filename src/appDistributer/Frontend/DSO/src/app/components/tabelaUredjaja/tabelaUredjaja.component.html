@@ -105,14 +105,19 @@
         <thead>
           <tr>
             <th></th>
-            <th (click)="sort('IpAddress')">
+            <th (click)="sort('IpAddress')" style="cursor: pointer">
               IP Address<i class="fa fa-sort"></i>
             </th>
-            <th (click)="sort('Name')">
+            <th (click)="sort('Name')" style="cursor: pointer">
               Device Name<i class="fa fa-sort"></i>
             </th>
 
-            <th (click)="sort('Wattage')">Energy <i class="fa fa-sort"></i></th>
+            <th
+              (click)="sort('device.Timestamps.power.toFixed(2)')"
+              style="cursor: pointer"
+            >
+              Energy (kW) <i class="fa fa-sort"></i>
+            </th>
             <th>Activity</th>
             <th></th>
           </tr>
@@ -192,7 +197,7 @@
             <td>{{ device.IpAddress }}</td>
             <td>{{ device.Name }}</td>
 
-            <td>{{ device.Timestamps.power.toFixed(2) }}kW</td>
+            <td>{{ device.Timestamps.power.toFixed(2) }}</td>
             <td>
               <ng-template #offToggle>
                 <div
