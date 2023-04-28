@@ -30,6 +30,7 @@ export class NavbarOffcanvasComponent implements OnInit, OnDestroy{
       offcanv!.style.height = this.widthService.height + 'px';
       offcanvBody!.style.height = this.widthService.height + 'px';
     });
+    this.activateBtn('offcanvasHome');
   }
   ngOnDestroy(): void {
     this.resizeSubscription$.unsubscribe();
@@ -39,5 +40,20 @@ export class NavbarOffcanvasComponent implements OnInit, OnDestroy{
   {
     this.cookie.deleteAll('/');
     this.router.navigate(["login"]);
+  }
+
+  activateBtn(id : string)
+  {
+    const buttons = document.querySelectorAll('.offcanvasBtn');
+    buttons.forEach(button=>{
+      if(button.id == id)
+      {
+        button.classList.add('active');
+      }
+      else
+      {
+        button.classList.remove('active');
+      }
+    })
   }
 }

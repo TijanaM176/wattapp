@@ -21,6 +21,9 @@
       tabindex="-1"
       id="offcanvasNavbarDark"
       aria-labelledby="offcanvasNavbarDarkLabel"
+      style="max-width: 80%;"
+      data-bs-backdrop="static" 
+      data-bs-keyboard="false"
     >
       <div class="offcanvas-header" style="background-color: #59747f">
         <h5 class="offcanvas-title" id="offcanvasNavbarDarkLabel"></h5>
@@ -29,22 +32,23 @@
           class="btn-close btn-close-white"
           data-bs-dismiss="offcanvas"
           aria-label="Close"
+          style="background-color: white;"
         ></button>
       </div>
       <div class="offcanvas-body" id="offcanvBody">
         <ul class="navbar-nav justify-content-end flex-grow-1 pe-1" id="offcanv">
-          <li class="nav-item active">
-            <a class="nav-link" data-bs-dismiss="offcanvas" routerLink="home"
+          <li class="nav-item offcanvasBtn" id="offcanvasHome" (click)="activateBtn('offcanvasHome')">
+            <a class="nav-link" data-bs-dismiss="offcanvas" routerLink="home" (click)="activateBtn('offcanvasHome')"
               ><i class="fa fa-home"></i>&nbsp;Home</a
             >
           </li>
-          <li class="nav-item">
-            <a class="nav-link" routerLink="userInfo" data-bs-dismiss="offcanvas"
+          <li class="nav-item offcanvasBtn" id="offcanvasUserInfo" (click)="activateBtn('offcanvasUserInfo')">
+            <a class="nav-link" routerLink="userInfo" data-bs-dismiss="offcanvas" (click)="activateBtn('offcanvasUserInfo')"
               ><i class="fa fa-user"></i>&nbsp;View Profile</a
             >
           </li>
-          <li class="nav-item">
-            <a class="nav-link" routerLink="userDevices" data-bs-dismiss="offcanvas"
+          <li class="nav-item offcanvasBtn" id="offcanvasUserDevices" (click)="activateBtn('offcanvasUserDevices')">
+            <a class="nav-link" routerLink="userDevices" data-bs-dismiss="offcanvas" (click)="activateBtn('offcanvasUserDevices')"
               ><i class="fa fa-list"></i>&nbsp;View Devices</a
             >
           </li>

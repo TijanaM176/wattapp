@@ -54,6 +54,6 @@ export class SidebarResponsiveComponent implements OnInit, AfterViewInit {
       {
         button.classList.remove('active');
       }
-    })
+    });
   }
 }

@@ -4,8 +4,12 @@
 .offcanvas-body {
   background-color: #59747f;
 }
-.active {
+.offcanvasBtn.active {
   background-color: #466471;
+}
+.offcanvasBtn:not(.active)
+{
+  background-color: #59747f;
 }
 .nav-item {
   padding: 0.5rem;
