@@ -18,7 +18,7 @@ namespace API.Services.Devices
         {
             var devices = await _repository.GetDevicesByCategory(id, catStr, role);
             if (devices == null) throw new ArgumentException("No devices found!");
-            
+
             var devicesData = devices.Select(d => new Dictionary<string, object>
             {
                 { "Id", d.Id  },
@@ -28,6 +28,9 @@ namespace API.Services.Devices
                 { "CategoryId", d.CategoryId},
                 { "Manufacturer", d.Manufacturer},
                 { "Wattage", d.Wattage},
+                { "Activity", d.Activity },
+                { "DsoView", d.DsoView},
+                { "DsoControl", d.DsoControl },
                 { "Timestamps", d.Timestamps.Select(x => new { Date = x.Date, Power = x.Power, PredictedPower = x.PredictedPower}).FirstOrDefault() },
             });
             return devicesData.ToList();
