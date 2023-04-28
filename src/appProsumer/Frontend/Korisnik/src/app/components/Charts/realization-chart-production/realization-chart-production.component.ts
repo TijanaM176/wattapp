@@ -4,11 +4,11 @@ import { DeviceWidthService } from 'src/app/services/device-width.service';
 import { DevicesService } from 'src/app/services/devices.service';
 
 @Component({
-  selector: 'app-realization-chart',
-  templateUrl: './realization-chart.component.html',
-  styleUrls: ['./realization-chart.component.css']
+  selector: 'app-realization-chart-production',
+  templateUrl: './realization-chart-production.component.html',
+  styleUrls: ['./realization-chart-production.component.css']
 })
-export class RealizationChartComponent implements OnInit, AfterViewInit {
+export class RealizationChartProductionComponent implements OnInit, AfterViewInit {
 
   data : any[] = [];
   dataConsumers: any[] = [];
@@ -19,7 +19,7 @@ export class RealizationChartComponent implements OnInit, AfterViewInit {
     name: 'mycolors',
     selectable: true,
     group: ScaleType.Ordinal,
-    domain: ['#c14b48', 'rgb(219, 169, 30)'],
+    domain: ['#48bec1', 'rgb(200, 219, 30)'],
   };
   showXAxis = true;
   showYAxis = true;
@@ -34,9 +34,9 @@ export class RealizationChartComponent implements OnInit, AfterViewInit {
   constructor(private deviceService : DevicesService, private widthService : DeviceWidthService) {}
 
   ngAfterViewInit(): void {
-    const grafik = document.getElementById('grafik');
+    const grafik = document.getElementById('grafikPredictionHistory');
     grafik!.style.height = (this.widthService.height*0.6)+'px';
-    document.getElementById('realiz1')!.classList.add("active");
+    document.getElementById('realizPred1')!.classList.add("active");
   }
 
   ngOnInit(): void {
@@ -123,11 +123,11 @@ export class RealizationChartComponent implements OnInit, AfterViewInit {
   {
     apiCall().subscribe((response: any) => {
       // console.log(response.consumption);
-      const myList = Object.keys(response.consumption.timestamps).map(
+      const myList = Object.keys(response.production.timestamps).map(
         (name) => {
-          let consumptionValue = response.consumption.timestamps[name];
-          let predictionValue = response.consumption.predictions[name];
-          const cons: string = 'consumption';
+          let consumptionValue = response.production.timestamps[name];
+          let predictionValue = response.production.predictions[name];
+          const prod: string = 'production';
           const pred: string = 'prediction';
           if (predictionValue == undefined) {
             predictionValue = 0.0;
@@ -136,7 +136,7 @@ export class RealizationChartComponent implements OnInit, AfterViewInit {
             consumptionValue = 0.0;
           }
           const series = [
-            { name: cons, value: consumptionValue },
+            { name: prod, value: consumptionValue },
             { name: pred, value: predictionValue },
           ];
           return { name, series };
@@ -148,7 +148,7 @@ export class RealizationChartComponent implements OnInit, AfterViewInit {
   }
 
   activateButton(buttonNumber: string) {
-    const buttons = document.querySelectorAll('.realizationbtn');
+    const buttons = document.querySelectorAll('.realizationPredictionbtn');
     buttons.forEach(button=>{
       if(button.id == buttonNumber)
       {
@@ -160,4 +160,5 @@ export class RealizationChartComponent implements OnInit, AfterViewInit {
       }
     })
   }
+
 }
