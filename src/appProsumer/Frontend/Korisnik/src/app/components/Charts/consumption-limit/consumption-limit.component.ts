@@ -12,7 +12,7 @@ export class ConsumptionLimitComponent implements OnInit, AfterViewInit {
 
   loaded : boolean = false;
   width : number = 250;
-  thickness : number = 30;
+  thickness : number = 45;
 
   consumption : number = 0;
   showConsumptio : boolean = true;
@@ -24,7 +24,6 @@ export class ConsumptionLimitComponent implements OnInit, AfterViewInit {
   thresholds = {};
 
   gaugeLabel = "Consumption";
-  gaugeAppendText = "kW";
 
   resizeObservable$!: Observable<Event>;
   resizeSubscription$!: Subscription;
@@ -36,12 +35,18 @@ export class ConsumptionLimitComponent implements OnInit, AfterViewInit {
     let h = window.innerHeight;
     if(w>=576)
     {
-      document.getElementById('consumptionLimitBody')!.style.height = (h*0.6) + 'px';
-      this.thickness = 45;
+      document.getElementById('consumptionLimitBody')!.style.height = (h*0.5) + 'px';
     }
     else
     {
-      document.getElementById('consumptionLimitBody')!.style.height = (h*0.4) + 'px';
+      if(this.widthService.height >= this.widthService.deviceWidth*2)
+      {
+        document.getElementById('consumptionLimitBody')!.style.height = (h*0.35) + 'px';
+      }
+      else
+      {
+        document.getElementById('consumptionLimitBody')!.style.height = (h*0.4) + 'px';
+      }
     }
   }
 
@@ -56,14 +61,19 @@ export class ConsumptionLimitComponent implements OnInit, AfterViewInit {
       let h = this.widthService.height;
       if(w>=576)
       {
-        document.getElementById('consumptionLimitBody')!.style.height = (h*0.6) + 'px';
-        this.thickness = 45;
+        document.getElementById('consumptionLimitBody')!.style.height = (h*0.5) + 'px';
         this.width = document.getElementById('consumptionLimitCardBody')!.offsetWidth*0.9;
       }
       else
       {
-        document.getElementById('consumptionLimitBody')!.style.height = (h*0.4) + 'px';
-        this.thickness = 30;
+        if(this.widthService.height >= this.widthService.deviceWidth*2)
+        {
+          document.getElementById('consumptionLimitBody')!.style.height = (h*0.35) + 'px';
+        }
+        else
+        {
+          document.getElementById('consumptionLimitBody')!.style.height = (h*0.4) + 'px';
+        }
         this.width = document.getElementById('consumptionLimitCardBody')!.offsetWidth*0.9;
       }
     });
