@@ -1,7 +1,39 @@
 <div
-  class="card-header py-3 d-flex flex-row align-items-center justify-content-between"
+  class="card-header py-3"
 >
-  <h6 class="m-0 font-weight-bold">Consumption Limit</h6>
+  <div class="row">
+    <div class="col-6 col-lg-5 mx-0 my-0">
+      <h6 class="m-0 font-weight-bold">This Months {{ gaugeLabel }}</h6>
+    </div>
+    <div class="col-6 col-lg-7 mx-0 my-0">
+      <div class="col-12 col-md-6 form-check mx-1">
+        <input
+          class="form-check-input"
+          type="radio"
+          name="gaugeChartOption"
+          id="gaugeOptionConsumption"
+          (change)="onRadioButtonChange($event, 'consumption')"
+          [checked]="showConsumptio"
+        />
+        <label class="form-check-label" for="gaugeOptionConsumption">
+          Consumption
+        </label>
+      </div>
+      <div class="col-12 col-md-6 form-check mx-3">
+        <input
+          class="form-check-input"
+          type="radio"
+          name="gaugeChartOption"
+          id="gaugeOptionProduction"
+          (change)="onRadioButtonChange($event, 'production')"
+          [checked]="showProduction"
+        />
+        <label class="form-check-label" for="gaugeOptionProduction">
+          Production
+        </label>
+      </div>
+    </div>
+  </div>
 </div>
 <div
   class="card-body"
@@ -21,23 +53,15 @@
       [append]="gaugeAppendText"
       [min]="0"
       [max]="2000"
-      [markers]="{
-        '0': { color: 'black', label: '0' },
-        '350': { color: 'black', label: '350' },
-        '1600': { color: 'black', label: '1600' }
-      }"
-      [value]="consumption"
+      [markers]="markers"
+      [value]="data"
       [cap]="'butt'"
       [thick]="thickness"
-      [thresholds]="{
-        '0': { color: 'green', bgOpacity: 0.2 },
-        '350': { color: '#2a96d9', bgOpacity: 0.2 },
-        '1600': { color: '#c14b48', bgOpacity: 0.2 }
-      }"
+      [thresholds]="thresholds"
     >
     </ngx-gauge>
   </div>
-  <div class="legend w-100 text-center">
+  <div class="legend w-100 text-center" *ngIf="showConsumptio">
     <i class="fa fa-circle greenZone">&nbsp;0-350 kW</i>&nbsp;&nbsp;&nbsp;
     <i class="fa fa-circle blueZone">&nbsp;350-1600 kW</i>&nbsp;&nbsp;&nbsp;
     <i class="fa fa-circle redZone">&nbsp;1600+ kW</i>
