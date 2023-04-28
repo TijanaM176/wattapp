@@ -40,7 +40,7 @@ export class HouseComponent implements OnInit,AfterViewInit {
       let houseHeight;
       if(window.innerHeight >= window.innerWidth*2)
       {
-        houseHeight = this.widthService.height*0.5;
+        houseHeight = this.widthService.height*0.45;
       }
       else
       {

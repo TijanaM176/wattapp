@@ -20,7 +20,7 @@
       [label]="gaugeLabel"
       [append]="gaugeAppendText"
       [min]="0"
-      [max]="1700"
+      [max]="2000"
       [markers]="{
         '0': { color: 'black', label: '0' },
         '350': { color: 'black', label: '350' },
@@ -28,7 +28,7 @@
       }"
       [value]="consumption"
       [cap]="'butt'"
-      [thick]="30"
+      [thick]="thickness"
       [thresholds]="{
         '0': { color: 'green', bgOpacity: 0.2 },
         '350': { color: '#2a96d9', bgOpacity: 0.2 },

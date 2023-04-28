@@ -1,5 +1,7 @@
 import { Component, OnInit, AfterViewInit } from '@angular/core';
+import { DeviceWidthService } from 'src/app/services/device-width.service';
 import { DevicesService } from 'src/app/services/devices.service';
+import { fromEvent, Observable, Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-consumption-limit',
@@ -10,12 +12,17 @@ export class ConsumptionLimitComponent implements OnInit, AfterViewInit {
 
   loaded : boolean = false;
   width : number = 250;
+  thickness : number = 30;
   consumption : number = 0;
+  production : number = 0;
 
   gaugeLabel = "Consumption";
   gaugeAppendText = "kW";
 
-  constructor(private deviceService : DevicesService) {}
+  resizeObservable$!: Observable<Event>;
+  resizeSubscription$!: Subscription;
+
+  constructor(private deviceService : DevicesService, private widthService : DeviceWidthService) {}
 
   ngAfterViewInit(): void {
     let w = window.innerWidth;
@@ -23,6 +30,7 @@ export class ConsumptionLimitComponent implements OnInit, AfterViewInit {
     if(w>=576)
     {
       document.getElementById('consumptionLimitBody')!.style.height = (h*0.6) + 'px';
+      this.thickness = 45;
     }
     else
     {
@@ -34,6 +42,24 @@ export class ConsumptionLimitComponent implements OnInit, AfterViewInit {
     this.loaded = false;
     this.width = document.getElementById('consumptionLimitCardBody')!.offsetWidth*0.9;
     this.getConumptionAndProductionLimit();
+
+    this.resizeObservable$ = fromEvent(window, 'resize');
+    this.resizeSubscription$ = this.resizeObservable$.subscribe((evt) => {
+      let w = this.widthService.deviceWidth;
+      let h = this.widthService.height;
+      if(w>=576)
+      {
+        document.getElementById('consumptionLimitBody')!.style.height = (h*0.6) + 'px';
+        this.thickness = 45;
+        this.width = document.getElementById('consumptionLimitCardBody')!.offsetWidth*0.9;
+      }
+      else
+      {
+        document.getElementById('consumptionLimitBody')!.style.height = (h*0.4) + 'px';
+        this.thickness = 30;
+        this.width = document.getElementById('consumptionLimitCardBody')!.offsetWidth*0.9;
+      }
+    });
   }
 
   getConumptionAndProductionLimit()
@@ -43,6 +69,7 @@ export class ConsumptionLimitComponent implements OnInit, AfterViewInit {
       next:(res)=>{
         this.loaded = true;
         this.consumption = res.consumption.toFixed(1);
+        this.production = res.production.toFixed(1);
       },
       error:(err)=>{
         this.loaded = false;

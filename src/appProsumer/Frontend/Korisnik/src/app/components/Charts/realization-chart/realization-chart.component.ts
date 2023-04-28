@@ -2,6 +2,7 @@ import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { Color, ColorHelper, LegendPosition, ScaleType } from '@swimlane/ngx-charts';
 import { DeviceWidthService } from 'src/app/services/device-width.service';
 import { DevicesService } from 'src/app/services/devices.service';
+import { fromEvent, Observable, Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-realization-chart',
@@ -30,17 +31,31 @@ export class RealizationChartComponent implements OnInit, AfterViewInit {
   xAxisLabel = 'Time';
   showYAxisLabel = true;
   yAxisLabel = 'Energy in kWh';
+
+  resizeObservable$!: Observable<Event>;
+  resizeSubscription$!: Subscription;
+  coef : number = 0.6;
   
   constructor(private deviceService : DevicesService, private widthService : DeviceWidthService) {}
 
   ngAfterViewInit(): void {
     const grafik = document.getElementById('grafik');
-    grafik!.style.height = (this.widthService.height*0.6)+'px';
+    grafik!.style.height = (this.widthService.height * this.coef)+'px';
     document.getElementById('realiz1')!.classList.add("active");
   }
 
   ngOnInit(): void {
     this.HistoryWeekInit();
+
+    if(this.widthService.deviceWidth>=576 || this.widthService.height>=this.widthService.deviceWidth*2) this.coef = 0.5;
+
+    this.resizeObservable$ = fromEvent(window, 'resize');
+    this.resizeSubscription$ = this.resizeObservable$.subscribe((evt) => {
+      this.coef = 0.6;
+      if(this.widthService.deviceWidth>=576 || this.widthService.height>=this.widthService.deviceWidth*2) this.coef = 0.5;
+      const grafik = document.getElementById('grafik');
+      grafik!.style.height = (this.widthService.height * this.coef) + 'px';
+    });
   }
 
   yAxisTickFormatting(value: number) 
