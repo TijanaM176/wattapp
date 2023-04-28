@@ -34,6 +34,7 @@ export class SidebarResponsiveComponent implements OnInit, AfterViewInit {
       let height = window.innerHeight - 65.09;
       this.sideBar.style.height = height + 'px';
     });
+    this.activateButton('sidebarHome');
   }
 
   logout() {
@@ -41,5 +42,18 @@ export class SidebarResponsiveComponent implements OnInit, AfterViewInit {
     this.router.navigate(['login']);
   }
 
-  viewProfile() {}
+  activateButton(id : string)
+  {
+    const buttons = document.querySelectorAll('.sidebarBtn');
+    buttons.forEach(button=>{
+      if(button.id == id)
+      {
+        button.classList.add('active');
+      }
+      else
+      {
+        button.classList.remove('active');
+      }
+    })
+  }
 }
