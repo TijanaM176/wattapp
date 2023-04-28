@@ -2,7 +2,7 @@
     <div class="col-5" style="display: flex; flex-direction: column; align-items: start; justify-content: center;">
         <h6 class="m-0 font-weight-bold ps-2">
           Consumption History
-          &nbsp;<button class="btn btn-outline-primary p-0 px-1 m-0" data-bs-toggle="modal" data-bs-target="#realizationProsumerTable">
+          &nbsp;<button class="btn btn-outline-primary p-0 px-1 m-0" data-bs-toggle="modal" data-bs-target="#realizationProsumerConsumptionTable">
             <i class="fa fa-table"></i>
           </button>
         </h6>
@@ -56,15 +56,15 @@
   </div>
 </div>
 
-<div class="modal fade" id="realizationProsumerTable" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="realizationProsumerTableLabel" aria-hidden="true">
+<div class="modal fade" id="realizationProsumerConsumptionTable" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="realizationProsumerConsumptionTableLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered modal-lg">
     <div class="modal-content">
       <div class="modal-header text-white" style="background-color: #466471">
-        <h6 class="modal-title" id="realizationProsumerTableLabel">Realization Table</h6>
+        <h6 class="modal-title" id="realizationProsumerConsumptionTableLabel">Consumption History Table</h6>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <app-realization-chart-table [data]="data"></app-realization-chart-table>
+        <app-realization-chart-table [type]="'Consumption'" [data]="data"></app-realization-chart-table>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-primary">Export Table</button>

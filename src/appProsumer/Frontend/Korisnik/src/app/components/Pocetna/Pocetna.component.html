@@ -1,19 +1,3 @@
-<!-- <section class="h-100 w-100 mx-0 my-0 px-0 py-0">
-  <div class="container-fluid h-100 px-0 py-0 mx-0 my-0" id="homeCont">
-            <p>app-pocetna works! dgvbdfbdhbcsvgrdfgvdfvgr</p>
-  </div>
-</section> -->
-<!-- <div class="d-flex justify-content-center">
-  <div
-    class="spinner-border"
-    style="margin-top: 25%"
-    role="status"
-    *ngIf="loader"
-  >
-    <span class="sr-only">Loading...</span>
-  </div>
-</div> -->
-
 <div id="wrapper">
   <div id="content-wrapper" class="d-flex flex-column">
     <div id="content">
@@ -65,7 +49,6 @@
             </div>
           </div>
 
-          <!-- Earnings (Monthly) Card Example -->
           <div class="col-xl-3 col-md-6 mb-4">
             <div class="card border-left-success shadow h-100 py-2">
               <div class="card-body kartice">
@@ -88,7 +71,6 @@
             </div>
           </div>
 
-          <!-- Earnings (Monthly) Card Example -->
           <div class="col-xl-3 col-md-6 mb-4">
             <div class="card border-left-info shadow h-100 py-2">
               <div class="card-body kartice">
@@ -117,7 +99,6 @@
             </div>
           </div>
 
-          <!-- Pending Requests Card Example -->
           <div class="col-xl-3 col-md-6 mb-4">
             <div class="card border-left-warning shadow h-100 py-2">
               <div class="card-body kartice">
@@ -144,29 +125,43 @@
 
         <!-- content row -->
         <div class="row">
-          <!-- Content Column -->
           <div class="col-lg-5 mb-4">
-            <!-- Project Card Example -->
             <div class="card shadow">
-              <!-- mb-4-->
               <app-consumption-limit></app-consumption-limit>
             </div>
           </div>
 
           <div class="col-lg-7 mb-4">
-            <!-- realizationa -->
-            <div class="card shadow mb-4 pb-2">
+            <!-- consumption -->
+            <div class="card shadow pb-2">
               <app-realization-chart></app-realization-chart>
             </div>
 
-            <!-- prediction -->
-            <div class="card shadow mb-1 pb-2">
+            <!-- production -->
+            <!-- <div class="card shadow mb-1 pb-2"> -->
               <!-- <app-prediction-chart></app-prediction-chart> -->
+              <!-- <app-realization-chart-production></app-realization-chart-production> -->
+            <!-- </div> -->
+          </div>
+        </div>
+        <!-- end content row -->
+
+        <!-- content row -->
+        <div class="row">
+          <div class="col-lg-5 mb-4 order-sm-2 order-2 order-lg-1">
+            <div class="card shadow">
+              <app-prediction-chart></app-prediction-chart>
+            </div>
+          </div>
+          <div class="col-lg-7 mb-4 oreder-sm-1 order-1 order-lg-2">
+            <!-- production -->
+            <div class="card shadow mb-1 pb-2">
               <app-realization-chart-production></app-realization-chart-production>
             </div>
           </div>
         </div>
         <!-- end content row -->
+
       </div>
     </div>
   </div>
