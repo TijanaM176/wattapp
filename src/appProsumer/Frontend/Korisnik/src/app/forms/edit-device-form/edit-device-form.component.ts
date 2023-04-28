@@ -43,6 +43,7 @@ export class EditDeviceFormComponent {
   }
 
   loadInfo() {
+    console.log("usao");
     this.IpAddress = this.deviceData.IpAddress;
     this.Name = this.deviceData.Name;
     this.ModelName = this.deviceData.ModelName;
@@ -50,6 +51,10 @@ export class EditDeviceFormComponent {
     this.DsoView = this.deviceData.DsoView;
     this.service.type = this.deviceData.TypeId;
     this.ModelId = this.deviceData.ModelId;
+    console.log(this.IpAddress);
+    console.log(this.Name);
+    console.log(this.ModelName);
+    console.log(this.DsoControl);
   }
   editInfo() {
     if (this.IpAddress != '' && this.Name != '') {
