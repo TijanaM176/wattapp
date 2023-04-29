@@ -229,328 +229,65 @@ namespace API.Services.DsoService
 
         public async Task<Prosumer> UpdateProsumerByDso(ChangeProsumerbyDSO change)
         {
-           
+
             Prosumer prosumer = await _repository.UpdateProsumerByDso(change);
-            if (prosumer == null) return null;
-
-
-            
-            if (change.Username == "")
+            if (prosumer == null)
             {
-                if(change.Email == "")
-                {
-                    if(change.FirstName == "")
-                    {
-                        if(change.LastName == "")
-                        {
-                           if(change.CityName == "")
-                            {
-                                if(change.NeigborhoodName == "")
-                                {
-                                    if(change.Latitude == "")
-                                    {
-                                        if(change.Longitude == "")
-                                        {
-                                           if(change.Address == "")
-                                            {
-                                                prosumer.DateCreate = DateTime.Now.ToString("MM/dd/yyyy");
-                                                await _repository.Save();
-                                                return prosumer;
-                                            }
-                                            else
-                                            {
-                                                prosumer.Address = change.Address;
-                                                prosumer.DateCreate = DateTime.Now.ToString("MM/dd/yyyy");
-                                                await _repository.Save();
-                                                return prosumer;
-
-                                            }
-                                        }
-                                        else
-                                        {
-                                            prosumer.Longitude = change.Longitude;
-                                            prosumer.DateCreate = DateTime.Now.ToString("MM/dd/yyyy");
-                                            if(change.Address != "")
-                                                prosumer.Address = change.Address;
-
-                                            await _repository.Save();
-                                            return prosumer;
-                                            //postavi sve
-                                        }
-                                    }
-                                    else
-                                    {
-                                        prosumer.Latitude = change.Latitude;
-                                        if(change.Longitude != "")
-                                            prosumer.Longitude = change.Longitude;
-                                        if (change.Address != "")
-                                            prosumer.Address = change.Address;
-                                        prosumer.DateCreate = DateTime.Now.ToString("MM/dd/yyyy");
-                                        await _repository.Save();
-                                        return prosumer;
-                                        //postavi sve
-                                    }
-                                }
-                                else
-                                {
-                                    Neigborhood neig = await _repository.getNeigborhood(change.NeigborhoodName);          
-                                    if(neig == null)
-                                        throw new ArgumentException("Neigborhood is not valid!");
-                                    if (prosumer.CityId.Equals(neig.CityId))
-                                        prosumer.NeigborhoodId = neig.Id;
-                                    else
-                                        throw new ArgumentException("Neigborhood is not exists in this city!");
-                                    if (change.Address != "")
-                                        prosumer.Address = change.Address;
-                                    if (change.Latitude != "")
-                                        prosumer.Latitude = change.Latitude;
-                                    if (change.Longitude != "")
-                                        prosumer.Longitude = change.Longitude;
-                                    prosumer.DateCreate = DateTime.Now.ToString("MM/dd/yyyy");
-                                    
-                                    await _repository.Save();
-
-                                    return prosumer;
-                                }
-                            }
-                           else
-                            {
-                                City city = await _repository.getCity(change.CityName);
-                                if(city == null)
-                                    throw new ArgumentException("City is not valid!");
-                               
-
-                                if (change.NeigborhoodName != "")
-                                {
-                                    Neigborhood neig = await _repository.getNeigborhood(change.NeigborhoodName);
-                                    if (city.Id.Equals(neig.CityId))
-                                        prosumer.NeigborhoodId = neig.Id;
-                                    else
-                                        throw new ArgumentException("Neigborhood is not exists in this city!");
-
-                                    if (neig == null)
-                                        throw new ArgumentException("Neigborhood is not valid!");
-                                    prosumer.NeigborhoodId = neig.Id;
-                                }
-                                else
-                                {
-                                    //ako neigb neodgovara gradu!
-                                    List<Neigborhood> neigList = await _repository.GetNeighborhoodByCityId(city.Id);
-                                    Boolean answer = false;
-                                    foreach (var item in neigList)
-                                    {
-                                        if (city.Id.Equals(item.CityId))
-                                            answer = true;
-                                    }
-                                        if(answer == false)
-                                            throw new ArgumentException("Neigborhood is not exists in this city!");
-
-                                }
-                                if (change.Address != "")
-                                    prosumer.Address = change.Address;
-                                if (change.Latitude != "")
-                                    prosumer.Latitude = change.Latitude;
-                                if (change.Longitude != "")
-                                    prosumer.Longitude = change.Longitude;
-                                prosumer.DateCreate = DateTime.Now.ToString("MM/dd/yyyy");
-
-                                prosumer.CityId = city.Id;
-                                await _repository.Save();
-
-                                return prosumer;
-                            }
-                        }
-                        else
-                        {
-                            if (change.CityName != "")
-                            {
-                                City city = await _repository.getCity(change.CityName);
-                                if (city == null)
-                                    throw new ArgumentException("City is not valid!");
-
-                                prosumer.CityId = city.Id;
-                                
-                            }
-                            if (change.NeigborhoodName != "")
-                            {
-                                
-                                    Neigborhood neig = await _repository.getNeigborhood(change.NeigborhoodName);
-                                    if (prosumer.CityId.Equals(neig.CityId))
-                                        prosumer.NeigborhoodId = neig.Id;
-                                    else
-                                        throw new ArgumentException("Neigborhood is not exists in this city!");
-
-                                    if (neig == null)
-                                        throw new ArgumentException("Neigborhood is not valid!");
-                                    prosumer.NeigborhoodId = neig.Id;
-                                
-                            }
-                            if (change.Address != "")
-                                prosumer.Address = change.Address;
-                            if (change.Latitude != "")
-                                prosumer.Latitude = change.Latitude;
-                            if (change.Longitude != "")
-                                prosumer.Longitude = change.Longitude;
-                            
-                            prosumer.DateCreate = DateTime.Now.ToString("MM/dd/yyyy");
-                            prosumer.LastName = change.LastName;
-                           
-                            await _repository.Save();
-                            return prosumer;
-                        }
-                    }
-                    else
-                    {
-                        prosumer.FirstName = change.FirstName;
-                        
-                       
-                        if (change.CityName != "")
-                        {
-                            City city = await _repository.getCity(change.CityName);
-                            if (city == null)
-                                throw new ArgumentException("City is not valid!");
-                            prosumer.CityId = city.Id;
-                        }
-                        if (change.NeigborhoodName != "")
-                        {
-                            Neigborhood neig = await _repository.getNeigborhood(change.NeigborhoodName);
-                            if (prosumer.CityId.Equals(neig.CityId))
-                                prosumer.NeigborhoodId = neig.Id;
-                            else
-                                throw new ArgumentException("Neigborhood is not exists in this city!");
-
-                            if (neig == null)
-                                throw new ArgumentException("Neigborhood is not valid!");
-                            prosumer.NeigborhoodId = neig.Id;
-                        }
-                        if (change.Address != "")
-                            prosumer.Address = change.Address;
-                        if (change.Latitude != "")
-                            prosumer.Latitude = change.Latitude;
-                        if (change.Longitude != "")
-                            prosumer.Longitude = change.Longitude;
-
-                        if (change.LastName != "")
-                            prosumer.LastName = change.LastName;
-
-                        prosumer.DateCreate = DateTime.Now.ToString("MM/dd/yyyy");
-                     
-
-                        await _repository.Save();
-                        return prosumer;
-                    }
-                  
-                }
-                else
-                {
-                   
-                   if(await checkEmail(change.Email) && IsValidEmail(change.Email))
-                    {
-                        
-                        if (change.CityName != "")
-                        {
-                            City city = await _repository.getCity(change.CityName);
-                            if (city == null)
-                                throw new ArgumentException("City is not valid!");
-                            prosumer.CityId = city.Id;
-                        }
-                        if (change.NeigborhoodName != "")
-                        {
-                            Neigborhood neig = await _repository.getNeigborhood(change.NeigborhoodName);
-                            if (prosumer.CityId.Equals(neig.CityId))
-                                prosumer.NeigborhoodId = neig.Id;
-                            else
-                                throw new ArgumentException("Neigborhood is not exists in this city!");
-
-                            if (neig == null)
-                                throw new ArgumentException("Neigborhood is not valid!");
-                            prosumer.NeigborhoodId = neig.Id;
-                        }
-                        if (change.Address != "")
-                            prosumer.Address = change.Address;
-                        if (change.Latitude != "")
-                            prosumer.Latitude = change.Latitude;
-                        if (change.Longitude != "")
-                            prosumer.Longitude = change.Longitude;
-                        
-                        if (change.FirstName != "")
-                            prosumer.FirstName = change.FirstName;
-                        if (change.LastName != "")
-                            prosumer.LastName = change.LastName;
-
-                        prosumer.DateCreate = DateTime.Now.ToString("MM/dd/yyyy");
-                        prosumer.Email = change.Email;
-
-                        await _repository.Save();
-                        return prosumer;  
-
-                    }
-                    else
-                    {
-                        throw new ArgumentException("Email is not valid!");
-                    }
-
-
-                }
-            }
-            else
-            {
-                if(await checkUsername(change.Username))
-                {
-                   
-                    if(change.Email != "")
-                        if(await checkEmail(change.Email) && IsValidEmail(change.Email))
-                            prosumer.Email = change.Email;
-                        else
-                            throw new ArgumentException("Email is not valid!");
-
-                    if (change.CityName != "")
-                    {
-                        City city = await _repository.getCity(change.CityName);
-                        if (city == null)
-                            throw new ArgumentException("City is not valid!");
-                        prosumer.CityId = city.Id;
-                    }
-                    if (change.NeigborhoodName != "")
-                    {
-                        Neigborhood neig = await _repository.getNeigborhood(change.NeigborhoodName);
-                        if (prosumer.CityId.Equals(neig.CityId))
-                            prosumer.NeigborhoodId = neig.Id;
-                        else
-                            throw new ArgumentException("Neigborhood is not exists in this city!");
-
-                        if (neig == null)
-                            throw new ArgumentException("Neigborhood is not valid!");
-                        prosumer.NeigborhoodId = neig.Id;
-                    }
-                    if (change.Address != "")
-                        prosumer.Address = change.Address;
-                    if (change.Latitude != "")
-                        prosumer.Latitude = change.Latitude;
-                    if (change.Longitude != "")
-                        prosumer.Longitude = change.Longitude;
-
-                    if (change.FirstName != "")
-                        prosumer.FirstName = change.FirstName;
-                    if (change.LastName != "")
-                        prosumer.LastName = change.LastName;
-
-                    prosumer.DateCreate = DateTime.Now.ToString("MM/dd/yyyy");
-                    prosumer.Username = change.Username;
-
-
-                    await _repository.Save();
-                    return prosumer;
-
-                }
-                else
-                {
-                    throw new ArgumentException("Username is not valid!");
-                }
-
-            }
-
                 return null;
+            }
+
+            if (!string.IsNullOrEmpty(change.Username))
+            {
+                prosumer.Username = change.Username;
+            }
+
+            if (!string.IsNullOrEmpty(change.Email))
+            {
+                prosumer.Email = change.Email;
+            }
+
+            if (!string.IsNullOrEmpty(change.FirstName))
+            {
+                prosumer.FirstName = change.FirstName;
+            }
+
+            if (!string.IsNullOrEmpty(change.LastName))
+            {
+                prosumer.LastName = change.LastName;
+            }
+
+            if (!string.IsNullOrEmpty(change.CityName))
+            {
+                City city = await _repository.getCity(change.CityName);
+                prosumer.CityId = city.Id;
+            }
+
+            if (!string.IsNullOrEmpty(change.NeigborhoodName))
+            {
+
+                Neigborhood neigh = await _repository.getNeigborhood(change.NeigborhoodName);
+                prosumer.NeigborhoodId = neigh.Id;
+            }
+
+            if (!string.IsNullOrEmpty(change.Latitude))
+            {
+                prosumer.Latitude = change.Latitude;
+            }
+
+            if (!string.IsNullOrEmpty(change.Longitude))
+            {
+                prosumer.Longitude = change.Longitude;
+            }
+
+            if (!string.IsNullOrEmpty(change.Address))
+            {
+                prosumer.Address = change.Address;
+            }
+
+            prosumer.DateCreate = DateTime.Now.ToString("MM/dd/yyyy");
+            await _repository.Save();
+            return prosumer;
+
         }
 
         public async Task<double> ProsumerCount()

@@ -132,14 +132,15 @@ namespace API.Controllers
         }
 
         [HttpPut("UpdateProsumer")]
-        [Authorize(Roles = "Dso")]
+        [Authorize(Roles = "Prosumer")] // trebalo bi roles da bude Prosumer ne Dso
         public async Task<ActionResult> EditProsumer(string id,[FromBody] ProsumerEdit newValues)
         {
-            if (!await prosumerService.EditProsumer(id, newValues)) return BadRequest("User could not be updated!");
+            if (!await prosumerService.EditProsumer(id, newValues)) return BadRequest("Error! Password!");
             return Ok(new
             {
+                newPassword = newValues.newPassword,
                 error= false,
-                message = "User updated successfully!"
+                message = "User change password successfully!"
             });
         }
 
