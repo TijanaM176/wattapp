@@ -13,7 +13,7 @@ import { fromEvent, Observable, Subscription } from 'rxjs';
 import { editUserDto } from 'src/app/models/editUserDto';
 import { DeviceserviceService } from 'src/app/services/deviceservice.service';
 import { TabelaUredjajaComponent } from '../tabelaUredjaja/tabelaUredjaja.component';
-
+import { DomSanitizer } from '@angular/platform-browser';
 @Component({
   selector: 'app-user1',
   templateUrl: './user1.component.html',
@@ -35,7 +35,8 @@ export class User1Component implements OnInit, AfterViewInit {
     private serviceData: DataService,
     private widthService: ScreenWidthService,
     private r: Router,
-    private deviceService: DeviceserviceService
+    private deviceService: DeviceserviceService,
+    private _sanitizer: DomSanitizer
   ) {}
   letValue: string = '';
   id: string = '';
@@ -49,6 +50,8 @@ export class User1Component implements OnInit, AfterViewInit {
   type: string = '';
   consumption: number = 0;
   production: number = 0;
+  image!:string;
+  imageSource!:any;
   editUser = new FormGroup({
     FirstName: new FormControl(''),
     LastName: new FormControl(''),
@@ -78,6 +81,8 @@ export class User1Component implements OnInit, AfterViewInit {
         this.username = data.username;
         this.email = data.email;
         this.address = data.address;
+        this.image=data.image;
+        this.imageSource = this._sanitizer.bypassSecurityTrustResourceUrl(`data:image/png;base64, ${this.image}`);
         this.id = this.router.snapshot.params['id'];
         this.Region = this.cookie.get('region');
         this.serviceData.getCityNameById(data.cityId).subscribe((dat) => {

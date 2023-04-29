@@ -162,16 +162,25 @@
             style="display: flex; justify-content: space-between; width: 100%"
           >
             <h5 class="h">IP {{ device.IpAddress }}</h5>
-            <ng-template #other>
-              <div style="padding: 2px 5px 2px 2px">
-                <i class="fa fa-circle off"></i>
+            <ng-template #offToggle>
+              <div
+                class="form-check form-switch ps-0"
+                style="color: red; font-weight: bold"
+              >
+                <label class="form-check-label" for="flexSwitchCheckDefault"
+                  >Inactive</label
+                >
               </div>
             </ng-template>
-            <div
-              style="padding: 2px 5px 2px 2px"
-              *ngIf="deviceUsages[device.Id] !== 0; else other"
-            >
-              <i class="fa fa-circle on"></i>
+            <div *ngIf="deviceUsages[device.Id] !== 0; else offToggle">
+              <div
+                class="form-check form-switch ps-0"
+                style="color: green; font-weight: bold"
+              >
+                <label class="form-check-label" for="flexSwitchCheckDefault"
+                  >Active</label
+                >
+              </div>
             </div>
           </tr>
         </table>
