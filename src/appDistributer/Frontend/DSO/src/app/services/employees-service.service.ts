@@ -28,6 +28,7 @@ export class EmployeesServiceService {
       .get(this.baseUrl + 'Dso/GetAllDsoWorkers')
       .subscribe((res) => {
         this.employees = res as Employee[];
+        
       });
   }
 

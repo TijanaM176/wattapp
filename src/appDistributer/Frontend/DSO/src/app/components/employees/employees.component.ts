@@ -40,7 +40,9 @@ export class EmployeesComponent {
   region:any;
   roleId!:number;
   regionId!:string;
+  currentRoute!: string;
   id!:string;
+  searchLastName!:string;
   constructor(
     public service: EmployeesServiceService,
     private router: Router,
@@ -58,7 +60,7 @@ export class EmployeesComponent {
   Ucitaj() {
     this.service.getAllData();
     this.employees = this.service.employees;
-
+    
   }
   Paging() {
     this.service.Page(this.page, this.perPage).subscribe((res) => {
@@ -71,7 +73,9 @@ export class EmployeesComponent {
     this.Paging();
   }
 
+
   Details(id: string) {
+    console.log(this.service.employees);
     this.service.idEmp=id;
     console.log(this.service.idEmp);
     this.service.detailsEmployee(id).subscribe((res) => {
@@ -96,7 +100,7 @@ export class EmployeesComponent {
     });
     const buttonRef = document.getElementById('closeBtn3');
     buttonRef?.click();
-
+    
   }
   close(){
 
@@ -148,14 +152,21 @@ export class EmployeesComponent {
     dto.email=this.email;
     dto.password=this.password;
     console.log(dto);
-
     this.service.updateEmployee(id,dto).subscribe((res) => {
       console.log(res);
     });
     const buttonRef = document.getElementById('closeBtn1');
     buttonRef?.click();
+    this.currentRoute=this.router.url;
+    this.router
+      .navigateByUrl('/', { skipLocationChange: true })
+      .then(() => {
+      this.Ucitaj();
+      this.Paging();
+      this.router.navigate([this.currentRoute]);
+    });
   }
-
+ 
   onDelete(id: string) {
     if (confirm('Do you want to delete ?')) {
       this.service.deleteEmployee(id).subscribe({

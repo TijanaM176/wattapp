@@ -77,6 +77,7 @@ import { HistoryProsumerTableComponent } from './components/chart-tables/history
 import { PredictionProsumerTableComponent } from './components/chart-tables/prediction-prosumer-table/prediction-prosumer-table.component';
 import { RealizationDeviceTableComponent } from './components/chart-tables/realization-device-table/realization-device-table.component';
 import { PredictionDeviceTableComponent } from './components/chart-tables/prediction-device-table/prediction-device-table.component';
+import { SearchemployeelastnamePipe } from './components/searchemployeelastname.pipe';
 
 @NgModule({
   declarations: [
@@ -135,7 +136,8 @@ import { PredictionDeviceTableComponent } from './components/chart-tables/predic
     HistoryProsumerTableComponent,
     PredictionProsumerTableComponent,
     RealizationDeviceTableComponent,
-    PredictionDeviceTableComponent
+    PredictionDeviceTableComponent,
+    SearchemployeelastnamePipe
   ],
   imports: [
     MatSlideToggleModule,

@@ -54,7 +54,7 @@ export class AuthService {
 
   refreshToken(refreshToken: SendRefreshToken) {
     return this.http.post<RefreshTokenDto>(
-      this.baseUrl + 'refreshToken',
+      this.baseUrl + 'Auth/refreshToken',
       refreshToken
     );
   }

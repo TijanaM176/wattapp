@@ -32,7 +32,7 @@
 >
   <div class="modal-dialog modal-xl" style="width: 100%">
     <div class="modal-content">
-      <div class="modal-header text-white" style="background-color: #ffffff;">
+      <div class="modal-header" >
         <button
           type="button"
           id="closeBtn3"
@@ -41,17 +41,17 @@
           aria-label="Close"
         ></button>
       </div>
-      <div class="modal-body" style="display:flex;justify-content: center; align-items: center; padding-left: 7%;">
+      <div class="modal-body" style="display:flex;justify-content: center; align-items: center;">
 <div class="container-xl">
   <div class="table-responsive">
     <div class="table-wrapper">
       <div class="table-title">
         <div class="row">
-          <div class="col-sm-9">
+          <div class="col-sm-5">
             <h2>Employee <b>Overview</b></h2>
           </div>
 
-          <div class="col-sm-3">
+          <div class="col-sm-7">
             <div class="search-box">
               <div class="input-group" style="width: 100%">
                 <span class="input-group-addon"
@@ -64,9 +64,24 @@
                 <input
                   type="text"
                   [(ngModel)]="searchName"
-                  style="background-color: #f8f8fa; border-radius: 10px"
+                  style="background-color: #f8f8fa; border-radius: 10px;margin-right:5%;width:10%;"
                   class="form-control"
-                  placeholder="Search By Username"
+                  placeholder="Search By First Name"
+                  
+                />
+                <span class="input-group-addon"
+                  ><i
+                    class="material-icons"
+                    style="margin-top: 30%; margin-right: 10%"
+                    ></i
+                  ></span
+                >
+                <input
+                  type="text"
+                  [(ngModel)]="searchLastName"
+                  style="background-color: #f8f8fa; border-radius: 10px;width:10%;"
+                  class="form-control"
+                  placeholder="Search By Last Name"
                 />
               </div>
             </div>
@@ -94,7 +109,8 @@
             *ngFor="
               let item of service.employees
                 | orderBy : orderHeader : isDescOrder
-                | search : searchName
+                | searchemployeelastname : searchLastName
+                | searchemployeename : searchName
                 | paginate
                   : {
                       itemsPerPage: perPage,
@@ -114,7 +130,7 @@
             <td>{{item.lastName}}</td>
             <td>{{ item.userName }}</td>
             <td>{{ regionName }}</td>
-            <td>{{ item.roleId }}</td>
+            <td >{{ item.roleId }}</td>
             <td>
               <a
                 (click)="Details(item.id)"
@@ -143,7 +159,7 @@
       <div
         style="
           text-align: center;
-          margin-top: 30%;
+          margin-top: 34%;
           justify-content: center;
           position: flex;
           bottom: 0;
