@@ -140,6 +140,7 @@ export class DeviceinfoComponent {
           },
         };
         this.spiner.hide();
+        this.deviceData = res;
       },
       error: (err) => {
         this.toast.error('Error!', 'Unable to load device data.', {
