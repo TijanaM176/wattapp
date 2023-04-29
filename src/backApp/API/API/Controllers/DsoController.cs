@@ -234,7 +234,6 @@ namespace API.Controllers
                     Latitude = prosumer.Latitude,
                     Longitude = prosumer.Longitude,
                     RegionId = prosumer.RegionId,
-                    Image = prosumer.Image,
                     RoleId = prosumer.RoleId
                 });
             }

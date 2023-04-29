@@ -7,15 +7,8 @@ namespace API.Models.Users
     {
 
         [DefaultValue("")]
-
-        public string FirstName { get; set; }
+        public string oldPassword { get; set; }
         [DefaultValue("")]
-
-        public string LastName { get; set; }
-        [DefaultValue("")]
-
-        public string Email { get; set; }
-        [DefaultValue("")]
-        public string Password { get; set; }
+        public string newPassword { get; set; }
     }
 }

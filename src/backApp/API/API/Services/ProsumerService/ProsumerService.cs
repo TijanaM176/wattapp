@@ -1,5 +1,7 @@
-﻿using System.Security.Cryptography;
+﻿using System.Net;
+using System.Security.Cryptography;
 using System.Text;
+using System.Web.Http;
 using API.Models.Devices;
 using API.Models.HelpModels;
 using API.Models.Paging;
@@ -77,36 +79,35 @@ namespace API.Services.ProsumerService
                 return false; //ako ne moze da ga nadje, nije editovan
             }
 
-            if (!string.IsNullOrEmpty(newValues.Email))
-            {
-                if (prosumer.Email.Equals(newValues.Email) || await checkEmail(newValues.Email))
-                    prosumer.Email = newValues.Email;
-                else
-                    return false; //mejl vec postoji
-            }
+
 
             //sifra
-            if (!string.IsNullOrEmpty(newValues.Password)) { 
-
-                var hmac = new HMACSHA512();
-                byte[] passwordSalt = hmac.Key;
-                byte[] passwordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(newValues.Password));
-                prosumer.HashPassword = passwordHash;
-                prosumer.SaltPassword = passwordSalt;
+            if (!string.IsNullOrEmpty(newValues.oldPassword) && !string.IsNullOrEmpty(newValues.newPassword))
+            {
+                var hmac = new HMACSHA512(prosumer.SaltPassword);
+                var passwordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(newValues.oldPassword));
+                if (passwordHash.SequenceEqual(prosumer.HashPassword))
+                {
+                    // Ako se oldPassword poklapa sa trenutnom, izračunava se novi hash za newPassword
+                    var newHmac = new HMACSHA512();
+                    prosumer.SaltPassword = newHmac.Key;
+                    prosumer.HashPassword = newHmac.ComputeHash(Encoding.UTF8.GetBytes(newValues.newPassword));
+                    
+                }
+                else
+                    return false;
+                
             }
 
-            if (!string.IsNullOrEmpty(newValues.FirstName)) prosumer.FirstName = newValues.FirstName;
-            if (!string.IsNullOrEmpty(newValues.LastName)) prosumer.LastName = newValues.LastName;
-
-            try
-            {
-                await _repository.Save();
-                return true;
-            }
-            catch (Exception)
-            {
+                try
+                {
+                   await _repository.Save();
+                    return true;
+                }
+                catch (Exception)
+                {
                 return false;
-            }
+                }
         }
 
         public async Task<List<string>> getEmails()
