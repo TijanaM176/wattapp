@@ -19,19 +19,38 @@ namespace API.Services.Devices
             var devices = await _repository.GetDevicesByCategory(id, catStr, role);
             if (devices == null) throw new ArgumentException("No devices found!");
 
-            var devicesData = devices.Select(d => new Dictionary<string, object>
+            var devicesData = devices.Select(d =>
             {
-                { "Id", d.Id  },
-                { "IpAddress", d.IpAddress },
-                { "Name", d.Name },
-                { "TypeId", d.TypeId},
-                { "CategoryId", d.CategoryId},
-                { "Manufacturer", d.Manufacturer},
-                { "Wattage", d.Wattage},
-                { "Activity", d.Activity },
-                { "DsoView", d.DsoView},
-                { "DsoControl", d.DsoControl },
-                { "Timestamps", d.Timestamps.Select(x => new { Date = x.Date, Power = x.Power, PredictedPower = x.PredictedPower}).FirstOrDefault() },
+                var currentUsage = d.Timestamps.Select(async x =>
+                {
+                    if (d.Activity)
+                    {
+                        if (x.Power != 0) return x.Power;
+                        else
+                        {
+                            Random rand = new Random();
+                            return (double)(await _repository.GetDevice(d.Id))["AvgUsage"] * rand.Next(80, 110) / 100;
+                        }
+                    }
+                    else
+                    {
+                        return 0;
+                    }
+                }).ToList();
+
+                return new Dictionary<string, object> {
+                    { "Id", d.Id  },
+                    { "IpAddress", d.IpAddress },
+                    { "Name", d.Name },
+                    { "TypeId", d.TypeId},
+                    { "CategoryId", d.CategoryId},
+                    { "Manufacturer", d.Manufacturer},
+                    { "Wattage", d.Wattage},
+                    { "Activity", d.Activity },
+                    { "DsoView", d.DsoView},
+                    { "DsoControl", d.DsoControl },
+                    { "CurrentUsage", currentUsage.FirstOrDefault().Result },
+                };
             });
             return devicesData.ToList();
         }
