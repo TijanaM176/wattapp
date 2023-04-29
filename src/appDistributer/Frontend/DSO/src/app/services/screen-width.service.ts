@@ -4,7 +4,7 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class ScreenWidthService {
-
+  deviceWidth! : number;
   height : number = 0;
 
   constructor() { }
