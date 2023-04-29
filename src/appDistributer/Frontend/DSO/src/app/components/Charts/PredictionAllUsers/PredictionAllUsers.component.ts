@@ -32,7 +32,7 @@ export class PredictionAllUsersComponent implements OnInit {
   constructor(
     private service: UsersServiceService,
     private router: ActivatedRoute,
-    private servicetime:TimestampService
+    private servicetime: TimestampService
   ) {}
   yAxisTickFormatting(value: number) {
     return value + ' kW';
@@ -82,8 +82,6 @@ export class PredictionAllUsersComponent implements OnInit {
 
   Prediction3Days() {
     this.servicetime.PredictionNext3Days().subscribe((response: any) => {
-      const myList: any = [];
-
       const consumptionTimestamps = response.consumption || {};
       const productionTimestamps = response.production || {};
       const allTimestamps = {

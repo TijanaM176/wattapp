@@ -40,7 +40,7 @@ export class RealizationPredictionAllProsumersComponent implements OnInit {
     private service: UsersServiceService,
     private router: ActivatedRoute,
     private spinner: NgxSpinnerService,
-    private servicetime:TimestampService
+    private servicetime: TimestampService
   ) {}
 
   yAxisTickFormatting(value: number) {
@@ -52,82 +52,15 @@ export class RealizationPredictionAllProsumersComponent implements OnInit {
     this.HistoryWeek();
   }
 
-  getWeek(date: Date): number {
-    const oneJan = new Date(date.getFullYear(), 0, 1);
-    const millisecsInDay = 86400000;
-    return Math.ceil(
-      ((date.getTime() - oneJan.getTime()) / millisecsInDay +
-        oneJan.getDay() +
-        1) /
-        7
-    );
-  }
-  HistoryWeek() {
-    const apiCall = this.servicetime.HistoryAllProsumers7Days.bind(this.service);
-    this.loadData(apiCall, (myList: any[]) => {
-      const seriesData: any = [];
-      myList.forEach((item) => {
-        const date = new Date(item.name);
-        const dayName = date.toLocaleDateString('en-US', { weekday: 'long' });
-        item.series.forEach((seriesItem: any, index: any) => {
-          if (!seriesData[index]) {
-            seriesData[index] = { name: seriesItem.name, series: [] };
-          }
-          seriesData[index].series.push({
-            name: dayName,
-            value: seriesItem.value,
-          });
-        });
-      });
-      return seriesData;
-    });
-  }
-
   HistoryMonth() {
-    let apiCall = this.servicetime.HistoryAllProsumers1Month.bind(this.service);
-    this.loadData(apiCall, (myList: any[]) => {
-      const seriesData: any = [];
-      myList.forEach((item) => {
-        const date = new Date(item.name);
-        const weekNumber = this.getWeek(date);
-        item.series.forEach((seriesItem: any, index: any) => {
-          if (!seriesData[index]) {
-            seriesData[index] = { name: seriesItem.name, series: [] };
-          }
-          seriesData[index].series.push({
-            name: `Week ${weekNumber}`,
-            value: seriesItem.value,
-          });
-        });
-      });
-      return seriesData;
-    });
-  }
-
-  HistoryYear() {
-    const apiCall = this.servicetime.HistoryAllProsumers1Year.bind(this.service);
-    this.loadData(apiCall, (myList: any[]) => {
-      const seriesData: any = [];
-      myList.forEach((item) => {
-        const date = new Date(item.name);
-        const monthName = date.toLocaleDateString('en-US', { month: 'long' });
-        item.series.forEach((seriesItem: any, index: any) => {
-          if (!seriesData[index]) {
-            seriesData[index] = { name: seriesItem.name, series: [] };
-          }
-          seriesData[index].series.push({
-            name: monthName,
-            value: seriesItem.value,
-          });
-        });
-      });
-      return seriesData;
-    });
-  }
-
-  loadData(apiCall: any, mapFunction: any) {
-    apiCall().subscribe((response: any) => {
-      const myList: any = [];
+    this.spinner.show();
+    this.servicetime.HistoryAllProsumers1Month().subscribe((response: any) => {
+      const seriesData: any = [
+        { name: 'Consumption', series: [] },
+        { name: 'Production', series: [] },
+        { name: 'Prediction for Consumption', series: [] },
+        { name: 'Prediction for Production', series: [] },
+      ];
 
       const consumptionTimestamps = response.consumption.timestamps || {};
       const consumptionPredictions = response.consumption.predictions || {};
@@ -145,6 +78,9 @@ export class RealizationPredictionAllProsumersComponent implements OnInit {
         const productionValue = productionTimestamps[name] || 0.0;
         const productionPredictionValue = productionPredictions[name] || 0.0;
 
+        // Create a new Date object from the name string
+        const date = new Date(name);
+
         const series = [
           { name: 'Consumption', value: consumptionValue },
           { name: 'Production', value: productionValue },
@@ -158,10 +94,130 @@ export class RealizationPredictionAllProsumersComponent implements OnInit {
           },
         ];
 
-        myList.push({ name, series });
+        series.forEach((seriesItem: any, index: any) => {
+          const dayNumber = date.getDate();
+          const monthName = date.toLocaleString('default', { month: 'long' });
+          seriesData[index].series.push({
+            name: `${monthName} ${dayNumber}`,
+            value: seriesItem.value,
+          });
+        });
+      });
+      this.data = seriesData;
+      this.spinner.hide();
+    });
+  }
+
+  HistoryYear() {
+    this.spinner.show();
+    this.servicetime.HistoryAllProsumers1Year().subscribe((response: any) => {
+      const seriesData: any = [
+        { name: 'Consumption', series: [] },
+        { name: 'Production', series: [] },
+        { name: 'Prediction for Consumption', series: [] },
+        { name: 'Prediction for Production', series: [] },
+      ];
+
+      const consumptionTimestamps = response.consumption.timestamps || {};
+      const consumptionPredictions = response.consumption.predictions || {};
+      const productionTimestamps = response.production.timestamps || {};
+      const productionPredictions = response.production.predictions || {};
+
+      const allTimestamps = {
+        ...consumptionTimestamps,
+        ...productionTimestamps,
+      };
+
+      Object.keys(allTimestamps).forEach((name) => {
+        const consumptionValue = consumptionTimestamps[name] || 0.0;
+        const consumptionPredictionValue = consumptionPredictions[name] || 0.0;
+        const productionValue = productionTimestamps[name] || 0.0;
+        const productionPredictionValue = productionPredictions[name] || 0.0;
+
+        // Create a new Date object from the name string
+        const date = new Date(name);
+
+        const series = [
+          { name: 'Consumption', value: consumptionValue },
+          { name: 'Production', value: productionValue },
+          {
+            name: 'Prediction for Consumption',
+            value: consumptionPredictionValue,
+          },
+          {
+            name: 'Prediction for Production',
+            value: productionPredictionValue,
+          },
+        ];
+
+        series.forEach((seriesItem: any, index: any) => {
+          const dayNumber = date.getDate();
+          const monthName = date.toLocaleString('default', { month: 'long' });
+          seriesData[index].series.push({
+            name: `${monthName}`,
+            value: seriesItem.value,
+          });
+        });
       });
 
-      this.data = mapFunction(myList);
+      this.data = seriesData;
+      this.spinner.hide();
+    });
+  }
+
+  HistoryWeek() {
+    this.spinner.show();
+    this.servicetime.HistoryAllProsumers7Days().subscribe((response: any) => {
+      const seriesData: any = [
+        { name: 'Consumption', series: [] },
+        { name: 'Production', series: [] },
+        { name: 'Prediction for Consumption', series: [] },
+        { name: 'Prediction for Production', series: [] },
+      ];
+
+      const consumptionTimestamps = response.consumption.timestamps || {};
+      const consumptionPredictions = response.consumption.predictions || {};
+      const productionTimestamps = response.production.timestamps || {};
+      const productionPredictions = response.production.predictions || {};
+
+      const allTimestamps = {
+        ...consumptionTimestamps,
+        ...productionTimestamps,
+      };
+
+      Object.keys(allTimestamps).forEach((name) => {
+        const consumptionValue = consumptionTimestamps[name] || 0.0;
+        const consumptionPredictionValue = consumptionPredictions[name] || 0.0;
+        const productionValue = productionTimestamps[name] || 0.0;
+        const productionPredictionValue = productionPredictions[name] || 0.0;
+
+        // Create a new Date object from the name string
+        const date = new Date(name);
+
+        const series = [
+          { name: 'Consumption', value: consumptionValue },
+          { name: 'Production', value: productionValue },
+          {
+            name: 'Prediction for Consumption',
+            value: consumptionPredictionValue,
+          },
+          {
+            name: 'Prediction for Production',
+            value: productionPredictionValue,
+          },
+        ];
+
+        series.forEach((seriesItem: any, index: any) => {
+          const dayNumber = date.getDate();
+          const monthName = date.toLocaleString('default', { month: 'long' });
+          seriesData[index].series.push({
+            name: `${monthName} ${dayNumber}`,
+            value: seriesItem.value,
+          });
+        });
+      });
+
+      this.data = seriesData;
       this.spinner.hide();
     });
   }

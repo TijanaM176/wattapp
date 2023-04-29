@@ -1,22 +1,23 @@
-<ngx-spinner
-  bdColor="rgba(0, 0, 0, 0.95)"
-  size="small"
-  color="#fff"
-  type="ball-clip-rotate"
-  [showSpinner]="true"
-  [fullScreen]="true"
-  [zIndex]="9999"
-  ><p style="font-size: 25px; color: white">Loading Data...</p></ngx-spinner
->
 <div>
   <div
     class="card-header pb-0 pt-3 bg-transparent row"
     style="margin-left: 0; margin-right: 0"
   >
-    <div class="col-md-5" style="display: flex; flex-direction: column; align-items: start; justify-content: center;">
+    <div
+      class="col-md-5"
+      style="
+        display: flex;
+        flex-direction: column;
+        align-items: start;
+        justify-content: center;
+      "
+    >
       <h6 class="text-capitalize" style="margin-bottom: 2px">
-        Consumption/Production History
-        &nbsp;<button class="btn btn-outline-primary p-0 px-1 m-0" data-bs-toggle="modal" data-bs-target="#historyAllProsumersTable">
+        Consumption/Production History &nbsp;<button
+          class="btn btn-outline-primary p-0 px-1 m-0"
+          data-bs-toggle="modal"
+          data-bs-target="#historyAllProsumersTable"
+        >
           <i class="fa fa-table"></i>
         </button>
       </h6>
@@ -90,15 +91,32 @@
     </h1>
   </div>
 </div>
-<div class="modal fade modal-lg " id="historyAllProsumersTable" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="historyAllProsumersTableLabel" aria-hidden="true">
+<div
+  class="modal fade modal-lg"
+  id="historyAllProsumersTable"
+  data-bs-backdrop="static"
+  data-bs-keyboard="false"
+  tabindex="-1"
+  aria-labelledby="historyAllProsumersTableLabel"
+  aria-hidden="true"
+>
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
-      <div class="modal-header text-white" style="background-color: #5875A1">
-        <h5 class="modal-title" id="historyAllProsumersTableLabel">Consumption/Production History Table</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      <div class="modal-header text-white" style="background-color: #5875a1">
+        <h5 class="modal-title" id="historyAllProsumersTableLabel">
+          Consumption/Production History Table
+        </h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
       </div>
       <div class="modal-body">
-        <app-history-all-prosumers-table [data]="data"></app-history-all-prosumers-table>
+        <app-history-all-prosumers-table
+          [data]="data"
+        ></app-history-all-prosumers-table>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-primary">Export Table</button>

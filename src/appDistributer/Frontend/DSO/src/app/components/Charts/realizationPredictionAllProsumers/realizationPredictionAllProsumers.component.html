@@ -2,19 +2,32 @@
   bdColor="rgba(0, 0, 0, 0.95)"
   size="small"
   color="#fff"
-  type="ball-clip-rotate"
+  type="ball-triangle-path"
   [showSpinner]="true"
-  [fullScreen]="true"
+  [fullScreen]="false"
   [zIndex]="9999"
-  ><p style="font-size: 25px; color: white">Loading Data...</p></ngx-spinner
+  ><p style="font-size: 25px; color: white">Loading ...</p></ngx-spinner
 >
 <div>
   <div
     class="card-header pb-0 pt-3 bg-transparent row"
     style="margin-left: 0; margin-right: 0"
   >
-    <div class="col-5" style="display: flex; flex-direction: column; align-items: start; justify-content: center;">
-      <h6 class="text-capitalize">Realization and Prediction&nbsp;<button class="btn btn-outline-primary p-0 px-1" data-bs-toggle="modal" data-bs-target="#realizationAndPredictionTable">
+    <div
+      class="col-5"
+      style="
+        display: flex;
+        flex-direction: column;
+        align-items: start;
+        justify-content: center;
+      "
+    >
+      <h6 class="text-capitalize">
+        Realization and Prediction&nbsp;<button
+          class="btn btn-outline-primary p-0 px-1"
+          data-bs-toggle="modal"
+          data-bs-target="#realizationAndPredictionTable"
+        >
           <i class="fa fa-table"></i>
         </button>
       </h6>
@@ -74,6 +87,9 @@
       [legend]="true"
       [yAxisTickFormatting]="yAxisTickFormatting"
       [yAxisLabel]="yAxisLabel"
+      [rotateXAxisTicks]="true"
+      [showRefLines]="true"
+      [showRefLabels]="false"
     >
     </ngx-charts-line-chart>
 
@@ -92,15 +108,32 @@
   </div>
 </div>
 
-<div class="modal fade modal-xl " id="realizationAndPredictionTable" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="realizationAndPredictionTableLabel" aria-hidden="true">
+<div
+  class="modal fade modal-xl"
+  id="realizationAndPredictionTable"
+  data-bs-backdrop="static"
+  data-bs-keyboard="false"
+  tabindex="-1"
+  aria-labelledby="realizationAndPredictionTableLabel"
+  aria-hidden="true"
+>
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
-      <div class="modal-header text-white" style="background-color: #5875A1">
-        <h5 class="modal-title" id="realizationAndPredictionTableLabel">Realization and Prediction Table</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      <div class="modal-header text-white" style="background-color: #5875a1">
+        <h5 class="modal-title" id="realizationAndPredictionTableLabel">
+          Realization and Prediction Table
+        </h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
       </div>
       <div class="modal-body">
-        <app-realization-prediction-all-prosumers-table [data]="data"></app-realization-prediction-all-prosumers-table>
+        <app-realization-prediction-all-prosumers-table
+          [data]="data"
+        ></app-realization-prediction-all-prosumers-table>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-primary">Export Table</button>

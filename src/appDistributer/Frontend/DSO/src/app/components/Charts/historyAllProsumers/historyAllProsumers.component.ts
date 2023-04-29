@@ -6,6 +6,7 @@ import { ScaleType, Color, LegendComponent } from '@swimlane/ngx-charts';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { TimestampService } from 'src/app/services/timestamp.service';
+import { tickStep } from 'd3';
 @Component({
   selector: 'app-historyAllProsumers',
   templateUrl: './historyAllProsumers.component.html',
@@ -32,7 +33,7 @@ export class HistoryAllProsumersComponent implements OnInit {
   constructor(
     private service: UsersServiceService,
     private router: ActivatedRoute,
-    private servicetime:TimestampService
+    private servicetime: TimestampService
   ) {}
   yAxisTickFormatting(value: number) {
     return value + ' kW';
@@ -42,57 +43,8 @@ export class HistoryAllProsumersComponent implements OnInit {
     this.HistoryWeek();
   }
 
-  getWeek(date: Date): number {
-    const oneJan = new Date(date.getFullYear(), 0, 1);
-    const millisecsInDay = 86400000;
-    return Math.ceil(
-      ((date.getTime() - oneJan.getTime()) / millisecsInDay +
-        oneJan.getDay() +
-        1) /
-        7
-    );
-  }
-  HistoryWeek() {
-    this.loadData(
-      this.servicetime.HistoryAllProsumers7Days.bind(this.service),
-      (myList: any[]) => {
-        return myList.map((item) => {
-          const date = new Date(item.name);
-          const dayName = date.toLocaleDateString('en-US', { weekday: 'long' });
-          return { name: dayName, series: item.series };
-        });
-      }
-    );
-  }
-
   HistoryMonth() {
-    this.loadData(
-      this.servicetime.HistoryAllProsumers1Month.bind(this.service),
-      (myList: any[]) => {
-        return myList.map((item) => {
-          const date = new Date(item.name);
-          const weekNumber = this.getWeek(date);
-          return { name: `Week ${weekNumber}`, series: item.series };
-        });
-      }
-    );
-  }
-
-  HistoryYear() {
-    this.loadData(
-      this.servicetime.HistoryAllProsumers1Year.bind(this.service),
-      (myList: any[]) => {
-        return myList.map((item) => {
-          const date = new Date(item.name);
-          const monthName = date.toLocaleDateString('en-US', { month: 'long' });
-          return { name: monthName, series: item.series };
-        });
-      }
-    );
-  }
-
-  loadData(apiCall: any, mapFunction: any) {
-    apiCall().subscribe((response: any) => {
+    this.servicetime.HistoryAllProsumers1Month().subscribe((response: any) => {
       const myList: any = [];
 
       const consumptionTimestamps = response.consumption.timestamps || {};
@@ -105,13 +57,90 @@ export class HistoryAllProsumersComponent implements OnInit {
       Object.keys(allTimestamps).forEach((name) => {
         const consumptionValue = consumptionTimestamps[name] || 0.0;
         const productionValue = productionTimestamps[name] || 0.0;
+
+        // Create a new Date object from the name string
+        const date = new Date(name);
+
+        // Get the day of the month from the Date object
+        const dayNumber = date.getDate();
+
         const series = [
           { name: 'consumption', value: consumptionValue },
           { name: 'production', value: productionValue },
         ];
-        myList.push({ name, series });
+
+        // Set the name property of the object to the formatted date string
+        myList.push({ name: dayNumber, series });
       });
-      this.data = mapFunction(myList);
+      this.data = myList;
+      this.data = this.data.slice(0, -1);
+    });
+  }
+
+  HistoryYear() {
+    this.servicetime.HistoryAllProsumers1Year().subscribe((response: any) => {
+      const myList: any = [];
+
+      const consumptionTimestamps = response.consumption.timestamps || {};
+      const productionTimestamps = response.production.timestamps || {};
+      const allTimestamps = {
+        ...consumptionTimestamps,
+        ...productionTimestamps,
+      };
+
+      Object.keys(allTimestamps).forEach((name) => {
+        const consumptionValue = consumptionTimestamps[name] || 0.0;
+        const productionValue = productionTimestamps[name] || 0.0;
+
+        // Create a new Date object from the name string
+        const date = new Date(name);
+
+        // Format the date into a readable string
+        const monthName = date.toLocaleDateString('en-US', { month: 'long' });
+
+        const series = [
+          { name: 'consumption', value: consumptionValue },
+          { name: 'production', value: productionValue },
+        ];
+
+        // Set the name property of the object to the formatted date string
+        myList.push({ name: monthName, series });
+      });
+      this.data = myList;
+    });
+  }
+
+  HistoryWeek() {
+    this.servicetime.HistoryAllProsumers7Days().subscribe((response: any) => {
+      const myList: any = [];
+
+      const consumptionTimestamps = response.consumption.timestamps || {};
+      const productionTimestamps = response.production.timestamps || {};
+      const allTimestamps = {
+        ...consumptionTimestamps,
+        ...productionTimestamps,
+      };
+
+      Object.keys(allTimestamps).forEach((name) => {
+        const consumptionValue = consumptionTimestamps[name] || 0.0;
+        const productionValue = productionTimestamps[name] || 0.0;
+
+        // Create a new Date object from the name string
+        const date = new Date(name);
+
+        // Format the date into a readable string
+        const dayName = date.toLocaleDateString('en-US', { weekday: 'long' });
+
+        const series = [
+          { name: 'consumption', value: consumptionValue },
+          { name: 'production', value: productionValue },
+        ];
+
+        // Set the name property of the object to the formatted date string
+        myList.push({ name: dayName, series });
+      });
+      this.data = myList;
+      this.data = this.data.slice(1);
     });
   }
 }
