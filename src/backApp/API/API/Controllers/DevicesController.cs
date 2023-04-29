@@ -30,7 +30,8 @@ namespace API.Controllers
                     producers = producers,
                     storage = storage,
                     currentConsumption = await devService.CurrentConsumptionForProsumer(consumers.Select(x => (double)x["CurrentUsage"]).ToList()),
-                    currentProduction = await devService.CurrentProductionForProsumer(producers.Select(x => (double)x["CurrentUsage"]).ToList())
+                    currentProduction = await devService.CurrentProductionForProsumer(producers.Select(x => (double)x["CurrentUsage"]).ToList()),
+                    deviceCount = consumers.Count + producers.Count + storage.Count
                 });
             }
             catch (Exception ex)
