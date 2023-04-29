@@ -84,11 +84,15 @@ export class AddDeviceComponent implements OnInit {
           this.router.navigate(['/ProsumerApp/userInfo'],{skipLocationChange:true}).then(()=>{
             // console.log(this.router.url);
             this.router.navigate([this.currentRoute]);
+            this.activateBtn('offcanvasUserDevices');
+            this.activateButton('sidebarUserDevices');
           });
         } 
         else 
         {
           this.router.navigate(['/ProsumerApp/userDevices']);
+          this.activateBtn('offcanvasUserDevices');
+          this.activateButton('sidebarUserDevices');
         }
       },
       error: (err) => {
@@ -104,5 +108,33 @@ export class AddDeviceComponent implements OnInit {
   private allToFalse() {
     this.success = false;
     this.failure = false;
+  }
+  activateBtn(id : string)
+  {
+    const buttons = document.querySelectorAll('.offcanvasBtn');
+    buttons.forEach(button=>{
+      if(button.id == id)
+      {
+        button.classList.add('active');
+      }
+      else
+      {
+        button.classList.remove('active');
+      }
+    })
+  }
+  activateButton(id : string)
+  {
+    const buttons = document.querySelectorAll('.sidebarBtn');
+    buttons.forEach(button=>{
+      if(button.id == id)
+      {
+        button.classList.add('active');
+      }
+      else
+      {
+        button.classList.remove('active');
+      }
+    });
   }
 }
