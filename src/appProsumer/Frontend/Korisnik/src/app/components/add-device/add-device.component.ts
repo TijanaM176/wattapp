@@ -64,9 +64,9 @@ export class AddDeviceComponent implements OnInit {
     this.c.DsoControl = false;
   }
   registerDevice() {
-    console.log(this.service.category);
-    console.log(this.service.type);
-    console.log(this.service.model);
+    // console.log(this.service.category);
+    // console.log(this.service.type);
+    // console.log(this.service.model);
     this.service.id = this.cookie.get('id');
     let device: AddDevice = new AddDevice();
     device.modelId = this.service.model;
@@ -76,25 +76,30 @@ export class AddDeviceComponent implements OnInit {
     this.service.RegisterDevice(device).subscribe({
       next: (response) => {
         this.toast.success('Success!', 'New Device Added', {
-          timeOut: 2500,
+          timeOut: 1000,
         });
         this.success = true;
+        this.currentRoute=this.router.url;
+        if (this.router.url === '/ProsumerApp/userDevices') {
+          this.router.navigate(['/ProsumerApp/userInfo'],{skipLocationChange:true}).then(()=>{
+            // console.log(this.router.url);
+            this.router.navigate([this.currentRoute]);
+          });
+        } 
+        else 
+        {
+          this.router.navigate(['/ProsumerApp/userDevices']);
+        }
       },
       error: (err) => {
         console.log(err.error);
         this.failure = true;
+        this.toast.error('Error!', 'Unable to add device', {
+          timeOut: 500,
+        });
       },
     });
-    console.log(this.router.url);
-    this.currentRoute=this.router.url;
-    if (this.router.url === '/ProsumerApp/userDevices') {
-      this.router.navigateByUrl('/ProsumerApp/userInfo',{skipLocationChange:true}).then(()=>{
-        console.log(this.router.url);
-        this.router.navigate([this.currentRoute]);
-      });
-    } else {
-      this.router.navigate(['/ProsumerApp/userDevices']);
-    }
+    // console.log(this.router.url);
   }
   private allToFalse() {
     this.success = false;
