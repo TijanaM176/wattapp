@@ -59,10 +59,29 @@ namespace API.Services.Devices
         {
             return await _repository.CurrentConsumptionForProsumer(id);
         }
-
         public async Task<double> CurrentProductionForProsumer(string id)
         {
             return await _repository.CurrentProductionForProsumer(id);
+        }
+        public async Task<double> CurrentConsumptionForProsumer(List<double> list)
+        {
+            double currentConsumption = 0;
+            foreach (var value in list)
+            {
+                currentConsumption += value;
+            }
+
+            return currentConsumption;
+        }
+        public async Task<double> CurrentProductionForProsumer(List<double> list)
+        {
+            double currentProduction = 0;
+            foreach (var value in list)
+            {
+                currentProduction += value;
+            }
+
+            return currentProduction;
         }
 
         public async Task<Dictionary<string,Dictionary<DateTime, double>>> ConsumptionProductionForAPeriodForProsumer(string id, int period, int type)    //0 cons, 1 prod

@@ -13,6 +13,7 @@ namespace API.Controllers
             devService = serv;
         }
 
+        //ovo se salje u okviru zahteva get all devices for prosumer u devices controlleru
         [HttpGet("ConsumptionAndProductionByProsumer")]
         public async Task<IActionResult> ConsumptionAndProductionByProsumer(string id)
         {
