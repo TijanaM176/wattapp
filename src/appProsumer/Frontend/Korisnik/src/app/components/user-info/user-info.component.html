@@ -169,6 +169,7 @@
       </div>
     </div>
   </div>
+  
   <div
     class="modal fade"
     id="changeImageUserInfo"
@@ -190,29 +191,30 @@
           ></button>
         </div>
         <div class="modal-body justify-content-center align-items-center">
-          <div class="col-12 px-0" style="display: flex; justify-content: center; align-items: center;">
+          <div class="col-12 px-0 mb-2" style="display: flex; justify-content: center; align-items: center;">
             <img
               [src]="changeImage"
               alt="Avatar"
               class="img-fluid rounded-circle"
-              (change)="onFileSelected($event)"
               id="showChangeImage"
+              accept="image/*"
             />
           </div>
           <div class="col-12" style="display: flex; justify-content: center; align-items: center;">
-            <input type="file" style="display: none;" #fileInput>
-            <button class="btn btn-primary" (click)="fileInput.click()">Choose Image</button>
+            <input type="file" style="display: none;" #fileInput (change)="onFileSelected($event)">
+            <button class="btn btn-primary" (click)="fileInput.click()" style="margin-right: 2%;">Choose Image</button>
+            <button class="btn btn-primary" id="deleteImageUserInfo" (click)="deleteImage()">Delete Image</button>
           </div>
         </div>
         <div class="modal-footer">
-          <button
+          <!-- <button
             type="button"
             class="btn btn-secondary"
             data-bs-dismiss="modal"
           >
             Close
-          </button>
-          <button type="button" class="btn btn-primary" (click)="confirmImage()">
+          </button> -->
+          <button type="button" id="confirmImageChangeUserInfo" class="btn btn-primary" (click)="confirmImage()">
             Confirm
           </button>
         </div>

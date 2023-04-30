@@ -4,6 +4,7 @@ import { ToastrService } from 'ngx-toastr';
 import { ChangePasswordComponent } from 'src/app/forms/change-password/change-password.component';
 import { EditInfoFormComponent } from 'src/app/forms/edit-info-form/edit-info-form.component';
 import { EditableInfo } from 'src/app/models/editableInfo';
+import { SendPhoto } from 'src/app/models/sendPhoto';
 import { ProsumerService } from 'src/app/services/prosumer.service';
 
 @Component({
@@ -20,6 +21,7 @@ export class UserInfoComponent implements OnInit {
   neighborhood: string = '';
   image : string = '';
   changeImage : string = '';
+  selectedImageFile : any = null;
   loader: boolean = true;
   modalTitle: string = '';
   userData: any;
@@ -42,7 +44,7 @@ export class UserInfoComponent implements OnInit {
   private getInformation() {
     this.prosumerService.getInforamtion(this.cookie.get('id')).subscribe({
       next: (res) => {
-        console.log(res);
+        // console.log(res);
         this.username = res.username;
         this.firstLastName = res.firstName + ' ' + res.lastName;
         this.email = res.email;
@@ -133,11 +135,28 @@ export class UserInfoComponent implements OnInit {
     }
   }
 
-  onFileSelected(event : Event)
+  onFileSelected(event : any)
   {
-    console.log(event);
+    // console.log(event);
+    if(event.target.files)
+    {
+      this.selectedImageFile = event.target.files[0];
+      let reader = new FileReader();
+      reader.readAsDataURL(event.target.files[0]);
+      reader.onload = (e : any) =>{
+        this.changeImage = e.target.result;
+      }
+    }
   }
   confirmImage()
+  {
+    if(this.selectedImageFile != null && this.image != this.changeImage)
+    {
+      let sp = new SendPhoto(this.cookie.get('id'), this.selectedImageFile);
+      console.log(sp);
+    }
+  }
+  deleteImage()
   {
 
   }

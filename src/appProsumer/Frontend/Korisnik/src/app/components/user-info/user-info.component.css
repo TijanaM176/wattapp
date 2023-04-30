@@ -13,6 +13,16 @@
         height: 100% !important;
     }
 }
+@media (max-width: 576px) {
+    #showChangeImage{
+        width: 60% !important;
+    }
+}
+@media (min-width: 576) {
+    #showChangeImage{
+        width: 50% !important;
+    }
+}
 .btn{
     background: #7E939C;
     border-color: #7E939C;
@@ -39,13 +49,9 @@ a {
     background-color: white;
 }
 
-@media (max-width: 576px) {
-    #showChangeImage{
-        width: 60% !important;
-    }
+#deleteImageUserInfo{
+    background-color: #8D021F;
 }
-@media (min-width: 576) {
-    #showChangeImage{
-        width: 50% !important;
-    }
+#confirmImageChangeUserInfo{
+    background-color: #466471;
 }
