@@ -1,13 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { strings } from '@material/slider';
-import { ScaleType, Color } from '@swimlane/ngx-charts';
+import { ScaleType, Color, LegendPosition } from '@swimlane/ngx-charts';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { TimestampService } from 'src/app/services/timestamp.service';
 import { ScreenWidthService } from 'src/app/services/screen-width.service';
 import * as XLSX from 'xlsx';
 
 import { UsersServiceService } from 'src/app/services/users-service.service';
+import { Observable, Subscription, fromEvent } from 'rxjs';
+import { DeviceserviceService } from 'src/app/services/deviceservice.service';
 
 @Component({
   selector: 'app-history-Prosumer',
@@ -15,31 +17,38 @@ import { UsersServiceService } from 'src/app/services/users-service.service';
   styleUrls: ['./history-Prosumer.component.css'],
 })
 export class HistoryProsumerComponent implements OnInit {
-  id: string = '';
   data: any[] = [];
-  dataConsumers: any = [];
-  dataProducers: any = [];
+  dataConsumers: any[] = [];
+  dataProducers: any[] = [];
+  production = true;
+  consumption = true;
   colors: Color = {
     name: 'mycolors',
     selectable: true,
     group: ScaleType.Ordinal,
-    domain: ['#FF414E', '#80BC00'],
+    domain: ['#c14b48', '#80BC00'],
   };
   showXAxis = true;
   showYAxis = true;
   gradient = false;
   showLegend = true;
+  legendPosition: LegendPosition = LegendPosition.Below;
   showXAxisLabel = true;
   xAxisLabel = 'Time';
   showYAxisLabel = true;
-  yAxisLabel = 'Energy in kW';
+  yAxisLabel = 'Energy in kWh';
+
+  resizeObservable$!: Observable<Event>;
+  resizeSubscription$!: Subscription;
+  coef: number = 0.6;
+  id!: string;
 
   constructor(
-    private service: UsersServiceService,
+    private deviceService: DeviceserviceService,
+    private widthService: ScreenWidthService,
+    private serviceTime: TimestampService,
     private router: ActivatedRoute,
-    private spiner: NgxSpinnerService,
-    private servicetime: TimestampService,
-    private widthService: ScreenWidthService
+    private service: UsersServiceService
   ) {}
 
   exportTable(): void {
@@ -58,18 +67,17 @@ export class HistoryProsumerComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.spiner.show();
     this.id = this.router.snapshot.params['id'];
     document.getElementById('realizationUserInfoCardBody')!.style.height =
       this.widthService.height * 0.55 + 'px';
-    this.HistoryWeek();
+    this.HistoryWeek('realiz1');
 
     document.getElementById('historyProsumerTable')!.style.width =
       window.innerWidth + 'px';
   }
 
-  HistoryWeek() {
-    this.servicetime
+  HistoryWeek(button: string) {
+    this.serviceTime
       .HistoryProsumer7Days(this.id)
       .subscribe((response: any) => {
         const myList: any = [];
@@ -103,8 +111,8 @@ export class HistoryProsumerComponent implements OnInit {
         this.data = this.data.slice(1);
       });
   }
-  HistoryMonth() {
-    this.servicetime
+  HistoryMonth(button: string) {
+    this.serviceTime
       .HistoryProsumer1Month(this.id)
       .subscribe((response: any) => {
         const myList: any = [];
@@ -138,8 +146,8 @@ export class HistoryProsumerComponent implements OnInit {
         this.data = this.data.slice(0, -1);
       });
   }
-  HistoryYear() {
-    this.servicetime
+  HistoryYear(button: string) {
+    this.serviceTime
       .HistoryProsumer1Year(this.id)
       .subscribe((response: any) => {
         const myList: any = [];
@@ -171,5 +179,16 @@ export class HistoryProsumerComponent implements OnInit {
         });
         this.data = myList;
       });
+  }
+
+  activateButton(buttonNumber: string) {
+    const buttons = document.querySelectorAll('.realizationbtn');
+    buttons.forEach((button) => {
+      if (button.id == buttonNumber) {
+        button.classList.add('active');
+      } else {
+        button.classList.remove('active');
+      }
+    });
   }
 }

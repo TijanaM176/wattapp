@@ -66,11 +66,11 @@ export class ResetpasswordComponent {
       this.reset.resetPassword(object).subscribe((res: any) => {
         this.cookie.delete('resetToken', '/');
         if (res.error == false) {
-          this.toast.success('Succes', res.message, {
+          this.toast.success('Succes', 'Succesful resset password', {
             timeOut: 3000,
           });
         } else {
-          this.toast.error('ERROR', res.message, {
+          this.toast.error('ERROR', 'Unable to resset password.', {
             timeOut: 3000,
           });
         }

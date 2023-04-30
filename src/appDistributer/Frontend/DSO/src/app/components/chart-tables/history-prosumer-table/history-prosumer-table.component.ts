@@ -7,4 +7,5 @@ import { Component, Input } from '@angular/core';
 })
 export class HistoryProsumerTableComponent {
   @Input() data : any[] = [];
+  @Input() type : string = '';
 }

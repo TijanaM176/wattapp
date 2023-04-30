@@ -17,6 +17,7 @@ export class EmployeesServiceService {
   role!: number;
   employees!: Employee[];
   formData: Employee = new Employee();
+  idEmp!:string;
 
   constructor(private http: HttpClient) {}
 
@@ -27,6 +28,7 @@ export class EmployeesServiceService {
       .get(this.baseUrl + 'Dso/GetAllDsoWorkers')
       .subscribe((res) => {
         this.employees = res as Employee[];
+        
       });
   }
 

@@ -23,17 +23,35 @@
     $('[data-toggle="tooltip"]').tooltip();
   });
 </script>
-
+<div
+  class="modal fade"
+  id="exampleModal1"
+  tabindex="-1"
+  aria-labelledby="exampleModalLabel1"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-xl" style="width: 100%">
+    <div class="modal-content">
+      <div class="modal-header" >
+        <button
+          type="button"
+          id="closeBtn3"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body" style="display:flex;justify-content: center; align-items: center;">
 <div class="container-xl">
   <div class="table-responsive">
     <div class="table-wrapper">
       <div class="table-title">
         <div class="row">
-          <div class="col-sm-9">
+          <div class="col-sm-5">
             <h2>Employee <b>Overview</b></h2>
           </div>
 
-          <div class="col-sm-3">
+          <div class="col-sm-7">
             <div class="search-box">
               <div class="input-group" style="width: 100%">
                 <span class="input-group-addon"
@@ -46,9 +64,24 @@
                 <input
                   type="text"
                   [(ngModel)]="searchName"
-                  style="background-color: #f8f8fa; border-radius: 10px"
+                  style="background-color: #f8f8fa; border-radius: 10px;margin-right:5%;width:10%;"
                   class="form-control"
-                  placeholder="Search By Username"
+                  placeholder="Search By First Name"
+                  
+                />
+                <span class="input-group-addon"
+                  ><i
+                    class="material-icons"
+                    style="margin-top: 30%; margin-right: 10%"
+                    ></i
+                  ></span
+                >
+                <input
+                  type="text"
+                  [(ngModel)]="searchLastName"
+                  style="background-color: #f8f8fa; border-radius: 10px;width:10%;"
+                  class="form-control"
+                  placeholder="Search By Last Name"
                 />
               </div>
             </div>
@@ -59,7 +92,9 @@
         <thead>
           <tr>
             <th></th>
-            <th (click)="sort('username')">
+            <th (click)="sort('firstName')">First Name<i class="fa fa-sort"></i></th>
+            <th (click)="sort('lastName')">Last Name<i class="fa fa-sort"></i></th>
+            <th  (click)="sort('username')">
               Username<i class="fa fa-sort"></i>
             </th>
             <th (click)="sort('region')">Region<i class="fa fa-sort"></i></th>
@@ -74,7 +109,8 @@
             *ngFor="
               let item of service.employees
                 | orderBy : orderHeader : isDescOrder
-                | search : searchName
+                | searchemployeelastname : searchLastName
+                | searchemployeename : searchName
                 | paginate
                   : {
                       itemsPerPage: perPage,
@@ -90,9 +126,11 @@
                 style="width: 30px; height: 30px"
               />
             </td>
+            <td>{{item.firstName}}</td>
+            <td>{{item.lastName}}</td>
             <td>{{ item.userName }}</td>
             <td>{{ regionName }}</td>
-            <td>{{ item.roleId }}</td>
+            <td >{{ item.roleId }}</td>
             <td>
               <a
                 (click)="Details(item.id)"
@@ -121,9 +159,9 @@
       <div
         style="
           text-align: center;
-          margin-top: 1.5%;
+          margin-top: 34%;
           justify-content: center;
-          position: fixed;
+          position: flex;
           bottom: 0;
         "
         class="start-50"
@@ -138,6 +176,12 @@
     </div>
   </div>
 </div>
+</div>
+</div>
+</div>
+</div>
+
+
 <div
   class="modal fade"
   id="exampleModal"

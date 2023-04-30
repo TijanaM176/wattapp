@@ -62,6 +62,8 @@ export class AddDeviceComponent implements OnInit {
     this.c.Name = '';
     this.c.DsoView = false;
     this.c.DsoControl = false;
+    this.c.dropdownType=true;
+    this.c.dropdownModel=true;
   }
   registerDevice() {
     console.log(this.service.category);

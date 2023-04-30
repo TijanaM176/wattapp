@@ -131,7 +131,7 @@ export class LoginComponent implements OnInit {
       //console.log(this.resetPasswordEmail);
       this.auth.sendResetPasswordLink(this.resetPasswordEmail).subscribe({
         next: (res) => {
-          this.toast.success('Success', 'Successful Reset Password!', {
+          this.toast.success('Success', 'Email is sent', {
             timeOut: 2500,
           });
           this.resetPasswordEmail = '';
@@ -139,7 +139,7 @@ export class LoginComponent implements OnInit {
           buttonRef?.click();
         },
         error: (err) => {
-          this.toast.error('Error!', 'Unable to Reset Password.', {
+          this.toast.error('Error!', 'Unable to send email.', {
             timeOut: 2500,
           });
         },

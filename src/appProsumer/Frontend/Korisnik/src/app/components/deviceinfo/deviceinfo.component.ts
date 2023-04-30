@@ -83,6 +83,7 @@ export class DeviceinfoComponent {
         } else if (res.CategoryId == '2') {
           this.gaugeLabel = 'Production';
         }
+        this.deviceData=res;
         this.IpAddress = res.IpAddress;
         this.TypeName = res.TypeName;
         this.ModelName = res.ModelName;

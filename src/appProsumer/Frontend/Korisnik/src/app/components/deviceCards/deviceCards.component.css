@@ -105,9 +105,15 @@ a {
     justify-content: space-evenly;
     margin-bottom: 2%;
   }
-  /* .card h5 {
-    font-size: 16px;
-  } */
+
+}
+@media only screen and (max-width: 720px) {
+
+  .card{
+    max-width: 20%;
+    min-width:260px;
+    min-height:120px;
+  }
 }
 
 ::ng-deep .mat-slide-toggle-thumb {
