@@ -73,15 +73,11 @@ export class HomeComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void {
     this.showModal = false;
-    //this.getState();
   }
 
   ngOnInit(): void {
     this.getAllUsers();
 
-    setTimeout(() => {
-      this.loader = false;
-    }, 2000);
     this.serviceData.getAllCities().subscribe((response) => {
       this.cities = response;
     });

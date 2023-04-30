@@ -5,6 +5,7 @@ import { UsersServiceService } from 'src/app/services/users-service.service';
 import { ScaleType, Color, LegendComponent } from '@swimlane/ngx-charts';
 import { BrowserModule } from '@angular/platform-browser';
 import { DashboarddataService } from 'src/app/services/dashboarddata.service';
+import * as XLSX from 'xlsx';
 
 @Component({
   selector: 'app-PieChartProsumers',
@@ -37,6 +38,26 @@ export class PieChartProsumersComponent implements OnInit {
     private service: UsersServiceService,
     private servicedash: DashboarddataService
   ) {}
+
+  exportTable(): void {
+    let headerRow: any = [];
+    if (this.currentData == this.dataProducers)
+      headerRow = ['City', 'Current Production (kW)'];
+    else headerRow = ['City', 'Current Consumption (kW)'];
+    const sheetData = [
+      headerRow,
+      ...this.currentData.map((data: any) => {
+        const seriesValues = data.series
+          ? data.series.map((series: { value: any }) => series.value)
+          : [0];
+        return [data.name, ...seriesValues];
+      }),
+    ];
+    const worksheet: XLSX.WorkSheet = XLSX.utils.aoa_to_sheet(sheetData);
+    const workbook: XLSX.WorkBook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, 'Chart Data');
+    XLSX.writeFile(workbook, 'chart-data.xlsx');
+  }
 
   ngOnInit() {
     this.servicedash.CityPercentages().subscribe((response) => {

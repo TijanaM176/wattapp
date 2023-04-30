@@ -84,7 +84,7 @@ namespace API.Services.Devices
             return currentProduction;
         }
 
-        public async Task<Dictionary<string,Dictionary<DateTime, double>>> ConsumptionProductionForAPeriodForProsumer(string id, int period, int type)    //0 cons, 1 prod
+        public async Task<Dictionary<string, Dictionary<DateTime, double>>> ConsumptionProductionForAPeriodForProsumer(string id, int period, int type)    //0 cons, 1 prod
         {
             List<Device> devices;
             if (type == 0)
@@ -92,30 +92,35 @@ namespace API.Services.Devices
             else
                 devices = await _repository.GetDevicesByCategoryForAPeriod(id, "Producer", period);
 
-            Dictionary<string, Dictionary<DateTime, double>> data = new Dictionary<string, Dictionary<DateTime, double>>
-                {
-                    ["timestamps"] = new Dictionary<DateTime, double>(),
-                    ["predictions"] = new Dictionary<DateTime, double>()
-                };
+            var timestamps = new Dictionary<DateTime, (double Power, double PredictedPower)>();
 
-            foreach (var dev in devices)
+            Parallel.ForEach(devices, device =>
             {
-                foreach (var timestamp in dev.Timestamps)
+                foreach (var timestamp in device.Timestamps)
                 {
-                    if (data["timestamps"].ContainsKey(timestamp.Date)) {
-                        data["timestamps"][timestamp.Date] += timestamp.Power;
-                        data["predictions"][timestamp.Date] += timestamp.PredictedPower;
-                    }
-                    else
+                    var key = timestamp.Date;
+
+                    lock (timestamps)
                     {
-                        data["timestamps"].Add(timestamp.Date, timestamp.Power);
-                        data["predictions"].Add(timestamp.Date, timestamp.PredictedPower);
+                        if (timestamps.TryGetValue(key, out var value))
+                        {
+                            timestamps[key] = (value.Power + timestamp.Power, value.PredictedPower + timestamp.PredictedPower);
+                        }
+                        else
+                        {
+                            timestamps.Add(key, (timestamp.Power, timestamp.PredictedPower));
+                        }
                     }
                 }
-            }
+            });
 
-            return data;
+            return new Dictionary<string, Dictionary<DateTime, double>>
+            {
+                ["timestamps"] = timestamps.ToDictionary(kv => kv.Key, kv => kv.Value.Power),
+                ["predictions"] = timestamps.ToDictionary(kv => kv.Key, kv => kv.Value.PredictedPower)
+            };
         }
+
         public async Task<Dictionary<string, Dictionary<DateTime, double>>> GroupedConProdForAPeriodForProsumer(string id, int type, int period, int step)  //type 0 ako je consumption, 1 production
         {
             Dictionary<string, Dictionary<DateTime, double>> all = await ConsumptionProductionForAPeriodForProsumer(id, period, type);
@@ -131,11 +136,6 @@ namespace API.Services.Devices
             {
                 DateTime intervalStart;
                 if (step <= 24) intervalStart = new DateTime(pair.Key.Year, pair.Key.Month, pair.Key.Day, (pair.Key.Hour / step) * step, 0, 0);
-                else if (step <= 24 * 7)  //na po nedelju
-                {
-                    intervalStart = pair.Key.AddDays(-(int)pair.Key.DayOfWeek).Date;
-                    intervalStart = new DateTime(intervalStart.Year, intervalStart.Month, intervalStart.Day, 0, 0, 0);
-                }
                 else //na mesec
                 {
                     intervalStart = new DateTime(pair.Key.Year, pair.Key.Month, 1);
@@ -153,11 +153,6 @@ namespace API.Services.Devices
             {
                 DateTime intervalStart;
                 if (step <= 24) intervalStart = new DateTime(pair.Key.Year, pair.Key.Month, pair.Key.Day, (pair.Key.Hour / step) * step, 0, 0);
-                else if (step <= 24 * 7)  //na po nedelju
-                {
-                    intervalStart = pair.Key.AddDays(-(int)pair.Key.DayOfWeek).Date;
-                    intervalStart = new DateTime(intervalStart.Year, intervalStart.Month, intervalStart.Day, 0, 0, 0);
-                }
                 else //na mesec
                 {
                     intervalStart = new DateTime(pair.Key.Year, pair.Key.Month, 1);

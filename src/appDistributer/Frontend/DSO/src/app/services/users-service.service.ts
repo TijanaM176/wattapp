@@ -65,7 +65,7 @@ export class UsersServiceService {
   //   return this.http.put(`${this.baseUrl3}`, data);
   updateUserData(id: any, data: any) {
     return this.http.put(
-      `${this.baseUrl}` + `Dso/UpdateProsumerByDso'?id=` + id,
+      `${this.baseUrl}` + `Dso/UpdateProsumerByDso?id=` + id,
       data
     );
   }

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { DashboarddataService } from 'src/app/services/dashboarddata.service';
 import { UsersServiceService } from 'src/app/services/users-service.service';
+import * as XLSX from 'xlsx';
 
 @Component({
   selector: 'app-top5Producers',
@@ -14,7 +15,10 @@ export class Top5ProducersComponent implements OnInit {
   producers: any[] = [];
   consumers: any[] = [];
 
-  constructor(private service: UsersServiceService,private servicedash:DashboarddataService) {}
+  constructor(
+    private service: UsersServiceService,
+    private servicedash: DashboarddataService
+  ) {}
 
   ngOnInit() {
     this.servicedash.Top5Consumers().subscribe((response) => {

@@ -5,6 +5,8 @@ import { UsersServiceService } from 'src/app/services/users-service.service';
 import { ScaleType, Color, LegendComponent } from '@swimlane/ngx-charts';
 import { BrowserModule } from '@angular/platform-browser';
 import { TimestampService } from 'src/app/services/timestamp.service';
+import * as XLSX from 'xlsx';
+
 
 @Component({
   selector: 'app-PredictionAllUsers',
@@ -32,8 +34,28 @@ export class PredictionAllUsersComponent implements OnInit {
   constructor(
     private service: UsersServiceService,
     private router: ActivatedRoute,
-    private servicetime:TimestampService
+    private servicetime: TimestampService
   ) {}
+
+  exportTable(): void {
+    const headerRow = [
+      'Day',
+      'Predicted Consumption (kW)',
+      'Predicted Production (kW)',
+    ];
+    const sheetData = [
+      headerRow,
+      ...this.data.map((data: any) => [
+        data.name,
+        ...data.series.map((series: { value: number }) => series.value),
+      ]),
+    ];
+    const worksheet: XLSX.WorkSheet = XLSX.utils.aoa_to_sheet(sheetData);
+    const workbook: XLSX.WorkBook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, 'Chart Data');
+    XLSX.writeFile(workbook, 'chart-data.xlsx');
+  }
+
   yAxisTickFormatting(value: number) {
     return value + ' kW';
   }
@@ -82,8 +104,6 @@ export class PredictionAllUsersComponent implements OnInit {
 
   Prediction3Days() {
     this.servicetime.PredictionNext3Days().subscribe((response: any) => {
-      const myList: any = [];
-
       const consumptionTimestamps = response.consumption || {};
       const productionTimestamps = response.production || {};
       const allTimestamps = {

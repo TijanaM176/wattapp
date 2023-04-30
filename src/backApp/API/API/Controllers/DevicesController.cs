@@ -54,7 +54,6 @@ namespace API.Controllers
         }
 
         [HttpPost("RegisterDevice")]
-        [Authorize(Roles = "Prosumer")]
         public async Task<IActionResult> RegisterDevice(string prosumerId, string modelId, string name, bool dsoView, bool dsoControl)
         {
             try

@@ -12,7 +12,7 @@ export class PocetnaComponent implements OnInit {
   ratioProd: string = '';
   totalProd: number = 0;
   nextCons: number = 0;
-  nextProd: number = 0;
+  nextProd: string = '';
   data: any;
   price: any;
   percentagesChange: any;
