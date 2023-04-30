@@ -24,7 +24,7 @@ export class RealizationChartProductionComponent implements OnInit, AfterViewIni
     name: 'mycolors',
     selectable: true,
     group: ScaleType.Ordinal,
-    domain: ['#48bec1', 'rgb(200, 219, 30)'],
+    domain: ['#238f91', '#d3f72f'],
   };
   showXAxis = true;
   showYAxis = true;
