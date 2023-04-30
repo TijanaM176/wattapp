@@ -84,7 +84,7 @@
                   <button
                     class="btn btn-primary"
                     data-bs-toggle="modal"
-                    data-bs-target="#staticBackdrop"
+                    data-bs-target="#changePasswordUserInfo"
                     (click)="changePass()"
                   >
                     <i class="fa fa-lock fa-lg"></i
@@ -101,12 +101,16 @@
               class="col-md-4 gradient-custom d-flex flex-column justify-content-center align-items-center h-md-100 order-1 order-md-2 pb-5 pt-2 px-md-0 py-md-0 my-0 mx-0"
             >
               <img
-                src="assets/images/prosumer-default-profileimage.png"
+                [src]="image"
                 alt="Avatar"
                 class="img-fluid rounded-circle"
               />
               <div class="mt-0">
-                <a routerLink="/ProsumerApp/userInfo">Change Photo</a>
+                <a id="changeImageLink" data-bs-toggle="modal"
+                  data-bs-target="#changeImageUserInfo"
+                  >
+                  Change Photo
+                </a>
               </div>
             </div>
           </div>
@@ -120,17 +124,17 @@
   <!-- Modal -->
   <div
     class="modal fade"
-    id="staticBackdrop"
+    id="changePasswordUserInfo"
     data-bs-backdrop="static"
     data-bs-keyboard="false"
     tabindex="-1"
-    aria-labelledby="staticBackdropLabel"
+    aria-labelledby="changePasswordUserInfoLabel"
     aria-hidden="true"
   >
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
         <div class="modal-header text-white" style="background-color: #466471">
-          <h5 class="modal-title" id="staticBackdropLabel">{{ modalTitle }}</h5>
+          <h5 class="modal-title" id="changePasswordUserInfoLabel">{{ modalTitle }}</h5>
           <button
             type="button"
             class="btn-close"
@@ -159,6 +163,56 @@
             Close
           </button>
           <button type="button" class="btn btn-primary" (click)="confirm()">
+            Confirm
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
+    class="modal fade"
+    id="changeImageUserInfo"
+    data-bs-backdrop="static"
+    data-bs-keyboard="false"
+    tabindex="-1"
+    aria-labelledby="changeImageUserInfoLabel"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header text-white" style="background-color: #466471">
+          <h5 class="modal-title" id="changeImageUserInfoLabel">Change Photo</h5>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          ></button>
+        </div>
+        <div class="modal-body justify-content-center align-items-center">
+          <div class="col-12 px-0" style="display: flex; justify-content: center; align-items: center;">
+            <img
+              [src]="changeImage"
+              alt="Avatar"
+              class="img-fluid rounded-circle"
+              (change)="onFileSelected($event)"
+              id="showChangeImage"
+            />
+          </div>
+          <div class="col-12" style="display: flex; justify-content: center; align-items: center;">
+            <input type="file" style="display: none;" #fileInput>
+            <button class="btn btn-primary" (click)="fileInput.click()">Choose Image</button>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-secondary"
+            data-bs-dismiss="modal"
+          >
+            Close
+          </button>
+          <button type="button" class="btn btn-primary" (click)="confirmImage()">
             Confirm
           </button>
         </div>

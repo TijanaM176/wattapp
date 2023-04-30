@@ -18,6 +18,8 @@ export class UserInfoComponent implements OnInit {
   address: string = '';
   city: string = '';
   neighborhood: string = '';
+  image : string = '';
+  changeImage : string = '';
   loader: boolean = true;
   modalTitle: string = '';
   userData: any;
@@ -25,8 +27,7 @@ export class UserInfoComponent implements OnInit {
   showChangePass: boolean = false;
 
   @ViewChild('editData', { static: false }) editData!: EditInfoFormComponent;
-  @ViewChild('changePassword', { static: false })
-  changePassword!: ChangePasswordComponent;
+  @ViewChild('changePassword', { static: false }) changePassword!: ChangePasswordComponent;
 
   constructor(
     private prosumerService: ProsumerService,
@@ -41,15 +42,19 @@ export class UserInfoComponent implements OnInit {
   private getInformation() {
     this.prosumerService.getInforamtion(this.cookie.get('id')).subscribe({
       next: (res) => {
+        console.log(res);
         this.username = res.username;
         this.firstLastName = res.firstName + ' ' + res.lastName;
         this.email = res.email;
         this.address = res.address;
+        this.image = res.image;
+        this.Image();
         this.prosumerService.cityId = res.cityId;
         this.prosumerService.neighId = res.neigborhoodId;
         this.City();
         this.Neighborhood();
         this.userData = res;
+        this.changeImage = this.image;
       },
       error: (err) => {
         this.toast.error('Error!', 'Unable to load user data.', {
@@ -88,6 +93,13 @@ export class UserInfoComponent implements OnInit {
       },
     });
   }
+  Image()
+  {
+    if(this.image === '' || this.image == null)
+    {
+      this.image = 'assets/images/prosumer-default-profileimage.png';
+    }
+  }
 
   edit() {
     this.modalTitle = 'Edit Information';
@@ -119,5 +131,14 @@ export class UserInfoComponent implements OnInit {
     if (this.showChangePass) {
       this.changePassword.changePass();
     }
+  }
+
+  onFileSelected(event : Event)
+  {
+    console.log(event);
+  }
+  confirmImage()
+  {
+
   }
 }

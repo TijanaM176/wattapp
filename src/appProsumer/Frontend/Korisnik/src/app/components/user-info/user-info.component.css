@@ -31,7 +31,21 @@
 a {
     color: #59747f;
 }
-
+#changeImageLink {
+    text-decoration: underline;
+    cursor: pointer;
+}
 .btn-close{
     background-color: white;
+}
+
+@media (max-width: 576px) {
+    #showChangeImage{
+        width: 60% !important;
+    }
+}
+@media (min-width: 576) {
+    #showChangeImage{
+        width: 50% !important;
+    }
 }
