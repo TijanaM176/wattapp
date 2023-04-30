@@ -10,6 +10,7 @@ import { ResetPasswordService } from 'src/app/services/reset-password.service';
 import { CookieService } from 'ngx-cookie-service';
 import { ToastrService } from 'ngx-toastr';
 import { AuthService } from 'src/app/services/auth.service';
+import { Router } from '@angular/router';
 // import { NgToastService } from 'ng-angular-popup';
 @Component({
   selector: 'app-resetpassword',
@@ -26,7 +27,8 @@ export class ResetpasswordComponent implements OnInit {
     private fb: FormBuilder,
     private reset: AuthService,
     private cookie: CookieService,
-    public toast:ToastrService 
+    public toast:ToastrService,
+    public router:Router
   ) {}
   ngOnInit() {
     this.resetForm = this.fb.group({
@@ -51,21 +53,28 @@ export class ResetpasswordComponent implements OnInit {
     });
   }
   checkValid() {
-    const pattern = /^(([A-Za-z0-9]){6,20})$/;
-
+    const pattern = /^(([A-Za-z0-9]){4,20})$/;
+    console.log(this.resetForm.value.password1);
+    console.log(this.resetForm.value.password2);
     this.isValid = pattern.test(this.resetForm.value.password1);
     if (this.isValid) {
       //console.log('prosao regex');
       return this.resetForm.value.password1 == this.resetForm.value.password2;
     }
+    console.log(this.resetForm.value.password1);
+    console.log(this.resetForm.value.password2);
+    console.log(this.isValid);
     return this.isValid;
   }
   Reset() {
+    console.log("usao");
     if (this.checkValid()) {
+      console.log("usao1");
       var object = new ResetPassword();
       object.password = this.resetForm.value.password1;
       object.confirmPassword = this.resetForm.value.password2;
       object.token = this.cookie.get('resetToken');
+      console.log(object.token);
       this.reset.resetPassword(object).subscribe((res) => {
         this.cookie.delete('resetToken');
         if (res.error == false) {
@@ -79,5 +88,6 @@ export class ResetpasswordComponent implements OnInit {
         }
       });
     }
+    this.router.navigate(['/login']);
   }
 }
