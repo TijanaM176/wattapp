@@ -99,12 +99,23 @@
               <div class="col-12">
                 <div class="numbers">
                   <p class="text-sm mb-0 text-uppercase font-weight-bold">
-                    Predicted Consumption
+                    Tomorrow's Consumption
                   </p>
                   <h5 class="font-weight-bolder">
                     {{ nextCons.toFixed(2) }} kW
                   </h5>
-                  <p class="mb-0">Tomorrow's Consumption</p>
+                  <p class="mb-0" *ngIf="nextProd.charAt(0) != '-'">
+                    <span class="text-success text-sm font-weight-bolder"
+                      >+{{ nextProd }}%</span
+                    >
+                    more than today
+                  </p>
+                  <p class="mb-0" *ngIf="nextProd.charAt(0) == '-'">
+                    <span class="text-danger text-sm font-weight-bolder"
+                      >{{ nextProd }}%</span
+                    >
+                    less than today
+                  </p>
                 </div>
               </div>
             </div>

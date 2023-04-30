@@ -104,6 +104,8 @@ export class RealizationPredictionAllProsumersComponent implements OnInit {
         });
       });
       this.data = seriesData;
+      this.data = this.data.slice(0, -1);
+      console.log(this.data);
       this.spinner.hide();
     });
   }
@@ -168,51 +170,39 @@ export class RealizationPredictionAllProsumersComponent implements OnInit {
   HistoryWeek() {
     this.spinner.show();
     this.servicetime.HistoryAllProsumers7Days().subscribe((response: any) => {
-      const seriesData: any = [
+      const seriesData: any[] = [
         { name: 'Consumption', series: [] },
         { name: 'Production', series: [] },
         { name: 'Prediction for Consumption', series: [] },
         { name: 'Prediction for Production', series: [] },
       ];
 
-      const consumptionTimestamps = response.consumption.timestamps || {};
-      const consumptionPredictions = response.consumption.predictions || {};
-      const productionTimestamps = response.production.timestamps || {};
-      const productionPredictions = response.production.predictions || {};
-
       const allTimestamps = {
-        ...consumptionTimestamps,
-        ...productionTimestamps,
+        ...response.consumption.timestamps,
+        ...response.production.timestamps,
       };
 
-      Object.keys(allTimestamps).forEach((name) => {
-        const consumptionValue = consumptionTimestamps[name] || 0.0;
-        const consumptionPredictionValue = consumptionPredictions[name] || 0.0;
-        const productionValue = productionTimestamps[name] || 0.0;
-        const productionPredictionValue = productionPredictions[name] || 0.0;
+      Object.entries(allTimestamps).forEach(([name, value]) => {
+        const consumptionValue = response.consumption.timestamps[name] || 0.0;
+        const consumptionPredictionValue =
+          response.consumption.predictions[name] || 0.0;
+        const productionValue = response.production.timestamps[name] || 0.0;
+        const productionPredictionValue =
+          response.production.predictions[name] || 0.0;
 
-        // Create a new Date object from the name string
         const date = new Date(name);
+        const dayNumber = date.getDate();
+        const monthName = date.toLocaleString('default', { month: 'long' });
 
-        const series = [
-          { name: 'Consumption', value: consumptionValue },
-          { name: 'Production', value: productionValue },
-          {
-            name: 'Prediction for Consumption',
-            value: consumptionPredictionValue,
-          },
-          {
-            name: 'Prediction for Production',
-            value: productionPredictionValue,
-          },
-        ];
-
-        series.forEach((seriesItem: any, index: any) => {
-          const dayNumber = date.getDate();
-          const monthName = date.toLocaleString('default', { month: 'long' });
-          seriesData[index].series.push({
+        seriesData.forEach((seriesItem, index) => {
+          seriesItem.series.push({
             name: `${monthName} ${dayNumber}`,
-            value: seriesItem.value,
+            value: [
+              consumptionValue,
+              productionValue,
+              consumptionPredictionValue,
+              productionPredictionValue,
+            ][index],
           });
         });
       });
