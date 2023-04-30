@@ -21,11 +21,17 @@ namespace API.Controllers
         {
             try
             {
+                var consumers = await devService.GetDevicesByCategory(id, "Consumer", role);
+                var producers = await devService.GetDevicesByCategory(id, "Producer", role);
+                var storage = await devService.GetDevicesByCategory(id, "Storage", role);
                 return Ok(new
                 {
-                    consumers = await devService.GetDevicesByCategory(id, "Consumer", role),
-                    producers = await devService.GetDevicesByCategory(id, "Producer", role),
-                    storage = await devService.GetDevicesByCategory(id, "Storage", role)
+                    consumers = consumers,
+                    producers = producers,
+                    storage = storage,
+                    currentConsumption = await devService.CurrentConsumptionForProsumer(consumers.Select(x => (double)x["CurrentUsage"]).ToList()),
+                    currentProduction = await devService.CurrentProductionForProsumer(producers.Select(x => (double)x["CurrentUsage"]).ToList()),
+                    deviceCount = consumers.Count + producers.Count + storage.Count
                 });
             }
             catch (Exception ex)

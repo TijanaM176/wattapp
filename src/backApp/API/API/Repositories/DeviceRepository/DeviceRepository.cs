@@ -60,6 +60,9 @@ namespace API.Repositories.DeviceRepository
                 CategoryId = d.Spec.CategoryId,
                 Manufacturer = d.Spec.Manufacturer,
                 Wattage = d.Spec.Wattage,
+                Activity = d.Link.Activity,
+                DsoView = d.Link.DsoView,
+                DsoControl = d.Link.DsoControl,
                 Timestamps = d.Usage.Timestamps.Where(t =>
                     t.Date.Year == DateTime.Now.Year &&
                     t.Date.Month == DateTime.Now.Month &&
@@ -91,6 +94,9 @@ namespace API.Repositories.DeviceRepository
                 CategoryId = d.Spec.CategoryId,
                 Manufacturer = d.Spec.Manufacturer,
                 Wattage = d.Spec.Wattage,
+                Activity = d.Link.Activity,
+                DsoView = d.Link.DsoView,
+                DsoControl = d.Link.DsoControl,
                 Timestamps = d.Usage.Timestamps.Where(t =>
                     t.Date >= DateTime.Now.AddDays(period) && t.Date <= DateTime.Now || t.Date <= DateTime.Now.AddDays(period) && t.Date >= DateTime.Now
                 ).ToList()
@@ -132,7 +138,7 @@ namespace API.Repositories.DeviceRepository
             double currentProduction = 0;
             foreach (var device in devices)
             {
-                currentProduction += device.Timestamps[0].Power;
+                if (device.Activity) currentProduction += device.Timestamps[0].Power;
             }
 
             return currentProduction;
@@ -1058,8 +1064,6 @@ namespace API.Repositories.DeviceRepository
                 
                 listDevicesbyAllProsumers.Add(await GetDevicesByCategoryForDateRealTime(prosumer.ProsumerId, "Consumer", DateTime.Now.Date));
             }
-
-
 
             foreach (var Prosumerdevices in listDevicesbyAllProsumers) 
             {
