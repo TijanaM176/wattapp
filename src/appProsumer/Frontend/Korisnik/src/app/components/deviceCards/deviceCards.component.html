@@ -8,7 +8,8 @@
   [zIndex]="9999"
   ><p style="font-size: 25px; color: white">Loading Data...</p></ngx-spinner
 >
-<div style="overflow-y: scroll">
+
+<div style="overflow-y: scroll" >
   <h1
     style="
       margin: 1% 2% 1% 2%;
@@ -26,8 +27,8 @@
     USER DEVICES
   </h1>
   <div class="row" id="rowCheck">
-    <div class="col-2" style="display: flex; justify-content: center">
-      <div class="form-check" style="margin-right: 10%">
+    <div class="col-2" style="display: flex; justify-content: center;font-weight:bold;   ">
+      <div class="form-check col-2" style="margin-right: 10%">
         <input
           class="form-check-input"
           type="checkbox"
@@ -35,12 +36,13 @@
           id="flexCheckDefault"
           [(ngModel)]="consumers"
           (change)="filterDevices()"
+          style="background-color:#59747f;border-color:#59747f;margin-top:18%;"
         />
-        <p class="form-check-label" for="flexCheckDefault">Consumers</p>
+        <p class="form-check-label" for="flexCheckDefault" style="color:#59747f;">Consumers</p>
       </div>
     </div>
-    <div class="col-2" style="display: flex; justify-content: center">
-      <div class="form-check" style="margin-right: 10%">
+    <div class="col-2" style="display: flex; justify-content: center;font-weight:bold; ">
+      <div class="form-check" >
         <input
           class="form-check-input"
           type="checkbox"
@@ -48,14 +50,15 @@
           id="flexCheckDefault1"
           [(ngModel)]="producers"
           (change)="filterDevices()"
+          style="margin-top:6%;background-color:#59747f;border-color:#59747f;"
         />
-        <label class="form-check-label" for="flexCheckDefault1">
+        <label class="form-check-label" for="flexCheckDefault1"  style="color:#59747f;">
           Producers
         </label>
       </div>
     </div>
-    <div class="col-2" style="display: flex; justify-content: center">
-      <div class="form-check">
+    <div class="col-2" style="display: flex; justify-content: center;font-weight:bold;">
+      <div class="form-check" style="margin-right: 10%;">
         <input
           class="form-check-input"
           type="checkbox"
@@ -63,8 +66,9 @@
           id="flexCheckDefault2"
           [(ngModel)]="storages"
           (change)="filterDevices()"
+          style="margin-top:6%;background-color:#59747f;border-color:#59747f;"
         />
-        <label class="form-check-label" for="flexCheckDefault2">
+        <label class="form-check-label" for="flexCheckDefault2"  style="color:#59747f;">
           Storages
         </label>
       </div>
@@ -188,3 +192,4 @@
     </div>
   </div>
 </div>
+

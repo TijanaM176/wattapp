@@ -159,7 +159,7 @@ export class EmployeesComponent {
     buttonRef?.click();
     this.currentRoute=this.router.url;
     this.router
-      .navigateByUrl('/', { skipLocationChange: true })
+      .navigateByUrl('/DsoApp/home', { skipLocationChange: true })
       .then(() => {
       this.Ucitaj();
       this.Paging();
