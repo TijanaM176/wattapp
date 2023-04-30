@@ -1,0 +1,37 @@
+.consumption{
+    color: #c14b48;
+}
+.production{
+    color: #48bec1;
+}
+.prediction{
+    color: rgb(200, 219, 30);
+}
+h6{
+    color: #466471;
+}
+#realizationProsumerProductionTableLabel{
+    color: white;
+}
+.btn-primary{
+    background-color: #466471;
+    border-color: #466471;
+}
+.realizationPredictionbtn.active{
+    background-color: #c1dfd5;
+    border-color: #466471;
+    color: #466471;
+}
+.realizationPredictionbtn:not(.active)
+{
+    background-color: #466471;
+    border-color: #466471;
+}
+.btn-close{
+    color: white;
+    background-color: white;
+}
+.btn-outline-primary{
+    color: #466471;
+    border-color: #466471;
+}

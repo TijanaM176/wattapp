@@ -1,17 +1,18 @@
 ﻿using API.Models.Devices;
 using API.Models.HelpModels;
 using API.Repositories.DeviceRepository;
-
+using API.Repositories.UserRepository;
 
 namespace API.Services.Devices
 {
     public class DevicesService : IDevicesService
     {
         private readonly IDeviceRepository _repository;
-
-        public DevicesService(IDeviceRepository repository)
+        private readonly IUserRepository _userRepository;
+        public DevicesService(IDeviceRepository repository,IUserRepository dsoRepository)
         {
             _repository = repository;
+            _userRepository = dsoRepository;
         }
 
         public async Task<List<Dictionary<string, object>>> GetDevicesByCategory(string id, string catStr, string role)
