@@ -6,6 +6,7 @@ import { DataService } from 'src/app/services/data.service';
 import { ScreenWidthService } from 'src/app/services/screen-width.service';
 import { TimestampService } from 'src/app/services/timestamp.service';
 import { UsersServiceService } from 'src/app/services/users-service.service';
+import * as XLSX from 'xlsx';
 
 @Component({
   selector: 'app-prediction-prosumer',
@@ -44,32 +45,27 @@ export class PredictionProsumerComponent implements OnInit {
     this.id = this.router.snapshot.params['id'];
     document.getElementById('predictionUserInfoCardBody')!.style.height =
       this.widthService.height * 0.55 + 'px';
-    this.PredictionWeek();
+    this.PredictionDay();
   }
 
   yAxisTickFormatting(value: number) {
     return value + ' kW';
   }
 
-  getWeek(date: Date): number {
-    const oneJan = new Date(date.getFullYear(), 0, 1);
-    const millisecsInDay = 86400000;
-    return Math.ceil(
-      ((date.getTime() - oneJan.getTime()) / millisecsInDay +
-        oneJan.getDay() +
-        1) /
-        7
-    );
-  }
   PredictionWeek() {
     this.serviceData
       .PredictionProsumer7Days(this.id)
       .subscribe((response: any) => {
         const consumptionTimestamps = response.consumption || {};
         const productionTimestamps = response.production || {};
+
+        // Remove the first item from both objects
+        const [, ...consumptionEntries] = Object.entries(consumptionTimestamps);
+        const [, ...productionEntries] = Object.entries(productionTimestamps);
+
         const allTimestamps = {
-          ...consumptionTimestamps,
-          ...productionTimestamps,
+          ...Object.fromEntries(consumptionEntries),
+          ...Object.fromEntries(productionEntries),
         };
 
         const data = Object.entries(allTimestamps).map(([timestamp, value]) => {
@@ -100,9 +96,9 @@ export class PredictionProsumerComponent implements OnInit {
         const finalList = Object.values(groupedData);
 
         this.data = finalList;
-        console.log(this.data);
       });
   }
+
   Prediction3Days() {
     this.serviceData
       .PredictionProsumer3Days(this.id)
@@ -144,6 +140,7 @@ export class PredictionProsumerComponent implements OnInit {
         const finalList = Object.values(groupedData);
 
         this.data = finalList;
+        this.data = this.data.slice(1);
         console.log(this.data);
       });
   }
@@ -160,20 +157,20 @@ export class PredictionProsumerComponent implements OnInit {
           ...productionTimestamps,
         };
 
-        Object.keys(allTimestamps).forEach((name) => {
-          const consumptionValue = consumptionTimestamps[name] || 0.0;
-          const productionValue = productionTimestamps[name] || 0.0;
+        Object.keys(allTimestamps).forEach((timestamp) => {
+          const consumptionValue = consumptionTimestamps[timestamp] || 0.0;
+          const productionValue = productionTimestamps[timestamp] || 0.0;
           const series = [
             { name: 'consumption', value: consumptionValue },
             { name: 'production', value: productionValue },
           ];
-          myList.push({ name, series });
+          myList.push({ timestamp, series });
         });
 
         const groupedData: any = {};
 
         myList.forEach((item: any) => {
-          const date = new Date(item.name);
+          const date = new Date(item.timestamp);
           const hour = date.getHours();
           const hourString = hour < 10 ? '0' + hour : hour.toString();
           const name = hourString + ':00h';
@@ -191,5 +188,24 @@ export class PredictionProsumerComponent implements OnInit {
         this.data = finalList;
         console.log(this.data);
       });
+  }
+
+  exportTable(): void {
+    const headerRow = [
+      'Day',
+      'Predicted Consumption (kW)',
+      'Predicted Production (kW)',
+    ];
+    const sheetData = [
+      headerRow,
+      ...this.data.map((data: any) => [
+        data.name,
+        ...data.series.map((series: { value: number }) => series.value),
+      ]),
+    ];
+    const worksheet: XLSX.WorkSheet = XLSX.utils.aoa_to_sheet(sheetData);
+    const workbook: XLSX.WorkBook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, 'Chart Data');
+    XLSX.writeFile(workbook, 'chart-data.xlsx');
   }
 }

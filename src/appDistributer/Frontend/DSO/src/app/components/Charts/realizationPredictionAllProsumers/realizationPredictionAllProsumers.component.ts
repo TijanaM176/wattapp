@@ -104,8 +104,6 @@ export class RealizationPredictionAllProsumersComponent implements OnInit {
         });
       });
       this.data = seriesData;
-      this.data = this.data.slice(0, -1);
-      console.log(this.data);
       this.spinner.hide();
     });
   }

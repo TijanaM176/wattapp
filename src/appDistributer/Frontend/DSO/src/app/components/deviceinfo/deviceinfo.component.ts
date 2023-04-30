@@ -80,20 +80,34 @@ export class DeviceinfoComponent implements OnInit {
           fontSize: '16px',
         },
       };
-
-      this.thresholds = {
-        '0': { color: 'green', bgOpacity: 0.2, fontSize: '16px' },
-        [this.AvgUsage]: {
-          color: '#d96d2a',
-          bgOpacity: 0.2,
-          fontSize: '16px',
-        },
-        [this.MaxUsage]: {
-          color: '#c14b48',
-          bgOpacity: 0.2,
-          fontSize: '16px',
-        },
-      };
+      if (this.type == 'Production') {
+        this.thresholds = {
+          '0': { color: '#c14b48', bgOpacity: 0.2, fontSize: '16px' },
+          [this.AvgUsage]: {
+            color: '#d96d2a',
+            bgOpacity: 0.2,
+            fontSize: '16px',
+          },
+          [this.MaxUsage]: {
+            color: 'green',
+            bgOpacity: 0.2,
+            fontSize: '16px',
+          },
+        };
+      } else
+        this.thresholds = {
+          '0': { color: 'green', bgOpacity: 0.2, fontSize: '16px' },
+          [this.AvgUsage]: {
+            color: '#d96d2a',
+            bgOpacity: 0.2,
+            fontSize: '16px',
+          },
+          [this.MaxUsage]: {
+            color: '#c14b48',
+            bgOpacity: 0.2,
+            fontSize: '16px',
+          },
+        };
     });
   }
   formatValue(value: number): string {

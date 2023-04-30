@@ -1,13 +1,28 @@
 <div class="card-header">
   <div class="row">
-    <div class="col-md-5" style="display: flex; flex-direction: column; align-items: start; justify-content: center;">
-      <h6>Prediction
-        &nbsp;<button class="btn btn-outline-primary p-0 px-1 m-0" data-bs-toggle="modal" data-bs-target="#predictionProsumerTable">
+    <div
+      class="col-md-5"
+      style="
+        display: flex;
+        flex-direction: column;
+        align-items: start;
+        justify-content: center;
+      "
+    >
+      <h6>
+        Prediction &nbsp;<button
+          class="btn btn-outline-primary p-0 px-1 m-0"
+          data-bs-toggle="modal"
+          data-bs-target="#predictionProsumerTable"
+        >
           <i class="fa fa-table"></i>
         </button>
       </h6>
     </div>
-    <div class="col-md-7 mx-0 my-0" style="display: flex; justify-content: right; margin: 0px 0px 2px auto">
+    <div
+      class="col-md-7 mx-0 my-0"
+      style="display: flex; justify-content: right; margin: 0px 0px 2px auto"
+    >
       <button
         (click)="PredictionDay()"
         style="margin: 1px"
@@ -67,18 +82,37 @@
     <i class="fa fa-circle production">&nbsp;Production</i>
   </div>
 </div>
-<div class="modal fade" id="predictionProsumerTable" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="predictionProsumerTableLabel" aria-hidden="true">
+<div
+  class="modal fade"
+  id="predictionProsumerTable"
+  data-bs-backdrop="static"
+  data-bs-keyboard="false"
+  tabindex="-1"
+  aria-labelledby="predictionProsumerTableLabel"
+  aria-hidden="true"
+>
   <div class="modal-dialog modal-dialog-centered modal-lg">
     <div class="modal-content">
-      <div class="modal-header text-white" style="background-color: #5875A1">
-        <h5 class="modal-title" id="predictionProsumerTableLabel">Prediction Table</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      <div class="modal-header text-white" style="background-color: #5875a1">
+        <h5 class="modal-title" id="predictionProsumerTableLabel">
+          Prediction Table
+        </h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
       </div>
       <div class="modal-body">
-        <app-prediction-prosumer-table [data]="data"></app-prediction-prosumer-table>
+        <app-prediction-prosumer-table
+          [data]="data"
+        ></app-prediction-prosumer-table>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-primary">Export Table</button>
+        <button type="button" class="btn btn-primary" (click)="exportTable()">
+          Export Table
+        </button>
       </div>
     </div>
   </div>

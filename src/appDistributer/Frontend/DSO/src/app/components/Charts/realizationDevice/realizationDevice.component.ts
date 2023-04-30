@@ -9,6 +9,7 @@ import {
 import { ScreenWidthService } from 'src/app/services/screen-width.service';
 import { DeviceserviceService } from 'src/app/services/deviceservice.service';
 import { TimestampService } from 'src/app/services/timestamp.service';
+import * as XLSX from 'xlsx';
 
 @Component({
   selector: 'app-realizationDevice',
@@ -46,6 +47,25 @@ export class RealizationDeviceComponent implements OnInit, AfterViewInit {
     private router1: ActivatedRoute
   ) {}
 
+  exportTable(): void {
+    let headerRow: any = [];
+    if (this.type == 'Consumption')
+      headerRow = ['Day', 'Consumption ', 'Predicted Consumption (kW)'];
+    else headerRow = ['Day', 'Production ', 'Predicted Production (kW)'];
+
+    const sheetData = [
+      headerRow,
+      ...this.data.map((data: any) => [
+        data.name,
+        ...data.series.map((series: { value: number }) => series.value),
+      ]),
+    ];
+    const worksheet: XLSX.WorkSheet = XLSX.utils.aoa_to_sheet(sheetData);
+    const workbook: XLSX.WorkBook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, 'Chart Data');
+    XLSX.writeFile(workbook, 'chart-data.xlsx');
+  }
+
   ngAfterViewInit(): void {
     this.idDev = this.router1.snapshot.params['idDev'];
     const grafik = document.getElementById('grafik');
@@ -61,17 +81,6 @@ export class RealizationDeviceComponent implements OnInit, AfterViewInit {
 
   yAxisTickFormatting(value: number) {
     return value + ' kW';
-  }
-
-  getWeek(date: Date): number {
-    const oneJan = new Date(date.getFullYear(), 0, 1);
-    const millisecsInDay = 86400000;
-    return Math.ceil(
-      ((date.getTime() - oneJan.getTime()) / millisecsInDay +
-        oneJan.getDay() +
-        1) /
-        7
-    );
   }
 
   HistoryWeek(id: string) {
@@ -94,9 +103,8 @@ export class RealizationDeviceComponent implements OnInit, AfterViewInit {
       (myList: any[]) => {
         return myList.map((item) => {
           const date = new Date(item.name);
-          const weekNumber = this.getWeek(date);
           this.activateButton(id);
-          return { name: `Week ${weekNumber}`, series: item.series };
+          return { name: `Week ${date}`, series: item.series };
         });
       }
     );

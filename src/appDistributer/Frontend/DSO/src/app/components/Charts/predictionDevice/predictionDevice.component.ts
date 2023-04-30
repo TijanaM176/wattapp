@@ -4,6 +4,7 @@ import { Color, ScaleType } from '@swimlane/ngx-charts';
 import { ScreenWidthService } from 'src/app/services/screen-width.service';
 import { DeviceserviceService } from 'src/app/services/deviceservice.service';
 import { TimestampService } from 'src/app/services/timestamp.service';
+import * as XLSX from 'xlsx';
 
 @Component({
   selector: 'app-predictionDevice',
@@ -41,6 +42,25 @@ export class PredictionDeviceComponent implements OnInit {
     private router1: ActivatedRoute
   ) {}
 
+  exportTable(): void {
+    let headerRow: any = [];
+    if (this.type == 'Consumption')
+      headerRow = ['Day', 'Predicted Consumption (kW)'];
+    else headerRow = ['Day', 'Predicted Production (kW)'];
+
+    const sheetData = [
+      headerRow,
+      ...this.data.map((data: any) => [
+        data.name,
+        ...data.series.map((series: { value: number }) => series.value),
+      ]),
+    ];
+    const worksheet: XLSX.WorkSheet = XLSX.utils.aoa_to_sheet(sheetData);
+    const workbook: XLSX.WorkBook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, 'Chart Data');
+    XLSX.writeFile(workbook, 'chart-data.xlsx');
+  }
+
   ngOnInit(): void {
     this.idDev = this.router1.snapshot.params['idDev'];
     const grafik = document.getElementById('predikcija');
@@ -51,17 +71,6 @@ export class PredictionDeviceComponent implements OnInit {
 
   yAxisTickFormatting(value: number) {
     return value + ' kW';
-  }
-
-  getWeek(date: Date): number {
-    const oneJan = new Date(date.getFullYear(), 0, 1);
-    const millisecsInDay = 86400000;
-    return Math.ceil(
-      ((date.getTime() - oneJan.getTime()) / millisecsInDay +
-        oneJan.getDay() +
-        1) /
-        7
-    );
   }
 
   PredictionWeek(id: string) {

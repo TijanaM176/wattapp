@@ -7,6 +7,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { TimestampService } from 'src/app/services/timestamp.service';
 import { tickStep } from 'd3';
+import * as XLSX from 'xlsx';
 @Component({
   selector: 'app-historyAllProsumers',
   templateUrl: './historyAllProsumers.component.html',
@@ -35,6 +36,21 @@ export class HistoryAllProsumersComponent implements OnInit {
     private router: ActivatedRoute,
     private servicetime: TimestampService
   ) {}
+
+  exportTable(): void {
+    const headerRow = ['Day', 'Consumption (kW)', 'Production (kW)'];
+    const sheetData = [
+      headerRow,
+      ...this.data.map((data: any) => [
+        data.name,
+        ...data.series.map((series: { value: number }) => series.value),
+      ]),
+    ];
+    const worksheet: XLSX.WorkSheet = XLSX.utils.aoa_to_sheet(sheetData);
+    const workbook: XLSX.WorkBook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, 'Chart Data');
+    XLSX.writeFile(workbook, 'chart-data.xlsx');
+  }
   yAxisTickFormatting(value: number) {
     return value + ' kW';
   }

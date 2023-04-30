@@ -70,6 +70,16 @@ export class User1Component implements OnInit, AfterViewInit {
     this.letValue = this.cookie.get('role');
     this.spiner.show();
     this.disableDelete(this.letValue);
+    this.getInformations();
+    this.ConsumptionAndProduction();
+    this.resizeObservable$ = fromEvent(window, 'resize');
+    this.resizeSubscription$ = this.resizeObservable$.subscribe((evt) => {
+      document.getElementById('userInfoDataContainer')!.style.height =
+        this.widthService.height + 'px';
+    });
+  }
+
+  getInformations() {
     this.user
       .detailsEmployee(this.router.snapshot.params['id'])
       .subscribe((data: any) => {
@@ -100,12 +110,6 @@ export class User1Component implements OnInit, AfterViewInit {
           '0': { color: '#5875A1', bgOpacity: 0.2, fontSize: '16px' },
         };
       });
-    this.ConsumptionAndProduction();
-    this.resizeObservable$ = fromEvent(window, 'resize');
-    this.resizeSubscription$ = this.resizeObservable$.subscribe((evt) => {
-      document.getElementById('userInfoDataContainer')!.style.height =
-        this.widthService.height + 'px';
-    });
   }
 
   ngAfterViewInit(): void {
@@ -121,7 +125,7 @@ export class User1Component implements OnInit, AfterViewInit {
       dto.email = this.editUser.value.Email!;
     }
     this.user.updateUserData(dto.id, dto).subscribe((res) => {
-      window.location.reload;
+      this.getInformations();
     });
     const buttonRef = document.getElementById('closeBtn1');
     buttonRef?.click();
