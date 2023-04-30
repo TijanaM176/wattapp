@@ -127,8 +127,8 @@
               <td>{{ item.username }}</td>
               <td>{{ item.address }}</td>
 
-              <td>{{ item.consumption }} kW</td>
-              <td>{{ item.production }} kW</td>
+              <td>{{ item.consumption.toFixed(2) }} kW</td>
+              <td>{{ item.production.toFixed(2) }} kW</td>
               <td>{{ item.devCount }}</td>
               <td>
                 <!-- <button class="button-info" (click)="Details(item.id)">
