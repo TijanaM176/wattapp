@@ -1,0 +1,26 @@
+.consumption{
+    color: #c14b48;
+}
+.production{
+    color: #238f91;
+}
+.prediction{
+    color:#d3f72f;
+}
+h6{
+    color: #466471;
+}
+#realizationProsumerProductionTableLabel{
+    color: white;
+}
+
+.realizationPredictionbtn.active{
+    background-color: #c1dfd5;
+    border-color: #466471;
+    color: #466471;
+}
+
+.btn-close{
+    color: white;
+    background-color: white;
+}
