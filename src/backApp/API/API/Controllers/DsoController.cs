@@ -85,6 +85,7 @@ namespace API.Controllers
                         Salary = d.Salary,
                         ProsumerCreationDate = d.DateCreate,
                         RoleId = d.RoleId,
+                        RoleName=dsoService.GetRoleName(d.RoleId.GetValueOrDefault()).Result,
                         RegionId = d.RegionId,
                         Image = d.Image
                     }).ToList();
