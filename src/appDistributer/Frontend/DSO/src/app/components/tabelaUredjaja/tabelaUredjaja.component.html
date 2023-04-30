@@ -112,10 +112,7 @@
               Device Name<i class="fa fa-sort"></i>
             </th>
 
-            <th
-              (click)="sort('device.Timestamps.power.toFixed(2)')"
-              style="cursor: pointer"
-            >
+            <th (click)="sort('CurrentUsage')" style="cursor: pointer">
               Energy (kW) <i class="fa fa-sort"></i>
             </th>
             <th>Activity</th>
@@ -197,7 +194,7 @@
             <td>{{ device.IpAddress }}</td>
             <td>{{ device.Name }}</td>
 
-            <td>{{ device.Timestamps.power.toFixed(2) }}</td>
+            <td>{{ device.CurrentUsage.toFixed(2) }}</td>
             <td>
               <ng-template #offToggle>
                 <div
@@ -209,7 +206,7 @@
                   >
                 </div>
               </ng-template>
-              <div *ngIf="device.Timestamps.power; else offToggle">
+              <div *ngIf="device.CurrentUsage; else offToggle">
                 <div
                   class="form-check form-switch ps-0"
                   style="color: green; font-weight: bold"

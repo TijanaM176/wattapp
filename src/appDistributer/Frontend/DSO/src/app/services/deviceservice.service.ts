@@ -36,7 +36,7 @@ export class DeviceserviceService {
 
   getDevicesByProsumerId(id: string): Observable<any> {
     return this.http.get<any>(
-      this.baseUrl + 'Devices/GetAllDevicesForProsumer?id=' + id + '&role=dso'
+      this.baseUrl + 'Devices/GetAllDevicesForProsumer?id=' + id + '&role=Dso'
     );
   }
   prosumerFilter(

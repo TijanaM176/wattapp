@@ -32,7 +32,6 @@ export class TabelaUredjajaComponent implements OnInit {
   numofdevices: number = 0;
   orderHeader: String = '';
   isDescOrder: boolean = true;
-  deviceUsages: { [id: string]: number } = {};
   dataSource = new MatTableDataSource<any[]>(this.devices);
   constructor(
     private userService: UsersServiceService,
