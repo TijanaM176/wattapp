@@ -43,6 +43,9 @@ export class DeviceinfoComponent {
 
   gaugeLabel = 'Consumption';
   gaugeAppendText = 'kWh';
+
+  cons : boolean = true;
+
   @ViewChild('editData', { static: false }) editData!: EditDeviceFormComponent;
   constructor(
     private router: Router,
@@ -78,19 +81,47 @@ export class DeviceinfoComponent {
     //this.idDev=this.router.snapshot.params['idDev'];
     this.service.getInfoDevice(this.idDev).subscribe({
       next: (res) => {
+        this.MaxUsage = res.MaxUsage;
+        this.AvgUsage = res.AvgUsage;
+        this.currentUsage = res.CurrentUsage.toFixed(2);
         if (res.CategoryId == '1') {
           this.gaugeLabel = 'Consumption';
+          this.cons = true;
+          this.thresholds = {
+            '0': { color: 'green', bgOpacity: 0.2, fontSize: '16px' },
+            [this.AvgUsage]: {
+              color: '#d96d2a',
+              bgOpacity: 0.2,
+              fontSize: '16px',
+            },
+            [this.MaxUsage]: {
+              color: '#c14b48',
+              bgOpacity: 0.2,
+              fontSize: '16px',
+            },
+          };
         } else if (res.CategoryId == '2') {
           this.gaugeLabel = 'Production';
+          this.cons = false;
+          this.thresholds = {
+            '0': { color: '#c14b48', bgOpacity: 0.2, fontSize: '16px' },
+            [this.AvgUsage]: {
+              color: '#d96d2a',
+              bgOpacity: 0.2,
+              fontSize: '16px',
+            },
+            [this.MaxUsage]: {
+              color: 'green',
+              bgOpacity: 0.2,
+              fontSize: '16px',
+            },
+          };
         }
         this.deviceData=res;
         this.IpAddress = res.IpAddress;
         this.TypeName = res.TypeName;
         this.ModelName = res.ModelName;
         this.Name = res.Name;
-        this.MaxUsage = res.MaxUsage;
-        this.AvgUsage = res.AvgUsage;
-        this.currentUsage = res.CurrentUsage.toFixed(2);
         this.DsoView = res.DsoView;
         this.DsoControl = res.DsoControl;
         this.TypeId = res.TypeId;
@@ -109,21 +140,8 @@ export class DeviceinfoComponent {
             fontSize: '16px',
           },
         };
-
-        this.thresholds = {
-          '0': { color: 'green', bgOpacity: 0.2, fontSize: '16px' },
-          [this.AvgUsage]: {
-            color: '#d96d2a',
-            bgOpacity: 0.2,
-            fontSize: '16px',
-          },
-          [this.MaxUsage]: {
-            color: '#c14b48',
-            bgOpacity: 0.2,
-            fontSize: '16px',
-          },
-        };
         this.spiner.hide();
+        this.deviceData = res;
       },
       error: (err) => {
         this.toast.error('Error!', 'Unable to load device data.', {

@@ -3,6 +3,8 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { EditDto } from '../models/editDto';
 import { environment } from 'src/enviroment/enviroment';
+import { SendPhoto } from '../models/sendPhoto';
+import { CookieService } from 'ngx-cookie-service';
 
 @Injectable({
   providedIn: 'root',
@@ -11,7 +13,7 @@ export class ProsumerService {
   baseUrl = environment.apiUrl;
   cityId!: number;
   neighId!: string;
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private cookie : CookieService) {}
 
   getInforamtion(id: string): Observable<any> {
     return this.http.get<any>(
@@ -52,5 +54,17 @@ export class ProsumerService {
       this.baseUrl + 'GenericData/GetNeighborhoodByName?id=' + this.neighId,
       { responseType: 'text' }
     );
+  }
+
+  UploadImage(sp : any)
+  {
+    return this.http.post(this.baseUrl+'Prosumer/'+this.cookie.get('id')+'/UploadImage', sp, {
+      reportProgress: true,
+      observe: 'events'
+    });
+  }
+  DeleteImage()
+  {
+    return this.http.delete(this.baseUrl+'Prosumer/'+this.cookie.get('id')+'/DeleteImage');
   }
 }

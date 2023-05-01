@@ -48,12 +48,13 @@
                     [value]="currentUsage"
                     [valueFormatting]="formatValue"
                     [cap]="'butt'"
-                    [thick]="35"
+                    [thick]="45"
                     [thresholds]="thresholds"
                   >
                   </ngx-gauge>
                 </div>
-                <div class="legend w-100 text-center">
+                <!-- if device is consumer -->
+                <div class="legend w-100 text-center" *ngIf="cons">
                   <i class="fa fa-circle greenZone"
                     >&nbsp;0-{{ AvgUsage }} kWh</i
                   >&nbsp;&nbsp;&nbsp;
@@ -61,6 +62,16 @@
                     >&nbsp; {{ AvgUsage }}-{{ MaxUsage }} kWh</i
                   >&nbsp;&nbsp;&nbsp;
                   <i class="fa fa-circle redZone">&nbsp;{{ MaxUsage }}+ kWh</i>
+                </div>
+                <!-- if device is producer -->
+                <div class="legend w-100 text-center" *ngIf="!cons">
+                  <i class="fa fa-circle redZone"
+                    >&nbsp;0-{{ AvgUsage }} kWh</i
+                  >&nbsp;&nbsp;&nbsp;
+                  <i class="fa fa-circle blueZone"
+                    >&nbsp; {{ AvgUsage }}-{{ MaxUsage }} kWh</i
+                  >&nbsp;&nbsp;&nbsp;
+                  <i class="fa fa-circle greenZone">&nbsp;{{ MaxUsage }}+ kWh</i>
                 </div>
               </div>
 
@@ -76,7 +87,7 @@
                   </div>
                 </div>
                 <hr class="mt-0 mb-3" />
-                <div class="row pt-1 mx-0 my-0 text-center">
+                <div class="row pt-1 mx-0 my-0">
                   <div class="col-6 mb-1">
                     <h6 style="color: #08376b">{{ IpAddress }}</h6>
                     <p class="text-muted">IP Address</p>
@@ -87,7 +98,7 @@
                   </div>
                 </div>
                 <hr class="mt-0 mb-3" />
-                <div class="row pt-1 mx-0 my-0 text-center">
+                <div class="row pt-1 mx-0 my-0">
                   <div class="col-6 mb-1">
                     <h6 style="color: #08376b">{{ ModelName }}</h6>
                     <p class="text-muted">Device Model</p>
@@ -99,7 +110,7 @@
                 </div>
                 <hr class="mt-0 mb-3" />
 
-                <div class="row pt-1 mx-0 my-0 text-center">
+                <div class="row pt-1 mx-0 my-0">
                   <div class="col-6 mb-1">
                     <h6 style="color: #08376b">{{ MaxUsage }}kWh</h6>
                     <p class="text-muted">Maximum hourly consumption</p>
@@ -109,7 +120,22 @@
                     <p class="text-muted">Average hourly consumption</p>
                   </div>
                 </div>
-                <div class="row pt-1 mx-0 my-0">
+                <hr class="mt-0 mb-3" />
+
+                <div class="row pt-1 mx-0 my-0 mb-2">
+                  <div class="col-6 mb-1">
+                    <h6 style="color: green" *ngIf="DsoView"><i class="fa fa-check-square"></i> DSO Can View</h6>
+                    <h6 style="color: #c14b48" *ngIf="!DsoView"><i class="fa fa-minus-square"></i> DSO Can't View</h6>
+                    <!-- <p class="text-muted">Maximum hourly consumption</p> -->
+                  </div>
+                  <div class="col-6 mb-1">
+                    <h6 style="color: green" *ngIf="DsoControl"><i class="fa fa-check-square"></i> DSO Can Control</h6>
+                    <h6 style="color: #c14b48"*ngIf="!DsoControl"><i class="fa fa-minus-square"></i> DSO Can't Control</h6>
+                    <!-- <p class="text-muted">Average hourly consumption</p> -->
+                  </div>
+                </div>
+                <hr class="mt-0 mb-3" />
+                <!-- <div class="row pt-1 mx-0 my-0">
                   <mat-slide-toggle [(ngModel)]="DsoView"
                     >Allow DSO to view</mat-slide-toggle
                   >
@@ -117,11 +143,11 @@
                     >Allow DSO to control</mat-slide-toggle
                   >
                   <br />
-                </div>
+                </div> -->
                 <div></div>
                 <div
                   class="d-flex justify-content-start"
-                  style="margin-top: 5%; margin-bottom: 3%; padding-left: 4%"
+                  style="margin-top: 5%; margin-bottom: 3%; padding-left: 3%"
                 >
                   <button
                     class="btn btn-primary"
@@ -172,7 +198,7 @@
   aria-labelledby="staticBackdrop2Label"
   aria-hidden="true"
 >
-  <div class="modal-dialog">
+  <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header text-white" style="background-color: #466471">
         <h5 class="modal-title" id="staticBackdrop2Label">{{ modalTitle }}</h5>

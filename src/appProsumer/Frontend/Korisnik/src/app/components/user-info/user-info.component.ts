@@ -4,7 +4,10 @@ import { ToastrService } from 'ngx-toastr';
 import { ChangePasswordComponent } from 'src/app/forms/change-password/change-password.component';
 import { EditInfoFormComponent } from 'src/app/forms/edit-info-form/edit-info-form.component';
 import { EditableInfo } from 'src/app/models/editableInfo';
+import { SendPhoto } from 'src/app/models/sendPhoto';
 import { ProsumerService } from 'src/app/services/prosumer.service';
+import { DomSanitizer } from '@angular/platform-browser';
+import {HttpEventType} from '@angular/common/http'
 
 @Component({
   selector: 'app-user-info',
@@ -18,6 +21,9 @@ export class UserInfoComponent implements OnInit {
   address: string = '';
   city: string = '';
   neighborhood: string = '';
+  image : string = '';
+  changeImage : string = '';
+  selectedImageFile : any = null;
   loader: boolean = true;
   modalTitle: string = '';
   userData: any;
@@ -25,13 +31,18 @@ export class UserInfoComponent implements OnInit {
   showChangePass: boolean = false;
 
   @ViewChild('editData', { static: false }) editData!: EditInfoFormComponent;
-  @ViewChild('changePassword', { static: false })
-  changePassword!: ChangePasswordComponent;
+  @ViewChild('changePassword', { static: false }) changePassword!: ChangePasswordComponent;
+
+  progress : number = 0;
+  success : boolean = false;
+  error : boolean = false;
+  updating : boolean = false;
 
   constructor(
     private prosumerService: ProsumerService,
     private toast: ToastrService,
-    private cookie: CookieService
+    private cookie: CookieService,
+    private sant : DomSanitizer
   ) {}
 
   ngOnInit(): void {
@@ -41,10 +52,12 @@ export class UserInfoComponent implements OnInit {
   private getInformation() {
     this.prosumerService.getInforamtion(this.cookie.get('id')).subscribe({
       next: (res) => {
+        // console.log(res);
         this.username = res.username;
         this.firstLastName = res.firstName + ' ' + res.lastName;
         this.email = res.email;
         this.address = res.address;
+        this.Image(res.image);
         this.prosumerService.cityId = res.cityId;
         this.prosumerService.neighId = res.neigborhoodId;
         this.City();
@@ -52,7 +65,7 @@ export class UserInfoComponent implements OnInit {
         this.userData = res;
       },
       error: (err) => {
-        this.toast.error('Error!', 'Unable to load user data.', {
+        this.toast.error('Unable to load user data.', 'Error!',  {
           timeOut: 3000,
         });
         console.log(err.error);
@@ -60,33 +73,49 @@ export class UserInfoComponent implements OnInit {
     });
   }
 
-  City() {
+  private City() {
     this.prosumerService.getCityById().subscribe({
       next: (res) => {
         //console.log(res);
         this.city = res;
       },
       error: (err) => {
-        this.toast.error('Error!', 'Unable to load user data.', {
+        this.toast.error('Unable to load user data.', 'Error!', {
           timeOut: 3000,
         });
         console.log(err.error);
       },
     });
   }
-  Neighborhood() {
+  private Neighborhood() {
     this.prosumerService.getNeighborhoodById().subscribe({
       next: (res) => {
         //console.log(res);
         this.neighborhood = res;
       },
       error: (err) => {
-        this.toast.error('Error!', 'Unable to load user data.', {
+        this.toast.error('Unable to load user data.', 'Error!', {
           timeOut: 3000,
         });
         console.log(err.error);
       },
     });
+  }
+  private Image(resImg : string)
+  {
+    this.image = 'assets/images/prosumer-default-profileimage.png';
+    this.changeImage = this.image;
+    if(!(resImg === '' || resImg == null))
+    {
+      let byteArray = new Uint8Array(
+        atob(resImg)
+        .split('')
+        .map((char)=> char.charCodeAt(0))
+      );
+      let file = new Blob([byteArray], {type: 'image/png'});
+      this.image = URL.createObjectURL(file);
+      this.changeImage = this.image;
+    }
   }
 
   edit() {
@@ -119,5 +148,81 @@ export class UserInfoComponent implements OnInit {
     if (this.showChangePass) {
       this.changePassword.changePass();
     }
+  }
+
+  onFileSelected(event : any)
+  {
+    this.resetBoolean();
+    if(event.target.files)
+    {
+      this.selectedImageFile = event.target.files[0];
+      this.changeImage = this.sant.bypassSecurityTrustUrl(window.URL.createObjectURL(this.selectedImageFile)) as string;
+      // this.base64= 'Base64...';
+      // let reader = new FileReader();
+      // reader.readAsDataURL(event.target.files[0]);
+      // reader.onload = (e : any) =>{
+      //   this.changeImage = e.target.result;
+      // }
+    }
+  }
+  confirmImage()
+  {
+    if(this.selectedImageFile != null && this.image != this.changeImage)
+    {
+      let formData = new FormData();
+      formData.append('imageFile',this.selectedImageFile);
+      
+      this.prosumerService.UploadImage(formData)
+      .subscribe( (event)=>{
+        if(event.type === HttpEventType.UploadProgress)
+        {
+          this.updating = true;
+          this.progress = Math.round(event.loaded/event.total!*100)
+        }
+        else if(event.type === HttpEventType.Response)
+        {
+          if(event.status == 200)
+          {
+            this.success = true;
+            this.getInformation();
+          }
+          else if(event.status == 400)
+          {
+            this.toast.error('Unable to update photo','Error!',{timeOut: 3000});
+            console.log(event.statusText);
+          }
+        }
+      });
+    }
+    else
+    {
+      this.error = true;
+    }
+  }
+  deleteImage()
+  {
+    this.prosumerService.DeleteImage()
+    .subscribe({
+      next:(res)=>{
+        this.toast.success('Photo deleted.', 'Success!',{timeOut:2000});
+        this.image = 'assets/images/prosumer-default-profileimage.png';
+        this.changeImage = this.image;
+      },
+      error:(err)=>{
+        this.toast.error('Unable to delete photo', 'Error', {timeOut:3000});
+      }
+    })
+  }
+  closeImageChange()
+  {
+    this.changeImage = this.image;
+    this.selectedImageFile = null;
+    this.resetBoolean();
+  }
+  private resetBoolean()
+  {
+    this.success = false;
+    this.error = false;
+    this.updating = false;
   }
 }

@@ -5,24 +5,24 @@
     color: #48bec1;
 }
 .prediction{
-    color: rgb(219, 169, 30);
+    color: rgb(200, 219, 30);
 }
 h6{
     color: #466471;
 }
-#realizationProsumerConsumptionTableLabel{
+#realizationProsumerProductionTableLabel{
     color: white;
 }
 .btn-primary{
     background-color: #466471;
     border-color: #466471;
 }
-.realizationbtn.active{
+.realizationPredictionbtn.active{
     background-color: #c1dfd5;
     border-color: #466471;
     color: #466471;
 }
-.realizationbtn:not(.active)
+.realizationPredictionbtn:not(.active)
 {
     background-color: #466471;
     border-color: #466471;

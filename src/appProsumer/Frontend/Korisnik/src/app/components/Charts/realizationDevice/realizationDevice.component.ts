@@ -54,7 +54,7 @@ export class RealizationDeviceComponent implements OnInit, AfterViewInit {
   ngAfterViewInit(): void {
     this.idDev = this.router1.snapshot.params['idDev'];
     const grafik = document.getElementById('grafik');
-    grafik!.style.height = this.widthService.height * 0.6 + 'px';
+    grafik!.style!.height = this.widthService.height * 0.6 + 'px';
     document.getElementById('realizDev1')!.classList.add('active');
   }
 

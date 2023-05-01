@@ -109,6 +109,7 @@ export class AddDeviceFormComponent {
   ChangeButton() {
     this.service.dsoView = this.DsoView;
     this.service.dsoControl = this.DsoControl;
+    this.controlChanged();
   }
   // input-validator.ts
 
@@ -128,4 +129,11 @@ export class AddDeviceFormComponent {
   //     }
   //   }
   // }
+  controlChanged()
+  {
+    if(this.DsoControl)
+    {
+      this.DsoView = true;
+    }
+  }
 }

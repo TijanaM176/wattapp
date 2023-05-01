@@ -5,7 +5,8 @@
         </div>
         <div class="walls px-1 pb-1" style="width: 85%; height: 65%;" id="houseWalls">
             <div class="row px-0 py-0 mx-0 my-0" style="width: 100%; height: 100%; display: flex; justify-content: start; align-items: center; overflow-y: auto; overflow-x: hidden;">
-                <div class="card px-0 py-0" *ngFor="let device of devices" [ngStyle]="{'background-color':deviceUsages[device.Id]===0? '#D8D8D8' : '#8ee5c9'}">
+                <div class="card px-0 py-0" *ngFor="let device of devices; index as i" [ngStyle]="{'background-color':device.CurrentUsage==0? '#D8D8D8' : '#8ee5c9'}" 
+                (click)="selectedDevice(i)" data-bs-toggle="modal" data-bs-target="#turnDeviceOffOn">
                     <span [ngSwitch]="device.TypeId" style="max-width: 100%; text-align: center;">
                         <div *ngSwitchCase="'1'" class="pt-1 text-center row text-center p-md-2" >
                             <div class="col-12 col-md-5">
@@ -177,3 +178,49 @@
         <i class="fa fa-circle inactiveDevice">&nbsp;Device is inactive</i>
       </div>
 </div>
+
+<div
+    class="modal fade"
+    id="turnDeviceOffOn"
+    data-bs-backdrop="static"
+    data-bs-keyboard="false"
+    tabindex="-1"
+    aria-labelledby="turnDeviceOffOnLabel"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header text-white" style="background-color: #466471">
+          <h6 class="modal-title" id="turnDeviceOffOnLabel">Turn this device {{offOn}}?</h6>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+            style="background-color: white;"
+            (click)="reset()"
+          ></button>
+        </div>
+        <div class="modal-body row d-flex">
+                <div class="col-12 col-lg-5" style="display: flex; justify-content: center; align-items: center;">
+                    <div *ngIf="device?.CurrentUsage == 0" (click)="turnDeviceoffOn()" class="text-center p-3">
+                        <i class="fa fa-power-off off"></i>
+                        <p style="color: red;">Turned Off</p>
+                    </div>
+                    <div *ngIf="device?.CurrentUsage != 0" (click)="turnDeviceoffOn()" class="text-center p-3">
+                        <i class="fa fa-power-off on"></i>
+                        <p style="color: green;">Turned On</p>
+                    </div>
+                </div>
+                <div class="col-12 col-lg-7">
+                    <h3>{{device?.Name}}</h3>
+                    <h5>{{device?.ModelName}}</h5>
+                    <h6>{{device?.IpAddress}}</h6>
+                </div>
+          <div class="col-12">
+            <small class="text-success" *ngIf="show">Device turned {{lastState}}!</small>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
