@@ -71,7 +71,7 @@ export class PocetnaComponent implements OnInit, AfterViewInit {
           ...response.producers,
           ...response.storage,
         ];
-        //console.log(devices);
+        console.log(this.devices);
         this.house.setDevices(this.devices);
         this.devicesStatus.setDevices(this.devices);
         this.numOfDevices = this.devices.length;

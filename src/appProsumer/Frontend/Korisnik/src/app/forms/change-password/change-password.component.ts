@@ -42,7 +42,8 @@ export class ChangePasswordComponent implements OnInit{
     {
       //prvo da se pozove fja da se potvrdi trenutna sifra pa ako je to uspesno da se pozove f-ja za izmenu
       let dto : EditDto = new EditDto();
-      dto.password = this.newPass;
+      dto.newPassword = this.newPass;
+      dto.oldPassword = this.currentPass;
 
       this.userService.editInfo(this.cookie.get('id'), dto)
       .subscribe({
