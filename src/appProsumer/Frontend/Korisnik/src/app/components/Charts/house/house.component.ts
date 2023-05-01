@@ -68,11 +68,14 @@ export class HouseComponent implements OnInit,AfterViewInit {
     this.show = false;
     this.deviceService.toggleDevice(this.device.Id, true)
     .subscribe((response) => {
+      let active = true;
       if(response==0)
       {
         this.lastValue = this.device.CurrentUsage;
+        active = false;
       }
       this.devices[this.index].CurrentUsage = response;
+      this.devices[this.index].Activity = active;
       this.device.CurrentUsage = response;
       this.offOn = this.device.CurrentUsage>0? 'Off' : 'On';
       this.lastState = this.device.CurrentUsage>0? 'On' : 'Off';

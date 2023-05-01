@@ -212,10 +212,10 @@
                         <p style="color: green;">Turned On</p>
                     </div>
                 </div>
-                <div class="col-12 col-lg-7">
-                    <h3>{{device?.Name}}</h3>
-                    <h5>{{device?.IpAddress}}</h5>
-                    <h6>{{device?.Manufacturer}}</h6>
+                <div class="col-12 col-lg-7 text-center text-lg-start">
+                    <h2 style="color: #08376b;">{{device?.Name}}</h2>
+                    <h5 class="text-muted">IP Address: {{device?.IpAddress}}</h5>
+                    <h6 *ngIf="device?.Manufacturer" class="text-muted">Manufacturer: {{device?.Manufacturer}}</h6>
                 </div>
           <div class="col-12">
             <small class="text-success" *ngIf="show">Device turned {{lastState}}!</small>
