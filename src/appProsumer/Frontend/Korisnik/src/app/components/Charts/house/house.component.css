@@ -36,9 +36,19 @@
         width: 100%;
     }
 }
+@media (min-width: 576px) {
+    #houseDeviceInfo{
+        text-align: start;
+    }
+}
 @media only screen and (max-width: 768px) {
     .card img {
         width: 40%;
+    }
+}
+@media (max-width: 576) {
+    #houseDeviceInfo{
+        text-align: center !important;
     }
 }
 .activeDevice{
@@ -46,4 +56,12 @@
 }
 .inactiveDevice{
     color: #D0D0D0;
+}
+.off {
+    color: red;
+    font-size: 100px;
+}
+.on {
+    color: green;
+    font-size: 100px;
 }

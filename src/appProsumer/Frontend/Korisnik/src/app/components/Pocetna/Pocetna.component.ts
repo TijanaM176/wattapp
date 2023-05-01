@@ -76,15 +76,12 @@ export class PocetnaComponent implements OnInit, AfterViewInit {
         this.devicesStatus.setDevices(this.devices);
         this.numOfDevices = this.devices.length;
         this.devices.forEach((device) => {
-          this.Usage(device);
+          if(device.CurrentUsage!=0)
+          {
+            this.numOfActiveDevices +=1;
+          }
         });
       });
-  }
-  Usage(device : any) {
-    if(device.Timestamps.power!=0)
-    {
-      this.numOfActiveDevices +=1;
-    }
   }
 
   getPrice()
@@ -105,10 +102,26 @@ export class PocetnaComponent implements OnInit, AfterViewInit {
     this.deviceService.history7Days()
     .subscribe({
       next:(res)=>{
-        console.log(res);
+        // console.log(res);
         this.realizationConsumption.HistoryWeekInit(res);
         this.realizationProduction.HistoryWeekInit(res);
       }
     })
+  }
+
+  onDeviceTurnedOffOn(data:[any[],number]) //devices : any[], offOn : number
+  {
+    let offOn = data[1];
+    this.devices = data[0];
+    if(offOn != 0) //one of the devices has been turned on
+    {
+      this.numOfActiveDevices+=1;
+    }
+    else if(offOn==0)//one of the devices has been turned off
+    {
+      this.numOfActiveDevices = this.numOfActiveDevices-1;
+    }
+    this.devicesStatus.setDevices(this.devices);
+    this.devicesStatus.getCurrentConsumptionAndProduction();
   }
 }

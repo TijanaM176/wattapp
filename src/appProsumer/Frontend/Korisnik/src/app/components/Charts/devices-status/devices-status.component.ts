@@ -25,16 +25,7 @@ export class DevicesStatusComponent implements OnInit, AfterViewInit {
     devicesStatusBody!.style.maxHeight = (this.widthService.height*0.65) + 'px';
   }
   ngOnInit(): void {
-    this.devicesService.getCurrentConsumptionAndProduction()
-    .subscribe({
-      next:(res)=>{
-        this.currentConsumption = res.consumption;
-        this.currentProduction = res.production;
-      },
-      error:(err)=>{
-        console.log(err.error);
-      }
-    });
+    this.getCurrentConsumptionAndProduction();
     this.resizeObservable$ = fromEvent(window, 'resize');
     this.resizeSubscription$ = this.resizeObservable$.subscribe( evt => {
       const devicesStatusBody = document.getElementById('devicesStatusBody');
@@ -49,7 +40,7 @@ export class DevicesStatusComponent implements OnInit, AfterViewInit {
 
   getProcentage(device : any, category : string) : string
   {
-    let kw = device.Timestamps.power;
+    let kw = device.CurrentUsage;
 
     let proc = 0;
 
@@ -65,4 +56,17 @@ export class DevicesStatusComponent implements OnInit, AfterViewInit {
     return proc.toString();
   }
 
+  getCurrentConsumptionAndProduction()
+  {
+    this.devicesService.getCurrentConsumptionAndProduction()
+    .subscribe({
+      next:(res)=>{
+        this.currentConsumption = res.consumption;
+        this.currentProduction = res.production;
+      },
+      error:(err)=>{
+        console.log(err.error);
+      }
+    });
+  }
 }

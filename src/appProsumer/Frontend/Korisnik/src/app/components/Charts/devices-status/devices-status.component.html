@@ -23,9 +23,9 @@
         <div class="container-fluid px-0 py-0 mx-0 my-0" style="display: flex; flex-direction: column; align-items: center; justify-content: center; overflow: hidden;">
             <div class="w-100" style="overflow-y: auto; overflow-x: hidden;">
                 <div *ngFor="let device of devices">
-                    <div *ngIf="device.Timestamps.power!==0">
+                    <div *ngIf="device.CurrentUsage!==0">
                         <h4 class="small font-weight-bold">{{device.Name}} <span
-                            class="float-right">{{device.Timestamps.power.toFixed(3)}} kW</span></h4>
+                            class="float-right">{{device.CurrentUsage.toFixed(3)}} kW</span></h4>
                         <div class="progress mb-4">
                             <div class="progress-bar" role="progressbar" 
                             [ngStyle]="{'width':getProcentage(device, device.CategoryId)+'%','background-color': device.CategoryId=='1'? '#c14b48' : '#48bec1'}"

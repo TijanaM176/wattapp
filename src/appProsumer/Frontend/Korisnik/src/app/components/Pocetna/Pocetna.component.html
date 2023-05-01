@@ -10,7 +10,7 @@
               >
                 <h6 class="m-0 font-weight-bold">Your Home</h6>
               </div>
-              <app-house #house></app-house>
+              <app-house #house (deviceOffOn)="onDeviceTurnedOffOn($event)"></app-house>
             </div>
           </div>
 

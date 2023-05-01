@@ -1,6 +1,7 @@
-import { Component, OnInit, AfterViewInit, Input } from '@angular/core';
+import { Component, OnInit, AfterViewInit, Input, Output, EventEmitter } from '@angular/core';
 import { DeviceWidthService } from 'src/app/services/device-width.service';
 import { fromEvent, Observable, Subscription } from 'rxjs';
+import { DeviceserviceService } from 'src/app/services/deviceservice.service';
 
 @Component({
   selector: 'app-house',
@@ -13,10 +14,15 @@ export class HouseComponent implements OnInit,AfterViewInit {
   resizeSubscription$!: Subscription;
 
   devices: any[] = [];
-  deviceUsages: { [key: string]: number } = {};
+
+  @Output() deviceOffOn = new EventEmitter<[any[], number]>();
+  offOn : string = 'On';
+  lastState : string = 'Off';
+  index : number = 0;
+  device : any;
   show : boolean = false;
   
-  constructor(private widthService: DeviceWidthService) {}
+  constructor(private widthService: DeviceWidthService, private deviceService : DeviceserviceService) {}
 
   ngAfterViewInit(): void {
     const houseCont = document.getElementById('houseCont');
@@ -52,8 +58,32 @@ export class HouseComponent implements OnInit,AfterViewInit {
 
   setDevices(devices : any[])
   {
-    //this.show = true;
     this.devices = devices;
+    // console.log(devices);
   }
 
+  turnDeviceoffOn()
+  {
+    this.show = false;
+    this.deviceService.toggleDevice(this.device.Id, true)
+    .subscribe((response) => {
+      this.devices[this.index].CurrentUsage = response;
+      this.device.CurrentUsage = response;
+      this.offOn = this.device.CurrentUsage>0? 'Off' : 'On';
+      this.lastState = this.device.CurrentUsage>0? 'On' : 'Off';
+      this.show = true;
+      this.deviceOffOn.emit([this.devices,this.device.CurrentUsage]);
+      console.log(this.devices);
+    });
+  }
+  selectedDevice(index : number)
+  {
+    this.index = index;
+    this.device = this.devices[this.index];
+    this.offOn = this.device.CurrentUsage>0? 'Off' : 'On';
+  }
+  reset()
+  {
+    this.show = false;
+  }
 }
