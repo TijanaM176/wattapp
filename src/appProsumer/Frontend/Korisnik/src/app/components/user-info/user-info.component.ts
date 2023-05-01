@@ -102,12 +102,9 @@ export class UserInfoComponent implements OnInit {
   }
   private Image(resImg : string)
   {
-    if(resImg === '' || resImg == null)
-    {
-      this.image = 'assets/images/prosumer-default-profileimage.png';
-      this.changeImage = this.image;
-    }
-    else
+    this.image = 'assets/images/prosumer-default-profileimage.png';
+    this.changeImage = this.image;
+    if(!(resImg === '' || resImg == null))
     {
       let byteArray = new Uint8Array(
         atob(resImg)
@@ -154,7 +151,6 @@ export class UserInfoComponent implements OnInit {
 
   onFileSelected(event : any)
   {
-    // console.log(event);
     this.resetBoolean();
     if(event.target.files)
     {
@@ -172,20 +168,14 @@ export class UserInfoComponent implements OnInit {
   {
     if(this.selectedImageFile != null && this.image != this.changeImage)
     {
-      // let reader = new FileReader();
-      // reader.readAsDataURL(this.selectedImageFile as Blob);
-      // reader.onload = ()=>{
-      //   this.base64 = reader.result as string;
-      //   // this.base64 = this.base64.replace('','');
-      //   console.log(this.base64);
-        
-      // }
-      let sp = new SendPhoto(this.cookie.get('id'), this.selectedImageFile);
-      console.log(sp);
-      this.prosumerService.UploadImage(sp)
+      let formData = new FormData();
+      formData.append('imageFile',this.selectedImageFile);
+      
+      this.prosumerService.UploadImage(formData)
       .subscribe({
         next:(res)=>{
           this.success = true;
+          this.getInformation();
         },
         error:(err)=>{
           this.toast.error('Unable to update photo','Error!',{timeOut: 3000});

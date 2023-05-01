@@ -208,8 +208,8 @@
             <button class="btn btn-primary" (click)="fileInput.click()" style="margin-right: 2%;">Choose Image</button>
             <button class="btn btn-primary" id="deleteImageUserInfo" (click)="deleteImage()" data-bs-dismiss="modal">Delete Image</button>
           </div>
-          <div class="col-12 text-start">
-           <small class="text-error" *ngIf="error">New file wasn't selected!</small>
+          <div class="col-12 text-center ps-4">
+           <small class="text-danger" *ngIf="error">New file wasn't selected!</small>
            <small class="text-warning" *ngIf="updating">Updating photo...{{progress}}%</small>
            <small class="text-success" *ngIf="success">Profile photo updated!</small> 
           </div>
