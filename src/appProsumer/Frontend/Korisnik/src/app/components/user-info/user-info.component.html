@@ -184,7 +184,7 @@
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
         <div class="modal-header text-white" style="background-color: #466471">
-          <h5 class="modal-title" id="changeImageUserInfoLabel">Change Photo</h5>
+          <h6 class="modal-title" id="changeImageUserInfoLabel">Change Photo</h6>
           <button
             type="button"
             class="btn-close"
@@ -194,24 +194,25 @@
           ></button>
         </div>
         <div class="modal-body justify-content-center align-items-center">
-          <div class="col-12 px-0 mb-2" style="display: flex; justify-content: center; align-items: center;">
+          <div class="col-12 px-0 mb-4" style="display: flex; justify-content: center; align-items: center;">
             <img
               [src]="changeImage"
               alt="Avatar"
               class="img-fluid rounded-circle"
               id="showChangeImage"
               accept="image/*"
+              style="width: 70%;"
             />
           </div>
-          <div class="col-12" style="display: flex; justify-content: center; align-items: center;">
+          <div class="col-12 mb-2" style="display: flex; justify-content: center; align-items: center;">
             <input type="file" style="display: none;" #fileInput (change)="onFileSelected($event)">
             <button class="btn btn-primary" (click)="fileInput.click()" style="margin-right: 2%;">Choose Image</button>
             <button class="btn btn-primary" id="deleteImageUserInfo" (click)="deleteImage()" data-bs-dismiss="modal">Delete Image</button>
           </div>
-          <div class="col-12 text-center ps-4">
-           <small class="text-danger" *ngIf="error">New file wasn't selected!</small>
-           <small class="text-warning" *ngIf="updating">Updating photo...{{progress}}%</small>
-           <small class="text-success" *ngIf="success">Profile photo updated!</small> 
+          <div class="col-12 text-center">
+           <small class="text-danger" *ngIf="error">New file wasn't selected!<br></small>
+           <small class="text-warning" *ngIf="updating">Updating photo...{{progress}}%<br></small>
+           <small class="text-success" *ngIf="success">Profile photo updated!<br></small> 
           </div>
         </div>
         <div class="modal-footer">

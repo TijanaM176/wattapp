@@ -7,6 +7,7 @@ import { EditableInfo } from 'src/app/models/editableInfo';
 import { SendPhoto } from 'src/app/models/sendPhoto';
 import { ProsumerService } from 'src/app/services/prosumer.service';
 import { DomSanitizer } from '@angular/platform-browser';
+import {HttpEventType} from '@angular/common/http'
 
 @Component({
   selector: 'app-user-info',
@@ -172,14 +173,24 @@ export class UserInfoComponent implements OnInit {
       formData.append('imageFile',this.selectedImageFile);
       
       this.prosumerService.UploadImage(formData)
-      .subscribe({
-        next:(res)=>{
-          this.success = true;
-          this.getInformation();
-        },
-        error:(err)=>{
-          this.toast.error('Unable to update photo','Error!',{timeOut: 3000});
-          console.log(err.error);
+      .subscribe( (event)=>{
+        if(event.type === HttpEventType.UploadProgress)
+        {
+          this.updating = true;
+          this.progress = Math.round(event.loaded/event.total!*100)
+        }
+        else if(event.type === HttpEventType.Response)
+        {
+          if(event.status == 200)
+          {
+            this.success = true;
+            this.getInformation();
+          }
+          else if(event.status == 400)
+          {
+            this.toast.error('Unable to update photo','Error!',{timeOut: 3000});
+            console.log(event.statusText);
+          }
         }
       });
     }
@@ -206,6 +217,7 @@ export class UserInfoComponent implements OnInit {
   {
     this.changeImage = this.image;
     this.selectedImageFile = null;
+    this.resetBoolean();
   }
   private resetBoolean()
   {

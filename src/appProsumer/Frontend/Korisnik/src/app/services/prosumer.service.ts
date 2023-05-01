@@ -58,7 +58,10 @@ export class ProsumerService {
 
   UploadImage(sp : any)
   {
-    return this.http.post(this.baseUrl+'Prosumer/'+this.cookie.get('id')+'/UploadImage', sp);
+    return this.http.post(this.baseUrl+'Prosumer/'+this.cookie.get('id')+'/UploadImage', sp, {
+      reportProgress: true,
+      observe: 'events'
+    });
   }
   DeleteImage()
   {
