@@ -185,7 +185,7 @@ namespace API.Controllers
         }
 
         [HttpPost("{UserId}/UploadImage")]
-        public async Task<IActionResult> UploadImage([FromRoute][FromForm] SendPhoto sp)
+        public async Task<IActionResult> UploadImage([FromRoute] SendPhoto sp) //[FromForm]
         {
             try
             {
@@ -194,7 +194,7 @@ namespace API.Controllers
 
                 if (result.Item2 == true)
                 {
-                    return Ok("Image is save");
+                    return Ok("Image is saved");
                 }
                 else
                 {

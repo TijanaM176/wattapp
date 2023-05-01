@@ -15,11 +15,17 @@
 }
 @media (max-width: 576px) {
     #showChangeImage{
-        width: 60% !important;
+        width: 70% !important;
+    }
+    #userInfoProfilePhoto{
+        width: 50% !important;
     }
 }
 @media (min-width: 576) {
     #showChangeImage{
+        width: 80% !important;
+    }
+    #userInfoProfilePhoto{
         width: 50% !important;
     }
 }

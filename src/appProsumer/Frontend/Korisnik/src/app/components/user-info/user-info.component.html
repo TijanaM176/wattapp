@@ -98,12 +98,13 @@
               </div>
             </div>
             <div
-              class="col-md-4 gradient-custom d-flex flex-column justify-content-center align-items-center h-md-100 order-1 order-md-2 pb-5 pt-2 px-md-0 py-md-0 my-0 mx-0"
+              class="col-md-4 gradient-custom d-flex flex-column justify-content-center align-items-center h-md-100 order-1 order-md-2 pb-4 pt-4 px-md-0 py-md-0 my-0 mx-0"
             >
               <img
                 [src]="image"
                 alt="Avatar"
                 class="img-fluid rounded-circle"
+                id="userInfoProfilePhoto"
               />
               <div class="mt-0">
                 <a id="changeImageLink" data-bs-toggle="modal"
@@ -204,6 +205,11 @@
             <input type="file" style="display: none;" #fileInput (change)="onFileSelected($event)">
             <button class="btn btn-primary" (click)="fileInput.click()" style="margin-right: 2%;">Choose Image</button>
             <button class="btn btn-primary" id="deleteImageUserInfo" (click)="deleteImage()">Delete Image</button>
+          </div>
+          <div class="col-12 text-start">
+           <small class="text-error" *ngIf="error">New file wasn't selected!</small>
+           <small class="text-warning" *ngIf="updating">Updating photo...{{progress}}%</small>
+           <small class="text-success" *ngIf="success">Profile photo updated!</small> 
           </div>
         </div>
         <div class="modal-footer">
