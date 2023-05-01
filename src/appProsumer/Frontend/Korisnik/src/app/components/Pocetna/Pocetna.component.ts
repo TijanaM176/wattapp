@@ -33,6 +33,8 @@ export class PocetnaComponent implements OnInit, AfterViewInit {
   @ViewChild('realizationProduction',{static: true}) realizationProduction! : RealizationChartProductionComponent;
 
   currentPrice : number = 0;
+  currentConsumption : number = 0;
+  currentProduction : number = 0;
 
   constructor(
     private widthService: DeviceWidthService,
@@ -71,9 +73,12 @@ export class PocetnaComponent implements OnInit, AfterViewInit {
           ...response.producers,
           ...response.storage,
         ];
-        console.log(this.devices);
+        // console.log(this.devices);
+        this.currentConsumption = response.currentConsumption;
+        this.currentProduction = response.currentProduction;
         this.house.setDevices(this.devices);
         this.devicesStatus.setDevices(this.devices);
+        this.devicesStatus.setCurrentConsumptionAndProduction(this.currentConsumption,this.currentProduction);
         this.numOfDevices = this.devices.length;
         this.devices.forEach((device) => {
           if(device.CurrentUsage!=0)
@@ -109,19 +114,23 @@ export class PocetnaComponent implements OnInit, AfterViewInit {
     })
   }
 
-  onDeviceTurnedOffOn(data:[any[],number]) //devices : any[], offOn : number
+  onDeviceTurnedOffOn(data:[any[],number, number,string]) //devices : any[], offOn : number
   {
     let offOn = data[1];
     this.devices = data[0];
+    let last = data[2];
+    let cat = data[3];
     if(offOn != 0) //one of the devices has been turned on
     {
       this.numOfActiveDevices+=1;
+      cat=='1'? this.currentConsumption += offOn : this.currentProduction += offOn;
     }
     else if(offOn==0)//one of the devices has been turned off
     {
-      this.numOfActiveDevices = this.numOfActiveDevices-1;
+      this.numOfActiveDevices-=1;
+      cat=='1'? this.currentConsumption -= last : this.currentProduction -= last;
     }
     this.devicesStatus.setDevices(this.devices);
-    this.devicesStatus.getCurrentConsumptionAndProduction();
+    this.devicesStatus.setCurrentConsumptionAndProduction(this.currentConsumption,this.currentProduction);
   }
 }

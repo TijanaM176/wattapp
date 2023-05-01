@@ -47,16 +47,16 @@ export class DeviceCardsComponent implements OnInit {
         this.devicesToShow = this.devices;
         this.devices.forEach((device) => {
           this.deviceUsages[device.Id] = 0;
-          this.Usage(device.Id);
+          this.Usage(device);
         });
         this.spiner.hide();
       });
   }
 
-  Usage(id: string) {
-    this.service.getDeviceById(id).subscribe((response) => {
-      this.deviceUsages[id] = Number(response.CurrentUsage);
-    });
+  Usage(dev: any) {
+    // this.service.getDeviceById(dev.Id).subscribe((response) => {
+      this.deviceUsages[dev.Id] = Number(dev.CurrentUsage);
+    // });
   }
 
   filterDevices() {

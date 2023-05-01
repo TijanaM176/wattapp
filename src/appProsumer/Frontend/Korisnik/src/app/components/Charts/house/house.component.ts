@@ -15,12 +15,13 @@ export class HouseComponent implements OnInit,AfterViewInit {
 
   devices: any[] = [];
 
-  @Output() deviceOffOn = new EventEmitter<[any[], number]>();
+  @Output() deviceOffOn = new EventEmitter<[any[], number, number,string]>();
   offOn : string = 'On';
   lastState : string = 'Off';
   index : number = 0;
   device : any;
   show : boolean = false;
+  lastValue : number = 0;
   
   constructor(private widthService: DeviceWidthService, private deviceService : DeviceserviceService) {}
 
@@ -67,13 +68,17 @@ export class HouseComponent implements OnInit,AfterViewInit {
     this.show = false;
     this.deviceService.toggleDevice(this.device.Id, true)
     .subscribe((response) => {
+      if(response==0)
+      {
+        this.lastValue = this.device.CurrentUsage;
+      }
       this.devices[this.index].CurrentUsage = response;
       this.device.CurrentUsage = response;
       this.offOn = this.device.CurrentUsage>0? 'Off' : 'On';
       this.lastState = this.device.CurrentUsage>0? 'On' : 'Off';
       this.show = true;
-      this.deviceOffOn.emit([this.devices,this.device.CurrentUsage]);
-      console.log(this.devices);
+      this.deviceOffOn.emit([this.devices,this.device.CurrentUsage, this.lastValue,this.device.CategoryId]);
+      // console.log(this.devices);
     });
   }
   selectedDevice(index : number)
