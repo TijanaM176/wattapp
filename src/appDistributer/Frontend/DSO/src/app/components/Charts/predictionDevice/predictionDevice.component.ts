@@ -11,7 +11,7 @@ import * as XLSX from 'xlsx';
   templateUrl: './predictionDevice.component.html',
   styleUrls: ['./predictionDevice.component.css'],
 })
-export class PredictionDeviceComponent implements OnInit {
+export class PredictionDeviceComponent implements OnInit, AfterViewInit {
   data: any[] = [];
   dataConsumers: any[] = [];
   dataProducers: any[] = [];
@@ -61,12 +61,17 @@ export class PredictionDeviceComponent implements OnInit {
     XLSX.writeFile(workbook, 'chart-data.xlsx');
   }
 
+  ngAfterViewInit(): void {
+    const grafik = document.getElementById('predikcija');
+    grafik!.style.height = this.widthService.height * 0.6 + 'px';
+    this.Prediction1Day('predictionDevice1');
+  }
+
   ngOnInit(): void {
     this.idDev = this.router1.snapshot.params['idDev'];
     const grafik = document.getElementById('predikcija');
     grafik!.style.height = this.widthService.height * 0.6 + 'px';
     this.Prediction1Day('predictionDevice1');
-    //document.getElementById("prediction3")!.classList.add('active');
   }
 
   yAxisTickFormatting(value: number) {

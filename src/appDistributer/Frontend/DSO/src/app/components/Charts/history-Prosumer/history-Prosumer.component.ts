@@ -68,22 +68,19 @@ export class HistoryProsumerComponent implements OnInit {
 
   ngOnInit() {
     this.id = this.router.snapshot.params['id'];
-    document.getElementById('realizationUserInfoCardBody')!.style.height =
-      this.widthService.height * 0.55 + 'px';
+    document.getElementById('grafik')!.style.height =
+      this.widthService.height * this.coef + 'px';
     this.HistoryWeek('realiz1');
-
-    document.getElementById('historyProsumerTable')!.style.width =
-      window.innerWidth + 'px';
   }
 
-  HistoryWeek(button: string) {
+  HistoryWeek(id: string) {
     this.serviceTime
       .HistoryProsumer7Days(this.id)
       .subscribe((response: any) => {
         const myList: any = [];
 
         const consumptionTimestamps = response.consumption.timestamps || {};
-        const productionTimestamps = response.production.timestamps || {};
+        const productionTimestamps = response.consumption.predictions || {};
         const allTimestamps = {
           ...consumptionTimestamps,
           ...productionTimestamps,
@@ -109,16 +106,17 @@ export class HistoryProsumerComponent implements OnInit {
         });
         this.data = myList;
         this.data = this.data.slice(1);
+        this.activateButton(id);
       });
   }
-  HistoryMonth(button: string) {
+  HistoryMonth(id: string) {
     this.serviceTime
       .HistoryProsumer1Month(this.id)
       .subscribe((response: any) => {
         const myList: any = [];
 
         const consumptionTimestamps = response.consumption.timestamps || {};
-        const productionTimestamps = response.production.timestamps || {};
+        const productionTimestamps = response.consumption.predictions || {};
         const allTimestamps = {
           ...consumptionTimestamps,
           ...productionTimestamps,
@@ -144,16 +142,17 @@ export class HistoryProsumerComponent implements OnInit {
         });
         this.data = myList;
         this.data = this.data.slice(0, -1);
+        this.activateButton(id);
       });
   }
-  HistoryYear(button: string) {
+  HistoryYear(id: string) {
     this.serviceTime
       .HistoryProsumer1Year(this.id)
       .subscribe((response: any) => {
         const myList: any = [];
 
         const consumptionTimestamps = response.consumption.timestamps || {};
-        const productionTimestamps = response.production.timestamps || {};
+        const productionTimestamps = response.consumption.predictions || {};
         const allTimestamps = {
           ...consumptionTimestamps,
           ...productionTimestamps,
@@ -178,6 +177,7 @@ export class HistoryProsumerComponent implements OnInit {
           myList.push({ name: monthName, series });
         });
         this.data = myList;
+        this.activateButton(id);
       });
   }
 

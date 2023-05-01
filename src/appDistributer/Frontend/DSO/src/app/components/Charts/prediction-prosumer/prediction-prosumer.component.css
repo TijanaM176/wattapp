@@ -2,17 +2,23 @@
   outline: none;
   box-shadow: none;
 }
-.btn-close{
+.btn-close {
   color: white;
   background-color: white;
 }
-.btn-primary{
-  background-color: #5875A1;
-  border-color: #5875A1;
+.btn-primary {
+  background-color: #5875a1;
+  border-color: #5875a1;
 }
-.consumption{
+.consumption {
   color: #ff7d41;
 }
-.production{
-    color: #00bcb3;
+.production {
+  color: #00bcb3;
+}
+
+.predictionbtn.active {
+  background-color: #c1dfd5;
+  border-color: #466471;
+  color: #466471;
 }

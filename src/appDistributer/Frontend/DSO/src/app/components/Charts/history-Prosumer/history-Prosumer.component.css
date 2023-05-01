@@ -1,18 +1,23 @@
 .btn:focus {
-    outline: none;
-    box-shadow: none;
+  outline: none;
+  box-shadow: none;
 }
-.btn-close{
-    color: white;
-    background-color: white;
+.btn-close {
+  color: white;
+  background-color: white;
 }
-.btn-primary{
-    background-color: #5875A1;
-    border-color: #5875A1;
+.btn-primary {
+  background-color: #5875a1;
+  border-color: #5875a1;
 }
-.consumption{
-    color: #c14b48;
+.consumption {
+  color: #c14b48;
 }
-.prediction{
-    color: #80BC00;
+.prediction {
+  color: #80bc00;
+}
+.realizationPredictionbtn.active {
+  background-color: #c1dfd5;
+  border-color: #466471;
+  color: #466471;
 }

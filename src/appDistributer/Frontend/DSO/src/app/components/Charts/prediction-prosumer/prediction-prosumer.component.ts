@@ -44,15 +44,16 @@ export class PredictionProsumerComponent implements OnInit {
   ngOnInit() {
     this.id = this.router.snapshot.params['id'];
     document.getElementById('predictionUserInfoCardBody')!.style.height =
-      this.widthService.height * 0.55 + 'px';
-    this.PredictionDay();
+      this.widthService.height * 0.6 + 'px';
+    this.PredictionDay('predictionUser1');
+    this.activateButton('predictionUser1');
   }
 
   yAxisTickFormatting(value: number) {
     return value + ' kW';
   }
 
-  PredictionWeek() {
+  PredictionWeek(id: string) {
     this.serviceData
       .PredictionProsumer7Days(this.id)
       .subscribe((response: any) => {
@@ -94,12 +95,12 @@ export class PredictionProsumerComponent implements OnInit {
         }, {});
 
         const finalList = Object.values(groupedData);
-
+        this.activateButton(id);
         this.data = finalList;
       });
   }
 
-  Prediction3Days() {
+  Prediction3Days(id: string) {
     this.serviceData
       .PredictionProsumer3Days(this.id)
       .subscribe((response: any) => {
@@ -141,9 +142,10 @@ export class PredictionProsumerComponent implements OnInit {
 
         this.data = finalList;
         this.data = this.data.slice(1);
+        this.activateButton(id);
       });
   }
-  PredictionDay() {
+  PredictionDay(id: string) {
     this.serviceData
       .PredictionProsumer1Day(this.id)
       .subscribe((response: any) => {
@@ -183,7 +185,7 @@ export class PredictionProsumerComponent implements OnInit {
         });
 
         const finalList = Object.values(groupedData);
-
+        this.activateButton(id);
         this.data = finalList;
       });
   }
@@ -205,5 +207,16 @@ export class PredictionProsumerComponent implements OnInit {
     const workbook: XLSX.WorkBook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(workbook, worksheet, 'Chart Data');
     XLSX.writeFile(workbook, 'chart-data.xlsx');
+  }
+
+  activateButton(buttonNumber: string) {
+    const buttons = document.querySelectorAll('.predictionbtn');
+    buttons.forEach((button) => {
+      if (button.id == buttonNumber) {
+        button.classList.add('active');
+      } else {
+        button.classList.remove('active');
+      }
+    });
   }
 }
