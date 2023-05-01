@@ -50,11 +50,10 @@ export class HouseComponent implements OnInit,AfterViewInit {
     });
   }
 
-  setDevices(devices : any[], usages : { [key: string]: number })
+  setDevices(devices : any[])
   {
     //this.show = true;
     this.devices = devices;
-    this.deviceUsages = usages;
   }
 
 }

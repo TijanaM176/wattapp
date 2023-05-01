@@ -42,15 +42,14 @@ export class DevicesStatusComponent implements OnInit, AfterViewInit {
     });
   }
 
-  setDevices(devs : any[], usages : { [key: string]: number })
+  setDevices(devs : any[])
   {
     this.devices = devs;
-    this.deviceUsages = usages;
   }
 
-  getProcentage(id : string, category : string) : string
+  getProcentage(device : any, category : string) : string
   {
-    let kw = this.deviceUsages[id];
+    let kw = device.Timestamps.power;
 
     let proc = 0;
 

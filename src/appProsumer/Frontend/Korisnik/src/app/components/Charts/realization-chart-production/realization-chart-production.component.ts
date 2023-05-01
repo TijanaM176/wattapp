@@ -45,7 +45,6 @@ export class RealizationChartProductionComponent implements OnInit, AfterViewIni
   }
 
   ngOnInit(): void {
-    this.HistoryWeekInit();
     if(this.widthService.deviceWidth>=576 || this.widthService.height>=this.widthService.deviceWidth*2) this.coef = 0.5;
 
     this.resizeObservable$ = fromEvent(window, 'resize');
@@ -74,29 +73,43 @@ export class RealizationChartProductionComponent implements OnInit, AfterViewIni
     );
   }
 
-  HistoryWeekInit() 
+  HistoryWeekInit(data : any) 
   {
-    this.loadData(
-      this.deviceService.history7Days.bind(this.deviceService),
-      (myList: any[]) => {
-        return myList.map((item) => {
-          const date = new Date(item.name);
-          const dayName = date.toLocaleDateString('en-US', { weekday: 'long' });
-          return { name: dayName, series: item.series };
-        });
+    const myList = Object.keys(data.consumption.timestamps).map(
+      (name) => {
+        let consumptionValue = data.production.timestamps[name];
+          let predictionValue = data.production.predictions[name];
+          const prod: string = 'production';
+          const pred: string = 'prediction';
+        if (predictionValue == undefined) {
+          predictionValue = 0.0;
+        }
+        if (consumptionValue == undefined) {
+          consumptionValue = 0.0;
+        }
+        const series = [
+          { name: prod, value: consumptionValue },
+          { name: pred, value: predictionValue },
+        ];
+        return { name, series };
       }
     );
+    this.data = myList.map((item) => {
+      const date = new Date(item.name);
+      const dayName = date.toLocaleDateString('en-US', { weekday: 'long' });
+      return { name: dayName, series: item.series };
+    });
   }
 
   HistoryWeek(id : string) 
   {
+    this.activateButton(id);
     this.loadData(
       this.deviceService.history7Days.bind(this.deviceService),
       (myList: any[]) => {
         return myList.map((item) => {
           const date = new Date(item.name);
           const dayName = date.toLocaleDateString('en-US', { weekday: 'long' });
-          this.activateButton(id);
           return { name: dayName, series: item.series };
         });
       }
@@ -105,13 +118,13 @@ export class RealizationChartProductionComponent implements OnInit, AfterViewIni
 
   HistoryMonth(id : string) 
   {
+    this.activateButton(id);
     this.loadData(
       this.deviceService.history1Month.bind(this.deviceService),
       (myList: any[]) => {
         return myList.map((item) => {
           const date = new Date(item.name);
           const weekNumber = this.getWeek(date);
-          this.activateButton(id);
           return { name: `Week ${weekNumber}`, series: item.series };
         });
       }
@@ -120,13 +133,13 @@ export class RealizationChartProductionComponent implements OnInit, AfterViewIni
 
   HistoryYear(id : string) 
   {
+    this.activateButton(id);
     this.loadData(
       this.deviceService.history1Year.bind(this.deviceService),
       (myList: any[]) => {
         return myList.map((item) => {
           const date = new Date(item.name);
           const monthName = date.toLocaleDateString('en-US', { month: 'long' });
-          this.activateButton(id);
           return { name: monthName, series: item.series };
         });
       }
