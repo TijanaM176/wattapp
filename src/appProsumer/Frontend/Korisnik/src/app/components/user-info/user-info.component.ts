@@ -23,7 +23,6 @@ export class UserInfoComponent implements OnInit {
   image : string = '';
   changeImage : string = '';
   selectedImageFile : any = null;
-  base64 = 'Base64...';
   loader: boolean = true;
   modalTitle: string = '';
   userData: any;
@@ -52,7 +51,7 @@ export class UserInfoComponent implements OnInit {
   private getInformation() {
     this.prosumerService.getInforamtion(this.cookie.get('id')).subscribe({
       next: (res) => {
-        console.log(res);
+        // console.log(res);
         this.username = res.username;
         this.firstLastName = res.firstName + ' ' + res.lastName;
         this.email = res.email;
@@ -106,6 +105,7 @@ export class UserInfoComponent implements OnInit {
     if(resImg === '' || resImg == null)
     {
       this.image = 'assets/images/prosumer-default-profileimage.png';
+      this.changeImage = this.image;
     }
     else
     {
@@ -160,7 +160,7 @@ export class UserInfoComponent implements OnInit {
     {
       this.selectedImageFile = event.target.files[0];
       this.changeImage = this.sant.bypassSecurityTrustUrl(window.URL.createObjectURL(this.selectedImageFile)) as string;
-      this.base64= 'Base64...';
+      // this.base64= 'Base64...';
       // let reader = new FileReader();
       // reader.readAsDataURL(event.target.files[0]);
       // reader.onload = (e : any) =>{
@@ -200,7 +200,22 @@ export class UserInfoComponent implements OnInit {
   }
   deleteImage()
   {
-
+    this.prosumerService.DeleteImage()
+    .subscribe({
+      next:(res)=>{
+        this.toast.success('Photo deleted.', 'Success!',{timeOut:2000});
+        this.image = 'assets/images/prosumer-default-profileimage.png';
+        this.changeImage = this.image;
+      },
+      error:(err)=>{
+        this.toast.error('Unable to delete photo', 'Error', {timeOut:3000});
+      }
+    })
+  }
+  closeImageChange()
+  {
+    this.changeImage = this.image;
+    this.selectedImageFile = null;
   }
   private resetBoolean()
   {

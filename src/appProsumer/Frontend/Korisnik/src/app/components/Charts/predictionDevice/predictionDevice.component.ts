@@ -42,7 +42,7 @@ export class PredictionDeviceComponent implements OnInit {
   ngOnInit(): void {
     this.idDev = this.router1.snapshot.params['idDev'];
     const grafik = document.getElementById('predikcija');
-    grafik!.style.height = this.widthService.height * 0.6 + 'px';
+    grafik!.style!.height = this.widthService.height * 0.6 + 'px';
     this.Prediction1Day('predictionDev1');
   }
 

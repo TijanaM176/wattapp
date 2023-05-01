@@ -68,11 +68,11 @@ export class ConsumptionLimitComponent implements OnInit, AfterViewInit {
       {
         if(this.widthService.height >= this.widthService.deviceWidth*2)
         {
-          document.getElementById('consumptionLimitBody')!.style.height = (h*0.35) + 'px';
+          document.getElementById('consumptionLimitBody')!.style!.height = (h*0.35) + 'px';
         }
         else
         {
-          document.getElementById('consumptionLimitBody')!.style.height = (h*0.4) + 'px';
+          document.getElementById('consumptionLimitBody')!.style!.height = (h*0.4) + 'px';
         }
         this.width = document.getElementById('consumptionLimitCardBody')!.offsetWidth*0.9;
       }

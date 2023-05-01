@@ -38,7 +38,7 @@ export class DevicesStatusComponent implements OnInit, AfterViewInit {
     this.resizeObservable$ = fromEvent(window, 'resize');
     this.resizeSubscription$ = this.resizeObservable$.subscribe( evt => {
       const devicesStatusBody = document.getElementById('devicesStatusBody');
-      devicesStatusBody!.style.maxHeight = (this.widthService.height*0.65) + 'px';
+      devicesStatusBody!.style!.maxHeight = (this.widthService.height*0.65) + 'px';
     });
   }
 

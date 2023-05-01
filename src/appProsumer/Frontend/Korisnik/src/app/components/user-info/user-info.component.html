@@ -105,6 +105,7 @@
                 alt="Avatar"
                 class="img-fluid rounded-circle"
                 id="userInfoProfilePhoto"
+                style="width: 50%;"
               />
               <div class="mt-0">
                 <a id="changeImageLink" data-bs-toggle="modal"
@@ -189,6 +190,7 @@
             class="btn-close"
             data-bs-dismiss="modal"
             aria-label="Close"
+            (click)="closeImageChange()"
           ></button>
         </div>
         <div class="modal-body justify-content-center align-items-center">
@@ -204,7 +206,7 @@
           <div class="col-12" style="display: flex; justify-content: center; align-items: center;">
             <input type="file" style="display: none;" #fileInput (change)="onFileSelected($event)">
             <button class="btn btn-primary" (click)="fileInput.click()" style="margin-right: 2%;">Choose Image</button>
-            <button class="btn btn-primary" id="deleteImageUserInfo" (click)="deleteImage()">Delete Image</button>
+            <button class="btn btn-primary" id="deleteImageUserInfo" (click)="deleteImage()" data-bs-dismiss="modal">Delete Image</button>
           </div>
           <div class="col-12 text-start">
            <small class="text-error" *ngIf="error">New file wasn't selected!</small>

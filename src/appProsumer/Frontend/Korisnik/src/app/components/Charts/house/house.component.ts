@@ -46,7 +46,7 @@ export class HouseComponent implements OnInit,AfterViewInit {
       {
         houseHeight = this.widthService.height*0.6;
       }
-      houseCont!.style.height = houseHeight + 'px';
+      houseCont!.style!.height = houseHeight + 'px';
     });
   }
 

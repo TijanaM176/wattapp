@@ -58,6 +58,10 @@ export class ProsumerService {
 
   UploadImage(sp : SendPhoto)
   {
-    return this.http.post(this.baseUrl+'Prosumer/'+this.cookie.get('id')+'/UploadImage', sp);
+    return this.http.post(this.baseUrl+'Prosumer/'+this.cookie.get('id')+'/UploadImage', sp.imageFile);
+  }
+  DeleteImage()
+  {
+    return this.http.delete(this.baseUrl+'Prosumer/'+this.cookie.get('id')+'/DeleteImage');
   }
 }
