@@ -34,7 +34,7 @@ export class RealizationPredictionAllProsumersComponent implements OnInit {
   showYAxis = true;
   gradient = false;
   showLegend = true;
-  yAxisLabel = 'Energy in kW';
+  yAxisLabel = 'Energy (kWh)';
 
   constructor(
     private service: UsersServiceService,

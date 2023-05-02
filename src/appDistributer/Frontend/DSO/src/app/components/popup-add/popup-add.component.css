@@ -68,6 +68,8 @@ select {
   font-size: 18px;
   width: 25%;
   font-family: "Roboto", cursive;
+  float: right;
+  padding-right: 10px;
 }
 
 .f1 {

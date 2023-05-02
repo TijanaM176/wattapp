@@ -164,7 +164,8 @@ export class User1Component implements OnInit, AfterViewInit {
     this.deviceService
       .getUserProductionAndConsumption(this.router.snapshot.params['id'])
       .subscribe((data) => {
-        this.consumption = data.consumption;
+        
+        this.consumption = data.consumption
         this.production = data.production;
       });
   }

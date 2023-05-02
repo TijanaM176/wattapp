@@ -59,7 +59,7 @@ export class PopupAddComponent implements OnInit {
   close() {
     this.signupWorkerForm.reset();
   }
-  onSubmit() {
+  onSubmit() {console.log("ss");
     if (!this.signupWorkerForm.value.image) {
       this.signupWorkerForm.value.image = null;
     }
