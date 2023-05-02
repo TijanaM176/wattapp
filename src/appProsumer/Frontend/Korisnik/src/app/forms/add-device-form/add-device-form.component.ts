@@ -52,7 +52,7 @@ export class AddDeviceFormComponent {
   ChangeCategory(e: any) {
     this.dropdownType=!this.dropdownType;
     this.service.category = this.category;
-    console.log(this.service.category);
+    // console.log(this.service.category);
     this.getTypes();
     this.type = -1;
   }
@@ -70,7 +70,7 @@ export class AddDeviceFormComponent {
     this.dropdownModel=!this.dropdownModel;
     this.service.type = this.type;
     //this.model = -1;
-    console.log(this.service.type);
+    // console.log(this.service.type);
     this.getModels();
     this.model = -1;
   }
@@ -88,8 +88,9 @@ export class AddDeviceFormComponent {
   }
   ChangeModels(e: any) {
     this.service.model = this.model.id;
-    console.log(this.service.model);
- 
+    this.Name = this.model.name;
+    this.service.name = this.Name;
+    // console.log(this.model);
   }
   getModels() {
     
