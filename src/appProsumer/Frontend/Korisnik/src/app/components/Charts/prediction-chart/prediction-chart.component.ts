@@ -110,7 +110,7 @@ export class PredictionChartComponent implements OnInit {
       (myList: any[]) => {
         return myList.map((item) => {
           const date = new Date(item.name);
-          const hour = date.getHours();
+          const hour = date.getHours()<10? '0'+date.getHours() : date.getHours();
           this.activateButton(id);
           return { name: hour+':00h', series: item.series };
         });
