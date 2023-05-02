@@ -9,10 +9,10 @@
   ><p style="font-size: 25px; color: white">Loading Data...</p></ngx-spinner
 >
 
-<div style="position: sticky; top: -1px; z-index: 1000; background-color: white;" class="pb-1">
+<div style="position: sticky; top: -1px; z-index: 1000; background-color: #E0EFEA;" class="pb-0 mt-0">
   <h1
     style="
-      margin: 1% 2% 1% 2%;
+      margin: 0% 2% 1% 2%;
       font-family: Rhodium Libre;
       font-style: normal;
       font-weight: 400;
@@ -37,9 +37,10 @@
           id="flexCheckDefault"
           [(ngModel)]="consumers"
           (change)="filterDevices()"
-          style="background-color:#59747f;border-color:#59747f;margin-top:6%;"
+          style="background-color:#c14b48;border-color:#59747f;margin-top:6%;"
         />
-        <label class="form-check-label" for="flexCheckDefault" style="color:#59747f;">Consumers</label>
+        <label class="form-check-label" for="flexCheckDefault" style="color:#c14b48;">Consumers</label>
+        <!-- #59747f -->
       </div>
     </div>
     <div class="col-lg-2 col-4 justify-content-end justify-content-md-center px-0" style="display: flex; font-weight:bold; ">
@@ -51,11 +52,10 @@
           id="flexCheckDefault1"
           [(ngModel)]="producers"
           (change)="filterDevices()"
-          style="margin-top:6%;background-color:#59747f;border-color:#59747f;"
+          style="margin-top:6%;background-color:#48c1a3;border-color:#59747f;"
         />
-        <label class="form-check-label" for="flexCheckDefault1"  style="color:#59747f;">
-          Producers
-        </label>
+        <label class="form-check-label" for="flexCheckDefault1"  style="color:#48c1a3;">Producers</label>
+        <!-- #59747f -->
       </div>
     </div>
     <div class="col-lg-2 col-4 justify-content-end justify-content-md-center px-0" style="display: flex; font-weight:bold;">
@@ -67,11 +67,10 @@
           id="flexCheckDefault2"
           [(ngModel)]="storages"
           (change)="filterDevices()"
-          style="margin-top:6%;background-color:#59747f;border-color:#59747f;"
+          style="margin-top:6%;background-color:#2a96d9;border-color:#59747f;"
         />
-        <label class="form-check-label" for="flexCheckDefault2"  style="color:#59747f;">
-          Storages
-        </label>
+        <label class="form-check-label" for="flexCheckDefault2"  style="color:#2a96d9;">Storages</label>
+        <!-- #59747f -->
       </div>
     </div>
   </div>
@@ -85,7 +84,7 @@
         class="card p-1"
         *ngFor="let device of devicesToShow"
         (click)="navigateToDevice(device.Id)"
-        style="border-right: 2px solid #59747f; border-bottom: 2px solid #59747f;"
+        [ngStyle]="{'border-left': device.CategoryId=='1'? '3px solid #c14b48': device.CategoryId=='2'? '3px solid #48c1a3':'3px solid #2a96d9'}"
       >
         <table style="margin: 3%; width: 95%; margin: auto; height: 95%">
           <tr style="display: flex; justify-content: space-between">
