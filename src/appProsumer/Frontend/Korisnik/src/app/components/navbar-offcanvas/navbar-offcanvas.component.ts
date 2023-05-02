@@ -39,7 +39,7 @@ export class NavbarOffcanvasComponent implements OnInit, OnDestroy{
   logout()
   {
     this.cookie.deleteAll('/');
-    this.router.navigate(["login"]);
+    this.router.navigateByUrl("login");
   }
 
   activateBtn(id : string)

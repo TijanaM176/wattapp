@@ -3,8 +3,7 @@ import { CookieService } from 'ngx-cookie-service';
 import { ToastrService } from 'ngx-toastr';
 import { ChangePasswordComponent } from 'src/app/forms/change-password/change-password.component';
 import { EditInfoFormComponent } from 'src/app/forms/edit-info-form/edit-info-form.component';
-import { EditableInfo } from 'src/app/models/editableInfo';
-import { SendPhoto } from 'src/app/models/sendPhoto';
+import { Location } from "@angular/common";
 import { ProsumerService } from 'src/app/services/prosumer.service';
 import { DomSanitizer } from '@angular/platform-browser';
 import {HttpEventType} from '@angular/common/http'
@@ -42,8 +41,11 @@ export class UserInfoComponent implements OnInit {
     private prosumerService: ProsumerService,
     private toast: ToastrService,
     private cookie: CookieService,
-    private sant : DomSanitizer
-  ) {}
+    private sant : DomSanitizer,
+    private location: Location
+  ) {
+    // this.location.replaceState("/");
+  }
 
   ngOnInit(): void {
     this.getInformation();

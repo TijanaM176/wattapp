@@ -9,6 +9,7 @@ import { DashboardService } from 'src/app/services/dashboard.service';
 import { DevicesService } from 'src/app/services/devices.service';
 import { RealizationChartComponent } from '../Charts/realization-chart/realization-chart.component';
 import { RealizationChartProductionComponent } from '../Charts/realization-chart-production/realization-chart-production.component';
+import { Location } from "@angular/common";
 
 @Component({
   selector: 'app-Pocetna',
@@ -41,8 +42,11 @@ export class PocetnaComponent implements OnInit, AfterViewInit {
     private service: ProsumerService,
     private cookie: CookieService,
     private dashboardService : DashboardService,
-    private deviceService : DevicesService
-  ) {}
+    private deviceService : DevicesService,
+    private location: Location
+  ) {
+    // this.location.replaceState("/");
+  }
 
   ngAfterViewInit(): void {
     // const homeCont = document.getElementById('homeCont');
