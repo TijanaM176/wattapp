@@ -3,7 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Color, ScaleType } from '@swimlane/ngx-charts';
 import { DeviceWidthService } from 'src/app/services/device-width.service';
 import { DevicesService } from 'src/app/services/devices.service';
-
+import * as XLSX from 'xlsx';
 @Component({
   selector: 'app-predictionDevice',
   templateUrl: './predictionDevice.component.html',
@@ -38,6 +38,25 @@ export class PredictionDeviceComponent implements OnInit {
     private widthService: DeviceWidthService,
     private router1: ActivatedRoute
   ) {}
+
+  exportTable(): void {
+    let headerRow: any = [];
+    if (this.type == 'Consumption')
+      headerRow = ['Day', 'Predicted Consumption (kW)'];
+    else headerRow = ['Day', 'Predicted Production (kW)'];
+
+    const sheetData = [
+      headerRow,
+      ...this.data.map((data: any) => [
+        data.name,
+        ...data.series.map((series: { value: number }) => series.value),
+      ]),
+    ];
+    const worksheet: XLSX.WorkSheet = XLSX.utils.aoa_to_sheet(sheetData);
+    const workbook: XLSX.WorkBook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, 'Chart Data');
+    XLSX.writeFile(workbook, 'chart-data.xlsx');
+  }
 
   ngOnInit(): void {
     this.idDev = this.router1.snapshot.params['idDev'];

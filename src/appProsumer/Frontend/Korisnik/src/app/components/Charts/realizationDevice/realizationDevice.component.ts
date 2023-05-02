@@ -8,7 +8,7 @@ import {
 } from '@swimlane/ngx-charts';
 import { DeviceWidthService } from 'src/app/services/device-width.service';
 import { DevicesService } from 'src/app/services/devices.service';
-
+import * as XLSX from 'xlsx';
 @Component({
   selector: 'app-realizationDevice',
   templateUrl: './realizationDevice.component.html',
@@ -43,13 +43,32 @@ export class RealizationDeviceComponent implements OnInit, AfterViewInit {
   yAxisLabel = 'Energy in kWh';
   idDev: string = '';
   cat: string = '';
-  @Input() type : string = '';
+  @Input() type: string = '';
 
   constructor(
     private deviceService: DevicesService,
     private widthService: DeviceWidthService,
     private router1: ActivatedRoute
   ) {}
+
+  exportTable(): void {
+    let headerRow: any = [];
+    if (this.type == 'Consumption')
+      headerRow = ['Day', 'Consumption ', 'Predicted Consumption (kW)'];
+    else headerRow = ['Day', 'Production ', 'Predicted Production (kW)'];
+
+    const sheetData = [
+      headerRow,
+      ...this.data.map((data: any) => [
+        data.name,
+        ...data.series.map((series: { value: number }) => series.value),
+      ]),
+    ];
+    const worksheet: XLSX.WorkSheet = XLSX.utils.aoa_to_sheet(sheetData);
+    const workbook: XLSX.WorkBook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, 'Chart Data');
+    XLSX.writeFile(workbook, 'chart-data.xlsx');
+  }
 
   ngAfterViewInit(): void {
     this.idDev = this.router1.snapshot.params['idDev'];

@@ -4,17 +4,28 @@
 >
   <div
     class="card-header col-12 p-1 group"
-    style="display: flex; justify-content: right; align-items: center; margin: auto"
+    style="
+      display: flex;
+      justify-content: right;
+      align-items: center;
+      margin: auto;
+    "
   >
     <div class="col-5 p-1">
       <h6 class="m-0 font-weight-bold ps-2">
-        {{type}} and Prediction History
-        &nbsp;<button class="btn btn-outline-primary p-0 px-1 m-0" data-bs-toggle="modal" data-bs-target="#realizationDeviceTable">
+        {{ type }} and Prediction History &nbsp;<button
+          class="btn btn-outline-primary p-0 px-1 m-0"
+          data-bs-toggle="modal"
+          data-bs-target="#realizationDeviceTable"
+        >
           <i class="fa fa-table"></i>
         </button>
       </h6>
     </div>
-    <div class="col-7" style="display: flex; justify-content: right; align-items: center;">
+    <div
+      class="col-7"
+      style="display: flex; justify-content: right; align-items: center"
+    >
       <button
         class="btn btn-primary m-1 py-2 realizationDevicebtn"
         id="realizDev1"
@@ -114,18 +125,38 @@
   </div>
 </div>
 
-<div class="modal fade" id="realizationDeviceTable" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="realizationDeviceTableLabel" aria-hidden="true">
+<div
+  class="modal fade"
+  id="realizationDeviceTable"
+  data-bs-backdrop="static"
+  data-bs-keyboard="false"
+  tabindex="-1"
+  aria-labelledby="realizationDeviceTableLabel"
+  aria-hidden="true"
+>
   <div class="modal-dialog modal-dialog-centered modal-lg">
     <div class="modal-content">
       <div class="modal-header text-white" style="background-color: #466471">
-        <h6 class="modal-title" id="realizationDeviceTableLabel">Realization and Prediction Table History</h6>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <h6 class="modal-title" id="realizationDeviceTableLabel">
+          Realization and Prediction Table History
+        </h6>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
       </div>
       <div class="modal-body">
-        <app-realization-device-table [type]="type" [data]="data"></app-realization-device-table>
+        <app-realization-device-table
+          [type]="type"
+          [data]="data"
+        ></app-realization-device-table>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-primary">Export Table</button>
+        <button type="button" class="btn btn-primary" (click)="exportTable()">
+          Export Table
+        </button>
       </div>
     </div>
   </div>

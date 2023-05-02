@@ -6,6 +6,7 @@ import {
   LegendPosition,
   ScaleType,
 } from '@swimlane/ngx-charts';
+import * as XLSX from 'xlsx';
 
 import { fromEvent, Observable, Subscription } from 'rxjs';
 import { DeviceserviceService } from 'src/app/services/deviceservice.service';
@@ -87,15 +88,19 @@ export class RealizationChartProductionComponent
     return value + ' kW';
   }
 
-  getWeek(date: Date): number {
-    const oneJan = new Date(date.getFullYear(), 0, 1);
-    const millisecsInDay = 86400000;
-    return Math.ceil(
-      ((date.getTime() - oneJan.getTime()) / millisecsInDay +
-        oneJan.getDay() +
-        1) /
-        7
-    );
+  exportTable(): void {
+    const headerRow = ['Day', 'Production (kW)', 'Predicted Production (kW)'];
+    const sheetData = [
+      headerRow,
+      ...this.data.map((data: any) => [
+        data.name,
+        ...data.series.map((series: { value: number }) => series.value),
+      ]),
+    ];
+    const worksheet: XLSX.WorkSheet = XLSX.utils.aoa_to_sheet(sheetData);
+    const workbook: XLSX.WorkBook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, 'Chart Data');
+    XLSX.writeFile(workbook, 'chart-data.xlsx');
   }
 
   HistoryWeekInit(id: string) {
@@ -133,9 +138,8 @@ export class RealizationChartProductionComponent
       (myList: any[]) => {
         return myList.map((item) => {
           const date = new Date(item.name);
-          const weekNumber = this.getWeek(date);
           this.activateButton(id);
-          return { name: `Week ${weekNumber}`, series: item.series };
+          return { name: `Week ${date}`, series: item.series };
         });
       }
     );

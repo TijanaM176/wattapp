@@ -1,17 +1,22 @@
 import { Component, OnInit, AfterViewInit } from '@angular/core';
-import { Color, ColorHelper, LegendPosition, ScaleType } from '@swimlane/ngx-charts';
+import {
+  Color,
+  ColorHelper,
+  LegendPosition,
+  ScaleType,
+} from '@swimlane/ngx-charts';
 import { DeviceWidthService } from 'src/app/services/device-width.service';
 import { DevicesService } from 'src/app/services/devices.service';
 import { fromEvent, Observable, Subscription } from 'rxjs';
+import * as XLSX from 'xlsx';
 
 @Component({
   selector: 'app-realization-chart',
   templateUrl: './realization-chart.component.html',
-  styleUrls: ['./realization-chart.component.css']
+  styleUrls: ['./realization-chart.component.css'],
 })
 export class RealizationChartComponent implements OnInit, AfterViewInit {
-
-  data : any[] = [];
+  data: any[] = [];
   dataConsumers: any[] = [];
   dataProducers: any[] = [];
   production = true;
@@ -26,7 +31,7 @@ export class RealizationChartComponent implements OnInit, AfterViewInit {
   showYAxis = true;
   gradient = false;
   showLegend = true;
-  legendPosition : LegendPosition = LegendPosition.Below;
+  legendPosition: LegendPosition = LegendPosition.Below;
   showXAxisLabel = true;
   xAxisLabel = 'Time';
   showYAxisLabel = true;
@@ -34,37 +39,61 @@ export class RealizationChartComponent implements OnInit, AfterViewInit {
 
   resizeObservable$!: Observable<Event>;
   resizeSubscription$!: Subscription;
-  coef : number = 0.6;
-  
-  constructor(private deviceService : DevicesService, private widthService : DeviceWidthService) {}
+  coef: number = 0.6;
+
+  constructor(
+    private deviceService: DevicesService,
+    private widthService: DeviceWidthService
+  ) {}
 
   ngAfterViewInit(): void {
     const grafik = document.getElementById('grafik');
-    grafik!.style!.height = (this.widthService.height * this.coef)+'px';
-    document.getElementById('realiz1')!.classList.add("active");
+    grafik!.style!.height = this.widthService.height * this.coef + 'px';
+    document.getElementById('realiz1')!.classList.add('active');
+  }
+
+  exportTable(): void {
+    const headerRow = ['Day', 'Consumption(kW)', 'Predicted Consumption(kW)'];
+    const sheetData = [
+      headerRow,
+      ...this.data.map((data) => [
+        data.name,
+        ...data.series.map((series: { value: number }) => series.value),
+      ]),
+    ];
+    const worksheet: XLSX.WorkSheet = XLSX.utils.aoa_to_sheet(sheetData);
+    const workbook: XLSX.WorkBook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, 'Chart Data');
+    XLSX.writeFile(workbook, 'chart-data.xlsx');
   }
 
   ngOnInit(): void {
     // this.HistoryWeekInit();
 
-    if(this.widthService.deviceWidth>=576 || this.widthService.height>=this.widthService.deviceWidth*2) this.coef = 0.5;
+    if (
+      this.widthService.deviceWidth >= 576 ||
+      this.widthService.height >= this.widthService.deviceWidth * 2
+    )
+      this.coef = 0.5;
 
     this.resizeObservable$ = fromEvent(window, 'resize');
     this.resizeSubscription$ = this.resizeObservable$.subscribe((evt) => {
       this.coef = 0.6;
-      if(this.widthService.deviceWidth>=576 || this.widthService.height>=this.widthService.deviceWidth*2) this.coef = 0.5;
+      if (
+        this.widthService.deviceWidth >= 576 ||
+        this.widthService.height >= this.widthService.deviceWidth * 2
+      )
+        this.coef = 0.5;
       const grafik = document.getElementById('grafik');
-      grafik!.style!.height = (this.widthService.height * this.coef) + 'px';
+      grafik!.style!.height = this.widthService.height * this.coef + 'px';
     });
   }
 
-  yAxisTickFormatting(value: number) 
-  {
+  yAxisTickFormatting(value: number) {
     return value + ' kW';
   }
 
-  getWeek(date: Date): number 
-  {
+  getWeek(date: Date): number {
     const oneJan = new Date(date.getFullYear(), 0, 1);
     const millisecsInDay = 86400000;
     return Math.ceil(
@@ -75,27 +104,24 @@ export class RealizationChartComponent implements OnInit, AfterViewInit {
     );
   }
 
-  HistoryWeekInit(data : any) 
-  {
-    const myList = Object.keys(data.consumption.timestamps).map(
-      (name) => {
-        let consumptionValue = data.consumption.timestamps[name];
-        let predictionValue = data.consumption.predictions[name];
-        const cons: string = 'consumption';
-        const pred: string = 'prediction';
-        if (predictionValue == undefined) {
-          predictionValue = 0.0;
-        }
-        if (consumptionValue == undefined) {
-          consumptionValue = 0.0;
-        }
-        const series = [
-          { name: cons, value: consumptionValue },
-          { name: pred, value: predictionValue },
-        ];
-        return { name, series };
+  HistoryWeekInit(data: any) {
+    const myList = Object.keys(data.consumption.timestamps).map((name) => {
+      let consumptionValue = data.consumption.timestamps[name];
+      let predictionValue = data.consumption.predictions[name];
+      const cons: string = 'consumption';
+      const pred: string = 'prediction';
+      if (predictionValue == undefined) {
+        predictionValue = 0.0;
       }
-    );
+      if (consumptionValue == undefined) {
+        consumptionValue = 0.0;
+      }
+      const series = [
+        { name: cons, value: consumptionValue },
+        { name: pred, value: predictionValue },
+      ];
+      return { name, series };
+    });
     this.data = myList.map((item) => {
       const date = new Date(item.name);
       const dayName = date.toLocaleDateString('en-US', { weekday: 'long' });
@@ -103,8 +129,7 @@ export class RealizationChartComponent implements OnInit, AfterViewInit {
     });
   }
 
-  HistoryWeek(id : string) 
-  {
+  HistoryWeek(id: string) {
     this.activateButton(id);
     this.loadData(
       this.deviceService.history7Days.bind(this.deviceService),
@@ -118,8 +143,7 @@ export class RealizationChartComponent implements OnInit, AfterViewInit {
     );
   }
 
-  HistoryMonth(id : string) 
-  {
+  HistoryMonth(id: string) {
     this.activateButton(id);
     this.loadData(
       this.deviceService.history1Month.bind(this.deviceService),
@@ -133,8 +157,7 @@ export class RealizationChartComponent implements OnInit, AfterViewInit {
     );
   }
 
-  HistoryYear(id : string) 
-  {
+  HistoryYear(id: string) {
     this.activateButton(id);
     this.loadData(
       this.deviceService.history1Year.bind(this.deviceService),
@@ -148,8 +171,7 @@ export class RealizationChartComponent implements OnInit, AfterViewInit {
     );
   }
 
-  loadData(apiCall: any, mapFunction: any) 
-  {
+  loadData(apiCall: any, mapFunction: any) {
     apiCall().subscribe((response: any) => {
       // console.log(response.consumption);
       const myList = Object.keys(response.consumption.timestamps).map(
@@ -178,15 +200,12 @@ export class RealizationChartComponent implements OnInit, AfterViewInit {
 
   activateButton(buttonNumber: string) {
     const buttons = document.querySelectorAll('.realizationbtn');
-    buttons.forEach(button=>{
-      if(button.id == buttonNumber)
-      {
+    buttons.forEach((button) => {
+      if (button.id == buttonNumber) {
         button.classList.add('active');
-      }
-      else
-      {
+      } else {
         button.classList.remove('active');
       }
-    })
+    });
   }
 }
