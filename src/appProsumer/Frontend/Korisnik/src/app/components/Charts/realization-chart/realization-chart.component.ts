@@ -46,7 +46,7 @@ export class RealizationChartComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     // this.HistoryWeekInit();
-
+    document.getElementById('modalFadeConsumptionRealizationTableBody')!.style.maxHeight = this.widthService.height * 0.6 + 'px';
     if(this.widthService.deviceWidth>=576 || this.widthService.height>=this.widthService.deviceWidth*2) this.coef = 0.5;
 
     this.resizeObservable$ = fromEvent(window, 'resize');
@@ -126,8 +126,11 @@ export class RealizationChartComponent implements OnInit, AfterViewInit {
       (myList: any[]) => {
         return myList.map((item) => {
           const date = new Date(item.name);
+          let day = date.getDate()<10? '0'+date.getDate() : date.getDate();
+          let month =  date.getMonth()<10? '0'+date.getMonth() : date.getMonth();
+          let dateMonth = day + '.' + month + '.' + date.getFullYear() + '.';
           const weekNumber = this.getWeek(date);
-          return { name: `Week ${weekNumber}`, series: item.series };
+          return { name: `Week ${weekNumber}`, series: item.series, date: dateMonth};
         });
       }
     );

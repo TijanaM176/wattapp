@@ -63,7 +63,7 @@
         <h6 class="modal-title" id="realizationProsumerConsumptionTableLabel">Consumption History Table</h6>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-      <div class="modal-body py-0">
+      <div class="modal-body py-0 px-2" style="overflow-y: auto; overflow-x: hidden;" id="modalFadeConsumptionRealizationTableBody">
         <app-realization-chart-table [type]="'Consumption'" [data]="data"></app-realization-chart-table>
       </div>
       <div class="modal-footer">

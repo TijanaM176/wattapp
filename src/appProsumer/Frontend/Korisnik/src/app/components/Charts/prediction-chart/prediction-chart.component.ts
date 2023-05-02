@@ -38,6 +38,8 @@ export class PredictionChartComponent implements OnInit {
   constructor(private deviceService : DevicesService, private widthService : DeviceWidthService) {}
 
   ngOnInit(): void {
+    document.getElementById('modalFadePredictionDataBody')!.style.maxHeight = this.widthService.height * 0.6 + 'px';
+
     if(this.widthService.deviceWidth>=576 || this.widthService.height>=this.widthService.deviceWidth*2) this.coef = 0.5;
     const grafik = document.getElementById('predictionGraphicUser');
     grafik!.style!.height = (this.widthService.height * this.coef) + 'px';

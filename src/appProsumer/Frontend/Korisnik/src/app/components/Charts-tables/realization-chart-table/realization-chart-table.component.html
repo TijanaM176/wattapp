@@ -1,5 +1,5 @@
 <table class="table table-striped">
-    <thead>
+    <thead style="position: sticky; top: 0px; background-color: white;">
       <tr class="text-center">
         <th scope="col"></th>
         <th scope="col text-center">{{type}}</th>
@@ -8,7 +8,8 @@
     </thead>
     <tbody>
       <tr *ngFor="let item of data; index as i">
-        <th scope="row" class="ps-1">{{item.name}}</th>
+        <th scope="row" class="ps-1" *ngIf="!item.date">{{item.name}}</th>
+        <th scope="row" class="ps-1" *ngIf="item.date">{{item.date}}</th>
         <td class="text-center">{{item?.series[0]?.value?.toFixed(2)}} kW</td>
         <td class="text-center">{{item?.series[1]?.value?.toFixed(2)}} kW</td>
       </tr>

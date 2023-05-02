@@ -1,4 +1,5 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { DeviceWidthService } from 'src/app/services/device-width.service';
 
 @Component({
   selector: 'app-realization-chart-table',
@@ -8,4 +9,6 @@ import { Component, Input } from '@angular/core';
 export class RealizationChartTableComponent {
   @Input() data : any[] = [];
   @Input() type : string = '';
+
+  constructor(private widthService : DeviceWidthService) {}
 }
