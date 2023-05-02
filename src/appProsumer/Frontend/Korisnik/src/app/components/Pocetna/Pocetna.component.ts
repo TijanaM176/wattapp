@@ -62,6 +62,8 @@ export class PocetnaComponent implements OnInit, AfterViewInit {
     } else {
       this.tariff = 'HIGHER';
     }
+    this.activateBtn('offcanvasHome');
+    this.activateButton('sidebarHome');
   }
 
   getDevices() {
@@ -132,5 +134,34 @@ export class PocetnaComponent implements OnInit, AfterViewInit {
     }
     this.devicesStatus.setDevices(this.devices);
     this.devicesStatus.setCurrentConsumptionAndProduction(this.currentConsumption,this.currentProduction);
+  }
+
+  activateBtn(id : string)
+  {
+    const buttons = document.querySelectorAll('.offcanvasBtn');
+    buttons.forEach(button=>{
+      if(button.id == id)
+      {
+        button.classList.add('active');
+      }
+      else
+      {
+        button.classList.remove('active');
+      }
+    })
+  }
+  activateButton(id : string)
+  {
+    const buttons = document.querySelectorAll('.sidebarBtn');
+    buttons.forEach(button=>{
+      if(button.id == id)
+      {
+        button.classList.add('active');
+      }
+      else
+      {
+        button.classList.remove('active');
+      }
+    });
   }
 }

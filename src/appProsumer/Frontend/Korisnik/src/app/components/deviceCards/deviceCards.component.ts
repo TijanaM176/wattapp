@@ -51,6 +51,8 @@ export class DeviceCardsComponent implements OnInit {
         });
         this.spiner.hide();
       });
+      this.activateBtn('offcanvasUserDevices');
+      this.activateButton('sidebarUserDevices');
   }
 
   Usage(dev: any) {
@@ -76,5 +78,34 @@ export class DeviceCardsComponent implements OnInit {
   }
   navigateToDevice(deviceId: number) {
     this.router.navigate(['/ProsumerApp/userDevices', deviceId, 'deviceinfo']);
+  }
+
+  activateBtn(id : string)
+  {
+    const buttons = document.querySelectorAll('.offcanvasBtn');
+    buttons.forEach(button=>{
+      if(button.id == id)
+      {
+        button.classList.add('active');
+      }
+      else
+      {
+        button.classList.remove('active');
+      }
+    })
+  }
+  activateButton(id : string)
+  {
+    const buttons = document.querySelectorAll('.sidebarBtn');
+    buttons.forEach(button=>{
+      if(button.id == id)
+      {
+        button.classList.add('active');
+      }
+      else
+      {
+        button.classList.remove('active');
+      }
+    });
   }
 }

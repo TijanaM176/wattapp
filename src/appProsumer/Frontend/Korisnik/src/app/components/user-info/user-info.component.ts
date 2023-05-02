@@ -47,6 +47,8 @@ export class UserInfoComponent implements OnInit {
 
   ngOnInit(): void {
     this.getInformation();
+    this.activateBtn('offcanvasUserInfo');
+    this.activateButton('sidebarUserInfo');
   }
 
   private getInformation() {
@@ -224,5 +226,33 @@ export class UserInfoComponent implements OnInit {
     this.success = false;
     this.error = false;
     this.updating = false;
+  }
+  activateBtn(id : string)
+  {
+    const buttons = document.querySelectorAll('.offcanvasBtn');
+    buttons.forEach(button=>{
+      if(button.id == id)
+      {
+        button.classList.add('active');
+      }
+      else
+      {
+        button.classList.remove('active');
+      }
+    })
+  }
+  activateButton(id : string)
+  {
+    const buttons = document.querySelectorAll('.sidebarBtn');
+    buttons.forEach(button=>{
+      if(button.id == id)
+      {
+        button.classList.add('active');
+      }
+      else
+      {
+        button.classList.remove('active');
+      }
+    });
   }
 }
