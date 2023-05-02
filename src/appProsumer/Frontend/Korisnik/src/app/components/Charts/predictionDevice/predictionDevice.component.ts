@@ -62,6 +62,7 @@ export class PredictionDeviceComponent implements OnInit {
   }
 
   PredictionWeek(id: string) {
+    this.activateButton(id);
     this.deviceService
       .predictionDevice(this.idDev)
       .subscribe((response: any) => {
@@ -87,6 +88,7 @@ export class PredictionDeviceComponent implements OnInit {
   }
 
   Prediction3Days(id: string) {
+    this.activateButton(id);
     this.deviceService
       .predictionDevice(this.idDev)
       .subscribe((response: any) => {
@@ -113,6 +115,7 @@ export class PredictionDeviceComponent implements OnInit {
   }
 
   Prediction1Day(id: string) {
+    this.activateButton(id);
     this.deviceService
       .predictionDevice(this.idDev)
       .subscribe((response: any) => {

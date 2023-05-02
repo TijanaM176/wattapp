@@ -39,7 +39,7 @@ export class RealizationChartComponent implements OnInit, AfterViewInit {
   constructor(private deviceService : DevicesService, private widthService : DeviceWidthService) {}
 
   ngAfterViewInit(): void {
-    const grafik = document.getElementById('grafik');
+    const grafik = document.getElementById('grafikConsumptionHistory');
     grafik!.style!.height = (this.widthService.height * this.coef)+'px';
     document.getElementById('realiz1')!.classList.add("active");
   }
@@ -53,7 +53,7 @@ export class RealizationChartComponent implements OnInit, AfterViewInit {
     this.resizeSubscription$ = this.resizeObservable$.subscribe((evt) => {
       this.coef = 0.6;
       if(this.widthService.deviceWidth>=576 || this.widthService.height>=this.widthService.deviceWidth*2) this.coef = 0.5;
-      const grafik = document.getElementById('grafik');
+      const grafik = document.getElementById('grafikConsumptionHistory');
       grafik!.style!.height = (this.widthService.height * this.coef) + 'px';
     });
   }

@@ -39,7 +39,7 @@ export class PredictionChartComponent implements OnInit {
 
   ngOnInit(): void {
     if(this.widthService.deviceWidth>=576 || this.widthService.height>=this.widthService.deviceWidth*2) this.coef = 0.5;
-    const grafik = document.getElementById('predikcija');
+    const grafik = document.getElementById('predictionGraphicUser');
     grafik!.style!.height = (this.widthService.height * this.coef) + 'px';
 
     this.PredictionWeek("prediction3");
@@ -49,7 +49,7 @@ export class PredictionChartComponent implements OnInit {
     this.resizeSubscription$ = this.resizeObservable$.subscribe((evt) => {
       this.coef = 0.6;
       if(this.widthService.deviceWidth>=576 || this.widthService.height>=this.widthService.deviceWidth*2) this.coef = 0.5;
-      const grafik = document.getElementById('predikcija');
+      const grafik = document.getElementById('predictionGraphicUser');
       grafik!.style!.height = (this.widthService.height * this.coef) + 'px';
     });
   }
