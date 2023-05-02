@@ -3,15 +3,15 @@ import { Color, ScaleType } from '@swimlane/ngx-charts';
 import { DeviceWidthService } from 'src/app/services/device-width.service';
 import { DevicesService } from 'src/app/services/devices.service';
 import { fromEvent, Observable, Subscription } from 'rxjs';
+import * as XLSX from 'xlsx';
 
 @Component({
   selector: 'app-prediction-chart',
   templateUrl: './prediction-chart.component.html',
-  styleUrls: ['./prediction-chart.component.css']
+  styleUrls: ['./prediction-chart.component.css'],
 })
 export class PredictionChartComponent implements OnInit {
-
-  data : any[] = [];
+  data: any[] = [];
   dataConsumers: any[] = [];
   dataProducers: any[] = [];
   production = true;
@@ -33,34 +33,58 @@ export class PredictionChartComponent implements OnInit {
 
   resizeObservable$!: Observable<Event>;
   resizeSubscription$!: Subscription;
-  coef : number = 0.6;
+  coef: number = 0.6;
 
-  constructor(private deviceService : DevicesService, private widthService : DeviceWidthService) {}
+  constructor(
+    private deviceService: DevicesService,
+    private widthService: DeviceWidthService
+  ) {}
+
+  exportTable(): void {
+    const headerRow = ['Day', 'Consumption(kW)', 'Production(kW)'];
+    const sheetData = [
+      headerRow,
+      ...this.data.map((data) => [
+        data.name,
+        ...data.series.map((series: { value: number }) => series.value),
+      ]),
+    ];
+    const worksheet: XLSX.WorkSheet = XLSX.utils.aoa_to_sheet(sheetData);
+    const workbook: XLSX.WorkBook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, 'Chart Data');
+    XLSX.writeFile(workbook, 'chart-data.xlsx');
+  }
 
   ngOnInit(): void {
-    if(this.widthService.deviceWidth>=576 || this.widthService.height>=this.widthService.deviceWidth*2) this.coef = 0.5;
+    if (
+      this.widthService.deviceWidth >= 576 ||
+      this.widthService.height >= this.widthService.deviceWidth * 2
+    )
+      this.coef = 0.5;
     const grafik = document.getElementById('predikcija');
-    grafik!.style!.height = (this.widthService.height * this.coef) + 'px';
+    grafik!.style!.height = this.widthService.height * this.coef + 'px';
 
-    this.PredictionWeek("prediction3");
+    this.PredictionWeek('prediction3');
     //document.getElementById("prediction3")!.classList.add('active');
 
     this.resizeObservable$ = fromEvent(window, 'resize');
     this.resizeSubscription$ = this.resizeObservable$.subscribe((evt) => {
       this.coef = 0.6;
-      if(this.widthService.deviceWidth>=576 || this.widthService.height>=this.widthService.deviceWidth*2) this.coef = 0.5;
+      if (
+        this.widthService.deviceWidth >= 576 ||
+        this.widthService.height >= this.widthService.deviceWidth * 2
+      )
+        this.coef = 0.5;
       const grafik = document.getElementById('predikcija');
-      grafik!.style!.height = (this.widthService.height * this.coef) + 'px';
+      grafik!.style!.height = this.widthService.height * this.coef + 'px';
     });
   }
 
-  yAxisTickFormatting(value: number) 
-  {
+  yAxisTickFormatting(value: number) {
     return value + ' kW';
   }
 
-  getWeek(date: Date): number 
-  {
+  getWeek(date: Date): number {
     const oneJan = new Date(date.getFullYear(), 0, 1);
     const millisecsInDay = 86400000;
     return Math.ceil(
@@ -71,8 +95,7 @@ export class PredictionChartComponent implements OnInit {
     );
   }
 
-  PredictionWeek(id : string)
-  {
+  PredictionWeek(id: string) {
     this.loadData(
       this.deviceService.prediction1Week.bind(this.deviceService),
       (myList: any[]) => {
@@ -86,8 +109,7 @@ export class PredictionChartComponent implements OnInit {
     );
   }
 
-  Prediction3Days(id : string)
-  {
+  Prediction3Days(id: string) {
     this.loadData(
       this.deviceService.prediction3Days.bind(this.deviceService),
       (myList: any[]) => {
@@ -101,8 +123,7 @@ export class PredictionChartComponent implements OnInit {
     );
   }
 
-  Prediction1Day(id : string)
-  {
+  Prediction1Day(id: string) {
     this.loadData(
       this.deviceService.prediction1Day.bind(this.deviceService),
       (myList: any[]) => {
@@ -110,35 +131,32 @@ export class PredictionChartComponent implements OnInit {
           const date = new Date(item.name);
           const hour = date.getHours();
           this.activateButton(id);
-          return { name: hour+':00h', series: item.series };
+          return { name: hour + ':00h', series: item.series };
         });
       }
     );
   }
 
-  loadData(apiCall: any, mapFunction: any) 
-  {
+  loadData(apiCall: any, mapFunction: any) {
     apiCall().subscribe((response: any) => {
       //console.log(response);
-      const myList = Object.keys(response.consumption).map(
-        (name) => {
-          let consumptionValue = response.consumption[name];
-          let productionValue = response.production[name];
-          const cons: string = 'consumption';
-          const prod: string = 'producton';
-          if (productionValue == undefined) {
-            productionValue = 0.0;
-          }
-          if (consumptionValue == undefined) {
-            consumptionValue = 0.0;
-          }
-          const series = [
-            { name: cons, value: consumptionValue },
-            { name: prod, value: productionValue },
-          ];
-          return { name, series };
+      const myList = Object.keys(response.consumption).map((name) => {
+        let consumptionValue = response.consumption[name];
+        let productionValue = response.production[name];
+        const cons: string = 'consumption';
+        const prod: string = 'producton';
+        if (productionValue == undefined) {
+          productionValue = 0.0;
         }
-      );
+        if (consumptionValue == undefined) {
+          consumptionValue = 0.0;
+        }
+        const series = [
+          { name: cons, value: consumptionValue },
+          { name: prod, value: productionValue },
+        ];
+        return { name, series };
+      });
       this.data = mapFunction(myList);
       // console.log(this.data);
     });
@@ -146,15 +164,12 @@ export class PredictionChartComponent implements OnInit {
 
   activateButton(buttonNumber: string) {
     const buttons = document.querySelectorAll('.predictionbtn');
-    buttons.forEach(button=>{
-      if(button.id == buttonNumber)
-      {
+    buttons.forEach((button) => {
+      if (button.id == buttonNumber) {
         button.classList.add('active');
-      }
-      else
-      {
+      } else {
         button.classList.remove('active');
       }
-    })
+    });
   }
 }
