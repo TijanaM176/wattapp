@@ -36,3 +36,10 @@
   justify-content: center;
   align-items: center;
 }
+
+@media (max-width : 768px)
+{
+  .card-text{
+    font-size: 10px;
+  }
+}

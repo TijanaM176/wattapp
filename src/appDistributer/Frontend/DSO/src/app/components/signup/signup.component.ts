@@ -105,12 +105,14 @@ export class SignupComponent implements OnInit {
         ',' +
         'Serbia';
 
+      this.address = this.address.replaceAll('dj','đ');
+      console.log(this.address);
       this.auth.signUp(this.signupForm.value).subscribe({
         next: (res) => {
           this.toast.success('Success','New Prosumer Added',{timeOut:2500});
 
           this.getCoordinates(this.address, res.username);
-          console.log(res.username);
+          // console.log(res.username);
           this.signupForm.reset();
           this.router
             .navigateByUrl('/', { skipLocationChange: true })
@@ -124,7 +126,7 @@ export class SignupComponent implements OnInit {
           });
         },
       });
-      console.log(this.signupForm.value);
+      // console.log(this.signupForm.value);
     } else {
       this.validateAllFormFields(this.signupForm);
     }
@@ -156,9 +158,9 @@ export class SignupComponent implements OnInit {
         /*this.latitude = location[0];
       this.longitude = location[1];*/
         let coordsDto = new SetCoordsDto();
-        coordsDto.username = username;
-        coordsDto.latitude = location[0].toString();
-        coordsDto.longitude = location[1].toString();
+        coordsDto.Username = username;
+        coordsDto.Latitude = location[0].toString();
+        coordsDto.Longitude = location[1].toString();
         this.auth.setUserCoordinates(coordsDto).subscribe({
           next: (res) => {
             console.log(res.message);
