@@ -71,6 +71,7 @@ export class HistoryProsumerComponent implements OnInit {
     document.getElementById('grafik')!.style.height =
       this.widthService.height * this.coef + 'px';
     this.HistoryWeek('realiz1');
+    document.getElementById('modalFadeConsumptionHistoryProsumer')!.style.maxHeight = this.widthService.height * 0.7 + 'px';
   }
 
   HistoryWeek(id: string) {

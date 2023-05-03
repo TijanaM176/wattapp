@@ -107,7 +107,7 @@
 >
   <div class="modal-dialog modal-dialog-centered modal-lg">
     <div class="modal-content">
-      <div class="modal-header text-white" style="background-color: #466471">
+      <div class="modal-header text-white" style="background-color: #5875a1">
         <h6 class="modal-title" id="realizationProsumerProductionTableLabel">
           Production History Table
         </h6>
@@ -118,7 +118,7 @@
           aria-label="Close"
         ></button>
       </div>
-      <div class="modal-body py-0">
+      <div class="modal-body py-0" style="overflow-x: hidden; overflow-y: auto;" id="modalFadeProductionHistoryProsumer">
         <app-history-prosumer-table
           [type]="'Production'"
           [data]="data"

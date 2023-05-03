@@ -82,6 +82,7 @@ export class RealizationChartProductionComponent
       const grafik = document.getElementById('realizationUser');
       grafik!.style.height = this.widthService.height * this.coef + 'px';
     });
+    document.getElementById('modalFadeProductionHistoryProsumer')!.style.maxHeight = this.widthService.height * 0.7 + 'px';
   }
 
   yAxisTickFormatting(value: number) {

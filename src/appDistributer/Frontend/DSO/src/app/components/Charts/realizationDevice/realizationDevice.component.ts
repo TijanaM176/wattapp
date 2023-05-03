@@ -80,6 +80,7 @@ export class RealizationDeviceComponent implements OnInit, AfterViewInit {
     document.getElementById('realiz1')!.classList.add('active');
     this.idDev = this.router1.snapshot.params['idDev'];
 
+    document.getElementById('modalFadeHistoryDevice')!.style.maxHeight = this.widthService.height * 0.7 + 'px';
     this.HistoryWeek('realiz1');
   }
 

@@ -71,6 +71,7 @@ export class PredictionDeviceComponent implements OnInit, AfterViewInit {
     this.idDev = this.router1.snapshot.params['idDev'];
     const grafik = document.getElementById('predikcija');
     grafik!.style.height = this.widthService.height * 0.6 + 'px';
+    document.getElementById('modalFadePredictionDevice')!.style.maxHeight = this.widthService.height * 0.7 + 'px';
     this.Prediction1Day('predictionDevice1');
   }
 

@@ -6,6 +6,7 @@ import { ScaleType, Color, LegendComponent } from '@swimlane/ngx-charts';
 import { BrowserModule } from '@angular/platform-browser';
 import { TimestampService } from 'src/app/services/timestamp.service';
 import * as XLSX from 'xlsx';
+import { ScreenWidthService } from 'src/app/services/screen-width.service';
 
 
 @Component({
@@ -34,7 +35,8 @@ export class PredictionAllUsersComponent implements OnInit {
   constructor(
     private service: UsersServiceService,
     private router: ActivatedRoute,
-    private servicetime: TimestampService
+    private servicetime: TimestampService,
+    private widthService : ScreenWidthService
   ) {}
 
   exportTable(): void {
@@ -62,6 +64,7 @@ export class PredictionAllUsersComponent implements OnInit {
 
   ngOnInit() {
     this.PredictionDay();
+    document.getElementById('modalFadePredictionAllProsumers')!.style.maxHeight = this.widthService.height * 0.7 + 'px';
   }
 
   PredictionWeek() {

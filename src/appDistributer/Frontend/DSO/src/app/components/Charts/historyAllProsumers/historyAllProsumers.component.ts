@@ -8,6 +8,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { TimestampService } from 'src/app/services/timestamp.service';
 import { tickStep } from 'd3';
 import * as XLSX from 'xlsx';
+import { ScreenWidthService } from 'src/app/services/screen-width.service';
 @Component({
   selector: 'app-historyAllProsumers',
   templateUrl: './historyAllProsumers.component.html',
@@ -34,7 +35,8 @@ export class HistoryAllProsumersComponent implements OnInit {
   constructor(
     private service: UsersServiceService,
     private router: ActivatedRoute,
-    private servicetime: TimestampService
+    private servicetime: TimestampService,
+    private widthService : ScreenWidthService
   ) {}
 
   exportTable(): void {
@@ -57,6 +59,7 @@ export class HistoryAllProsumersComponent implements OnInit {
 
   ngOnInit() {
     this.HistoryWeek();
+    document.getElementById('modalFadeHistoryAllProsumers')!.style.maxHeight = this.widthService.height * 0.7 + 'px';
   }
 
   HistoryMonth() {

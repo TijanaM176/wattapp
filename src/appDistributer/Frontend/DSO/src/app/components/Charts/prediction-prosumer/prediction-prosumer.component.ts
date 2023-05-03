@@ -47,6 +47,7 @@ export class PredictionProsumerComponent implements OnInit {
       this.widthService.height * 0.6 + 'px';
     this.PredictionDay('predictionUser1');
     this.activateButton('predictionUser1');
+    document.getElementById('modalFadePredictionProsumer')!.style.maxHeight = this.widthService.height * 0.7 + 'px';
   }
 
   yAxisTickFormatting(value: number) {
