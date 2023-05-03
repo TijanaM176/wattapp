@@ -188,11 +188,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
           this.getCoordinates(this.address, res.username);
           console.log(res.username);
           this.signupForm.reset();
-          this.router
-            .navigateByUrl('/', { skipLocationChange: true })
-            .then(() => {
-              this.router.navigate(['/DsoApp/signup']);
-            });
+          window.location.reload();
         },
         error: (err) => {
           this.toast.error('Error!', 'Unable to add new prosumer.', {
@@ -232,9 +228,9 @@ export class HomeComponent implements OnInit, AfterViewInit {
         /*this.latitude = location[0];
       this.longitude = location[1];*/
         let coordsDto = new SetCoordsDto();
-        coordsDto.username = username;
-        coordsDto.latitude = location[0].toString();
-        coordsDto.longitude = location[1].toString();
+        coordsDto.Username = username.toString();
+        coordsDto.Latitude = location[0].toString();
+        coordsDto.Longitude = location[1].toString();
         this.auth.setUserCoordinates(coordsDto).subscribe({
           next: (res) => {
             console.log(res.message);

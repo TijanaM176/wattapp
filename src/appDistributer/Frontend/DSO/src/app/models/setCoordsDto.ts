@@ -1,6 +1,5 @@
-export class SetCoordsDto
-{
-    username! : string
-    latitude! : string
-    longitude! : string
+export class SetCoordsDto {
+  Username!: string;
+  Latitude!: string;
+  Longitude!: string;
 }
