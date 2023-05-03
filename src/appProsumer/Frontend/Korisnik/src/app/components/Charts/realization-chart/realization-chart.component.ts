@@ -109,8 +109,7 @@ export class RealizationChartComponent implements OnInit, AfterViewInit {
   }
 
   HistoryWeekInit(data: any) {
-    this.show=true;
-    this.spiner.show();
+
     const myList = Object.keys(data.consumption.timestamps).map((name) => {
       let consumptionValue = data.consumption.timestamps[name];
       let predictionValue = data.consumption.predictions[name];
@@ -133,8 +132,7 @@ export class RealizationChartComponent implements OnInit, AfterViewInit {
       const dayName = date.toLocaleDateString('en-US', { weekday: 'long' });
       return { name: dayName, series: item.series };
     });
-    this.spiner.hide();
-    this.show=false;
+
   }
 
   HistoryWeek(id: string) {

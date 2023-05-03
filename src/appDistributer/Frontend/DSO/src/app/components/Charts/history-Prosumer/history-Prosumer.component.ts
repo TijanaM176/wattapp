@@ -72,9 +72,46 @@ export class HistoryProsumerComponent implements OnInit {
     this.id = this.router.snapshot.params['id'];
     document.getElementById('grafik')!.style.height =
       this.widthService.height * this.coef + 'px';
-    this.HistoryWeek('realiz1');
+    this.HistoryWeekInit('realiz1');
   }
+  HistoryWeekInit(id: string) {
 
+    this.serviceTime
+      .HistoryProsumer7Days(this.id)
+      .subscribe((response: any) => {
+        const myList: any = [];
+
+        const consumptionTimestamps = response.consumption.timestamps || {};
+        const productionTimestamps = response.consumption.predictions || {};
+        const allTimestamps = {
+          ...consumptionTimestamps,
+          ...productionTimestamps,
+        };
+
+        Object.keys(allTimestamps).forEach((name) => {
+          const consumptionValue = consumptionTimestamps[name] || 0.0;
+          const productionValue = productionTimestamps[name] || 0.0;
+
+          // Create a new Date object from the name string
+          const date = new Date(name);
+
+          // Format the date into a readable string
+          const dayName = date.toLocaleDateString('en-US', { weekday: 'long' });
+
+          const series = [
+            { name: 'consumption', value: consumptionValue },
+            { name: 'production', value: productionValue },
+          ];
+
+          // Set the name property of the object to the formatted date string
+          myList.push({ name: dayName, series });
+        });
+        this.data = myList;
+        this.data = this.data.slice(1);
+        this.activateButton(id);
+
+      });
+  }
   HistoryWeek(id: string) {
     this.show=true;
     this.spiner.show();

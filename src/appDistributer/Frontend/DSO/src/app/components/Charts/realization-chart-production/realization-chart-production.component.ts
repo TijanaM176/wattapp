@@ -108,8 +108,6 @@ export class RealizationChartProductionComponent
   }
 
   HistoryWeekInit(id: string) {
-    this.show=true;
-    this.spiner.show();
     this.loadData(
       this.serviceTime.HistoryProsumer7Days.bind(this.deviceService)(this.id),
       (myList: any[]) => {

@@ -31,7 +31,7 @@ export class PredictionAllUsersComponent implements OnInit {
   showYAxis = true;
   gradient = false;
   showLegend = true;
-  show:boolean=true;
+  show!:boolean;
   constructor(
     private service: UsersServiceService,
     private router: ActivatedRoute,
@@ -63,8 +63,7 @@ export class PredictionAllUsersComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.spinner.show();
-    this.PredictionDay();
+    this.PredictionDayInit();
   }
 
   PredictionWeek() {
@@ -148,6 +147,49 @@ export class PredictionAllUsersComponent implements OnInit {
       this.data = finalList;
       this.spinner.hide();
       this.show=false;
+    });
+  }
+  PredictionDayInit() {
+    this.servicetime.PredictionNextDay().subscribe((response: any) => {
+      const myList: any = [];
+
+      const consumptionTimestamps = response.consumption || {};
+      const productionTimestamps = response.production || {};
+      const allTimestamps = {
+        ...consumptionTimestamps,
+        ...productionTimestamps,
+      };
+
+      Object.keys(allTimestamps).forEach((name) => {
+        const consumptionValue = consumptionTimestamps[name] || 0.0;
+        const productionValue = productionTimestamps[name] || 0.0;
+        const series = [
+          { name: 'consumption', value: consumptionValue },
+          { name: 'production', value: productionValue },
+        ];
+        myList.push({ name, series });
+      });
+
+      const groupedData: any = {};
+
+      myList.forEach((item: any) => {
+        const date = new Date(item.name);
+        const hour = date.getHours();
+        const hourString = hour < 10 ? '0' + hour : hour.toString();
+        const name = hourString + ':00h';
+        if (!groupedData[name]) {
+          groupedData[name] = {
+            name,
+            series: [],
+          };
+        }
+        groupedData[name].series.push(...item.series);
+      });
+
+      const finalList = Object.values(groupedData);
+
+      this.data = finalList;
+     
     });
   }
 
