@@ -29,7 +29,9 @@ namespace API.Services.Devices
                     else
                     {
                         Random rand = new Random();
-                        currentUsage = d.Wattage * rand.Next(80, 110) / 100;
+                        if (d.CategoryId != 3)
+                            currentUsage = d.Wattage * rand.Next(95, 105) / 100;
+                        else currentUsage = d.Wattage * rand.Next(1, 100) / 100;
                     }
                 }
                 else
@@ -642,7 +644,9 @@ namespace API.Services.Devices
                     if ((double)dev["CurrentUsage"] == 0)
                     {
                         Random random = new Random();
-                        return (double)dev["AvgUsage"] * random.Next(95, 105) / 100;
+                        if ((int)dev["CategoryId"] != 3)
+                            return (double)dev["AvgUsage"] * random.Next(95, 105) / 100;
+                        else return (double)dev["Wattage"] * random.Next(1, 100) / 100;
                     }
                     else return (double)dev["CurrentUsage"];
                 }
