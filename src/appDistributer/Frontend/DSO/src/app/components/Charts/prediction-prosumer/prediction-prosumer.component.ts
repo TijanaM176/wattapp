@@ -46,7 +46,7 @@ export class PredictionProsumerComponent implements OnInit {
     this.id = this.router.snapshot.params['id'];
     document.getElementById('predictionUserInfoCardBody')!.style.height =
       this.widthService.height * 0.6 + 'px';
-    this.PredictionDay('predictionUser1');
+    this.PredictionDayInit('predictionUser1');
     this.activateButton('predictionUser1');
   }
 
@@ -202,7 +202,51 @@ export class PredictionProsumerComponent implements OnInit {
         this.show=false;
       });
   }
+  PredictionDayInit(id: string) {
+    this.serviceData
+      .PredictionProsumer1Day(this.id)
+      .subscribe((response: any) => {
+        const myList: any = [];
 
+        const consumptionTimestamps = response.consumption || {};
+        const productionTimestamps = response.production || {};
+        const allTimestamps = {
+          ...consumptionTimestamps,
+          ...productionTimestamps,
+        };
+
+        Object.keys(allTimestamps).forEach((timestamp) => {
+          const consumptionValue = consumptionTimestamps[timestamp] || 0.0;
+          const productionValue = productionTimestamps[timestamp] || 0.0;
+          const series = [
+            { name: 'consumption', value: consumptionValue },
+            { name: 'production', value: productionValue },
+          ];
+          myList.push({ timestamp, series });
+        });
+
+        const groupedData: any = {};
+
+        myList.forEach((item: any) => {
+          const date = new Date(item.timestamp);
+          const hour = date.getHours();
+          const hourString = hour < 10 ? '0' + hour : hour.toString();
+          const name = hourString + ':00h';
+          if (!groupedData[name]) {
+            groupedData[name] = {
+              name,
+              series: [],
+            };
+          }
+          groupedData[name].series.push(...item.series);
+        });
+
+        const finalList = Object.values(groupedData);
+        this.activateButton(id);
+        this.data = finalList;
+
+      });
+  }
   exportTable(): void {
     const headerRow = [
       'Day',

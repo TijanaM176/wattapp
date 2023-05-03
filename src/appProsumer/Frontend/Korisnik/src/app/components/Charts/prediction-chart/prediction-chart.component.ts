@@ -69,7 +69,7 @@ export class PredictionChartComponent implements OnInit {
     const grafik = document.getElementById('predikcija');
     grafik!.style!.height = this.widthService.height * this.coef + 'px';
 
-    this.PredictionWeek('prediction3');
+    this.PredictionWeekInit('prediction3');
     //document.getElementById("prediction3")!.classList.add('active');
 
     this.resizeObservable$ = fromEvent(window, 'resize');
@@ -103,6 +103,19 @@ export class PredictionChartComponent implements OnInit {
   PredictionWeek(id: string) {
     this.show=true;
     this.spiner.show();
+    this.loadData(
+      this.deviceService.prediction1Week.bind(this.deviceService),
+      (myList: any[]) => {
+        return myList.map((item) => {
+          const date = new Date(item.name);
+          const dayName = date.toLocaleDateString('en-US', { weekday: 'long' });
+          this.activateButton(id);
+          return { name: dayName, series: item.series };
+        });
+      }
+    );
+  }
+  PredictionWeekInit(id: string) {
     this.loadData(
       this.deviceService.prediction1Week.bind(this.deviceService),
       (myList: any[]) => {
