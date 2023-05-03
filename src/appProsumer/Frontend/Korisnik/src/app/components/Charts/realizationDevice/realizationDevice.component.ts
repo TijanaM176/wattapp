@@ -6,6 +6,7 @@ import {
   LegendPosition,
   ScaleType,
 } from '@swimlane/ngx-charts';
+import { NgxSpinnerService } from 'ngx-spinner';
 import { DeviceWidthService } from 'src/app/services/device-width.service';
 import { DevicesService } from 'src/app/services/devices.service';
 import * as XLSX from 'xlsx';
@@ -32,6 +33,7 @@ export class RealizationDeviceComponent implements OnInit, AfterViewInit {
     group: ScaleType.Ordinal,
     domain: ['#80BC00', '#48bec1'],
   };
+  show!:boolean;
   showXAxis = true;
   showYAxis = true;
   gradient = false;
@@ -48,7 +50,8 @@ export class RealizationDeviceComponent implements OnInit, AfterViewInit {
   constructor(
     private deviceService: DevicesService,
     private widthService: DeviceWidthService,
-    private router1: ActivatedRoute
+    private router1: ActivatedRoute,
+    private spiner:NgxSpinnerService
   ) {}
 
   exportTable(): void {
@@ -98,6 +101,8 @@ export class RealizationDeviceComponent implements OnInit, AfterViewInit {
   }
 
   HistoryWeek(id: string) {
+    this.show=true;
+    this.spiner.show();
     this.loadData(
       this.deviceService.historyDeviceWeek.bind(this.deviceService, this.idDev),
       (myList: any[]) => {
@@ -112,6 +117,8 @@ export class RealizationDeviceComponent implements OnInit, AfterViewInit {
   }
 
   HistoryMonth(id: string) {
+    this.show=true;
+    this.spiner.show();
     this.loadData(
       this.deviceService.historyDeviceMonth.bind(
         this.deviceService,
@@ -129,6 +136,8 @@ export class RealizationDeviceComponent implements OnInit, AfterViewInit {
   }
 
   HistoryYear(id: string) {
+    this.show=true;
+    this.spiner.show();
     this.loadData(
       this.deviceService.historyDeviceYear.bind(this.deviceService, this.idDev),
       (myList: any[]) => {
@@ -167,6 +176,9 @@ export class RealizationDeviceComponent implements OnInit, AfterViewInit {
       });
       this.data = mapFunction(myList);
       // console.log(this.data);
+      
+      this.spiner.hide();
+      this.show=false;
     });
   }
 

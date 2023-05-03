@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { NgxSpinnerService } from 'ngx-spinner';
 import { DashboarddataService } from 'src/app/services/dashboarddata.service';
 import { UsersServiceService } from 'src/app/services/users-service.service';
 import * as XLSX from 'xlsx';
@@ -15,24 +14,19 @@ export class Top5ProducersComponent implements OnInit {
 
   producers: any[] = [];
   consumers: any[] = [];
-  show!:boolean;
+
   constructor(
     private service: UsersServiceService,
-    private servicedash: DashboarddataService,
-    private spiner:NgxSpinnerService
+    private servicedash: DashboarddataService
   ) {}
 
   ngOnInit() {
-    this.show=true;
-    this.spiner.show();
     this.servicedash.Top5Consumers().subscribe((response) => {
       this.consumers = response;
     });
     this.servicedash.Top5Producers().subscribe((response) => {
       this.producers = response;
     });
-    this.spiner.hide();
-    this.show=false;
   }
 
   onRadioButtonChange(event: any, type: string) {

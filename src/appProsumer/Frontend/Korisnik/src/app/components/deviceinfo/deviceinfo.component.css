@@ -61,3 +61,6 @@ h6 {
 .btn-close{
   background-color: white;
 }
+#cardone, #cardtwo{
+  background: #e0efea;
+}

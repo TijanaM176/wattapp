@@ -1,6 +1,7 @@
 import { Component, OnInit, AfterViewInit, Input } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Color, ScaleType } from '@swimlane/ngx-charts';
+import { NgxSpinnerService } from 'ngx-spinner';
 import { DeviceWidthService } from 'src/app/services/device-width.service';
 import { DevicesService } from 'src/app/services/devices.service';
 import * as XLSX from 'xlsx';
@@ -31,12 +32,14 @@ export class PredictionDeviceComponent implements OnInit {
   yAxisLabel = 'Energy in kWh';
   idDev: string = '';
   cat: string = '';
+  show!:boolean;
   @Input() type: string = '';
 
   constructor(
     private deviceService: DevicesService,
     private widthService: DeviceWidthService,
-    private router1: ActivatedRoute
+    private router1: ActivatedRoute,
+    private spiner:NgxSpinnerService
   ) {}
 
   exportTable(): void {
@@ -81,6 +84,8 @@ export class PredictionDeviceComponent implements OnInit {
   }
 
   PredictionWeek(id: string) {
+    this.show=true;
+    this.spiner.show();
     this.deviceService
       .predictionDevice(this.idDev)
       .subscribe((response: any) => {
@@ -101,11 +106,15 @@ export class PredictionDeviceComponent implements OnInit {
           }
         );
         this.data = myList;
+        this.spiner.hide();
+        this.show=false;
         // console.log(this.data);
       });
   }
 
   Prediction3Days(id: string) {
+    this.show=true;
+    this.spiner.show();
     this.deviceService
       .predictionDevice(this.idDev)
       .subscribe((response: any) => {
@@ -127,11 +136,16 @@ export class PredictionDeviceComponent implements OnInit {
           }
         );
         this.data = myList;
+        this.spiner.hide();
+        this.show=false;
         // console.log(this.data);
       });
   }
 
   Prediction1Day(id: string) {
+    this.show=true;
+    this.spiner.show();
+    
     this.deviceService
       .predictionDevice(this.idDev)
       .subscribe((response: any) => {
@@ -154,6 +168,8 @@ export class PredictionDeviceComponent implements OnInit {
           }
         );
         this.data = myList;
+        this.spiner.hide();
+        this.show=false;
       });
   }
 

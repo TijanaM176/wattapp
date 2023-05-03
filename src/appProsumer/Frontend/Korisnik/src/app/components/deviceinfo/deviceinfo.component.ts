@@ -70,7 +70,7 @@ export class DeviceinfoComponent {
     this.width =
       document.getElementById('consumptionLimitCardBody')!.offsetWidth * 0.9;
     this.getInformation();
-    this.spiner.show();
+    
   }
   formatValue(value: number): string {
     return value.toFixed(4);
