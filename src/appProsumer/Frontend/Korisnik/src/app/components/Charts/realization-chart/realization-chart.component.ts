@@ -35,7 +35,7 @@ export class RealizationChartComponent implements OnInit, AfterViewInit {
   showXAxisLabel = true;
   xAxisLabel = 'Time';
   showYAxisLabel = true;
-  yAxisLabel = 'Energy in kWh';
+  yAxisLabel = 'Energy in kW';
 
   resizeObservable$!: Observable<Event>;
   resizeSubscription$!: Subscription;
@@ -47,7 +47,7 @@ export class RealizationChartComponent implements OnInit, AfterViewInit {
   ) {}
 
   ngAfterViewInit(): void {
-    const grafik = document.getElementById('grafik');
+    const grafik = document.getElementById('grafikConsumptionHistory');
     grafik!.style!.height = this.widthService.height * this.coef + 'px';
     document.getElementById('realiz1')!.classList.add('active');
   }
@@ -86,7 +86,7 @@ export class RealizationChartComponent implements OnInit, AfterViewInit {
         this.widthService.height >= this.widthService.deviceWidth * 2
       )
         this.coef = 0.5;
-      const grafik = document.getElementById('grafik');
+      const grafik = document.getElementById('grafikConsumptionHistory');
       grafik!.style!.height = this.widthService.height * this.coef + 'px';
     });
   }

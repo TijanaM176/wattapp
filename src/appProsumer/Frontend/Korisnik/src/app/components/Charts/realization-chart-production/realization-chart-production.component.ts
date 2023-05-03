@@ -9,6 +9,7 @@ import { DeviceWidthService } from 'src/app/services/device-width.service';
 import { DevicesService } from 'src/app/services/devices.service';
 import { fromEvent, Observable, Subscription } from 'rxjs';
 import * as XLSX from 'xlsx';
+
 @Component({
   selector: 'app-realization-chart-production',
   templateUrl: './realization-chart-production.component.html',
@@ -36,7 +37,7 @@ export class RealizationChartProductionComponent
   showXAxisLabel = true;
   xAxisLabel = 'Time';
   showYAxisLabel = true;
-  yAxisLabel = 'Energy in kWh';
+  yAxisLabel = 'Energy in kW';
 
   resizeObservable$!: Observable<Event>;
   resizeSubscription$!: Subscription;
@@ -107,7 +108,7 @@ export class RealizationChartProductionComponent
   }
 
   HistoryWeekInit(data: any) {
-    if(data.prediction)
+    if(data.production)
     {
       const myList = Object.keys(data.production.timestamps).map((name) => {
         let consumptionValue = data.production.timestamps[name];

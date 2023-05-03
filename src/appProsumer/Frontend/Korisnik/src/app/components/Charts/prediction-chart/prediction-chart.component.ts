@@ -10,7 +10,7 @@ import * as XLSX from 'xlsx';
   templateUrl: './prediction-chart.component.html',
   styleUrls: ['./prediction-chart.component.css'],
 })
-export class PredictionChartComponent implements OnInit {
+export class PredictionChartComponent implements OnInit, AfterViewInit {
   data: any[] = [];
   dataConsumers: any[] = [];
   dataProducers: any[] = [];
@@ -29,7 +29,7 @@ export class PredictionChartComponent implements OnInit {
   showXAxisLabel = true;
   xAxisLabel = 'Time';
   showYAxisLabel = true;
-  yAxisLabel = 'Energy in kWh';
+  yAxisLabel = 'Energy in kW';
 
   resizeObservable$!: Observable<Event>;
   resizeSubscription$!: Subscription;
@@ -39,6 +39,12 @@ export class PredictionChartComponent implements OnInit {
     private deviceService: DevicesService,
     private widthService: DeviceWidthService
   ) {}
+
+  ngAfterViewInit(): void {
+    const grafik = document.getElementById('grafikPredictionConsumptionProduction');
+    grafik!.style!.height = this.widthService.height * this.coef + 'px';
+    document.getElementById('prediction3')!.classList.add('active');
+  }
 
   exportTable(): void {
     const headerRow = ['Day', 'Consumption(kW)', 'Production(kW)'];
@@ -64,8 +70,9 @@ export class PredictionChartComponent implements OnInit {
       this.widthService.height >= this.widthService.deviceWidth * 2
     )
       this.coef = 0.5;
-    const grafik = document.getElementById('predikcija');
-    grafik!.style!.height = this.widthService.height * this.coef + 'px';
+
+    // const grafik = document.getElementById('grafikPredictionConsumptionProduction');
+    // grafik!.style!.height = this.widthService.height * this.coef + 'px';
 
     this.PredictionWeek('prediction3');
     //document.getElementById("prediction3")!.classList.add('active');
@@ -78,7 +85,7 @@ export class PredictionChartComponent implements OnInit {
         this.widthService.height >= this.widthService.deviceWidth * 2
       )
         this.coef = 0.5;
-      const grafik = document.getElementById('predikcija');
+      const grafik = document.getElementById('grafikPredictionConsumptionProduction');
       grafik!.style!.height = this.widthService.height * this.coef + 'px';
     });
   }
