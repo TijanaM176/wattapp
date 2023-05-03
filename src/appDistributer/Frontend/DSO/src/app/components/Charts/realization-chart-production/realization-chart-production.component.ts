@@ -43,7 +43,7 @@ export class RealizationChartProductionComponent
   showXAxisLabel = true;
   xAxisLabel = 'Time';
   showYAxisLabel = true;
-  yAxisLabel = 'Energy in kWh';
+  yAxisLabel = 'Energy  ( kWh )';
 
   resizeObservable$!: Observable<Event>;
   resizeSubscription$!: Subscription;
