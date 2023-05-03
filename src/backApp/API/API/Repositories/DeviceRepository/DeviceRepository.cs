@@ -337,7 +337,8 @@ namespace API.Repositories.DeviceRepository
                 if (currentUsage == 0)
                 {
                     Random random = new Random();
-                    curr = avg * random.Next(95, 105) / 100;
+                    if (info.CategoryId != 3) curr = avg * random.Next(95, 105) / 100;
+                    else curr = info.Wattage * random.Next(1, 100) / 100;
                 }
                 else curr = currentUsage;
             }
