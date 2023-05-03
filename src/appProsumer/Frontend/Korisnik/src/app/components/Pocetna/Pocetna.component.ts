@@ -49,8 +49,6 @@ export class PocetnaComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    // const homeCont = document.getElementById('homeCont');
-    // homeCont!.style.height = this.widthService.height + 'px';
   }
 
   ngOnInit() {
