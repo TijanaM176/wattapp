@@ -71,6 +71,8 @@ export class DeviceinfoComponent {
       document.getElementById('consumptionLimitCardBody')!.offsetWidth * 0.9;
     this.getInformation();
     this.spiner.show();
+    this.activateBtn('offcanvasUserDevices');
+    this.activateButton('sidebarUserDevices');
   }
   formatValue(value: number): string {
     return value.toFixed(4);
@@ -196,5 +198,34 @@ export class DeviceinfoComponent {
       .subscribe((response) => {
         this.currentUsage = response;
       });
+  }
+
+  activateBtn(id : string)
+  {
+    const buttons = document.querySelectorAll('.offcanvasBtn');
+    buttons.forEach(button=>{
+      if(button.id == id)
+      {
+        button.classList.add('active');
+      }
+      else
+      {
+        button.classList.remove('active');
+      }
+    })
+  }
+  activateButton(id : string)
+  {
+    const buttons = document.querySelectorAll('.sidebarBtn');
+    buttons.forEach(button=>{
+      if(button.id == id)
+      {
+        button.classList.add('active');
+      }
+      else
+      {
+        button.classList.remove('active');
+      }
+    });
   }
 }

@@ -1,7 +1,8 @@
-<div class="mb-3">
+<div class="mb-3 mt-1">
+  <label for="category" class="form-label mb-0">Device Category</label>
   <select
     class="dropdown dropdown-toggle"
-    name="type"
+    name="category"
     (change)="ChangeCategory($event)"
     [(ngModel)]="category"
     class="form-control"
@@ -19,7 +20,7 @@
   </select>
 </div>
 <div class="mb-3">
-  <label for="type" class="form-label">Device Type</label>
+  <label for="type" class="form-label mb-0">Device Type</label>
   <select
     class="dropdown dropdown-toggle"
     name="type"
@@ -37,7 +38,7 @@
   </select>
 </div>
 <div class="mb-3">
-  <label for="Name" class="form-label">Device Model</label>
+  <label for="Name" class="form-label mb-0">Device Model</label>
   <select
     class="dropdown dropdown-toggle"
     name="model"
@@ -56,7 +57,7 @@
   </select>
 </div>
 <div class="mb-3">
-  <label for="name" class="form-label">Device Name</label>
+  <label for="name" class="form-label mb-0">Device Name</label>
   <input
     type="text"
     maxlength="18"

@@ -1,11 +1,14 @@
 .consumption {
   color: #c14b48;
 }
-.prediction {
+.production {
   color: #48bec1;
 }
-.production {
+.predictionProduction {
   color: #80bc00;
+}
+.predictionConsumption {
+  color: rgb(219, 169, 30);
 }
 h6 {
   color: #466471;

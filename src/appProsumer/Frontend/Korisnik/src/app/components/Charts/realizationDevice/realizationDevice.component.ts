@@ -24,13 +24,13 @@ export class RealizationDeviceComponent implements OnInit, AfterViewInit {
     name: 'mycolors',
     selectable: true,
     group: ScaleType.Ordinal,
-    domain: ['#c14b48', '#48bec1'],
+    domain: ['#c14b48', 'rgb(219, 169, 30)'],
   };
   colors1: Color = {
     name: 'mycolors',
     selectable: true,
     group: ScaleType.Ordinal,
-    domain: ['#80BC00', '#48bec1'],
+    domain: ['#48bec1', '#80bc00'],
   };
   showXAxis = true;
   showYAxis = true;

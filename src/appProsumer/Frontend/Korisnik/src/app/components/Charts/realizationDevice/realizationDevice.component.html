@@ -120,7 +120,8 @@
       >&nbsp;&nbsp;&nbsp;
       <i class="fa fa-circle production" *ngIf="cat == '2'">&nbsp;Production</i
       >&nbsp;&nbsp;&nbsp;
-      <i class="fa fa-circle prediction">&nbsp;Prediction</i>
+      <i class="fa fa-circle predictionConsumption" *ngIf="cat == '1'">&nbsp;Predicted</i>
+      <i class="fa fa-circle predictionProduction" *ngIf="cat == '2'">&nbsp;Predicted</i>
     </div>
   </div>
 </div>

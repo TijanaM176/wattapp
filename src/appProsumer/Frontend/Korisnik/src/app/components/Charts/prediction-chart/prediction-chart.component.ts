@@ -56,6 +56,9 @@ export class PredictionChartComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    document.getElementById('modalFadePredictionDataBody')!.style.maxHeight =
+      this.widthService.height * 0.6 + 'px';
+
     if (
       this.widthService.deviceWidth >= 576 ||
       this.widthService.height >= this.widthService.deviceWidth * 2
@@ -129,7 +132,8 @@ export class PredictionChartComponent implements OnInit {
       (myList: any[]) => {
         return myList.map((item) => {
           const date = new Date(item.name);
-          const hour = date.getHours();
+          const hour =
+            date.getHours() < 10 ? '0' + date.getHours() : date.getHours();
           this.activateButton(id);
           return { name: hour + ':00h', series: item.series };
         });

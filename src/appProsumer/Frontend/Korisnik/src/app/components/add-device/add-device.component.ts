@@ -96,6 +96,7 @@ export class AddDeviceComponent implements OnInit {
           this.activateBtn('offcanvasUserDevices');
           this.activateButton('sidebarUserDevices');
         }
+        document.getElementById('addDeviceCloseOffcanvas')!.click();
       },
       error: (err) => {
         console.log(err.error);
