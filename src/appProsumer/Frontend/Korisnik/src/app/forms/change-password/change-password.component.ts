@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
 import { EditDto } from 'src/app/models/editDto';
 import { ProsumerService } from 'src/app/services/prosumer.service';
@@ -20,7 +21,7 @@ export class ChangePasswordComponent implements OnInit{
   incorrectCurrent : boolean = false;
   empty : boolean = false;
 
-  constructor(private userService : ProsumerService, private cookie : CookieService) {}
+  constructor(private userService : ProsumerService, private cookie : CookieService, private router : Router) {}
 
   ngOnInit(): void {
     this.allToFalse();
@@ -42,13 +43,20 @@ export class ChangePasswordComponent implements OnInit{
     {
       //prvo da se pozove fja da se potvrdi trenutna sifra pa ako je to uspesno da se pozove f-ja za izmenu
       let dto : EditDto = new EditDto();
-      dto.password = this.newPass;
+      dto.newPassword = this.newPass;
+      dto.oldPassword = this.currentPass;
 
       this.userService.editInfo(this.cookie.get('id'), dto)
       .subscribe({
         next:(res)=>{
           this.allToFalse();
           this.success = true;
+
+          setTimeout(()=>{
+            document.getElementById('closeChangePassOnSuccess')!.click();
+            this.cookie.deleteAll('/');
+            this.router.navigate(['login']);
+          },700)
         },
         error:(err)=>{
           this.allToFalse();

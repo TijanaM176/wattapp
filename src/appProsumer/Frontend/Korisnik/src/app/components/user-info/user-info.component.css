@@ -1,5 +1,6 @@
 .gradient-custom {
     background: #E0EFEA;
+    /*  */
 }
 @media (min-width: 768px) {
     .h-md-100 {
@@ -54,4 +55,8 @@ a {
 }
 #confirmImageChangeUserInfo{
     background-color: #466471;
+}
+
+.infoUser{
+    color: #08376b;
 }

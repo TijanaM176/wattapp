@@ -9,9 +9,12 @@ import { DeviceinfoComponent } from './components/deviceinfo/deviceinfo.componen
 import { UserDevicesComponent } from './components/userDevices/userDevices.component';
 import { AddDeviceComponent } from './components/add-device/add-device.component';
 import { AuthGuard } from './guards/auth.guard';
+import { LoginGuard } from './guards/login.guard';
 
 const routes: Routes = [
-  { path: 'login', component: LoginComponent },
+  { path: 'login', component: LoginComponent, 
+  canActivate: [LoginGuard] 
+  },
   { path: '', redirectTo: 'ProsumerApp', pathMatch: 'full' },
   {
     path: 'ProsumerApp',
