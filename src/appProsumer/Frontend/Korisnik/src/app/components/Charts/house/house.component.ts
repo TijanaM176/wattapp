@@ -73,7 +73,7 @@ export class HouseComponent implements OnInit,AfterViewInit {
       allowOutsideClick: false,
       showCancelButton: true,
       confirmButtonColor: '#466471',
-      cancelButtonColor: '#6a8884',
+      cancelButtonColor: '#8d021f',
       confirmButtonText: 'Yes',
       cancelButtonText: 'Cancel',
     }).then((result) => {
