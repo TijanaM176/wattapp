@@ -22,22 +22,20 @@ namespace API.Services.Devices
 
             var devicesData = devices.Select(d =>
             {
-                var currentUsage = d.Timestamps.Select(async x =>
+                double currentUsage;
+                if (d.Activity)
                 {
-                    if (d.Activity)
-                    {
-                        if (x.Power != 0) return x.Power;
-                        else
-                        {
-                            Random rand = new Random();
-                            return (double)(await _repository.GetDevice(d.Id))["AvgUsage"] * rand.Next(80, 110) / 100;
-                        }
-                    }
+                    if (d.Timestamps[0].Power != 0) currentUsage = d.Timestamps[0].Power;
                     else
                     {
-                        return 0;
+                        Random rand = new Random();
+                        currentUsage = d.Wattage * rand.Next(80, 110) / 100;
                     }
-                }).ToList();
+                }
+                else
+                {
+                    currentUsage = 0;
+                }
 
                 return new Dictionary<string, object> {
                     { "Id", d.Id  },
@@ -50,7 +48,7 @@ namespace API.Services.Devices
                     { "Activity", d.Activity },
                     { "DsoView", d.DsoView},
                     { "DsoControl", d.DsoControl },
-                    { "CurrentUsage", currentUsage.FirstOrDefault().Result },
+                    { "CurrentUsage", currentUsage },
                 };
             });
             return devicesData.ToList();
