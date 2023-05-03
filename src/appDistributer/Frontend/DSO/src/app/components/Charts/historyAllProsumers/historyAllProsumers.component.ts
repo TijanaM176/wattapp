@@ -8,6 +8,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { TimestampService } from 'src/app/services/timestamp.service';
 import { tickStep } from 'd3';
 import * as XLSX from 'xlsx';
+import { ScreenWidthService } from 'src/app/services/screen-width.service';
 @Component({
   selector: 'app-historyAllProsumers',
   templateUrl: './historyAllProsumers.component.html',
@@ -30,12 +31,13 @@ export class HistoryAllProsumersComponent implements OnInit {
   showYAxis = true;
   gradient = false;
   showLegend = true;
-  showsp!:boolean;
+  showsp!: boolean;
   constructor(
     private service: UsersServiceService,
     private router: ActivatedRoute,
     private servicetime: TimestampService,
-    private spiner:NgxSpinnerService
+    private spiner: NgxSpinnerService,
+    private widthService: ScreenWidthService
   ) {}
 
   exportTable(): void {
@@ -58,10 +60,13 @@ export class HistoryAllProsumersComponent implements OnInit {
 
   ngOnInit() {
     this.HistoryWeekInit();
+    this.HistoryWeek();
+    document.getElementById('modalFadeHistoryAllProsumers')!.style.maxHeight =
+      this.widthService.height * 0.7 + 'px';
   }
 
   HistoryMonth() {
-    this.showsp=true;
+    this.showsp = true;
     this.spiner.show();
     this.servicetime.HistoryAllProsumers1Month().subscribe((response: any) => {
       const myList: any = [];
@@ -82,6 +87,8 @@ export class HistoryAllProsumersComponent implements OnInit {
 
         // Get the day of the month from the Date object
         const dayNumber = date.getDate();
+        const monthName = date.toLocaleString('default', { month: 'long' });
+        const year = date.getFullYear();
 
         const series = [
           { name: 'consumption', value: consumptionValue },
@@ -89,17 +96,20 @@ export class HistoryAllProsumersComponent implements OnInit {
         ];
 
         // Set the name property of the object to the formatted date string
-        myList.push({ name: dayNumber, series });
+        myList.push({
+          name: dayNumber + '. ' + monthName + ' ' + year,
+          series,
+        });
       });
       this.data = myList;
       this.data = this.data.slice(0, -1);
       this.spiner.hide();
-      this.showsp=false;
+      this.showsp = false;
     });
   }
 
   HistoryYear() {
-    this.showsp=true;
+    this.showsp = true;
     this.spiner.show();
     this.servicetime.HistoryAllProsumers1Year().subscribe((response: any) => {
       const myList: any = [];
@@ -132,12 +142,12 @@ export class HistoryAllProsumersComponent implements OnInit {
       this.data = myList;
 
       this.spiner.hide();
-      this.showsp=false;
+      this.showsp = false;
     });
   }
 
   HistoryWeek() {
-    this.showsp=true;
+    this.showsp = true;
     this.spiner.show();
     this.servicetime.HistoryAllProsumers7Days().subscribe((response: any) => {
       const myList: any = [];
@@ -170,11 +180,10 @@ export class HistoryAllProsumersComponent implements OnInit {
       this.data = myList;
       this.data = this.data.slice(1);
       this.spiner.hide();
-      this.showsp=false;
+      this.showsp = false;
     });
   }
   HistoryWeekInit() {
-
     this.servicetime.HistoryAllProsumers7Days().subscribe((response: any) => {
       const myList: any = [];
 
@@ -205,7 +214,6 @@ export class HistoryAllProsumersComponent implements OnInit {
       });
       this.data = myList;
       this.data = this.data.slice(1);
-
     });
   }
 }

@@ -11,7 +11,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
   templateUrl: './prediction-chart.component.html',
   styleUrls: ['./prediction-chart.component.css'],
 })
-export class PredictionChartComponent implements OnInit {
+export class PredictionChartComponent implements OnInit, AfterViewInit {
   data: any[] = [];
   dataConsumers: any[] = [];
   dataProducers: any[] = [];
@@ -30,8 +30,8 @@ export class PredictionChartComponent implements OnInit {
   showXAxisLabel = true;
   xAxisLabel = 'Time';
   showYAxisLabel = true;
-  yAxisLabel = 'Energy in kWh';
-  show!:boolean;
+  yAxisLabel = 'Energy(kW)';
+  show!: boolean;
   resizeObservable$!: Observable<Event>;
   resizeSubscription$!: Subscription;
   coef: number = 0.6;
@@ -39,8 +39,16 @@ export class PredictionChartComponent implements OnInit {
   constructor(
     private deviceService: DevicesService,
     private widthService: DeviceWidthService,
-    private spiner:NgxSpinnerService
+    private spiner: NgxSpinnerService
   ) {}
+
+  ngAfterViewInit(): void {
+    const grafik = document.getElementById(
+      'grafikPredictionConsumptionProduction'
+    );
+    grafik!.style!.height = this.widthService.height * this.coef + 'px';
+    document.getElementById('prediction3')!.classList.add('active');
+  }
 
   exportTable(): void {
     const headerRow = ['Day', 'Consumption(kW)', 'Production(kW)'];
@@ -66,8 +74,9 @@ export class PredictionChartComponent implements OnInit {
       this.widthService.height >= this.widthService.deviceWidth * 2
     )
       this.coef = 0.5;
-    const grafik = document.getElementById('predikcija');
-    grafik!.style!.height = this.widthService.height * this.coef + 'px';
+
+    // const grafik = document.getElementById('grafikPredictionConsumptionProduction');
+    // grafik!.style!.height = this.widthService.height * this.coef + 'px';
 
     this.PredictionWeekInit('prediction3');
     //document.getElementById("prediction3")!.classList.add('active');
@@ -80,7 +89,9 @@ export class PredictionChartComponent implements OnInit {
         this.widthService.height >= this.widthService.deviceWidth * 2
       )
         this.coef = 0.5;
-      const grafik = document.getElementById('predikcija');
+      const grafik = document.getElementById(
+        'grafikPredictionConsumptionProduction'
+      );
       grafik!.style!.height = this.widthService.height * this.coef + 'px';
     });
   }
@@ -101,7 +112,7 @@ export class PredictionChartComponent implements OnInit {
   }
 
   PredictionWeek(id: string) {
-    this.show=true;
+    this.show = true;
     this.spiner.show();
     this.loadData(
       this.deviceService.prediction1Week.bind(this.deviceService),
@@ -130,7 +141,7 @@ export class PredictionChartComponent implements OnInit {
   }
 
   Prediction3Days(id: string) {
-    this.show=true;
+    this.show = true;
     this.spiner.show();
     this.loadData(
       this.deviceService.prediction3Days.bind(this.deviceService),
@@ -146,7 +157,7 @@ export class PredictionChartComponent implements OnInit {
   }
 
   Prediction1Day(id: string) {
-    this.show=true;
+    this.show = true;
     this.spiner.show();
     this.loadData(
       this.deviceService.prediction1Day.bind(this.deviceService),
@@ -183,9 +194,9 @@ export class PredictionChartComponent implements OnInit {
         return { name, series };
       });
       this.data = mapFunction(myList);
-      
+
       this.spiner.hide();
-      this.show=false;
+      this.show = false;
       // console.log(this.data);
     });
   }

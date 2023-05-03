@@ -7,7 +7,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { TimestampService } from 'src/app/services/timestamp.service';
 import * as XLSX from 'xlsx';
 import { NgxSpinnerService } from 'ngx-spinner';
-
+import { ScreenWidthService } from 'src/app/services/screen-width.service';
 
 @Component({
   selector: 'app-PredictionAllUsers',
@@ -31,12 +31,13 @@ export class PredictionAllUsersComponent implements OnInit {
   showYAxis = true;
   gradient = false;
   showLegend = true;
-  show!:boolean;
+  show!: boolean;
   constructor(
     private service: UsersServiceService,
     private router: ActivatedRoute,
     private servicetime: TimestampService,
-    private spinner:NgxSpinnerService
+    private spinner: NgxSpinnerService,
+    private widthService: ScreenWidthService
   ) {}
 
   exportTable(): void {
@@ -64,10 +65,14 @@ export class PredictionAllUsersComponent implements OnInit {
 
   ngOnInit() {
     this.PredictionDayInit();
+    this.PredictionDay();
+    document.getElementById(
+      'modalFadePredictionAllProsumers'
+    )!.style.maxHeight = this.widthService.height * 0.7 + 'px';
   }
 
   PredictionWeek() {
-    this.show=true;
+    this.show = true;
     this.spinner.show();
     this.servicetime.PredictionNextWeek().subscribe((response: any) => {
       const consumptionTimestamps = response.consumption || {};
@@ -103,13 +108,13 @@ export class PredictionAllUsersComponent implements OnInit {
       const finalList = Object.values(groupedData);
 
       this.data = finalList;
-      this.show=false;
+      this.show = false;
       this.spinner.hide();
     });
   }
 
   Prediction3Days() {
-    this.show=true;
+    this.show = true;
     this.spinner.show();
     this.servicetime.PredictionNext3Days().subscribe((response: any) => {
       const consumptionTimestamps = response.consumption || {};
@@ -146,7 +151,7 @@ export class PredictionAllUsersComponent implements OnInit {
 
       this.data = finalList;
       this.spinner.hide();
-      this.show=false;
+      this.show = false;
     });
   }
   PredictionDayInit() {
@@ -189,12 +194,11 @@ export class PredictionAllUsersComponent implements OnInit {
       const finalList = Object.values(groupedData);
 
       this.data = finalList;
-     
     });
   }
 
   PredictionDay() {
-    this.show=true;
+    this.show = true;
     this.spinner.show();
     this.servicetime.PredictionNextDay().subscribe((response: any) => {
       const myList: any = [];
@@ -236,7 +240,7 @@ export class PredictionAllUsersComponent implements OnInit {
 
       this.data = finalList;
       this.spinner.hide();
-      this.show=false;
+      this.show = false;
     });
   }
 }

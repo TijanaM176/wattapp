@@ -104,6 +104,9 @@ export class PopupEmpComponent implements OnInit {
         ',' +
         'Serbia';
 
+      this.address = this.address.replaceAll('dj','đ');
+      // console.log(this.address);
+
       this.auth.signUp(this.signupForm.value).subscribe({
         next: (res) => {
           this.toast.success('Success', 'New Prosumer Added!', {

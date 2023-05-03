@@ -7,6 +7,7 @@ import { Device } from 'src/app/models/device';
 import { DeviceserviceService } from 'src/app/services/deviceservice.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-deviceinfo',
@@ -154,20 +155,36 @@ export class DeviceinfoComponent {
     });
   }
   delete(id: string) {
-    if (confirm('Do you want to delete ?')) {
-      this.service.deleteDevice(this.idDev).subscribe({
-        next: (res) => {
-          this.router.navigate(['ProsumerApp/userDevices']);
-          console.log('deleted');
-        },
-        error: (err) => {
-          this.toast.error('Error!', 'Unable to delete device data.', {
-            timeOut: 3000,
-          });
-          console.log(err.error);
-        },
-      });
-    }
+    Swal.fire({
+      title: 'Are you sure?',
+      text: 'Confirm you want to delete this device.',
+      icon: 'question',
+      allowOutsideClick: false,
+      showCancelButton: true,
+      confirmButtonColor: '#8d021f',
+      cancelButtonColor: '#6a8884',
+      confirmButtonText: 'Delete',
+      cancelButtonText: 'Cancel',
+    }).then((result) => {
+      if (result.value) {
+        this.service.deleteDevice(this.idDev).subscribe({
+          next: (res) => {
+            this.router.navigate(['ProsumerApp/userDevices']);
+            console.log('deleted');
+          },
+          error: (err) => {
+            this.toast.error('Error!', 'Unable to delete device data.', {
+              timeOut: 3000,
+            });
+            console.log(err.error);
+          },
+        });
+      }
+      else if (result.dismiss === Swal.DismissReason.cancel) 
+      {
+        // Swal.fire('Cancelled', 'Product still in our database.)', 'error');
+      }
+    });
   }
   edit() {
     this.modalTitle = 'Edit Information';
@@ -193,11 +210,28 @@ export class DeviceinfoComponent {
   }
 
   toggle() {
-    this.service
-      .toggleDevice(this.router1.snapshot.params['idDev'], true)
-      .subscribe((response) => {
-        this.currentUsage = response;
-      });
+    let offOn = this.currentUsage>0 ? 'Off' : 'On';
+    Swal.fire({
+      title: 'Are you sure?',
+      text: 'Confirm you want to turn this device '+offOn+'.',
+      icon: 'question',
+      allowOutsideClick: false,
+      showCancelButton: true,
+      confirmButtonColor: '#466471',
+      cancelButtonColor: '#8d021f',
+      confirmButtonText: 'Yes',
+      cancelButtonText: 'Cancel',
+    }).then((result) => {
+      if (result.value) {
+        this.service
+        .toggleDevice(this.router1.snapshot.params['idDev'], true)
+        .subscribe((response) => {
+          this.currentUsage = response;
+        });
+      } else if (result.dismiss === Swal.DismissReason.cancel) {
+        // Swal.fire('Cancelled', 'Product still in our database.)', 'error');
+      }
+    });
   }
 
   activateBtn(id: string) {

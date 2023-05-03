@@ -95,18 +95,12 @@ export class MapComponent implements AfterViewInit, OnInit {
     setTimeout(() => {
       this.loader = false;
     }, 3000);
-    let t = 101;
-    if (window.innerWidth < 320) {
-      t = 140.6;
-    }
+    let t = window.innerWidth < 320? 140.6 : 101;
     let h = window.innerHeight - t;
 
-    const sad = document.getElementById('sadrzaj');
-    sad!.style.height = h + 'px';
-    const mapCont = document.getElementById('mapCont');
-    mapCont!.style.height = h + 'px';
-    const side = document.getElementById('side');
-    side!.style.height = h + 'px';
+    document.getElementById('sadrzaj')!.style.height = h + 'px';
+    document.getElementById('mapCont')!.style.height = h + 'px';
+    document.getElementById('side')!.style.height = h + 'px';
 
     this.mapService.getAllNeighborhoods().subscribe((response) => {
       this.Neighborhoods = response;
@@ -118,12 +112,11 @@ export class MapComponent implements AfterViewInit, OnInit {
 
     this.resizeObservable$ = fromEvent(window, 'resize');
     this.resizeSubscription$ = this.resizeObservable$.subscribe((evt) => {
-      const sad = document.getElementById('sadrzaj');
-      sad!.style.height = this.widthService.height + 'px';
-      const mapCont = document.getElementById('mapCont');
-      mapCont!.style.height = this.widthService.height + 'px';
-      const side = document.getElementById('side');
-      side!.style.height = this.widthService.height + 'px';
+      let t = window.innerWidth < 320? 140.6 : 101;
+      let h = window.innerHeight - t;
+      document.getElementById('sadrzaj')!.style.height = h + 'px';
+      document.getElementById('mapCont')!.style.height = h + 'px';
+      document.getElementById('side')!.style.height = h + 'px';
     });
   }
 
@@ -132,6 +125,12 @@ export class MapComponent implements AfterViewInit, OnInit {
   }
 
   private initMap() {
+    let t = window.innerWidth < 320? 140.6 : 101;
+    let h = window.innerHeight - t;
+    document.getElementById('sadrzaj')!.style.height = h + 'px';
+    document.getElementById('mapCont')!.style.height = h + 'px';
+    document.getElementById('side')!.style.height = h + 'px';
+
     let map = L.map('map', { minZoom: 8 }); //.setView([44.012794, 20.911423], 15);
 
     var lat = this.cookie.get('lat');

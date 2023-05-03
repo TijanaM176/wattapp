@@ -36,8 +36,8 @@ export class RealizationChartComponent implements OnInit, AfterViewInit {
   showXAxisLabel = true;
   xAxisLabel = 'Time';
   showYAxisLabel = true;
-  yAxisLabel = 'Energy in kWh';
-  show!:boolean;
+  yAxisLabel = 'Energy in kW';
+  show!: boolean;
   resizeObservable$!: Observable<Event>;
   resizeSubscription$!: Subscription;
   coef: number = 0.6;
@@ -45,11 +45,11 @@ export class RealizationChartComponent implements OnInit, AfterViewInit {
   constructor(
     private deviceService: DevicesService,
     private widthService: DeviceWidthService,
-    private spiner:NgxSpinnerService
+    private spiner: NgxSpinnerService
   ) {}
 
   ngAfterViewInit(): void {
-    const grafik = document.getElementById('grafik');
+    const grafik = document.getElementById('grafikConsumptionHistory');
     grafik!.style!.height = this.widthService.height * this.coef + 'px';
     document.getElementById('realiz1')!.classList.add('active');
   }
@@ -88,7 +88,7 @@ export class RealizationChartComponent implements OnInit, AfterViewInit {
         this.widthService.height >= this.widthService.deviceWidth * 2
       )
         this.coef = 0.5;
-      const grafik = document.getElementById('grafik');
+      const grafik = document.getElementById('grafikConsumptionHistory');
       grafik!.style!.height = this.widthService.height * this.coef + 'px';
     });
   }
@@ -109,34 +109,36 @@ export class RealizationChartComponent implements OnInit, AfterViewInit {
   }
 
   HistoryWeekInit(data: any) {
-
-    const myList = Object.keys(data.consumption.timestamps).map((name) => {
-      let consumptionValue = data.consumption.timestamps[name];
-      let predictionValue = data.consumption.predictions[name];
-      const cons: string = 'consumption';
-      const pred: string = 'prediction';
-      if (predictionValue == undefined) {
-        predictionValue = 0.0;
-      }
-      if (consumptionValue == undefined) {
-        consumptionValue = 0.0;
-      }
-      const series = [
-        { name: cons, value: consumptionValue },
-        { name: pred, value: predictionValue },
-      ];
-      return { name, series };
-    });
-    this.data = myList.map((item) => {
-      const date = new Date(item.name);
-      const dayName = date.toLocaleDateString('en-US', { weekday: 'long' });
-      return { name: dayName, series: item.series };
-    });
-
+    if (data.consumption) {
+      const myList = Object.keys(data.consumption.timestamps).map((name) => {
+        let consumptionValue = data.consumption.timestamps[name];
+        let predictionValue = data.consumption.predictions[name];
+        const cons: string = 'consumption';
+        const pred: string = 'prediction';
+        if (predictionValue == undefined) {
+          predictionValue = 0.0;
+        }
+        if (consumptionValue == undefined) {
+          consumptionValue = 0.0;
+        }
+        const series = [
+          { name: cons, value: consumptionValue },
+          { name: pred, value: predictionValue },
+        ];
+        return { name, series };
+      });
+      this.data = myList.map((item) => {
+        const date = new Date(item.name);
+        const dayName = date.toLocaleDateString('en-US', { weekday: 'long' });
+        return { name: dayName, series: item.series };
+      });
+    } else {
+      this.data = [];
+    }
   }
 
   HistoryWeek(id: string) {
-    this.show=true;
+    this.show = true;
     this.spiner.show();
     this.activateButton(id);
     this.loadData(
@@ -152,7 +154,7 @@ export class RealizationChartComponent implements OnInit, AfterViewInit {
   }
 
   HistoryMonth(id: string) {
-    this.show=true;
+    this.show = true;
     this.spiner.show();
     this.activateButton(id);
     this.loadData(
@@ -176,7 +178,7 @@ export class RealizationChartComponent implements OnInit, AfterViewInit {
   }
 
   HistoryYear(id: string) {
-    this.show=true;
+    this.show = true;
     this.spiner.show();
     this.activateButton(id);
     this.loadData(
@@ -215,7 +217,7 @@ export class RealizationChartComponent implements OnInit, AfterViewInit {
       );
       this.data = mapFunction(myList);
       this.spiner.hide();
-      this.show=false;
+      this.show = false;
       // console.log(this.data);
     });
   }

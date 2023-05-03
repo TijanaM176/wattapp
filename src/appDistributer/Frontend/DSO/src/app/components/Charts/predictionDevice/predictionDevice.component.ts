@@ -33,7 +33,7 @@ export class PredictionDeviceComponent implements OnInit, AfterViewInit {
   showYAxisLabel = true;
   yAxisLabel = 'Energy in kWh';
   idDev: string = '';
-  show!:boolean;
+  show!: boolean;
   @Input() type: string = '';
 
   constructor(
@@ -41,7 +41,7 @@ export class PredictionDeviceComponent implements OnInit, AfterViewInit {
     private widthService: ScreenWidthService,
     private timeService: TimestampService,
     private router1: ActivatedRoute,
-    private spinner:NgxSpinnerService
+    private spinner: NgxSpinnerService
   ) {}
 
   exportTable(): void {
@@ -70,11 +70,13 @@ export class PredictionDeviceComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
-
     this.idDev = this.router1.snapshot.params['idDev'];
     const grafik = document.getElementById('predikcija');
     grafik!.style.height = this.widthService.height * 0.6 + 'px';
     this.Prediction1DayInit('predictionDevice1');
+    document.getElementById('modalFadePredictionDevice')!.style.maxHeight =
+      this.widthService.height * 0.7 + 'px';
+    this.Prediction1Day('predictionDevice1');
   }
 
   yAxisTickFormatting(value: number) {
@@ -82,7 +84,7 @@ export class PredictionDeviceComponent implements OnInit, AfterViewInit {
   }
 
   PredictionWeek(id: string) {
-    this.show=true;
+    this.show = true;
     this.spinner.show();
     this.timeService.predictionDevice(this.idDev).subscribe((response: any) => {
       // console.log(response);
@@ -104,13 +106,13 @@ export class PredictionDeviceComponent implements OnInit, AfterViewInit {
       this.data = myList;
       this.activateButton(id);
       this.spinner.hide();
-      this.show=false;
+      this.show = false;
       // console.log(this.data);
     });
   }
 
   Prediction3Days(id: string) {
-    this.show=true;
+    this.show = true;
     this.spinner.show();
     this.timeService.predictionDevice(this.idDev).subscribe((response: any) => {
       const myList = Object.keys(response.next3Day.PredictionsFor3day).map(
@@ -131,13 +133,13 @@ export class PredictionDeviceComponent implements OnInit, AfterViewInit {
       this.data = myList;
       this.activateButton(id);
       this.spinner.hide();
-      this.show=false;
+      this.show = false;
       // console.log(this.data);
     });
   }
 
   Prediction1Day(id: string) {
-    this.show=true;
+    this.show = true;
     this.spinner.show();
     this.timeService.predictionDevice(this.idDev).subscribe((response: any) => {
       const myList = Object.keys(response.nextDay.PredictionsFor1day).map(
@@ -159,7 +161,7 @@ export class PredictionDeviceComponent implements OnInit, AfterViewInit {
       this.data = myList;
       this.activateButton(id);
       this.spinner.hide();
-      this.show=false;
+      this.show = false;
       // console.log(this.data);
     });
   }

@@ -107,7 +107,7 @@
   </div>
 </div>
 <div
-  class="modal fade modal-lg"
+  class="modal fade"
   id="predictionAllProsumersTable"
   data-bs-backdrop="static"
   data-bs-keyboard="false"
@@ -115,7 +115,7 @@
   aria-labelledby="predictionAllProsumersTableLabel"
   aria-hidden="true"
 >
-  <div class="modal-dialog modal-dialog-centered">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
     <div class="modal-content">
       <div class="modal-header text-white" style="background-color: #5875a1">
         <h5 class="modal-title" id="predictionAllProsumersTableLabel">
@@ -128,7 +128,7 @@
           aria-label="Close"
         ></button>
       </div>
-      <div class="modal-body">
+      <div class="modal-body pt-0" style="overflow-y: auto; overflow-x: hidden;" id="modalFadePredictionAllProsumers">
         <app-prediction-all-prosumers-table
           [data]="data"
         ></app-prediction-all-prosumers-table>

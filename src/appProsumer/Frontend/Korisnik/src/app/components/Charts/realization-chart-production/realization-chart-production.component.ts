@@ -10,6 +10,7 @@ import { DevicesService } from 'src/app/services/devices.service';
 import { fromEvent, Observable, Subscription } from 'rxjs';
 import * as XLSX from 'xlsx';
 import { NgxSpinnerService } from 'ngx-spinner';
+
 @Component({
   selector: 'app-realization-chart-production',
   templateUrl: './realization-chart-production.component.html',
@@ -37,8 +38,8 @@ export class RealizationChartProductionComponent
   showXAxisLabel = true;
   xAxisLabel = 'Time';
   showYAxisLabel = true;
-  yAxisLabel = 'Energy in kWh';
-  show!:boolean;
+  yAxisLabel = 'Energy in kW';
+  show!: boolean;
   resizeObservable$!: Observable<Event>;
   resizeSubscription$!: Subscription;
   coef: number = 0.6;
@@ -46,7 +47,7 @@ export class RealizationChartProductionComponent
   constructor(
     private deviceService: DevicesService,
     private widthService: DeviceWidthService,
-    private spiner:NgxSpinnerService
+    private spiner: NgxSpinnerService
   ) {}
 
   exportTable(): void {
@@ -109,34 +110,36 @@ export class RealizationChartProductionComponent
   }
 
   HistoryWeekInit(data: any) {
-
-    const myList = Object.keys(data.consumption.timestamps).map((name) => {
-      let consumptionValue = data.production.timestamps[name];
-      let predictionValue = data.production.predictions[name];
-      const prod: string = 'production';
-      const pred: string = 'prediction';
-      if (predictionValue == undefined) {
-        predictionValue = 0.0;
-      }
-      if (consumptionValue == undefined) {
-        consumptionValue = 0.0;
-      }
-      const series = [
-        { name: prod, value: consumptionValue },
-        { name: pred, value: predictionValue },
-      ];
-      return { name, series };
-    });
-    this.data = myList.map((item) => {
-      const date = new Date(item.name);
-      const dayName = date.toLocaleDateString('en-US', { weekday: 'long' });
-      return { name: dayName, series: item.series };
-    });
-
+    if (data.production) {
+      const myList = Object.keys(data.production.timestamps).map((name) => {
+        let consumptionValue = data.production.timestamps[name];
+        let predictionValue = data.production.predictions[name];
+        const prod: string = 'production';
+        const pred: string = 'prediction';
+        if (predictionValue == undefined) {
+          predictionValue = 0.0;
+        }
+        if (consumptionValue == undefined) {
+          consumptionValue = 0.0;
+        }
+        const series = [
+          { name: prod, value: consumptionValue },
+          { name: pred, value: predictionValue },
+        ];
+        return { name, series };
+      });
+      this.data = myList.map((item) => {
+        const date = new Date(item.name);
+        const dayName = date.toLocaleDateString('en-US', { weekday: 'long' });
+        return { name: dayName, series: item.series };
+      });
+    } else {
+      this.data = [];
+    }
   }
 
   HistoryWeek(id: string) {
-    this.show=true;
+    this.show = true;
     this.spiner.show();
     this.activateButton(id);
     this.loadData(
@@ -152,7 +155,7 @@ export class RealizationChartProductionComponent
   }
 
   HistoryMonth(id: string) {
-    this.show=true;
+    this.show = true;
     this.spiner.show();
     this.activateButton(id);
     this.loadData(
@@ -176,7 +179,7 @@ export class RealizationChartProductionComponent
   }
 
   HistoryYear(id: string) {
-    this.show=true;
+    this.show = true;
     this.spiner.show();
     this.activateButton(id);
     this.loadData(
@@ -213,7 +216,7 @@ export class RealizationChartProductionComponent
       });
       this.data = mapFunction(myList);
       this.spiner.hide();
-      this.show=false;
+      this.show = false;
       // console.log(this.data);
     });
   }

@@ -6,6 +6,7 @@ import { ScaleType, Color, LegendComponent } from '@swimlane/ngx-charts';
 import { BrowserModule } from '@angular/platform-browser';
 import { DashboarddataService } from 'src/app/services/dashboarddata.service';
 import * as XLSX from 'xlsx';
+import { ScreenWidthService } from 'src/app/services/screen-width.service';
 
 @Component({
   selector: 'app-PieChartProsumers',
@@ -36,7 +37,8 @@ export class PieChartProsumersComponent implements OnInit {
 
   constructor(
     private service: UsersServiceService,
-    private servicedash: DashboarddataService
+    private servicedash: DashboarddataService,
+    private widthService : ScreenWidthService
   ) {}
 
   exportTable(): void {
@@ -76,6 +78,7 @@ export class PieChartProsumersComponent implements OnInit {
       );
       this.currentData = this.dataConsumers;
     });
+    document.getElementById('modalFadePieChartProsumers')!.style.maxHeight = this.widthService.height * 0.7 + 'px';
   }
 
   onRadioButtonChange(event: any, type: string) {

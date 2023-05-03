@@ -42,7 +42,7 @@ export class HistoryProsumerComponent implements OnInit {
   resizeSubscription$!: Subscription;
   coef: number = 0.6;
   id!: string;
-  show!:boolean;
+  show!: boolean;
 
   constructor(
     private deviceService: DeviceserviceService,
@@ -50,7 +50,7 @@ export class HistoryProsumerComponent implements OnInit {
     private serviceTime: TimestampService,
     private router: ActivatedRoute,
     private service: UsersServiceService,
-    private spiner:NgxSpinnerService
+    private spiner: NgxSpinnerService
   ) {}
 
   exportTable(): void {
@@ -72,10 +72,12 @@ export class HistoryProsumerComponent implements OnInit {
     this.id = this.router.snapshot.params['id'];
     document.getElementById('grafik')!.style.height =
       this.widthService.height * this.coef + 'px';
-    this.HistoryWeekInit('realiz1');
+    this.HistoryWeek('realiz1');
+    document.getElementById(
+      'modalFadeConsumptionHistoryProsumer'
+    )!.style.maxHeight = this.widthService.height * 0.7 + 'px';
   }
   HistoryWeekInit(id: string) {
-
     this.serviceTime
       .HistoryProsumer7Days(this.id)
       .subscribe((response: any) => {
@@ -109,11 +111,10 @@ export class HistoryProsumerComponent implements OnInit {
         this.data = myList;
         this.data = this.data.slice(1);
         this.activateButton(id);
-
       });
   }
   HistoryWeek(id: string) {
-    this.show=true;
+    this.show = true;
     this.spiner.show();
     this.serviceTime
       .HistoryProsumer7Days(this.id)
@@ -149,11 +150,11 @@ export class HistoryProsumerComponent implements OnInit {
         this.data = this.data.slice(1);
         this.activateButton(id);
         this.spiner.hide();
-        this.show=false;
+        this.show = false;
       });
   }
   HistoryMonth(id: string) {
-    this.show=true;
+    this.show = true;
     this.spiner.show();
     this.serviceTime
       .HistoryProsumer1Month(this.id)
@@ -176,6 +177,8 @@ export class HistoryProsumerComponent implements OnInit {
 
           // Get the day of the month from the Date object
           const dayNumber = date.getDate();
+          const monthName = date.toLocaleString('default', { month: 'long' });
+          const year = date.getFullYear();
 
           const series = [
             { name: 'consumption', value: consumptionValue },
@@ -183,17 +186,20 @@ export class HistoryProsumerComponent implements OnInit {
           ];
 
           // Set the name property of the object to the formatted date string
-          myList.push({ name: dayNumber, series });
+          myList.push({
+            name: dayNumber + '. ' + monthName + ' ' + year,
+            series,
+          });
         });
         this.data = myList;
         this.data = this.data.slice(0, -1);
         this.activateButton(id);
         this.spiner.hide();
-        this.show=false;
+        this.show = false;
       });
   }
   HistoryYear(id: string) {
-    this.show=true;
+    this.show = true;
     this.spiner.show();
     this.serviceTime
       .HistoryProsumer1Year(this.id)
@@ -228,7 +234,7 @@ export class HistoryProsumerComponent implements OnInit {
         this.data = myList;
         this.activateButton(id);
         this.spiner.hide();
-        this.show=false;
+        this.show = false;
       });
   }
 

@@ -2,6 +2,7 @@ import { Component, OnInit, AfterViewInit, Input, Output, EventEmitter } from '@
 import { DeviceWidthService } from 'src/app/services/device-width.service';
 import { fromEvent, Observable, Subscription } from 'rxjs';
 import { DeviceserviceService } from 'src/app/services/deviceservice.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-house',
@@ -65,24 +66,45 @@ export class HouseComponent implements OnInit,AfterViewInit {
 
   turnDeviceoffOn()
   {
-    this.show = false;
-    this.deviceService.toggleDevice(this.device.Id, true)
-    .subscribe((response) => {
-      let active = true;
-      if(response==0)
+    Swal.fire({
+      title: 'Are you sure?',
+      text: 'Confirm you want to turn this device '+this.offOn+'.',
+      icon: 'question',
+      allowOutsideClick: false,
+      showCancelButton: true,
+      confirmButtonColor: '#466471',
+      cancelButtonColor: '#8d021f',
+      confirmButtonText: 'Yes',
+      cancelButtonText: 'Cancel',
+    }).then((result) => {
+      if (result.value) {
+        this.show = false;
+        this.deviceService.toggleDevice(this.device.Id, true)
+        .subscribe((response) => {
+          let active = true;
+          if(response==0)
+          {
+            this.lastValue = this.device.CurrentUsage;
+            active = false;
+          }
+          this.devices[this.index].CurrentUsage = response;
+          this.devices[this.index].Activity = active;
+          this.device.CurrentUsage = response;
+          this.offOn = this.device.CurrentUsage>0? 'Off' : 'On';
+          this.lastState = this.device.CurrentUsage>0? 'On' : 'Off';
+          this.show = true;
+          this.deviceOffOn.emit([this.devices,this.device.CurrentUsage, this.lastValue,this.device.CategoryId]);
+          // console.log(this.devices);
+        });
+      } 
+      else if (result.dismiss === Swal.DismissReason.cancel) 
       {
-        this.lastValue = this.device.CurrentUsage;
-        active = false;
+        // Swal.fire('Cancelled', 'Product still in our database.)', 'error');
       }
-      this.devices[this.index].CurrentUsage = response;
-      this.devices[this.index].Activity = active;
-      this.device.CurrentUsage = response;
-      this.offOn = this.device.CurrentUsage>0? 'Off' : 'On';
-      this.lastState = this.device.CurrentUsage>0? 'On' : 'Off';
-      this.show = true;
-      this.deviceOffOn.emit([this.devices,this.device.CurrentUsage, this.lastValue,this.device.CategoryId]);
-      // console.log(this.devices);
     });
+
+
+    
   }
   selectedDevice(index : number)
   {

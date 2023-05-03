@@ -86,6 +86,7 @@ export class RealizationChartProductionComponent
       const grafik = document.getElementById('realizationUser');
       grafik!.style.height = this.widthService.height * this.coef + 'px';
     });
+    document.getElementById('modalFadeProductionHistoryProsumer')!.style.maxHeight = this.widthService.height * 0.7 + 'px';
   }
 
   yAxisTickFormatting(value: number) {
@@ -146,8 +147,11 @@ export class RealizationChartProductionComponent
       (myList: any[]) => {
         return myList.map((item) => {
           const date = new Date(item.name);
+          const dayNumber = date.getDate();
+          const monthName = date.toLocaleString('default', { month: 'long' });
+          const year = date.getFullYear();
           this.activateButton(id);
-          return { name: `Week ${date}`, series: item.series };
+          return { name: dayNumber+'. '+monthName+' '+year, series: item.series };
         });
       }
     );

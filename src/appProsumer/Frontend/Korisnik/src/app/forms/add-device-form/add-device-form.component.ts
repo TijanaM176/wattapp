@@ -12,6 +12,7 @@ import { AdddeviceserviceService } from 'src/app/services/adddeviceservice.servi
   styleUrls: ['./add-device-form.component.css'],
 })
 export class AddDeviceFormComponent {
+
   notFilled: boolean = false;
   success: boolean = false;
   failure: boolean = false;
@@ -36,11 +37,13 @@ export class AddDeviceFormComponent {
   dropdownCategory:boolean=false;
   dropdownType:boolean=true;
   dropdownModel:boolean=true;
+
   constructor(
     private service: AdddeviceserviceService,
     private cookie: CookieService,
     public toast: ToastrService
   ) {}
+
   ngOnInit(): void {
     this.dropDownCategory = false;
     this.dropDownType = false;
@@ -49,13 +52,14 @@ export class AddDeviceFormComponent {
     this.service.dsoControl = false;
     this.getCategories();
   }
+
   ChangeCategory(e: any) {
     this.dropdownType=!this.dropdownType;
     this.service.category = this.category;
-    // console.log(this.service.category);
     this.getTypes();
     this.type = -1;
   }
+
   getCategories() {
     this.service.getCategories().subscribe({
       next: (response) => {
@@ -66,14 +70,14 @@ export class AddDeviceFormComponent {
       },
     });
   }
+
   ChangeType(e: any) {
     this.dropdownModel=!this.dropdownModel;
     this.service.type = this.type;
-    //this.model = -1;
-    // console.log(this.service.type);
     this.getModels();
     this.model = -1;
   }
+  
   getTypes() {
     this.service.getTypes().subscribe({
       next: (response) => {
@@ -86,12 +90,14 @@ export class AddDeviceFormComponent {
       },
     });
   }
+
   ChangeModels(e: any) {
     this.service.model = this.model.id;
     this.Name = this.model.name;
     this.service.name = this.Name;
     // console.log(this.model);
   }
+
   getModels() {
     
     this.service.getModels().subscribe({
@@ -104,6 +110,7 @@ export class AddDeviceFormComponent {
       },
     });
   }
+
   ChangeName(e: any) {
     this.service.name = this.Name;
   }
@@ -112,29 +119,13 @@ export class AddDeviceFormComponent {
     this.service.dsoControl = this.DsoControl;
     this.controlChanged();
   }
-  // input-validator.ts
 
-  // checkInputLength(input: HTMLInputElement) {
-  //   const maxLength = parseInt(input.getAttribute('maxlength')!);
-  //   const currentLength = input.value.length;
-  //   const errorMsg = document.getElementById('errorMsg');
-
-  //   if (currentLength > maxLength) {
-  //     input.value = input.value.substring(0, maxLength);
-  //     if (errorMsg) {
-  //       errorMsg.style.display = 'block';
-  //     }
-  //   } else {
-  //     if (errorMsg) {
-  //       errorMsg.style.display = 'none';
-  //     }
-  //   }
-  // }
   controlChanged()
   {
     if(this.DsoControl)
     {
       this.DsoView = true;
+      this.service.dsoView = this.DsoView;
     }
   }
 }

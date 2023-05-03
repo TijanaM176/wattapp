@@ -2,12 +2,11 @@
   bdColor="rgba(0, 0, 0, 0)"
   size="medium"
   color="black"
-  type = "ball-clip-rotate"
+  type="ball-clip-rotate"
   [showSpinner]="showsp"
   [fullScreen]="false"
   *ngIf="showsp"
-  ></ngx-spinner
->
+></ngx-spinner>
 <div>
   <div
     class="card-header pb-0 pt-3 bg-transparent row"
@@ -65,52 +64,51 @@
       </button>
     </div>
   </div>
-<div class="card-body">
-  <div style="width: 100%; margin: 0 auto; margin-top: 1%; height: 100%">
-    <ngx-charts-bar-vertical-2d
-      *ngIf="data.length !== 0"
-      [title]="'Consumption and Production History Chart'"
-      [scheme]="colors"
-      [results]="data"
-      [xAxis]="showXAxis"
-      [yAxis]="showYAxis"
-      [showXAxisLabel]="false"
-      [showYAxisLabel]="false"
-      [showDataLabel]="false"
-      [animations]="true"
-      [barPadding]="3"
-      [roundDomains]="true"
-      [trimYAxisTicks]="true"
-      [tooltipDisabled]="false"
-      [yAxisTickFormatting]="yAxisTickFormatting"
-    >
-    </ngx-charts-bar-vertical-2d>
-    <h1
-      *ngIf="!production && !consumption"
-      style="
-        text-align: center;
-        margin-top: 15%;
-        opacity: 20%;
-        font-style: italic;
-        font-weight: normal;
-      "
-    >
-      There is no available Data
-    </h1>
+  <div class="card-body">
+    <div style="width: 100%; margin: 0 auto; margin-top: 1%; height: 100%">
+      <ngx-charts-bar-vertical-2d
+        *ngIf="data.length !== 0"
+        [title]="'Consumption and Production History Chart'"
+        [scheme]="colors"
+        [results]="data"
+        [xAxis]="showXAxis"
+        [yAxis]="showYAxis"
+        [showXAxisLabel]="false"
+        [showYAxisLabel]="false"
+        [showDataLabel]="false"
+        [animations]="true"
+        [barPadding]="3"
+        [roundDomains]="true"
+        [trimYAxisTicks]="true"
+        [tooltipDisabled]="false"
+        [yAxisTickFormatting]="yAxisTickFormatting"
+      >
+      </ngx-charts-bar-vertical-2d>
+      <h1
+        *ngIf="!production && !consumption"
+        style="
+          text-align: center;
+          margin-top: 15%;
+          opacity: 20%;
+          font-style: italic;
+          font-weight: normal;
+        "
+      >
+        There is no available Data
+      </h1>
+    </div>
   </div>
 </div>
-</div>
 <div
-  class="modal fade modal-lg"
+  class="modal fade"
   id="historyAllProsumersTable"
   data-bs-backdrop="static"
   data-bs-keyboard="false"
   tabindex="-1"
   aria-labelledby="historyAllProsumersTableLabel"
   aria-hidden="true"
- 
 >
-  <div class="modal-dialog modal-dialog-centered" >
+  <div class="modal-dialog modal-dialog-centered modal-lg">
     <div class="modal-content">
       <div class="modal-header text-white" style="background-color: #5875a1">
         <h5 class="modal-title" id="historyAllProsumersTableLabel">
@@ -123,7 +121,11 @@
           aria-label="Close"
         ></button>
       </div>
-      <div class="modal-body">
+      <div
+        class="modal-body pt-0"
+        style="overflow-y: auto; overflow-x: hidden"
+        id="modalFadeHistoryAllProsumers"
+      >
         <app-history-all-prosumers-table
           [data]="data"
         ></app-history-all-prosumers-table>

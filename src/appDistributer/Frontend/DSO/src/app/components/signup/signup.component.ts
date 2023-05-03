@@ -105,6 +105,8 @@ export class SignupComponent implements OnInit {
         ',' +
         'Serbia';
 
+      this.address = this.address.replaceAll('dj','đ');
+      console.log(this.address);
       this.auth.signUp(this.signupForm.value).subscribe({
         next: (res) => {
           this.toast.success('Success', 'New Prosumer Added', {
@@ -112,7 +114,7 @@ export class SignupComponent implements OnInit {
           });
 
           this.getCoordinates(this.address, res.username);
-          console.log(res.username);
+          // console.log(res.username);
           this.signupForm.reset();
           this.router
             .navigateByUrl('/', { skipLocationChange: true })
@@ -126,7 +128,7 @@ export class SignupComponent implements OnInit {
           });
         },
       });
-      console.log(this.signupForm.value);
+      // console.log(this.signupForm.value);
     } else {
       this.validateAllFormFields(this.signupForm);
     }

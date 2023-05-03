@@ -178,7 +178,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
         this.signupForm.value.city.trim() +
         ',' +
         'Serbia';
-
+      this.address = this.address.replaceAll('dj', 'đ');
       this.auth.signUp(this.signupForm.value).subscribe({
         next: (res) => {
           this.toast.success('Success', 'New Prosumer Added', {

@@ -39,7 +39,7 @@ export class RealizationDeviceComponent implements OnInit, AfterViewInit {
   showYAxisLabel = true;
   yAxisLabel = 'Energy in kWh';
   idDev: string = '';
-  show!:boolean;
+  show!: boolean;
   @Input() type: string = '';
 
   constructor(
@@ -47,7 +47,7 @@ export class RealizationDeviceComponent implements OnInit, AfterViewInit {
     private widthService: ScreenWidthService,
     private timeService: TimestampService,
     private router1: ActivatedRoute,
-    private spinner:NgxSpinnerService
+    private spinner: NgxSpinnerService
   ) {}
 
   exportTable(): void {
@@ -84,6 +84,9 @@ export class RealizationDeviceComponent implements OnInit, AfterViewInit {
     this.idDev = this.router1.snapshot.params['idDev'];
 
     this.HistoryWeekInit('realiz1');
+    document.getElementById('modalFadeHistoryDevice')!.style.maxHeight =
+      this.widthService.height * 0.7 + 'px';
+    this.HistoryWeek('realiz1');
   }
 
   yAxisTickFormatting(value: number) {
@@ -99,12 +102,12 @@ export class RealizationDeviceComponent implements OnInit, AfterViewInit {
           this.activateButton(id);
           return { name: dayName, series: item.series };
         });
-       // this.spinner.hide();
+        // this.spinner.hide();
       }
     );
   }
   HistoryWeek(id: string) {
-    this.show=true;
+    this.show = true;
     this.spinner.show();
     this.loadData(
       this.timeService.historyDeviceWeek.bind(this.timeService, this.idDev),
@@ -115,13 +118,13 @@ export class RealizationDeviceComponent implements OnInit, AfterViewInit {
           this.activateButton(id);
           return { name: dayName, series: item.series };
         });
-       // this.spinner.hide();
+        // this.spinner.hide();
       }
     );
   }
 
   HistoryMonth(id: string) {
-    this.show=true;
+    this.show = true;
     this.spinner.show();
     this.loadData(
       this.timeService.historyDeviceMonth.bind(this.timeService, this.idDev),
@@ -136,7 +139,7 @@ export class RealizationDeviceComponent implements OnInit, AfterViewInit {
   }
 
   HistoryYear(id: string) {
-    this.show=true;
+    this.show = true;
     this.spinner.show();
     this.loadData(
       this.timeService.historyDeviceYear.bind(this.timeService, this.idDev),
@@ -147,7 +150,7 @@ export class RealizationDeviceComponent implements OnInit, AfterViewInit {
           this.activateButton(id);
           return { name: monthName, series: item.series };
         });
-       // this.spinner.hide();
+        // this.spinner.hide();
       }
     );
   }
@@ -189,7 +192,7 @@ export class RealizationDeviceComponent implements OnInit, AfterViewInit {
       });
       this.data = mapFunction(myList);
       this.spinner.hide();
-      this.show=false;
+      this.show = false;
     });
   }
 

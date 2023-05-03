@@ -37,21 +37,21 @@
       id="realizPred1"
       (click)="HistoryWeek('realizPred1')"
     >
-      7D
+      7 Days
     </button>
     <button
       class="btn btn-outline-primary m-1 realizationPredictionbtn"
       id="realizPred2"
       (click)="HistoryMonth('realizPred2')"
     >
-      1M
+      1 Month
     </button>
     <button
       class="btn btn-outline-primary m-1 realizationPredictionbtn"
       id="realizPred3"
       (click)="HistoryYear('realizPred3')"
     >
-      1Y
+      1 Year
     </button>
   </div>
 </div>
@@ -117,7 +117,7 @@
 >
   <div class="modal-dialog modal-dialog-centered modal-lg">
     <div class="modal-content">
-      <div class="modal-header text-white" style="background-color: #466471">
+      <div class="modal-header text-white" style="background-color: #5875a1">
         <h6 class="modal-title" id="realizationProsumerProductionTableLabel">
           Production History Table
         </h6>
@@ -128,14 +128,14 @@
           aria-label="Close"
         ></button>
       </div>
-      <div class="modal-body py-0">
+      <div class="modal-body py-0" style="overflow-x: hidden; overflow-y: auto;" id="modalFadeProductionHistoryProsumer">
         <app-history-prosumer-table
           [type]="'Production'"
           [data]="data"
         ></app-history-prosumer-table>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-primary" (click)="exportTable()">
+        <button type="button" class="btn btn-primary" (click)="exportTable()" style="background-color: #5875a1;">
           Export Table
         </button>
       </div>

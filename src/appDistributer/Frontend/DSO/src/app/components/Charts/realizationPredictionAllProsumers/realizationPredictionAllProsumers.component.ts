@@ -10,7 +10,7 @@ import { curveLinear } from 'd3-shape';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { DashboarddataService } from 'src/app/services/dashboarddata.service';
 import { TimestampService } from 'src/app/services/timestamp.service';
-
+import { ScreenWidthService } from 'src/app/services/screen-width.service';
 
 @Component({
   selector: 'app-realizationPredictionAllProsumers',
@@ -36,12 +36,13 @@ export class RealizationPredictionAllProsumersComponent implements OnInit {
   gradient = false;
   showLegend = true;
   yAxisLabel = 'Energy  ( kWh )';
-  show!:boolean;
+  show!: boolean;
   constructor(
     private service: UsersServiceService,
     private router: ActivatedRoute,
     private spinner: NgxSpinnerService,
-    private servicetime: TimestampService
+    private servicetime: TimestampService,
+    private widthService: ScreenWidthService
   ) {}
 
   yAxisTickFormatting(value: number) {
@@ -49,12 +50,16 @@ export class RealizationPredictionAllProsumersComponent implements OnInit {
   }
 
   ngOnInit() {
-    
     this.HistoryWeekInit();
+    this.spinner.show();
+    this.HistoryWeek();
+    document.getElementById(
+      'modalFadeRealizationPredictionAllProsumers'
+    )!.style.maxHeight = this.widthService.height * 0.7 + 'px';
   }
 
   HistoryMonth() {
-    this.show=true;
+    this.show = true;
     this.spinner.show();
     this.servicetime.HistoryAllProsumers1Month().subscribe((response: any) => {
       const seriesData: any = [
@@ -99,21 +104,21 @@ export class RealizationPredictionAllProsumersComponent implements OnInit {
         series.forEach((seriesItem: any, index: any) => {
           const dayNumber = date.getDate();
           const monthName = date.toLocaleString('default', { month: 'long' });
+          const year = date.getFullYear();
           seriesData[index].series.push({
-            name: `${monthName} ${dayNumber}`,
+            name: `${dayNumber}. ${monthName} ${year}`,
             value: seriesItem.value,
           });
         });
       });
       this.data = seriesData;
       this.spinner.hide();
-      this.show=false;
-
+      this.show = false;
     });
   }
 
   HistoryYear() {
-    this.show=true;
+    this.show = true;
     this.spinner.show();
     this.servicetime.HistoryAllProsumers1Year().subscribe((response: any) => {
       const seriesData: any = [
@@ -167,12 +172,12 @@ export class RealizationPredictionAllProsumersComponent implements OnInit {
 
       this.data = seriesData;
       this.spinner.hide();
-      this.show=false;
+      this.show = false;
     });
   }
 
   HistoryWeek() {
-    this.show=true;
+    this.show = true;
     this.spinner.show();
     this.servicetime.HistoryAllProsumers7Days().subscribe((response: any) => {
       const seriesData: any[] = [
@@ -214,11 +219,11 @@ export class RealizationPredictionAllProsumersComponent implements OnInit {
 
       this.data = seriesData;
       this.spinner.hide();
-      this.show=false;
+      this.show = false;
     });
   }
   HistoryWeekInit() {
-    this.show=false;
+    this.show = false;
 
     this.servicetime.HistoryAllProsumers7Days().subscribe((response: any) => {
       const seriesData: any[] = [
@@ -259,7 +264,6 @@ export class RealizationPredictionAllProsumersComponent implements OnInit {
       });
 
       this.data = seriesData;
-
     });
   }
 }
