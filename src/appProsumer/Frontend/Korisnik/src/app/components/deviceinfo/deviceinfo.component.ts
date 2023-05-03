@@ -7,6 +7,7 @@ import { Device } from 'src/app/models/device';
 import { DeviceserviceService } from 'src/app/services/deviceservice.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-deviceinfo',
@@ -193,11 +194,28 @@ export class DeviceinfoComponent {
   }
 
   toggle() {
-    this.service
-      .toggleDevice(this.router1.snapshot.params['idDev'], true)
-      .subscribe((response) => {
-        this.currentUsage = response;
-      });
+    let offOn = this.currentUsage>0 ? 'Off' : 'On';
+    Swal.fire({
+      title: 'Are you sure?',
+      text: 'Confirm you want to turn this device '+offOn+'.',
+      icon: 'question',
+      allowOutsideClick: false,
+      showCancelButton: true,
+      confirmButtonColor: '#466471',
+      cancelButtonColor: '#6a8884',
+      confirmButtonText: 'Yes',
+      cancelButtonText: 'Cancel',
+    }).then((result) => {
+      if (result.value) {
+        this.service
+        .toggleDevice(this.router1.snapshot.params['idDev'], true)
+        .subscribe((response) => {
+          this.currentUsage = response;
+        });
+      } else if (result.dismiss === Swal.DismissReason.cancel) {
+        // Swal.fire('Cancelled', 'Product still in our database.)', 'error');
+      }
+    });
   }
 
   activateBtn(id : string)
