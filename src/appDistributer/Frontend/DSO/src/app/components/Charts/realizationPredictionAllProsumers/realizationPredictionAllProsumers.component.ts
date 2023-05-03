@@ -100,8 +100,9 @@ export class RealizationPredictionAllProsumersComponent implements OnInit {
         series.forEach((seriesItem: any, index: any) => {
           const dayNumber = date.getDate();
           const monthName = date.toLocaleString('default', { month: 'long' });
+          const year = date.getFullYear();
           seriesData[index].series.push({
-            name: `${monthName} ${dayNumber}`,
+            name: `${dayNumber}. ${monthName} ${year}`,
             value: seriesItem.value,
           });
         });

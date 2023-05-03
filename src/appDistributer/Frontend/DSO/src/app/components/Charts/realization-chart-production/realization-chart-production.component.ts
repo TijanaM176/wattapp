@@ -139,8 +139,11 @@ export class RealizationChartProductionComponent
       (myList: any[]) => {
         return myList.map((item) => {
           const date = new Date(item.name);
+          const dayNumber = date.getDate();
+          const monthName = date.toLocaleString('default', { month: 'long' });
+          const year = date.getFullYear();
           this.activateButton(id);
-          return { name: `Week ${date}`, series: item.series };
+          return { name: dayNumber+'. '+monthName+' '+year, series: item.series };
         });
       }
     );

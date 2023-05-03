@@ -91,8 +91,7 @@ export class User1Component implements OnInit, AfterViewInit {
         this.username = data.username;
         this.email = data.email;
         this.address = data.address;
-        this.image=data.image;
-        this.imageSource = this._sanitizer.bypassSecurityTrustResourceUrl(`data:image/png;base64, ${this.image}`);
+        this.Image(data.image);
         this.id = this.router.snapshot.params['id'];
         this.Region = this.cookie.get('region');
         this.serviceData.getCityNameById(data.cityId).subscribe((dat) => {
@@ -168,5 +167,17 @@ export class User1Component implements OnInit, AfterViewInit {
         this.consumption = data.consumption
         this.production = data.production;
       });
+  }
+
+  Image(dataImage : any)
+  {
+    if(dataImage=='' || dataImage==null)
+    {
+      this.imageSource = 'assets/images/user.png';
+    }
+    else
+    {
+      this.imageSource = this._sanitizer.bypassSecurityTrustResourceUrl(`data:image/png;base64, ${dataImage}`);
+    }
   }
 }

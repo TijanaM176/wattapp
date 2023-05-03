@@ -82,6 +82,8 @@ export class HistoryAllProsumersComponent implements OnInit {
 
         // Get the day of the month from the Date object
         const dayNumber = date.getDate();
+        const monthName = date.toLocaleString('default', { month: 'long' });
+        const year = date.getFullYear();
 
         const series = [
           { name: 'consumption', value: consumptionValue },
@@ -89,7 +91,7 @@ export class HistoryAllProsumersComponent implements OnInit {
         ];
 
         // Set the name property of the object to the formatted date string
-        myList.push({ name: dayNumber, series });
+        myList.push({ name: dayNumber+'. '+monthName+' '+year, series });
       });
       this.data = myList;
       this.data = this.data.slice(0, -1);
