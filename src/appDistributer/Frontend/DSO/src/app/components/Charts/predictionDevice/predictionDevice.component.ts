@@ -74,7 +74,7 @@ export class PredictionDeviceComponent implements OnInit, AfterViewInit {
     this.idDev = this.router1.snapshot.params['idDev'];
     const grafik = document.getElementById('predikcija');
     grafik!.style.height = this.widthService.height * 0.6 + 'px';
-    this.Prediction1Day('predictionDevice1');
+    this.Prediction1DayInit('predictionDevice1');
   }
 
   yAxisTickFormatting(value: number) {
@@ -160,6 +160,29 @@ export class PredictionDeviceComponent implements OnInit, AfterViewInit {
       this.activateButton(id);
       this.spinner.hide();
       this.show=false;
+      // console.log(this.data);
+    });
+  }
+  Prediction1DayInit(id: string) {
+    this.timeService.predictionDevice(this.idDev).subscribe((response: any) => {
+      const myList = Object.keys(response.nextDay.PredictionsFor1day).map(
+        (name) => {
+          let predictionValue = response.nextDay.PredictionsFor1day[name];
+          const cons: string = this.type.toLowerCase();
+          if (predictionValue == undefined) {
+            predictionValue = 0.0;
+          }
+          const series = [{ name: cons, value: predictionValue }];
+          const date = new Date(name);
+          const formattedHour = date.toLocaleTimeString([], {
+            hour: '2-digit',
+          });
+          const formattedName = formattedHour.split(':')[0] + 'H';
+          return { name: formattedName, series };
+        }
+      );
+      this.data = myList;
+      this.activateButton(id);
       // console.log(this.data);
     });
   }

@@ -57,7 +57,7 @@ export class HistoryAllProsumersComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.HistoryWeek();
+    this.HistoryWeekInit();
   }
 
   HistoryMonth() {
@@ -171,6 +171,41 @@ export class HistoryAllProsumersComponent implements OnInit {
       this.data = this.data.slice(1);
       this.spiner.hide();
       this.showsp=false;
+    });
+  }
+  HistoryWeekInit() {
+
+    this.servicetime.HistoryAllProsumers7Days().subscribe((response: any) => {
+      const myList: any = [];
+
+      const consumptionTimestamps = response.consumption.timestamps || {};
+      const productionTimestamps = response.production.timestamps || {};
+      const allTimestamps = {
+        ...consumptionTimestamps,
+        ...productionTimestamps,
+      };
+
+      Object.keys(allTimestamps).forEach((name) => {
+        const consumptionValue = consumptionTimestamps[name] || 0.0;
+        const productionValue = productionTimestamps[name] || 0.0;
+
+        // Create a new Date object from the name string
+        const date = new Date(name);
+
+        // Format the date into a readable string
+        const dayName = date.toLocaleDateString('en-US', { weekday: 'long' });
+
+        const series = [
+          { name: 'consumption', value: consumptionValue },
+          { name: 'production', value: productionValue },
+        ];
+
+        // Set the name property of the object to the formatted date string
+        myList.push({ name: dayName, series });
+      });
+      this.data = myList;
+      this.data = this.data.slice(1);
+
     });
   }
 }

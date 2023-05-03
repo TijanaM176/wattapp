@@ -83,13 +83,26 @@ export class RealizationDeviceComponent implements OnInit, AfterViewInit {
     document.getElementById('realiz1')!.classList.add('active');
     this.idDev = this.router1.snapshot.params['idDev'];
 
-    this.HistoryWeek('realiz1');
+    this.HistoryWeekInit('realiz1');
   }
 
   yAxisTickFormatting(value: number) {
     return value + ' kW';
   }
-
+  HistoryWeekInit(id: string) {
+    this.loadData(
+      this.timeService.historyDeviceWeek.bind(this.timeService, this.idDev),
+      (myList: any[]) => {
+        return myList.map((item) => {
+          const date = new Date(item.name);
+          const dayName = date.toLocaleDateString('en-US', { weekday: 'long' });
+          this.activateButton(id);
+          return { name: dayName, series: item.series };
+        });
+       // this.spinner.hide();
+      }
+    );
+  }
   HistoryWeek(id: string) {
     this.show=true;
     this.spinner.show();

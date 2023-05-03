@@ -50,7 +50,7 @@ export class RealizationPredictionAllProsumersComponent implements OnInit {
 
   ngOnInit() {
     
-    this.HistoryWeek();
+    this.HistoryWeekInit();
   }
 
   HistoryMonth() {
@@ -215,6 +215,51 @@ export class RealizationPredictionAllProsumersComponent implements OnInit {
       this.data = seriesData;
       this.spinner.hide();
       this.show=false;
+    });
+  }
+  HistoryWeekInit() {
+    this.show=false;
+
+    this.servicetime.HistoryAllProsumers7Days().subscribe((response: any) => {
+      const seriesData: any[] = [
+        { name: 'Consumption', series: [] },
+        { name: 'Production', series: [] },
+        { name: 'Prediction for Consumption', series: [] },
+        { name: 'Prediction for Production', series: [] },
+      ];
+
+      const allTimestamps = {
+        ...response.consumption.timestamps,
+        ...response.production.timestamps,
+      };
+
+      Object.entries(allTimestamps).forEach(([name, value]) => {
+        const consumptionValue = response.consumption.timestamps[name] || 0.0;
+        const consumptionPredictionValue =
+          response.consumption.predictions[name] || 0.0;
+        const productionValue = response.production.timestamps[name] || 0.0;
+        const productionPredictionValue =
+          response.production.predictions[name] || 0.0;
+
+        const date = new Date(name);
+        const dayNumber = date.getDate();
+        const monthName = date.toLocaleString('default', { month: 'long' });
+
+        seriesData.forEach((seriesItem, index) => {
+          seriesItem.series.push({
+            name: `${monthName} ${dayNumber}`,
+            value: [
+              consumptionValue,
+              productionValue,
+              consumptionPredictionValue,
+              productionPredictionValue,
+            ][index],
+          });
+        });
+      });
+
+      this.data = seriesData;
+
     });
   }
 }

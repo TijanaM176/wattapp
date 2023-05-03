@@ -82,7 +82,7 @@ export class RealizationDeviceComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     this.idDev = this.router1.snapshot.params['idDev'];
-    this.HistoryWeek('realizDev1');
+    this.HistoryWeekInit('realizDev1');
   }
 
   yAxisTickFormatting(value: number) {
@@ -115,6 +115,20 @@ export class RealizationDeviceComponent implements OnInit, AfterViewInit {
       }
     );
   }
+  HistoryWeekInit(id: string) {
+    this.loadData(
+      this.deviceService.historyDeviceWeek.bind(this.deviceService, this.idDev),
+      (myList: any[]) => {
+        return myList.map((item) => {
+          const date = new Date(item.name);
+          const dayName = date.toLocaleDateString('en-US', { weekday: 'long' });
+          this.activateButton(id);
+          return { name: dayName, series: item.series };
+        });
+      }
+    );
+  }
+
 
   HistoryMonth(id: string) {
     this.show=true;
