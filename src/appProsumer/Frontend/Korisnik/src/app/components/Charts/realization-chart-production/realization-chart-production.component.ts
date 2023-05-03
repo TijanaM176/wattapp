@@ -9,6 +9,7 @@ import { DeviceWidthService } from 'src/app/services/device-width.service';
 import { DevicesService } from 'src/app/services/devices.service';
 import { fromEvent, Observable, Subscription } from 'rxjs';
 import * as XLSX from 'xlsx';
+import { NgxSpinnerService } from 'ngx-spinner';
 @Component({
   selector: 'app-realization-chart-production',
   templateUrl: './realization-chart-production.component.html',
@@ -37,14 +38,15 @@ export class RealizationChartProductionComponent
   xAxisLabel = 'Time';
   showYAxisLabel = true;
   yAxisLabel = 'Energy in kWh';
-
+  show!:boolean;
   resizeObservable$!: Observable<Event>;
   resizeSubscription$!: Subscription;
   coef: number = 0.6;
 
   constructor(
     private deviceService: DevicesService,
-    private widthService: DeviceWidthService
+    private widthService: DeviceWidthService,
+    private spiner:NgxSpinnerService
   ) {}
 
   exportTable(): void {
@@ -107,6 +109,8 @@ export class RealizationChartProductionComponent
   }
 
   HistoryWeekInit(data: any) {
+    this.show=true;
+    this.spiner.show();
     const myList = Object.keys(data.consumption.timestamps).map((name) => {
       let consumptionValue = data.production.timestamps[name];
       let predictionValue = data.production.predictions[name];
@@ -129,9 +133,13 @@ export class RealizationChartProductionComponent
       const dayName = date.toLocaleDateString('en-US', { weekday: 'long' });
       return { name: dayName, series: item.series };
     });
+    this.spiner.hide();
+    this.show=false;
   }
 
   HistoryWeek(id: string) {
+    this.show=true;
+    this.spiner.show();
     this.activateButton(id);
     this.loadData(
       this.deviceService.history7Days.bind(this.deviceService),
@@ -146,6 +154,8 @@ export class RealizationChartProductionComponent
   }
 
   HistoryMonth(id: string) {
+    this.show=true;
+    this.spiner.show();
     this.activateButton(id);
     this.loadData(
       this.deviceService.history1Month.bind(this.deviceService),
@@ -168,6 +178,8 @@ export class RealizationChartProductionComponent
   }
 
   HistoryYear(id: string) {
+    this.show=true;
+    this.spiner.show();
     this.activateButton(id);
     this.loadData(
       this.deviceService.history1Year.bind(this.deviceService),
@@ -202,6 +214,8 @@ export class RealizationChartProductionComponent
         return { name, series };
       });
       this.data = mapFunction(myList);
+      this.spiner.hide();
+      this.show=false;
       // console.log(this.data);
     });
   }

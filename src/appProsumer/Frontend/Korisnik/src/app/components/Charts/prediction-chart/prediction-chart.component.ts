@@ -4,6 +4,7 @@ import { DeviceWidthService } from 'src/app/services/device-width.service';
 import { DevicesService } from 'src/app/services/devices.service';
 import { fromEvent, Observable, Subscription } from 'rxjs';
 import * as XLSX from 'xlsx';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-prediction-chart',
@@ -30,14 +31,15 @@ export class PredictionChartComponent implements OnInit {
   xAxisLabel = 'Time';
   showYAxisLabel = true;
   yAxisLabel = 'Energy in kWh';
-
+  show!:boolean;
   resizeObservable$!: Observable<Event>;
   resizeSubscription$!: Subscription;
   coef: number = 0.6;
 
   constructor(
     private deviceService: DevicesService,
-    private widthService: DeviceWidthService
+    private widthService: DeviceWidthService,
+    private spiner:NgxSpinnerService
   ) {}
 
   exportTable(): void {
@@ -99,6 +101,8 @@ export class PredictionChartComponent implements OnInit {
   }
 
   PredictionWeek(id: string) {
+    this.show=true;
+    this.spiner.show();
     this.loadData(
       this.deviceService.prediction1Week.bind(this.deviceService),
       (myList: any[]) => {
@@ -113,6 +117,8 @@ export class PredictionChartComponent implements OnInit {
   }
 
   Prediction3Days(id: string) {
+    this.show=true;
+    this.spiner.show();
     this.loadData(
       this.deviceService.prediction3Days.bind(this.deviceService),
       (myList: any[]) => {
@@ -127,6 +133,8 @@ export class PredictionChartComponent implements OnInit {
   }
 
   Prediction1Day(id: string) {
+    this.show=true;
+    this.spiner.show();
     this.loadData(
       this.deviceService.prediction1Day.bind(this.deviceService),
       (myList: any[]) => {
@@ -162,6 +170,9 @@ export class PredictionChartComponent implements OnInit {
         return { name, series };
       });
       this.data = mapFunction(myList);
+      
+      this.spiner.hide();
+      this.show=false;
       // console.log(this.data);
     });
   }

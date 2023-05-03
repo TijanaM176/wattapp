@@ -44,7 +44,7 @@ export class DeviceinfoComponent {
   gaugeLabel = 'Consumption';
   gaugeAppendText = 'kWh';
 
-  cons : boolean = true;
+  cons: boolean = true;
 
   @ViewChild('editData', { static: false }) editData!: EditDeviceFormComponent;
   constructor(
@@ -119,7 +119,7 @@ export class DeviceinfoComponent {
             },
           };
         }
-        this.deviceData=res;
+        this.deviceData = res;
         this.IpAddress = res.IpAddress;
         this.TypeName = res.TypeName;
         this.ModelName = res.ModelName;
@@ -200,30 +200,22 @@ export class DeviceinfoComponent {
       });
   }
 
-  activateBtn(id : string)
-  {
+  activateBtn(id: string) {
     const buttons = document.querySelectorAll('.offcanvasBtn');
-    buttons.forEach(button=>{
-      if(button.id == id)
-      {
+    buttons.forEach((button) => {
+      if (button.id == id) {
         button.classList.add('active');
-      }
-      else
-      {
+      } else {
         button.classList.remove('active');
       }
-    })
+    });
   }
-  activateButton(id : string)
-  {
+  activateButton(id: string) {
     const buttons = document.querySelectorAll('.sidebarBtn');
-    buttons.forEach(button=>{
-      if(button.id == id)
-      {
+    buttons.forEach((button) => {
+      if (button.id == id) {
         button.classList.add('active');
-      }
-      else
-      {
+      } else {
         button.classList.remove('active');
       }
     });

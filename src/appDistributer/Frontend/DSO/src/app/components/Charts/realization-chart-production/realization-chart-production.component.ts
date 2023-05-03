@@ -13,6 +13,8 @@ import { DeviceserviceService } from 'src/app/services/deviceservice.service';
 import { ScreenWidthService } from 'src/app/services/screen-width.service';
 import { TimestampService } from 'src/app/services/timestamp.service';
 import { UsersServiceService } from 'src/app/services/users-service.service';
+import { NgxSliderModule } from '@angular-slider/ngx-slider';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-realization-chart-production',
@@ -47,13 +49,15 @@ export class RealizationChartProductionComponent
   resizeSubscription$!: Subscription;
   coef: number = 0.6;
   id!: string;
+  show!:boolean;
 
   constructor(
     private deviceService: DeviceserviceService,
     private widthService: ScreenWidthService,
     private serviceTime: TimestampService,
     private router: ActivatedRoute,
-    private service: UsersServiceService
+    private service: UsersServiceService,
+    private spiner:NgxSpinnerService
   ) {}
 
   ngAfterViewInit(): void {
@@ -104,6 +108,8 @@ export class RealizationChartProductionComponent
   }
 
   HistoryWeekInit(id: string) {
+    this.show=true;
+    this.spiner.show();
     this.loadData(
       this.serviceTime.HistoryProsumer7Days.bind(this.deviceService)(this.id),
       (myList: any[]) => {
@@ -118,6 +124,8 @@ export class RealizationChartProductionComponent
   }
 
   HistoryWeek(id: string) {
+    this.show=true;
+    this.spiner.show();
     this.loadData(
       this.serviceTime.HistoryProsumer7Days.bind(this.service)(this.id),
       (myList: any[]) => {
@@ -133,6 +141,8 @@ export class RealizationChartProductionComponent
   }
 
   HistoryMonth(id: string) {
+    this.show=true;
+    this.spiner.show();
     this.loadData(
       this.serviceTime.HistoryProsumer1Month.bind(this.service)(this.id),
       (myList: any[]) => {
@@ -147,6 +157,8 @@ export class RealizationChartProductionComponent
   }
 
   HistoryYear(id: string) {
+    this.show=true;
+    this.spiner.show();
     this.loadData(
       this.serviceTime.HistoryProsumer1Year.bind(this.service)(this.id),
       (myList: any[]) => {
@@ -181,6 +193,8 @@ export class RealizationChartProductionComponent
         return { name, series };
       });
       this.data = mapFunction(myList);
+      this.spiner.hide();
+      this.show=false;
       // console.log(this.data);
     });
   }

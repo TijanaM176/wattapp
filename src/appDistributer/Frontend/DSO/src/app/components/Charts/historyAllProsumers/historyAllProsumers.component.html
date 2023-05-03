@@ -1,3 +1,13 @@
+<ngx-spinner
+  bdColor="rgba(0, 0, 0, 0)"
+  size="medium"
+  color="black"
+  type = "ball-clip-rotate"
+  [showSpinner]="showsp"
+  [fullScreen]="false"
+  *ngIf="showsp"
+  ></ngx-spinner
+>
 <div>
   <div
     class="card-header pb-0 pt-3 bg-transparent row"
@@ -27,7 +37,7 @@
       style="display: flex; justify-content: right; margin: 0px 0px 2px auto"
     >
       <button
-        class="btn"
+        class="btn bttn1"
         (click)="HistoryWeek()"
         style="margin: 1px"
         type="button"
@@ -36,7 +46,7 @@
         7 Days
       </button>
       <button
-        class="btn"
+        class="btn bttn2"
         (click)="HistoryMonth()"
         style="margin: 1px"
         type="button"
@@ -45,7 +55,7 @@
         1 Month
       </button>
       <button
-        class="btn"
+        class="btn bttn3"
         (click)="HistoryYear()"
         type="button"
         style="margin: 1px"

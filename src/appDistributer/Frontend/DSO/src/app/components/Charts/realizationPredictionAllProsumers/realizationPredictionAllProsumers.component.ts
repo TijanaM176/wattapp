@@ -11,6 +11,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { DashboarddataService } from 'src/app/services/dashboarddata.service';
 import { TimestampService } from 'src/app/services/timestamp.service';
 
+
 @Component({
   selector: 'app-realizationPredictionAllProsumers',
   templateUrl: './realizationPredictionAllProsumers.component.html',
@@ -35,7 +36,7 @@ export class RealizationPredictionAllProsumersComponent implements OnInit {
   gradient = false;
   showLegend = true;
   yAxisLabel = 'Energy (kWh)';
-
+  show!:boolean;
   constructor(
     private service: UsersServiceService,
     private router: ActivatedRoute,
@@ -48,11 +49,12 @@ export class RealizationPredictionAllProsumersComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.spinner.show();
+    
     this.HistoryWeek();
   }
 
   HistoryMonth() {
+    this.show=true;
     this.spinner.show();
     this.servicetime.HistoryAllProsumers1Month().subscribe((response: any) => {
       const seriesData: any = [
@@ -105,10 +107,13 @@ export class RealizationPredictionAllProsumersComponent implements OnInit {
       });
       this.data = seriesData;
       this.spinner.hide();
+      this.show=false;
+
     });
   }
 
   HistoryYear() {
+    this.show=true;
     this.spinner.show();
     this.servicetime.HistoryAllProsumers1Year().subscribe((response: any) => {
       const seriesData: any = [
@@ -162,10 +167,12 @@ export class RealizationPredictionAllProsumersComponent implements OnInit {
 
       this.data = seriesData;
       this.spinner.hide();
+      this.show=false;
     });
   }
 
   HistoryWeek() {
+    this.show=true;
     this.spinner.show();
     this.servicetime.HistoryAllProsumers7Days().subscribe((response: any) => {
       const seriesData: any[] = [
@@ -207,6 +214,7 @@ export class RealizationPredictionAllProsumersComponent implements OnInit {
 
       this.data = seriesData;
       this.spinner.hide();
+      this.show=false;
     });
   }
 }

@@ -9,6 +9,7 @@ import { DeviceWidthService } from 'src/app/services/device-width.service';
 import { DevicesService } from 'src/app/services/devices.service';
 import { fromEvent, Observable, Subscription } from 'rxjs';
 import * as XLSX from 'xlsx';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-realization-chart',
@@ -36,14 +37,15 @@ export class RealizationChartComponent implements OnInit, AfterViewInit {
   xAxisLabel = 'Time';
   showYAxisLabel = true;
   yAxisLabel = 'Energy in kWh';
-
+  show!:boolean;
   resizeObservable$!: Observable<Event>;
   resizeSubscription$!: Subscription;
   coef: number = 0.6;
 
   constructor(
     private deviceService: DevicesService,
-    private widthService: DeviceWidthService
+    private widthService: DeviceWidthService,
+    private spiner:NgxSpinnerService
   ) {}
 
   ngAfterViewInit(): void {
@@ -107,6 +109,8 @@ export class RealizationChartComponent implements OnInit, AfterViewInit {
   }
 
   HistoryWeekInit(data: any) {
+    this.show=true;
+    this.spiner.show();
     const myList = Object.keys(data.consumption.timestamps).map((name) => {
       let consumptionValue = data.consumption.timestamps[name];
       let predictionValue = data.consumption.predictions[name];
@@ -129,9 +133,13 @@ export class RealizationChartComponent implements OnInit, AfterViewInit {
       const dayName = date.toLocaleDateString('en-US', { weekday: 'long' });
       return { name: dayName, series: item.series };
     });
+    this.spiner.hide();
+    this.show=false;
   }
 
   HistoryWeek(id: string) {
+    this.show=true;
+    this.spiner.show();
     this.activateButton(id);
     this.loadData(
       this.deviceService.history7Days.bind(this.deviceService),
@@ -146,6 +154,8 @@ export class RealizationChartComponent implements OnInit, AfterViewInit {
   }
 
   HistoryMonth(id: string) {
+    this.show=true;
+    this.spiner.show();
     this.activateButton(id);
     this.loadData(
       this.deviceService.history1Month.bind(this.deviceService),
@@ -168,6 +178,8 @@ export class RealizationChartComponent implements OnInit, AfterViewInit {
   }
 
   HistoryYear(id: string) {
+    this.show=true;
+    this.spiner.show();
     this.activateButton(id);
     this.loadData(
       this.deviceService.history1Year.bind(this.deviceService),
@@ -204,6 +216,8 @@ export class RealizationChartComponent implements OnInit, AfterViewInit {
         }
       );
       this.data = mapFunction(myList);
+      this.spiner.hide();
+      this.show=false;
       // console.log(this.data);
     });
   }

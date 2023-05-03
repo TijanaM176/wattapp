@@ -42,13 +42,15 @@ export class HistoryProsumerComponent implements OnInit {
   resizeSubscription$!: Subscription;
   coef: number = 0.6;
   id!: string;
+  show!:boolean;
 
   constructor(
     private deviceService: DeviceserviceService,
     private widthService: ScreenWidthService,
     private serviceTime: TimestampService,
     private router: ActivatedRoute,
-    private service: UsersServiceService
+    private service: UsersServiceService,
+    private spiner:NgxSpinnerService
   ) {}
 
   exportTable(): void {
@@ -74,6 +76,8 @@ export class HistoryProsumerComponent implements OnInit {
   }
 
   HistoryWeek(id: string) {
+    this.show=true;
+    this.spiner.show();
     this.serviceTime
       .HistoryProsumer7Days(this.id)
       .subscribe((response: any) => {
@@ -107,9 +111,13 @@ export class HistoryProsumerComponent implements OnInit {
         this.data = myList;
         this.data = this.data.slice(1);
         this.activateButton(id);
+        this.spiner.hide();
+        this.show=false;
       });
   }
   HistoryMonth(id: string) {
+    this.show=true;
+    this.spiner.show();
     this.serviceTime
       .HistoryProsumer1Month(this.id)
       .subscribe((response: any) => {
@@ -143,9 +151,13 @@ export class HistoryProsumerComponent implements OnInit {
         this.data = myList;
         this.data = this.data.slice(0, -1);
         this.activateButton(id);
+        this.spiner.hide();
+        this.show=false;
       });
   }
   HistoryYear(id: string) {
+    this.show=true;
+    this.spiner.show();
     this.serviceTime
       .HistoryProsumer1Year(this.id)
       .subscribe((response: any) => {
@@ -178,6 +190,8 @@ export class HistoryProsumerComponent implements OnInit {
         });
         this.data = myList;
         this.activateButton(id);
+        this.spiner.hide();
+        this.show=false;
       });
   }
 

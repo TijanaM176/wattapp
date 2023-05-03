@@ -5,6 +5,7 @@ import { ScreenWidthService } from 'src/app/services/screen-width.service';
 import { DeviceserviceService } from 'src/app/services/deviceservice.service';
 import { TimestampService } from 'src/app/services/timestamp.service';
 import * as XLSX from 'xlsx';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-predictionDevice',
@@ -32,14 +33,15 @@ export class PredictionDeviceComponent implements OnInit, AfterViewInit {
   showYAxisLabel = true;
   yAxisLabel = 'Energy in kWh';
   idDev: string = '';
-
+  show!:boolean;
   @Input() type: string = '';
 
   constructor(
     private deviceService: DeviceserviceService,
     private widthService: ScreenWidthService,
     private timeService: TimestampService,
-    private router1: ActivatedRoute
+    private router1: ActivatedRoute,
+    private spinner:NgxSpinnerService
   ) {}
 
   exportTable(): void {
@@ -68,6 +70,7 @@ export class PredictionDeviceComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
+
     this.idDev = this.router1.snapshot.params['idDev'];
     const grafik = document.getElementById('predikcija');
     grafik!.style.height = this.widthService.height * 0.6 + 'px';
@@ -79,6 +82,8 @@ export class PredictionDeviceComponent implements OnInit, AfterViewInit {
   }
 
   PredictionWeek(id: string) {
+    this.show=true;
+    this.spinner.show();
     this.timeService.predictionDevice(this.idDev).subscribe((response: any) => {
       // console.log(response);
       const myList = Object.keys(response.nextWeek.PredictionsFor7day).map(
@@ -98,11 +103,15 @@ export class PredictionDeviceComponent implements OnInit, AfterViewInit {
       );
       this.data = myList;
       this.activateButton(id);
+      this.spinner.hide();
+      this.show=false;
       // console.log(this.data);
     });
   }
 
   Prediction3Days(id: string) {
+    this.show=true;
+    this.spinner.show();
     this.timeService.predictionDevice(this.idDev).subscribe((response: any) => {
       const myList = Object.keys(response.next3Day.PredictionsFor3day).map(
         (name) => {
@@ -121,11 +130,15 @@ export class PredictionDeviceComponent implements OnInit, AfterViewInit {
       );
       this.data = myList;
       this.activateButton(id);
+      this.spinner.hide();
+      this.show=false;
       // console.log(this.data);
     });
   }
 
   Prediction1Day(id: string) {
+    this.show=true;
+    this.spinner.show();
     this.timeService.predictionDevice(this.idDev).subscribe((response: any) => {
       const myList = Object.keys(response.nextDay.PredictionsFor1day).map(
         (name) => {
@@ -145,6 +158,8 @@ export class PredictionDeviceComponent implements OnInit, AfterViewInit {
       );
       this.data = myList;
       this.activateButton(id);
+      this.spinner.hide();
+      this.show=false;
       // console.log(this.data);
     });
   }

@@ -1,13 +1,14 @@
 <ngx-spinner
-  bdColor="rgba(0, 0, 0, 0.95)"
-  size="small"
-  color="#fff"
-  type="ball-circus"
-  [showSpinner]="true"
+  bdColor="rgba(0, 0, 0, 0)"
+  size="medium"
+  color="black"
+  type = "ball-clip-rotate"
+  [showSpinner]="show"
   [fullScreen]="false"
-  [zIndex]="9999"
-  ><p style="font-size: 25px; color: white">Loading ...</p></ngx-spinner
+  *ngIf="show"
+  ></ngx-spinner
 >
+
 <div>
   <div
     class="card-header pb-0 pt-3 bg-transparent row"
