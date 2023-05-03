@@ -3,6 +3,8 @@ import {
   OnInit,
   CUSTOM_ELEMENTS_SCHEMA,
   SimpleChanges,
+  Output,
+  EventEmitter,
 } from '@angular/core';
 import { Devices } from 'src/app/models/prosumerDevices';
 import { UsersServiceService } from 'src/app/services/users-service.service';
@@ -19,7 +21,7 @@ import { DeviceserviceService } from 'src/app/services/deviceservice.service';
 })
 export class TabelaUredjajaComponent implements OnInit {
   id: string = '';
-
+  @Output() current = new EventEmitter<[number, number, number]>();
   showConsumers = true;
   showProducers = true;
   showStorages = true;
@@ -33,6 +35,9 @@ export class TabelaUredjajaComponent implements OnInit {
   orderHeader: String = '';
   isDescOrder: boolean = true;
   dataSource = new MatTableDataSource<any[]>(this.devices);
+  currentConsumption: number = 0;
+  currentProduction: number = 0;
+  deviceCount: number = 0;
   constructor(
     private userService: UsersServiceService,
     private cookie: CookieService,
@@ -44,6 +49,14 @@ export class TabelaUredjajaComponent implements OnInit {
     this.id = this.router.snapshot.params['id'];
     this.deviceService.getDevicesByProsumerId(this.id).subscribe((response) => {
       console.log(response);
+      this.currentConsumption = response.currentConsumption;
+      this.currentProduction = response.currentProduction;
+      this.deviceCount = response.deviceCount;
+      this.current.emit([
+        this.currentConsumption,
+        this.currentProduction,
+        this.deviceCount,
+      ]);
       this.devicesToShow = [
         ...response.consumers,
         ...response.producers,

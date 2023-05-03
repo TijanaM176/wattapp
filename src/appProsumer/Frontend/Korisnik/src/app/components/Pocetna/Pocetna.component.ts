@@ -9,7 +9,7 @@ import { DashboardService } from 'src/app/services/dashboard.service';
 import { DevicesService } from 'src/app/services/devices.service';
 import { RealizationChartComponent } from '../Charts/realization-chart/realization-chart.component';
 import { RealizationChartProductionComponent } from '../Charts/realization-chart-production/realization-chart-production.component';
-import { Location } from "@angular/common";
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-Pocetna',
@@ -29,20 +29,23 @@ export class PocetnaComponent implements OnInit, AfterViewInit {
   tariff: string = 'HIGHER';
 
   @ViewChild('house', { static: true }) house!: HouseComponent;
-  @ViewChild('devicesStatus', { static: true }) devicesStatus!: DevicesStatusComponent;
-  @ViewChild('realizationConsumption',{static:true}) realizationConsumption! : RealizationChartComponent;
-  @ViewChild('realizationProduction',{static: true}) realizationProduction! : RealizationChartProductionComponent;
+  @ViewChild('devicesStatus', { static: true })
+  devicesStatus!: DevicesStatusComponent;
+  @ViewChild('realizationConsumption', { static: true })
+  realizationConsumption!: RealizationChartComponent;
+  @ViewChild('realizationProduction', { static: true })
+  realizationProduction!: RealizationChartProductionComponent;
 
-  currentPrice : number = 0;
-  currentConsumption : number = 0;
-  currentProduction : number = 0;
+  currentPrice: number = 0;
+  currentConsumption: number = 0;
+  currentProduction: number = 0;
 
   constructor(
     private widthService: DeviceWidthService,
     private service: ProsumerService,
     private cookie: CookieService,
-    private dashboardService : DashboardService,
-    private deviceService : DevicesService,
+    private dashboardService: DashboardService,
+    private deviceService: DevicesService,
     private location: Location
   ) {
     // this.location.replaceState("/");
@@ -58,7 +61,7 @@ export class PocetnaComponent implements OnInit, AfterViewInit {
       this.loader = false;
     }, 2000);
     this.getDevices();
-    this.getPrice()
+    this.getPrice();
     this.get7DaysHistory();
     let hour = new Date().getHours();
     if (hour >= 22 || hour <= 6) {
@@ -84,86 +87,83 @@ export class PocetnaComponent implements OnInit, AfterViewInit {
         this.currentProduction = response.currentProduction;
         this.house.setDevices(this.devices);
         this.devicesStatus.setDevices(this.devices);
-        this.devicesStatus.setCurrentConsumptionAndProduction(this.currentConsumption,this.currentProduction);
+        this.devicesStatus.setCurrentConsumptionAndProduction(
+          this.currentConsumption,
+          this.currentProduction
+        );
         this.numOfDevices = this.devices.length;
         this.devices.forEach((device) => {
-          if(device.CurrentUsage!=0)
-          {
-            this.numOfActiveDevices +=1;
+          if (device.CurrentUsage != 0) {
+            this.numOfActiveDevices += 1;
           }
         });
       });
   }
 
-  getPrice()
-  {
-    this.dashboardService.getCurrentElecticityPrice()
-    .subscribe({
-      next:(res)=>{
+  getPrice() {
+    this.dashboardService.getCurrentElecticityPrice().subscribe({
+      next: (res) => {
         this.currentPrice = res.Price;
       },
-      error:(err)=>{
+      error: (err) => {
         console.log(err.error);
-      }
-    })
+      },
+    });
   }
 
-  get7DaysHistory()
-  {
-    this.deviceService.history7Days()
-    .subscribe({
-      next:(res)=>{
+  get7DaysHistory() {
+    this.deviceService.history7Days().subscribe({
+      next: (res) => {
         // console.log(res);
         this.realizationConsumption.HistoryWeekInit(res);
         this.realizationProduction.HistoryWeekInit(res);
-      }
-    })
+      },
+    });
   }
 
-  onDeviceTurnedOffOn(data:[any[],number, number,string]) //devices : any[], offOn : number
-  {
+  onDeviceTurnedOffOn(
+    data: [any[], number, number, string] //devices : any[], offOn : number
+  ) {
     let offOn = data[1];
     this.devices = data[0];
     let last = data[2];
     let cat = data[3];
-    if(offOn != 0) //one of the devices has been turned on
-    {
-      this.numOfActiveDevices+=1;
-      cat=='1'? this.currentConsumption += offOn : this.currentProduction += offOn;
-    }
-    else if(offOn==0)//one of the devices has been turned off
-    {
-      this.numOfActiveDevices-=1;
-      cat=='1'? this.currentConsumption -= last : this.currentProduction -= last;
+    if (offOn != 0) {
+      //one of the devices has been turned on
+      this.numOfActiveDevices += 1;
+      cat == '1'
+        ? (this.currentConsumption += offOn)
+        : (this.currentProduction += offOn);
+    } else if (offOn == 0) {
+      //one of the devices has been turned off
+      this.numOfActiveDevices -= 1;
+      cat == '1'
+        ? (this.currentConsumption -= last)
+        : (this.currentProduction -= last);
     }
     this.devicesStatus.setDevices(this.devices);
-    this.devicesStatus.setCurrentConsumptionAndProduction(this.currentConsumption,this.currentProduction);
+    this.devicesStatus.setCurrentConsumptionAndProduction(
+      this.currentConsumption,
+      this.currentProduction
+    );
   }
 
-  activateBtn(id : string)
-  {
+  activateBtn(id: string) {
     const buttons = document.querySelectorAll('.offcanvasBtn');
-    buttons.forEach(button=>{
-      if(button.id == id)
-      {
+    buttons.forEach((button) => {
+      if (button.id == id) {
         button.classList.add('active');
-      }
-      else
-      {
+      } else {
         button.classList.remove('active');
       }
-    })
+    });
   }
-  activateButton(id : string)
-  {
+  activateButton(id: string) {
     const buttons = document.querySelectorAll('.sidebarBtn');
-    buttons.forEach(button=>{
-      if(button.id == id)
-      {
+    buttons.forEach((button) => {
+      if (button.id == id) {
         button.classList.add('active');
-      }
-      else
-      {
+      } else {
         button.classList.remove('active');
       }
     });

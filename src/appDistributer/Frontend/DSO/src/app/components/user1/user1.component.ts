@@ -2,8 +2,6 @@ import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UsersServiceService } from 'src/app/services/users-service.service';
 import { FormGroup, FormControl } from '@angular/forms';
-import { SidebarDsoComponent } from '../sidebar-dso/sidebar-dso.component';
-import { data } from 'jquery';
 import { EmployeesServiceService } from 'src/app/services/employees-service.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { CookieService } from 'ngx-cookie-service';
@@ -20,11 +18,14 @@ import { DomSanitizer } from '@angular/platform-browser';
   styleUrls: ['./user1.component.css'],
 })
 export class User1Component implements OnInit, AfterViewInit {
-  @ViewChild('sidebarInfo', { static: true }) sidebarInfo!: SidebarDsoComponent;
+  @ViewChild('deviceTabela', { static: true })
+  devicesStatus!: TabelaUredjajaComponent;
+  currentConsumption: number = 0;
+  currentProduction: number = 0;
+  deviceCount: number = 0;
   loader: boolean = true;
   resizeObservable$!: Observable<Event>;
   resizeSubscription$!: Subscription;
-  numberD: number = 0;
   constructor(
     private user1: EmployeesServiceService,
     private user: UsersServiceService,
@@ -48,10 +49,8 @@ export class User1Component implements OnInit, AfterViewInit {
   Region: string = '';
   city: string = '';
   type: string = '';
-  consumption: number = 0;
-  production: number = 0;
-  image!:string;
-  imageSource!:any;
+  image!: string;
+  imageSource!: any;
   editUser = new FormGroup({
     FirstName: new FormControl(''),
     LastName: new FormControl(''),
@@ -67,6 +66,17 @@ export class User1Component implements OnInit, AfterViewInit {
   userOldInfo: any;
   thresholds: object = {};
 
+  onCurrentValuesReceived(values: [number, number, number]) {
+    const [consumption, production, deviceCount] = values;
+    // Do something with the received values
+    console.log(
+      `Consumption: ${consumption}, Production: ${production}, Device count: ${deviceCount}`
+    );
+    this.deviceCount = deviceCount;
+    this.currentConsumption = consumption;
+    this.currentProduction = production;
+  }
+
   ngOnInit(): void {
     document.getElementById('userInfoDataContainer')!.style.height =
       this.widthService.height + 'px';
@@ -74,7 +84,6 @@ export class User1Component implements OnInit, AfterViewInit {
     this.spiner.show();
     this.disableDelete(this.letValue);
     this.getInformations();
-    this.ConsumptionAndProduction();
     this.resizeObservable$ = fromEvent(window, 'resize');
     this.resizeSubscription$ = this.resizeObservable$.subscribe((evt) => {
       document.getElementById('userInfoDataContainer')!.style.height =
@@ -91,8 +100,10 @@ export class User1Component implements OnInit, AfterViewInit {
         this.username = data.username;
         this.email = data.email;
         this.address = data.address;
-        this.image=data.image;
-        this.imageSource = this._sanitizer.bypassSecurityTrustResourceUrl(`data:image/png;base64, ${this.image}`);
+        this.image = data.image;
+        this.imageSource = this._sanitizer.bypassSecurityTrustResourceUrl(
+          `data:image/png;base64, ${this.image}`
+        );
         this.id = this.router.snapshot.params['id'];
         this.Region = this.cookie.get('region');
         this.serviceData.getCityNameById(data.cityId).subscribe((dat) => {
@@ -158,15 +169,5 @@ export class User1Component implements OnInit, AfterViewInit {
     } else {
       deleteBtn?.setAttribute('disabled', 'disabled');
     }
-  }
-
-  ConsumptionAndProduction() {
-    this.deviceService
-      .getUserProductionAndConsumption(this.router.snapshot.params['id'])
-      .subscribe((data) => {
-        
-        this.consumption = data.consumption
-        this.production = data.production;
-      });
   }
 }
