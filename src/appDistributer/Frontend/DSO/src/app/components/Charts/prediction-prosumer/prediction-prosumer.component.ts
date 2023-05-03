@@ -18,6 +18,7 @@ export class PredictionProsumerComponent implements OnInit {
   data: any[] = [];
   dataConsumers: any = [];
   dataProducers: any = [];
+  show!:boolean;
   colors: Color = {
     name: 'mycolors',
     selectable: true,
@@ -38,7 +39,7 @@ export class PredictionProsumerComponent implements OnInit {
     private router: ActivatedRoute,
     private spiner: NgxSpinnerService,
     private widthService: ScreenWidthService,
-    private serviceData: TimestampService
+    private serviceData: TimestampService,
   ) {}
 
   ngOnInit() {
@@ -54,6 +55,8 @@ export class PredictionProsumerComponent implements OnInit {
   }
 
   PredictionWeek(id: string) {
+    this.show=true;
+    this.spiner.show();
     this.serviceData
       .PredictionProsumer7Days(this.id)
       .subscribe((response: any) => {
@@ -97,10 +100,14 @@ export class PredictionProsumerComponent implements OnInit {
         const finalList = Object.values(groupedData);
         this.activateButton(id);
         this.data = finalList;
+        this.spiner.hide();
+        this.show=false;
       });
   }
 
   Prediction3Days(id: string) {
+    this.show=true;
+    this.spiner.show();
     this.serviceData
       .PredictionProsumer3Days(this.id)
       .subscribe((response: any) => {
@@ -143,9 +150,13 @@ export class PredictionProsumerComponent implements OnInit {
         this.data = finalList;
         this.data = this.data.slice(1);
         this.activateButton(id);
+        this.spiner.hide();
+        this.show=false;
       });
   }
   PredictionDay(id: string) {
+    this.show=true;
+    this.spiner.show();
     this.serviceData
       .PredictionProsumer1Day(this.id)
       .subscribe((response: any) => {
@@ -187,6 +198,8 @@ export class PredictionProsumerComponent implements OnInit {
         const finalList = Object.values(groupedData);
         this.activateButton(id);
         this.data = finalList;
+        this.spiner.hide();
+        this.show=false;
       });
   }
 

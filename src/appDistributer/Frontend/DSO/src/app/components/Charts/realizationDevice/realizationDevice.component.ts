@@ -10,6 +10,7 @@ import { ScreenWidthService } from 'src/app/services/screen-width.service';
 import { DeviceserviceService } from 'src/app/services/deviceservice.service';
 import { TimestampService } from 'src/app/services/timestamp.service';
 import * as XLSX from 'xlsx';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-realizationDevice',
@@ -38,13 +39,15 @@ export class RealizationDeviceComponent implements OnInit, AfterViewInit {
   showYAxisLabel = true;
   yAxisLabel = 'Energy in kWh';
   idDev: string = '';
+  show!:boolean;
   @Input() type: string = '';
 
   constructor(
     private deviceService: DeviceserviceService,
     private widthService: ScreenWidthService,
     private timeService: TimestampService,
-    private router1: ActivatedRoute
+    private router1: ActivatedRoute,
+    private spinner:NgxSpinnerService
   ) {}
 
   exportTable(): void {
@@ -88,6 +91,8 @@ export class RealizationDeviceComponent implements OnInit, AfterViewInit {
   }
 
   HistoryWeek(id: string) {
+    this.show=true;
+    this.spinner.show();
     this.loadData(
       this.timeService.historyDeviceWeek.bind(this.timeService, this.idDev),
       (myList: any[]) => {
@@ -97,11 +102,14 @@ export class RealizationDeviceComponent implements OnInit, AfterViewInit {
           this.activateButton(id);
           return { name: dayName, series: item.series };
         });
+       // this.spinner.hide();
       }
     );
   }
 
   HistoryMonth(id: string) {
+    this.show=true;
+    this.spinner.show();
     this.loadData(
       this.timeService.historyDeviceMonth.bind(this.timeService, this.idDev),
       (myList: any[]) => {
@@ -115,6 +123,8 @@ export class RealizationDeviceComponent implements OnInit, AfterViewInit {
   }
 
   HistoryYear(id: string) {
+    this.show=true;
+    this.spinner.show();
     this.loadData(
       this.timeService.historyDeviceYear.bind(this.timeService, this.idDev),
       (myList: any[]) => {
@@ -124,6 +134,7 @@ export class RealizationDeviceComponent implements OnInit, AfterViewInit {
           this.activateButton(id);
           return { name: monthName, series: item.series };
         });
+       // this.spinner.hide();
       }
     );
   }
@@ -164,6 +175,8 @@ export class RealizationDeviceComponent implements OnInit, AfterViewInit {
         return { name, series };
       });
       this.data = mapFunction(myList);
+      this.spinner.hide();
+      this.show=false;
     });
   }
 

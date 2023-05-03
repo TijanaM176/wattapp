@@ -143,9 +143,9 @@ import { RealizationChartProductionComponent } from './components/Charts/realiza
   ],
   imports: [
     MatSlideToggleModule,
-    BrowserAnimationsModule,
     MatCheckboxModule,
     BrowserModule,
+    BrowserAnimationsModule,
     HttpClientModule,
     FormsModule,
     AppRoutingModule,

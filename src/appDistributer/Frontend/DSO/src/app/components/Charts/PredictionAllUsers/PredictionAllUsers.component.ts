@@ -6,6 +6,7 @@ import { ScaleType, Color, LegendComponent } from '@swimlane/ngx-charts';
 import { BrowserModule } from '@angular/platform-browser';
 import { TimestampService } from 'src/app/services/timestamp.service';
 import * as XLSX from 'xlsx';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 
 @Component({
@@ -30,11 +31,12 @@ export class PredictionAllUsersComponent implements OnInit {
   showYAxis = true;
   gradient = false;
   showLegend = true;
-
+  show:boolean=true;
   constructor(
     private service: UsersServiceService,
     private router: ActivatedRoute,
-    private servicetime: TimestampService
+    private servicetime: TimestampService,
+    private spinner:NgxSpinnerService
   ) {}
 
   exportTable(): void {
@@ -61,10 +63,13 @@ export class PredictionAllUsersComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.spinner.show();
     this.PredictionDay();
   }
 
   PredictionWeek() {
+    this.show=true;
+    this.spinner.show();
     this.servicetime.PredictionNextWeek().subscribe((response: any) => {
       const consumptionTimestamps = response.consumption || {};
       const productionTimestamps = response.production || {};
@@ -99,10 +104,14 @@ export class PredictionAllUsersComponent implements OnInit {
       const finalList = Object.values(groupedData);
 
       this.data = finalList;
+      this.show=false;
+      this.spinner.hide();
     });
   }
 
   Prediction3Days() {
+    this.show=true;
+    this.spinner.show();
     this.servicetime.PredictionNext3Days().subscribe((response: any) => {
       const consumptionTimestamps = response.consumption || {};
       const productionTimestamps = response.production || {};
@@ -137,10 +146,14 @@ export class PredictionAllUsersComponent implements OnInit {
       const finalList = Object.values(groupedData);
 
       this.data = finalList;
+      this.spinner.hide();
+      this.show=false;
     });
   }
 
   PredictionDay() {
+    this.show=true;
+    this.spinner.show();
     this.servicetime.PredictionNextDay().subscribe((response: any) => {
       const myList: any = [];
 
@@ -180,6 +193,8 @@ export class PredictionAllUsersComponent implements OnInit {
       const finalList = Object.values(groupedData);
 
       this.data = finalList;
+      this.spinner.hide();
+      this.show=false;
     });
   }
 }

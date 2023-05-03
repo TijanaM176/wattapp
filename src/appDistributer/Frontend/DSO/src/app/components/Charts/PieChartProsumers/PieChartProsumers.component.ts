@@ -6,6 +6,7 @@ import { ScaleType, Color, LegendComponent } from '@swimlane/ngx-charts';
 import { BrowserModule } from '@angular/platform-browser';
 import { DashboarddataService } from 'src/app/services/dashboarddata.service';
 import * as XLSX from 'xlsx';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-PieChartProsumers',
@@ -16,7 +17,7 @@ export class PieChartProsumersComponent implements OnInit {
   isConsumersChecked = true;
   isProducersChecked = false;
   production = false;
-
+  show!:boolean;
   consumption = true;
   colorScheme: any = {
     domain: ['#FF414E'],
@@ -36,7 +37,8 @@ export class PieChartProsumersComponent implements OnInit {
 
   constructor(
     private service: UsersServiceService,
-    private servicedash: DashboarddataService
+    private servicedash: DashboarddataService,
+    private spiner:NgxSpinnerService
   ) {}
 
   exportTable(): void {
@@ -60,6 +62,8 @@ export class PieChartProsumersComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.show=true;
+    this.spiner.show();
     this.servicedash.CityPercentages().subscribe((response) => {
       this.data = response;
       this.dataConsumers = Object.entries(this.data.numbers.Consumption).map(
@@ -75,6 +79,8 @@ export class PieChartProsumersComponent implements OnInit {
         })
       );
       this.currentData = this.dataConsumers;
+      this.spiner.hide();
+      this.show=false;
     });
   }
 
@@ -97,6 +103,7 @@ export class PieChartProsumersComponent implements OnInit {
       this.currentTitle = this.isProducersChecked
         ? 'Production'
         : 'Consumption';
+
     }
   }
 

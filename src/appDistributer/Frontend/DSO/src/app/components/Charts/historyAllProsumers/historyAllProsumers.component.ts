@@ -30,11 +30,12 @@ export class HistoryAllProsumersComponent implements OnInit {
   showYAxis = true;
   gradient = false;
   showLegend = true;
-
+  showsp!:boolean;
   constructor(
     private service: UsersServiceService,
     private router: ActivatedRoute,
-    private servicetime: TimestampService
+    private servicetime: TimestampService,
+    private spiner:NgxSpinnerService
   ) {}
 
   exportTable(): void {
@@ -60,6 +61,8 @@ export class HistoryAllProsumersComponent implements OnInit {
   }
 
   HistoryMonth() {
+    this.showsp=true;
+    this.spiner.show();
     this.servicetime.HistoryAllProsumers1Month().subscribe((response: any) => {
       const myList: any = [];
 
@@ -90,10 +93,14 @@ export class HistoryAllProsumersComponent implements OnInit {
       });
       this.data = myList;
       this.data = this.data.slice(0, -1);
+      this.spiner.hide();
+      this.showsp=false;
     });
   }
 
   HistoryYear() {
+    this.showsp=true;
+    this.spiner.show();
     this.servicetime.HistoryAllProsumers1Year().subscribe((response: any) => {
       const myList: any = [];
 
@@ -123,10 +130,15 @@ export class HistoryAllProsumersComponent implements OnInit {
         myList.push({ name: monthName, series });
       });
       this.data = myList;
+
+      this.spiner.hide();
+      this.showsp=false;
     });
   }
 
   HistoryWeek() {
+    this.showsp=true;
+    this.spiner.show();
     this.servicetime.HistoryAllProsumers7Days().subscribe((response: any) => {
       const myList: any = [];
 
@@ -157,6 +169,8 @@ export class HistoryAllProsumersComponent implements OnInit {
       });
       this.data = myList;
       this.data = this.data.slice(1);
+      this.spiner.hide();
+      this.showsp=false;
     });
   }
 }
