@@ -24,32 +24,31 @@ export class EmployeesComponent {
   pagenum!: number;
   page: number = 1;
   show: boolean = false;
-  orderHeader:String='';
-  isDescOrder:boolean=true;
+  orderHeader: String = '';
+  isDescOrder: boolean = true;
   public regionName: any;
   public roleName: any;
-  firstName:any;
-  lastName:any;
-  salary:any;
-  email:any;
-  dateCreate:any;
-  password:any='';
-  Role:any;
-  Region:any;
-  role:any;
-  region:any;
-  roleId!:number;
-  regionId!:string;
+  firstName: any;
+  lastName: any;
+  salary: any;
+  email: any;
+  dateCreate: any;
+  password: any = '';
+  Role: any;
+  Region: any;
+  role: any;
+  region: any;
+  roleId!: number;
+  regionId!: string;
   currentRoute!: string;
-  id!:string;
-  searchLastName!:string;
+  id!: string;
+  searchLastName!: string;
   constructor(
     public service: EmployeesServiceService,
     private router: Router,
     private cookie: CookieService,
-    public serviceData:DataService
-  ) {
-  }
+    public serviceData: DataService
+  ) {}
 
   ngOnInit(): void {
     this.Ucitaj();
@@ -60,7 +59,6 @@ export class EmployeesComponent {
   Ucitaj() {
     this.service.getAllData();
     this.employees = this.service.employees;
-    
   }
   Paging() {
     this.service.Page(this.page, this.perPage).subscribe((res) => {
@@ -73,21 +71,20 @@ export class EmployeesComponent {
     this.Paging();
   }
 
-
   Details(id: string) {
     console.log(this.service.employees);
-    this.service.idEmp=id;
+    this.service.idEmp = id;
     console.log(this.service.idEmp);
     this.service.detailsEmployee(id).subscribe((res) => {
       this.employee = res;
-      this.id=res.id;
-      this.firstName=res.firstName;
-      this.lastName=res.lastName;
-      this.salary=res.salary;
-      this.dateCreate=res.prosumerCreationDate;
-      this.email=res.email;
-      this.role=res.roleId;
-      this.region=res.regionId;
+      this.id = res.id;
+      this.firstName = res.firstName;
+      this.lastName = res.lastName;
+      this.salary = res.salary;
+      this.dateCreate = res.prosumerCreationDate;
+      this.email = res.email;
+      this.role = res.roleId;
+      this.region = res.regionId;
       // console.log(res);
       // this.serviceData.getRegionName(this.employee.regionId).subscribe((res) => {
       //   console.log(res);
@@ -96,77 +93,68 @@ export class EmployeesComponent {
       this.serviceData.getRoleName(this.employee.roleId).subscribe((res) => {
         // console.log(res);
         this.roleName = res;
-      });   
+      });
     });
     const buttonRef = document.getElementById('closeBtn3');
     buttonRef?.click();
-    
   }
-  close(){
-
-  }
-  ChangeRegion(e:any){
-    
-  }
-  getAllRegions(){
+  close() {}
+  ChangeRegion(e: any) {}
+  getAllRegions() {
     this.serviceData.getAllRegions().subscribe({
-      next:(res)=>{
-        this.Region=res;
+      next: (res) => {
+        this.Region = res;
       },
-      error:(err)=>{
+      error: (err) => {
         console.log(err.error);
-      }
+      },
     });
   }
-  ChangeRole(e:any){
-    
-  }
-  getAllRoles(){
+  ChangeRole(e: any) {}
+  getAllRoles() {
     this.serviceData.getAllRoles().subscribe({
-      next:(res)=>{
-        this.Role=res;
+      next: (res) => {
+        this.Role = res;
       },
-      error:(err)=>{
+      error: (err) => {
         //this.toast.error({detail:"Error!",summary:"Unable to load user data.", duration:3000});
         console.log(err.error);
-      }
+      },
     });
   }
 
   update(id: string) {
-
     this.getAllRegions();
     this.getAllRoles();
     const buttonRef = document.getElementById('closeBtn');
     buttonRef?.click();
-    
   }
   onUpdate(id: string) {
     //console.log(this.updateForm.value);
-    let dto:editEmployeeDto=new editEmployeeDto();
-    dto.firstName=this.firstName;
-    dto.lastName=this.lastName;
-    dto.salary=this.salary;
-    dto.regionId=this.region;
-    dto.roleId=this.role;
-    dto.email=this.email;
-    dto.password=this.password;
+    let dto: editEmployeeDto = new editEmployeeDto();
+    dto.firstName = this.firstName;
+    dto.lastName = this.lastName;
+    dto.salary = this.salary;
+    dto.regionId = this.region;
+    dto.roleId = this.role;
+    dto.email = this.email;
+    dto.password = this.password;
     console.log(dto);
-    this.service.updateEmployee(id,dto).subscribe((res) => {
+    this.service.updateEmployee(id, dto).subscribe((res) => {
       console.log(res);
     });
     const buttonRef = document.getElementById('closeBtn1');
     buttonRef?.click();
-    this.currentRoute=this.router.url;
+    this.currentRoute = this.router.url;
     this.router
       .navigateByUrl('/DsoApp/home', { skipLocationChange: true })
       .then(() => {
-      this.Ucitaj();
-      this.Paging();
-      this.router.navigate([this.currentRoute]);
-    });
+        this.Ucitaj();
+        this.Paging();
+        this.router.navigate([this.currentRoute]);
+      });
   }
- 
+
   onDelete(id: string) {
     if (confirm('Do you want to delete ?')) {
       this.service.deleteEmployee(id).subscribe({
@@ -180,8 +168,8 @@ export class EmployeesComponent {
       });
     }
   }
-  sort(headerName:String){
-    this.isDescOrder=!this.isDescOrder;
-    this.orderHeader=headerName;
+  sort(headerName: String) {
+    this.isDescOrder = !this.isDescOrder;
+    this.orderHeader = headerName;
   }
 }

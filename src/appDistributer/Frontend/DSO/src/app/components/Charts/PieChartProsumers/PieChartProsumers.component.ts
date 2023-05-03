@@ -75,6 +75,7 @@ export class PieChartProsumersComponent implements OnInit {
         })
       );
       this.currentData = this.dataConsumers;
+      console.log(this.dataConsumers,this.dataProducers);
     });
   }
 
