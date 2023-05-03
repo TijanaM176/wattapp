@@ -109,7 +109,7 @@
 </div>
 
 <div
-  class="modal fade modal-xl"
+  class="modal fade"
   id="realizationAndPredictionTable"
   data-bs-backdrop="static"
   data-bs-keyboard="false"
@@ -117,7 +117,7 @@
   aria-labelledby="realizationAndPredictionTableLabel"
   aria-hidden="true"
 >
-  <div class="modal-dialog modal-dialog-centered">
+  <div class="modal-dialog modal-dialog-centered modal-xl">
     <div class="modal-content">
       <div class="modal-header text-white" style="background-color: #5875a1">
         <h5 class="modal-title" id="realizationAndPredictionTableLabel">
@@ -130,7 +130,7 @@
           aria-label="Close"
         ></button>
       </div>
-      <div class="modal-body">
+      <div class="modal-body pt-0" style="overflow-y: auto; overflow-x: hidden;" id="modalFadeRealizationPredictionAllProsumers">
         <app-realization-prediction-all-prosumers-table
           [data]="data"
         ></app-realization-prediction-all-prosumers-table>

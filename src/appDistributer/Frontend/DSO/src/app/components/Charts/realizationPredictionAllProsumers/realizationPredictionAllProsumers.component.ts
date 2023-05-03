@@ -10,6 +10,7 @@ import { curveLinear } from 'd3-shape';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { DashboarddataService } from 'src/app/services/dashboarddata.service';
 import { TimestampService } from 'src/app/services/timestamp.service';
+import { ScreenWidthService } from 'src/app/services/screen-width.service';
 
 @Component({
   selector: 'app-realizationPredictionAllProsumers',
@@ -40,7 +41,8 @@ export class RealizationPredictionAllProsumersComponent implements OnInit {
     private service: UsersServiceService,
     private router: ActivatedRoute,
     private spinner: NgxSpinnerService,
-    private servicetime: TimestampService
+    private servicetime: TimestampService,
+    private widthService : ScreenWidthService
   ) {}
 
   yAxisTickFormatting(value: number) {
@@ -50,6 +52,7 @@ export class RealizationPredictionAllProsumersComponent implements OnInit {
   ngOnInit() {
     this.spinner.show();
     this.HistoryWeek();
+    document.getElementById('modalFadeRealizationPredictionAllProsumers')!.style.maxHeight = this.widthService.height * 0.7 + 'px';
   }
 
   HistoryMonth() {
