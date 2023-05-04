@@ -66,7 +66,7 @@ export class PredictionDeviceComponent implements OnInit, AfterViewInit {
   ngAfterViewInit(): void {
     const grafik = document.getElementById('predikcija');
     grafik!.style.height = this.widthService.height * 0.6 + 'px';
-    this.Prediction1Day('predictionDevice1');
+    this.Prediction1DayInit('predictionDevice1');
   }
 
   ngOnInit(): void {

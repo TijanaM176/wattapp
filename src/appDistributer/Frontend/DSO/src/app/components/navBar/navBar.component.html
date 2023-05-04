@@ -111,7 +111,9 @@
             aria-labelledby="navbarDropdown"
           >
             <li>
-              <a class="dropdown-item" routerLink="profile">See Profile</a>
+              <a class="dropdown-item"
+              data-bs-toggle="modal"
+              data-bs-target="#exampleModal4">See Profile</a>
             </li>
             <li>
               <a class="dropdown-item" routerLink="../login" (click)="LogOut()"
