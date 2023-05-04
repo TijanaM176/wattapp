@@ -130,7 +130,10 @@
           "
         >
           <tr>
-            <td [ngSwitch]="device.TypeId">
+            <td [ngSwitch]="device.TypeId"
+            routerLink="/DsoApp/user/{{ id }}/Devices/deviceinfo/{{
+              device.Id
+            }}" style="cursor:pointer;">
               <div *ngSwitchCase="'1'">
                 <img src="assets/images/fridge.png" />
               </div>
@@ -192,11 +195,20 @@
                 ><img src="assets/images/windmill.png"
               /></span>
             </td>
-            <td>{{ device.IpAddress }}</td>
-            <td>{{ device.Name }}</td>
+            <td routerLink="/DsoApp/user/{{ id }}/Devices/deviceinfo/{{
+              device.Id
+            }}"
+            style="cursor:pointer;">{{ device.IpAddress }}</td>
+            <td routerLink="/DsoApp/user/{{ id }}/Devices/deviceinfo/{{
+              device.Id
+            }}" style="cursor:pointer;">{{ device.Name }}</td>
 
-            <td>{{ device.CurrentUsage.toFixed(2) }}</td>
-            <td>
+            <td routerLink="/DsoApp/user/{{ id }}/Devices/deviceinfo/{{
+              device.Id
+            }}" style="cursor:pointer;">{{ device.CurrentUsage.toFixed(2) }}</td>
+            <td routerLink="/DsoApp/user/{{ id }}/Devices/deviceinfo/{{
+              device.Id
+            }}" style="cursor:pointer;">
               <ng-template #offToggle>
                 <div
                   class="form-check form-switch ps-0"
@@ -219,14 +231,7 @@
               </div>
             </td>
             <td>
-              <a
-                routerLink="/DsoApp/user/{{ id }}/Devices/deviceinfo/{{
-                  device.Id
-                }}"
-                class="settings"
-                title=""
-                ><i class="fa fa-info-circle"></i
-              ></a>
+              
             </td>
           </tr>
         </tbody>
