@@ -98,9 +98,10 @@ export class RealizationDeviceComponent implements OnInit, AfterViewInit {
       (myList: any[]) => {
         return myList.map((item) => {
           const date = new Date(item.name);
-          const dayName = date.toLocaleDateString('en-US', { weekday: 'long' });
+          const dayNumber = date.getDate();
+          const monthName = date.toLocaleString('default', { month: 'long' });
           this.activateButton(id);
-          return { name: dayName, series: item.series };
+          return { name: monthName + ' ' + dayNumber, series: item.series };
         });
         // this.spinner.hide();
       }
@@ -114,9 +115,10 @@ export class RealizationDeviceComponent implements OnInit, AfterViewInit {
       (myList: any[]) => {
         return myList.map((item) => {
           const date = new Date(item.name);
-          const dayName = date.toLocaleDateString('en-US', { weekday: 'long' });
+          const dayNumber = date.getDate();
+          const monthName = date.toLocaleString('default', { month: 'long' });
           this.activateButton(id);
-          return { name: dayName, series: item.series };
+          return { name: monthName + ' ' + dayNumber, series: item.series };
         });
         // this.spinner.hide();
       }
@@ -131,8 +133,10 @@ export class RealizationDeviceComponent implements OnInit, AfterViewInit {
       (myList: any[]) => {
         return myList.map((item) => {
           const date = new Date(item.name);
+          const dayNumber = date.getDate();
+          const monthName = date.toLocaleString('default', { month: 'long' });
           this.activateButton(id);
-          return { name: `Week ${date}`, series: item.series };
+          return { name: monthName + ' ' + dayNumber, series: item.series };
         });
       }
     );

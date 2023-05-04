@@ -26,9 +26,9 @@ export class WorkerProfileComponent implements OnInit, AfterViewInit {
 
   constructor(
     private workerService: EmployeesServiceService,
-    private dataService:DataService,
+    private dataService: DataService,
     private cookie: CookieService,
-    public toast:ToastrService,
+    public toast: ToastrService,
     private widthService: ScreenWidthService
   ) {}
 
@@ -65,11 +65,8 @@ export class WorkerProfileComponent implements OnInit, AfterViewInit {
         this.dataService.getRegionName(this.worker.regionId).subscribe({
           next: (res) => {
             this.region = res;
-            this.toast.success('Success','Successful get Region Name',{timeOut:2500});
-            //console.log(this.region);
           },
         });
-        //console.log(this.worker);
       },
       error: (err) => {
         console.log(err.error);

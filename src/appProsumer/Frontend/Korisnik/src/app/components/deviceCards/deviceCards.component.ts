@@ -39,26 +39,17 @@ export class DeviceCardsComponent implements OnInit {
     this.service
       .getDevicesByProsumerId(this.id, this.role)
       .subscribe((response) => {
+        console.log(response);
         this.devices = [
           ...response.consumers,
           ...response.producers,
           ...response.storage,
         ];
         this.devicesToShow = this.devices;
-        this.devices.forEach((device) => {
-          this.deviceUsages[device.Id] = 0;
-          this.Usage(device);
-        });
         this.spiner.hide();
       });
-      this.activateBtn('offcanvasUserDevices');
-      this.activateButton('sidebarUserDevices');
-  }
-
-  Usage(dev: any) {
-    // this.service.getDeviceById(dev.Id).subscribe((response) => {
-      this.deviceUsages[dev.Id] = Number(dev.CurrentUsage);
-    // });
+    this.activateBtn('offcanvasUserDevices');
+    this.activateButton('sidebarUserDevices');
   }
 
   filterDevices() {
@@ -80,30 +71,22 @@ export class DeviceCardsComponent implements OnInit {
     this.router.navigate(['/ProsumerApp/userDevices', deviceId, 'deviceinfo']);
   }
 
-  activateBtn(id : string)
-  {
+  activateBtn(id: string) {
     const buttons = document.querySelectorAll('.offcanvasBtn');
-    buttons.forEach(button=>{
-      if(button.id == id)
-      {
+    buttons.forEach((button) => {
+      if (button.id == id) {
         button.classList.add('active');
-      }
-      else
-      {
+      } else {
         button.classList.remove('active');
       }
-    })
+    });
   }
-  activateButton(id : string)
-  {
+  activateButton(id: string) {
     const buttons = document.querySelectorAll('.sidebarBtn');
-    buttons.forEach(button=>{
-      if(button.id == id)
-      {
+    buttons.forEach((button) => {
+      if (button.id == id) {
         button.classList.add('active');
-      }
-      else
-      {
+      } else {
         button.classList.remove('active');
       }
     });

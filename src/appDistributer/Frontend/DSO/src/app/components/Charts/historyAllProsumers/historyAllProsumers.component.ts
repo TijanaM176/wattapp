@@ -60,7 +60,6 @@ export class HistoryAllProsumersComponent implements OnInit {
 
   ngOnInit() {
     this.HistoryWeekInit();
-    this.HistoryWeek();
     document.getElementById('modalFadeHistoryAllProsumers')!.style.maxHeight =
       this.widthService.height * 0.7 + 'px';
   }
@@ -88,7 +87,6 @@ export class HistoryAllProsumersComponent implements OnInit {
         // Get the day of the month from the Date object
         const dayNumber = date.getDate();
         const monthName = date.toLocaleString('default', { month: 'long' });
-        const year = date.getFullYear();
 
         const series = [
           { name: 'consumption', value: consumptionValue },
@@ -97,7 +95,7 @@ export class HistoryAllProsumersComponent implements OnInit {
 
         // Set the name property of the object to the formatted date string
         myList.push({
-          name: dayNumber + '. ' + monthName + ' ' + year,
+          name: monthName + ' ' + dayNumber,
           series,
         });
       });
@@ -167,7 +165,8 @@ export class HistoryAllProsumersComponent implements OnInit {
         const date = new Date(name);
 
         // Format the date into a readable string
-        const dayName = date.toLocaleDateString('en-US', { weekday: 'long' });
+        const dayNumber = date.getDate();
+        const monthName = date.toLocaleString('default', { month: 'long' });
 
         const series = [
           { name: 'consumption', value: consumptionValue },
@@ -175,10 +174,10 @@ export class HistoryAllProsumersComponent implements OnInit {
         ];
 
         // Set the name property of the object to the formatted date string
-        myList.push({ name: dayName, series });
+        myList.push({ name: monthName + ' ' + dayNumber, series });
       });
       this.data = myList;
-      this.data = this.data.slice(1);
+      this.data = this.data.slice(0, -1);
       this.spiner.hide();
       this.showsp = false;
     });
@@ -202,7 +201,8 @@ export class HistoryAllProsumersComponent implements OnInit {
         const date = new Date(name);
 
         // Format the date into a readable string
-        const dayName = date.toLocaleDateString('en-US', { weekday: 'long' });
+        const dayNumber = date.getDate();
+        const monthName = date.toLocaleString('default', { month: 'long' });
 
         const series = [
           { name: 'consumption', value: consumptionValue },
@@ -210,10 +210,10 @@ export class HistoryAllProsumersComponent implements OnInit {
         ];
 
         // Set the name property of the object to the formatted date string
-        myList.push({ name: dayName, series });
+        myList.push({ name: monthName + ' ' + dayNumber, series });
       });
       this.data = myList;
-      this.data = this.data.slice(1);
+      this.data = this.data.slice(0, -1);
     });
   }
 }

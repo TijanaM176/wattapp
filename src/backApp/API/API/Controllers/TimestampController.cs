@@ -251,7 +251,7 @@ namespace API.Controllers
         {
             try
             {
-                var history = await devService.GroupedTimestampsForDevice(idDevice, -30, 24 * 7);
+                var history = await devService.GroupedTimestampsForDevice(idDevice, -30, 24);
 
                 return Ok(new
                 {

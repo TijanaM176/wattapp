@@ -97,10 +97,9 @@ export class PredictionDeviceComponent implements OnInit, AfterViewInit {
           }
           const series = [{ name: cons, value: predictionValue }];
           const date = new Date(name);
-          const formattedName = date.toLocaleDateString('en-US', {
-            weekday: 'long',
-          });
-          return { name: formattedName, series };
+          const dayNumber = date.getDate();
+          const monthName = date.toLocaleString('default', { month: 'long' });
+          return { name: monthName + ' ' + dayNumber, series };
         }
       );
       this.data = myList;
@@ -124,10 +123,9 @@ export class PredictionDeviceComponent implements OnInit, AfterViewInit {
           }
           const series = [{ name: cons, value: predictionValue }];
           const date = new Date(name);
-          const formattedName = date.toLocaleDateString('en-US', {
-            weekday: 'long',
-          });
-          return { name: formattedName, series };
+          const dayNumber = date.getDate();
+          const monthName = date.toLocaleString('default', { month: 'long' });
+          return { name: monthName + ' ' + dayNumber, series };
         }
       );
       this.data = myList;

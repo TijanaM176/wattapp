@@ -54,6 +54,9 @@ export class HomeSidebarComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
+    let t = window.innerWidth < 320 ? 140.6 : 101;
+    let h = window.innerHeight - t;
+    document.getElementById('container')!.style.height = h + 'px';
     this.servicedash.ConsumerProducerRatio().subscribe((response) => {
       this.data = Object.entries(response).map(([name, value]) => ({
         name,

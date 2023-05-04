@@ -18,7 +18,7 @@ export class PredictionProsumerComponent implements OnInit {
   data: any[] = [];
   dataConsumers: any = [];
   dataProducers: any = [];
-  show!:boolean;
+  show!: boolean;
   colors: Color = {
     name: 'mycolors',
     selectable: true,
@@ -39,7 +39,7 @@ export class PredictionProsumerComponent implements OnInit {
     private router: ActivatedRoute,
     private spiner: NgxSpinnerService,
     private widthService: ScreenWidthService,
-    private serviceData: TimestampService,
+    private serviceData: TimestampService
   ) {}
 
   ngOnInit() {
@@ -48,7 +48,8 @@ export class PredictionProsumerComponent implements OnInit {
       this.widthService.height * 0.6 + 'px';
     this.PredictionDayInit('predictionUser1');
     this.activateButton('predictionUser1');
-    document.getElementById('modalFadePredictionProsumer')!.style.maxHeight = this.widthService.height * 0.7 + 'px';
+    document.getElementById('modalFadePredictionProsumer')!.style.maxHeight =
+      this.widthService.height * 0.7 + 'px';
   }
 
   yAxisTickFormatting(value: number) {
@@ -56,7 +57,7 @@ export class PredictionProsumerComponent implements OnInit {
   }
 
   PredictionWeek(id: string) {
-    this.show=true;
+    this.show = true;
     this.spiner.show();
     this.serviceData
       .PredictionProsumer7Days(this.id)
@@ -75,16 +76,16 @@ export class PredictionProsumerComponent implements OnInit {
 
         const data = Object.entries(allTimestamps).map(([timestamp, value]) => {
           const date = new Date(timestamp);
-          const dayOfWeek = date.toLocaleDateString('en-US', {
-            weekday: 'long',
-          });
-          return { dayOfWeek, timestamp, value };
+          const dayNumber = date.getDate();
+          const monthName = date.toLocaleString('default', { month: 'long' });
+          const name = monthName + ' ' + dayNumber;
+          return { name, timestamp, value };
         });
 
         const groupedData = data.reduce((acc: any, item: any) => {
-          if (!acc[item.dayOfWeek]) {
-            acc[item.dayOfWeek] = {
-              name: item.dayOfWeek,
+          if (!acc[item.name]) {
+            acc[item.name] = {
+              name: item.name,
               series: [],
             };
           }
@@ -94,7 +95,7 @@ export class PredictionProsumerComponent implements OnInit {
             { name: 'consumption', value: consumptionValue },
             { name: 'production', value: productionValue },
           ];
-          acc[item.dayOfWeek].series.push(...series);
+          acc[item.name].series.push(...series);
           return acc;
         }, {});
 
@@ -102,12 +103,12 @@ export class PredictionProsumerComponent implements OnInit {
         this.activateButton(id);
         this.data = finalList;
         this.spiner.hide();
-        this.show=false;
+        this.show = false;
       });
   }
 
   Prediction3Days(id: string) {
-    this.show=true;
+    this.show = true;
     this.spiner.show();
     this.serviceData
       .PredictionProsumer3Days(this.id)
@@ -123,16 +124,16 @@ export class PredictionProsumerComponent implements OnInit {
 
         const data = Object.entries(allTimestamps).map(([timestamp, value]) => {
           const date = new Date(timestamp);
-          const dayOfWeek = date.toLocaleDateString('en-US', {
-            weekday: 'long',
-          });
-          return { dayOfWeek, timestamp, value };
+          const dayNumber = date.getDate();
+          const monthName = date.toLocaleString('default', { month: 'long' });
+          const name = monthName + ' ' + dayNumber;
+          return { name, timestamp, value };
         });
 
         const groupedData = data.reduce((acc: any, item: any) => {
-          if (!acc[item.dayOfWeek]) {
-            acc[item.dayOfWeek] = {
-              name: item.dayOfWeek,
+          if (!acc[item.name]) {
+            acc[item.name] = {
+              name: item.name,
               series: [],
             };
           }
@@ -142,7 +143,7 @@ export class PredictionProsumerComponent implements OnInit {
             { name: 'consumption', value: consumptionValue },
             { name: 'production', value: productionValue },
           ];
-          acc[item.dayOfWeek].series.push(...series);
+          acc[item.name].series.push(...series);
           return acc;
         }, {});
 
@@ -152,11 +153,11 @@ export class PredictionProsumerComponent implements OnInit {
         this.data = this.data.slice(1);
         this.activateButton(id);
         this.spiner.hide();
-        this.show=false;
+        this.show = false;
       });
   }
   PredictionDay(id: string) {
-    this.show=true;
+    this.show = true;
     this.spiner.show();
     this.serviceData
       .PredictionProsumer1Day(this.id)
@@ -200,7 +201,7 @@ export class PredictionProsumerComponent implements OnInit {
         this.activateButton(id);
         this.data = finalList;
         this.spiner.hide();
-        this.show=false;
+        this.show = false;
       });
   }
   PredictionDayInit(id: string) {
@@ -245,7 +246,6 @@ export class PredictionProsumerComponent implements OnInit {
         const finalList = Object.values(groupedData);
         this.activateButton(id);
         this.data = finalList;
-
       });
   }
   exportTable(): void {

@@ -49,7 +49,7 @@ export class RealizationChartProductionComponent
   resizeSubscription$!: Subscription;
   coef: number = 0.6;
   id!: string;
-  show!:boolean;
+  show!: boolean;
 
   constructor(
     private deviceService: DeviceserviceService,
@@ -57,7 +57,7 @@ export class RealizationChartProductionComponent
     private serviceTime: TimestampService,
     private router: ActivatedRoute,
     private service: UsersServiceService,
-    private spiner:NgxSpinnerService
+    private spiner: NgxSpinnerService
   ) {}
 
   ngAfterViewInit(): void {
@@ -86,7 +86,9 @@ export class RealizationChartProductionComponent
       const grafik = document.getElementById('realizationUser');
       grafik!.style.height = this.widthService.height * this.coef + 'px';
     });
-    document.getElementById('modalFadeProductionHistoryProsumer')!.style.maxHeight = this.widthService.height * 0.7 + 'px';
+    document.getElementById(
+      'modalFadeProductionHistoryProsumer'
+    )!.style.maxHeight = this.widthService.height * 0.7 + 'px';
   }
 
   yAxisTickFormatting(value: number) {
@@ -123,16 +125,17 @@ export class RealizationChartProductionComponent
   }
 
   HistoryWeek(id: string) {
-    this.show=true;
+    this.show = true;
     this.spiner.show();
     this.loadData(
       this.serviceTime.HistoryProsumer7Days.bind(this.service)(this.id),
       (myList: any[]) => {
         return myList.map((item) => {
           const date = new Date(item.name);
-          const dayName = date.toLocaleDateString('en-US', { weekday: 'long' });
+          const dayNumber = date.getDate();
+          const monthName = date.toLocaleString('default', { month: 'long' });
           this.activateButton(id);
-          return { name: dayName, series: item.series };
+          return { name: monthName + ' ' + dayNumber, series: item.series };
         });
       }
     );
@@ -140,7 +143,7 @@ export class RealizationChartProductionComponent
   }
 
   HistoryMonth(id: string) {
-    this.show=true;
+    this.show = true;
     this.spiner.show();
     this.loadData(
       this.serviceTime.HistoryProsumer1Month.bind(this.service)(this.id),
@@ -149,9 +152,11 @@ export class RealizationChartProductionComponent
           const date = new Date(item.name);
           const dayNumber = date.getDate();
           const monthName = date.toLocaleString('default', { month: 'long' });
-          const year = date.getFullYear();
           this.activateButton(id);
-          return { name: dayNumber+'. '+monthName+' '+year, series: item.series };
+          return {
+            name: monthName + ' ' + dayNumber,
+            series: item.series,
+          };
         });
       }
     );
@@ -159,7 +164,7 @@ export class RealizationChartProductionComponent
   }
 
   HistoryYear(id: string) {
-    this.show=true;
+    this.show = true;
     this.spiner.show();
     this.loadData(
       this.serviceTime.HistoryProsumer1Year.bind(this.service)(this.id),
@@ -196,7 +201,7 @@ export class RealizationChartProductionComponent
       });
       this.data = mapFunction(myList);
       this.spiner.hide();
-      this.show=false;
+      this.show = false;
       // console.log(this.data);
     });
   }

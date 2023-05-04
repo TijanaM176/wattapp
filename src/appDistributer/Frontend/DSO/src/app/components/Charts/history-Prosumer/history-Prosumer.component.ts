@@ -98,7 +98,8 @@ export class HistoryProsumerComponent implements OnInit {
           const date = new Date(name);
 
           // Format the date into a readable string
-          const dayName = date.toLocaleDateString('en-US', { weekday: 'long' });
+          const dayNumber = date.getDate();
+          const monthName = date.toLocaleString('default', { month: 'long' });
 
           const series = [
             { name: 'consumption', value: consumptionValue },
@@ -106,7 +107,7 @@ export class HistoryProsumerComponent implements OnInit {
           ];
 
           // Set the name property of the object to the formatted date string
-          myList.push({ name: dayName, series });
+          myList.push({ name: monthName + ' ' + dayNumber, series });
         });
         this.data = myList;
         this.data = this.data.slice(1);
@@ -136,7 +137,8 @@ export class HistoryProsumerComponent implements OnInit {
           const date = new Date(name);
 
           // Format the date into a readable string
-          const dayName = date.toLocaleDateString('en-US', { weekday: 'long' });
+          const dayNumber = date.getDate();
+          const monthName = date.toLocaleString('default', { month: 'long' });
 
           const series = [
             { name: 'consumption', value: consumptionValue },
@@ -144,7 +146,7 @@ export class HistoryProsumerComponent implements OnInit {
           ];
 
           // Set the name property of the object to the formatted date string
-          myList.push({ name: dayName, series });
+          myList.push({ name: monthName + ' ' + dayNumber, series });
         });
         this.data = myList;
         this.data = this.data.slice(1);
@@ -187,7 +189,7 @@ export class HistoryProsumerComponent implements OnInit {
 
           // Set the name property of the object to the formatted date string
           myList.push({
-            name: dayNumber + '. ' + monthName + ' ' + year,
+            name: monthName + ' ' + dayNumber,
             series,
           });
         });

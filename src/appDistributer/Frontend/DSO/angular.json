@@ -20,7 +20,10 @@
             "polyfills": ["zone.js"],
             "tsConfig": "tsconfig.app.json",
             "assets": ["src/favicon.ico", "src/assets"],
-            "styles": ["src/styles.css","node_modules/ngx-spinner/animations/ball-clip-rotate.css"],
+            "styles": [
+              "src/styles.css",
+              "node_modules/ngx-spinner/animations/ball-clip-rotate.css"
+            ],
             "scripts": []
           },
           "configurations": {
@@ -29,7 +32,7 @@
                 {
                   "type": "initial",
                   "maximumWarning": "1mb",
-                  "maximumError": "1.5mb"
+                  "maximumError": "1.7mb"
                 },
                 {
                   "type": "anyComponentStyle",

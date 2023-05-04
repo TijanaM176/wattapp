@@ -65,7 +65,6 @@ export class PredictionAllUsersComponent implements OnInit {
 
   ngOnInit() {
     this.PredictionDayInit();
-    this.PredictionDay();
     document.getElementById(
       'modalFadePredictionAllProsumers'
     )!.style.maxHeight = this.widthService.height * 0.7 + 'px';
@@ -77,37 +76,36 @@ export class PredictionAllUsersComponent implements OnInit {
     this.servicetime.PredictionNextWeek().subscribe((response: any) => {
       const consumptionTimestamps = response.consumption || {};
       const productionTimestamps = response.production || {};
-      const allTimestamps = {
+
+      const data = Object.keys({
         ...consumptionTimestamps,
         ...productionTimestamps,
-      };
-
-      const data = Object.entries(allTimestamps).map(([timestamp, value]) => {
+      }).map((timestamp) => {
         const date = new Date(timestamp);
-        const dayOfWeek = date.toLocaleDateString('en-US', { weekday: 'long' });
-        return { dayOfWeek, timestamp, value };
+        const name = `${date.toLocaleString('default', {
+          month: 'long',
+        })} ${date.getDate()}`;
+        const consumptionValue = consumptionTimestamps[timestamp] || 0.0;
+        const productionValue = productionTimestamps[timestamp] || 0.0;
+        return {
+          name,
+          series: [
+            { name: 'consumption', value: consumptionValue },
+            { name: 'production', value: productionValue },
+          ],
+        };
       });
 
-      const groupedData = data.reduce((acc: any, item: any) => {
-        if (!acc[item.dayOfWeek]) {
-          acc[item.dayOfWeek] = {
-            name: item.dayOfWeek,
-            series: [],
-          };
-        }
-        const consumptionValue = consumptionTimestamps[item.timestamp] || 0.0;
-        const productionValue = productionTimestamps[item.timestamp] || 0.0;
-        const series = [
-          { name: 'consumption', value: consumptionValue },
-          { name: 'production', value: productionValue },
-        ];
-        acc[item.dayOfWeek].series.push(...series);
-        return acc;
-      }, {});
-
-      const finalList = Object.values(groupedData);
+      const finalList = Object.values(
+        data.reduce((acc: any, { name, series }) => {
+          acc[name] = acc[name] || { name, series: [] };
+          acc[name].series.push(...series);
+          return acc;
+        }, {})
+      );
 
       this.data = finalList;
+      this.data = this.data.slice(1);
       this.show = false;
       this.spinner.hide();
     });
@@ -119,39 +117,38 @@ export class PredictionAllUsersComponent implements OnInit {
     this.servicetime.PredictionNext3Days().subscribe((response: any) => {
       const consumptionTimestamps = response.consumption || {};
       const productionTimestamps = response.production || {};
-      const allTimestamps = {
+
+      const data = Object.keys({
         ...consumptionTimestamps,
         ...productionTimestamps,
-      };
-
-      const data = Object.entries(allTimestamps).map(([timestamp, value]) => {
+      }).map((timestamp) => {
         const date = new Date(timestamp);
-        const dayOfWeek = date.toLocaleDateString('en-US', { weekday: 'long' });
-        return { dayOfWeek, timestamp, value };
+        const name = `${date.toLocaleString('default', {
+          month: 'long',
+        })} ${date.getDate()}`;
+        const consumptionValue = consumptionTimestamps[timestamp] || 0.0;
+        const productionValue = productionTimestamps[timestamp] || 0.0;
+        return {
+          name,
+          series: [
+            { name: 'consumption', value: consumptionValue },
+            { name: 'production', value: productionValue },
+          ],
+        };
       });
 
-      const groupedData = data.reduce((acc: any, item: any) => {
-        if (!acc[item.dayOfWeek]) {
-          acc[item.dayOfWeek] = {
-            name: item.dayOfWeek,
-            series: [],
-          };
-        }
-        const consumptionValue = consumptionTimestamps[item.timestamp] || 0.0;
-        const productionValue = productionTimestamps[item.timestamp] || 0.0;
-        const series = [
-          { name: 'consumption', value: consumptionValue },
-          { name: 'production', value: productionValue },
-        ];
-        acc[item.dayOfWeek].series.push(...series);
-        return acc;
-      }, {});
-
-      const finalList = Object.values(groupedData);
+      const finalList = Object.values(
+        data.reduce((acc: any, { name, series }) => {
+          acc[name] = acc[name] || { name, series: [] };
+          acc[name].series.push(...series);
+          return acc;
+        }, {})
+      );
 
       this.data = finalList;
-      this.spinner.hide();
+      this.data = this.data.slice(1);
       this.show = false;
+      this.spinner.hide();
     });
   }
   PredictionDayInit() {
@@ -201,8 +198,7 @@ export class PredictionAllUsersComponent implements OnInit {
     this.show = true;
     this.spinner.show();
     this.servicetime.PredictionNextDay().subscribe((response: any) => {
-      const myList: any = [];
-
+      const data: any = [];
       const consumptionTimestamps = response.consumption || {};
       const productionTimestamps = response.production || {};
       const allTimestamps = {
@@ -210,37 +206,34 @@ export class PredictionAllUsersComponent implements OnInit {
         ...productionTimestamps,
       };
 
-      Object.keys(allTimestamps).forEach((name) => {
-        const consumptionValue = consumptionTimestamps[name] || 0.0;
-        const productionValue = productionTimestamps[name] || 0.0;
-        const series = [
-          { name: 'consumption', value: consumptionValue },
-          { name: 'production', value: productionValue },
-        ];
-        myList.push({ name, series });
-      });
-
       const groupedData: any = {};
-
-      myList.forEach((item: any) => {
-        const date = new Date(item.name);
+      Object.entries(allTimestamps).forEach(([timestamp, value]) => {
+        const date = new Date(timestamp);
         const hour = date.getHours();
         const hourString = hour < 10 ? '0' + hour : hour.toString();
         const name = hourString + ':00h';
+
         if (!groupedData[name]) {
           groupedData[name] = {
             name,
             series: [],
           };
         }
-        groupedData[name].series.push(...item.series);
+
+        const consumptionValue = consumptionTimestamps[timestamp] || 0.0;
+        const productionValue = productionTimestamps[timestamp] || 0.0;
+        const series = [
+          { name: 'consumption', value: consumptionValue },
+          { name: 'production', value: productionValue },
+        ];
+
+        groupedData[name].series.push(...series);
       });
 
       const finalList = Object.values(groupedData);
-
       this.data = finalList;
-      this.spinner.hide();
       this.show = false;
+      this.spinner.hide();
     });
   }
 }

@@ -51,8 +51,6 @@ export class RealizationPredictionAllProsumersComponent implements OnInit {
 
   ngOnInit() {
     this.HistoryWeekInit();
-    this.spinner.show();
-    this.HistoryWeek();
     document.getElementById(
       'modalFadeRealizationPredictionAllProsumers'
     )!.style.maxHeight = this.widthService.height * 0.7 + 'px';
@@ -104,12 +102,14 @@ export class RealizationPredictionAllProsumersComponent implements OnInit {
         series.forEach((seriesItem: any, index: any) => {
           const dayNumber = date.getDate();
           const monthName = date.toLocaleString('default', { month: 'long' });
-          const year = date.getFullYear();
           seriesData[index].series.push({
-            name: `${dayNumber}. ${monthName} ${year}`,
+            name: `${monthName}  ${dayNumber}`,
             value: seriesItem.value,
           });
         });
+      });
+      seriesData.forEach((seriesItem: any) => {
+        seriesItem.series.pop();
       });
       this.data = seriesData;
       this.spinner.hide();
@@ -169,7 +169,6 @@ export class RealizationPredictionAllProsumersComponent implements OnInit {
           });
         });
       });
-
       this.data = seriesData;
       this.spinner.hide();
       this.show = false;
@@ -180,6 +179,7 @@ export class RealizationPredictionAllProsumersComponent implements OnInit {
     this.show = true;
     this.spinner.show();
     this.servicetime.HistoryAllProsumers7Days().subscribe((response: any) => {
+      console.log(response);
       const seriesData: any[] = [
         { name: 'Consumption', series: [] },
         { name: 'Production', series: [] },
@@ -217,11 +217,17 @@ export class RealizationPredictionAllProsumersComponent implements OnInit {
         });
       });
 
+      // Remove the last item from each series array
+      seriesData.forEach((seriesItem) => {
+        seriesItem.series.pop();
+      });
+
       this.data = seriesData;
       this.spinner.hide();
       this.show = false;
     });
   }
+
   HistoryWeekInit() {
     this.show = false;
 
@@ -261,6 +267,9 @@ export class RealizationPredictionAllProsumersComponent implements OnInit {
             ][index],
           });
         });
+      });
+      seriesData.forEach((seriesItem) => {
+        seriesItem.series.pop();
       });
 
       this.data = seriesData;

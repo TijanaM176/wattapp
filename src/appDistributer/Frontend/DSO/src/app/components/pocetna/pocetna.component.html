@@ -20,13 +20,13 @@
                     <span class="text-success text-sm font-weight-bolder"
                       >+{{ ratioCons }}</span
                     >
-                    less than yesterday
+                    more than yesterday
                   </p>
                   <p class="mb-0" *ngIf="ratioCons.charAt(0) == '-'">
                     <span class="text-danger text-sm font-weight-bolder">{{
                       ratioCons
                     }}</span>
-                    more than yesterday
+                    less than yesterday
                   </p>
                 </div>
               </div>
@@ -78,13 +78,13 @@
                     <span class="text-danger text-sm font-weight-bolder"
                       >{{ percentagesChange }}%</span
                     >
-                    since yesterday
+                    less than yesterday
                   </p>
                   <p class="mb-0" *ngIf="sign == +1">
                     <span class="text-success text-sm font-weight-bolder"
                       >+{{ percentagesChange }}%</span
                     >
-                    since yesterday
+                    more than yesterday
                   </p>
                 </div>
               </div>

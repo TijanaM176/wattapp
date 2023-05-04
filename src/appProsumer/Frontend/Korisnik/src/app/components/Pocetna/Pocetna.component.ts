@@ -10,6 +10,7 @@ import { DevicesService } from 'src/app/services/devices.service';
 import { RealizationChartComponent } from '../Charts/realization-chart/realization-chart.component';
 import { RealizationChartProductionComponent } from '../Charts/realization-chart-production/realization-chart-production.component';
 import { Location } from '@angular/common';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-Pocetna',
@@ -46,18 +47,15 @@ export class PocetnaComponent implements OnInit, AfterViewInit {
     private cookie: CookieService,
     private dashboardService: DashboardService,
     private deviceService: DevicesService,
-    private location: Location
+    private location: Location,
+    private spiner: NgxSpinnerService
   ) {
     // this.location.replaceState("/");
   }
 
-  ngAfterViewInit(): void {
-  }
+  ngAfterViewInit(): void {}
 
   ngOnInit() {
-    setTimeout(() => {
-      this.loader = false;
-    }, 2000);
     this.getDevices();
     this.getPrice();
     this.get7DaysHistory();
