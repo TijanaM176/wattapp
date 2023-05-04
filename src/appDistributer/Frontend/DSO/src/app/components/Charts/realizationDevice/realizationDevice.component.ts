@@ -74,7 +74,7 @@ export class RealizationDeviceComponent implements OnInit, AfterViewInit {
     const grafik = document.getElementById('RealizationDevice');
     grafik!.style.height = this.widthService.height * 0.6 + 'px';
     document.getElementById('realiz1')!.classList.add('active');
-    this.HistoryWeek('realiz1');
+    this.HistoryWeekInit('realiz1');
   }
 
   ngOnInit(): void {
