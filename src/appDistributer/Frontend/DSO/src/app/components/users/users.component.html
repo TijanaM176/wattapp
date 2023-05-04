@@ -118,31 +118,19 @@
                 let i = index
               "
             >
-              <td>
+              <td routerLink="/DsoApp/user/{{ item.id }}" style="cursor:pointer;">
                 <img
                   src="assets/images/user.png"
                   style="width: 30px; height: 30px"
                 />
               </td>
-              <td>{{ item.username }}</td>
-              <td>{{ item.address }}</td>
+              <td routerLink="/DsoApp/user/{{ item.id }}" style="cursor:pointer;">{{ item.username }}</td>
+              <td routerLink="/DsoApp/user/{{ item.id }}" style="cursor:pointer;">{{ item.address }}</td>
 
-              <td>{{ item.consumption.toFixed(2) }} kW</td>
-              <td>{{ item.production.toFixed(2) }} kW</td>
-              <td>{{ item.devCount }}</td>
-              <td>
-                <!-- <button class="button-info" (click)="Details(item.id)">
-                  <b>info</b>
-                </button> -->
-
-                <a routerLink="/DsoApp/user/{{ item.id }}"
-                  ><i class="fa fa-info-circle"></i
-                ></a>
-
-                <!-- <a routerLink="/user1/{{ item.id }}"
-                  ><i class="fa fa-info-circle"></i
-                ></a> -->
-              </td>
+              <td routerLink="/DsoApp/user/{{ item.id }}" style="cursor:pointer;">{{ item.consumption.toFixed(2) }} kW</td>
+              <td routerLink="/DsoApp/user/{{ item.id }}" style="cursor:pointer;">{{ item.production.toFixed(2) }} kW</td>
+              <td routerLink="/DsoApp/user/{{ item.id }}" style="cursor:pointer;">{{ item.devCount }}</td>
+              
             </tr>
           </tbody>
         </table>
