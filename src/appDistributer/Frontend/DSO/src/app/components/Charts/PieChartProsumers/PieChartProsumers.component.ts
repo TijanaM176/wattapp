@@ -77,6 +77,7 @@ export class PieChartProsumersComponent implements OnInit {
         })
       );
       this.currentData = this.dataConsumers;
+      console.log(this.dataConsumers,this.dataProducers);
     });
     document.getElementById('modalFadePieChartProsumers')!.style.maxHeight = this.widthService.height * 0.7 + 'px';
   }

@@ -1,16 +1,23 @@
-<div id="side" class="d-flex flex-column flex-shrink-0 p-3 text-white bg-dark">
+<div id="side" class="d-flex flex-column p-3 text-white bg-dark h-100">
   <a
-    href="/"
     class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none"
   >
     <i class="fa fa-lg fa-filter me-2"></i>
     <span class="fs-4">Filters</span>
   </a>
   <hr />
-  <div class="sidebar-content">
-    <p><strong>Neighborhood</strong></p>
-    <div class="col-sm-12">
+  <div class="sidebar-content" style="height: 100%">
+    <div
+      style="
+        height: 85%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      "
+    >
+      <p><strong>Neighborhood</strong></p>
       <select
+        style="width: 90%; margin: 0 auto"
         class="form-select mb-3"
         name="Neighborhood"
         (change)="ChangeNeighborhood($event)"
@@ -24,49 +31,77 @@
           {{ neighborhood.neigbName }}
         </option>
       </select>
+
+      <strong>Power Consumption</strong>
+      <div class="custom-slider mb-0" style="width: 90%; margin: 0 auto">
+        <ngx-slider
+          [(value)]="minValueC"
+          [(highValue)]="maxValueC"
+          [options]="optionsC"
+        ></ngx-slider>
+      </div>
+      <div class="input-container mb-3">
+        <div>
+          min<input class="button1" type="text" [(ngModel)]="minValueC" />
+        </div>
+        <div style="text-align: right">
+          <input class="button2" type="text" [(ngModel)]="maxValueC" />max
+        </div>
+      </div>
+
+      <span class="mt-3"><strong>Power Production</strong></span>
+      <div class="custom-slider mb-0" style="width: 90%; margin: 0 auto">
+        <ngx-slider
+          [(value)]="minValueP"
+          [(highValue)]="maxValueP"
+          [options]="optionsP"
+        ></ngx-slider>
+      </div>
+      <div class="input-container mb-3">
+        <div>
+          min<input class="button1" type="text" [(ngModel)]="minValueP" />
+        </div>
+        <div style="text-align: right">
+          <input class="button2" type="text" [(ngModel)]="maxValueP" />max
+        </div>
+      </div>
+      <span class="mt-3"><strong>Number of Devices</strong></span>
+      <div class="custom-slider mb-0" style="width: 90%; margin: 0 auto">
+        <ngx-slider
+          [(value)]="minValue"
+          [(highValue)]="maxValue"
+          [options]="options"
+        ></ngx-slider>
+      </div>
+      <div class="input-container">
+        <div>
+          min<input class="button1" type="text" [(ngModel)]="minValue" />
+        </div>
+        <div style="text-align: right">
+          <input class="button2" type="text" [(ngModel)]="maxValue" />max
+        </div>
+      </div>
     </div>
-    <br />
-    <strong>Power Consumption</strong>
-    <div class="custom-slider mb-3">
-      <ngx-slider
-        [(value)]="minValueC"
-        [(highValue)]="maxValueC"
-        [options]="optionsC"
-      ></ngx-slider>
-    </div>
-    min<input class="button1" type="text" [(ngModel)]="minValueC" />
-    <input class="button2" type="text" [(ngModel)]="maxValueC" />max
-    <br /><br /><br />
-    <strong>Power Production</strong>
-    <div class="custom-slider mb-3">
-      <ngx-slider
-        [(value)]="minValueP"
-        [(highValue)]="maxValueP"
-        [options]="optionsP"
-      ></ngx-slider>
-    </div>
-    min<input class="button1" type="text" [(ngModel)]="minValueP" />
-    <input class="button2" type="text" [(ngModel)]="maxValueP" />max
-    <br /><br /><br />
-    <strong>Number of Devices</strong>
-    <div class="custom-slider mb-3">
-      <ngx-slider
-        [(value)]="minValue"
-        [(highValue)]="maxValue"
-        [options]="options"
-      ></ngx-slider>
-    </div>
-    min<input class="button1" type="text" [(ngModel)]="minValue" />
-    <input class="button2" type="text" [(ngModel)]="maxValue" />max <br /><br />
-    <button class="btn btn-primary" style="width: 100%" (click)="filter()">
-      Apply Filters
-    </button>
-    <button
-      class="btn btn-secondary mt-3"
-      style="width: 100%"
-      (click)="reset()"
+    <div
+      style="
+        height: 15%;
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+      "
     >
-      Reset Filters
-    </button>
+      <button class="btn btn-primary m-1" style="width: 80%" (click)="filter()">
+        Apply Filters
+      </button>
+      <button
+        class="btn btn-secondary m-1"
+        style="width: 80%; border: 1px"
+        (click)="reset()"
+      >
+        Reset Filters
+      </button>
+    </div>
   </div>
 </div>

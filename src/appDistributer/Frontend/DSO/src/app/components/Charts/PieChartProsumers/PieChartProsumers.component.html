@@ -47,30 +47,35 @@
       </div>
     </div>
   </div>
-  <div class="card-body p-0" *ngIf="dataProducers.length > 0">
-    <div style="width: 100%; margin: 0 auto; margin-top: 1%; height: 100%">
+  <div class="card-body p-0">
+    <div
+      style="width: 100%; margin: 0 auto; margin-top: 1%; height: 100%"
+      *ngIf="dataProducers.length != 0"
+    >
       <ngx-charts-pie-grid
         [results]="dataProducers"
         [scheme]="colorScheme1"
         [ariaLabel]="false"
-        [tooltipDisabled]="true"
+        [tooltipDisabled]="false"
         [animations]="true"
         [label]="'Total in kW'"
       >
       </ngx-charts-pie-grid>
-      <h1
-        *ngIf="!dataProducers.length"
-        style="
-          text-align: center;
-          margin-top: 15%;
-          opacity: 20%;
-          font-style: italic;
-          font-weight: normal;
-        "
-      >
-        There is no available Data
-      </h1>
     </div>
+    <h1
+      *ngIf="dataProducers.length === 0"
+      style="
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 400px;
+        opacity: 20%;
+        font-style: italic;
+        font-weight: normal;
+      "
+    >
+      There is no available Data
+    </h1>
   </div>
 </div>
 <div *ngIf="isConsumersChecked === true">
@@ -125,30 +130,32 @@
   <div class="card-body p-0">
     <div
       style="width: 100%; margin: 0 auto; margin-top: 1%; height: 100%"
-      *ngIf="dataConsumers.length > 0"
+      *ngIf="dataConsumers.length != 0"
     >
       <ngx-charts-pie-grid
         [results]="dataConsumers"
         [scheme]="colorScheme"
         [ariaLabel]="true"
-        [tooltipDisabled]="true"
+        [tooltipDisabled]="false"
         [animations]="true"
         [label]="'Total in kW'"
       >
       </ngx-charts-pie-grid>
-      <h1
-        *ngIf="!dataConsumers.length"
-        style="
-          text-align: center;
-          margin-top: 15%;
-          opacity: 20%;
-          font-style: italic;
-          font-weight: normal;
-        "
-      >
-        There is no available Data
-      </h1>
     </div>
+    <h1
+      *ngIf="!dataConsumers.length"
+      style="
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 400px;
+        opacity: 20%;
+        font-style: italic;
+        font-weight: normal;
+      "
+    >
+      There is no available Data
+    </h1>
   </div>
 </div>
 <div

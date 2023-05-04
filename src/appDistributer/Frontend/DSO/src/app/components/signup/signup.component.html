@@ -1,6 +1,6 @@
 <div class="panelbor">
   <div class="panel-body">
-    <form [formGroup]="signupForm" (ngSubmit)="onSignUp()">
+    <form [formGroup]="signupForm">
       <div class="form-group pt-3">
         <div
           class="input-field"
@@ -70,7 +70,6 @@
           />
           <span
             ><i
-              (click)="hideShowPass()"
               class="fa {{ eyeIcon }}"
               style="margin-left: -30px; font-size: 20px"
             ></i
@@ -125,7 +124,7 @@
             style="font-size: 24px; margin-left: -7px"
           ></span>
 
-          <select (change)="getAllNeighborhoodById($event)">
+          <select>
             <option value="" selected disabled>--Select City --</option>
             <option *ngFor="let city of cities" [value]="city.id">
               {{ city.cityName }}
@@ -140,11 +139,7 @@
             style="font-size: 24px; margin-left: -7px"
           ></span>
 
-          <select
-            [(ngModel)]="neighName"
-            formControlName="neigbName"
-            (change)="getNeighId($event)"
-          >
+          <select [(ngModel)]="neighName">
             <option value="" disabled selected>--Select Neighborhood --</option>
             <option *ngFor="let neig of neighborhoods" [value]="neig.neigbName">
               {{ neig.neigbName }}

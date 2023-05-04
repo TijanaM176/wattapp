@@ -9,32 +9,46 @@
           id="sadrzaj"
         >
           <div class="section mb-3">
-            <p class="text-sm mb-0 text-uppercase font-weight-bold" style="text-decoration:underline;">Region </p>
-            <h3 class="font-weight-bolder">{{ region }}</h3>
+            <p class="text-sm mb-0 text-uppercase font-weight-bold">Region</p>
+            <h3 class="font-weight-bolder">Šumadija</h3>
           </div>
           <div class="section mb-3">
             <p class="text-sm mb-0 text-uppercase font-weight-bold">
-              <u> Current Cons</u>
+              Current Consumption
             </p>
-            <h3  id='potrosnja'class="font-weight-bolder">{{ currConsumption }} kW</h3>
+            <h3 id="potrosnja" class="font-weight-bolder">
+              {{ currConsumption }} kW
+            </h3>
           </div>
           <div class="section mb-3">
             <p class="text-sm mb-0 text-uppercase font-weight-bold">
               <u>Current Production</u>
             </p>
-            <h3 id="proizvodnja"class="font-weight-bolder">{{ currProduction }} kW</h3>
+            <h3 id="proizvodnja" class="font-weight-bolder">
+              {{ currProduction }} kW
+            </h3>
           </div>
-          <div class="section mb-2">
+          <div class="section">
             <p class="text-sm mb-0 text-uppercase font-weight-bold">
               <u> System Status</u>
             </p>
-            <div style="width: 100%; margin: 0 auto; height: 100%">
+            <div
+              style="
+                width: 100%;
+                margin: 0 auto;
+                height: 100%;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+              "
+            >
               <ngx-charts-pie-grid
+                [view]="[200, 400]"
                 id="grid"
                 [results]="data"
                 [scheme]="colorScheme"
                 [animations]="true"
-                [tooltipDisabled]="true"
+                [tooltipDisabled]="false"
               >
               </ngx-charts-pie-grid>
             </div>

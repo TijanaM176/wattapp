@@ -43,9 +43,9 @@ export class HomeSidebarComponent implements OnInit, AfterViewInit {
     private employeeService: EmployeesServiceService,
     private widthService: ScreenWidthService,
     private service: UsersServiceService,
-    public toast:ToastrService,
-    private servicedash:DashboarddataService,
-    private servicedata:DataService
+    public toast: ToastrService,
+    private servicedash: DashboarddataService,
+    private servicedata: DataService
   ) {}
 
   ngAfterViewInit(): void {
@@ -68,7 +68,7 @@ export class HomeSidebarComponent implements OnInit, AfterViewInit {
       this.side.style.height = this.widthService.height + 'px';
       this.content.style.height = this.widthService.height + 'px';
     });
-    this.getRegion();
+    this.getProsumerCount();
     this.getConsumptionProduction();
   }
 
@@ -91,21 +91,6 @@ export class HomeSidebarComponent implements OnInit, AfterViewInit {
     this.servicedash.getProsumerCout().subscribe({
       next: (res) => {
         this.numOfUsers = res.prosumerCount;
-      },
-      error: (err) => {
-        console.log(err.error);
-        this.toast.error('Error!', 'Unable to load data.', {
-          timeOut: 2500,
-        });
-      },
-    });
-  }
-
-  private getRegion() {
-    this.servicedata.getAllRegions().subscribe({
-      next: (res) => {
-        this.region = res[0].regionName;
-        this.getProsumerCount();
       },
       error: (err) => {
         console.log(err.error);
