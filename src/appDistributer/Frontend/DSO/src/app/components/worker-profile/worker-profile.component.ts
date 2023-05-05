@@ -1,15 +1,11 @@
 // import { NgToastService } from 'ng-angular-popup';
-import { Component, OnInit, AfterViewInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ViewChild } from '@angular/core';
 import { CookieService } from 'ngx-cookie-service';
 import { EmployeesServiceService } from 'src/app/services/employees-service.service';
 import { ScreenWidthService } from 'src/app/services/screen-width.service';
 import { fromEvent, Observable, Subscription } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
-import { DeviceserviceService } from 'src/app/services/deviceservice.service';
-import { DataService } from 'src/app/services/data.service';
-import { WorkerChangePasswordDto } from 'src/app/models/workerChangePasswordDto';
-import { editEmployeeDto } from 'src/app/models/editEmployee';
-import { Router } from '@angular/router';
+import { ChangeWorkerPasswordComponent } from 'src/app/forms/change-worker-password/change-worker-password.component';
 
 @Component({
   selector: 'app-worker-profile',
@@ -28,23 +24,13 @@ export class WorkerProfileComponent implements OnInit, AfterViewInit {
   region: string = '';
   startedWorking : string = '';
 
-  currentPass : string =''
-  newPass : string = ''
-  confirmNewPass : string = ''
-
-  failure : boolean = false;
-  success : boolean = false;
-  dontMatch : boolean = false;
-  incorrectCurrent : boolean = false;
-  empty : boolean = false;
+  @ViewChild('changePasswordWorkerForm', {static : true}) changePasswordWorkerForm! : ChangeWorkerPasswordComponent;
 
   constructor(
     private workerService: EmployeesServiceService,
-    private router: Router,
     private cookie: CookieService,
     public toast: ToastrService,
     private widthService: ScreenWidthService,
-    private employeeService : EmployeesServiceService
   ) {}
 
   ngAfterViewInit(): void {
@@ -100,45 +86,7 @@ export class WorkerProfileComponent implements OnInit, AfterViewInit {
   }
   confirmNewPassword()
   {
-    if(this.newPass =="" || this.confirmNewPass =="" || this.currentPass=="") // || this.currentPass==""
-    {
-      this.allToFalse();
-      this.empty = true;
-    }
-    else if(this.newPass != this.confirmNewPass)
-    {
-      this.allToFalse();
-      this.dontMatch = true;
-    }
-    else
-    {
-      let dto : editEmployeeDto = new editEmployeeDto();
-      dto.password = this.newPass;
-      // dto.newPassword = this.newPass;
-      // dto.oldPassword = this.currentPass;
-      this.employeeService.updateEmployee(this.cookie.get('id'), dto)
-      .subscribe({
-        next:(res)=>{
-          this.allToFalse();
-          this.success = true;
-          setTimeout(()=>{
-            document.getElementById('closeChangePassOnSuccess')!.click();
-            this.cookie.deleteAll('/');
-            this.router.navigate(['login']);
-          },700)
-        },
-        error:(err)=>{
-          console.log(err.error);
-        }
-      })
-    }
+    this.changePasswordWorkerForm.changePassword();
   }
-  private allToFalse()
-  {
-    this.failure = false;
-    this.success = false;
-    this.dontMatch = false;
-    this.incorrectCurrent = false;
-    this.empty = false;
-  }
+  
 }

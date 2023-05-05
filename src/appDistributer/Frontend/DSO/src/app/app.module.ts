@@ -79,6 +79,7 @@ import { RealizationDeviceTableComponent } from './components/chart-tables/reali
 import { PredictionDeviceTableComponent } from './components/chart-tables/prediction-device-table/prediction-device-table.component';
 import { SearchemployeelastnamePipe } from './components/searchemployeelastname.pipe';
 import { RealizationChartProductionComponent } from './components/Charts/realization-chart-production/realization-chart-production.component';
+import { ChangeWorkerPasswordComponent } from './forms/change-worker-password/change-worker-password.component';
 
 @NgModule({
   declarations: [
@@ -139,7 +140,8 @@ import { RealizationChartProductionComponent } from './components/Charts/realiza
     RealizationDeviceTableComponent,
     PredictionDeviceTableComponent,
     SearchemployeelastnamePipe,
-    RealizationChartProductionComponent
+    RealizationChartProductionComponent,
+    ChangeWorkerPasswordComponent
   ],
   imports: [
     MatSlideToggleModule,
