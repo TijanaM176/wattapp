@@ -112,31 +112,13 @@ namespace API.Controllers
         }
 
         [HttpGet("UpdatedProsumerFilter")]
-        public async Task<IActionResult> UpdatedProsumerFilter(double minConsumption, double maxConsumption,
-            double minProduction, double maxProduction, int minDeviceCount, int maxDeviceCount)
+        public async Task<IActionResult> UpdatedProsumerFilter(double minConsumption, double maxConsumption, double minProduction, double maxProduction, int minDeviceCount, int maxDeviceCount, string cityId, string neighborhoodId)
         {
             try
             {
-                return Ok(await devService.UpdatedProsumerFilter(minConsumption, maxConsumption, minProduction,
-                    maxProduction, minDeviceCount, maxDeviceCount));
+                return Ok(await devService.UpdatedProsumerFilter(minConsumption, maxConsumption, minProduction, maxProduction, minDeviceCount, maxDeviceCount, cityId, neighborhoodId));
             }
             catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
-
-        [HttpGet("UpdatedProsumerFilter2")]
-        public async Task<IActionResult> UpdatedProsumerFilter2(string neighborhood, double minConsumption,
-            double maxConsumption, double minProduction, double maxProduction, int minDeviceCount,
-            int maxDeviceCount)
-        {
-            try
-            {
-                return Ok(await devService.UpdatedProsumerFilter2(neighborhood, minConsumption, maxConsumption,
-                    minProduction, maxProduction, minDeviceCount, maxDeviceCount));
-            }
-             catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }

@@ -189,26 +189,6 @@ namespace API.Repositories.DeviceRepository
             return count;
         }
 
-        //ova bi trebalo da se izbaci
-        public async Task<List<Prosumer>> ProsumerFilter(double minConsumption, double maxConsumption, double minProduction, double maxProduction, int minDeviceCount, int maxDeviceCount)
-        {
-            var prosumers = await _regContext.Prosumers.ToListAsync();
-            List<Prosumer> filteredProsumers = new List<Prosumer>();
-            foreach (var prosumer in prosumers)
-            {
-                var consumption = await CurrentConsumptionForProsumer(prosumer.Id);
-                var production = await CurrentProductionForProsumer(prosumer.Id);
-                var deviceCount = await ProsumerDeviceCount(prosumer.Id);
-
-                if (consumption >= minConsumption && consumption <= maxConsumption && production >= minProduction && production <= maxProduction && deviceCount >= minDeviceCount && deviceCount <= maxDeviceCount)
-                {
-                    filteredProsumers.Add(prosumer);
-                }    
-            }
-
-            return filteredProsumers;
-            
-        }
         //postoje 2 funkcije za device
         public async Task<DeviceInfo> GetDeviceInfoById(string id)
         {

@@ -275,6 +275,7 @@ namespace API.Services.Devices
                 { "id", id },
                 { "username", prosumer.Username },
                 { "address", prosumer.Address },
+                { "cityId", prosumer.CityId},
                 { "neighborhoodId", prosumer.NeigborhoodId },
                 { "lat", prosumer.Latitude },
                 { "long", prosumer.Longitude },
@@ -296,25 +297,19 @@ namespace API.Services.Devices
             return info;
         }
 
-        public async Task<List<Dictionary<string, object>>> UpdatedProsumerFilter(double minConsumption, double maxConsumption, double minProduction, double maxProduction, int minDeviceCount, int maxDeviceCount)
+        public async Task<List<Dictionary<string, object>>> UpdatedProsumerFilter(double minConsumption, double maxConsumption, double minProduction, double maxProduction, int minDeviceCount, int maxDeviceCount,  string cityId, string neighborhoodId)
         {
             var list = (await AllProsumerInfo()).Where(x => 
                 (double)x["consumption"] >= minConsumption/1000 && (double)x["consumption"] <= maxConsumption &&
                 (double)x["production"] >= minProduction/1000 && (double)x["production"] <= maxProduction &&
-                (double)x["devCount"] >= minDeviceCount && (double)x["devCount"] <= maxDeviceCount
+                (double)x["devCount"] >= minDeviceCount && (double)x["devCount"] <= maxDeviceCount &&
+                (string.IsNullOrEmpty(cityId) || (long)x["cityId"] == long.Parse(cityId)) &&
+                (string.IsNullOrEmpty(neighborhoodId) || (string)x["neighborhoodId"] == neighborhoodId)
                 ).ToList();
 
             return list;
-
         }
 
-        public async Task<List<Dictionary<string, object>>> UpdatedProsumerFilter2(string neighbourhood,
-            double minConsumption, double maxConsumption, double minProduction, double maxProduction,
-            int minDeviceCount, int maxDeviceCount)
-        {
-            return (await UpdatedProsumerFilter(minConsumption, maxConsumption, minProduction, maxProduction,
-                minDeviceCount, maxDeviceCount)).Where(x => x["neighborhoodId"].ToString() == neighbourhood).ToList();
-        }
 
         public async Task<bool> EditDevice(string idDevice, string model, string DeviceName, string IpAddress, bool dsoView, bool dsoControl)
         {
