@@ -69,30 +69,16 @@
     </div>
   </div>
 
-  <div style="width: 100%; margin: 0 auto; margin-top: 1%; height: 100%">
-    <ngx-charts-bar-vertical-2d
-      *ngIf="data.length !== 0"
-      [title]="'Production and Consumption History Chart'"
-      [scheme]="colors"
-      [results]="data"
-      [xAxis]="showXAxis"
-      [yAxis]="showYAxis"
-      [showXAxisLabel]="false"
-      [showYAxisLabel]="false"
-      [showDataLabel]="false"
-      [animations]="true"
-      [barPadding]="3"
-      [roundDomains]="true"
-      [showGridLines]="true"
-      [trimYAxisTicks]="true"
-      [tooltipDisabled]="false"
-      [noBarWhenZero]="true"
-      [yAxisTickFormatting]="yAxisTickFormatting"
-      [showGridLines]="true"
-    >
-    </ngx-charts-bar-vertical-2d>
+  <div
+    style="
+      width: 100%;
+      margin: 0 auto;
+      height: 100% !important;
+      padding-top: 5px;
+    "
+  >
     <h1
-      *ngIf="!production && !consumption"
+      *ngIf="data.length == 0"
       style="
         text-align: center;
         margin-top: 15%;
@@ -103,39 +89,48 @@
     >
       There is no available Data
     </h1>
+    <canvas
+      *ngIf="data.length != 0"
+      id="chartCanvasPredictionAll"
+      style="max-height: 100% !important; width: 100% !important"
+    ></canvas>
   </div>
-</div>
-<div
-  class="modal fade"
-  id="predictionAllProsumersTable"
-  data-bs-backdrop="static"
-  data-bs-keyboard="false"
-  tabindex="-1"
-  aria-labelledby="predictionAllProsumersTableLabel"
-  aria-hidden="true"
->
-  <div class="modal-dialog modal-dialog-centered modal-lg">
-    <div class="modal-content">
-      <div class="modal-header text-white" style="background-color: #5875a1">
-        <h5 class="modal-title" id="predictionAllProsumersTableLabel">
-          Consumption/Production Prediction Table
-        </h5>
-        <button
-          type="button"
-          class="btn-close"
-          data-bs-dismiss="modal"
-          aria-label="Close"
-        ></button>
-      </div>
-      <div class="modal-body pt-0" style="overflow-y: auto; overflow-x: hidden;" id="modalFadePredictionAllProsumers">
-        <app-prediction-all-prosumers-table
-          [data]="data"
-        ></app-prediction-all-prosumers-table>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-primary" (click)="exportTable()">
-          Export Table
-        </button>
+  <div
+    class="modal fade"
+    id="predictionAllProsumersTable"
+    data-bs-backdrop="static"
+    data-bs-keyboard="false"
+    tabindex="-1"
+    aria-labelledby="predictionAllProsumersTableLabel"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content">
+        <div class="modal-header text-white" style="background-color: #5875a1">
+          <h5 class="modal-title" id="predictionAllProsumersTableLabel">
+            Predicted Consumption/Production Prediction Table
+          </h5>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          ></button>
+        </div>
+        <div
+          class="modal-body pt-0"
+          style="overflow-y: auto; overflow-x: hidden"
+          id="modalFadePredictionAllProsumers"
+        >
+          <!-- <app-prediction-all-prosumers-table
+            [data]="data"
+          ></app-prediction-all-prosumers-table> -->
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" (click)="exportTable()">
+            Export Table
+          </button>
+        </div>
       </div>
     </div>
   </div>

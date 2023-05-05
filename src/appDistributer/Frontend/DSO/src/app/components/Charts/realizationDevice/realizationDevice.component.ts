@@ -130,10 +130,18 @@ export class RealizationDeviceComponent implements OnInit, AfterViewInit {
             };
           }
         );
-        this.data = [
-          { type: 'consumption', values: consumptionData },
-          { type: 'production', values: productionData },
-        ];
+        productionData[0]
+          ? (this.data = [
+              { type: 'consumption', values: consumptionData },
+              { type: 'production', values: productionData },
+            ])
+          : (this.data = []);
+
+        if (this.data.length == 0) {
+          this.spiner.hide();
+          this.show = false;
+          return;
+        }
 
         let backgroundColor, borderColor, backgroundColor1, borderColor1;
         if (this.type === 'Consumption') {
@@ -223,10 +231,18 @@ export class RealizationDeviceComponent implements OnInit, AfterViewInit {
             };
           }
         );
-        this.data = [
-          { type: 'consumption', values: consumptionData },
-          { type: 'production', values: productionData },
-        ];
+        productionData[0]
+          ? (this.data = [
+              { type: 'consumption', values: consumptionData },
+              { type: 'production', values: productionData },
+            ])
+          : (this.data = []);
+
+        if (this.data.length == 0) {
+          this.spiner.hide();
+          this.show = false;
+          return;
+        }
 
         let backgroundColor, borderColor, backgroundColor1, borderColor1;
         if (this.type === 'Consumption') {
@@ -314,11 +330,18 @@ export class RealizationDeviceComponent implements OnInit, AfterViewInit {
             };
           }
         );
-        this.data = [
-          { type: 'consumption', values: consumptionData },
-          { type: 'production', values: productionData },
-        ];
-        console.log(this.data);
+        productionData[0]
+          ? (this.data = [
+              { type: 'consumption', values: consumptionData },
+              { type: 'production', values: productionData },
+            ])
+          : (this.data = []);
+
+        if (this.data.length == 0) {
+          this.spiner.hide();
+          this.show = false;
+          return;
+        }
 
         let backgroundColor, borderColor, backgroundColor1, borderColor1;
         if (this.type === 'Consumption') {

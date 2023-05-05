@@ -28,7 +28,7 @@ export class RealizationChartProductionComponent
   implements OnInit, AfterViewInit
 {
   chart: any;
-  data: any[] = [];
+  data: any[] = ['z'];
   dataConsumers: any[] = [];
   dataProducers: any[] = [];
   production = true;
@@ -95,10 +95,6 @@ export class RealizationChartProductionComponent
     )!.style.maxHeight = this.widthService.height * 0.7 + 'px';
   }
 
-  yAxisTickFormatting(value: number) {
-    return value + ' kW';
-  }
-
   exportTable(): void {
     const headerRow = ['Day', 'Production (kW)', 'Predicted Production (kW)'];
     const sheetData = [
@@ -146,6 +142,19 @@ export class RealizationChartProductionComponent
             };
           }
         );
+        productionData[0]
+          ? (this.data = [
+              { type: 'consumption', values: consumptionData },
+              { type: 'production', values: productionData },
+            ])
+          : (this.data = []);
+
+        if (this.data.length == 0) {
+          this.activateButton(id);
+          this.spiner.hide();
+          this.show = false;
+          return;
+        }
 
         const chartData = {
           datasets: [
@@ -211,7 +220,6 @@ export class RealizationChartProductionComponent
           }
         );
 
-        console.log(consumptionData);
         const productionData = Object.keys(productionTimestamps).map(
           (name: any) => {
             const date = new Date(name);
@@ -223,6 +231,19 @@ export class RealizationChartProductionComponent
             };
           }
         );
+        productionData[0]
+          ? (this.data = [
+              { type: 'consumption', values: consumptionData },
+              { type: 'production', values: productionData },
+            ])
+          : (this.data = []);
+
+        if (this.data.length == 0) {
+          this.activateButton(id);
+          this.spiner.hide();
+          this.show = false;
+          return;
+        }
 
         const chartData = {
           datasets: [
@@ -314,6 +335,19 @@ export class RealizationChartProductionComponent
             },
           ],
         };
+        productionData[0]
+          ? (this.data = [
+              { type: 'consumption', values: consumptionData },
+              { type: 'production', values: productionData },
+            ])
+          : (this.data = []);
+
+        if (this.data.length == 0) {
+          this.activateButton(id);
+          this.spiner.hide();
+          this.show = false;
+          return;
+        }
 
         const chartElement: any = document.getElementById(
           'chartCanvasProduction'

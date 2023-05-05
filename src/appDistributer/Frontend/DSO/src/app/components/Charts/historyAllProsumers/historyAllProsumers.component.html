@@ -7,10 +7,10 @@
   [fullScreen]="false"
   *ngIf="showsp"
 ></ngx-spinner>
-<div>
+<div style="height: 100%">
   <div
     class="card-header pb-0 pt-3 bg-transparent row"
-    style="margin-left: 0; margin-right: 0"
+    style="margin-left: 0; margin-right: 0; height: 60px"
   >
     <div
       class="col-md-6"
@@ -37,66 +37,54 @@
     >
       <button
         class="btn bttn1"
-        (click)="HistoryWeek()"
+        (click)="HistoryWeek('bttn1')"
         style="margin: 1px"
         type="button"
-        class="btn btn-outline-primary"
+        class="btn btn-outline-primary realizationPredictionAllbtn"
       >
         7 Days
       </button>
       <button
         class="btn bttn2"
-        (click)="HistoryMonth()"
+        (click)="HistoryMonth('bttn2')"
         style="margin: 1px"
         type="button"
-        class="btn btn-outline-primary"
+        class="btn btn-outline-primary realizationPredictionAllbtn"
       >
         1 Month
       </button>
       <button
         class="btn bttn3"
-        (click)="HistoryYear()"
+        (click)="HistoryYear('bttn3')"
         type="button"
         style="margin: 1px"
-        class="btn btn-outline-primary"
+        class="btn btn-outline-primary realizationPredictionAllbtn"
       >
         1 Year
       </button>
     </div>
   </div>
-  <div class="card-body">
-    <div style="width: 100%; margin: 0 auto; margin-top: 1%; height: 100%">
-      <ngx-charts-bar-vertical-2d
-        *ngIf="data.length !== 0"
-        [title]="'Consumption and Production History Chart'"
-        [scheme]="colors"
-        [results]="data"
-        [xAxis]="showXAxis"
-        [yAxis]="showYAxis"
-        [showXAxisLabel]="false"
-        [showYAxisLabel]="false"
-        [showDataLabel]="false"
-        [animations]="true"
-        [barPadding]="3"
-        [roundDomains]="true"
-        [trimYAxisTicks]="true"
-        [tooltipDisabled]="false"
-        [yAxisTickFormatting]="yAxisTickFormatting"
-      >
-      </ngx-charts-bar-vertical-2d>
-      <h1
-        *ngIf="!production && !consumption"
-        style="
-          text-align: center;
-          margin-top: 15%;
-          opacity: 20%;
-          font-style: italic;
-          font-weight: normal;
-        "
-      >
-        There is no available Data
-      </h1>
-    </div>
+  <div
+    class="card-body"
+    style="padding-top: 5px; padding-bottom: 0px; height: calc(100% - 60px)"
+  >
+    <h1
+      *ngIf="data.length == 0"
+      style="
+        text-align: center;
+        margin-top: 15%;
+        opacity: 20%;
+        font-style: italic;
+        font-weight: normal;
+      "
+    >
+      There is no available Data
+    </h1>
+    <canvas
+      *ngIf="data.length != 0"
+      id="chartCanvasHistoryAll"
+      style="max-height: 100% !important; width: 100% !important"
+    ></canvas>
   </div>
 </div>
 <div
@@ -126,9 +114,9 @@
         style="overflow-y: auto; overflow-x: hidden"
         id="modalFadeHistoryAllProsumers"
       >
-        <app-history-all-prosumers-table
+        <!-- <app-history-all-prosumers-table
           [data]="data"
-        ></app-history-all-prosumers-table>
+        ></app-history-all-prosumers-table> -->
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-primary" (click)="exportTable()">

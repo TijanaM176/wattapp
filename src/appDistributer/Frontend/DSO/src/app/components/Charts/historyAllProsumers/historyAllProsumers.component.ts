@@ -9,24 +9,20 @@ import { TimestampService } from 'src/app/services/timestamp.service';
 import { tickStep } from 'd3';
 import * as XLSX from 'xlsx';
 import { ScreenWidthService } from 'src/app/services/screen-width.service';
+import { Chart, registerables } from 'chart.js';
+
+Chart.register(...registerables);
 @Component({
   selector: 'app-historyAllProsumers',
   templateUrl: './historyAllProsumers.component.html',
   styleUrls: ['./historyAllProsumers.component.css'],
 })
 export class HistoryAllProsumersComponent implements OnInit {
+  chart: any;
   production = true;
   consumption = true;
   id: string = '';
-  data: any = [];
-  dataConsumers: any = [];
-  dataProducers: any = [];
-  colors: Color = {
-    name: 'mycolors',
-    selectable: true,
-    group: ScaleType.Ordinal,
-    domain: ['#FF414E', '#80BC00'],
-  };
+  data: any[] = ['z'];
   showXAxis = true;
   showYAxis = true;
   gradient = false;
@@ -54,166 +50,267 @@ export class HistoryAllProsumersComponent implements OnInit {
     XLSX.utils.book_append_sheet(workbook, worksheet, 'Chart Data');
     XLSX.writeFile(workbook, 'chart-data.xlsx');
   }
-  yAxisTickFormatting(value: number) {
-    return value + ' kW';
-  }
 
   ngOnInit() {
-    this.HistoryWeekInit();
+    this.HistoryWeek('bttn1');
     document.getElementById('modalFadeHistoryAllProsumers')!.style.maxHeight =
       this.widthService.height * 0.7 + 'px';
   }
 
-  HistoryMonth() {
-    this.showsp = true;
+  HistoryWeek(id: string) {
+    this.spiner.show();
+    this.servicetime.HistoryAllProsumers7Days().subscribe((response: any) => {
+      const consumptionTimestamps = response.consumption.timestamps || {};
+      const productionTimestamps = response.production.timestamps || {};
+
+      const consumptionData = Object.keys(consumptionTimestamps).map(
+        (name: any) => {
+          const date = new Date(name);
+          const dayNumber = date.getDate();
+          const monthName = date.toLocaleString('default', { month: 'long' });
+          return {
+            x: `${monthName} ${dayNumber}`,
+            y: consumptionTimestamps[name] || 0.0,
+          };
+        }
+      );
+
+      const productionData = Object.keys(productionTimestamps).map(
+        (name: any) => {
+          const date = new Date(name);
+          const dayNumber = date.getDate();
+          const monthName = date.toLocaleString('default', { month: 'long' });
+          return {
+            x: `${monthName} ${dayNumber}`,
+            y: productionTimestamps[name] || 0.0,
+          };
+        }
+      );
+      productionData[0]
+        ? (this.data = [
+            { type: 'consumption', values: consumptionData },
+            { type: 'production', values: productionData },
+          ])
+        : (this.data = []);
+
+      if (this.data.length == 0) {
+        this.spiner.hide();
+        return;
+      }
+
+      const chartData = {
+        datasets: [
+          {
+            label: 'Energy Consumption',
+            data: consumptionData,
+            backgroundColor: 'rgba(193, 75, 72, 1)',
+            borderColor: 'rgba(193, 75, 72, 0.5)',
+          },
+          {
+            label: 'Energy Production',
+            data: productionData,
+            backgroundColor: 'rgba(128, 188, 0, 1)',
+            borderColor: 'rgba(128, 188, 0, 0.5)',
+          },
+        ],
+      };
+
+      const chartElement: any = document.getElementById(
+        'chartCanvasHistoryAll'
+      ) as HTMLElement;
+      if (this.chart) {
+        this.chart.destroy();
+      }
+      const chart2d = chartElement.getContext('2d');
+      this.chart = new Chart(chart2d, {
+        type: 'bar',
+        data: chartData,
+        options: {
+          scales: {
+            y: {
+              beginAtZero: false,
+            },
+          },
+          maintainAspectRatio: false,
+        },
+      });
+
+      this.spiner.hide();
+    });
+  }
+
+  HistoryMonth(id: string) {
     this.spiner.show();
     this.servicetime.HistoryAllProsumers1Month().subscribe((response: any) => {
-      const myList: any = [];
-
       const consumptionTimestamps = response.consumption.timestamps || {};
       const productionTimestamps = response.production.timestamps || {};
-      const allTimestamps = {
-        ...consumptionTimestamps,
-        ...productionTimestamps,
+
+      const consumptionData = Object.keys(consumptionTimestamps).map(
+        (name: any) => {
+          const date = new Date(name);
+          const dayNumber = date.getDate();
+          const monthName = date.toLocaleString('default', { month: 'long' });
+          return {
+            x: `${monthName} ${dayNumber}`,
+            y: consumptionTimestamps[name] || 0.0,
+          };
+        }
+      );
+
+      const productionData = Object.keys(productionTimestamps).map(
+        (name: any) => {
+          const date = new Date(name);
+          const dayNumber = date.getDate();
+          const monthName = date.toLocaleString('default', { month: 'long' });
+          return {
+            x: `${monthName} ${dayNumber}`,
+            y: productionTimestamps[name] || 0.0,
+          };
+        }
+      );
+      productionData[0]
+        ? (this.data = [
+            { type: 'consumption', values: consumptionData },
+            { type: 'production', values: productionData },
+          ])
+        : (this.data = []);
+
+      if (this.data.length == 0) {
+        this.spiner.hide();
+        return;
+      }
+
+      const chartData = {
+        datasets: [
+          {
+            label: 'Energy Consumption',
+            data: consumptionData,
+            backgroundColor: 'rgba(193, 75, 72, 1)',
+            borderColor: 'rgba(193, 75, 72, 0.5)',
+          },
+          {
+            label: 'Energy Production',
+            data: productionData,
+            backgroundColor: 'rgba(128, 188, 0, 1)',
+            borderColor: 'rgba(128, 188, 0, 0.5)',
+          },
+        ],
       };
 
-      Object.keys(allTimestamps).forEach((name) => {
-        const consumptionValue = consumptionTimestamps[name] || 0.0;
-        const productionValue = productionTimestamps[name] || 0.0;
-
-        // Create a new Date object from the name string
-        const date = new Date(name);
-
-        // Get the day of the month from the Date object
-        const dayNumber = date.getDate();
-        const monthName = date.toLocaleString('default', { month: 'long' });
-
-        const series = [
-          { name: 'consumption', value: consumptionValue },
-          { name: 'production', value: productionValue },
-        ];
-
-        // Set the name property of the object to the formatted date string
-        myList.push({
-          name: monthName + ' ' + dayNumber,
-          series,
-        });
+      const chartElement: any = document.getElementById(
+        'chartCanvasHistoryAll'
+      ) as HTMLElement;
+      if (this.chart) {
+        this.chart.destroy();
+      }
+      const chart2d = chartElement.getContext('2d');
+      this.chart = new Chart(chart2d, {
+        type: 'bar',
+        data: chartData,
+        options: {
+          scales: {
+            y: {
+              beginAtZero: false,
+            },
+          },
+          maintainAspectRatio: false,
+        },
       });
-      this.data = myList;
-      this.data = this.data.slice(0, -1);
+
       this.spiner.hide();
-      this.showsp = false;
     });
   }
 
-  HistoryYear() {
-    this.showsp = true;
+  HistoryYear(id: string) {
     this.spiner.show();
     this.servicetime.HistoryAllProsumers1Year().subscribe((response: any) => {
-      const myList: any = [];
-
       const consumptionTimestamps = response.consumption.timestamps || {};
       const productionTimestamps = response.production.timestamps || {};
-      const allTimestamps = {
-        ...consumptionTimestamps,
-        ...productionTimestamps,
+
+      const consumptionData = Object.keys(consumptionTimestamps).map(
+        (name: any) => {
+          const date = new Date(name);
+          const monthName = date.toLocaleString('default', { month: 'long' });
+          return {
+            x: `${monthName} `,
+            y: consumptionTimestamps[name] || 0.0,
+          };
+        }
+      );
+
+      const productionData = Object.keys(productionTimestamps).map(
+        (name: any) => {
+          const date = new Date(name);
+          const monthName = date.toLocaleString('default', { month: 'long' });
+          return {
+            x: `${monthName} `,
+            y: productionTimestamps[name] || 0.0,
+          };
+        }
+      );
+
+      const chartData = {
+        datasets: [
+          {
+            label: 'Energy Consumption',
+            data: consumptionData,
+            backgroundColor: 'rgba(193, 75, 72, 1)',
+            borderColor: 'rgba(193, 75, 72, 0.5)',
+          },
+          {
+            label: 'Energy Production',
+            data: productionData,
+            backgroundColor: 'rgba(128, 188, 0, 1)',
+            borderColor: 'rgba(128, 188, 0, 0.5)',
+          },
+        ],
       };
+      productionData[0]
+        ? (this.data = [
+            { type: 'consumption', values: consumptionData },
+            { type: 'production', values: productionData },
+          ])
+        : (this.data = []);
 
-      Object.keys(allTimestamps).forEach((name) => {
-        const consumptionValue = consumptionTimestamps[name] || 0.0;
-        const productionValue = productionTimestamps[name] || 0.0;
+      if (this.data.length == 0) {
+        this.activateButton(id);
+        this.spiner.hide();
+        return;
+      }
 
-        // Create a new Date object from the name string
-        const date = new Date(name);
+      const chartElement: any = document.getElementById(
+        'chartCanvasHistoryAll'
+      ) as HTMLElement;
+      if (this.chart) {
+        this.chart.destroy();
+      }
 
-        // Format the date into a readable string
-        const monthName = date.toLocaleDateString('en-US', { month: 'long' });
-
-        const series = [
-          { name: 'consumption', value: consumptionValue },
-          { name: 'production', value: productionValue },
-        ];
-
-        // Set the name property of the object to the formatted date string
-        myList.push({ name: monthName, series });
+      const chart2d = chartElement.getContext('2d');
+      this.chart = new Chart(chart2d, {
+        type: 'bar',
+        data: chartData,
+        options: {
+          scales: {
+            y: {
+              beginAtZero: false,
+            },
+          },
+          maintainAspectRatio: false,
+        },
       });
-      this.data = myList;
 
+      this.activateButton(id);
       this.spiner.hide();
-      this.showsp = false;
     });
   }
-
-  HistoryWeek() {
-    this.showsp = true;
-    this.spiner.show();
-    this.servicetime.HistoryAllProsumers7Days().subscribe((response: any) => {
-      const myList: any = [];
-
-      const consumptionTimestamps = response.consumption.timestamps || {};
-      const productionTimestamps = response.production.timestamps || {};
-      const allTimestamps = {
-        ...consumptionTimestamps,
-        ...productionTimestamps,
-      };
-
-      Object.keys(allTimestamps).forEach((name) => {
-        const consumptionValue = consumptionTimestamps[name] || 0.0;
-        const productionValue = productionTimestamps[name] || 0.0;
-
-        // Create a new Date object from the name string
-        const date = new Date(name);
-
-        // Format the date into a readable string
-        const dayNumber = date.getDate();
-        const monthName = date.toLocaleString('default', { month: 'long' });
-
-        const series = [
-          { name: 'consumption', value: consumptionValue },
-          { name: 'production', value: productionValue },
-        ];
-
-        // Set the name property of the object to the formatted date string
-        myList.push({ name: monthName + ' ' + dayNumber, series });
-      });
-      this.data = myList;
-      this.data = this.data.slice(0, -1);
-      this.spiner.hide();
-      this.showsp = false;
-    });
-  }
-  HistoryWeekInit() {
-    this.servicetime.HistoryAllProsumers7Days().subscribe((response: any) => {
-      const myList: any = [];
-
-      const consumptionTimestamps = response.consumption.timestamps || {};
-      const productionTimestamps = response.production.timestamps || {};
-      const allTimestamps = {
-        ...consumptionTimestamps,
-        ...productionTimestamps,
-      };
-
-      Object.keys(allTimestamps).forEach((name) => {
-        const consumptionValue = consumptionTimestamps[name] || 0.0;
-        const productionValue = productionTimestamps[name] || 0.0;
-
-        // Create a new Date object from the name string
-        const date = new Date(name);
-
-        // Format the date into a readable string
-        const dayNumber = date.getDate();
-        const monthName = date.toLocaleString('default', { month: 'long' });
-
-        const series = [
-          { name: 'consumption', value: consumptionValue },
-          { name: 'production', value: productionValue },
-        ];
-
-        // Set the name property of the object to the formatted date string
-        myList.push({ name: monthName + ' ' + dayNumber, series });
-      });
-      this.data = myList;
-      this.data = this.data.slice(0, -1);
+  activateButton(buttonNumber: string) {
+    const buttons = document.querySelectorAll('.realizationbtn');
+    buttons.forEach((button) => {
+      if (button.id == buttonNumber) {
+        button.classList.add('active');
+      } else {
+        button.classList.remove('active');
+      }
     });
   }
 }
