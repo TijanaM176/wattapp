@@ -21,9 +21,10 @@ namespace API.Controllers
         {
             try
             {
-                var consumers = await devService.GetDevicesByCategory(id, "Consumer", role);
-                var producers = await devService.GetDevicesByCategory(id, "Producer", role);
-                var storage = await devService.GetDevicesByCategory(id, "Storage", role);
+                var devices = await devService.GetDevices(id, role);
+                var consumers = devices[0];
+                var producers = devices[1];
+                var storage = devices[2];
                 return Ok(new
                 {
                     consumers = consumers,

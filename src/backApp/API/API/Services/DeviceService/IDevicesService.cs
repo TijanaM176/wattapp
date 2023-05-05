@@ -6,11 +6,10 @@ namespace API.Services.Devices
 {
     public interface IDevicesService
     {
-        public Task<List<Dictionary<string, object>>> GetDevicesByCategory(string id, string catStr, string role);
+        public Task<List<List<Dictionary<string, object>>>> GetDevices(string id, string role);
         public Task<double> CurrentConsumptionForProsumer(List<double> list);
         public Task<double> CurrentProductionForProsumer(List<double> list);
-        public Task<double> CurrentConsumptionForProsumer(string id);
-        public Task<double> CurrentProductionForProsumer(string id);
+        public Task<Dictionary<string, double>> CurrentConsumptionAndProductionForProsumer(string id);
         public Task<Dictionary<string, Dictionary<DateTime, double>>> ConsumptionProductionForAPeriodForProsumer(string id, int period, int type);
         public Task<Dictionary<string, Dictionary<DateTime, double>>> GroupedConProdForAPeriodForProsumer(string id, int type, int period, int step);
         public Task<double> ConsumptionForLastWeekForAllProsumers();
@@ -19,8 +18,7 @@ namespace API.Services.Devices
         public Task<Dictionary<string, Dictionary<DateTime, double>>> ConProdForAPeriodTimestamps(int type, int period, int step);
         public Task<DeviceInfo> GetDeviceInfoById(string id);
         public Task<EnumCategory.DeviceCatergory> getDeviceCategoryEnum(string idDevice);
-        public Task<double> TotalCurrentConsumption();
-        public Task<double> TotalCurrentProduction();
+        public Task<Dictionary<string, double>> TotalCurrentConsumptionAndProduction();
         public Task<Dictionary<string, object>> GetProsumerInformation(string id);
         public Task<List<Dictionary<string, object>>> AllProsumerInfo();
         public Task<List<Dictionary<string, object>>> UpdatedProsumerFilter(double minConsumption, double maxConsumption, double minProduction, double maxProduction, int minDeviceCount, int maxDeviceCount, string cityId, string neighborhoodId);

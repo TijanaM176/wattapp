@@ -6,10 +6,9 @@ namespace API.Repositories.DeviceRepository
 {
     public interface IDeviceRepository
     {
-        public Task<List<Device>> GetDevicesByCategory(string id, string catStr, string role);
+        public Task<List<List<Device>>> GetDevices(string id, string role);
         public Task<List<Device>> GetDevicesByCategoryForAPeriod(string id, string catStr, int period);
-        public Task<double> CurrentConsumptionForProsumer(string id);
-        public Task<double> CurrentProductionForProsumer(string id);
+        public Task<Dictionary<string, double>> CurrentConsumptionAndProductionForProsumer(string id);
         public Task<double> ProductionForLastWeekForAllProsumers();
         public Task<double> ConsumptionForLastWeekForAllProsumers();
         public Task<List<ProsumerLink>> getAllProsumersWhoOwnDevice();

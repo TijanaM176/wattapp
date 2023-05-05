@@ -18,44 +18,47 @@ namespace API.Services.Devices
             _userRepository = dsoRepository;
         }
 
-        public async Task<List<Dictionary<string, object>>> GetDevicesByCategory(string id, string catStr, string role)
+        public async Task<List<List<Dictionary<string, object>>>> GetDevices(string id, string role)
         {
-            var devices = await _repository.GetDevicesByCategory(id, catStr, role);
+            var devices = await _repository.GetDevices(id, role);
             if (devices == null) throw new ArgumentException("No devices found!");
-
-            var devicesData = devices.Select(d =>
+            List<List<Dictionary<string, object>>> devicesData = new List<List<Dictionary<string, object>>>();
+            for (int i = 0; i < 3; i++)
             {
-                double currentUsage;
-                if (d.Activity)
+                devicesData.Add(devices[i].Select(d =>
                 {
-                    if (d.Timestamps[0].Power != 0) currentUsage = d.Timestamps[0].Power;
+                    double currentUsage;
+                    if (d.Activity)
+                    {
+                        if (d.Timestamps[0].Power != 0) currentUsage = d.Timestamps[0].Power;
+                        else
+                        {
+                            Random rand = new Random();
+                            if (d.CategoryId != 3)
+                                currentUsage = d.Wattage * rand.Next(95, 105) / 100;
+                            else currentUsage = d.Wattage * rand.Next(1, 100) / 100;
+                        }
+                    }
                     else
                     {
-                        Random rand = new Random();
-                        if (d.CategoryId != 3)
-                            currentUsage = d.Wattage * rand.Next(95, 105) / 100;
-                        else currentUsage = d.Wattage * rand.Next(1, 100) / 100;
+                        currentUsage = 0;
                     }
-                }
-                else
-                {
-                    currentUsage = 0;
-                }
 
-                return new Dictionary<string, object> {
-                    { "Id", d.Id  },
-                    { "IpAddress", d.IpAddress },
-                    { "Name", d.Name },
-                    { "TypeId", d.TypeId},
-                    { "CategoryId", d.CategoryId},
-                    { "Manufacturer", d.Manufacturer},
-                    { "Wattage", d.Wattage},
-                    { "Activity", d.Activity },
-                    { "DsoView", d.DsoView},
-                    { "DsoControl", d.DsoControl },
-                    { "CurrentUsage", currentUsage },
-                };
-            });
+                    return new Dictionary<string, object> {
+                        { "Id", d.Id  },
+                        { "IpAddress", d.IpAddress },
+                        { "Name", d.Name },
+                        { "TypeId", d.TypeId},
+                        { "CategoryId", d.CategoryId},
+                        { "Manufacturer", d.Manufacturer},
+                        { "Wattage", d.Wattage},
+                        { "Activity", d.Activity },
+                        { "DsoView", d.DsoView},
+                        { "DsoControl", d.DsoControl },
+                        { "CurrentUsage", currentUsage },
+                    };
+                }).ToList());
+            }
             return devicesData.ToList();
         }
         //moje
@@ -70,15 +73,10 @@ namespace API.Services.Devices
             return await _repository.GetTotalProductionByCity(idCity);
         }*/
         //moje
-        public async Task<double> CurrentConsumptionForProsumer(string id)
+        public async Task<Dictionary<string, double>> CurrentConsumptionAndProductionForProsumer(string id)
         {
-            return await _repository.CurrentConsumptionForProsumer(id);
+            return await _repository.CurrentConsumptionAndProductionForProsumer(id);
         }
-        public async Task<double> CurrentProductionForProsumer(string id)
-        {
-            return await _repository.CurrentProductionForProsumer(id);
-        }
-
         public async Task<double> CurrentConsumptionForProsumer(List<double> list)
         {
             double currentConsumption = 0;
@@ -242,33 +240,24 @@ namespace API.Services.Devices
             return data;
         }
 
-        public async Task<double> TotalCurrentConsumption()
+        public async Task<Dictionary<string, double>> TotalCurrentConsumptionAndProduction()
         {
             var prosumers = (await _repository.getAllProsumersWhoOwnDevice()).Select(x => x.ProsumerId).Distinct();
             double consumption = 0;
-            foreach (var prosumer in prosumers)
-            {
-                consumption += await CurrentConsumptionForProsumer(prosumer);
-            }
-            return consumption;
-        }
-
-        public async Task<double> TotalCurrentProduction()
-        {
-            var prosumers = (await _repository.getAllProsumersWhoOwnDevice()).Select(x => x.ProsumerId).Distinct();
             double production = 0;
             foreach (var prosumer in prosumers)
             {
-                production += await CurrentProductionForProsumer(prosumer);
+                var usage = await CurrentConsumptionAndProductionForProsumer(prosumer);
+                consumption += usage["consumption"];
+                production += usage["production"];
             }
-            return production;
+            return new Dictionary<string, double> { { "consumption", consumption }, { "production", production } };
         }
 
         public async Task<Dictionary<string, object>> GetProsumerInformation(string id)
         {
             var prosumer = await _repository.GetProsumer(id);
-            var cons = await CurrentConsumptionForProsumer(id);
-            var prod = await CurrentProductionForProsumer(id);
+            var usage = await CurrentConsumptionAndProductionForProsumer(id);
             var devCount = await _repository.ProsumerDeviceCount(id);
 
             return new Dictionary<string, object> {
@@ -280,8 +269,8 @@ namespace API.Services.Devices
                 { "lat", prosumer.Latitude },
                 { "long", prosumer.Longitude },
                 { "image", prosumer.Image },
-                { "consumption", cons },
-                { "production", prod },
+                { "consumption", usage["consumption"] },
+                { "production", usage["production"] },
                 { "devCount", devCount }
             };  
         }
@@ -407,6 +396,7 @@ namespace API.Services.Devices
 
             foreach(var prosumer in prosumers)
             {
+                var usage = await CurrentConsumptionAndProductionForProsumer(prosumer.Id);
                 Dictionary<string, object> prosumersExtended = new Dictionary<string, object>
                 {
                     ["Id"] = prosumer.Id,
@@ -414,8 +404,8 @@ namespace API.Services.Devices
                     ["FirstName"] = prosumer.FirstName,
                     ["LastName"] = prosumer.LastName,
                     ["Address"] = prosumer.Address,
-                    ["Consumption"] = await CurrentConsumptionForProsumer(prosumer.Id),
-                    ["Production"] = await CurrentProductionForProsumer(prosumer.Id)
+                    ["Consumption"] = usage["consumption"],
+                    ["Production"] = usage["production"]
                 };
                 data.Add(prosumersExtended);
             }
@@ -442,8 +432,9 @@ namespace API.Services.Devices
 
             foreach (var user in all)
             {
-                var consumerCount = (await _repository.GetDevicesByCategory(user, "Consumer", "Prosumer")).Count();
-                var producerCount = (await _repository.GetDevicesByCategory(user, "Producer", "Prosumer")).Count();
+                var devices = await _repository.GetDevices(user, "Prosumer");
+                var consumerCount = devices[0].Count();
+                var producerCount = devices[1].Count();
 
                 if (consumerCount > 0 && producerCount > 0) prosumers++;
                 else if (consumerCount > 0) consumers++;
@@ -470,9 +461,10 @@ namespace API.Services.Devices
 
             foreach (var prosumer in prosumers)
             {
-                var city = await _repository.GetCity(prosumer.CityId);  
-                var cons = await CurrentConsumptionForProsumer(prosumer.Id);
-                var prod = await CurrentProductionForProsumer(prosumer.Id);
+                var city = await _repository.GetCity(prosumer.CityId);
+                var usage = await CurrentConsumptionAndProductionForProsumer(prosumer.Id);
+                var cons = usage["consumption"];
+                var prod = usage["production"];
 
                 if (cons > 0)
                 {
