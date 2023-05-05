@@ -109,4 +109,9 @@ export class EmployeesServiceService {
         },
       });
   }
+
+  deleteProfilePhoto(id : string)
+  {
+    return this.http.delete(this.baseUrl+'Dso/'+id+'/DeleteImage');
+  }
 }

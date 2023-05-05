@@ -80,6 +80,7 @@ import { PredictionDeviceTableComponent } from './components/chart-tables/predic
 import { SearchemployeelastnamePipe } from './components/searchemployeelastname.pipe';
 import { RealizationChartProductionComponent } from './components/Charts/realization-chart-production/realization-chart-production.component';
 import { ChangeWorkerPasswordComponent } from './forms/change-worker-password/change-worker-password.component';
+import { ImageCropperModule } from 'ngx-image-cropper';
 
 @NgModule({
   declarations: [
@@ -164,6 +165,7 @@ import { ChangeWorkerPasswordComponent } from './forms/change-worker-password/ch
     NgxPaginationModule,
     NgxGaugeModule,
     ToastrModule.forRoot(),
+    ImageCropperModule
   ],
   providers: [
     CookieService,
