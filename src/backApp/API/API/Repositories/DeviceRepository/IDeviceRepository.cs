@@ -41,5 +41,6 @@ namespace API.Repositories.DeviceRepository
         public Task<(double, double, string)> TodayAndYesterdayTotalProductionAndRatio();
         public Task<(double, double, string)> TodayAndTomorrowPredictionTotalConsumptionAndRatio();
         public Task<(double, double, string)> TodayAndTomorrowPredictionTotalProductionAndRatio();
+
     }
 }
