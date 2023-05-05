@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ViewChild, Input, ElementRef } from '@angular/core';
 import { CookieService } from 'ngx-cookie-service';
 import { ToastrService } from 'ngx-toastr';
 import { ChangePasswordComponent } from 'src/app/forms/change-password/change-password.component';
@@ -7,22 +7,30 @@ import { Location } from "@angular/common";
 import { ProsumerService } from 'src/app/services/prosumer.service';
 import { DomSanitizer } from '@angular/platform-browser';
 import {HttpEventType} from '@angular/common/http'
+import { ImageCroppedEvent } from 'ngx-image-cropper';
+import { DeviceWidthService } from 'src/app/services/device-width.service';
 
 @Component({
   selector: 'app-user-info',
   templateUrl: './user-info.component.html',
   styleUrls: ['./user-info.component.css'],
 })
-export class UserInfoComponent implements OnInit {
+export class UserInfoComponent implements OnInit, AfterViewInit {
   username: string = '';
   firstLastName: string = '';
   email: string = '';
   address: string = '';
   city: string = '';
   neighborhood: string = '';
+
   image : string = '';
+
   changeImage : string = '';
+  imgChangeEvt: any = '';
+  croppedImage : any = '';
+  
   selectedImageFile : any = null;
+
   loader: boolean = true;
   modalTitle: string = '';
   userData: any;
@@ -31,6 +39,8 @@ export class UserInfoComponent implements OnInit {
 
   @ViewChild('editData', { static: false }) editData!: EditInfoFormComponent;
   @ViewChild('changePassword', { static: false }) changePassword!: ChangePasswordComponent;
+
+  @ViewChild('imageToCrop',{ static: false }) imageToCrop! : ElementRef;
 
   progress : number = 0;
   success : boolean = false;
@@ -42,9 +52,14 @@ export class UserInfoComponent implements OnInit {
     private toast: ToastrService,
     private cookie: CookieService,
     private sant : DomSanitizer,
-    private location: Location
+    private location: Location,
+    private widthService : DeviceWidthService
   ) {
     // this.location.replaceState("/");
+  }
+
+  ngAfterViewInit(): void {
+    document.getElementById('changeCropProfileImageUserInfoModal')!.style.maxHeight = this.widthService.height * 0.8 + 'px';
   }
 
   ngOnInit(): void {
@@ -122,10 +137,6 @@ export class UserInfoComponent implements OnInit {
     }
   }
 
-  edit() {
-    this.modalTitle = 'Edit Information';
-    this.showEdit = true;
-  }
   changePass() {
     this.modalTitle = 'Change Password';
     this.showChangePass = true;
@@ -145,6 +156,7 @@ export class UserInfoComponent implements OnInit {
     }
     this.modalTitle = '';
   }
+
   confirm() {
     if (this.showEdit) {
       this.editData.editInfo();
@@ -156,47 +168,45 @@ export class UserInfoComponent implements OnInit {
 
   onFileSelected(event : any)
   {
+    this.imgChangeEvt = event;
     this.resetBoolean();
     if(event.target.files)
     {
       this.selectedImageFile = event.target.files[0];
       this.changeImage = this.sant.bypassSecurityTrustUrl(window.URL.createObjectURL(this.selectedImageFile)) as string;
-      // this.base64= 'Base64...';
-      // let reader = new FileReader();
-      // reader.readAsDataURL(event.target.files[0]);
-      // reader.onload = (e : any) =>{
-      //   this.changeImage = e.target.result;
-      // }
     }
   }
   confirmImage()
   {
-    if(this.selectedImageFile != null && this.image != this.changeImage)
+    if(this.selectedImageFile != null)
     {
-      let formData = new FormData();
-      formData.append('imageFile',this.selectedImageFile);
+      // let formData = new FormData();
+      // formData.append('imageFile',this.selectedImageFile);
       
-      this.prosumerService.UploadImage(formData)
-      .subscribe( (event)=>{
-        if(event.type === HttpEventType.UploadProgress)
-        {
-          this.updating = true;
-          this.progress = Math.round(event.loaded/event.total!*100)
-        }
-        else if(event.type === HttpEventType.Response)
-        {
-          if(event.status == 200)
-          {
-            this.success = true;
-            this.getInformation();
-          }
-          else if(event.status == 400)
-          {
-            this.toast.error('Unable to update photo','Error!',{timeOut: 3000});
-            console.log(event.statusText);
-          }
-        }
-      });
+      // this.prosumerService.UploadImage(formData)
+      // .subscribe( (event)=>{
+      //   if(event.type === HttpEventType.UploadProgress)
+      //   {
+      //     this.updating = true;
+      //     this.progress = Math.round(event.loaded/event.total!*100)
+      //   }
+      //   else if(event.type === HttpEventType.Response)
+      //   {
+      //     if(event.status == 200)
+      //     {
+      //       this.success = true;
+      //       this.getInformation();
+      //       this.toast.success('Photo Updated.', 'Success!',{timeOut:2000});
+      //     }
+      //     else if(event.status == 400)
+      //     {
+      //       this.toast.error('Unable to update photo','Error!',{timeOut: 3000});
+      //       console.log(event.statusText);
+      //     }
+      //   }
+      // });
+      this.croppedImage = this.croppedImage.replace('data:image/png;base64,', '');
+      console.log(this.croppedImage);
     }
     else
     {
@@ -256,5 +266,15 @@ export class UserInfoComponent implements OnInit {
         button.classList.remove('active');
       }
     });
+  }
+
+  openCrop()
+  {
+    document.getElementById('openCropImageBtn')!.click()
+  }
+
+  //za ngx-image-crop
+  cropImg(e: ImageCroppedEvent) {
+    this.croppedImage = e.base64; //part of the image that is cropped
   }
 }
