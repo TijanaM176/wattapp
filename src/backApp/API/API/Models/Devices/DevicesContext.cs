@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Options;
+using MongoDB.Bson;
 using MongoDB.Driver;
 using static API.Models.Devices.DevicesContext;
 
@@ -19,7 +20,13 @@ namespace API.Models.Devices
         {
             get
             {
-                return db.GetCollection<DevicePower>(_config.Value.CollectionName);
+                var collectionOptions = new MongoCollectionSettings
+                {
+                    ReadPreference = ReadPreference.Primary,
+                    WriteConcern = WriteConcern.W1,
+                    GuidRepresentation = GuidRepresentation.Standard
+                };
+                return db.GetCollection<DevicePower>(_config.Value.CollectionName,collectionOptions);
             }
         }
     }

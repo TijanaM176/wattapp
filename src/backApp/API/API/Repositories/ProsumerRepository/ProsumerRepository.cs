@@ -53,6 +53,7 @@ namespace API.Repositories.ProsumerRepository
 
 
             return await _context.Prosumers.FirstOrDefaultAsync(x => x.Id == id);
+      
         }
 
         public Task<PagedList<Prosumer>> GetProsumers(ProsumerParameters prosumerParameters)

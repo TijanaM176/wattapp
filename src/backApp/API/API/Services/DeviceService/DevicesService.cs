@@ -1,7 +1,10 @@
-﻿using API.Models.Devices;
+﻿using Amazon.Runtime.Internal.Transform;
+using API.Models.Devices;
 using API.Models.HelpModels;
+using API.Models.Users;
 using API.Repositories.DeviceRepository;
 using API.Repositories.UserRepository;
+using Microsoft.EntityFrameworkCore;
 
 namespace API.Services.Devices
 {
@@ -55,7 +58,18 @@ namespace API.Services.Devices
             });
             return devicesData.ToList();
         }
+        //moje
+        /*public async Task<double> GetTotalConsumptionByCity(long idCity)
+        {
 
+            return await _repository.GetTotalConsumptionByCity(idCity);
+        }
+        public async Task<double> GetTotalProductionByCity(long idCity)
+        {
+
+            return await _repository.GetTotalProductionByCity(idCity);
+        }*/
+        //moje
         public async Task<double> CurrentConsumptionForProsumer(string id)
         {
             return await _repository.CurrentConsumptionForProsumer(id);
@@ -64,6 +78,7 @@ namespace API.Services.Devices
         {
             return await _repository.CurrentProductionForProsumer(id);
         }
+
         public async Task<double> CurrentConsumptionForProsumer(List<double> list)
         {
             double currentConsumption = 0;
@@ -446,7 +461,7 @@ namespace API.Services.Devices
                 { "prosumers", prosumers }
             };
         }
-
+      
         public async Task<Dictionary<string, Dictionary<string, Dictionary<string, double>>>> CityPercentages()
         {
             var prosumers = (await _repository.GetProsumers()).Select(x => new { Id = x.Id, CityId = x.CityId });
@@ -460,7 +475,7 @@ namespace API.Services.Devices
 
             foreach (var prosumer in prosumers)
             {
-                var city = await _repository.GetCity(prosumer.CityId);
+                var city = await _repository.GetCity(prosumer.CityId);  
                 var cons = await CurrentConsumptionForProsumer(prosumer.Id);
                 var prod = await CurrentProductionForProsumer(prosumer.Id);
 
