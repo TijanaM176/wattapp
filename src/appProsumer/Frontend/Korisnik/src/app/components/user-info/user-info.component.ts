@@ -211,6 +211,7 @@ export class UserInfoComponent implements OnInit, AfterViewInit {
     else
     {
       this.error = true;
+      this.toast.error("No Photo was selected.", 'Error!',{timeOut:2000});
     }
   }
   deleteImage()
