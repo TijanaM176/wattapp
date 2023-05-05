@@ -104,6 +104,7 @@
           </thead>
           <tbody>
             <tr
+            routerLink="/DsoApp/user/{{ item.id }}" style="cursor:pointer;"
               *ngFor="
                 let item of serviceDevice.prosumers
                   | orderBy:orderHeader:isDescOrder
@@ -118,18 +119,18 @@
                 let i = index
               "
             >
-              <td routerLink="/DsoApp/user/{{ item.id }}" style="cursor:pointer;">
+              <td >
                 <img
                   src="assets/images/user.png"
                   style="width: 30px; height: 30px"
                 />
               </td>
-              <td routerLink="/DsoApp/user/{{ item.id }}" style="cursor:pointer;">{{ item.username }}</td>
-              <td routerLink="/DsoApp/user/{{ item.id }}" style="cursor:pointer;">{{ item.address }}</td>
+              <td >{{ item.username }}</td>
+              <td >{{ item.address }}</td>
 
-              <td routerLink="/DsoApp/user/{{ item.id }}" style="cursor:pointer;">{{ item.consumption.toFixed(2) }} kW</td>
-              <td routerLink="/DsoApp/user/{{ item.id }}" style="cursor:pointer;">{{ item.production.toFixed(2) }} kW</td>
-              <td routerLink="/DsoApp/user/{{ item.id }}" style="cursor:pointer;">{{ item.devCount }}</td>
+              <td >{{ item.consumption.toFixed(2) }} kW</td>
+              <td >{{ item.production.toFixed(2) }} kW</td>
+              <td >{{ item.devCount }}</td>
               
             </tr>
           </tbody>

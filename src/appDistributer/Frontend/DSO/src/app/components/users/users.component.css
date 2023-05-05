@@ -77,13 +77,16 @@ table.table tr td {
   border: none;
   text-align: center;
 }
-table.table td {
+table.table tbody tr {
   background-color: #fafcfd;
 }
 table.table th {
   background-color: #566787;
   vertical-align: middle;
   color: white;
+}
+.table tbody tr:hover{
+  background-color: white;
 }
 table.table th i {
   font-size: 13px;
