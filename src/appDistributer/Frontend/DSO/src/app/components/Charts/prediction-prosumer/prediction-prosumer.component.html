@@ -2,12 +2,11 @@
   bdColor="rgba(0, 0, 0, 0)"
   size="medium"
   color="black"
-  type = "ball-clip-rotate"
+  type="ball-clip-rotate"
   [showSpinner]="show"
   [fullScreen]="false"
   *ngIf="show"
-  ></ngx-spinner
->
+></ngx-spinner>
 <div class="card-header">
   <div class="row">
     <div
@@ -65,7 +64,7 @@
 </div>
 <div class="card-body px-0 py-0 mx-0 my-0 pt-3" id="predictionUserInfoCardBody">
   <div style="width: 100%; height: 93%">
-    <h1
+    <!-- <h1
       *ngIf="data.length === 0"
       style="
         text-align: center;
@@ -76,19 +75,11 @@
       "
     >
       There is no available Data
-    </h1>
-    <ngx-charts-bar-vertical-2d
-      *ngIf="data.length !== 0"
-      [scheme]="colors"
-      [results]="data"
-      [gradient]="gradient"
-      [xAxis]="showXAxis"
-      [yAxis]="showYAxis"
-      [showXAxisLabel]="showXAxisLabel"
-      [showYAxisLabel]="showYAxisLabel"
-      [yAxisLabel]="yAxisLabel"
-    >
-    </ngx-charts-bar-vertical-2d>
+    </h1> -->
+    <canvas
+      id="chartCanvas1"
+      style="height: 100% !important; width: 100% !important"
+    ></canvas>
   </div>
   <div class="legend w-100 text-center" *ngIf="data.length != 0">
     <i class="fa fa-circle consumption">&nbsp;Consumption</i>&nbsp;&nbsp;&nbsp;
@@ -117,7 +108,11 @@
           aria-label="Close"
         ></button>
       </div>
-      <div class="modal-body pt-0" style="overflow-x: hidden; overflow-y: auto;" id="modalFadePredictionProsumer">
+      <div
+        class="modal-body pt-0"
+        style="overflow-x: hidden; overflow-y: auto"
+        id="modalFadePredictionProsumer"
+      >
         <app-prediction-prosumer-table
           [data]="data"
         ></app-prediction-prosumer-table>

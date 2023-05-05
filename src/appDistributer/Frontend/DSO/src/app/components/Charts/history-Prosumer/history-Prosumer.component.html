@@ -2,12 +2,11 @@
   bdColor="rgba(0, 0, 0, 0)"
   size="medium"
   color="black"
-  type = "ball-clip-rotate"
+  type="ball-clip-rotate"
   [showSpinner]="show"
   [fullScreen]="false"
   *ngIf="show"
-  ></ngx-spinner
->
+></ngx-spinner>
 <div class="card-header py-3 row mx-0 my-0 px-0">
   <div
     class="col-5"
@@ -61,8 +60,7 @@
     id="grafik"
     style="display: flex; justify-content: center; align-items: center"
   >
-    <h1
-      *ngIf="data.length == 0"
+    <!-- <h1
       style="
         text-align: center;
         margin-top: 15%;
@@ -73,35 +71,11 @@
       "
     >
       There Is No Available Data
-    </h1>
-    <ngx-charts-bar-vertical-2d
-      *ngIf="production && consumption && data.length != 0"
-      [title]="'Realization'"
-      [scheme]="colors"
-      [results]="data"
-      [xAxis]="showXAxis"
-      [yAxis]="showYAxis"
-      [showXAxisLabel]="false"
-      [showYAxisLabel]="false"
-      [showDataLabel]="false"
-      [animations]="true"
-      [barPadding]="3"
-      [roundDomains]="true"
-      [showGridLines]="true"
-      [trimYAxisTicks]="true"
-      [tooltipDisabled]="false"
-      [showGridLines]="true"
-      [legend]="false"
-    >
-    </ngx-charts-bar-vertical-2d>
-  </div>
-
-  <div
-    class="legend w-100 text-center"
-    *ngIf="production && consumption && data.length != 0"
-  >
-    <i class="fa fa-circle consumption">&nbsp;Consumption</i>&nbsp;&nbsp;&nbsp;
-    <i class="fa fa-circle prediction">&nbsp;Predicted Consumption</i>
+    </h1> -->
+    <canvas
+      id="chartCanvas"
+      style="height: 100% !important; width: 100% !important"
+    ></canvas>
   </div>
 </div>
 
@@ -127,7 +101,11 @@
           aria-label="Close"
         ></button>
       </div>
-      <div class="modal-body py-0" style="overflow-x: hidden; overflow-y: auto;" id="modalFadeConsumptionHistoryProsumer">
+      <div
+        class="modal-body py-0"
+        style="overflow-x: hidden; overflow-y: auto"
+        id="modalFadeConsumptionHistoryProsumer"
+      >
         <app-history-prosumer-table
           [type]="'Consumption'"
           [data]="data"
