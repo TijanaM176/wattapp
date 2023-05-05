@@ -127,8 +127,8 @@ export class HistoryProsumerComponent implements OnInit {
             {
               label: 'Prediction',
               data: productionData,
-              backgroundColor: 'rgba(128, 188, 0, 1)',
-              borderColor: 'rgba(128, 188, 0, 0.5)',
+              backgroundColor: 'rgba(255, 125, 65, 1)',
+              borderColor: 'rgba(255, 125, 65, 0.5)',
             },
           ],
         };
@@ -204,8 +204,8 @@ export class HistoryProsumerComponent implements OnInit {
             {
               label: 'Prediction',
               data: productionData,
-              backgroundColor: 'rgba(128, 188, 0, 1)',
-              borderColor: 'rgba(128, 188, 0, 0.5)',
+              backgroundColor: 'rgba(255, 125, 65, 1)',
+              borderColor: 'rgba(255, 125, 65, 0.5)',
             },
           ],
         };
@@ -266,6 +266,8 @@ export class HistoryProsumerComponent implements OnInit {
             };
           }
         );
+        this.data = productionData;
+        console.log(this.data);
 
         const chartData = {
           datasets: [
@@ -278,8 +280,8 @@ export class HistoryProsumerComponent implements OnInit {
             {
               label: 'Prediction',
               data: productionData,
-              backgroundColor: 'rgba(128, 188, 0, 1)',
-              borderColor: 'rgba(128, 188, 0, 0.5)',
+              backgroundColor: 'rgba(255, 125, 65, 1)',
+              borderColor: 'rgba(255, 125, 65, 1)',
             },
           ],
         };

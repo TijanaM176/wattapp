@@ -152,14 +152,14 @@ export class RealizationChartProductionComponent
             {
               label: 'Consumption',
               data: consumptionData,
-              backgroundColor: 'rgba(35, 143, 145, 1)',
-              borderColor: 'rgba(35, 143, 145, 0.5)',
+              backgroundColor: 'rgba(128, 188, 0, 1)',
+              borderColor: 'rgba(128, 188, 0, 0.5)',
             },
             {
               label: 'Prediction',
               data: productionData,
-              backgroundColor: 'rgba(128, 188, 0, 1)',
-              borderColor: 'rgba(128, 188, 0, 0.5)',
+              backgroundColor: 'rgba(0, 188, 179, 1)',
+              borderColor: 'rgba(0, 188, 179, 0.5)',
             },
           ],
         };
@@ -229,14 +229,14 @@ export class RealizationChartProductionComponent
             {
               label: 'Consumption',
               data: consumptionData,
-              backgroundColor: 'rgba(35, 143, 145, 1)',
-              borderColor: 'rgba(35, 143, 145, 0.5)',
+              backgroundColor: 'rgba(128, 188, 0, 1)',
+              borderColor: 'rgba(128, 188, 0, 0.5)',
             },
             {
               label: 'Prediction',
               data: productionData,
-              backgroundColor: 'rgba(128, 188, 0, 1)',
-              borderColor: 'rgba(128, 188, 0, 0.5)',
+              backgroundColor: 'rgba(0, 188, 179, 1)',
+              borderColor: 'rgba(0, 188, 179, 0.5)',
             },
           ],
         };
@@ -303,14 +303,14 @@ export class RealizationChartProductionComponent
             {
               label: 'Consumption',
               data: consumptionData,
-              backgroundColor: 'rgba(35, 143, 145, 1)',
-              borderColor: 'rgba(35, 143, 145, 0.5)',
+              backgroundColor: 'rgba(128, 188, 0, 1)',
+              borderColor: 'rgba(128, 188, 0, 0.5)',
             },
             {
               label: 'Prediction',
               data: productionData,
-              backgroundColor: 'rgba(128, 188, 0, 1)',
-              borderColor: 'rgba(128, 188, 0, 0.5)',
+              backgroundColor: 'rgba(0, 188, 179, 1)',
+              borderColor: 'rgba(0, 188, 179, 0.5)',
             },
           ],
         };

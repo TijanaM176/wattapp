@@ -2,12 +2,11 @@
   bdColor="rgba(0, 0, 0, 0)"
   size="medium"
   color="black"
-  type = "ball-clip-rotate"
+  type="ball-clip-rotate"
   [showSpinner]="show"
   [fullScreen]="false"
   *ngIf="show"
-  ></ngx-spinner
->
+></ngx-spinner>
 <div
   class="card-header col-12 group"
   style="
@@ -61,7 +60,7 @@
     id="RealizationDevice"
     style="display: flex; justify-content: center; align-items: center"
   >
-    <h1
+    <!-- <h1
       *ngIf="data.length == 0"
       style="
         text-align: center;
@@ -72,78 +71,49 @@
       "
     >
       There Is No Available Data
-    </h1>
-    <ngx-charts-bar-vertical-2d
-      *ngIf="production && consumption && data.length != 0"
-      [title]="'Realization'"
-      [scheme]="colors"
-      [results]="data"
-      [xAxis]="showXAxis"
-      [yAxis]="showYAxis"
-      [showXAxisLabel]="false"
-      [showYAxisLabel]="false"
-      [showDataLabel]="false"
-      [animations]="true"
-      [barPadding]="3"
-      [roundDomains]="true"
-      [showGridLines]="true"
-      [trimYAxisTicks]="true"
-      [tooltipDisabled]="false"
-      [showGridLines]="true"
-      [yAxisTickFormatting]="yAxisTickFormatting"
-      [legend]="false"
-    >
-    </ngx-charts-bar-vertical-2d>
+    </h1> -->
+    <canvas
+      id="RealizationDeviceChart"
+      style="height: 100% !important; width: 100% !important"
+    ></canvas>
   </div>
-
   <div
-    class="legend w-100 text-center"
-    *ngIf="production && consumption && data.length != 0"
+    class="modal fade"
+    id="realizationDeviceTable"
+    data-bs-backdrop="static"
+    data-bs-keyboard="false"
+    tabindex="-1"
+    aria-labelledby="realizationDeviceTableLabel"
+    aria-hidden="true"
   >
-    <i class="fa fa-circle consumption" *ngIf="type == 'Consumption'"
-      >&nbsp;{{ type }}</i
-    >&nbsp;&nbsp;&nbsp;
-    <i class="fa fa-circle production" *ngIf="type == 'Production'"
-      >&nbsp;{{ type }}</i
-    >&nbsp;&nbsp;&nbsp;
-    <i class="fa fa-circle storage" *ngIf="type == 'Storage'"
-      >&nbsp;{{ type }}</i
-    >&nbsp;&nbsp;&nbsp;
-    <i class="fa fa-circle prediction">&nbsp;Prediction</i>
-  </div>
-</div>
-<div
-  class="modal fade"
-  id="realizationDeviceTable"
-  data-bs-backdrop="static"
-  data-bs-keyboard="false"
-  tabindex="-1"
-  aria-labelledby="realizationDeviceTableLabel"
-  aria-hidden="true"
->
-  <div class="modal-dialog modal-dialog-centered modal-lg">
-    <div class="modal-content">
-      <div class="modal-header text-white" style="background-color: #5875a1">
-        <h5 class="modal-title" id="realizationDeviceTableLabel">
-          {{ type }} and Prediction History Table
-        </h5>
-        <button
-          type="button"
-          class="btn-close"
-          data-bs-dismiss="modal"
-          aria-label="Close"
-        ></button>
-      </div>
-      <div class="modal-body pt-0" style="overflow-x: hidden; overflow-y: auto;" id="modalFadeHistoryDevice">
-        <app-realization-device-table
-          [type]="type"
-          [data]="data"
-        ></app-realization-device-table>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-primary" (click)="exportTable()">
-          Export Table
-        </button>
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content">
+        <div class="modal-header text-white" style="background-color: #5875a1">
+          <h5 class="modal-title" id="realizationDeviceTableLabel">
+            {{ type }} and Prediction History Table
+          </h5>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          ></button>
+        </div>
+        <div
+          class="modal-body pt-0"
+          style="overflow-x: hidden; overflow-y: auto"
+          id="modalFadeHistoryDevice"
+        >
+          <app-realization-device-table
+            [type]="type"
+            [data]="data"
+          ></app-realization-device-table>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" (click)="exportTable()">
+            Export Table
+          </button>
+        </div>
       </div>
     </div>
   </div>

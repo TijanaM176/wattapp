@@ -19,8 +19,6 @@ Chart.register(...registerables);
 export class PredictionProsumerComponent implements OnInit {
   id: string = '';
   data: any[] = [];
-  dataConsumers: any = [];
-  dataProducers: any = [];
   chart: any;
   show!: boolean;
   colors: Color = {
@@ -54,10 +52,6 @@ export class PredictionProsumerComponent implements OnInit {
     this.activateButton('predictionUser1');
     document.getElementById('modalFadePredictionProsumer')!.style.maxHeight =
       this.widthService.height * 0.7 + 'px';
-  }
-
-  yAxisTickFormatting(value: number) {
-    return value + ' kW';
   }
 
   PredictionWeek(id: string) {
