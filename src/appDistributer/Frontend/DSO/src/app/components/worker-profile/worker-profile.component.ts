@@ -7,6 +7,7 @@ import { fromEvent, Observable, Subscription } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
 import { DeviceserviceService } from 'src/app/services/deviceservice.service';
 import { DataService } from 'src/app/services/data.service';
+import { WorkerChangePasswordDto } from 'src/app/models/workerChangePasswordDto';
 
 @Component({
   selector: 'app-worker-profile',
@@ -24,6 +25,16 @@ export class WorkerProfileComponent implements OnInit, AfterViewInit {
   role: string = '';
   region: string = '';
   startedWorking : string = '';
+
+  currentPass : string =''
+  newPass : string = ''
+  confirmNewPass : string = ''
+
+  failure : boolean = false;
+  success : boolean = false;
+  dontMatch : boolean = false;
+  incorrectCurrent : boolean = false;
+  empty : boolean = false;
 
   constructor(
     private workerService: EmployeesServiceService,
@@ -63,15 +74,9 @@ export class WorkerProfileComponent implements OnInit, AfterViewInit {
     this.workerService.detailsEmployee(id).subscribe({
       next: (res) => {
         this.worker = res;
-        // console.log(this.worker.prosumerCreationDate);
         let date = new Date(this.worker.prosumerCreationDate);
         this.startedWorking = date.getDay() + '. ' + date.toLocaleString('default', { month: 'long' }) + ' ' + date.getFullYear() + '.';
         this.region = this.cookie.get('region');
-        // this.dataService.getRegionName(this.worker.regionId).subscribe({
-        //   next: (res) => {
-        //     this.region = res;
-        //   },
-        // });
       },
       error: (err) => {
         console.log(err.error);
@@ -80,5 +85,41 @@ export class WorkerProfileComponent implements OnInit, AfterViewInit {
         });
       },
     });
+  }
+
+  OpenChangePassword()
+  {
+    document.getElementById('openChangePasswordWorkerPRofile')!.click();
+  }
+  closeChangePAss()
+  {
+    document.getElementById('openWorkerProfileAgain')!.click()
+  }
+  confirmNewPassword()
+  {
+    if(this.newPass =="" || this.confirmNewPass =="" || this.currentPass=="") // || this.currentPass==""
+    {
+      this.allToFalse();
+      this.empty = true;
+    }
+    else if(this.newPass != this.confirmNewPass)
+    {
+      this.allToFalse();
+      this.dontMatch = true;
+    }
+    else
+    {
+      let dto : WorkerChangePasswordDto = new WorkerChangePasswordDto();
+      dto.newPassword = this.newPass;
+      dto.oldPassword = this.currentPass;
+    }
+  }
+  private allToFalse()
+  {
+    this.failure = false;
+    this.success = false;
+    this.dontMatch = false;
+    this.incorrectCurrent = false;
+    this.empty = false;
   }
 }

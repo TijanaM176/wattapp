@@ -67,9 +67,12 @@
             <hr class="mt-0 mb-2">
           </div>
         </div>
-        <a class="btn btn-primary align-self-start ms-4" style="color: white;"
-          >Change Password</a
-        >
+        <button class="btn btn-primary align-self-start ms-4" style="color: white;" data-bs-dismiss="modal" (click)="OpenChangePassword()">
+          Change Password
+        </button>
+        <button class="btn btn-primary" [hidden]="true" id="openChangePasswordWorkerPRofile" data-bs-toggle="modal" data-bs-target="#changePasswordWorkerProfile">
+          Open Change Password
+        </button>
       </div>
     </div>
     <div class="col-md-1 h-100">
@@ -91,3 +94,56 @@
 <app-popup-add></app-popup-add>
 <app-popup-emp></app-popup-emp>
 <app-employeedetails></app-employeedetails>
+<div
+    class="modal fade"
+    id="changePasswordWorkerProfile"
+    data-bs-backdrop="static"
+    data-bs-keyboard="false"
+    tabindex="-1"
+    aria-labelledby="changePasswordWorkerProfileLabel"
+    aria-hidden="true"
+  >
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header text-white" style="background-color: #5875a1">
+        <h5 class="modal-title" id="changePasswordUserInfoLabel">Change Password</h5>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+            (click)="closeChangePAss()"
+            style="background-color: white;"
+          ></button>
+      </div>
+      <div class="modal-body">
+        <div class="mb-3">
+          <label for="currentPass" class="form-label">Current Password</label>
+          <input type="password" class="form-control" id="currentPass" [(ngModel)]="currentPass">
+          <small class="text-danger" *ngIf="incorrectCurrent">Incorrect password!</small>
+        </div>
+        <div class="mb-3">
+            <label for="newPass" class="form-label">New Password</label>
+            <input type="password" class="form-control" id="newPass" [(ngModel)]="newPass">
+        </div>
+        <div class="mb-3">
+            <label for="confirmNewPass" class="form-label">Confirm Password</label>
+            <input type="password" class="form-control" id="confirmNewPass" [(ngModel)]="confirmNewPass">
+        </div>
+        
+        <button class="btn btn-primary" id="closeChangePassOnSuccess" [hidden]="true" data-bs-dismiss="modal" data-bs-target="#changePasswordWorkerProfile">Close Modal</button>
+        <button class="btn btn-primary" id="openWorkerProfileAgain" [hidden]="true" data-bs-toggle="modal" data-bs-target="#exampleModal4">Open Worker Modal</button>
+        
+        <small class="text-danger" *ngIf="dontMatch">*New and confirm password don't match!</small>
+        <small class="text-success" *ngIf="success">Password successfully changed! Logging out...</small>
+        <small class="text-danger" *ngIf="failure">Incorrect current password.</small>
+        <small class="text-danger" *ngIf="empty">*Populate all fields!</small>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" (click)="confirmNewPassword()">
+          Confirm
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
