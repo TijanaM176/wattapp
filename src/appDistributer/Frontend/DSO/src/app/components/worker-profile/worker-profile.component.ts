@@ -8,6 +8,8 @@ import { ToastrService } from 'ngx-toastr';
 import { DeviceserviceService } from 'src/app/services/deviceservice.service';
 import { DataService } from 'src/app/services/data.service';
 import { WorkerChangePasswordDto } from 'src/app/models/workerChangePasswordDto';
+import { editEmployeeDto } from 'src/app/models/editEmployee';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-worker-profile',
@@ -38,10 +40,11 @@ export class WorkerProfileComponent implements OnInit, AfterViewInit {
 
   constructor(
     private workerService: EmployeesServiceService,
-    private dataService: DataService,
+    private router: Router,
     private cookie: CookieService,
     public toast: ToastrService,
-    private widthService: ScreenWidthService
+    private widthService: ScreenWidthService,
+    private employeeService : EmployeesServiceService
   ) {}
 
   ngAfterViewInit(): void {
@@ -109,9 +112,25 @@ export class WorkerProfileComponent implements OnInit, AfterViewInit {
     }
     else
     {
-      let dto : WorkerChangePasswordDto = new WorkerChangePasswordDto();
-      dto.newPassword = this.newPass;
-      dto.oldPassword = this.currentPass;
+      let dto : editEmployeeDto = new editEmployeeDto();
+      dto.password = this.newPass;
+      // dto.newPassword = this.newPass;
+      // dto.oldPassword = this.currentPass;
+      this.employeeService.updateEmployee(this.cookie.get('id'), dto)
+      .subscribe({
+        next:(res)=>{
+          this.allToFalse();
+          this.success = true;
+          setTimeout(()=>{
+            document.getElementById('closeChangePassOnSuccess')!.click();
+            this.cookie.deleteAll('/');
+            this.router.navigate(['login']);
+          },700)
+        },
+        error:(err)=>{
+          console.log(err.error);
+        }
+      })
     }
   }
   private allToFalse()
