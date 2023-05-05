@@ -9,8 +9,8 @@
   <tbody>
     <tr *ngFor="let item of data; index as i">
       <th scope="row" class="ps-1">{{item.name}}</th>
-      <td class="text-center">{{item?.series[0]?.value?.toFixed(2)}} kW</td>
-      <td class="text-center">{{item?.series[1]?.value?.toFixed(2)}} kW</td>
+      <td class="text-center">{{item?.series[0]?.value?.toFixed(2)}} kWh</td>
+      <td class="text-center">{{item?.series[1]?.value?.toFixed(2)}} kWh</td>
     </tr>
   </tbody>
 </table>
