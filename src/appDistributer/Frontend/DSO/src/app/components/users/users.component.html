@@ -99,11 +99,12 @@
               <th (click)="sort('consumption')">Consumption <i class="fa fa-sort"></i></th>
               <th (click)="sort('production')">Production <i class="fa fa-sort"></i></th>
               <th (click)="sort('devCount')">Number of devices <i class="fa fa-sort"></i></th>
-              <th></th>
+              
             </tr>
           </thead>
           <tbody>
             <tr
+            routerLink="/DsoApp/user/{{ item.id }}" style="cursor:pointer;"
               *ngFor="
                 let item of serviceDevice.prosumers
                   | orderBy:orderHeader:isDescOrder
@@ -118,31 +119,19 @@
                 let i = index
               "
             >
-              <td>
+              <td >
                 <img
                   src="assets/images/user.png"
                   style="width: 30px; height: 30px"
                 />
               </td>
-              <td>{{ item.username }}</td>
-              <td>{{ item.address }}</td>
+              <td >{{ item.username }}</td>
+              <td >{{ item.address }}</td>
 
-              <td>{{ item.consumption.toFixed(2) }} kW</td>
-              <td>{{ item.production.toFixed(2) }} kW</td>
-              <td>{{ item.devCount }}</td>
-              <td>
-                <!-- <button class="button-info" (click)="Details(item.id)">
-                  <b>info</b>
-                </button> -->
-
-                <a routerLink="/DsoApp/user/{{ item.id }}"
-                  ><i class="fa fa-info-circle"></i
-                ></a>
-
-                <!-- <a routerLink="/user1/{{ item.id }}"
-                  ><i class="fa fa-info-circle"></i
-                ></a> -->
-              </td>
+              <td >{{ item.consumption.toFixed(2) }} kW</td>
+              <td >{{ item.production.toFixed(2) }} kW</td>
+              <td >{{ item.devCount }}</td>
+              
             </tr>
           </tbody>
         </table>

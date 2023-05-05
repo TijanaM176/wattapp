@@ -153,8 +153,8 @@
                     <div class="numbers">
                       <ngx-gauge
                         [type]="'semi'"
-                        [value]="MaxUsage"
-                        [label]="'Maximum hourly ' + type"
+                        [value]="AvgUsage"
+                        [label]="'Average hourly ' + type"
                         [append]="'kWh'"
                         [min]="0"
                         [max]="maxUsageNumber"
@@ -163,6 +163,7 @@
                         [thick]="10"
                       >
                       </ngx-gauge>
+                      
                     </div>
                   </div>
                 </div>
@@ -180,8 +181,8 @@
                     <div class="numbers">
                       <ngx-gauge
                         [type]="'semi'"
-                        [value]="AvgUsage"
-                        [label]="'Average hourly ' + type"
+                        [value]="MaxUsage"
+                        [label]="'Maximum hourly ' + type"
                         [append]="'kWh'"
                         [min]="0"
                         [max]="maxUsageNumber"

@@ -117,7 +117,7 @@
               Energy (kW) <i class="fa fa-sort"></i>
             </th>
             <th>Activity</th>
-            <th></th>
+            <th>DSO control</th>
           </tr>
         </thead>
         <tbody
@@ -129,8 +129,11 @@
               | orderBy : orderHeader : isDescOrder
           "
         >
-          <tr>
-            <td [ngSwitch]="device.TypeId">
+          <tr routerLink="/DsoApp/user/{{ id }}/Devices/deviceinfo/{{
+            device.Id
+          }}" style="cursor:pointer;">
+            <td [ngSwitch]="device.TypeId"
+            >
               <div *ngSwitchCase="'1'">
                 <img src="assets/images/fridge.png" />
               </div>
@@ -193,10 +196,10 @@
               /></span>
             </td>
             <td>{{ device.IpAddress }}</td>
-            <td>{{ device.Name }}</td>
+            <td >{{ device.Name }}</td>
 
-            <td>{{ device.CurrentUsage.toFixed(2) }}</td>
-            <td>
+            <td >{{ device.CurrentUsage.toFixed(2) }}</td>
+            <td >
               <ng-template #offToggle>
                 <div
                   class="form-check form-switch ps-0"
@@ -218,15 +221,16 @@
                 </div>
               </div>
             </td>
-            <td>
-              <a
-                routerLink="/DsoApp/user/{{ id }}/Devices/deviceinfo/{{
-                  device.Id
-                }}"
-                class="settings"
-                title=""
-                ><i class="fa fa-info-circle"></i
-              ></a>
+            <td style="padding-left:3%;">
+              <div class="col-6 mb-1">
+                <h6 style="color: green;" *ngIf="device.DsoControl">
+                  <i class="fa fa-check-square"></i>
+                </h6>
+                <h6 style="color: #c14b48;" *ngIf="!device.DsoControl">
+                  <i class="fa fa-minus-square"></i> 
+                </h6>
+                <!-- <p class="text-muted">Average hourly consumption</p> -->
+              </div>
             </td>
           </tr>
         </tbody>
