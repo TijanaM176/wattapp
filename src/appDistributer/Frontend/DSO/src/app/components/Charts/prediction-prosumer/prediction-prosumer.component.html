@@ -64,8 +64,8 @@
 </div>
 <div class="card-body px-0 py-0 mx-0 my-0 pt-3" id="predictionUserInfoCardBody">
   <div style="width: 100%; height: 93%">
-    <!-- <h1
-      *ngIf="data.length === 0"
+    <h1
+      *ngIf="data.length == 0"
       style="
         text-align: center;
         margin-top: 15%;
@@ -75,8 +75,9 @@
       "
     >
       There is no available Data
-    </h1> -->
+    </h1>
     <canvas
+      *ngIf="data.length != 0"
       id="chartCanvas1"
       style="height: 100% !important; width: 100% !important"
     ></canvas>
@@ -114,7 +115,11 @@
         ></app-prediction-prosumer-table>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-primary" (click)="exportTable()">
+        <button
+          type="button"
+          class="btn btn-primary"
+          (click)="exportTable(data)"
+        >
           Export Table
         </button>
       </div>

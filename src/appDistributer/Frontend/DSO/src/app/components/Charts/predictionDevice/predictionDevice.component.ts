@@ -224,7 +224,7 @@ export class PredictionDeviceComponent implements OnInit, AfterViewInit {
           const hours = date.getHours().toString().padStart(2, '0');
           const minutes = date.getMinutes().toString().padStart(2, '0');
           return {
-            x: `${hours}:${minutes}`,
+            x: `${hours}:${minutes}H`,
             y: consumptionTimestamps[name] || 0.0,
           };
         }

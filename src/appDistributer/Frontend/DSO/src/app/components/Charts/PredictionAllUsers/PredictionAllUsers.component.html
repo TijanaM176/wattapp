@@ -122,12 +122,16 @@
           style="overflow-y: auto; overflow-x: hidden"
           id="modalFadePredictionAllProsumers"
         >
-          <!-- <app-prediction-all-prosumers-table
+          <app-prediction-all-prosumers-table
             [data]="data"
-          ></app-prediction-all-prosumers-table> -->
+          ></app-prediction-all-prosumers-table>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-primary" (click)="exportTable()">
+          <button
+            type="button"
+            class="btn btn-primary"
+            (click)="exportTable(data)"
+          >
             Export Table
           </button>
         </div>

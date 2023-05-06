@@ -18,7 +18,7 @@ Chart.register(...registerables);
 })
 export class PredictionProsumerComponent implements OnInit {
   id: string = '';
-  data: any[] = [];
+  data: any[] = ['z'];
   chart: any;
   show!: boolean;
   colors: Color = {
@@ -86,6 +86,17 @@ export class PredictionProsumerComponent implements OnInit {
             };
           }
         );
+        productionData[0]
+          ? (this.data = [
+              { type: 'consumption', values: consumptionData },
+              { type: 'production', values: productionData },
+            ])
+          : (this.data = []);
+
+        if (this.data.length == 0) {
+          this.spiner.hide();
+          return;
+        }
 
         const chartData = {
           datasets: [
@@ -163,6 +174,17 @@ export class PredictionProsumerComponent implements OnInit {
             };
           }
         );
+        productionData[0]
+          ? (this.data = [
+              { type: 'consumption', values: consumptionData },
+              { type: 'production', values: productionData },
+            ])
+          : (this.data = []);
+
+        if (this.data.length == 0) {
+          this.spiner.hide();
+          return;
+        }
 
         const chartData = {
           datasets: [
@@ -222,7 +244,7 @@ export class PredictionProsumerComponent implements OnInit {
             const hours = date.getHours().toString().padStart(2, '0');
             const minutes = date.getMinutes().toString().padStart(2, '0');
             return {
-              x: `${hours}:${minutes}`,
+              x: `${hours}:${minutes}H`,
               y: consumptionTimestamps[name] || 0.0,
             };
           }
@@ -234,11 +256,22 @@ export class PredictionProsumerComponent implements OnInit {
             const hours = date.getHours().toString().padStart(2, '0');
             const minutes = date.getMinutes().toString().padStart(2, '0');
             return {
-              x: `${hours}:${minutes}`,
+              x: `${hours}:${minutes}H`,
               y: productionTimestamps[name] || 0.0,
             };
           }
         );
+        productionData[0]
+          ? (this.data = [
+              { type: 'consumption', values: consumptionData },
+              { type: 'production', values: productionData },
+            ])
+          : (this.data = []);
+
+        if (this.data.length == 0) {
+          this.spiner.hide();
+          return;
+        }
 
         const chartData = {
           datasets: [
@@ -283,19 +316,33 @@ export class PredictionProsumerComponent implements OnInit {
         this.show = false;
       });
   }
-  exportTable(): void {
+  exportTable(data: any[]): void {
     const headerRow = [
-      'Day',
+      '',
       'Predicted Consumption (kW)',
       'Predicted Production (kW)',
     ];
-    const sheetData = [
-      headerRow,
-      ...this.data.map((data: any) => [
-        data.name,
-        ...data.series.map((series: { value: number }) => series.value),
-      ]),
-    ];
+    const sheetData = [headerRow];
+
+    const maxLength = Math.max(data[0]?.values.length, data[1]?.values.length);
+
+    for (let i = 0; i < maxLength; i++) {
+      const consumptionValue = data[0]?.values[i];
+      const productionValue = data[1]?.values[i];
+
+      const row = [
+        consumptionValue
+          ? consumptionValue.x
+          : productionValue
+          ? productionValue.x
+          : '',
+        consumptionValue ? consumptionValue.y.toFixed(5) : 0,
+        productionValue ? productionValue.y.toFixed(5) : 0,
+      ];
+
+      sheetData.push(row);
+    }
+
     const worksheet: XLSX.WorkSheet = XLSX.utils.aoa_to_sheet(sheetData);
     const workbook: XLSX.WorkBook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(workbook, worksheet, 'Chart Data');

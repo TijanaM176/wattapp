@@ -36,15 +36,33 @@ export class HistoryAllProsumersComponent implements OnInit {
     private widthService: ScreenWidthService
   ) {}
 
-  exportTable(): void {
-    const headerRow = ['Day', 'Consumption (kW)', 'Production (kW)'];
-    const sheetData = [
-      headerRow,
-      ...this.data.map((data: any) => [
-        data.name,
-        ...data.series.map((series: { value: number }) => series.value),
-      ]),
+  exportTable(data: any[]): void {
+    const headerRow = [
+      '',
+      'Energy Consumption (kW)',
+      'Energy Production (kW)',
     ];
+    const sheetData = [headerRow];
+
+    const maxLength = Math.max(data[0]?.values.length, data[1]?.values.length);
+
+    for (let i = 0; i < maxLength; i++) {
+      const consumptionValue = data[0]?.values[i];
+      const productionValue = data[1]?.values[i];
+
+      const row = [
+        consumptionValue
+          ? consumptionValue.x
+          : productionValue
+          ? productionValue.x
+          : '',
+        consumptionValue ? consumptionValue.y.toFixed(5) : 0,
+        productionValue ? productionValue.y.toFixed(5) : 0,
+      ];
+
+      sheetData.push(row);
+    }
+
     const worksheet: XLSX.WorkSheet = XLSX.utils.aoa_to_sheet(sheetData);
     const workbook: XLSX.WorkBook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(workbook, worksheet, 'Chart Data');
@@ -92,6 +110,7 @@ export class HistoryAllProsumersComponent implements OnInit {
             { type: 'production', values: productionData },
           ])
         : (this.data = []);
+      console.log(this.data);
 
       if (this.data.length == 0) {
         this.spiner.hide();

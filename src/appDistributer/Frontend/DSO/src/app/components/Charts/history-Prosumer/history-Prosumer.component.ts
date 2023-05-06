@@ -22,7 +22,7 @@ Chart.register(...registerables);
   styleUrls: ['./history-Prosumer.component.css'],
 })
 export class HistoryProsumerComponent implements OnInit {
-  data: any[] = [];
+  data: any[] = ['z'];
   dataConsumers: any[] = [];
   dataProducers: any[] = [];
   production = true;
@@ -59,15 +59,33 @@ export class HistoryProsumerComponent implements OnInit {
     private spiner: NgxSpinnerService
   ) {}
 
-  exportTable(): void {
-    const headerRow = ['Day', 'Consumption(kW)', 'Predicted Consumption(kW)'];
-    const sheetData = [
-      headerRow,
-      ...this.data.map((data) => [
-        data.name,
-        ...data.series.map((series: { value: number }) => series.value),
-      ]),
+  exportTable(data: any[]): void {
+    const headerRow = [
+      '',
+      'Energy Consumption (kW)',
+      'Predicted Consumption (kW)',
     ];
+    const sheetData = [headerRow];
+
+    const maxLength = Math.max(data[0]?.values.length, data[1]?.values.length);
+
+    for (let i = 0; i < maxLength; i++) {
+      const consumptionValue = data[0]?.values[i];
+      const productionValue = data[1]?.values[i];
+
+      const row = [
+        consumptionValue
+          ? consumptionValue.x
+          : productionValue
+          ? productionValue.x
+          : '',
+        consumptionValue ? consumptionValue.y.toFixed(5) : 0,
+        productionValue ? productionValue.y.toFixed(5) : 0,
+      ];
+
+      sheetData.push(row);
+    }
+
     const worksheet: XLSX.WorkSheet = XLSX.utils.aoa_to_sheet(sheetData);
     const workbook: XLSX.WorkBook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(workbook, worksheet, 'Chart Data');
@@ -115,6 +133,13 @@ export class HistoryProsumerComponent implements OnInit {
             };
           }
         );
+        productionData[0]
+          ? (this.data = [
+              { type: 'consumption', values: consumptionData },
+              { type: 'production', values: productionData },
+            ])
+          : (this.data = []);
+        console.log(this.data);
 
         const chartData = {
           datasets: [
@@ -180,7 +205,6 @@ export class HistoryProsumerComponent implements OnInit {
           }
         );
 
-        console.log(consumptionData);
         const productionData = Object.keys(productionTimestamps).map(
           (name: any) => {
             const date = new Date(name);
@@ -192,6 +216,12 @@ export class HistoryProsumerComponent implements OnInit {
             };
           }
         );
+        productionData[0]
+          ? (this.data = [
+              { type: 'consumption', values: consumptionData },
+              { type: 'production', values: productionData },
+            ])
+          : (this.data = []);
 
         const chartData = {
           datasets: [
@@ -266,8 +296,12 @@ export class HistoryProsumerComponent implements OnInit {
             };
           }
         );
-        this.data = productionData;
-        console.log(this.data);
+        productionData[0]
+          ? (this.data = [
+              { type: 'consumption', values: consumptionData },
+              { type: 'production', values: productionData },
+            ])
+          : (this.data = []);
 
         const chartData = {
           datasets: [
