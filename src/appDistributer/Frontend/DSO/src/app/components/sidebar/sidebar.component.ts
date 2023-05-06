@@ -107,7 +107,7 @@ export class SidebarComponent implements OnInit {
       this.minValueP,this.maxValueP, 
       this.minValue, this.maxValue, 
       cityId.toString())
-      .subscribe((res)=>{ console.log(res); this.userService.prosumers = res});
+      .subscribe((res)=>{ console.log(res); this.deviceService.prosumers = res});
   }
   filterwithNeighborhood(cityId : string) 
   {
@@ -115,7 +115,7 @@ export class SidebarComponent implements OnInit {
       this.minValueP,this.maxValueP, 
       this.minValue, this.maxValue, 
       cityId.toString(), this.dropDownNeigh.toString())
-      .subscribe((res)=>{ console.log(res); this.userService.prosumers = res});
+      .subscribe((res)=>{ console.log(res); this.deviceService.prosumers = res});
   }
 
   filterWithCity()
@@ -135,7 +135,7 @@ export class SidebarComponent implements OnInit {
     this.deviceService.prosumerFilterWithoutCityAndNeigh(this.minValueC, this.maxValueC, 
       this.minValueP,this.maxValueP, 
       this.minValue, this.maxValue)
-      .subscribe((res)=>{ console.log(res); this.userService.prosumers = res});
+      .subscribe((res)=>{ console.log(res); this.deviceService.prosumers = res});
   
   }
 
