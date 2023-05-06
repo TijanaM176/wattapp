@@ -6,6 +6,9 @@ import { DeviceserviceService } from 'src/app/services/deviceservice.service';
 import { TimestampService } from 'src/app/services/timestamp.service';
 import * as XLSX from 'xlsx';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { Chart, registerables } from 'chart.js';
+
+Chart.register(...registerables);
 
 @Component({
   selector: 'app-predictionDevice',
@@ -13,6 +16,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
   styleUrls: ['./predictionDevice.component.css'],
 })
 export class PredictionDeviceComponent implements OnInit, AfterViewInit {
+  chart: any;
   data: any[] = [];
   dataConsumers: any[] = [];
   dataProducers: any[] = [];
@@ -41,22 +45,27 @@ export class PredictionDeviceComponent implements OnInit, AfterViewInit {
     private widthService: ScreenWidthService,
     private timeService: TimestampService,
     private router1: ActivatedRoute,
-    private spinner: NgxSpinnerService
+    private spiner: NgxSpinnerService
   ) {}
 
   exportTable(): void {
     let headerRow: any = [];
-    if (this.type == 'Consumption')
-      headerRow = ['Day', 'Predicted Consumption (kW)'];
-    else headerRow = ['Day', 'Predicted Production (kW)'];
+    if (this.type === 'Consumption') {
+      headerRow = ['', 'Predicted Consumption (kW)'];
+    } else {
+      headerRow = ['', 'Predicted Production (kW)'];
+    }
 
-    const sheetData = [
-      headerRow,
-      ...this.data.map((data: any) => [
-        data.name,
-        ...data.series.map((series: { value: number }) => series.value),
-      ]),
-    ];
+    const sheetData = [headerRow];
+    for (let i = 0; i < this.data[0].values.length; i++) {
+      const rowData = [this.data[0].values[i].x];
+
+      const consumptionValue = this.data[0].values[i].y.toFixed(5);
+      rowData.push(consumptionValue);
+
+      sheetData.push(rowData);
+    }
+
     const worksheet: XLSX.WorkSheet = XLSX.utils.aoa_to_sheet(sheetData);
     const workbook: XLSX.WorkBook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(workbook, worksheet, 'Chart Data');
@@ -66,127 +75,208 @@ export class PredictionDeviceComponent implements OnInit, AfterViewInit {
   ngAfterViewInit(): void {
     const grafik = document.getElementById('predikcija');
     grafik!.style.height = this.widthService.height * 0.6 + 'px';
-    this.Prediction1DayInit('predictionDevice1');
+    this.Prediction1Day('predictionDevice1');
   }
 
   ngOnInit(): void {
     this.idDev = this.router1.snapshot.params['idDev'];
     const grafik = document.getElementById('predikcija');
     grafik!.style.height = this.widthService.height * 0.6 + 'px';
-    this.Prediction1DayInit('predictionDevice1');
+    this.Prediction1Day('predictionDevice1');
     document.getElementById('modalFadePredictionDevice')!.style.maxHeight =
       this.widthService.height * 0.7 + 'px';
     this.Prediction1Day('predictionDevice1');
   }
 
-  yAxisTickFormatting(value: number) {
-    return value + ' kW';
-  }
-
   PredictionWeek(id: string) {
     this.show = true;
-    this.spinner.show();
+    this.spiner.show();
     this.timeService.predictionDevice(this.idDev).subscribe((response: any) => {
-      // console.log(response);
-      const myList = Object.keys(response.nextWeek.PredictionsFor7day).map(
-        (name) => {
-          let predictionValue = response.nextWeek.PredictionsFor7day[name];
-          const cons: string = this.type.toLowerCase();
-          if (predictionValue == undefined) {
-            predictionValue = 0.0;
-          }
-          const series = [{ name: cons, value: predictionValue }];
+      const consumptionTimestamps = response.nextWeek.PredictionsFor7day || {};
+
+      const consumptionData = Object.keys(consumptionTimestamps).map(
+        (name: any) => {
           const date = new Date(name);
           const dayNumber = date.getDate();
           const monthName = date.toLocaleString('default', { month: 'long' });
-          return { name: monthName + ' ' + dayNumber, series };
+          return {
+            x: `${monthName} ${dayNumber}`,
+            y: consumptionTimestamps[name] || 0.0,
+          };
         }
       );
-      this.data = myList;
+      this.data = [{ type: 'consumption', values: consumptionData }];
+      console.log(this.data);
+
+      const chartData = {
+        datasets: [
+          {
+            label: 'Predicted Energy ' + this.type,
+            data: consumptionData,
+            backgroundColor: 'rgba(255, 125, 65, 1)',
+            borderColor: 'rgba(255, 125, 65, 0.5)',
+          },
+        ],
+      };
+
+      const chartElement: any = document.getElementById(
+        'chartDevicePrediction'
+      ) as HTMLElement;
+      if (this.chart) {
+        this.chart.destroy();
+      }
+
+      const chart2d = chartElement.getContext('2d');
+      this.chart = new Chart(chart2d, {
+        type: 'bar',
+        data: chartData,
+        options: {
+          scales: {
+            y: {
+              beginAtZero: false,
+            },
+          },
+          maintainAspectRatio: false,
+        },
+      });
+
       this.activateButton(id);
-      this.spinner.hide();
+      this.spiner.hide();
       this.show = false;
-      // console.log(this.data);
     });
   }
 
   Prediction3Days(id: string) {
     this.show = true;
-    this.spinner.show();
+    this.spiner.show();
     this.timeService.predictionDevice(this.idDev).subscribe((response: any) => {
-      const myList = Object.keys(response.next3Day.PredictionsFor3day).map(
-        (name) => {
-          let predictionValue = response.next3Day.PredictionsFor3day[name];
-          const cons: string = this.type.toLowerCase();
-          if (predictionValue == undefined) {
-            predictionValue = 0.0;
-          }
-          const series = [{ name: cons, value: predictionValue }];
+      const consumptionTimestamps = response.next3Day.PredictionsFor3day || {};
+
+      const consumptionData = Object.keys(consumptionTimestamps).map(
+        (name: any) => {
           const date = new Date(name);
           const dayNumber = date.getDate();
           const monthName = date.toLocaleString('default', { month: 'long' });
-          return { name: monthName + ' ' + dayNumber, series };
+          return {
+            x: `${monthName} ${dayNumber}`,
+            y: consumptionTimestamps[name] || 0.0,
+          };
         }
       );
-      this.data = myList;
+      this.data = [{ type: 'consumption', values: consumptionData }];
+
+      let backgroundColor, borderColor;
+      if (this.type === 'Consumption') {
+        backgroundColor = 'rgba(255, 125, 65, 1)';
+        borderColor = 'rgba(255, 125, 65.5)';
+      } else if (this.type === 'Production') {
+        backgroundColor = 'rgba(0, 188, 179, 1)';
+        borderColor = 'rgba(0, 188, 179, 0.5)';
+      }
+
+      const chartData = {
+        datasets: [
+          {
+            label: 'Predicted Energy ' + this.type,
+            data: consumptionData,
+            backgroundColor: backgroundColor,
+            borderColor: borderColor,
+          },
+        ],
+      };
+
+      const chartElement: any = document.getElementById(
+        'chartDevicePrediction'
+      ) as HTMLElement;
+      if (this.chart) {
+        this.chart.destroy();
+      }
+
+      const chart2d = chartElement.getContext('2d');
+      this.chart = new Chart(chart2d, {
+        type: 'bar',
+        data: chartData,
+        options: {
+          scales: {
+            y: {
+              beginAtZero: false,
+            },
+          },
+          maintainAspectRatio: false,
+        },
+      });
+
       this.activateButton(id);
-      this.spinner.hide();
+      this.spiner.hide();
       this.show = false;
-      // console.log(this.data);
     });
   }
 
   Prediction1Day(id: string) {
     this.show = true;
-    this.spinner.show();
+    this.spiner.show();
     this.timeService.predictionDevice(this.idDev).subscribe((response: any) => {
-      const myList = Object.keys(response.nextDay.PredictionsFor1day).map(
-        (name) => {
-          let predictionValue = response.nextDay.PredictionsFor1day[name];
-          const cons: string = this.type.toLowerCase();
-          if (predictionValue == undefined) {
-            predictionValue = 0.0;
-          }
-          const series = [{ name: cons, value: predictionValue }];
-          const date = new Date(name);
-          const formattedHour = date.toLocaleTimeString([], {
-            hour: '2-digit',
-          });
-          const formattedName = formattedHour.split(':')[0] + 'H';
-          return { name: formattedName, series };
-        }
-      );
-      this.data = myList;
-      this.activateButton(id);
-      this.spinner.hide();
-      this.show = false;
-      // console.log(this.data);
-    });
-  }
-  Prediction1DayInit(id: string) {
-    this.timeService.predictionDevice(this.idDev).subscribe((response: any) => {
-      const myList = Object.keys(response.nextDay.PredictionsFor1day).map(
-        (name) => {
-          let predictionValue = response.nextDay.PredictionsFor1day[name];
-          const cons: string = this.type.toLowerCase();
-          if (predictionValue == undefined) {
-            predictionValue = 0.0;
-          }
-          const series = [{ name: cons, value: predictionValue }];
-          const date = new Date(name);
-          const formattedHour = date.toLocaleTimeString([], {
-            hour: '2-digit',
-          });
-          const formattedName = formattedHour.split(':')[0] + 'H';
-          return { name: formattedName, series };
-        }
-      );
-      this.data = myList;
-      this.activateButton(id);
-      // console.log(this.data);
-    });
-  }
+      const consumptionTimestamps = response.nextDay.PredictionsFor1day || {};
 
+      const consumptionData = Object.keys(consumptionTimestamps).map(
+        (name: any) => {
+          const date = new Date(name);
+          const hours = date.getHours().toString().padStart(2, '0');
+          const minutes = date.getMinutes().toString().padStart(2, '0');
+          return {
+            x: `${hours}:${minutes}H`,
+            y: consumptionTimestamps[name] || 0.0,
+          };
+        }
+      );
+      this.data = [{ type: 'consumption', values: consumptionData }];
+
+      let backgroundColor, borderColor;
+      if (this.type === 'Consumption') {
+        backgroundColor = 'rgba(255, 125, 65, 1)';
+        borderColor = 'rgba(255, 125, 65.5)';
+      } else if (this.type === 'Production') {
+        backgroundColor = 'rgba(0, 188, 179, 1)';
+        borderColor = 'rgba(0, 188, 179, 0.5)';
+      }
+
+      const chartData = {
+        datasets: [
+          {
+            label: 'Predicted Energy ' + this.type,
+            data: consumptionData,
+            backgroundColor: backgroundColor,
+            borderColor: borderColor,
+          },
+        ],
+      };
+
+      const chartElement: any = document.getElementById(
+        'chartDevicePrediction'
+      ) as HTMLElement;
+      if (this.chart) {
+        this.chart.destroy();
+      }
+
+      const chart2d = chartElement.getContext('2d');
+      this.chart = new Chart(chart2d, {
+        type: 'bar',
+        data: chartData,
+        options: {
+          scales: {
+            y: {
+              beginAtZero: false,
+            },
+          },
+          maintainAspectRatio: false,
+        },
+      });
+
+      this.activateButton(id);
+      this.spiner.hide();
+      this.show = false;
+    });
+  }
   activateButton(buttonNumber: string) {
     const buttons = document.querySelectorAll('.predictionDeviceBtns');
     buttons.forEach((button) => {

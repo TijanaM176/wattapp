@@ -7,6 +7,9 @@ import { ScreenWidthService } from 'src/app/services/screen-width.service';
 import { TimestampService } from 'src/app/services/timestamp.service';
 import { UsersServiceService } from 'src/app/services/users-service.service';
 import * as XLSX from 'xlsx';
+import { Chart, registerables } from 'chart.js';
+
+Chart.register(...registerables);
 
 @Component({
   selector: 'app-prediction-prosumer',
@@ -15,9 +18,8 @@ import * as XLSX from 'xlsx';
 })
 export class PredictionProsumerComponent implements OnInit {
   id: string = '';
-  data: any[] = [];
-  dataConsumers: any = [];
-  dataProducers: any = [];
+  data: any[] = ['z'];
+  chart: any;
   show!: boolean;
   colors: Color = {
     name: 'mycolors',
@@ -46,14 +48,10 @@ export class PredictionProsumerComponent implements OnInit {
     this.id = this.router.snapshot.params['id'];
     document.getElementById('predictionUserInfoCardBody')!.style.height =
       this.widthService.height * 0.6 + 'px';
-    this.PredictionDayInit('predictionUser1');
+    this.PredictionDay('predictionUser1');
     this.activateButton('predictionUser1');
     document.getElementById('modalFadePredictionProsumer')!.style.maxHeight =
       this.widthService.height * 0.7 + 'px';
-  }
-
-  yAxisTickFormatting(value: number) {
-    return value + ' kW';
   }
 
   PredictionWeek(id: string) {
@@ -65,43 +63,80 @@ export class PredictionProsumerComponent implements OnInit {
         const consumptionTimestamps = response.consumption || {};
         const productionTimestamps = response.production || {};
 
-        // Remove the first item from both objects
-        const [, ...consumptionEntries] = Object.entries(consumptionTimestamps);
-        const [, ...productionEntries] = Object.entries(productionTimestamps);
-
-        const allTimestamps = {
-          ...Object.fromEntries(consumptionEntries),
-          ...Object.fromEntries(productionEntries),
-        };
-
-        const data = Object.entries(allTimestamps).map(([timestamp, value]) => {
-          const date = new Date(timestamp);
-          const dayNumber = date.getDate();
-          const monthName = date.toLocaleString('default', { month: 'long' });
-          const name = monthName + ' ' + dayNumber;
-          return { name, timestamp, value };
-        });
-
-        const groupedData = data.reduce((acc: any, item: any) => {
-          if (!acc[item.name]) {
-            acc[item.name] = {
-              name: item.name,
-              series: [],
+        const consumptionData = Object.keys(consumptionTimestamps).map(
+          (name: any) => {
+            const date = new Date(name);
+            const dayNumber = date.getDate();
+            const monthName = date.toLocaleString('default', { month: 'long' });
+            return {
+              x: `${monthName} ${dayNumber}`,
+              y: consumptionTimestamps[name] || 0.0,
             };
           }
-          const consumptionValue = consumptionTimestamps[item.timestamp] || 0.0;
-          const productionValue = productionTimestamps[item.timestamp] || 0.0;
-          const series = [
-            { name: 'consumption', value: consumptionValue },
-            { name: 'production', value: productionValue },
-          ];
-          acc[item.name].series.push(...series);
-          return acc;
-        }, {});
+        );
 
-        const finalList = Object.values(groupedData);
+        const productionData = Object.keys(productionTimestamps).map(
+          (name: any) => {
+            const date = new Date(name);
+            const dayNumber = date.getDate();
+            const monthName = date.toLocaleString('default', { month: 'long' });
+            return {
+              x: `${monthName} ${dayNumber}`,
+              y: consumptionTimestamps[name] || 0.0,
+            };
+          }
+        );
+        productionData[0]
+          ? (this.data = [
+              { type: 'consumption', values: consumptionData },
+              { type: 'production', values: productionData },
+            ])
+          : (this.data = []);
+
+        if (this.data.length == 0) {
+          this.spiner.hide();
+          return;
+        }
+
+        const chartData = {
+          datasets: [
+            {
+              label: 'Consumption',
+              data: consumptionData,
+              backgroundColor: 'rgba(255, 125, 65, 1)',
+              borderColor: 'rgba(255, 125, 65, 0.5)',
+            },
+            {
+              label: 'Production',
+              data: productionData,
+              backgroundColor: 'rgba(0, 188, 179, 1)',
+              borderColor: 'rgba(0, 188, 179, 0.5)',
+            },
+          ],
+        };
+
+        const chartElement: any = document.getElementById(
+          'chartCanvas1'
+        ) as HTMLElement;
+        if (this.chart) {
+          this.chart.destroy();
+        }
+
+        const chart2d = chartElement.getContext('2d');
+        this.chart = new Chart(chart2d, {
+          type: 'bar',
+          data: chartData,
+          options: {
+            scales: {
+              y: {
+                beginAtZero: false,
+              },
+            },
+            maintainAspectRatio: false,
+          },
+        });
+
         this.activateButton(id);
-        this.data = finalList;
         this.spiner.hide();
         this.show = false;
       });
@@ -113,44 +148,82 @@ export class PredictionProsumerComponent implements OnInit {
     this.serviceData
       .PredictionProsumer3Days(this.id)
       .subscribe((response: any) => {
-        const myList: any = [];
-
         const consumptionTimestamps = response.consumption || {};
         const productionTimestamps = response.production || {};
-        const allTimestamps = {
-          ...consumptionTimestamps,
-          ...productionTimestamps,
-        };
 
-        const data = Object.entries(allTimestamps).map(([timestamp, value]) => {
-          const date = new Date(timestamp);
-          const dayNumber = date.getDate();
-          const monthName = date.toLocaleString('default', { month: 'long' });
-          const name = monthName + ' ' + dayNumber;
-          return { name, timestamp, value };
-        });
-
-        const groupedData = data.reduce((acc: any, item: any) => {
-          if (!acc[item.name]) {
-            acc[item.name] = {
-              name: item.name,
-              series: [],
+        const consumptionData = Object.keys(consumptionTimestamps).map(
+          (name: any) => {
+            const date = new Date(name);
+            const dayNumber = date.getDate();
+            const monthName = date.toLocaleString('default', { month: 'long' });
+            return {
+              x: `${monthName} ${dayNumber}`,
+              y: consumptionTimestamps[name] || 0.0,
             };
           }
-          const consumptionValue = consumptionTimestamps[item.timestamp] || 0.0;
-          const productionValue = productionTimestamps[item.timestamp] || 0.0;
-          const series = [
-            { name: 'consumption', value: consumptionValue },
-            { name: 'production', value: productionValue },
-          ];
-          acc[item.name].series.push(...series);
-          return acc;
-        }, {});
+        );
 
-        const finalList = Object.values(groupedData);
+        const productionData = Object.keys(productionTimestamps).map(
+          (name: any) => {
+            const date = new Date(name);
+            const dayNumber = date.getDate();
+            const monthName = date.toLocaleString('default', { month: 'long' });
+            return {
+              x: `${monthName} ${dayNumber}`,
+              y: consumptionTimestamps[name] || 0.0,
+            };
+          }
+        );
+        productionData[0]
+          ? (this.data = [
+              { type: 'consumption', values: consumptionData },
+              { type: 'production', values: productionData },
+            ])
+          : (this.data = []);
 
-        this.data = finalList;
-        this.data = this.data.slice(1);
+        if (this.data.length == 0) {
+          this.spiner.hide();
+          return;
+        }
+
+        const chartData = {
+          datasets: [
+            {
+              label: 'Consumption',
+              data: consumptionData,
+              backgroundColor: 'rgba(255, 125, 65, 1)',
+              borderColor: 'rgba(255, 125, 65, 0.5)',
+            },
+            {
+              label: 'Production',
+              data: productionData,
+              backgroundColor: 'rgba(0, 188, 179, 1)',
+              borderColor: 'rgba(0, 188, 179, 0.5)',
+            },
+          ],
+        };
+
+        const chartElement: any = document.getElementById(
+          'chartCanvas1'
+        ) as HTMLElement;
+        if (this.chart) {
+          this.chart.destroy();
+        }
+
+        const chart2d = chartElement.getContext('2d');
+        this.chart = new Chart(chart2d, {
+          type: 'bar',
+          data: chartData,
+          options: {
+            scales: {
+              y: {
+                beginAtZero: false,
+              },
+            },
+            maintainAspectRatio: false,
+          },
+        });
+
         this.activateButton(id);
         this.spiner.hide();
         this.show = false;
@@ -162,105 +235,114 @@ export class PredictionProsumerComponent implements OnInit {
     this.serviceData
       .PredictionProsumer1Day(this.id)
       .subscribe((response: any) => {
-        const myList: any = [];
-
         const consumptionTimestamps = response.consumption || {};
         const productionTimestamps = response.production || {};
-        const allTimestamps = {
-          ...consumptionTimestamps,
-          ...productionTimestamps,
-        };
 
-        Object.keys(allTimestamps).forEach((timestamp) => {
-          const consumptionValue = consumptionTimestamps[timestamp] || 0.0;
-          const productionValue = productionTimestamps[timestamp] || 0.0;
-          const series = [
-            { name: 'consumption', value: consumptionValue },
-            { name: 'production', value: productionValue },
-          ];
-          myList.push({ timestamp, series });
-        });
-
-        const groupedData: any = {};
-
-        myList.forEach((item: any) => {
-          const date = new Date(item.timestamp);
-          const hour = date.getHours();
-          const hourString = hour < 10 ? '0' + hour : hour.toString();
-          const name = hourString + ':00h';
-          if (!groupedData[name]) {
-            groupedData[name] = {
-              name,
-              series: [],
+        const consumptionData = Object.keys(consumptionTimestamps).map(
+          (name: any) => {
+            const date = new Date(name);
+            const hours = date.getHours().toString().padStart(2, '0');
+            const minutes = date.getMinutes().toString().padStart(2, '0');
+            return {
+              x: `${hours}:${minutes}H`,
+              y: consumptionTimestamps[name] || 0.0,
             };
           }
-          groupedData[name].series.push(...item.series);
+        );
+
+        const productionData = Object.keys(productionTimestamps).map(
+          (name: any) => {
+            const date = new Date(name);
+            const hours = date.getHours().toString().padStart(2, '0');
+            const minutes = date.getMinutes().toString().padStart(2, '0');
+            return {
+              x: `${hours}:${minutes}H`,
+              y: productionTimestamps[name] || 0.0,
+            };
+          }
+        );
+        productionData[0]
+          ? (this.data = [
+              { type: 'consumption', values: consumptionData },
+              { type: 'production', values: productionData },
+            ])
+          : (this.data = []);
+
+        if (this.data.length == 0) {
+          this.spiner.hide();
+          return;
+        }
+
+        const chartData = {
+          datasets: [
+            {
+              label: 'Consumption',
+              data: consumptionData,
+              backgroundColor: 'rgba(255, 125, 65, 1)',
+              borderColor: 'rgba(255, 125, 65, 0.5)',
+            },
+            {
+              label: 'Production',
+              data: productionData,
+              backgroundColor: 'rgba(0, 188, 179, 1)',
+              borderColor: 'rgba(0, 188, 179, 0.5)',
+            },
+          ],
+        };
+
+        const chartElement: any = document.getElementById(
+          'chartCanvas1'
+        ) as HTMLElement;
+        if (this.chart) {
+          this.chart.destroy();
+        }
+
+        const chart2d = chartElement.getContext('2d');
+        this.chart = new Chart(chart2d, {
+          type: 'bar',
+          data: chartData,
+          options: {
+            scales: {
+              y: {
+                beginAtZero: false,
+              },
+            },
+            maintainAspectRatio: false,
+          },
         });
 
-        const finalList = Object.values(groupedData);
         this.activateButton(id);
-        this.data = finalList;
         this.spiner.hide();
         this.show = false;
       });
   }
-  PredictionDayInit(id: string) {
-    this.serviceData
-      .PredictionProsumer1Day(this.id)
-      .subscribe((response: any) => {
-        const myList: any = [];
-
-        const consumptionTimestamps = response.consumption || {};
-        const productionTimestamps = response.production || {};
-        const allTimestamps = {
-          ...consumptionTimestamps,
-          ...productionTimestamps,
-        };
-
-        Object.keys(allTimestamps).forEach((timestamp) => {
-          const consumptionValue = consumptionTimestamps[timestamp] || 0.0;
-          const productionValue = productionTimestamps[timestamp] || 0.0;
-          const series = [
-            { name: 'consumption', value: consumptionValue },
-            { name: 'production', value: productionValue },
-          ];
-          myList.push({ timestamp, series });
-        });
-
-        const groupedData: any = {};
-
-        myList.forEach((item: any) => {
-          const date = new Date(item.timestamp);
-          const hour = date.getHours();
-          const hourString = hour < 10 ? '0' + hour : hour.toString();
-          const name = hourString + ':00h';
-          if (!groupedData[name]) {
-            groupedData[name] = {
-              name,
-              series: [],
-            };
-          }
-          groupedData[name].series.push(...item.series);
-        });
-
-        const finalList = Object.values(groupedData);
-        this.activateButton(id);
-        this.data = finalList;
-      });
-  }
-  exportTable(): void {
+  exportTable(data: any[]): void {
     const headerRow = [
-      'Day',
+      '',
       'Predicted Consumption (kW)',
       'Predicted Production (kW)',
     ];
-    const sheetData = [
-      headerRow,
-      ...this.data.map((data: any) => [
-        data.name,
-        ...data.series.map((series: { value: number }) => series.value),
-      ]),
-    ];
+    const sheetData = [headerRow];
+
+    const maxLength = Math.max(data[0]?.values.length, data[1]?.values.length);
+
+    for (let i = 0; i < maxLength; i++) {
+      const consumptionValue = data[0]?.values[i];
+      const productionValue = data[1]?.values[i];
+
+      const row = [
+        consumptionValue
+          ? consumptionValue.x
+          : productionValue
+          ? productionValue.x
+          : '',
+        consumptionValue ? consumptionValue.y.toFixed(5) : 0,
+        productionValue ? productionValue.y.toFixed(5) : 0,
+      ];
+
+      sheetData.push(row);
+    }
+
     const worksheet: XLSX.WorkSheet = XLSX.utils.aoa_to_sheet(sheetData);
     const workbook: XLSX.WorkBook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(workbook, worksheet, 'Chart Data');

@@ -2,12 +2,11 @@
   bdColor="rgba(0, 0, 0, 0)"
   size="medium"
   color="black"
-  type = "ball-clip-rotate"
+  type="ball-clip-rotate"
   [showSpinner]="show"
   [fullScreen]="false"
   *ngIf="show"
-  ></ngx-spinner
->
+></ngx-spinner>
 <div
   class="card-header col-12 group"
   style="
@@ -61,7 +60,7 @@
     style="display: flex; justify-content: center; align-items: center"
     id="predikcija"
   >
-    <h1
+    <!-- <h1
       *ngIf="data.length == 0"
       style="
         text-align: center;
@@ -73,31 +72,11 @@
       "
     >
       There Is No Available Data
-    </h1>
-    <ngx-charts-bar-vertical-2d
-      *ngIf="production && consumption && data.length != 0"
-      [title]="'Prediction'"
-      [scheme]="colors"
-      [results]="data"
-      [xAxis]="showXAxis"
-      [yAxis]="showYAxis"
-      [showXAxisLabel]="false"
-      [showYAxisLabel]="false"
-      [showDataLabel]="false"
-      [animations]="true"
-      [barPadding]="3"
-      [roundDomains]="true"
-      [trimYAxisTicks]="true"
-      [tooltipDisabled]="false"
-      [noBarWhenZero]="true"
-      [yAxisTickFormatting]="yAxisTickFormatting"
-      [showGridLines]="true"
-      [legend]="false"
-    >
-    </ngx-charts-bar-vertical-2d>
-  </div>
-  <div class="legend w-100 text-center" *ngIf="data.length != 0">
-    <i class="fa fa-circle prediction">&nbsp;Prediction for {{ type }}</i>
+    </h1> -->
+    <canvas
+      id="chartDevicePrediction"
+      style="height: 100% !important; width: 100% !important"
+    ></canvas>
   </div>
 </div>
 <div
@@ -122,7 +101,11 @@
           aria-label="Close"
         ></button>
       </div>
-      <div class="modal-body pt-0" style="overflow-x: hidden; overflow-y: auto;" id="modalFadePredictionDevice">
+      <div
+        class="modal-body pt-0"
+        style="overflow-x: hidden; overflow-y: auto"
+        id="modalFadePredictionDevice"
+      >
         <app-prediction-device-table
           [type]="type"
           [data]="data"
