@@ -251,9 +251,9 @@ namespace API.Repositories.UserRepository
             return dsoRepository.UpdateProsumerByDso(change);
         }
 
-        public Task<(String, Boolean)> SaveImageProsumer(String ProsumerId, IFormFile imageFile)
+        public Task<(String, Boolean)> SaveImageProsumer(String ProsumerId, string base64String)
         {
-            return prosumerRepository.SaveImageProsumer(ProsumerId, imageFile);
+            return prosumerRepository.SaveImageProsumer(ProsumerId, base64String);
         }
 
         public Task<bool> DeleteImageProsumer(String ProsumerId)
@@ -276,9 +276,9 @@ namespace API.Repositories.UserRepository
             return dsoRepository.DeleteImageDso(DsoWorkerId);
         }
 
-        public Task<(string, bool)> SaveImageDso(string DsoWorkerId, IFormFile imageFile)
+        public Task<(string, bool)> SaveImageDso(string DsoWorkerId, string base64StringFile)
         {
-            return dsoRepository.SaveImageDso(DsoWorkerId,imageFile);
+            return dsoRepository.SaveImageDso(DsoWorkerId, base64StringFile);
         }
     }
 }

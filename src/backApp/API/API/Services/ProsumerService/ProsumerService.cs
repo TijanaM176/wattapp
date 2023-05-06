@@ -212,9 +212,9 @@ namespace API.Services.ProsumerService
             return answer;
         }
 
-        public async Task<(String, Boolean)> SaveImage(String ProsumerId, IFormFile imageFile)
+        public async Task<(String, Boolean)> SaveImage(String ProsumerId, string base64string)
         {
-            (String,Boolean) answer = await _repository.SaveImageProsumer(ProsumerId, imageFile);
+            (String,Boolean) answer = await _repository.SaveImageProsumer(ProsumerId, base64string);
             if (answer.Item2 == false) throw new ArgumentException(answer.Item1);
 
             return answer;

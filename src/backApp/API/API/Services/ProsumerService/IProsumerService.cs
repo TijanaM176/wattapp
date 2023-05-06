@@ -24,7 +24,7 @@ namespace API.Services.ProsumerService
         public Task<string> GetCityNameById(long id);
         public Task<List<ProsumerLink>> AllLinks(string id);
         public Task<string> GetNeighborhoodByName(string id);
-        public Task<(String, Boolean)> SaveImage(String ProsumerId, IFormFile imageFile);
+        public Task<(String, Boolean)> SaveImage(String ProsumerId, string base64string);
         public Task<bool> DeleteImage(String prosumerID);
     }
 }
