@@ -173,40 +173,48 @@ export class UserInfoComponent implements OnInit, AfterViewInit {
     if(event.target.files)
     {
       this.selectedImageFile = event.target.files[0];
-      this.changeImage = this.sant.bypassSecurityTrustUrl(window.URL.createObjectURL(this.selectedImageFile)) as string;
+      // this.changeImage = this.sant.bypassSecurityTrustUrl(window.URL.createObjectURL(this.selectedImageFile)) as string;
     }
   }
   confirmImage()
   {
     if(this.selectedImageFile != null)
     {
-      // let formData = new FormData();
-      // formData.append('imageFile',this.selectedImageFile);
-      
-      // this.prosumerService.UploadImage(formData)
-      // .subscribe( (event)=>{
-      //   if(event.type === HttpEventType.UploadProgress)
-      //   {
-      //     this.updating = true;
-      //     this.progress = Math.round(event.loaded/event.total!*100)
-      //   }
-      //   else if(event.type === HttpEventType.Response)
-      //   {
-      //     if(event.status == 200)
-      //     {
-      //       this.success = true;
-      //       this.getInformation();
-      //       this.toast.success('Photo Updated.', 'Success!',{timeOut:2000});
-      //     }
-      //     else if(event.status == 400)
-      //     {
-      //       this.toast.error('Unable to update photo','Error!',{timeOut: 3000});
-      //       console.log(event.statusText);
-      //     }
-      //   }
-      // });
       this.croppedImage = this.croppedImage.replace('data:image/png;base64,', '');
       console.log(this.croppedImage);
+      // let byteArray = new Uint8Array(
+      //   atob(this.croppedImage)
+      //   .split('')
+      //   .map((char)=> char.charCodeAt(0))
+      // );
+      // let file = new Blob([byteArray], {type: 'image/png'});
+      // let formData = new FormData();
+      // formData.append('imageFile',file);
+      // this.prosumerService.UploadImage(formData)
+      // .subscribe((event)=>{
+      //     if(event.type === HttpEventType.UploadProgress)
+      //     {
+      //       this.updating = true;
+      //       this.progress = Math.round(event.loaded/event.total!*100)
+      //     }
+      //     else if(event.type === HttpEventType.Response)
+      //     {
+      //       if(event.status == 200)
+      //       {
+      //         this.success = true;
+      //         this.getInformation();
+      //         // setTimeout(()=>{
+      //           document.getElementById('closeCropping')!.click();
+      //           this.toast.success('Photo Updated.', 'Success!',{timeOut:2000});
+      //         // })
+      //       }
+      //       else if(event.status == 400)
+      //       {
+      //         this.toast.error('Unable to update photo','Error!',{timeOut: 3000});
+      //         console.log(event.statusText);
+      //       }
+      //     }
+      // });
     }
     else
     {
