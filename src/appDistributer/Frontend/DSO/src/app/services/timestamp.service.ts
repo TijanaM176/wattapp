@@ -24,12 +24,14 @@ export class TimestampService {
   HistoryAllProsumers7Days(): Observable<any> {
     return this.http.get(
       'http://softeng.pmf.kg.ac.rs:10071/api/Timestamp/LastWeeksConsumptionAndProductionTimestamps'
+      
     );
   }
 
   HistoryAllProsumers1Month() {
     return this.http.get(
-      'http://softeng.pmf.kg.ac.rs:10071/api/Timestamp/LastMonthsConsumptionAndProductionTimestamps'
+      // 'http://softeng.pmf.kg.ac.rs:10071/api/Timestamp/LastMonthsConsumptionAndProductionTimestamps'
+      'http://localhost:7156/api/Timestamp/LastMonthsConsumptionAndProductionTimestamps'
     );
   }
   HistoryAllProsumers1Year() {

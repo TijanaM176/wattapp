@@ -7,6 +7,7 @@ import { fromEvent, Observable, Subscription } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
 import { ChangeWorkerPasswordComponent } from 'src/app/forms/change-worker-password/change-worker-password.component';
 import { ImageCroppedEvent } from 'ngx-image-cropper';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-worker-profile',
@@ -27,8 +28,13 @@ export class WorkerProfileComponent implements OnInit, AfterViewInit {
 
   imgChangeEvet: any = '';
   croppedImage: any = '';
-  currentImage : string = '';
+  currentImage : string = 'assets/images/employee-default-pfp.png';
+  selectedImageFile : any = null;
+  fileType : any = '';
   errorDeletePhoto : boolean = false;
+  updatedPhotoSuccess : boolean = false;
+  updatedPhotoError : boolean = false;
+  noFile : boolean = false;
 
   @ViewChild('changePasswordWorkerForm', {static : true}) changePasswordWorkerForm! : ChangeWorkerPasswordComponent;
 
@@ -37,12 +43,15 @@ export class WorkerProfileComponent implements OnInit, AfterViewInit {
     private cookie: CookieService,
     public toast: ToastrService,
     private widthService: ScreenWidthService,
+    private sant : DomSanitizer,
     private employeeService : EmployeesServiceService
   ) {}
 
   ngAfterViewInit(): void {
     // this.sadrzaj.style.height = this.widthService.height * 0.6 + 'px';
     this.side.style.height = this.widthService.height * 0.7 + 'px';
+    document.getElementById('cropNewImageWorkerProfile')!.style.maxHeight = this.widthService.height * 0.95 + 'px';
+    document.getElementById('showChangeImage')!.style.maxHeight = this.widthService.height * 0.7 + 'px';
   }
 
   ngOnInit(): void {
@@ -100,6 +109,7 @@ export class WorkerProfileComponent implements OnInit, AfterViewInit {
     }
   }
 
+  //izmena sifre
   OpenChangePassword()
   {
     document.getElementById('openChangePasswordWorkerPRofile')!.click();
@@ -107,20 +117,54 @@ export class WorkerProfileComponent implements OnInit, AfterViewInit {
   closeChange()
   {
     document.getElementById('openWorkerProfileAgain')!.click()
+    this.selectedImageFile = null;
   }
   confirmNewPassword()
   {
     this.changePasswordWorkerForm.changePassword();
   }
   
+  //izmena slike
   openChangePhoto()
   {
-    this.errorDeletePhoto = false;
+    this.resetAll();
     document.getElementById('openChangePhotoWorkerProfile')!.click();
   }
   confirmNewPhoto()
   {
+    if(this.selectedImageFile != null)
+    {
+      this.croppedImage = this.croppedImage.replace('data:image/png;base64,','');
+      console.log(this.croppedImage);
+      // let byteArray = new Uint8Array(
+      //   atob(this.croppedImage)
+      //   .split('')
+      //   .map((char)=> char.charCodeAt(0))
+      // );
+      // let file = new Blob([byteArray], {type: 'image/png'});
 
+      // let formData = new FormData();
+      // formData.append('imageFile',file);
+      // this.employeeService.updateProfilePhoto(this.cookie.get('id'), formData)
+      // .subscribe({
+      //   next:(res)=>{
+      //     this.getInfo();
+      //     this.updatedPhotoSuccess = true;
+      //     setTimeout(()=>{
+      //       this.closeChange();
+      //       this.resetAll();
+      //     }, 700)
+      //   },
+      //   error:(err)=>{
+      //     this.updatedPhotoError = true;
+      //     console.log(err.error);
+      //   }
+      // })
+    }
+    else
+    {
+      this.noFile = true;
+    }
   }
   deleteImage()
   {
@@ -137,10 +181,29 @@ export class WorkerProfileComponent implements OnInit, AfterViewInit {
       }
     });
   }
-  onFileChange(event: any): void {
+  onFileSelected(event: any) {
     this.imgChangeEvet = event;
+    if(event.target.files)
+    {
+      this.selectedImageFile = event.target.files[0];
+      this.fileType = event.target.files[0].type;
+      // this.changeImage = this.sant.bypassSecurityTrustUrl(window.URL.createObjectURL(this.selectedImageFile)) as string;
+    }
   }
   cropImg(e: ImageCroppedEvent) {
     this.croppedImage = e.base64;
+  }
+  openCrop()
+  {
+    document.getElementById('openCropImageBtn')!.click()
+  }
+  private resetAll()
+  {
+    this.errorDeletePhoto = false;
+    this.selectedImageFile = null;
+    this.imgChangeEvet = '';
+    this.updatedPhotoError = false;
+    this.updatedPhotoSuccess = false;
+    this.noFile = false;
   }
 }

@@ -177,7 +177,9 @@
           <div class="container px-0">
             <div class="card my-2 col-12" style="border: 0;">
               <div class="card-body">
-                <button class="btn btn-primary mb-2">Choose New</button>
+                <input type="file" style="display: none;" #fileInput (change)="onFileSelected($event)">
+                <button class="btn btn-primary" [hidden]="true" id="openCropImageBtn" data-bs-toggle="modal" data-bs-target="#cropNewImageWorkerProfile">Open Crop</button>
+                <button class="btn btn-primary mb-2" data-bs-dismiss="modal" (click)="fileInput.click(); openCrop()">Choose New</button>
                 <button class="btn btn-secondary" (click)="deleteImage()"> Delete Photo</button>
               </div>
             </div>
@@ -186,6 +188,69 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-primary" (click)="confirmNewPhoto()">
+          Confirm
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- odabir slike/kropovanje slike -->
+<div
+    class="modal fade"
+    id="cropNewImageWorkerProfile"
+    data-bs-backdrop="static"
+    data-bs-keyboard="false"
+    tabindex="-1"
+    aria-labelledby="cropNewImageWorkerProfileLabel"
+    aria-hidden="true"
+  >
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content">
+      <div class="modal-header text-white" style="background-color: #5875a1">
+        <h5 class="modal-title" id="cropNewImageWorkerProfileLabel">Change Photo</h5>
+          <button
+            type="button"
+            class="btn-close"
+            id="closeCropPhoto"
+            data-bs-dismiss="modal"
+            data-bs-target="changePhotoWorkerProfile"
+            aria-label="Close"
+            (click)="closeChange()"
+            style="background-color: white;"
+          ></button>
+      </div>
+      <div class="modal-body px-0 d-flex justify-content-center align-items-center">
+        <div class="col-8 px-0 m-0" style="display: flex; justify-content: center; align-items: center;">
+          <image-cropper
+              [imageChangedEvent]="imgChangeEvet" 
+              [maintainAspectRatio]="true" 
+              [aspectRatio]="1 / 1"
+              format="png"
+              [imageAltText] = "'Crop Image'"
+              [cropperMinWidth] = "100"
+              [cropperMinHeight] = "100"
+              [roundCropper] = "true"
+              [hideResizeSquares] = "false"
+              (imageCropped) = "cropImg($event)"
+              id="showChangeImage"
+            >
+            </image-cropper>
+        </div>
+        <div class="col-4 px-0 m-0 row" style="display: flex; justify-content: center; align-items: center;">
+          <div class="col-12 px-0 mb-3" style="display: flex; justify-content: center;">
+            <input type="file" style="display: none;" #fileInputNew (change)="onFileSelected($event)">
+            <button class="btn btn-primary" (click)="fileInputNew.click()">Choose A Different Photo</button>
+          </div>
+          <div class="col-12 pe-0 ps-2 text-center mt-3">
+            <small class="text-success" *ngIf="updatedPhotoSuccess">Photo Uploaded! <br>Updating profile... Please wait</small>
+            <small class="text-danger" *ngIf="updatedPhotoError">Error occurred! Try again later.</small>
+            <small class="text-danger" *ngIf="noFile">No file was selected.</small>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" id="confirmImageChangeWorkerProfile" class="btn btn-primary" (click)="confirmNewPhoto()">
           Confirm
         </button>
       </div>
