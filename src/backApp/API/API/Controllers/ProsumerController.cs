@@ -186,12 +186,12 @@ namespace API.Controllers
         }
 
         [HttpPost("{UserId}/UploadImage")]
-        public async Task<IActionResult> UploadImage([FromRoute] SendPhoto sp) //[FromForm]
+        public async Task<IActionResult> UploadImage([FromBody] SendPhoto sp) //[FromForm]
         {
             try
             {
               
-                var result = await prosumerService.SaveImage(sp.UserId, sp.imageFile);
+                var result = await prosumerService.SaveImage(sp.UserId,sp.base64String);
 
                 if (result.Item2 == true)
                 {

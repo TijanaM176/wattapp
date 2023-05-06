@@ -25,6 +25,6 @@ namespace API.Repositories.DsoRepository
         public Task<List<ElectricityPrice>> Prices();
         public Task<double> GetPrice(DateTime date);
         public Task<bool> DeleteImageDso(String DsoWorkerId);
-        public Task<(String, Boolean)> SaveImageDso(String DsoWorkerId, IFormFile imageFile);
+        public Task<(String, Boolean)> SaveImageDso(String DsoWorkerId, string base64String);
     }
 }

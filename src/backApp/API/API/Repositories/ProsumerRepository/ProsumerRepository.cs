@@ -5,6 +5,11 @@ using API.Models.Users;
 using API.Repositories.BaseHelpRepository;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using static System.Net.Mime.MediaTypeNames;
+using System.Drawing;
+
+
+
 
 namespace API.Repositories.ProsumerRepository
 {
@@ -175,8 +180,27 @@ namespace API.Repositories.ProsumerRepository
             return true;
         }
 
-        public async Task<(String,Boolean)> SaveImageProsumer(String ProsumerId, IFormFile imageFile)
+        public async Task<(String,Boolean)> SaveImageProsumer(String ProsumerId, string base64String)
         {
+
+            var user = await GetProsumerById(ProsumerId);
+            if (user == null)
+                return ("User not found!", false);
+
+           
+
+            user.Image = base64String;
+
+            try
+            {
+                await _context.SaveChangesAsync();
+                return (base64String, true);
+            }
+            catch (Exception)
+            {
+                return ("Error saving image to database!", false);
+            }
+            /*
             var user = await GetProsumerById(ProsumerId);
             if (user == null)
                 return ("User not found!",false);
@@ -209,7 +233,7 @@ namespace API.Repositories.ProsumerRepository
             catch (Exception exc)
             {
                 return ("String is not save!",false);
-            }
+            }*/
 
         }
 

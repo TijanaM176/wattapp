@@ -245,11 +245,11 @@ namespace API.Controllers
         }
         
         [HttpPost("{UserId}/UploadImage")]
-        public async Task<IActionResult> UploadImage([FromRoute] SendPhoto sp)
+        public async Task<IActionResult> UploadImage([FromBody] SendPhoto sp)
         {
             try
             {
-                var result = await dsoService.SaveImage(sp.UserId, sp.imageFile);
+                var result = await dsoService.SaveImage(sp.UserId, sp.base64String);
 
                 if (result.Item2 == true)
                 {

@@ -322,9 +322,9 @@ namespace API.Services.DsoService
             return answer;
         }
 
-        public async Task<(String, Boolean)> SaveImage(String WorkerID, IFormFile imageFile)
+        public async Task<(String, Boolean)> SaveImage(String WorkerID,string base64string)
         {
-            (String, Boolean) answer = await _repository.SaveImageDso(WorkerID, imageFile);
+            (String, Boolean) answer = await _repository.SaveImageDso(WorkerID, base64string);
             if (answer.Item2 == false) throw new ArgumentException(answer.Item1);
 
             return answer;
