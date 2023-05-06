@@ -190,10 +190,9 @@
             class="btn-close"
             data-bs-dismiss="modal"
             aria-label="Close"
-            (click)="closeImageChange()"
           ></button>
         </div>
-        <div class="modal-body justify-content-center align-items-center">
+        <div class="modal-body justify-content-center align-items-center py-3">
           <div class="col-12 px-0 mb-4" style="display: flex; justify-content: center; align-items: center;">
             <img
               [src]="changeImage"
@@ -206,24 +205,79 @@
           </div>
           <div class="col-12 mb-2" style="display: flex; justify-content: center; align-items: center;">
             <input type="file" style="display: none;" #fileInput (change)="onFileSelected($event)">
-            <button class="btn btn-primary" (click)="fileInput.click()" style="margin-right: 2%;">Choose Image</button>
+            <button class="btn btn-primary" (click)="fileInput.click(); openCrop()" style="margin-right: 2%;" 
+            data-bs-dismiss="modal">Choose Image</button>
+            <button class="btn btn-primary" [hidden]="true" id="openCropImageBtn" data-bs-toggle="modal" data-bs-target="#cropNewImageUserInfo">Open Crop</button>
             <button class="btn btn-primary" id="deleteImageUserInfo" (click)="deleteImage()" data-bs-dismiss="modal">Delete Image</button>
           </div>
-          <div class="col-12 text-center">
+          <!-- <div class="col-12 text-center">
            <small class="text-danger" *ngIf="error">New file wasn't selected!<br></small>
            <small class="text-warning" *ngIf="updating">Updating photo...{{progress}}%<br></small>
            <small class="text-success" *ngIf="success">Profile photo updated!<br></small> 
-          </div>
+          </div> -->
         </div>
-        <div class="modal-footer">
-          <!-- <button
+        <!-- <div class="modal-footer">
+          <button
             type="button"
             class="btn btn-secondary"
             data-bs-dismiss="modal"
           >
             Close
-          </button> -->
+          </button>
           <button type="button" id="confirmImageChangeUserInfo" class="btn btn-primary" (click)="confirmImage()">
+            Confirm
+          </button>
+        </div> -->
+      </div>
+    </div>
+  </div>
+  <div
+    class="modal fade"
+    id="cropNewImageUserInfo"
+    data-bs-backdrop="static"
+    data-bs-keyboard="false"
+    tabindex="-1"
+    aria-labelledby="cropNewImageUserInfoLabel"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog modal-dialog-centered" id="changeCropProfileImageUserInfoModal">
+      <div class="modal-content">
+        <div class="modal-header text-white" style="background-color: #466471">
+          <h6 class="modal-title" id="cropNewImageUserInfoLabel">New Photo</h6>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal" data-bs-target="#cropNewImageUserInfo"
+            aria-label="Close"
+            (click)="closeImageChange()"
+            id="closeCropping"
+          ></button>
+        </div>
+        <div class="modal-body justify-content-center align-items-center">
+          <div class="col-12 px-0 mb-4" style="display: flex; justify-content: center; align-items: center;">
+            
+            <image-cropper
+              [imageChangedEvent]="imgChangeEvt" 
+              [maintainAspectRatio]="true" 
+              [aspectRatio]="1 / 1"
+              format="png"
+              [imageAltText] = "'Crop Image'"
+              [cropperMinWidth] = "100"
+              [cropperMinHeight] = "100"
+              [roundCropper] = "true"
+              [hideResizeSquares] = "false"
+              (imageCropped) = "cropImg($event)"
+              id="showChangeImage"
+            >
+            </image-cropper>
+          </div>
+          <div class="col-12 mb-2" style="display: flex; justify-content: center; align-items: center;">
+            <input type="file" style="display: none;" #fileInputNew (change)="onFileSelected($event)">
+            <button class="btn btn-primary" (click)="fileInputNew.click()">Choose A Different Photo</button>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" id="confirmImageChangeUserInfo" class="btn btn-primary" (click)="confirmImage()" data-bs-dismiss="modal" data-bs-target="#cropNewImageUserInfo">
             Confirm
           </button>
         </div>

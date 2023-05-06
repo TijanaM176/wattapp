@@ -42,6 +42,7 @@ import { PredictionChartTableComponent } from './components/Charts-tables/predic
 import { RealizationDeviceTableComponent } from './components/Charts-tables/realization-device-table/realization-device-table.component';
 import { PredictionDeviceTableComponent } from './components/Charts-tables/prediction-device-table/prediction-device-table.component';
 import { RealizationChartProductionComponent } from './components/Charts/realization-chart-production/realization-chart-production.component';
+import { ImageCropperModule } from 'ngx-image-cropper';
 
 @NgModule({
   declarations: [
@@ -90,6 +91,7 @@ import { RealizationChartProductionComponent } from './components/Charts/realiza
     NgxSpinnerModule,
     NgxGaugeModule,
     ToastrModule.forRoot(),
+    ImageCropperModule,
   ],
   providers: [
     CookieService,

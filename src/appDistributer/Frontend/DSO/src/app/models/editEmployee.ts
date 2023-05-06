@@ -6,6 +6,6 @@ export class editEmployeeDto
   roleId: number=0;
   regionId: string='';
   email: string='';
-  password: string=' ';
+  password: string='';
 
 }

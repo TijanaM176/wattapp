@@ -20,3 +20,7 @@ a{
 .photoText{
     font-size: 12px;
 }
+.btn-secondary{
+    background-color: #8D021F;
+    border-color: #8D021F;
+}

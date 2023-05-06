@@ -4,8 +4,10 @@
   tabindex="-1"
   aria-labelledby="exampleModalLabel4"
   aria-hidden="true"
+  data-bs-backdrop="static"
+  data-bs-keyboard="false"
 >
-  <div class="modal-dialog modal-xl">
+  <div class="modal-dialog modal-dialog-centered modal-xl">
     <div class="modal-content"> 
     <div class="modal-body p-0">
   <div class="container-fluid h-100 mx-0 my-0 px-0 py-0 p-0" id="sadrzaj">
@@ -16,35 +18,44 @@
       id="side"
     >
       <img
-        src="assets/images/employee-default-pfp.png"
+        [src]="currentImage"
         alt="Employee Profile Picture"
         class="profile-image img-fluid rounded-circle mb-1"
       />
-      <a class="mb-4 photoText" routerLink="/DsoApp/profile">Change Photo</a>
+      <a class="mb-4 photoText" style="text-decoration: underline; cursor: pointer;" 
+         data-bs-dismiss="modal" (click)="openChangePhoto()">
+        Change Photo
+      </a>
+      <button class="btn btn-primary" [hidden]="true" id="openChangePhotoWorkerProfile"
+         data-bs-toggle="modal" data-bs-target="#changePhotoWorkerProfile">
+        Open Change Photo
+      </button>
       <h3 class="mb-4">{{ worker?.firstName }} {{ worker?.lastName }}</h3>
       <ul class="list-unstyled contact-info text-center">
         <li><span>Email: </span>{{ worker?.email }}</li>
       </ul>
     </div>
     <div
-      class="col-md-7 h-100 bg-white p-3 d-flex flex-column justify-content-center align-items-center"
+      class="col-7 p-0 d-flex align-items-center bg-white"
     >
-      <div class="container-fluid h-100">
-        <div class="card mb-3 mt-4">
-          <div class="card-body p-1 p-md-3">
-            <h6 class="section text-muted">Information</h6>
-            <hr class="mt-0 mb-4" />
+      <div class="container">
+        <div class="card mb-3 mt-4 col-12" style="border: 0;">
+          <div class="card-body p-1 p-md-3 col-12">
+            <h6 class="section text-muted text-start">Information</h6>
+            <hr class="mt-0 mb-4">
             <div class="row pt-1 mx-0 my-0">
               <div class="col-6 mb-3">
                 <h4>{{ worker?.userName }}</h4>
                 <p class="text-muted">Username</p>
               </div>
               <div class="col-6 mb-3">
-                <h4>Address, City</h4>
-                <p class="text-muted">Address</p>
+                <!-- <h4>Address, City</h4>
+                <p class="text-muted">Address</p> -->
+                <h4>{{ startedWorking }}</h4>
+                <p class="text-muted">Joined The Company</p>
               </div>
             </div>
-            <hr class="mt-0 mb-4" />
+            <hr class="mt-0 mb-4">
             <div class="row pt-1 mx-0 my-0">
               <div class="col-6 mb-3">
                 <h4>{{ role }}</h4>
@@ -55,19 +66,22 @@
                 <p class="text-muted">Assigned Region</p>
               </div>
             </div>
-            <hr class="mt-0 mb-4" />
-            <div class="row pt-1 mx-0 my-0">
+            <hr class="mt-0 mb-4">
+            <!-- <div class="row pt-1 mx-0 my-0">
               <div class="col-6 mb-3">
-                <h4>{{ worker?.prosumerCreationDate }}</h4>
+                <h4>{{ startedWorking }}</h4>
                 <p class="text-muted">Joined The Company</p>
               </div>
             </div>
-            <hr class="mt-0 mb-2 mb-md-3" />
+            <hr class="mt-0 mb-2"> -->
           </div>
         </div>
-        <a routerLink="/DsoApp/profile" class="btn btn-primary align-self-start"
-          >Change Password</a
-        >
+        <button class="btn btn-primary align-self-start ms-4" style="color: white;" data-bs-dismiss="modal" (click)="OpenChangePassword()">
+          Change Password
+        </button>
+        <button class="btn btn-primary" [hidden]="true" id="openChangePasswordWorkerPRofile" data-bs-toggle="modal" data-bs-target="#changePasswordWorkerProfile">
+          Open Change Password
+        </button>
       </div>
     </div>
     <div class="col-md-1 h-100">
@@ -77,7 +91,7 @@
           class="btn-close"
           data-bs-dismiss="modal"
           aria-label="Close"
-          style="margin-left:65%;margin-top:7%;"
+          style="margin-left:65%;margin-top:15%; border: 2px solid #5875a1;"
         ></button>
     </div>
   </div>
@@ -86,6 +100,160 @@
 </div>
 </div>
 </div>
-<app-popup-add></app-popup-add>
+<!-- <app-popup-add></app-popup-add>
 <app-popup-emp></app-popup-emp>
-<app-employeedetails></app-employeedetails>
+<app-employeedetails></app-employeedetails> -->
+
+<!-- izmena sifre -->
+<div
+    class="modal fade"
+    id="changePasswordWorkerProfile"
+    data-bs-backdrop="static"
+    data-bs-keyboard="false"
+    tabindex="-1"
+    aria-labelledby="changePasswordWorkerProfileLabel"
+    aria-hidden="true"
+  >
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header text-white" style="background-color: #5875a1">
+        <h5 class="modal-title" id="changePasswordUserInfoLabel">Change Password</h5>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+            (click)="closeChange()"
+            style="background-color: white;"
+          ></button>
+      </div>
+      <div class="modal-body">
+        <app-change-worker-password #changePasswordWorkerForm></app-change-worker-password>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" (click)="confirmNewPassword()">
+          Confirm
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- izmena fotografije -->
+<div
+    class="modal fade"
+    id="changePhotoWorkerProfile"
+    data-bs-backdrop="static"
+    data-bs-keyboard="false"
+    tabindex="-1"
+    aria-labelledby="changePhotoWorkerProfileLabel"
+    aria-hidden="true"
+  >
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header text-white" style="background-color: #5875a1">
+        <h5 class="modal-title" id="changePhotoWorkerProfileLabel">Photo Options</h5>
+          <button
+            type="button"
+            class="btn-close"
+            id="closeOprionsForPhoto"
+            data-bs-dismiss="modal"
+            data-bs-target="changePhotoWorkerProfile"
+            aria-label="Close"
+            (click)="closeChange()"
+            style="background-color: white;"
+          ></button>
+      </div>
+      <div class="modal-body px-0 py-2" style="display: flex; align-items: center; justify-content: center;">
+        <div class="col-7 m-0">
+          <img
+            [src] = "currentImage"
+            style="width: 90%;"
+            class="img-fluid rounded-circle"
+          >
+          <small class="text-danger" *ngIf="errorDeletePhoto">Error! Try agian later.</small>
+        </div>
+        <div class="col-5 m-0 p-0 d-flex align-items-center">
+          <div class="container px-0">
+            <div class="card my-2 col-12" style="border: 0;">
+              <div class="card-body">
+                <input type="file" style="display: none;" #fileInput (change)="onFileSelected($event)">
+                <button class="btn btn-primary" [hidden]="true" id="openCropImageBtn" data-bs-toggle="modal" data-bs-target="#cropNewImageWorkerProfile">Open Crop</button>
+                <button class="btn btn-primary mb-2" data-bs-dismiss="modal" (click)="fileInput.click(); openCrop()">Choose New</button>
+                <button class="btn btn-secondary" (click)="deleteImage()"> Delete Photo</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" (click)="confirmNewPhoto()">
+          Confirm
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- odabir slike/kropovanje slike -->
+<div
+    class="modal fade"
+    id="cropNewImageWorkerProfile"
+    data-bs-backdrop="static"
+    data-bs-keyboard="false"
+    tabindex="-1"
+    aria-labelledby="cropNewImageWorkerProfileLabel"
+    aria-hidden="true"
+  >
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content">
+      <div class="modal-header text-white" style="background-color: #5875a1">
+        <h5 class="modal-title" id="cropNewImageWorkerProfileLabel">Change Photo</h5>
+          <button
+            type="button"
+            class="btn-close"
+            id="closeCropPhoto"
+            data-bs-dismiss="modal"
+            data-bs-target="changePhotoWorkerProfile"
+            aria-label="Close"
+            (click)="closeChange()"
+            style="background-color: white;"
+          ></button>
+      </div>
+      <div class="modal-body px-0 d-flex justify-content-center align-items-center">
+        <div class="col-8 px-0 m-0" style="display: flex; justify-content: center; align-items: center;">
+          <image-cropper
+              [imageChangedEvent]="imgChangeEvet" 
+              [maintainAspectRatio]="true" 
+              [aspectRatio]="1 / 1"
+              format="png"
+              [imageAltText] = "'Crop Image'"
+              [cropperMinWidth] = "100"
+              [cropperMinHeight] = "100"
+              [roundCropper] = "true"
+              [hideResizeSquares] = "false"
+              (imageCropped) = "cropImg($event)"
+              id="showChangeImage"
+            >
+            </image-cropper>
+        </div>
+        <div class="col-4 px-0 m-0 row" style="display: flex; justify-content: center; align-items: center;">
+          <div class="col-12 px-0 mb-3" style="display: flex; justify-content: center;">
+            <input type="file" style="display: none;" #fileInputNew (change)="onFileSelected($event)">
+            <button class="btn btn-primary" (click)="fileInputNew.click()">Choose A Different Photo</button>
+          </div>
+          <div class="col-12 pe-0 ps-2 text-center mt-3">
+            <small class="text-success" *ngIf="updatedPhotoSuccess">Photo Uploaded! <br>Updating profile... Please wait</small>
+            <small class="text-danger" *ngIf="updatedPhotoError">Error occurred! Try again later.</small>
+            <small class="text-danger" *ngIf="noFile">No file was selected.</small>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" id="confirmImageChangeWorkerProfile" class="btn btn-primary" (click)="confirmNewPhoto()">
+          Confirm
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
