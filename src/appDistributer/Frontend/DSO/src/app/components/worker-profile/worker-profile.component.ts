@@ -48,7 +48,7 @@ export class WorkerProfileComponent implements OnInit, AfterViewInit {
   ) {}
 
   ngAfterViewInit(): void {
-    // this.sadrzaj.style.height = this.widthService.height * 0.6 + 'px';
+    // this.sadrzaj.style.height = this.widthService.height * 0.7 + 'px';
     this.side.style.height = this.widthService.height * 0.7 + 'px';
     document.getElementById('cropNewImageWorkerProfile')!.style.maxHeight = this.widthService.height * 0.95 + 'px';
     document.getElementById('showChangeImage')!.style.maxHeight = this.widthService.height * 0.7 + 'px';
@@ -57,9 +57,10 @@ export class WorkerProfileComponent implements OnInit, AfterViewInit {
   ngOnInit(): void {
     this.sadrzaj = document.getElementById('sadrzaj');
     this.side = document.getElementById('side');
+    this.side.style.height = this.widthService.height * 0.7 + 'px';
     this.resizeObservable$ = fromEvent(window, 'resize');
     this.resizeSubscription$ = this.resizeObservable$.subscribe((evt) => {
-      // this.sadrzaj.style.height = this.widthService.height * 0.6 + 'px';
+      // this.sadrzaj.style.height = this.widthService.height * 0.7 + 'px';
       this.side.style.height = this.widthService.height * 0.7 + 'px';
     });
     this.getInfo();
