@@ -280,37 +280,37 @@ export class MapComponent implements AfterViewInit, OnInit {
 
   filterwithoutNeighborhood(map: any) {
     this.deleteAllMarkers(map);
-    this.deviceServer
-      .prosumerFilter(
-        this.minValueC,
-        this.maxValueC,
-        this.minValueP,
-        this.maxValueP,
-        this.minValue,
-        this.maxValue
-      )
-      .subscribe((response) => {
-        this.users = response;
-        //console.log(response);
-        this.populateTheMap2(map);
-      });
+    // this.deviceServer
+    //   .prosumerFilter(
+    //     this.minValueC,
+    //     this.maxValueC,
+    //     this.minValueP,
+    //     this.maxValueP,
+    //     this.minValue,
+    //     this.maxValue
+    //   )
+    //   .subscribe((response) => {
+    //     this.users = response;
+    //     //console.log(response);
+    //     this.populateTheMap2(map);
+    //   });
   }
   filterwithNeighborhood(map: any) {
     this.deleteAllMarkers(map);
-    this.deviceServer
-      .prosumerFilter2(
-        this.dropDownNeigh,
-        this.minValueC,
-        this.maxValueC,
-        this.minValueP,
-        this.maxValueP,
-        this.minValue,
-        this.maxValue
-      )
-      .subscribe((response) => {
-        this.users = response;
-        this.populateTheMap2(map);
-      });
+    // this.deviceServer
+    //   .prosumerFilter2(
+    //     this.dropDownNeigh,
+    //     this.minValueC,
+    //     this.maxValueC,
+    //     this.minValueP,
+    //     this.maxValueP,
+    //     this.minValue,
+    //     this.maxValue
+    //   )
+    //   .subscribe((response) => {
+    //     this.users = response;
+    //     this.populateTheMap2(map);
+    //   });
   }
 
   filter() {

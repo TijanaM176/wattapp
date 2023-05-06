@@ -15,6 +15,23 @@
         justify-content: center;
       "
     >
+      <p><strong>City</strong></p>
+      <select
+        style="width: 90%; margin: 0 auto"
+        class="form-select mb-3"
+        name="Neighborhood"
+        (change)="ChangeCity($event)"
+        [(ngModel)]="city"
+      >
+        <option value="-1">All</option>
+        <option
+          *ngFor="let c of cities"
+          [value]="c.id"
+        >
+          {{ c.cityName }}
+        </option>
+      </select>
+
       <p><strong>Neighborhood</strong></p>
       <select
         style="width: 90%; margin: 0 auto"
@@ -22,6 +39,7 @@
         name="Neighborhood"
         (change)="ChangeNeighborhood($event)"
         [(ngModel)]="neighborhood"
+        [disabled]="disableNeigh"
       >
         <option value="b">All</option>
         <option
