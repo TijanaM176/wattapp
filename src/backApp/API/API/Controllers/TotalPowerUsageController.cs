@@ -19,10 +19,11 @@ namespace API.Controllers
         {
             try
             {
+                var usage = await devService.CurrentConsumptionAndProductionForProsumer(id);
                 return Ok(new
                 {
-                    consumption = (Math.Round(await devService.CurrentConsumptionForProsumer(id), 3)).ToString(),
-                    production = (Math.Round(await devService.CurrentProductionForProsumer(id), 3)).ToString()
+                    consumption = (Math.Round(usage["consumption"], 3)).ToString(),
+                    production = (Math.Round(usage["production"], 3)).ToString()
                 });
             }
             catch (Exception ex)

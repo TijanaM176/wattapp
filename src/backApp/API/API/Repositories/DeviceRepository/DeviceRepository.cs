@@ -38,23 +38,16 @@ namespace API.Repositories.DeviceRepository
         {
             return await _regContext.ProsumerLinks.Where(x => x.ProsumerId == id).ToListAsync();
         }
-
-        
           
-        public async Task<List<Device>> GetDevicesByCategory(string id, string catStr, string role)
+        public async Task<List<List<Device>>> GetDevices(string id, string role)
         {
-
-
             var linkInfo = await GetLinksForProsumer(id);
             var links = linkInfo.Where(x => role == "Prosumer" || x.DsoView).Select(x => x.ModelId);
-            var cat = await GetDeviceCategory(catStr);
 
             var filter = Builders<DevicePower>.Filter.In(x => x.DeviceId, links);        
             var usageData = await _usageContext.PowerUsage.Find(filter).ToListAsync();
 
-            var specs = await _regContext.Devices
-                .Where(x => x.CategoryId == cat && links.Contains(x.Id))
-                .ToListAsync();
+            var specs = await _regContext.Devices.ToListAsync();
 
             // Join the data from both queries to create a list of Device objects
             var devices = from usage in usageData
@@ -82,9 +75,10 @@ namespace API.Repositories.DeviceRepository
                        t.Date.Hour == DateTime.Now.Hour
                    ).ToList()
             });
-            return devicesData.ToList();
-         
+            return new List<List<Device>> { devicesData.Where(x => x.CategoryId == 1).ToList(), devicesData.Where(x => x.CategoryId == 2).ToList(), devicesData.Where(x => x.CategoryId == 3).ToList() };
+            
         }
+
         public async Task<List<Device>> GetDevicesByCategoryForAPeriod(string id, string catStr, int period)
         {
             var linkInfo = await GetLinksForProsumer(id);
@@ -135,19 +129,21 @@ namespace API.Repositories.DeviceRepository
         }
 
 
-        public async Task<double> CurrentConsumptionForProsumer(string id)
+        public async Task<Dictionary<string, double>> CurrentConsumptionAndProductionForProsumer(string id)
         {
-           var devices = await GetDevicesByCategory(id, "Consumer", "Prosumer");
-            double currentConsumption = devices.Sum(device => device.Timestamps.FirstOrDefault()?.Power ?? 0);
-            return currentConsumption;
+           var devices = await GetDevices(id, "Prosumer");
+            if (devices.Count == 0) return new Dictionary<string, double> { { "consumption", 0 }, { "production", 0 } };
+
+            double currentConsumption;
+            double currentProduction;
+
+            if (devices[0].Where(x => x.Activity).ToList().Count == 0) currentConsumption = 0;
+            else currentConsumption = devices[0].Where(x => x.Activity).Sum(device => device.Timestamps.FirstOrDefault()?.Power ?? 0);
+            if (devices[1].Where(x => x.Activity).ToList().Count == 0) currentProduction = 0;
+            currentProduction = devices[1].Where(x => x.Activity).Sum(device => device.Timestamps.FirstOrDefault()?.Power ?? 0);
+
+            return new Dictionary<string, double> { { "consumption", currentConsumption}, { "production", currentProduction } };
         }
-        public async Task<double> CurrentProductionForProsumer(string id)
-        {
-            List<Device> devices = await GetDevicesByCategory(id, "Producer", "Prosumer");
-            double currentConsumption = devices.Sum(device => device.Timestamps.FirstOrDefault()?.Power ?? 0);
-            return currentConsumption;
-        }
-       
 
         // svi Prosumeri koji imaju uredjaje
 
@@ -189,26 +185,6 @@ namespace API.Repositories.DeviceRepository
             return count;
         }
 
-        //ova bi trebalo da se izbaci
-        public async Task<List<Prosumer>> ProsumerFilter(double minConsumption, double maxConsumption, double minProduction, double maxProduction, int minDeviceCount, int maxDeviceCount)
-        {
-            var prosumers = await _regContext.Prosumers.ToListAsync();
-            List<Prosumer> filteredProsumers = new List<Prosumer>();
-            foreach (var prosumer in prosumers)
-            {
-                var consumption = await CurrentConsumptionForProsumer(prosumer.Id);
-                var production = await CurrentProductionForProsumer(prosumer.Id);
-                var deviceCount = await ProsumerDeviceCount(prosumer.Id);
-
-                if (consumption >= minConsumption && consumption <= maxConsumption && production >= minProduction && production <= maxProduction && deviceCount >= minDeviceCount && deviceCount <= maxDeviceCount)
-                {
-                    filteredProsumers.Add(prosumer);
-                }    
-            }
-
-            return filteredProsumers;
-            
-        }
         //postoje 2 funkcije za device
         public async Task<DeviceInfo> GetDeviceInfoById(string id)
         {

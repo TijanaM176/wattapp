@@ -51,10 +51,11 @@ namespace API.Controllers
         {
             try
             {
+                var usage = await devService.TotalCurrentConsumptionAndProduction();
                 return Ok(new
                 {
-                    totalConsumption = (Math.Round(await devService.TotalCurrentConsumption(), 3)).ToString(),
-                    totalProduction = (Math.Round(await devService.TotalCurrentProduction(), 3)).ToString(),
+                    totalConsumption = (Math.Round(usage["consumption"], 3)).ToString(),
+                    totalProduction = (Math.Round(usage["production"], 3)).ToString(),
                 });
             }
             catch (Exception ex)

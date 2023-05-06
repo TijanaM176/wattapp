@@ -21,9 +21,10 @@ namespace API.Controllers
         {
             try
             {
-                var consumers = await devService.GetDevicesByCategory(id, "Consumer", role);
-                var producers = await devService.GetDevicesByCategory(id, "Producer", role);
-                var storage = await devService.GetDevicesByCategory(id, "Storage", role);
+                var devices = await devService.GetDevices(id, role);
+                var consumers = devices[0];
+                var producers = devices[1];
+                var storage = devices[2];
                 return Ok(new
                 {
                     consumers = consumers,
@@ -112,31 +113,13 @@ namespace API.Controllers
         }
 
         [HttpGet("UpdatedProsumerFilter")]
-        public async Task<IActionResult> UpdatedProsumerFilter(double minConsumption, double maxConsumption,
-            double minProduction, double maxProduction, int minDeviceCount, int maxDeviceCount)
+        public async Task<IActionResult> UpdatedProsumerFilter(double minConsumption, double maxConsumption, double minProduction, double maxProduction, int minDeviceCount, int maxDeviceCount, string cityId, string neighborhoodId)
         {
             try
             {
-                return Ok(await devService.UpdatedProsumerFilter(minConsumption, maxConsumption, minProduction,
-                    maxProduction, minDeviceCount, maxDeviceCount));
+                return Ok(await devService.UpdatedProsumerFilter(minConsumption, maxConsumption, minProduction, maxProduction, minDeviceCount, maxDeviceCount, cityId, neighborhoodId));
             }
             catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
-
-        [HttpGet("UpdatedProsumerFilter2")]
-        public async Task<IActionResult> UpdatedProsumerFilter2(string neighborhood, double minConsumption,
-            double maxConsumption, double minProduction, double maxProduction, int minDeviceCount,
-            int maxDeviceCount)
-        {
-            try
-            {
-                return Ok(await devService.UpdatedProsumerFilter2(neighborhood, minConsumption, maxConsumption,
-                    minProduction, maxProduction, minDeviceCount, maxDeviceCount));
-            }
-             catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }
