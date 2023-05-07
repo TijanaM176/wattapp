@@ -11,11 +11,9 @@ namespace API.Services.Devices
     public class DevicesService : IDevicesService
     {
         private readonly IDeviceRepository _repository;
-        private readonly IUserRepository _userRepository;
         public DevicesService(IDeviceRepository repository,IUserRepository dsoRepository)
         {
             _repository = repository;
-            _userRepository = dsoRepository;
         }
 
         public async Task<List<List<Dictionary<string, object>>>> GetDevices(string id, string role)
