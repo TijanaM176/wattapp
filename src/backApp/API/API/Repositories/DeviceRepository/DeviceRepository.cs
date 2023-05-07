@@ -128,7 +128,6 @@ namespace API.Repositories.DeviceRepository
             return (await _regContext.DeviceTypes.FirstOrDefaultAsync(x => x.Id == id));
         }
 
-
         public async Task<Dictionary<string, double>> CurrentConsumptionAndProductionForProsumer(string id)
         {
            var devices = await GetDevices(id, "Prosumer");
@@ -177,7 +176,7 @@ namespace API.Repositories.DeviceRepository
             .Sum(ts => ts.Power);
         }
 
-        public async Task<double> ProsumerDeviceCount(string id)
+        public async Task<int> ProsumerDeviceCount(string id)
         {
             var links = await GetLinksForProsumer(id);
             int count = links.Count();
@@ -270,13 +269,17 @@ namespace API.Repositories.DeviceRepository
             double avg = await AvgUsage(link.ModelId);
             if (link.Activity)
             {
-                if (currentUsage == 0)
+                if (info.TypeId == 19 && (DateTime.Now.TimeOfDay < TimeSpan.FromHours(6) || DateTime.Now.TimeOfDay > TimeSpan.FromHours(18))) curr = 0;
+                else
                 {
-                    Random random = new Random();
-                    if (info.CategoryId != 3) curr = avg * random.Next(95, 105) / 100;
-                    else curr = info.Wattage * random.Next(1, 100) / 100;
+                    if (currentUsage == 0)
+                    {
+                        Random random = new Random();
+                        if (info.CategoryId != 3) curr = avg * random.Next(95, 105) / 100;
+                        else curr = info.Wattage * random.Next(1, 100) / 100;
+                    }
+                    else curr = currentUsage;
                 }
-                else curr = currentUsage;
             }
             else curr = 0;
 

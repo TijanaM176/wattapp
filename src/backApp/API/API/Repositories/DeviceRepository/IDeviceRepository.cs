@@ -19,7 +19,7 @@ namespace API.Repositories.DeviceRepository
         public Task<EnumCategory.DeviceCatergory> getDeviceCategoryEnum(string idDevice);
         public Task<Prosumer> GetProsumer(string id);
         public Task<List<Prosumer>> GetProsumers();
-        public Task<double> ProsumerDeviceCount(string id);
+        public Task<int> ProsumerDeviceCount(string id);
         public Task EditDevice(string IdDevice, string model, string DeviceName, string IpAddress, bool dsoView, bool dsoControl);
         public Task<Boolean> DeleteDevice(string idDevice);
         public Task InsertLink(ProsumerLink link);

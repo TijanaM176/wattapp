@@ -30,8 +30,8 @@ namespace API.Controllers
                     consumers = consumers,
                     producers = producers,
                     storage = storage,
-                    currentConsumption = await devService.CurrentConsumptionForProsumer(consumers.Select(x => (double)x["CurrentUsage"]).ToList()),
-                    currentProduction = await devService.CurrentProductionForProsumer(producers.Select(x => (double)x["CurrentUsage"]).ToList()),
+                    currentConsumption = await devService.CurrentUsageForProsumer(consumers.Select(x => (double)x["CurrentUsage"]).ToList()),
+                    currentProduction = await devService.CurrentUsageForProsumer(producers.Select(x => (double)x["CurrentUsage"]).ToList()),
                     deviceCount = consumers.Count + producers.Count + storage.Count
                 });
             }
@@ -104,7 +104,17 @@ namespace API.Controllers
         {
             try
             {
-                return Ok(await devService.AllProsumerInfo());
+                var prosumers = await devService.AllProsumerInfo();
+                return Ok(new 
+                { 
+                    prosumers = prosumers,
+                    minCons = (double)prosumers.Min(x => x["consumption"]) * 1000,
+                    maxCons = (double)prosumers.Max(x => x["consumption"]) * 1000,
+                    minProd = (double)prosumers.Min(x => x["production"]) * 1000,
+                    maxProd = (double)prosumers.Max(x => x["production"]) * 1000,
+                    minDevCount = (int)prosumers.Min(x => x["devCount"]),
+                    maxDevCount = (int)prosumers.Max(x => x["devCount"])
+                });
             }
             catch (Exception ex)
             {

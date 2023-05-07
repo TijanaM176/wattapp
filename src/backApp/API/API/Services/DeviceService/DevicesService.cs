@@ -30,13 +30,16 @@ namespace API.Services.Devices
                     double currentUsage;
                     if (d.Activity)
                     {
-                        if (d.Timestamps[0].Power != 0) currentUsage = d.Timestamps[0].Power;
+                        if (d.TypeId == 19 && (DateTime.Now.TimeOfDay < TimeSpan.FromHours(6) || DateTime.Now.TimeOfDay > TimeSpan.FromHours(18))) currentUsage = 0;
                         else
-                        {
-                            Random rand = new Random();
-                            if (d.CategoryId != 3)
-                                currentUsage = d.Wattage * rand.Next(95, 105) / 100;
-                            else currentUsage = d.Wattage * rand.Next(1, 100) / 100;
+                        { 
+                            if (d.Timestamps[0].Power != 0) currentUsage = d.Timestamps[0].Power;
+                            else
+                            {
+                                Random rand = new Random();
+                                if (d.CategoryId != 3) currentUsage = d.Wattage * rand.Next(95, 105) / 100;
+                                else currentUsage = d.Wattage * rand.Next(1, 100) / 100;
+                            }
                         }
                     }
                     else
@@ -77,25 +80,15 @@ namespace API.Services.Devices
         {
             return await _repository.CurrentConsumptionAndProductionForProsumer(id);
         }
-        public async Task<double> CurrentConsumptionForProsumer(List<double> list)
+        public async Task<double> CurrentUsageForProsumer(List<double> list)
         {
-            double currentConsumption = 0;
+            double currentUsage = 0;
             foreach (var value in list)
             {
-                currentConsumption += value;
+                currentUsage += value;
             }
 
-            return currentConsumption;
-        }
-        public async Task<double> CurrentProductionForProsumer(List<double> list)
-        {
-            double currentProduction = 0;
-            foreach (var value in list)
-            {
-                currentProduction += value;
-            }
-
-            return currentProduction;
+            return currentUsage;
         }
 
         public async Task<Dictionary<string, Dictionary<DateTime, double>>> ConsumptionProductionForAPeriodForProsumer(string id, int period, int type)    //0 cons, 1 prod
@@ -257,8 +250,10 @@ namespace API.Services.Devices
         public async Task<Dictionary<string, object>> GetProsumerInformation(string id)
         {
             var prosumer = await _repository.GetProsumer(id);
-            var usage = await CurrentConsumptionAndProductionForProsumer(id);
-            var devCount = await _repository.ProsumerDeviceCount(id);
+            var devices = await GetDevices(prosumer.Id, "Prosumer");
+            var cons = await CurrentUsageForProsumer(devices[0].Select(x => (double)x["CurrentUsage"]).ToList());
+            var prod = await CurrentUsageForProsumer(devices[1].Select(x => (double)x["CurrentUsage"]).ToList());
+            int devCount = await _repository.ProsumerDeviceCount(id);
 
             return new Dictionary<string, object> {
                 { "id", id },
@@ -269,8 +264,8 @@ namespace API.Services.Devices
                 { "lat", prosumer.Latitude },
                 { "long", prosumer.Longitude },
                 { "image", prosumer.Image },
-                { "consumption", usage["consumption"] },
-                { "production", usage["production"] },
+                { "consumption", cons },
+                { "production", prod },
                 { "devCount", devCount }
             };  
         }
@@ -643,11 +638,11 @@ namespace API.Services.Devices
 
                 if ((bool)dev["Activity"])
                 {
+                    if ((int)dev["TypeId"] == 19 && (DateTime.Now.TimeOfDay < TimeSpan.FromHours(6) || DateTime.Now.TimeOfDay > TimeSpan.FromHours(18))) return 0;
                     if ((double)dev["CurrentUsage"] == 0)
                     {
                         Random random = new Random();
-                        if ((int)dev["CategoryId"] != 3)
-                            return (double)dev["AvgUsage"] * random.Next(95, 105) / 100;
+                        if ((int)dev["CategoryId"] != 3) return (double)dev["AvgUsage"] * random.Next(95, 105) / 100;                            
                         else return (double)dev["Wattage"] * random.Next(1, 100) / 100;
                     }
                     else return (double)dev["CurrentUsage"];
