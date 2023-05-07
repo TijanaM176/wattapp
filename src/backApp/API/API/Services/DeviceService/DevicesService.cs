@@ -282,11 +282,11 @@ namespace API.Services.Devices
         public async Task<List<Dictionary<string, object>>> UpdatedProsumerFilter(double minConsumption, double maxConsumption, double minProduction, double maxProduction, int minDeviceCount, int maxDeviceCount,  string cityId, string neighborhoodId)
         {
             var list = (await AllProsumerInfo()).Where(x => 
-                (double)x["consumption"] >= minConsumption/1000 && (double)x["consumption"] <= maxConsumption &&
-                (double)x["production"] >= minProduction/1000 && (double)x["production"] <= maxProduction &&
-                (double)x["devCount"] >= minDeviceCount && (double)x["devCount"] <= maxDeviceCount &&
-                (string.IsNullOrEmpty(cityId) || (long)x["cityId"] == long.Parse(cityId)) &&
-                (string.IsNullOrEmpty(neighborhoodId) || (string)x["neighborhoodId"] == neighborhoodId)
+                (double)x["consumption"] >= minConsumption/1000 && (double)x["consumption"] <= maxConsumption/1000 &&
+                (double)x["production"] >= minProduction/1000 && (double)x["production"] <= maxProduction/1000 &&
+                (int)x["devCount"] >= minDeviceCount && (int)x["devCount"] <= maxDeviceCount &&
+                (cityId == "all" || (long)x["cityId"] == long.Parse(cityId)) &&
+                (neighborhoodId == "all" || (string)x["neighborhoodId"] == neighborhoodId)
                 ).ToList();
 
             return list;
