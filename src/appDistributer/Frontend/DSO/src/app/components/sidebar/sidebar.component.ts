@@ -106,16 +106,14 @@ export class SidebarComponent implements OnInit {
     this.deviceService.prosumerFilter(this.minValueC, this.maxValueC, 
       this.minValueP,this.maxValueP, 
       this.minValue, this.maxValue, 
-      cityId.toString(), '')
-      .subscribe((res)=>{ console.log(res); this.deviceService.prosumers = res});
+      cityId.toString(), '');
   }
   filterwithNeighborhood(cityId : string) 
   {
     this.deviceService.prosumerFilter(this.minValueC, this.maxValueC, 
       this.minValueP,this.maxValueP, 
       this.minValue, this.maxValue, 
-      cityId.toString(), this.dropDownNeigh.toString())
-      .subscribe((res)=>{ console.log(res); this.deviceService.prosumers = res});
+      cityId.toString(), this.dropDownNeigh);
   }
 
   filterWithCity()
@@ -137,11 +135,6 @@ export class SidebarComponent implements OnInit {
   }
 
   filter() {
-    // if (this.dropDownNeigh === 'b' || this.dropDownNeigh === '') {
-    //   this.filterwithoutNeighborhood();
-    // } else {
-    //   this.filterwithNeighborhood();
-    // }
     if(this.city != -1)
     {
       this.filterWithCity();
@@ -159,6 +152,9 @@ export class SidebarComponent implements OnInit {
     this.maxValueP = 300;
     this.minValue = 0;
     this.maxValue = 50;
+    this.neighborhood = 'b';
+    this.dropDownNeigh = 'b';
+    this.city = -1;
     this.deviceService.ProsumersInfo();
   }
 }
