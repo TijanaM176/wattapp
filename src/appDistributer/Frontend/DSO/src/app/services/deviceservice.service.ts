@@ -50,6 +50,7 @@ export class DeviceserviceService {
     cityId : string,
     neighborhoodId : string
   ) {
+    this.spiner.show();
     this.http.get(
       this.baseUrl +
         'Devices/UpdatedProsumerFilter?minConsumption=' +
@@ -68,11 +69,12 @@ export class DeviceserviceService {
         '&neighborhoodId=' + neighborhoodId
     ).subscribe({
       next:(res)=>{
-        console.log(res);
+        this.spiner.hide();
         this.prosumers = res as Prosumer[];
       },
       error:(err)=>{
         this.prosumers = [];
+        this.spiner.hide();
         console.log(err.error);
       }
     })

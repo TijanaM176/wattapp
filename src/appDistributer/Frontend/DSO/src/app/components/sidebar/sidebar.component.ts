@@ -69,9 +69,6 @@ export class SidebarComponent implements OnInit {
   constructor(private userService: UsersServiceService,private deviceService:DeviceserviceService) {}
 
   ngOnInit() {
-    // this.userService.getAllNeighborhoods().subscribe((response) => {
-    //   this.Neighborhoods = response;
-    // });
     this.userService.getAllCities().subscribe((res)=>{this.cities = res});
     this.disableNeigh = true;
   }
@@ -84,11 +81,15 @@ export class SidebarComponent implements OnInit {
   {
     if(this.city == -1)
     {
+      this.dropDownNeigh = 'b';
+      this.neighborhood = 'b';
       this.disableNeigh = true;
     }
     else
     {
       this.getNeighsByCityId(this.city);
+      this.dropDownNeigh = 'b';
+      this.neighborhood = 'b';
       this.disableNeigh = false;
     }
   }
@@ -96,7 +97,6 @@ export class SidebarComponent implements OnInit {
   {
     this.userService.getNeightborhoodsByCityId(id)
     .subscribe((res)=>{
-      console.log(res)
       this.Neighborhoods = res;
     })
   }
@@ -118,13 +118,12 @@ export class SidebarComponent implements OnInit {
 
   filterWithCity()
   {
-    if(this.dropDownNeigh==='b' || this.dropDownNeigh === "all")
+    if(this.dropDownNeigh==='b' || this.dropDownNeigh === '')
     {
       this.filterwithoutNeighborhood(this.city.toString());
     }
     else
     {
-      console.log(this.city, this.dropDownNeigh)
       this.filterwithNeighborhood(this.city.toString());
     }
   }
