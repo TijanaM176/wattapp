@@ -24,10 +24,10 @@
   width: 5%;
 }
 .btn-primary{
-  background-color: #e8f3f8;
-  color: #5875A1;
+  /* background-color: #e8f3f8; */
+  /* color: #5875A1; */
   width: 80%;
-  border-color: #e8f3f8;
+  /* border-color: #e8f3f8; */
   display: flex;
   justify-content: center;
 }
@@ -42,4 +42,7 @@
   .card-text{
     font-size: 10px;
   }
+}
+.sliderDivs strong{
+  text-align: start !important;
 }

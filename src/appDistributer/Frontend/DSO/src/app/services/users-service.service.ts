@@ -46,11 +46,22 @@ export class UsersServiceService {
     );
   }
 
+  getAllCities()
+  {
+    return this.http.get<City[]>(this.baseUrl + 'GenericData/GetCities');
+  }
+
   getAllNeighborhoods(): Observable<Neighborhood[]> {
     return this.http.get<Neighborhood[]>(
       this.baseUrl + 'GenericData/GetAllNeighborhoods'
     );
   }
+
+  getNeightborhoodsByCityId( id : number)
+  {
+    return this.http.get<Neighborhood[]>(this.baseUrl + 'GenericData/GetNeighborhoodsByCityId?id=' + id);
+  }
+
   GetProsumersByNeighborhoodId(id: string): Observable<Prosumer[]> {
     return this.http.get<Prosumer[]>(
       this.baseUrl + 'Prosumer/GetProsumersByNeighborhoodId?id=' + id

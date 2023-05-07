@@ -1,11 +1,11 @@
-<div id="side" class="d-flex flex-column p-3 text-white bg-dark h-100">
+<div id="sideSidebar" class="d-flex flex-column p-3 text-white w-100" style="background-color: #5875a1;">
   <a
     class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none"
   >
     <i class="fa fa-lg fa-filter me-2"></i>
     <span class="fs-4">Filters</span>
   </a>
-  <hr />
+  <hr style="background-color: white; color: white;"/>
   <div class="sidebar-content" style="height: 100%">
     <div
       style="
@@ -15,6 +15,23 @@
         justify-content: center;
       "
     >
+      <p><strong>City</strong></p>
+      <select
+        style="width: 90%; margin: 0 auto"
+        class="form-select mb-3"
+        name="Neighborhood"
+        (change)="ChangeCity($event)"
+        [(ngModel)]="city"
+      >
+        <option value="-1">All</option>
+        <option
+          *ngFor="let c of cities"
+          [value]="c.id"
+        >
+          {{ c.cityName }}
+        </option>
+      </select>
+
       <p><strong>Neighborhood</strong></p>
       <select
         style="width: 90%; margin: 0 auto"
@@ -22,6 +39,7 @@
         name="Neighborhood"
         (change)="ChangeNeighborhood($event)"
         [(ngModel)]="neighborhood"
+        [disabled]="disableNeigh"
       >
         <option value="b">All</option>
         <option
@@ -92,12 +110,12 @@
         align-items: center;
       "
     >
-      <button class="btn btn-primary m-1" style="width: 80%" (click)="filter()">
+      <button class="btn btn-primary m-1" style="width: 80%; background-color: rgba(3, 61, 122, 0.7); border-color: rgb(3, 50, 100);" (click)="filter()">
         Apply Filters
       </button>
       <button
         class="btn btn-secondary m-1"
-        style="width: 80%; border: 1px"
+        style="width: 80%; border: 1px; background-color: rgba(141, 2, 2, 0.7); border-color: rgba(141, 2, 2); color: white;"
         (click)="reset()"
       >
         Reset Filters

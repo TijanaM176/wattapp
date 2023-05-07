@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { UsersServiceService } from 'src/app/services/users-service.service';
 import { Neighborhood } from 'src/app/models/neighborhood';
+import { City } from 'src/app/models/city';
 import { Options, LabelType } from '@angular-slider/ngx-slider';
 import { DeviceserviceService } from 'src/app/services/deviceservice.service';
 @Component({
@@ -57,74 +58,95 @@ export class SidebarComponent implements OnInit {
       }
     },
   };
-  neighborhood: string = '';
+  neighborhood: string = 'b';
   Neighborhoods: Neighborhood[] = [];
-  dropDownNeigh: string = '';
+  dropDownNeigh: string = 'b';
+
+  city : number = -1;
+  cities : City[] = [];
+  disableNeigh : boolean = true;
+
   constructor(private userService: UsersServiceService,private deviceService:DeviceserviceService) {}
+
+  ngOnInit() {
+    this.userService.getAllCities().subscribe((res)=>{this.cities = res});
+    this.disableNeigh = true;
+    let t = window.innerWidth < 320? 140.6 : 101;
+    let h = window.innerHeight - t;
+    document.getElementById('sideSidebar')!.style.height = h + 'px';
+  }
 
   ChangeNeighborhood(e: any) {
     this.dropDownNeigh = e.target.value;
   }
 
-  ngOnInit() {
-    this.userService.getAllNeighborhoods().subscribe((response) => {
-      this.Neighborhoods = response;
+  ChangeCity(e : any)
+  {
+    if(this.city == -1)
+    {
+      this.dropDownNeigh = 'b';
+      this.neighborhood = 'b';
+      this.disableNeigh = true;
+    }
+    else
+    {
+      this.getNeighsByCityId(this.city);
+      this.dropDownNeigh = 'b';
+      this.neighborhood = 'b';
+      this.disableNeigh = false;
+    }
+  }
+  getNeighsByCityId(id : number)
+  {
+    this.userService.getNeightborhoodsByCityId(id)
+    .subscribe((res)=>{
+      this.Neighborhoods = res;
     });
+    let t = window.innerWidth < 320? 140.6 : 101;
+    let h = window.innerHeight - t;
+    document.getElementById('sideSidebar')!.style.height = h + 'px';
   }
 
-  filterwithoutNeighborhood() {
-    this.deviceService
-      .prosumerFilter(
-        this.minValueC,
-        this.maxValueC,
-        this.minValueP,
-        this.maxValueP,
-        this.minValue,
-        this.maxValue
-      )
-      .subscribe((response) => {
-        console.log(
-          this.minValueC,
-          this.maxValueC,
-          this.minValueP,
-          this.maxValueP,
-          this.minValue,
-          this.maxValue
-        );
-        this.deviceService.prosumers = response;
-        console.log(response);
-      });
+  filterwithoutNeighborhood(cityId : string) 
+  {
+    this.deviceService.prosumerFilter(this.minValueC, this.maxValueC, 
+      this.minValueP,this.maxValueP, 
+      this.minValue, this.maxValue, 
+      cityId.toString(), "all");
   }
-  filterwithNeighborhood() {
-    this.deviceService
-      .prosumerFilter2(
-        this.dropDownNeigh,
-        this.minValueC,
-        this.maxValueC,
-        this.minValueP,
-        this.maxValueP,
-        this.minValue,
-        this.maxValue
-      )
-      .subscribe((response) => {
-        this.deviceService.prosumers = response;
-        console.log(
-          this.dropDownNeigh,
-          this.minValueC,
-          this.maxValueC,
-          this.minValueP,
-          this.maxValueP,
-          this.minValue,
-          this.maxValue
-        );
-      });
+  filterwithNeighborhood(cityId : string) 
+  {
+    this.deviceService.prosumerFilter(this.minValueC, this.maxValueC, 
+      this.minValueP,this.maxValueP, 
+      this.minValue, this.maxValue, 
+      cityId.toString(), this.dropDownNeigh);
+  }
+
+  filterWithCity()
+  {
+    if(this.dropDownNeigh==='b' || this.dropDownNeigh === '')
+    {
+      this.filterwithoutNeighborhood(this.city.toString());
+    }
+    else
+    {
+      this.filterwithNeighborhood(this.city.toString());
+    }
+  }
+  filterWithoutCity()
+  {
+    this.filterwithoutNeighborhood("all");
+  
   }
 
   filter() {
-    if (this.dropDownNeigh === 'b' || this.dropDownNeigh === '') {
-      this.filterwithoutNeighborhood();
-    } else {
-      this.filterwithNeighborhood();
+    if(this.city != -1)
+    {
+      this.filterWithCity();
+    }
+    else
+    {
+      this.filterWithoutCity();
     }
   }
 
@@ -135,6 +157,9 @@ export class SidebarComponent implements OnInit {
     this.maxValueP = 300;
     this.minValue = 0;
     this.maxValue = 50;
+    this.neighborhood = 'b';
+    this.dropDownNeigh = 'b';
+    this.city = -1;
     this.deviceService.ProsumersInfo();
   }
 }

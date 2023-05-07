@@ -65,6 +65,7 @@ export class User1Component implements OnInit, AfterViewInit {
   message: boolean = false;
   userOldInfo: any;
   thresholds: object = {};
+  canDeleteEdit : boolean = false;
 
   onCurrentValuesReceived(values: [number, number, number]) {
     const [consumption, production, deviceCount] = values;
@@ -81,6 +82,7 @@ export class User1Component implements OnInit, AfterViewInit {
     document.getElementById('userInfoDataContainer')!.style.height =
       this.widthService.height + 'px';
     this.letValue = this.cookie.get('role');
+    if(this.letValue === 'Dso') this.canDeleteEdit = true;
     this.spiner.show();
     this.disableDelete(this.letValue);
     this.getInformations();

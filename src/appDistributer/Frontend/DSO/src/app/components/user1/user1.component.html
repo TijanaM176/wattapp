@@ -123,7 +123,7 @@
               <div class="card-header" style="margin-left: 0; margin-right: 0">
                 <h6>User Information</h6>
               </div>
-              <div class="card-body d-flex pt-5 ps-1 pe-0">
+              <div class="card-body d-flex pt-5 ps-1 pe-0" [ngStyle]="{'padding-bottom':canDeleteEdit==true? '2%' : '5%'}">
                 <div class="col-lg-8 row">
                   <div class="container-fluid d-flex">
                     <div class="col-lg-6">
@@ -167,7 +167,7 @@
                       justify-content: center;
                     "
                   >
-                    <div>
+                    <div style="padding-left: 3%;">
                       <img
                         [src]="imageSource"
                         alt="User Profile Picture"
@@ -177,14 +177,14 @@
                     </div>
                   </div>
                   <div
-                    *ngIf="letValue === 'Dso'"
                     class="container-fluid d-flex pe-0"
                     style="
                       display: flex;
                       align-items: center;
                       justify-content: center;
-                      margin-top: 10%;
+                      margin-top: 7%;
                     "
+                    *ngIf="letValue === 'Dso'"
                   >
                     <div
                       class="col-6"
@@ -202,6 +202,7 @@
                         data-bs-toggle="modal"
                         data-bs-target="#exampleModal4"
                         class="btn"
+                        [disabled]="!canDeleteEdit"
                       />
                       <br />
                     </div>
@@ -220,6 +221,7 @@
                         (click)="DeleteUser()"
                         class="btn"
                         style="display: flex; justify-content: center"
+                        [disabled]="!canDeleteEdit"
                       />
                     </div>
                   </div>

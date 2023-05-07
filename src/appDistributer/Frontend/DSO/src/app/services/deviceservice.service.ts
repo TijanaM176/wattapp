@@ -39,14 +39,58 @@ export class DeviceserviceService {
       this.baseUrl + 'Devices/GetAllDevicesForProsumer?id=' + id + '&role=Dso'
     );
   }
+  
   prosumerFilter(
     minCon: number,
     maxCon: number,
     minProd: number,
     maxProd: number,
     minDev: number,
-    maxDev: number
-  ): Observable<Prosumer[]> {
+    maxDev: number,
+    cityId : string,
+    neighborhoodId : string
+  ) {
+    this.spiner.show();
+    this.http.get(
+      this.baseUrl +
+        'Devices/UpdatedProsumerFilter?minConsumption=' +
+        minCon +
+        '&maxConsumption=' +
+        maxCon +
+        '&minProduction=' +
+        minProd +
+        '&maxProduction=' +
+        maxProd +
+        '&minDeviceCount=' +
+        minDev +
+        '&maxDeviceCount=' +
+        maxDev +
+        '&cityId=' + cityId+
+        '&neighborhoodId=' + neighborhoodId
+    ).subscribe({
+      next:(res)=>{
+        this.spiner.hide();
+        this.prosumers = res as Prosumer[];
+      },
+      error:(err)=>{
+        this.prosumers = [];
+        this.spiner.hide();
+        console.log(err.error);
+      }
+    })
+  }
+
+  prosumerFilterMap(
+    minCon: number,
+    maxCon: number,
+    minProd: number,
+    maxProd: number,
+    minDev: number,
+    maxDev: number,
+    cityId : string,
+    neighborhoodId : string
+  ) : Observable<Prosumer[]> {
+    this.spiner.show();
     return this.http.get<Prosumer[]>(
       this.baseUrl +
         'Devices/UpdatedProsumerFilter?minConsumption=' +
@@ -60,36 +104,12 @@ export class DeviceserviceService {
         '&minDeviceCount=' +
         minDev +
         '&maxDeviceCount=' +
-        maxDev
+        maxDev +
+        '&cityId=' + cityId+
+        '&neighborhoodId=' + neighborhoodId
     );
   }
-  prosumerFilter2(
-    idNaselja: string,
-    minCon: number,
-    maxCon: number,
-    minProd: number,
-    maxProd: number,
-    minDev: number,
-    maxDev: number
-  ): Observable<Prosumer[]> {
-    return this.http.get<Prosumer[]>(
-      this.baseUrl +
-        'Devices/UpdatedProsumerFilter2?neighborhood=' +
-        idNaselja +
-        '&minConsumption=' +
-        minCon +
-        '&maxConsumption=' +
-        maxCon +
-        '&minProduction=' +
-        minProd +
-        '&maxProduction=' +
-        maxProd +
-        '&minDeviceCount=' +
-        minDev +
-        '&maxDeviceCount=' +
-        maxDev
-    );
-  }
+
   ProsumersInfo() {
     lastValueFrom(this.http.get(this.baseUrl + 'Devices/AllProsumerInfo')).then(
       (res) => {
