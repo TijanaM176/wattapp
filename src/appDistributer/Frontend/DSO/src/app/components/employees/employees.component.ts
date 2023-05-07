@@ -168,18 +168,18 @@ export class EmployeesComponent {
     dto.password = this.password;
     console.log(dto);
     this.service.updateEmployee(id, dto).subscribe((res) => {
+      this.Ucitaj();
+      this.Paging();
       console.log(res);
     });
-    const buttonRef = document.getElementById('closeBtn1');
-    buttonRef?.click();
     this.currentRoute = this.router.url;
     this.router
       .navigateByUrl('/DsoApp/home', { skipLocationChange: true })
       .then(() => {
-        this.Ucitaj();
-        this.Paging();
         this.router.navigate([this.currentRoute]);
       });
+      const buttonRef = document.getElementById('closeBtn1');
+      buttonRef?.click();
   }
 
   onDelete(id: string) {
