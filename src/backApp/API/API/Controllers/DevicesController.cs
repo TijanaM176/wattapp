@@ -127,10 +127,11 @@ namespace API.Controllers
         {
             try
             {
-                var prosumers = await devService.UpdatedProsumerFilter(minConsumption, maxConsumption, minProduction, maxProduction, minDeviceCount, maxDeviceCount, cityId, neighborhoodId);
+                var prosumers = await devService.AllProsumerInfo();
+                var filtered = await devService.UpdatedProsumerFilter(minConsumption, maxConsumption, minProduction, maxProduction, minDeviceCount, maxDeviceCount, cityId, neighborhoodId);
                 return Ok(new
                 {
-                    prosumers = prosumers,
+                    prosumers = filtered,
                     minCons = (double)prosumers.Min(x => x["consumption"]) * 1000,
                     maxCons = (double)prosumers.Max(x => x["consumption"]) * 1000,
                     minProd = (double)prosumers.Min(x => x["production"]) * 1000,
