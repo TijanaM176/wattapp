@@ -292,8 +292,8 @@ namespace API.Services.Devices
                 (double)x["consumption"] >= minConsumption/1000 && (double)x["consumption"] <= maxConsumption &&
                 (double)x["production"] >= minProduction/1000 && (double)x["production"] <= maxProduction &&
                 (double)x["devCount"] >= minDeviceCount && (double)x["devCount"] <= maxDeviceCount &&
-                (cityId.Length == 0 || (long)x["cityId"] == long.Parse(cityId)) &&
-                (neighborhoodId.Length == 0 || (string)x["neighborhoodId"] == neighborhoodId)
+                (cityId == "all" || (long)x["cityId"] == long.Parse(cityId)) &&
+                (neighborhoodId == "all" || (string)x["neighborhoodId"] == neighborhoodId)
                 ).ToList();
 
             return list;

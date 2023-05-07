@@ -106,7 +106,7 @@ export class SidebarComponent implements OnInit {
     this.deviceService.prosumerFilter(this.minValueC, this.maxValueC, 
       this.minValueP,this.maxValueP, 
       this.minValue, this.maxValue, 
-      cityId.toString(), '');
+      cityId.toString(), "all");
   }
   filterwithNeighborhood(cityId : string) 
   {
@@ -118,7 +118,7 @@ export class SidebarComponent implements OnInit {
 
   filterWithCity()
   {
-    if(this.dropDownNeigh==='b' || this.dropDownNeigh === '')
+    if(this.dropDownNeigh==='b' || this.dropDownNeigh === "all")
     {
       this.filterwithoutNeighborhood(this.city.toString());
     }
@@ -130,7 +130,7 @@ export class SidebarComponent implements OnInit {
   }
   filterWithoutCity()
   {
-    this.filterwithoutNeighborhood('');
+    this.filterwithoutNeighborhood("all");
   
   }
 
