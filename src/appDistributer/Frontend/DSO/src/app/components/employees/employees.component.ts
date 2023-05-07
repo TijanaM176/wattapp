@@ -9,6 +9,8 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { CookieService } from 'ngx-cookie-service';
 import { editEmployeeDto } from 'src/app/models/editEmployee';
 import { DataService } from 'src/app/services/data.service';
+import { image } from 'd3';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-employees',
@@ -43,11 +45,14 @@ export class EmployeesComponent {
   currentRoute!: string;
   id!: string;
   searchLastName!: string;
+  imageSource!:any;
+  imageSource1!:any;
   constructor(
     public service: EmployeesServiceService,
     private router: Router,
     private cookie: CookieService,
-    public serviceData: DataService
+    public serviceData: DataService,
+    private _sanitizer: DomSanitizer
   ) {}
 
   ngOnInit(): void {
@@ -59,6 +64,17 @@ export class EmployeesComponent {
   Ucitaj() {
     this.service.getAllData();
     this.employees = this.service.employees;
+    
+  }
+  Image(dataImage: any) {
+    if (dataImage == '' || dataImage == null) {
+      this.imageSource = 'assets/images/user.png';
+    } else {
+      this.imageSource = this._sanitizer.bypassSecurityTrustResourceUrl(
+        `data:image/png;base64, ${dataImage}`
+      );
+    }
+    return this.imageSource;
   }
   Paging() {
     this.service.Page(this.page, this.perPage).subscribe((res) => {
@@ -85,6 +101,7 @@ export class EmployeesComponent {
       this.email = res.email;
       this.role = res.roleId;
       this.region = res.regionId;
+      this.Image1(res.image);
       // console.log(res);
       // this.serviceData.getRegionName(this.employee.regionId).subscribe((res) => {
       //   console.log(res);
@@ -97,6 +114,16 @@ export class EmployeesComponent {
     });
     const buttonRef = document.getElementById('closeBtn3');
     buttonRef?.click();
+  }
+  Image1(dataImage: any) {
+    if (dataImage == '' || dataImage == null) {
+      this.imageSource1 = 'assets/images/user.png';
+    } else {
+      this.imageSource1 = this._sanitizer.bypassSecurityTrustResourceUrl(
+        `data:image/png;base64, ${dataImage}`
+      );
+    }
+  
   }
   close() {}
   ChangeRegion(e: any) {}

@@ -120,10 +120,20 @@
                     };
               let i = index
             "
+            
+            (click)="Details(item.id)"
+            style="cursor:pointer;"
+            
+            data-bs-toggle="modal"
+            data-bs-target="#exampleModal"
+            
+            
           >
             <td>
               <img
-                src="assets/images/user.png"
+                
+                [src]="Image(item.image)"
+                class="rounded-circle"
                 style="width: 30px; height: 30px"
               />
             </td>
@@ -133,16 +143,7 @@
             <td>{{ regionName }}</td>
             <td >{{ item.roleName }}</td>
             <td>
-              <a
-                (click)="Details(item.id)"
-                data-bs-toggle="modal"
-                data-bs-target="#exampleModal"
-                class="settings"
-                title=""
-                data-toggle="tooltip"
-                data-original-title="Settings"
-                ><i class="material-icons">info</i></a
-              >
+              
               <a
                 (click)="onDelete(item.id)"
                 class="delete"
@@ -207,7 +208,8 @@
       <div class="modal-body" style="justify-content: center; align-items: center; padding-left: 7%;">
         <div class="slika">
           <img
-            src="assets/images/default-image.png"
+            [src]="imageSource1"
+            class="rounded-circle"
             style="
               height: 15%;
               width: 15%;
@@ -461,7 +463,8 @@
       <div class="modal-body">
         <div class="mb-3">
           <img
-            src="assets/images/default-image.png"
+            [src]="imageSource1"
+            class="rounded-circle"
             style="
               height: 15%;
               width: 15%;
@@ -484,12 +487,13 @@
             "
           >
             <span
-              ><i
+              ><a id="changeImageLink" data-bs-toggle="modal"
+              data-bs-target="#changeImageUserInfo" class="infoUser"><i
                 style="color: #d6d9df; font-size: 16px; margin-top: 0%"
                 class="material-icons"
                 >edit</i
               >
-              Change photo</span
+              Change photo</a></span
             >
           </button>
         </div>
