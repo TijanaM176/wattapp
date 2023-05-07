@@ -79,6 +79,37 @@ export class DeviceserviceService {
       }
     })
   }
+
+  prosumerFilterMap(
+    minCon: number,
+    maxCon: number,
+    minProd: number,
+    maxProd: number,
+    minDev: number,
+    maxDev: number,
+    cityId : string,
+    neighborhoodId : string
+  ) : Observable<Prosumer[]> {
+    this.spiner.show();
+    return this.http.get<Prosumer[]>(
+      this.baseUrl +
+        'Devices/UpdatedProsumerFilter?minConsumption=' +
+        minCon +
+        '&maxConsumption=' +
+        maxCon +
+        '&minProduction=' +
+        minProd +
+        '&maxProduction=' +
+        maxProd +
+        '&minDeviceCount=' +
+        minDev +
+        '&maxDeviceCount=' +
+        maxDev +
+        '&cityId=' + cityId+
+        '&neighborhoodId=' + neighborhoodId
+    );
+  }
+
   ProsumersInfo() {
     lastValueFrom(this.http.get(this.baseUrl + 'Devices/AllProsumerInfo')).then(
       (res) => {

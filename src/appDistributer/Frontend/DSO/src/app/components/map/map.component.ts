@@ -9,6 +9,7 @@ import { ScreenWidthService } from 'src/app/services/screen-width.service';
 import { fromEvent, Observable, Subscription } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
 import { DeviceserviceService } from 'src/app/services/deviceservice.service';
+import { City } from 'src/app/models/city';
 
 @Component({
   selector: 'app-map',
@@ -73,6 +74,10 @@ export class MapComponent implements AfterViewInit, OnInit {
   Neighborhoods: Neighborhood[] = [];
   dropDownNeigh: string = 'b';
 
+  city : number = -1;
+  cities : City[] = [];
+  disableNeigh : boolean = true;
+
   users!: any[];
   markers!: any[];
   currentLocation: any;
@@ -87,8 +92,33 @@ export class MapComponent implements AfterViewInit, OnInit {
     private deviceServer:DeviceserviceService
   ) {}
 
+  ChangeCity(e : any)
+  {
+    if(this.city == -1)
+    {
+      this.dropDownNeigh = 'b';
+      this.neighborhood = 'b';
+      this.disableNeigh = true;
+    }
+    else
+    {
+      this.getNeighsByCityId(this.city);
+      this.dropDownNeigh = 'b';
+      this.neighborhood = 'b';
+      this.disableNeigh = false;
+    }
+  }
+
   ChangeNeighborhood(e: any) {
     this.dropDownNeigh = e.target.value;
+  }
+
+  getNeighsByCityId(id : number)
+  {
+    this.mapService.getNeightborhoodsByCityId(id)
+    .subscribe((res)=>{
+      this.Neighborhoods = res;
+    })
   }
 
   ngOnInit(): void {
@@ -102,9 +132,9 @@ export class MapComponent implements AfterViewInit, OnInit {
     document.getElementById('mapCont')!.style.height = h + 'px';
     document.getElementById('side')!.style.height = h + 'px';
 
-    this.mapService.getAllNeighborhoods().subscribe((response) => {
-      this.Neighborhoods = response;
-    });
+    this.mapService.getAllCities().subscribe((res)=>{this.cities = res});
+    this.disableNeigh = true;
+
     this.currentLocationIsSet = false;
     this.mapService.refreshList();
     this.markers = [];
@@ -278,46 +308,54 @@ export class MapComponent implements AfterViewInit, OnInit {
     this.markers = [];
   }
 
-  filterwithoutNeighborhood(map: any) {
+  filterwithoutNeighborhood(map: any, cityId : string) {
     this.deleteAllMarkers(map);
-    // this.deviceServer
-    //   .prosumerFilter(
-    //     this.minValueC,
-    //     this.maxValueC,
-    //     this.minValueP,
-    //     this.maxValueP,
-    //     this.minValue,
-    //     this.maxValue
-    //   )
-    //   .subscribe((response) => {
-    //     this.users = response;
-    //     //console.log(response);
-    //     this.populateTheMap2(map);
-    //   });
+    this.deviceServer.prosumerFilterMap(this.minValueC, this.maxValueC, 
+      this.minValueP,this.maxValueP, 
+      this.minValue, this.maxValue, 
+      cityId.toString(), "all")
+      .subscribe((res)=>{
+        this.users = res;
+        this.populateTheMap2(map);
+      });
   }
-  filterwithNeighborhood(map: any) {
+  filterwithNeighborhood(map: any, cityId : string) {
     this.deleteAllMarkers(map);
-    // this.deviceServer
-    //   .prosumerFilter2(
-    //     this.dropDownNeigh,
-    //     this.minValueC,
-    //     this.maxValueC,
-    //     this.minValueP,
-    //     this.maxValueP,
-    //     this.minValue,
-    //     this.maxValue
-    //   )
-    //   .subscribe((response) => {
-    //     this.users = response;
-    //     this.populateTheMap2(map);
-    //   });
+    this.deviceServer.prosumerFilterMap(this.minValueC, this.maxValueC, 
+      this.minValueP,this.maxValueP, 
+      this.minValue, this.maxValue, 
+      cityId.toString(), this.dropDownNeigh)
+      .subscribe((res)=>{
+        this.users = res;
+        this.populateTheMap2(map);
+      });
+  }
+
+  filterWithCity()
+  {
+    if(this.dropDownNeigh==='b' || this.dropDownNeigh === '')
+    {
+      this.filterwithoutNeighborhood(this.map, this.city.toString());
+    }
+    else
+    {
+      this.filterwithNeighborhood(this.map, this.city.toString());
+    }
+  }
+  filterWithoutCity()
+  {
+    this.filterwithoutNeighborhood(this.map, "all");
+  
   }
 
   filter() {
-    if (this.dropDownNeigh === 'b' || this.dropDownNeigh === '') {
-      this.filterwithoutNeighborhood(this.map);
-    } else {
-      this.filterwithNeighborhood(this.map);
+    if(this.city != -1)
+    {
+      this.filterWithCity();
+    }
+    else
+    {
+      this.filterWithoutCity();
     }
   }
 
@@ -325,7 +363,6 @@ export class MapComponent implements AfterViewInit, OnInit {
     this.deleteAllMarkers(this.map);
     this.mapService.getAllNeighborhoods().subscribe((response) => {
       this.users = response;
-      //console.log(response);
       this.populateTheMap(this.map);
     });
     this.minValueC = 0;
@@ -335,6 +372,7 @@ export class MapComponent implements AfterViewInit, OnInit {
     this.minValue = 0;
     this.maxValue = 50;
     this.dropDownNeigh = 'b';
+    this.neighborhood = 'b';
   }
 
   private decideOnMarker(consumptionUser: any, productionUSer: any): string {
