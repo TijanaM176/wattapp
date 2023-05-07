@@ -71,6 +71,9 @@ export class SidebarComponent implements OnInit {
   ngOnInit() {
     this.userService.getAllCities().subscribe((res)=>{this.cities = res});
     this.disableNeigh = true;
+    let t = window.innerWidth < 320? 140.6 : 101;
+    let h = window.innerHeight - t;
+    document.getElementById('sideSidebar')!.style.height = h + 'px';
   }
 
   ChangeNeighborhood(e: any) {
@@ -98,7 +101,10 @@ export class SidebarComponent implements OnInit {
     this.userService.getNeightborhoodsByCityId(id)
     .subscribe((res)=>{
       this.Neighborhoods = res;
-    })
+    });
+    let t = window.innerWidth < 320? 140.6 : 101;
+    let h = window.innerHeight - t;
+    document.getElementById('sideSidebar')!.style.height = h + 'px';
   }
 
   filterwithoutNeighborhood(cityId : string) 
