@@ -253,7 +253,10 @@ namespace API.Controllers
 
                 if (result.Item2 == true)
                 {
-                    return Ok("Image is save");
+                    return Ok(new
+                    {
+                        message = "Image saved"
+                    });
                 }
                 else
                 {
