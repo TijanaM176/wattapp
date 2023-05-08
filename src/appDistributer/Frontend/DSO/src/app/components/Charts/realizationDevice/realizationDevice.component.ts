@@ -1,11 +1,5 @@
 import { Component, OnInit, AfterViewInit, Input } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import {
-  Color,
-  ColorHelper,
-  LegendPosition,
-  ScaleType,
-} from '@swimlane/ngx-charts';
 import { ScreenWidthService } from 'src/app/services/screen-width.service';
 import { DeviceserviceService } from 'src/app/services/deviceservice.service';
 import { TimestampService } from 'src/app/services/timestamp.service';
@@ -22,22 +16,15 @@ Chart.register(...registerables);
 })
 export class RealizationDeviceComponent implements OnInit, AfterViewInit {
   chart: any;
-  data: any[] = [];
+  data: any[] = ['z'];
   dataConsumers: any[] = [];
   dataProducers: any[] = [];
   production = true;
   consumption = true;
-  colors: Color = {
-    name: 'mycolors',
-    selectable: true,
-    group: ScaleType.Ordinal,
-    domain: ['#FF414E', '#F4C430'],
-  };
   showXAxis = true;
   showYAxis = true;
   gradient = false;
   showLegend = true;
-  legendPosition: LegendPosition = LegendPosition.Below;
   showXAxisLabel = true;
   xAxisLabel = 'Time';
   showYAxisLabel = true;

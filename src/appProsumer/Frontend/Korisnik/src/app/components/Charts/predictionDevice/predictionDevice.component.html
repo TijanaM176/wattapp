@@ -2,12 +2,11 @@
   bdColor="rgba(0, 0, 0, 0)"
   size="medium"
   color="black"
-  type = "ball-clip-rotate"
+  type="ball-clip-rotate"
   [showSpinner]="show"
   [fullScreen]="false"
   *ngIf="show"
-  ></ngx-spinner
->
+></ngx-spinner>
 <div
   class="card-header col-12 p-1 group"
   style="
@@ -74,35 +73,11 @@
     >
       There Is No Available Data
     </h1>
-    <ngx-charts-bar-vertical-2d
-      *ngIf="production && consumption && data.length != 0"
-      [title]="'Realization'"
-      [scheme]="colors"
-      [results]="data"
-      [xAxis]="showXAxis"
-      [yAxis]="showYAxis"
-      [showXAxisLabel]="false"
-      [showYAxisLabel]="false"
-      [showDataLabel]="false"
-      [animations]="true"
-      [barPadding]="3"
-      [roundDomains]="true"
-      [trimYAxisTicks]="true"
-      [tooltipDisabled]="true"
-      [noBarWhenZero]="true"
-      [yAxisTickFormatting]="yAxisTickFormatting"
-      [showGridLines]="true"
-      [legend]="false"
-    >
-    </ngx-charts-bar-vertical-2d>
-  </div>
-  <div class="legend w-100 ps-4 text-center" *ngIf="data.length != 0">
-    <i class="fa fa-circle consumption" *ngIf="cat == '1'"
-      >&nbsp;Predicted Consumption</i
-    >&nbsp;&nbsp;&nbsp;
-    <i class="fa fa-circle consumption" *ngIf="cat == '2'"
-      >&nbsp;Predicted Production</i
-    >&nbsp;&nbsp;&nbsp;
+    <canvas
+      *ngIf="data.length != 0"
+      id="chartDevicePrediction"
+      style="height: 100% !important; width: 100% !important"
+    ></canvas>
   </div>
 </div>
 

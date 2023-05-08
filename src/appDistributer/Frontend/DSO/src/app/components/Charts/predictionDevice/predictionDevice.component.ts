@@ -17,7 +17,7 @@ Chart.register(...registerables);
 })
 export class PredictionDeviceComponent implements OnInit, AfterViewInit {
   chart: any;
-  data: any[] = [];
+  data: any[] = ['z'];
   dataConsumers: any[] = [];
   dataProducers: any[] = [];
   production = true;
@@ -106,15 +106,23 @@ export class PredictionDeviceComponent implements OnInit, AfterViewInit {
         }
       );
       this.data = [{ type: 'consumption', values: consumptionData }];
-      console.log(this.data);
+
+      let backgroundColor, borderColor;
+      if (this.type === 'Consumption') {
+        backgroundColor = 'rgba(255, 125, 65, 1)';
+        borderColor = 'rgba(255, 125, 65,0.5)';
+      } else if (this.type === 'Production') {
+        backgroundColor = 'rgba(0, 188, 179, 1)';
+        borderColor = 'rgba(0, 188, 179, 0.5)';
+      }
 
       const chartData = {
         datasets: [
           {
             label: 'Predicted Energy ' + this.type,
             data: consumptionData,
-            backgroundColor: 'rgba(255, 125, 65, 1)',
-            borderColor: 'rgba(255, 125, 65, 0.5)',
+            backgroundColor: backgroundColor,
+            borderColor: borderColor,
           },
         ],
       };
