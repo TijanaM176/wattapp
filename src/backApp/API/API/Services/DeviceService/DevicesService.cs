@@ -76,7 +76,18 @@ namespace API.Services.Devices
         //moje
         public async Task<Dictionary<string, double>> CurrentConsumptionAndProductionForProsumer(string id)
         {
-            return await _repository.CurrentConsumptionAndProductionForProsumer(id);
+            var devices = await GetDevices(id);
+            if (devices.Count == 0) return new Dictionary<string, double> { { "consumption", 0 }, { "production", 0 } };
+
+            double currentConsumption;
+            double currentProduction;
+
+            if (devices[0].Where(x => (bool)x["Activity"]).ToList().Count == 0) currentConsumption = 0;
+            else currentConsumption = devices[0].Where(x => (bool)x["Activity"]).Sum(device => (double)device["CurrentUsage"]);
+            if (devices[1].Where(x => (bool)x["Activity"]).ToList().Count == 0) currentProduction = 0;
+            currentProduction = devices[1].Where(x => (bool)x["Activity"]).Sum(device => (double)device["CurrentUsage"]);
+
+            return new Dictionary<string, double> { { "consumption", currentConsumption }, { "production", currentProduction } };
         }
         public async Task<double> CurrentUsageForProsumer(List<double> list)
         {

@@ -128,22 +128,6 @@ namespace API.Repositories.DeviceRepository
             return (await _regContext.DeviceTypes.FirstOrDefaultAsync(x => x.Id == id));
         }
 
-        public async Task<Dictionary<string, double>> CurrentConsumptionAndProductionForProsumer(string id)
-        {
-           var devices = await GetDevices(id);
-            if (devices.Count == 0) return new Dictionary<string, double> { { "consumption", 0 }, { "production", 0 } };
-
-            double currentConsumption;
-            double currentProduction;
-
-            if (devices[0].Where(x => x.Activity).ToList().Count == 0) currentConsumption = 0;
-            else currentConsumption = devices[0].Where(x => x.Activity).Sum(device => device.Timestamps.FirstOrDefault()?.Power ?? 0);
-            if (devices[1].Where(x => x.Activity).ToList().Count == 0) currentProduction = 0;
-            currentProduction = devices[1].Where(x => x.Activity).Sum(device => device.Timestamps.FirstOrDefault()?.Power ?? 0);
-
-            return new Dictionary<string, double> { { "consumption", currentConsumption}, { "production", currentProduction } };
-        }
-
         // svi Prosumeri koji imaju uredjaje
 
         public async Task<List<ProsumerLink>> getAllProsumersWhoOwnDevice()
