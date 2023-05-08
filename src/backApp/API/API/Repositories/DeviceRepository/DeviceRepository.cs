@@ -39,10 +39,10 @@ namespace API.Repositories.DeviceRepository
             return await _regContext.ProsumerLinks.Where(x => x.ProsumerId == id).ToListAsync();
         }
           
-        public async Task<List<List<Device>>> GetDevices(string id, string role)
+        public async Task<List<List<Device>>> GetDevices(string id)
         {
             var linkInfo = await GetLinksForProsumer(id);
-            var links = linkInfo.Where(x => role == "Prosumer" || x.DsoView).Select(x => x.ModelId);
+            var links = linkInfo.Select(x => x.ModelId);
 
             var filter = Builders<DevicePower>.Filter.In(x => x.DeviceId, links);        
             var usageData = await _usageContext.PowerUsage.Find(filter).ToListAsync();
@@ -130,7 +130,7 @@ namespace API.Repositories.DeviceRepository
 
         public async Task<Dictionary<string, double>> CurrentConsumptionAndProductionForProsumer(string id)
         {
-           var devices = await GetDevices(id, "Prosumer");
+           var devices = await GetDevices(id);
             if (devices.Count == 0) return new Dictionary<string, double> { { "consumption", 0 }, { "production", 0 } };
 
             double currentConsumption;

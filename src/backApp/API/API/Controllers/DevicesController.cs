@@ -21,7 +21,9 @@ namespace API.Controllers
         {
             try
             {
-                var devices = await devService.GetDevices(id, role);
+                var devices = await devService.GetDevices(id);
+                int realCount = devices[0].Count + devices[1].Count + devices[2].Count;
+                if (role != "Prosumer") devices = devices.Select(list => list.Where(d => (bool)d["DsoView"]).ToList()).ToList();
                 var consumers = devices[0];
                 var producers = devices[1];
                 var storage = devices[2];
@@ -30,8 +32,9 @@ namespace API.Controllers
                     consumers = consumers,
                     producers = producers,
                     storage = storage,
-                    currentConsumption = await devService.CurrentUsageForProsumer(consumers.Select(x => (double)x["CurrentUsage"]).ToList()),
-                    currentProduction = await devService.CurrentUsageForProsumer(producers.Select(x => (double)x["CurrentUsage"]).ToList()),
+                    currentConsumption = await devService.CurrentUsageForProsumer(devices[0].Select(x => (double)x["CurrentUsage"]).ToList()),
+                    currentProduction = await devService.CurrentUsageForProsumer(devices[1].Select(x => (double)x["CurrentUsage"]).ToList()),
+                    realDeviceCount = realCount,
                     deviceCount = consumers.Count + producers.Count + storage.Count
                 });
             }

@@ -16,9 +16,9 @@ namespace API.Services.Devices
             _repository = repository;
         }
 
-        public async Task<List<List<Dictionary<string, object>>>> GetDevices(string id, string role)
+        public async Task<List<List<Dictionary<string, object>>>> GetDevices(string id)
         {
-            var devices = await _repository.GetDevices(id, role);
+            var devices = await _repository.GetDevices(id);
             if (devices == null) throw new ArgumentException("No devices found!");
             List<List<Dictionary<string, object>>> devicesData = new List<List<Dictionary<string, object>>>();
             for (int i = 0; i < 3; i++)
@@ -248,7 +248,7 @@ namespace API.Services.Devices
         public async Task<Dictionary<string, object>> GetProsumerInformation(string id)
         {
             var prosumer = await _repository.GetProsumer(id);
-            var devices = await GetDevices(prosumer.Id, "Prosumer");
+            var devices = await GetDevices(prosumer.Id);
             var cons = await CurrentUsageForProsumer(devices[0].Select(x => (double)x["CurrentUsage"]).ToList());
             var prod = await CurrentUsageForProsumer(devices[1].Select(x => (double)x["CurrentUsage"]).ToList());
             int devCount = await _repository.ProsumerDeviceCount(id);
@@ -425,7 +425,7 @@ namespace API.Services.Devices
 
             foreach (var user in all)
             {
-                var devices = await _repository.GetDevices(user, "Prosumer");
+                var devices = await _repository.GetDevices(user);
                 var consumerCount = devices[0].Count();
                 var producerCount = devices[1].Count();
 

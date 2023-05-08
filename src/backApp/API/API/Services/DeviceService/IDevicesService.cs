@@ -6,7 +6,7 @@ namespace API.Services.Devices
 {
     public interface IDevicesService
     {
-        public Task<List<List<Dictionary<string, object>>>> GetDevices(string id, string role);
+        public Task<List<List<Dictionary<string, object>>>> GetDevices(string id);
         public Task<double> CurrentUsageForProsumer(List<double> list);
         public Task<Dictionary<string, double>> CurrentConsumptionAndProductionForProsumer(string id);
         public Task<Dictionary<string, Dictionary<DateTime, double>>> ConsumptionProductionForAPeriodForProsumer(string id, int period, int type);
