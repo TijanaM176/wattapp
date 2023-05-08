@@ -1,10 +1,10 @@
 export class SendPhoto
 {
     UserId! : string
-    imageFile! : File
+    base64String! : string
 
-    constructor( id : string, file : File) {
+    constructor( id : string, file : string) {
         this.UserId = id
-        this.imageFile = file;
+        this.base64String = file;
     }
 }

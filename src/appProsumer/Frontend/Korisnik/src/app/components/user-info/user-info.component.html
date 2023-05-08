@@ -251,6 +251,7 @@
             aria-label="Close"
             (click)="closeImageChange()"
             id="closeCropping"
+            [disabled]="updating"
           ></button>
         </div>
         <div class="modal-body justify-content-center align-items-center">
@@ -271,13 +272,17 @@
             >
             </image-cropper>
           </div>
+          <div class="col-12 mb-3 text-center" *ngIf="success">
+            <h6 class="text-success mt-0 mb-2"><b>Updating profile...</b><br></h6>
+          </div>
           <div class="col-12 mb-2" style="display: flex; justify-content: center; align-items: center;">
             <input type="file" style="display: none;" #fileInputNew (change)="onFileSelected($event)">
-            <button class="btn btn-primary" (click)="fileInputNew.click()">Choose A Different Photo</button>
+            <button class="btn btn-primary" (click)="fileInputNew.click()" [disabled]="updating">Choose A Different Photo</button>
+            <button class="btn btn-primary" [hidden]="true" id="closeCropImadePhotoUpdated" data-bs-dismiss="modal" data-bs-target="#cropNewImageUserInfo">Close</button>
           </div>
         </div>
         <div class="modal-footer">
-          <button type="button" id="confirmImageChangeUserInfo" class="btn btn-primary" (click)="confirmImage()" data-bs-dismiss="modal" data-bs-target="#cropNewImageUserInfo">
+          <button type="button" id="confirmImageChangeUserInfo" class="btn btn-primary" (click)="confirmImage()">
             Confirm
           </button>
         </div>
