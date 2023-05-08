@@ -23,27 +23,10 @@
     $('[data-toggle="tooltip"]').tooltip();
   });
 </script>
-<div
-  class="modal fade"
-  id="exampleModal1"
-  tabindex="-1"
-  aria-labelledby="exampleModalLabel1"
-  aria-hidden="true"
->
-  <div class="modal-dialog modal-xl" style="width: 100%">
-    <div class="modal-content">
-      
-        <button
-          type="button"
-          id="closeBtn3"
-          class="btn-close"
-          data-bs-dismiss="modal"
-          aria-label="Close"
-          style="margin-left:95%;margin-top:2%;"
-        ></button>
-      
-<div class="modal-body" style="display:flex;justify-content: center; align-items: center;">
-<div class="container-xl">
+
+
+  <div class="col-md-12 p-0" *ngIf="!showDetails" style="display:flex;justify-content: center;">
+  <div class="container-xl p-0">
   <div class="table-responsive">
     <div class="table-wrapper">
       <div class="table-title">
@@ -120,10 +103,15 @@
                     };
               let i = index
             "
+            
+            (click)="Details(item.id)"
+            style="cursor:pointer;"
           >
             <td>
               <img
-                src="assets/images/user.png"
+                
+                [src]="Image(item.image)"
+                class="rounded-circle"
                 style="width: 30px; height: 30px"
               />
             </td>
@@ -133,16 +121,7 @@
             <td>{{ regionName }}</td>
             <td >{{ item.roleName }}</td>
             <td>
-              <a
-                (click)="Details(item.id)"
-                data-bs-toggle="modal"
-                data-bs-target="#exampleModal"
-                class="settings"
-                title=""
-                data-toggle="tooltip"
-                data-original-title="Settings"
-                ><i class="material-icons">info</i></a
-              >
+              
               <a
                 (click)="onDelete(item.id)"
                 class="delete"
@@ -176,265 +155,259 @@
       </div>
     </div>
   </div>
+  </div>
 </div>
-</div>
-</div>
-</div>
-</div>
+<div class="row p-0 col-md-12 m-0" *ngIf="showDetails">
+<div class="col-md-9 p-0"  >
+  <div class="container-sm p-0" style="display:flex;justify-content: center;">
+  <div class="table-responsive">
+    <div class="table-wrapper">
+      <div class="table-title">
+        <div class="row">
+          <div class="col-sm-5">
+            <h2>Employee <b>Overview</b></h2>
+          </div>
 
-
-<div
-  class="modal fade"
-  id="exampleModal"
-  tabindex="-1"
-  aria-labelledby="exampleModalLabel"
-  aria-hidden="true"
->
-  <div class="modal-dialog modal-lg" style="width: 60%">
-    <div class="modal-content">
-      <div class="modal-header text-white" style="background-color: #566787;">
-        <h5 class="modal-title" id="exampleModalLabel">
-          Employee Info
-        </h5>
-        <button
-          type="button"
-          id="closeBtn"
-          class="btn-close"
-          data-bs-dismiss="modal"
-          aria-label="Close"
-        ></button>
-      </div>
-      <div class="modal-body" style="justify-content: center; align-items: center; padding-left: 7%;">
-        <div class="slika">
-          <img
-            src="assets/images/default-image.png"
-            style="
-              height: 15%;
-              width: 15%;
-              justify-content: center;
-              margin-left: 40%;
-            "
-          />
-          <div style="margin-top: 5%; margin-left: 23%; margin-bottom: 3%">
-            <button
-              data-bs-target="#Modal2"
-              data-bs-toggle="modal"
-              (click)="update(id)"
-              style="
-                background-color: #d6d9df;
-                margin-left: 10%;
-                text-align: center;
-                color: #566787;
-                font-weight: bold;
-                font-size: 16px;
-                border: none;
-                width: 100px;
-                border-radius: 5px;
-              "
-            >
-              <span
-                style="
-                  display: flex;
-                  justify-content: center;
-                  align-items: center;
-                "
-                ><i
-                  style="color: #566787; font-size: 16px; margin-top: 5%"
-                  class="material-icons"
-                  >edit</i
+          <div class="col-sm-7">
+            <div class="search-box">
+              <div class="input-group" style="width: 100%">
+                <span class="input-group-addon"
+                  ><i
+                    class="material-icons"
+                    style="margin-top: 30%; margin-right: 10%"
+                    ></i
+                  ></span
                 >
-                Edit</span
-              >
-            </button>
-            <button
-              (click)="onDelete(id)"
-              data-bs-dismiss="modal"
-              style="
-                background-color: #d6d9df;
-                margin-left: 10%;
-                text-align: center;
-                color: #566787;
-                font-weight: bold;
-                font-size: 16px;
-                border: none;
-                width: 100px;
-                border-radius: 5px;
-              "
-            >
-              <span
-                style="
-                  display: flex;
-                  justify-content: center;
-                  align-items: center;
-                "
-                ><i
-                  style="color: #566787; font-size: 16px; margin-top: 5%"
-                  class="material-icons"
-                  >delete</i
+                <input
+                  type="text"
+                  [(ngModel)]="searchName"
+                  style="background-color: #f8f8fa; border-radius: 10px;margin-right:5%;width:10%;"
+                  class="form-control"
+                  placeholder="Search By First Name"
+                  
+                />
+                <span class="input-group-addon"
+                  ><i
+                    class="material-icons"
+                    style="margin-top: 30%; margin-right: 10%"
+                    ></i
+                  ></span
                 >
-                Delete</span
-              >
-            </button>
-          </div>
-          <div class="mb-3">
-            <label
-              for="firstName"
-              class="form-label"
-              style="width: 90%; color: #566787; font-weight: bold"
-              >First Name</label
-            >
-            <input
-              [disabled]="true"
-              type="text"
-              class="form-control"
-              id="firstName"
-              [(ngModel)]="firstName"
-              placeholder="First Name"
-              style="
-                width: 95%;
-                color: #d6d9df;
-                background-color: #566787;
-                font-weight: bold;
-              "
-            />
-          </div>
-          <div class="mb-3">
-            <label
-              for="lastName"
-              class="form-label"
-              style="width: 90%; color: #566787; font-weight: bold"
-              >Last Name</label
-            >
-            <input
-              [disabled]="true"
-              type="text"
-              class="form-control"
-              id="lastName"
-              [(ngModel)]="lastName"
-              placeholder="Last Name"
-              style="
-                width: 95%;
-                color: #d6d9df;
-                background-color: #566787;
-                font-weight: bold;
-              "
-            />
-          </div>
-          <div class="mb-3" style="width: 50%; float: left">
-            <label
-              for="dateCreate"
-              class="form-label"
-              style="width: 90%; color: #566787; font-weight: bold"
-              >Starting Date</label
-            >
-            <input
-              [disabled]="true"
-              type="text"
-              class="form-control"
-              id="dateCreate"
-              [(ngModel)]="dateCreate"
-              placeholder="Date Create"
-              style="
-                width: 90%;
-                color: #d6d9df;
-                background-color: #566787;
-                font-weight: bold;
-              "
-            />
-          </div>
-          <div class="mb-3" style="width: 50%; float: left">
-            <label
-              for="salary"
-              class="form-label"
-              style="width: 90%; color: #566787; font-weight: bold"
-              >Salary</label
-            >
-            <input
-              [disabled]="true"
-              type="text"
-              class="form-control"
-              id="salary"
-              [(ngModel)]="salary"
-              placeholder="Salary"
-              style="
-                width: 90%;
-                color: #d6d9df;
-                background-color: #566787;
-                font-weight: bold;
-              "
-            />
-          </div>
-          <div class="mb-3" style="width: 50%; float: left">
-            <label
-              for="role"
-              class="form-label"
-              style="width: 90%; color: #566787; font-weight: bold"
-              >Role</label
-            >
-            <input
-              [disabled]="true"
-              type="text"
-              class="form-control"
-              id="role"
-              [(ngModel)]="roleName"
-              placeholder="Role"
-              style="
-                width: 90%;
-                color: #d6d9df;
-                background-color: #566787;
-                font-weight: bold;
-              "
-            />
-          </div>
-          <div class="mb-3" style="width: 50%; float: left">
-            <label
-              for="region"
-              class="form-label"
-              style="width: 90%; color: #566787; font-weight: bold"
-              >Region</label
-            >
-            <input
-              [disabled]="true"
-              type="text"
-              class="form-control"
-              id="region"
-              [(ngModel)]="regionName"
-              placeholder="Region"
-              style="
-                width: 90%;
-                color: #d6d9df;
-                background-color: #566787;
-                font-weight: bold;
-              "
-            />
-          </div>
-          <div class="mb-3">
-            <label
-              for="email"
-              class="form-label"
-              style="width: 90%; color: #566787; font-weight: bold"
-              >E-mail</label
-            >
-            <input
-              [disabled]="true"
-              type="text"
-              class="form-control"
-              id="email"
-              [(ngModel)]="email"
-              placeholder="E-mail"
-              style="
-                width: 95%;
-                color: #d6d9df;
-                background-color: #566787;
-                font-weight: bold;
-              "
-            />
+                <input
+                  type="text"
+                  [(ngModel)]="searchLastName"
+                  style="background-color: #f8f8fa; border-radius: 10px;width:10%;"
+                  class="form-control"
+                  placeholder="Search By Last Name"
+                />
+              </div>
+            </div>
           </div>
         </div>
       </div>
+      <table class="table">
+        <thead>
+          <tr>
+            <th></th>
+            <th (click)="sort('firstName')">First Name<i class="fa fa-sort"></i></th>
+            <th (click)="sort('lastName')">Last Name<i class="fa fa-sort"></i></th>
+            <th  (click)="sort('username')">
+              Username<i class="fa fa-sort"></i>
+            </th>
+            <th (click)="sort('region')">Region<i class="fa fa-sort"></i></th>
+            <th (click)="sort('role')">
+              Assigned Role<i class="fa fa-sort"></i>
+            </th>
+            <th>Options</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr
+            *ngFor="
+              let item of service.employees
+                | orderBy : orderHeader : isDescOrder
+                | searchemployeelastname : searchLastName
+                | searchemployeename : searchName
+                | paginate
+                  : {
+                      itemsPerPage: perPage,
+                      currentPage: page,
+                      totalItems: total
+                    };
+              let i = index
+            "
+            
+            (click)="Details(item.id)"
+            style="cursor:pointer;"
+          >
+            <td>
+              <img
+                
+                [src]="Image(item.image)"
+                class="rounded-circle"
+                style="width: 30px; height: 30px"
+              />
+            </td>
+            <td>{{item.firstName}}</td>
+            <td>{{item.lastName}}</td>
+            <td>{{ item.userName }}</td>
+            <td>{{ regionName }}</td>
+            <td >{{ item.roleName }}</td>
+            <td>
+              
+              <a
+                (click)="onDelete(item.id)"
+                class="delete"
+                title=""
+                data-toggle="tooltip"
+                data-original-title="Delete"
+                ><i class="material-icons"></i></a
+              >
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <app-popup-add></app-popup-add>
+      <app-popup-emp></app-popup-emp>
+      <div
+        style="
+          text-align: center;
+          margin-top: 27%;
+          justify-content: center;
+          position: flex;
+          bottom: 0;
+        "
+        class="start-50"
+      >
+        <pagination-controls
+          previousLabel="Prev"
+          nextLabel="Next"
+          (pageChange)="onTableDataChange($event)"
+        >
+        </pagination-controls>
+      </div>
+    </div>
+  </div>
+  </div>
+</div>
+<div class="col-md-3 p-0" *ngIf="showDetails">
+  <div style="height:100vh; background-color: #566787;">
+    <button
+    type="button"
+    class="btn-close"
+    id="closebtn"
+    style="margin-left:88%;margin-top:2%;"
+    (click)="closeside()"
+  ></button>
+    <img
+            [src]="imageSource1"
+            class="profile-image img-fluid rounded-circle"
+            style="
+            
+              width: 40%;
+              justify-content: center;
+              margin-left:30%;
+              margin-top:7%;
+            "
+          />
+    <h3 style="display:flex;justify-content: center; color:white;">{{firstName}} {{lastName}}</h3>
+    <h4 style="display:flex;justify-content: center; color:white;">{{username}}</h4>
+    <div class="col-md-12" style="padding-top:15%;margin-left:12%;padding-left:0px;padding-right:0px;">
+      <div class="row mb-2" style="display:flex;justify-content: center; color:white;">
+      <div class="col-md-12 p-0" >
+        <h6>{{email}}</h6>
+        <p style="color:#D3D3D3">e-mail</p>
+      </div>
+      
+    </div>
+        <div class="row mb-2" style="display:flex;justify-content: center; color:white;">
+          <div class="col-md-6 p-0" >
+            <h6>{{roleName}} </h6>
+            <p style="color:#D3D3D3">role</p>
+          </div>
+          <div class="col-md-6 p-0">
+            <h6>{{regionName}} </h6>
+            <p style="color:#D3D3D3">region</p>
+          </div>
+        </div>
+     
+     
+        <div class="row mb-2" style="display:flex;justify-content: center; color:white;">
+          <div class="col-md-6 p-0">
+            <h6>{{dateCreate}} </h6>
+            <p style="color:#D3D3D3">starting date</p>
+          </div>
+          <div class="col-md-6 p-0">
+            <h6>{{salary}} </h6>
+            <p style="color:#D3D3D3">salary</p>
+          </div>
+      </div>
+    </div>
+    <div style="margin-top: 5%; margin-bottom: 3%;display:flex;justify-content:center;">
+      <button
+        data-bs-target="#Modal2"
+        data-bs-toggle="modal"
+        (click)="update(id)"
+        style="
+          background-color: #d6d9df;
+          text-align: center;
+          color: #566787;
+          font-weight: bold;
+          font-size: 16px;
+          border: none;
+          width:100px;
+          border-radius: 5px;
+        "
+      >
+        <span
+          style="
+            display: flex;
+            justify-content: center;
+            align-items: center;
+          "
+          ><i
+            style="color: #566787; font-size: 16px; margin-top: 5%"
+            class="material-icons"
+            >edit</i
+          >
+          Edit</span
+        >
+      </button>&nbsp;
+      <button
+        (click)="onDelete(id)"
+        data-bs-dismiss="modal"
+        style="
+          background-color: #d6d9df;
+          text-align: center;
+          color: #566787;
+          font-weight: bold;
+          font-size: 16px;
+          border: none;
+          width:100px;
+          border-radius: 5px;
+        "
+      >
+        <span
+          style="
+            display: flex;
+            justify-content: center;
+            align-items: center;
+          "
+          ><i
+            style="color: #566787; font-size: 16px; margin-top: 5%"
+            class="material-icons"
+            >delete</i
+          >
+          Delete</span
+        >
+      </button>
     </div>
   </div>
 </div>
+</div>
+
+
+
 
 <div
   class="modal fade"
@@ -461,7 +434,8 @@
       <div class="modal-body">
         <div class="mb-3">
           <img
-            src="assets/images/default-image.png"
+            [src]="imageSource1"
+            class="rounded-circle"
             style="
               height: 15%;
               width: 15%;
@@ -484,12 +458,12 @@
             "
           >
             <span
-              ><i
+              ><a id="changeImageLink"  class="infoUser"><i
                 style="color: #d6d9df; font-size: 16px; margin-top: 0%"
                 class="material-icons"
                 >edit</i
               >
-              Change photo</span
+              Change photo</a></span
             >
           </button>
         </div>

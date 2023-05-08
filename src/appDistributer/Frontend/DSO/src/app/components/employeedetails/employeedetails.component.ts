@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { NgxSpinnerModule, NgxSpinnerService } from 'ngx-spinner';
+import { EmployeesComponent } from '../employees/employees.component';
 
 @Component({
   selector: 'app-employeedetails',
@@ -7,9 +8,14 @@ import { NgxSpinnerModule, NgxSpinnerService } from 'ngx-spinner';
   styleUrls: ['./employeedetails.component.css'],
 })
 export class EmployeedetailsComponent implements OnInit {
-  constructor(private spiner: NgxSpinnerService) {}
+  @Input() showDetails: boolean=false;
 
+  constructor(private spiner: NgxSpinnerService) {
+    
+  }
+  
   ngOnInit() {
     this.spiner.show();
+    
   }
 }

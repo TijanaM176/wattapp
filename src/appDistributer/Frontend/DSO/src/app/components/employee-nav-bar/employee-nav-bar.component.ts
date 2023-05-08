@@ -30,6 +30,7 @@ export class EmployeeNavBarComponent implements OnInit{
     this.region.region = "";
     this.role.role = 0;
     this.employeeService.getAllData();
+   
   }
 
   loadFilters()
