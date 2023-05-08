@@ -1,17 +1,29 @@
 <table class="table table-striped">
-    <thead style="position: sticky; top: 0px; background-color: white;">
-      <tr class="text-center">
-        <th scope="col"></th>
-        <th scope="col text-center">{{type}}</th>
-        <th scope="col text-center">Predicted</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let item of data; index as i">
-        <th scope="row" class="ps-1" *ngIf="!item.date">{{item.name}}</th>
-        <th scope="row" class="ps-1" *ngIf="item.date">{{item.date}}</th>
-        <td class="text-center" [ngStyle]="{'color': type==='Consumption'? '#c14b48' : '#3ea7a8'}">{{item?.series[0]?.value?.toFixed(2)}} kW</td>
-        <td class="text-center" [ngStyle]="{'color': type==='Consumption'? 'rgb(204, 157, 29)' : 'rgb(152, 165, 31)'}">{{item?.series[1]?.value?.toFixed(2)}} kW</td>
-      </tr>
-    </tbody>
+  <thead style="position: sticky; top: 0px; background-color: white">
+    <tr class="text-center">
+      <th scope="col"></th>
+      <th scope="col text-center">{{ type }}</th>
+      <th scope="col text-center">Predicted</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let value of data[0]?.values; let i = index">
+      <th scope="row" class="ps-4">{{ value.x }}</th>
+      <td
+        class="text-center"
+        [ngStyle]="{ color: type === 'Consumption' ? '#c14b48' : '#3ea7a8' }"
+      >
+        {{ value.y.toFixed(3) }} kW
+      </td>
+      <td
+        class="text-center"
+        [ngStyle]="{
+          color:
+            type === 'Consumption' ? 'rgb(204, 157, 29)' : 'rgb(152, 165, 31)'
+        }"
+      >
+        {{ data[1].values[i].y.toFixed(3) }} kW
+      </td>
+    </tr>
+  </tbody>
 </table>

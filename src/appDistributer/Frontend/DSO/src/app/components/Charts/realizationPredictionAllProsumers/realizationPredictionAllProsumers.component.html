@@ -2,12 +2,11 @@
   bdColor="rgba(0, 0, 0, 0)"
   size="medium"
   color="black"
-  type = "ball-clip-rotate"
+  type="ball-clip-rotate"
   [showSpinner]="show"
   [fullScreen]="false"
   *ngIf="show"
-  ></ngx-spinner
->
+></ngx-spinner>
 
 <div>
   <div
@@ -72,43 +71,43 @@
     </div>
   </div>
   <div class="card-body">
-  <div style="width: 99%; margin: 0 auto; margin-top: 1%; height: 70%">
-    <ngx-charts-line-chart
-      [scheme]="colors"
-      [results]="data"
-      [xAxis]="showXAxis"
-      [yAxis]="showYAxis"
-      [showXAxisLabel]="false"
-      [showYAxisLabel]="true"
-      [animations]="false"
-      [roundDomains]="false"
-      [showGridLines]="true"
-      [trimYAxisTicks]="true"
-      [tooltipDisabled]="false"
-      [showGridLines]="true"
-      [legend]="true"
-      [yAxisTickFormatting]="yAxisTickFormatting"
-      [yAxisLabel]="yAxisLabel"
-      [rotateXAxisTicks]="true"
-      [showRefLines]="true"
-      [showRefLabels]="true"
-    >
-    </ngx-charts-line-chart>
+    <div style="width: 99%; margin: 0 auto; margin-top: 1%; height: 70%">
+      <ngx-charts-line-chart
+        [scheme]="colors"
+        [results]="data"
+        [xAxis]="showXAxis"
+        [yAxis]="showYAxis"
+        [showXAxisLabel]="false"
+        [showYAxisLabel]="true"
+        [animations]="false"
+        [roundDomains]="false"
+        [showGridLines]="true"
+        [trimYAxisTicks]="true"
+        [tooltipDisabled]="false"
+        [showGridLines]="true"
+        [legend]="true"
+        [yAxisTickFormatting]="yAxisTickFormatting"
+        [yAxisLabel]="yAxisLabel"
+        [rotateXAxisTicks]="true"
+        [showRefLines]="true"
+        [showRefLabels]="true"
+      >
+      </ngx-charts-line-chart>
 
-    <h1
-      *ngIf="!data"
-      style="
-        text-align: center;
-        margin-top: 15%;
-        opacity: 20%;
-        font-style: italic;
-        font-weight: normal;
-      "
-    >
-      There is no available Data
-    </h1>
+      <h1
+        *ngIf="!data"
+        style="
+          text-align: center;
+          margin-top: 15%;
+          opacity: 20%;
+          font-style: italic;
+          font-weight: normal;
+        "
+      >
+        There is no available Data
+      </h1>
+    </div>
   </div>
-</div>
 </div>
 <div
   class="modal fade"
@@ -132,13 +131,19 @@
           aria-label="Close"
         ></button>
       </div>
-      <div class="modal-body pt-0" style="overflow-y: auto; overflow-x: hidden;" id="modalFadeRealizationPredictionAllProsumers">
+      <div
+        class="modal-body pt-0"
+        style="overflow-y: auto; overflow-x: hidden"
+        id="modalFadeRealizationPredictionAllProsumers"
+      >
         <app-realization-prediction-all-prosumers-table
           [data]="data"
         ></app-realization-prediction-all-prosumers-table>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-primary">Export Table</button>
+        <button type="button" class="btn btn-primary" (click)="exportTable()">
+          Export Table
+        </button>
       </div>
     </div>
   </div>

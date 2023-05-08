@@ -1,8 +1,6 @@
 import { Component, OnInit, AfterViewInit, Input } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Color, ScaleType } from '@swimlane/ngx-charts';
 import { ScreenWidthService } from 'src/app/services/screen-width.service';
-import { DeviceserviceService } from 'src/app/services/deviceservice.service';
 import { TimestampService } from 'src/app/services/timestamp.service';
 import * as XLSX from 'xlsx';
 import { NgxSpinnerService } from 'ngx-spinner';
@@ -17,31 +15,12 @@ Chart.register(...registerables);
 })
 export class PredictionDeviceComponent implements OnInit, AfterViewInit {
   chart: any;
-  data: any[] = [];
-  dataConsumers: any[] = [];
-  dataProducers: any[] = [];
-  production = true;
-  consumption = true;
-  colors: Color = {
-    name: 'mycolors',
-    selectable: true,
-    group: ScaleType.Ordinal,
-    domain: ['#F4C430'],
-  };
-  showXAxis = true;
-  showYAxis = true;
-  gradient = false;
-  showLegend = true;
-  showXAxisLabel = true;
-  xAxisLabel = 'Time';
-  showYAxisLabel = true;
-  yAxisLabel = 'Energy in kWh';
+  data: any[] = ['z'];
   idDev: string = '';
   show!: boolean;
   @Input() type: string = '';
 
   constructor(
-    private deviceService: DeviceserviceService,
     private widthService: ScreenWidthService,
     private timeService: TimestampService,
     private router1: ActivatedRoute,
@@ -106,15 +85,23 @@ export class PredictionDeviceComponent implements OnInit, AfterViewInit {
         }
       );
       this.data = [{ type: 'consumption', values: consumptionData }];
-      console.log(this.data);
+
+      let backgroundColor, borderColor;
+      if (this.type === 'Consumption') {
+        backgroundColor = 'rgba(255, 125, 65, 1)';
+        borderColor = 'rgba(255, 125, 65,0.5)';
+      } else if (this.type === 'Production') {
+        backgroundColor = 'rgba(0, 188, 179, 1)';
+        borderColor = 'rgba(0, 188, 179, 0.5)';
+      }
 
       const chartData = {
         datasets: [
           {
             label: 'Predicted Energy ' + this.type,
             data: consumptionData,
-            backgroundColor: 'rgba(255, 125, 65, 1)',
-            borderColor: 'rgba(255, 125, 65, 0.5)',
+            backgroundColor: backgroundColor,
+            borderColor: borderColor,
           },
         ],
       };

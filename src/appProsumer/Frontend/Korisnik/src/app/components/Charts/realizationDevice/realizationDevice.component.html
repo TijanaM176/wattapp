@@ -2,13 +2,11 @@
   bdColor="rgba(0, 0, 0, 0)"
   size="medium"
   color="black"
-  type = "ball-clip-rotate"
+  type="ball-clip-rotate"
   [showSpinner]="show"
   [fullScreen]="false"
   *ngIf="show"
-  
-  ></ngx-spinner
->
+></ngx-spinner>
 <div
   class="flex-grow-1 d-flex flex-column justify-content-center"
   style="flex-basis: 50%"
@@ -78,48 +76,10 @@
       >
         There Is No Available Data
       </h1>
-      <ngx-charts-bar-vertical-2d
-        *ngIf="production && consumption && data.length != 0 && cat == '1'"
-        [title]="'Realization'"
-        [scheme]="colors"
-        [results]="data"
-        [xAxis]="showXAxis"
-        [yAxis]="showYAxis"
-        [showXAxisLabel]="false"
-        [showYAxisLabel]="false"
-        [showDataLabel]="false"
-        [animations]="true"
-        [barPadding]="3"
-        [roundDomains]="true"
-        [showGridLines]="true"
-        [trimYAxisTicks]="true"
-        [tooltipDisabled]="false"
-        [showGridLines]="true"
-        [yAxisTickFormatting]="yAxisTickFormatting"
-        [legend]="false"
-      >
-      </ngx-charts-bar-vertical-2d>
-      <ngx-charts-bar-vertical-2d
-        *ngIf="production && consumption && data.length != 0 && cat == '2'"
-        [title]="'Realization'"
-        [scheme]="colors1"
-        [results]="data"
-        [xAxis]="showXAxis"
-        [yAxis]="showYAxis"
-        [showXAxisLabel]="false"
-        [showYAxisLabel]="false"
-        [showDataLabel]="false"
-        [animations]="true"
-        [barPadding]="3"
-        [roundDomains]="true"
-        [trimYAxisTicks]="true"
-        [tooltipDisabled]="false"
-        [noBarWhenZero]="true"
-        [yAxisTickFormatting]="yAxisTickFormatting"
-        [showGridLines]="true"
-        [legend]="false"
-      >
-      </ngx-charts-bar-vertical-2d>
+      <canvas
+        id="RealizationDeviceChart"
+        style="height: 100% !important; width: 100% !important"
+      ></canvas>
     </div>
 
     <div
@@ -131,8 +91,12 @@
       >&nbsp;&nbsp;&nbsp;
       <i class="fa fa-circle production" *ngIf="cat == '2'">&nbsp;Production</i
       >&nbsp;&nbsp;&nbsp;
-      <i class="fa fa-circle predictionConsumption" *ngIf="cat == '1'">&nbsp;Predicted</i>
-      <i class="fa fa-circle predictionProduction" *ngIf="cat == '2'">&nbsp;Predicted</i>
+      <i class="fa fa-circle predictionConsumption" *ngIf="cat == '1'"
+        >&nbsp;Predicted</i
+      >
+      <i class="fa fa-circle predictionProduction" *ngIf="cat == '2'"
+        >&nbsp;Predicted</i
+      >
     </div>
   </div>
 </div>

@@ -1,16 +1,16 @@
 <table class="table table-striped">
-    <thead style="position: sticky; top: 0px; background-color: white;">
-      <tr class="text-center">
-        <th scope="col"></th>
-        <th scope="col text-center">Consumption</th>
-        <th scope="col text-center">Production</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let item of data; index as i">
-        <th scope="row" class="ps-1">{{item.name}}</th>
-        <td class="text-center" style="color: #d96d2a;">{{item?.series[0]?.value?.toFixed(2)}} kW</td>
-        <td class="text-center" style="color: #2a96d9;">{{item?.series[1]?.value?.toFixed(2)}} kW</td>
-      </tr>
-    </tbody>
+  <thead style="position: sticky; top: 0px; background-color: white">
+    <tr class="text-center">
+      <th scope="col"></th>
+      <th scope="col text-center">Consumption</th>
+      <th scope="col text-center">Production</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let value of data[0]?.values; let i = index">
+      <th scope="row" class="ps-4">{{ value.x }}</th>
+      <td class="text-center">{{ value.y.toFixed(3) }} kW</td>
+      <td class="text-center">{{ data[1].values[i].y.toFixed(3) }} kW</td>
+    </tr>
+  </tbody>
 </table>

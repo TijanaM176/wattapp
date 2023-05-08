@@ -1,11 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Color, ScaleType } from '@swimlane/ngx-charts';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { DataService } from 'src/app/services/data.service';
 import { ScreenWidthService } from 'src/app/services/screen-width.service';
 import { TimestampService } from 'src/app/services/timestamp.service';
-import { UsersServiceService } from 'src/app/services/users-service.service';
 import * as XLSX from 'xlsx';
 import { Chart, registerables } from 'chart.js';
 
@@ -21,23 +18,8 @@ export class PredictionProsumerComponent implements OnInit {
   data: any[] = ['z'];
   chart: any;
   show!: boolean;
-  colors: Color = {
-    name: 'mycolors',
-    selectable: true,
-    group: ScaleType.Ordinal,
-    domain: ['#ff7d41', '#00bcb3'],
-  };
-  showXAxis = true;
-  showYAxis = true;
-  gradient = false;
-  showLegend = true;
-  showXAxisLabel = true;
-  xAxisLabel = 'Time';
-  showYAxisLabel = true;
-  yAxisLabel = 'Energy in kW';
 
   constructor(
-    private service: UsersServiceService,
     private router: ActivatedRoute,
     private spiner: NgxSpinnerService,
     private widthService: ScreenWidthService,
@@ -82,7 +64,7 @@ export class PredictionProsumerComponent implements OnInit {
             const monthName = date.toLocaleString('default', { month: 'long' });
             return {
               x: `${monthName} ${dayNumber}`,
-              y: consumptionTimestamps[name] || 0.0,
+              y: productionTimestamps[name] || 0.0,
             };
           }
         );
@@ -170,7 +152,7 @@ export class PredictionProsumerComponent implements OnInit {
             const monthName = date.toLocaleString('default', { month: 'long' });
             return {
               x: `${monthName} ${dayNumber}`,
-              y: consumptionTimestamps[name] || 0.0,
+              y: productionTimestamps[name] || 0.0,
             };
           }
         );

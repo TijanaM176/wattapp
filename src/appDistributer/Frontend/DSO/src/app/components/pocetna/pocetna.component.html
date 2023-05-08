@@ -53,9 +53,9 @@
                     less than yesterday
                   </p>
                   <p class="mb-0" *ngIf="ratioProd.charAt(0) != '-'">
-                    <span class="text-success text-sm font-weight-bolder"
-                      >+{{ ratioProd }}</span
-                    >
+                    <span class="text-success text-sm font-weight-bolder">{{
+                      ratioProd
+                    }}</span>
                     more than yesterday
                   </p>
                 </div>
@@ -105,15 +105,15 @@
                     {{ nextCons.toFixed(2) }} kW
                   </h5>
                   <p class="mb-0" *ngIf="nextProd.charAt(0) != '-'">
-                    <span class="text-success text-sm font-weight-bolder"
-                      >+{{ nextProd }}%</span
-                    >
+                    <span class="text-success text-sm font-weight-bolder">{{
+                      nextProd
+                    }}</span>
                     more than today
                   </p>
                   <p class="mb-0" *ngIf="nextProd.charAt(0) == '-'">
-                    <span class="text-danger text-sm font-weight-bolder"
-                      >{{ nextProd }}%</span
-                    >
+                    <span class="text-danger text-sm font-weight-bolder">{{
+                      nextProd
+                    }}</span>
                     less than today
                   </p>
                 </div>

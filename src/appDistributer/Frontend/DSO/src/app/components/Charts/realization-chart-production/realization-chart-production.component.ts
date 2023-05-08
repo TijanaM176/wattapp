@@ -1,19 +1,9 @@
 import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import {
-  Color,
-  ColorHelper,
-  LegendPosition,
-  ScaleType,
-} from '@swimlane/ngx-charts';
 import * as XLSX from 'xlsx';
-
 import { fromEvent, Observable, Subscription } from 'rxjs';
-import { DeviceserviceService } from 'src/app/services/deviceservice.service';
 import { ScreenWidthService } from 'src/app/services/screen-width.service';
 import { TimestampService } from 'src/app/services/timestamp.service';
-import { UsersServiceService } from 'src/app/services/users-service.service';
-import { NgxSliderModule } from '@angular-slider/ngx-slider';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { Chart, registerables } from 'chart.js';
 
@@ -29,25 +19,8 @@ export class RealizationChartProductionComponent
 {
   chart: any;
   data: any[] = ['z'];
-  dataConsumers: any[] = [];
-  dataProducers: any[] = [];
   production = true;
   consumption = true;
-  colors: Color = {
-    name: 'mycolors',
-    selectable: true,
-    group: ScaleType.Ordinal,
-    domain: ['#238f91', '#d3f72f'],
-  };
-  showXAxis = true;
-  showYAxis = true;
-  gradient = false;
-  showLegend = true;
-  legendPosition: LegendPosition = LegendPosition.Below;
-  showXAxisLabel = true;
-  xAxisLabel = 'Time';
-  showYAxisLabel = true;
-  yAxisLabel = 'Energy  ( kWh )';
 
   resizeObservable$!: Observable<Event>;
   resizeSubscription$!: Subscription;
@@ -56,18 +29,15 @@ export class RealizationChartProductionComponent
   show!: boolean;
 
   constructor(
-    private deviceService: DeviceserviceService,
     private widthService: ScreenWidthService,
     private serviceTime: TimestampService,
     private router: ActivatedRoute,
-    private service: UsersServiceService,
     private spiner: NgxSpinnerService
   ) {}
 
   ngAfterViewInit(): void {
     const grafik = document.getElementById('realizationUser');
     grafik!.style.height = this.widthService.height * this.coef + 'px';
-    // document.getElementById('realizPred1')!.classList.add("active");
   }
 
   ngOnInit(): void {
