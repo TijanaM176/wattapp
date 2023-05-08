@@ -136,8 +136,8 @@ export class DeviceserviceService {
     );
   }
 
-  ProsumersInfo1(): Observable<any[]> {
-    return this.http.get<any[]>(this.baseUrl + 'Devices/AllProsumerInfo');
+  ProsumersInfo1() : Observable<any> {
+    return this.http.get(this.baseUrl + 'Devices/AllProsumerInfo');
   }
 
   toggleDevice(id: string, state: boolean): Observable<any> {
