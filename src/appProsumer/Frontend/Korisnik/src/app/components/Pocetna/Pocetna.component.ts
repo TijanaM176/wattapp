@@ -58,7 +58,7 @@ export class PocetnaComponent implements OnInit, AfterViewInit {
   ngOnInit() {
     this.getDevices();
     this.getPrice();
-    this.get7DaysHistory();
+    // this.get7DaysHistory();
     let hour = new Date().getHours();
     if (hour >= 22 || hour <= 6) {
       this.tariff = 'LOWER';
@@ -107,15 +107,14 @@ export class PocetnaComponent implements OnInit, AfterViewInit {
     });
   }
 
-  get7DaysHistory() {
-    this.deviceService.history7Days().subscribe({
-      next: (res) => {
-        // console.log(res);
-        this.realizationConsumption.HistoryWeekInit(res);
-        this.realizationProduction.HistoryWeekInit(res);
-      },
-    });
-  }
+  // get7DaysHistory() {
+  //   this.deviceService.history7Days().subscribe({
+  //     next: (res) => {
+  //       this.realizationConsumption.HistoryWeekInit(res);
+  //       this.realizationProduction.HistoryWeekInit(res);
+  //     },
+  //   });
+  // }
 
   onDeviceTurnedOffOn(
     data: [any[], number, number, string] //devices : any[], offOn : number

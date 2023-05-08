@@ -21,12 +21,6 @@ export class PredictionProsumerComponent implements OnInit {
   data: any[] = ['z'];
   chart: any;
   show!: boolean;
-  colors: Color = {
-    name: 'mycolors',
-    selectable: true,
-    group: ScaleType.Ordinal,
-    domain: ['#ff7d41', '#00bcb3'],
-  };
   showXAxis = true;
   showYAxis = true;
   gradient = false;

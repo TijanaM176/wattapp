@@ -13,8 +13,6 @@ import { DeviceserviceService } from 'src/app/services/deviceservice.service';
 import { Chart, registerables } from 'chart.js';
 
 Chart.register(...registerables);
-// Chart.register(BarController);
-// Chart.register(CategoryScale);
 
 @Component({
   selector: 'app-history-Prosumer',

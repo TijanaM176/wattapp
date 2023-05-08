@@ -76,35 +76,11 @@
     >
       There Is No Available Data
     </h1>
-    <ngx-charts-bar-vertical-2d
-      *ngIf="production && consumption && data.length != 0"
-      [title]="'Realization'"
-      [scheme]="colors"
-      [results]="data"
-      [xAxis]="showXAxis"
-      [yAxis]="showYAxis"
-      [showXAxisLabel]="false"
-      [showYAxisLabel]="false"
-      [showDataLabel]="false"
-      [animations]="true"
-      [barPadding]="3"
-      [roundDomains]="true"
-      [showGridLines]="true"
-      [trimYAxisTicks]="true"
-      [tooltipDisabled]="false"
-      [showGridLines]="true"
-      [yAxisTickFormatting]="yAxisTickFormatting"
-      [legend]="false"
-    >
-    </ngx-charts-bar-vertical-2d>
-  </div>
-
-  <div
-    class="legend w-100 text-center"
-    *ngIf="production && consumption && data.length != 0"
-  >
-    <i class="fa fa-circle consumption">&nbsp;Consumption</i>&nbsp;&nbsp;&nbsp;
-    <i class="fa fa-circle prediction">&nbsp;Predicted Consumption</i>
+    <canvas
+      *ngIf="data.length != 0"
+      id="chartCanvas"
+      style="height: 100% !important; width: 100% !important"
+    ></canvas>
   </div>
 </div>
 
@@ -141,7 +117,11 @@
         ></app-realization-chart-table>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-primary" (click)="exportTable()">
+        <button
+          type="button"
+          class="btn btn-primary"
+          (click)="exportTable(data)"
+        >
           Export Table
         </button>
       </div>
