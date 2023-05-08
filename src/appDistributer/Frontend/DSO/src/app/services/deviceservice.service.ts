@@ -5,6 +5,7 @@ import { Prosumer } from '../models/userstable';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { CookieService } from 'ngx-cookie-service';
 import { environment } from 'src/enviroments/enviroment';
+import { UserTableMapInitDto } from '../models/userTableMapInitDto';
 
 @Injectable({
   providedIn: 'root',
@@ -19,6 +20,13 @@ export class DeviceserviceService {
   private baseUrl = environment.apiUrl;
   prosumers!: Prosumer[];
   numofdevices!: number;
+
+    maxCons : number = 0;
+    maxProd : number = 0;
+    maxDevCount : number = 0;
+    minCons : number = 0;
+    minProd : number = 0;
+    minDevCount : number = 0;
 
   getInfoDevice(id: string) {
     return this.http.get(`${this.baseUrl}Devices/GetDevice` + `?id=` + id);
@@ -113,7 +121,13 @@ export class DeviceserviceService {
   ProsumersInfo() {
     lastValueFrom(this.http.get(this.baseUrl + 'Devices/AllProsumerInfo')).then(
       (res) => {
-        this.prosumers = res as Prosumer[];
+        let response = res as UserTableMapInitDto;
+        this.prosumers = response.prosumers as Prosumer[];
+        this.maxCons = response.maxCons;
+        this.minCons = response.minCons;
+        this.maxProd = response.maxProd;
+        this.minProd = response.minProd;
+        this.maxDevCount = response.maxDevCount;
         this.spiner.hide();
       },
       (err) => {
