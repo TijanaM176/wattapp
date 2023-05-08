@@ -11,9 +11,11 @@ namespace API.Services.Devices
     public class DevicesService : IDevicesService
     {
         private readonly IDeviceRepository _repository;
+        private readonly IUserRepository _dsoRepository;
         public DevicesService(IDeviceRepository repository,IUserRepository dsoRepository)
         {
             _repository = repository;
+            _dsoRepository = dsoRepository;
         }
 
         public async Task<List<List<Dictionary<string, object>>>> GetDevices(string id)
@@ -462,6 +464,9 @@ namespace API.Services.Devices
                 };
             double totalConsumption = 0;
             double totalProduction = 0;
+            var cityNames = (await _dsoRepository.GetCities()).Select(x => x.Name);
+            cities["Consumption"] = cityNames.ToDictionary(cityName => cityName, _ => 0.0);
+            cities["Production"] = cityNames.ToDictionary(cityName => cityName, _ => 0.0);
 
             foreach (var prosumer in prosumers)
             {
@@ -473,35 +478,27 @@ namespace API.Services.Devices
                 if (cons > 0)
                 {
                     totalConsumption += cons;
-
-                    if (cities.ContainsKey(city))
-                        cities["Consumption"][city] += cons;
-                    else
-                        cities["Consumption"][city] = cons;
+                    cities["Consumption"][city] += cons;
                 }
                 
                 if(prod > 0)
                 {
                     totalProduction += prod;
-
-                    if (cities.ContainsKey(city))
-                        cities["Production"][city] += prod;
-                    else
-                        cities["Production"][city] = prod;
+                    cities["Production"][city] += prod;
                 }
             }
 
             Dictionary<string, Dictionary<string, double>> percentages = new Dictionary<string, Dictionary<string, double>>
-                {
-                    ["Consumption"] = new Dictionary<string, double>(),
-                    ["Production"] = new Dictionary<string, double>()
-                };
+            {
+                ["Consumption"] = new Dictionary<string, double>(),
+                ["Production"] = new Dictionary<string, double>()
+            };
 
             Dictionary<string, Dictionary<string, double>> numbers = new Dictionary<string, Dictionary<string, double>>
-                {
-                    ["Consumption"] = new Dictionary<string, double>(),
-                    ["Production"] = new Dictionary<string, double>()
-                };
+            {
+                ["Consumption"] = new Dictionary<string, double>(),
+                ["Production"] = new Dictionary<string, double>()
+            };
 
             foreach (var typepair in cities)
             {
@@ -520,7 +517,10 @@ namespace API.Services.Devices
                 }
             }
 
-            return new Dictionary<string, Dictionary<string, Dictionary<string, double>>> { { "numbers", numbers }, { "percentages", percentages } };
+            return new Dictionary<string, Dictionary<string, Dictionary<string, double>>> {
+                { "numbers", numbers.ToDictionary(pair => pair.Key, pair => pair.Value.OrderByDescending(x => x.Value).ToDictionary(x => x.Key, x => x.Value)) }, 
+                { "percentages", percentages.ToDictionary(pair => pair.Key, pair => pair.Value.OrderByDescending(x => x.Value).ToDictionary(x => x.Key, x => x.Value)) }
+            };
         }
 
         public async Task<(double, double, string, List<DateTime>, List<DateTime>)> ThisWeekTotalProduction()
