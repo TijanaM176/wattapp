@@ -7,10 +7,10 @@ body {
   width: 100%;
 }
 
-.container-xl {
+.container-md {
   width: 100%;
   /*width: 100%;*/
-  height: 90vh;
+  height: 100vh;
 }
 .table-responsive {
   margin-top: 0%;
@@ -136,6 +136,9 @@ td {
 .material-icons {
   cursor: pointer;
   vertical-align: -moz-middle-with-baseline;
+}
+#closebtn{
+  background-color: #566787;
 }
 .deo {
   margin-top: 3%;

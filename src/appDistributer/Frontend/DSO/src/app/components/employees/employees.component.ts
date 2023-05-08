@@ -42,11 +42,13 @@ export class EmployeesComponent {
   region: any;
   roleId!: number;
   regionId!: string;
+  username!:string;
   currentRoute!: string;
   id!: string;
   searchLastName!: string;
   imageSource!:any;
   imageSource1!:any;
+  showDetails:boolean=false;
   constructor(
     public service: EmployeesServiceService,
     private router: Router,
@@ -87,7 +89,8 @@ export class EmployeesComponent {
     this.Paging();
   }
 
-  Details(id: string) {
+  Details(id: string) { 
+    this.showDetails=true;
     console.log(this.service.employees);
     this.service.idEmp = id;
     console.log(this.service.idEmp);
@@ -96,6 +99,7 @@ export class EmployeesComponent {
       this.id = res.id;
       this.firstName = res.firstName;
       this.lastName = res.lastName;
+      this.username=res.userName;
       this.salary = res.salary;
       this.dateCreate = res.prosumerCreationDate;
       this.email = res.email;
@@ -124,6 +128,9 @@ export class EmployeesComponent {
       );
     }
   
+  }
+  closeside(){
+    this.showDetails=false;
   }
   close() {}
   ChangeRegion(e: any) {}
