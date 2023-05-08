@@ -39,10 +39,10 @@ namespace API.Repositories.DeviceRepository
             return await _regContext.ProsumerLinks.Where(x => x.ProsumerId == id).ToListAsync();
         }
           
-        public async Task<List<List<Device>>> GetDevices(string id, string role)
+        public async Task<List<List<Device>>> GetDevices(string id)
         {
             var linkInfo = await GetLinksForProsumer(id);
-            var links = linkInfo.Where(x => role == "Prosumer" || x.DsoView).Select(x => x.ModelId);
+            var links = linkInfo.Select(x => x.ModelId);
 
             var filter = Builders<DevicePower>.Filter.In(x => x.DeviceId, links);        
             var usageData = await _usageContext.PowerUsage.Find(filter).ToListAsync();
@@ -128,23 +128,6 @@ namespace API.Repositories.DeviceRepository
             return (await _regContext.DeviceTypes.FirstOrDefaultAsync(x => x.Id == id));
         }
 
-
-        public async Task<Dictionary<string, double>> CurrentConsumptionAndProductionForProsumer(string id)
-        {
-           var devices = await GetDevices(id, "Prosumer");
-            if (devices.Count == 0) return new Dictionary<string, double> { { "consumption", 0 }, { "production", 0 } };
-
-            double currentConsumption;
-            double currentProduction;
-
-            if (devices[0].Where(x => x.Activity).ToList().Count == 0) currentConsumption = 0;
-            else currentConsumption = devices[0].Where(x => x.Activity).Sum(device => device.Timestamps.FirstOrDefault()?.Power ?? 0);
-            if (devices[1].Where(x => x.Activity).ToList().Count == 0) currentProduction = 0;
-            currentProduction = devices[1].Where(x => x.Activity).Sum(device => device.Timestamps.FirstOrDefault()?.Power ?? 0);
-
-            return new Dictionary<string, double> { { "consumption", currentConsumption}, { "production", currentProduction } };
-        }
-
         // svi Prosumeri koji imaju uredjaje
 
         public async Task<List<ProsumerLink>> getAllProsumersWhoOwnDevice()
@@ -177,7 +160,7 @@ namespace API.Repositories.DeviceRepository
             .Sum(ts => ts.Power);
         }
 
-        public async Task<double> ProsumerDeviceCount(string id)
+        public async Task<int> ProsumerDeviceCount(string id)
         {
             var links = await GetLinksForProsumer(id);
             int count = links.Count();
@@ -270,13 +253,17 @@ namespace API.Repositories.DeviceRepository
             double avg = await AvgUsage(link.ModelId);
             if (link.Activity)
             {
-                if (currentUsage == 0)
+                if (info.TypeId == 19 && (DateTime.Now.TimeOfDay < TimeSpan.FromHours(6) || DateTime.Now.TimeOfDay > TimeSpan.FromHours(18))) curr = 0;
+                else
                 {
-                    Random random = new Random();
-                    if (info.CategoryId != 3) curr = avg * random.Next(95, 105) / 100;
-                    else curr = info.Wattage * random.Next(1, 100) / 100;
+                    if (currentUsage == 0)
+                    {
+                        Random random = new Random();
+                        if (info.CategoryId != 3) curr = avg * random.Next(95, 105) / 100;
+                        else curr = info.Wattage * random.Next(1, 100) / 100;
+                    }
+                    else curr = currentUsage;
                 }
-                else curr = currentUsage;
             }
             else curr = 0;
 

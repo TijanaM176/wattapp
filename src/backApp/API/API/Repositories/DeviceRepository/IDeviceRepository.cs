@@ -6,9 +6,8 @@ namespace API.Repositories.DeviceRepository
 {
     public interface IDeviceRepository
     {
-        public Task<List<List<Device>>> GetDevices(string id, string role);
+        public Task<List<List<Device>>> GetDevices(string id);
         public Task<List<Device>> GetDevicesByCategoryForAPeriod(string id, string catStr, int period);
-        public Task<Dictionary<string, double>> CurrentConsumptionAndProductionForProsumer(string id);
         public Task<double> ProductionForLastWeekForAllProsumers();
         public Task<double> ConsumptionForLastWeekForAllProsumers();
         public Task<List<ProsumerLink>> getAllProsumersWhoOwnDevice();
@@ -19,7 +18,7 @@ namespace API.Repositories.DeviceRepository
         public Task<EnumCategory.DeviceCatergory> getDeviceCategoryEnum(string idDevice);
         public Task<Prosumer> GetProsumer(string id);
         public Task<List<Prosumer>> GetProsumers();
-        public Task<double> ProsumerDeviceCount(string id);
+        public Task<int> ProsumerDeviceCount(string id);
         public Task EditDevice(string IdDevice, string model, string DeviceName, string IpAddress, bool dsoView, bool dsoControl);
         public Task<Boolean> DeleteDevice(string idDevice);
         public Task InsertLink(ProsumerLink link);

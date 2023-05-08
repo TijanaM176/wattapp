@@ -11,16 +11,16 @@ namespace API.Services.Devices
     public class DevicesService : IDevicesService
     {
         private readonly IDeviceRepository _repository;
-        private readonly IUserRepository _userRepository;
+        private readonly IUserRepository _dsoRepository;
         public DevicesService(IDeviceRepository repository,IUserRepository dsoRepository)
         {
             _repository = repository;
-            _userRepository = dsoRepository;
+            _dsoRepository = dsoRepository;
         }
 
-        public async Task<List<List<Dictionary<string, object>>>> GetDevices(string id, string role)
+        public async Task<List<List<Dictionary<string, object>>>> GetDevices(string id)
         {
-            var devices = await _repository.GetDevices(id, role);
+            var devices = await _repository.GetDevices(id);
             if (devices == null) throw new ArgumentException("No devices found!");
             List<List<Dictionary<string, object>>> devicesData = new List<List<Dictionary<string, object>>>();
             for (int i = 0; i < 3; i++)
@@ -30,13 +30,16 @@ namespace API.Services.Devices
                     double currentUsage;
                     if (d.Activity)
                     {
-                        if (d.Timestamps[0].Power != 0) currentUsage = d.Timestamps[0].Power;
+                        if (d.TypeId == 19 && (DateTime.Now.TimeOfDay < TimeSpan.FromHours(6) || DateTime.Now.TimeOfDay > TimeSpan.FromHours(18))) currentUsage = 0;
                         else
-                        {
-                            Random rand = new Random();
-                            if (d.CategoryId != 3)
-                                currentUsage = d.Wattage * rand.Next(95, 105) / 100;
-                            else currentUsage = d.Wattage * rand.Next(1, 100) / 100;
+                        { 
+                            if (d.Timestamps[0].Power != 0) currentUsage = d.Timestamps[0].Power;
+                            else
+                            {
+                                Random rand = new Random();
+                                if (d.CategoryId != 3) currentUsage = d.Wattage * rand.Next(95, 105) / 100;
+                                else currentUsage = d.Wattage * rand.Next(1, 100) / 100;
+                            }
                         }
                     }
                     else
@@ -75,27 +78,28 @@ namespace API.Services.Devices
         //moje
         public async Task<Dictionary<string, double>> CurrentConsumptionAndProductionForProsumer(string id)
         {
-            return await _repository.CurrentConsumptionAndProductionForProsumer(id);
+            var devices = await GetDevices(id);
+            if (devices.Count == 0) return new Dictionary<string, double> { { "consumption", 0 }, { "production", 0 } };
+
+            double currentConsumption;
+            double currentProduction;
+
+            if (devices[0].Where(x => (bool)x["Activity"]).ToList().Count == 0) currentConsumption = 0;
+            else currentConsumption = devices[0].Where(x => (bool)x["Activity"]).Sum(device => (double)device["CurrentUsage"]);
+            if (devices[1].Where(x => (bool)x["Activity"]).ToList().Count == 0) currentProduction = 0;
+            currentProduction = devices[1].Where(x => (bool)x["Activity"]).Sum(device => (double)device["CurrentUsage"]);
+
+            return new Dictionary<string, double> { { "consumption", currentConsumption }, { "production", currentProduction } };
         }
-        public async Task<double> CurrentConsumptionForProsumer(List<double> list)
+        public async Task<double> CurrentUsageForProsumer(List<double> list)
         {
-            double currentConsumption = 0;
+            double currentUsage = 0;
             foreach (var value in list)
             {
-                currentConsumption += value;
+                currentUsage += value;
             }
 
-            return currentConsumption;
-        }
-        public async Task<double> CurrentProductionForProsumer(List<double> list)
-        {
-            double currentProduction = 0;
-            foreach (var value in list)
-            {
-                currentProduction += value;
-            }
-
-            return currentProduction;
+            return currentUsage;
         }
 
         public async Task<Dictionary<string, Dictionary<DateTime, double>>> ConsumptionProductionForAPeriodForProsumer(string id, int period, int type)    //0 cons, 1 prod
@@ -257,8 +261,10 @@ namespace API.Services.Devices
         public async Task<Dictionary<string, object>> GetProsumerInformation(string id)
         {
             var prosumer = await _repository.GetProsumer(id);
-            var usage = await CurrentConsumptionAndProductionForProsumer(id);
-            var devCount = await _repository.ProsumerDeviceCount(id);
+            var devices = await GetDevices(prosumer.Id);
+            var cons = await CurrentUsageForProsumer(devices[0].Select(x => (double)x["CurrentUsage"]).ToList());
+            var prod = await CurrentUsageForProsumer(devices[1].Select(x => (double)x["CurrentUsage"]).ToList());
+            int devCount = await _repository.ProsumerDeviceCount(id);
 
             return new Dictionary<string, object> {
                 { "id", id },
@@ -269,8 +275,8 @@ namespace API.Services.Devices
                 { "lat", prosumer.Latitude },
                 { "long", prosumer.Longitude },
                 { "image", prosumer.Image },
-                { "consumption", usage["consumption"] },
-                { "production", usage["production"] },
+                { "consumption", cons },
+                { "production", prod },
                 { "devCount", devCount }
             };  
         }
@@ -289,9 +295,9 @@ namespace API.Services.Devices
         public async Task<List<Dictionary<string, object>>> UpdatedProsumerFilter(double minConsumption, double maxConsumption, double minProduction, double maxProduction, int minDeviceCount, int maxDeviceCount,  string cityId, string neighborhoodId)
         {
             var list = (await AllProsumerInfo()).Where(x => 
-                (double)x["consumption"] >= minConsumption/1000 && (double)x["consumption"] <= maxConsumption &&
-                (double)x["production"] >= minProduction/1000 && (double)x["production"] <= maxProduction &&
-                (double)x["devCount"] >= minDeviceCount && (double)x["devCount"] <= maxDeviceCount &&
+                (double)x["consumption"] >= minConsumption/1000 && (double)x["consumption"] <= maxConsumption/1000 &&
+                (double)x["production"] >= minProduction/1000 && (double)x["production"] <= maxProduction/1000 &&
+                (int)x["devCount"] >= minDeviceCount && (int)x["devCount"] <= maxDeviceCount &&
                 (cityId == "all" || (long)x["cityId"] == long.Parse(cityId)) &&
                 (neighborhoodId == "all" || (string)x["neighborhoodId"] == neighborhoodId)
                 ).ToList();
@@ -432,7 +438,7 @@ namespace API.Services.Devices
 
             foreach (var user in all)
             {
-                var devices = await _repository.GetDevices(user, "Prosumer");
+                var devices = await _repository.GetDevices(user);
                 var consumerCount = devices[0].Count();
                 var producerCount = devices[1].Count();
 
@@ -458,6 +464,9 @@ namespace API.Services.Devices
                 };
             double totalConsumption = 0;
             double totalProduction = 0;
+            var cityNames = (await _dsoRepository.GetCities()).Select(x => x.Name);
+            cities["Consumption"] = cityNames.ToDictionary(cityName => cityName, _ => 0.0);
+            cities["Production"] = cityNames.ToDictionary(cityName => cityName, _ => 0.0);
 
             foreach (var prosumer in prosumers)
             {
@@ -469,35 +478,27 @@ namespace API.Services.Devices
                 if (cons > 0)
                 {
                     totalConsumption += cons;
-
-                    if (cities.ContainsKey(city))
-                        cities["Consumption"][city] += cons;
-                    else
-                        cities["Consumption"][city] = cons;
+                    cities["Consumption"][city] += cons;
                 }
                 
                 if(prod > 0)
                 {
                     totalProduction += prod;
-
-                    if (cities.ContainsKey(city))
-                        cities["Production"][city] += prod;
-                    else
-                        cities["Production"][city] = prod;
+                    cities["Production"][city] += prod;
                 }
             }
 
             Dictionary<string, Dictionary<string, double>> percentages = new Dictionary<string, Dictionary<string, double>>
-                {
-                    ["Consumption"] = new Dictionary<string, double>(),
-                    ["Production"] = new Dictionary<string, double>()
-                };
+            {
+                ["Consumption"] = new Dictionary<string, double>(),
+                ["Production"] = new Dictionary<string, double>()
+            };
 
             Dictionary<string, Dictionary<string, double>> numbers = new Dictionary<string, Dictionary<string, double>>
-                {
-                    ["Consumption"] = new Dictionary<string, double>(),
-                    ["Production"] = new Dictionary<string, double>()
-                };
+            {
+                ["Consumption"] = new Dictionary<string, double>(),
+                ["Production"] = new Dictionary<string, double>()
+            };
 
             foreach (var typepair in cities)
             {
@@ -516,7 +517,10 @@ namespace API.Services.Devices
                 }
             }
 
-            return new Dictionary<string, Dictionary<string, Dictionary<string, double>>> { { "numbers", numbers }, { "percentages", percentages } };
+            return new Dictionary<string, Dictionary<string, Dictionary<string, double>>> {
+                { "numbers", numbers.ToDictionary(pair => pair.Key, pair => pair.Value.OrderByDescending(x => x.Value).ToDictionary(x => x.Key, x => x.Value)) }, 
+                { "percentages", percentages.ToDictionary(pair => pair.Key, pair => pair.Value.OrderByDescending(x => x.Value).ToDictionary(x => x.Key, x => x.Value)) }
+            };
         }
 
         public async Task<(double, double, string, List<DateTime>, List<DateTime>)> ThisWeekTotalProduction()
@@ -643,11 +647,11 @@ namespace API.Services.Devices
 
                 if ((bool)dev["Activity"])
                 {
+                    if ((int)dev["TypeId"] == 19 && (DateTime.Now.TimeOfDay < TimeSpan.FromHours(6) || DateTime.Now.TimeOfDay > TimeSpan.FromHours(18))) return 0;
                     if ((double)dev["CurrentUsage"] == 0)
                     {
                         Random random = new Random();
-                        if ((int)dev["CategoryId"] != 3)
-                            return (double)dev["AvgUsage"] * random.Next(95, 105) / 100;
+                        if ((int)dev["CategoryId"] != 3) return (double)dev["AvgUsage"] * random.Next(95, 105) / 100;                            
                         else return (double)dev["Wattage"] * random.Next(1, 100) / 100;
                     }
                     else return (double)dev["CurrentUsage"];
