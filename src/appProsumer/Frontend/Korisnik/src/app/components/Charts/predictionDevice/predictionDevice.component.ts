@@ -18,20 +18,6 @@ export class PredictionDeviceComponent implements OnInit {
   data: any[] = ['z'];
   production = true;
   consumption = true;
-  colors: Color = {
-    name: 'mycolors',
-    selectable: true,
-    group: ScaleType.Ordinal,
-    domain: ['#d96d2a', '#2a96d9'],
-  };
-  showXAxis = true;
-  showYAxis = true;
-  gradient = false;
-  showLegend = true;
-  showXAxisLabel = true;
-  xAxisLabel = 'Time';
-  showYAxisLabel = true;
-  yAxisLabel = 'Energy in kWh';
   idDev: string = '';
   cat: string = '';
   show!: boolean;

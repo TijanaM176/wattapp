@@ -18,14 +18,6 @@ export class RealizationDeviceComponent implements OnInit, AfterViewInit {
   production = true;
   consumption = true;
   show!: boolean;
-  showXAxis = true;
-  showYAxis = true;
-  gradient = false;
-  showLegend = true;
-  showXAxisLabel = true;
-  xAxisLabel = 'Time';
-  showYAxisLabel = true;
-  yAxisLabel = 'Energy in kWh';
   idDev: string = '';
   cat: string = '';
   @Input() type: string = '';

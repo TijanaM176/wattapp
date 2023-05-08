@@ -1,8 +1,6 @@
 import { Component, OnInit, AfterViewInit, Input } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Color, ScaleType } from '@swimlane/ngx-charts';
 import { ScreenWidthService } from 'src/app/services/screen-width.service';
-import { DeviceserviceService } from 'src/app/services/deviceservice.service';
 import { TimestampService } from 'src/app/services/timestamp.service';
 import * as XLSX from 'xlsx';
 import { NgxSpinnerService } from 'ngx-spinner';
@@ -18,30 +16,11 @@ Chart.register(...registerables);
 export class PredictionDeviceComponent implements OnInit, AfterViewInit {
   chart: any;
   data: any[] = ['z'];
-  dataConsumers: any[] = [];
-  dataProducers: any[] = [];
-  production = true;
-  consumption = true;
-  colors: Color = {
-    name: 'mycolors',
-    selectable: true,
-    group: ScaleType.Ordinal,
-    domain: ['#F4C430'],
-  };
-  showXAxis = true;
-  showYAxis = true;
-  gradient = false;
-  showLegend = true;
-  showXAxisLabel = true;
-  xAxisLabel = 'Time';
-  showYAxisLabel = true;
-  yAxisLabel = 'Energy in kWh';
   idDev: string = '';
   show!: boolean;
   @Input() type: string = '';
 
   constructor(
-    private deviceService: DeviceserviceService,
     private widthService: ScreenWidthService,
     private timeService: TimestampService,
     private router1: ActivatedRoute,

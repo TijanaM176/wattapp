@@ -1,10 +1,4 @@
 import { Component, OnInit, AfterViewInit } from '@angular/core';
-import {
-  Color,
-  ColorHelper,
-  LegendPosition,
-  ScaleType,
-} from '@swimlane/ngx-charts';
 import { DeviceWidthService } from 'src/app/services/device-width.service';
 import { DevicesService } from 'src/app/services/devices.service';
 import { fromEvent, Observable, Subscription } from 'rxjs';
@@ -22,25 +16,8 @@ Chart.register(...registerables);
 export class RealizationChartComponent implements OnInit, AfterViewInit {
   chart: any;
   data: any[] = ['z'];
-  dataConsumers: any[] = [];
-  dataProducers: any[] = [];
   production = true;
   consumption = true;
-  colors: Color = {
-    name: 'mycolors',
-    selectable: true,
-    group: ScaleType.Ordinal,
-    domain: ['#c14b48', 'rgb(219, 169, 30)'],
-  };
-  showXAxis = true;
-  showYAxis = true;
-  gradient = false;
-  showLegend = true;
-  legendPosition: LegendPosition = LegendPosition.Below;
-  showXAxisLabel = true;
-  xAxisLabel = 'Time';
-  showYAxisLabel = true;
-  yAxisLabel = 'Energy in kW';
   show!: boolean;
   resizeObservable$!: Observable<Event>;
   resizeSubscription$!: Subscription;

@@ -1,9 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { strings } from '@material/slider';
-import { UsersServiceService } from 'src/app/services/users-service.service';
-import { ScaleType, Color, LegendComponent } from '@swimlane/ngx-charts';
-import { BrowserModule } from '@angular/platform-browser';
 import { TimestampService } from 'src/app/services/timestamp.service';
 import * as XLSX from 'xlsx';
 import { NgxSpinnerService } from 'ngx-spinner';
@@ -22,22 +17,8 @@ export class PredictionAllUsersComponent implements OnInit {
   consumption = true;
   id: string = '';
   data: any[] = ['z'];
-  dataConsumers: any = [];
-  dataProducers: any = [];
-  colors: Color = {
-    name: 'mycolors',
-    selectable: true,
-    group: ScaleType.Ordinal,
-    domain: ['#FF414E', '#80BC00'],
-  };
-  showXAxis = true;
-  showYAxis = true;
-  gradient = false;
-  showLegend = true;
   show!: boolean;
   constructor(
-    private service: UsersServiceService,
-    private router: ActivatedRoute,
     private servicetime: TimestampService,
     private spiner: NgxSpinnerService,
     private widthService: ScreenWidthService

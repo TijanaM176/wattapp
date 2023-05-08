@@ -1,16 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { strings } from '@material/slider';
-import { UsersServiceService } from 'src/app/services/users-service.service';
 import { ScaleType, Color, LegendPosition } from '@swimlane/ngx-charts';
-import { BrowserModule } from '@angular/platform-browser';
-import { line } from 'd3-shape';
-import { scaleBand, scaleLinear } from 'd3-scale';
-import { curveLinear } from 'd3-shape';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { DashboarddataService } from 'src/app/services/dashboarddata.service';
 import { TimestampService } from 'src/app/services/timestamp.service';
 import { ScreenWidthService } from 'src/app/services/screen-width.service';
+import * as XLSX from 'xlsx';
 
 @Component({
   selector: 'app-realizationPredictionAllProsumers',
@@ -38,8 +31,6 @@ export class RealizationPredictionAllProsumersComponent implements OnInit {
   yAxisLabel = 'Energy  ( kWh )';
   show!: boolean;
   constructor(
-    private service: UsersServiceService,
-    private router: ActivatedRoute,
     private spinner: NgxSpinnerService,
     private servicetime: TimestampService,
     private widthService: ScreenWidthService
@@ -273,6 +264,38 @@ export class RealizationPredictionAllProsumersComponent implements OnInit {
       });
 
       this.data = seriesData;
+      console.log(this.data);
     });
+  }
+
+  exportTable(): void {
+    let headerRow: any[] = [];
+
+    headerRow = [
+      '',
+
+      'Consumption',
+      'Prediction for Consumption (kW)',
+      'Production',
+      'Prediction for Production (kW)',
+    ];
+
+    const sheetData = [headerRow];
+
+    for (let i = 0; i < this.data[0]?.series.length; i++) {
+      const rowData = [this.data[0]?.series[i]?.name];
+
+      for (let j = 0; j < this.data.length; j++) {
+        const value = this.data[j]?.series[i]?.value?.toFixed(5);
+        rowData.push(value);
+      }
+
+      sheetData.push(rowData);
+    }
+
+    const worksheet: XLSX.WorkSheet = XLSX.utils.aoa_to_sheet(sheetData);
+    const workbook: XLSX.WorkBook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, 'Chart Data');
+    XLSX.writeFile(workbook, 'chart-data.xlsx');
   }
 }

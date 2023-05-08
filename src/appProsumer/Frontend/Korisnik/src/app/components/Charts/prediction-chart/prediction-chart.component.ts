@@ -1,5 +1,4 @@
 import { Component, OnInit, AfterViewInit } from '@angular/core';
-import { Color, ScaleType } from '@swimlane/ngx-charts';
 import { DeviceWidthService } from 'src/app/services/device-width.service';
 import { DevicesService } from 'src/app/services/devices.service';
 import { fromEvent, Observable, Subscription } from 'rxjs';
@@ -17,13 +16,6 @@ Chart.register(...registerables);
 export class PredictionChartComponent implements OnInit, AfterViewInit {
   chart: any;
   data: any[] = ['z'];
-  dataConsumers: any[] = [];
-  dataProducers: any[] = [];
-  production = true;
-  consumption = true;
-  showXAxis = true;
-  showYAxis = true;
-  gradient = false;
   id: string = '';
 
   show!: boolean;
@@ -131,7 +123,7 @@ export class PredictionChartComponent implements OnInit, AfterViewInit {
           const monthName = date.toLocaleString('default', { month: 'long' });
           return {
             x: `${monthName} ${dayNumber}`,
-            y: consumptionTimestamps[name] || 0.0,
+            y: productionTimestamps[name] || 0.0,
           };
         }
       );
@@ -221,7 +213,7 @@ export class PredictionChartComponent implements OnInit, AfterViewInit {
           const monthName = date.toLocaleString('default', { month: 'long' });
           return {
             x: `${monthName} ${dayNumber}`,
-            y: consumptionTimestamps[name] || 0.0,
+            y: productionTimestamps[name] || 0.0,
           };
         }
       );

@@ -1,15 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { strings } from '@material/slider';
-import { ScaleType, Color, LegendPosition } from '@swimlane/ngx-charts';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { TimestampService } from 'src/app/services/timestamp.service';
 import { ScreenWidthService } from 'src/app/services/screen-width.service';
 import * as XLSX from 'xlsx';
-
-import { UsersServiceService } from 'src/app/services/users-service.service';
 import { Observable, Subscription, fromEvent } from 'rxjs';
-import { DeviceserviceService } from 'src/app/services/deviceservice.service';
 import { Chart, registerables } from 'chart.js';
 
 Chart.register(...registerables);
@@ -21,26 +16,9 @@ Chart.register(...registerables);
 })
 export class HistoryProsumerComponent implements OnInit {
   data: any[] = ['z'];
-  dataConsumers: any[] = [];
-  dataProducers: any[] = [];
   production = true;
   consumption = true;
   chart: any;
-  colors: Color = {
-    name: 'mycolors',
-    selectable: true,
-    group: ScaleType.Ordinal,
-    domain: ['#c14b48', '#80BC00'],
-  };
-  showXAxis = true;
-  showYAxis = true;
-  gradient = false;
-  showLegend = true;
-  legendPosition: LegendPosition = LegendPosition.Below;
-  showXAxisLabel = true;
-  xAxisLabel = 'Time';
-  showYAxisLabel = true;
-  yAxisLabel = 'Energy in kWh';
 
   resizeObservable$!: Observable<Event>;
   resizeSubscription$!: Subscription;
@@ -49,11 +27,9 @@ export class HistoryProsumerComponent implements OnInit {
   show!: boolean;
 
   constructor(
-    private deviceService: DeviceserviceService,
     private widthService: ScreenWidthService,
     private serviceTime: TimestampService,
     private router: ActivatedRoute,
-    private service: UsersServiceService,
     private spiner: NgxSpinnerService
   ) {}
 

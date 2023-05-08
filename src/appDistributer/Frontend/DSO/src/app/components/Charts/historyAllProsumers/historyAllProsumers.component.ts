@@ -1,12 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { strings } from '@material/slider';
-import { UsersServiceService } from 'src/app/services/users-service.service';
-import { ScaleType, Color, LegendComponent } from '@swimlane/ngx-charts';
-import { BrowserModule } from '@angular/platform-browser';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { TimestampService } from 'src/app/services/timestamp.service';
-import { tickStep } from 'd3';
 import * as XLSX from 'xlsx';
 import { ScreenWidthService } from 'src/app/services/screen-width.service';
 import { Chart, registerables } from 'chart.js';
@@ -23,25 +17,15 @@ export class HistoryAllProsumersComponent implements OnInit {
   consumption = true;
   id: string = '';
   data: any[] = ['z'];
-  showXAxis = true;
-  showYAxis = true;
-  gradient = false;
-  showLegend = true;
   showsp!: boolean;
   constructor(
-    private service: UsersServiceService,
-    private router: ActivatedRoute,
     private servicetime: TimestampService,
     private spiner: NgxSpinnerService,
     private widthService: ScreenWidthService
   ) {}
 
   exportTable(data: any[]): void {
-    const headerRow = [
-      '',
-      'Energy Consumption (kW)',
-      'Energy Production (kW)',
-    ];
+    const headerRow = ['', 'Energy Consumption (kW)', 'Energy Production (kW)'];
     const sheetData = [headerRow];
 
     const maxLength = Math.max(data[0]?.values.length, data[1]?.values.length);

@@ -20,14 +20,6 @@ export class RealizationChartProductionComponent
   data: any[] = ['z'];
   production = true;
   consumption = true;
-  showXAxis = true;
-  showYAxis = true;
-  gradient = false;
-  showLegend = true;
-  showXAxisLabel = true;
-  xAxisLabel = 'Time';
-  showYAxisLabel = true;
-  yAxisLabel = 'Energy in kW';
   show!: boolean;
   resizeObservable$!: Observable<Event>;
   resizeSubscription$!: Subscription;
