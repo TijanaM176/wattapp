@@ -11,6 +11,7 @@ import { fromEvent, Observable, Subscription, timeout } from 'rxjs';
 import { DeviceserviceService } from 'src/app/services/deviceservice.service';
 import Swal from 'sweetalert2';
 import { Router } from '@angular/router';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-house',
@@ -30,11 +31,13 @@ export class HouseComponent implements OnInit, AfterViewInit {
   device: any;
   show: boolean = false;
   lastValue: number = 0;
+  show1!: boolean;
 
   constructor(
     private widthService: DeviceWidthService,
     private deviceService: DeviceserviceService,
-    private router: Router
+    private router: Router,
+    private spiner: NgxSpinnerService
   ) {}
 
   ngAfterViewInit(): void {
@@ -50,6 +53,7 @@ export class HouseComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     this.resizeObservable$ = fromEvent(window, 'resize');
+
     this.resizeSubscription$ = this.resizeObservable$.subscribe((evt) => {
       const houseCont = document.getElementById('houseCont');
       let houseHeight;
