@@ -28,22 +28,19 @@ namespace API.Services.Devices
                 devicesData.Add(devices[i].Select(d =>
                 {
                     double currentUsage;
-                    if (d.Activity > 0)
-                    {
-                        if (d.TypeId == 19 && (DateTime.Now.TimeOfDay < TimeSpan.FromHours(6) || DateTime.Now.TimeOfDay > TimeSpan.FromHours(18))) currentUsage = 0;
-                        else
-                        { 
-                            if (d.Timestamps[0].Power != 0) currentUsage = d.Timestamps[0].Power;
+                    if (d.CategoryId == 3) currentUsage = d.Timestamps[0].Power;
+                    else
+                    { 
+                        if (d.Activity > 0)
+                        {
+                            if (d.TypeId == 19 && (DateTime.Now.TimeOfDay < TimeSpan.FromHours(6) || DateTime.Now.TimeOfDay > TimeSpan.FromHours(18))) currentUsage = 0;
                             else
-                            {
-                                if (d.CategoryId != 3) currentUsage = d.Wattage * 0.85;
-                                else currentUsage = 0;
+                            { 
+                                if (d.Timestamps[0].Power != 0) currentUsage = d.Timestamps[0].Power;
+                                else currentUsage = d.Wattage * 0.85;
                             }
                         }
-                    }
-                    else
-                    {
-                        currentUsage = 0;
+                        else currentUsage = 0;
                     }
 
                     return new Dictionary<string, object> {
@@ -647,11 +644,7 @@ namespace API.Services.Devices
                 if ((int)dev["Activity"] > 0)
                 {
                     if ((long)dev["TypeId"] == 19 && (DateTime.Now.TimeOfDay < TimeSpan.FromHours(6) || DateTime.Now.TimeOfDay > TimeSpan.FromHours(18))) return 0;
-                    if ((double)dev["CurrentUsage"] == 0)
-                    {
-                        if ((long)dev["CategoryId"] != 3) return (double)dev["AvgUsage"];                            
-                        else return 0;
-                    }
+                    if ((double)dev["CurrentUsage"] == 0)  return (double)dev["AvgUsage"];                            
                     else return (double)dev["CurrentUsage"];
                 }
                 
@@ -682,6 +675,25 @@ namespace API.Services.Devices
         {
 
             return await _repository.TodayAndTomorrowPredictionTotalProductionAndRatio();
+        }
+
+        public async Task<Dictionary<string, double>> ToggleStorageActivity(string deviceId, string role, int mode)
+        {
+            try
+            {
+                await _repository.ToggleStorageActivity(deviceId, role, mode);
+                var dev = await _repository.GetDevice(deviceId);
+
+                return new Dictionary<string, double>  {
+                    { "Capacity", (double)dev["Wattage"]},
+                    { "Status", (double)dev["CurrentUsage"]}
+                } ;
+
+            }
+            catch (Exception ex)
+            {
+                throw new ArgumentException(ex.Message);
+            }
         }
     }
 }
