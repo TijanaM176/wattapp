@@ -15,8 +15,8 @@ export class SidebarComponent implements OnInit, AfterViewInit {
   minValueP: number = 0;
   maxValueP: number = 0;
   optionsP: Options = {
-    floor: 0,
-    ceil: 0,
+    floor: this.minValueP,
+    ceil: this.maxValueP,
     translate: (value: number, label: LabelType): string => {
       switch (label) {
         case LabelType.Low:
@@ -31,8 +31,8 @@ export class SidebarComponent implements OnInit, AfterViewInit {
   minValueC: number = 0;
   maxValueC: number = 0;
   optionsC: Options = {
-    floor: 0,
-    ceil: 0,
+    floor: this.minValueC,
+    ceil: this.maxValueC,
     translate: (value: number, label: LabelType): string => {
       switch (label) {
         case LabelType.Low:
@@ -47,8 +47,8 @@ export class SidebarComponent implements OnInit, AfterViewInit {
   minValue: number = 0;
   maxValue: number = 0;
   options: Options = {
-    floor: 0,
-    ceil: 0,
+    floor: this.minValue,
+    ceil: this.maxValue,
     translate: (value: number, label: LabelType): string => {
       switch (label) {
         case LabelType.Low:
@@ -92,7 +92,7 @@ export class SidebarComponent implements OnInit, AfterViewInit {
     });
     this.filtersSubscription = this.deviceService.information$.subscribe(
       (res) => {
-        this.setFilters(res);
+        this.setFilters();
       }
     );
     this.disableNeigh = true;
@@ -101,9 +101,9 @@ export class SidebarComponent implements OnInit, AfterViewInit {
     document.getElementById('sideSidebar')!.style.height = h + 'px';
   }
 
-  setFilters(res: any) {
-    this.minValueP = Math.ceil(res.minProd);
-    this.maxValueP = Math.ceil(res.maxProd);
+  setFilters() {
+    this.minValueP = this.deviceService.minProd;
+    this.maxValueP = this.deviceService.maxProd;
     this.optionsP = {
       floor: this.minValue,
       ceil: this.maxValueP,
@@ -119,8 +119,8 @@ export class SidebarComponent implements OnInit, AfterViewInit {
       },
     };
 
-    this.minValueC = Math.ceil(res.minCons);
-    this.maxValueC = Math.ceil(res.maxCons);
+    this.minValueC = this.deviceService.minCons;
+    this.maxValueC = this.deviceService.maxCons;
     this.optionsC = {
       floor: this.minValueC,
       ceil: this.maxValueC,
@@ -136,8 +136,8 @@ export class SidebarComponent implements OnInit, AfterViewInit {
       },
     };
 
-    this.minValue = res.minDevCount;
-    this.maxValue = res.maxDevCount;
+    this.minValue = this.deviceService.minDevCount;
+    this.maxValue = this.deviceService.maxDevCount;
     this.options = {
       floor: this.minValue,
       ceil: this.maxValue,
@@ -224,12 +224,6 @@ export class SidebarComponent implements OnInit, AfterViewInit {
   }
 
   reset() {
-    this.minValueC = 0;
-    this.maxValueC = 300;
-    this.minValueP = 0;
-    this.maxValueP = 300;
-    this.minValue = 0;
-    this.maxValue = 50;
     this.neighborhood = 'b';
     this.dropDownNeigh = 'b';
     this.city = -1;

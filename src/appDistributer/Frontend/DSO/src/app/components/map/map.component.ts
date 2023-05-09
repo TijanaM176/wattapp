@@ -11,6 +11,7 @@ import { ToastrService } from 'ngx-toastr';
 import { DeviceserviceService } from 'src/app/services/deviceservice.service';
 import { City } from 'src/app/models/city';
 import { UserTableMapInitDto } from 'src/app/models/userTableMapInitDto';
+import { Prosumer } from 'src/app/models/userstable';
 
 @Component({
   selector: 'app-map',
@@ -376,7 +377,9 @@ export class MapComponent implements AfterViewInit, OnInit {
       this.minValue, this.maxValue, 
       cityId.toString(), "all")
       .subscribe((res)=>{
-        this.users = res;
+        let response = res as UserTableMapInitDto;
+        this.users = response.prosumers as Prosumer[];
+        this.setFilters(response);
         this.populateTheMap2(map);
       });
   }
@@ -387,7 +390,9 @@ export class MapComponent implements AfterViewInit, OnInit {
       this.minValue, this.maxValue, 
       cityId.toString(), this.dropDownNeigh)
       .subscribe((res)=>{
-        this.users = res;
+        let response = res as UserTableMapInitDto;
+        this.users = response.prosumers as Prosumer[];
+        this.setFilters(response);
         this.populateTheMap2(map);
       });
   }
@@ -422,16 +427,18 @@ export class MapComponent implements AfterViewInit, OnInit {
 
   reset() {
     this.deleteAllMarkers(this.map);
-    this.mapService.getAllNeighborhoods().subscribe((response) => {
-      this.users = response;
+    // this.mapService.getAllNeighborhoods().subscribe((response) => {
+    //   this.users = response;
+    //   this.populateTheMap(this.map);
+    // });
+    this.deviceServer.ProsumersInfo1()
+    .subscribe((res)=>{
+      let response = res as UserTableMapInitDto;
+      this.users = response.prosumers as Prosumer[];
       this.populateTheMap(this.map);
+      this.setFilters(response);
     });
-    this.minValueC = 0;
-    this.maxValueC = 300;
-    this.minValueP = 0;
-    this.maxValueP = 300;
-    this.minValue = 0;
-    this.maxValue = 50;
+    this.city = -1;
     this.dropDownNeigh = 'b';
     this.neighborhood = 'b';
   }
