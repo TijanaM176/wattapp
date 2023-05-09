@@ -54,4 +54,20 @@ export class UsersComponent implements OnInit {
     this.isDescOrder = !this.isDescOrder;
     this.orderHeader = headerName;
   }
+
+  Image(base64string : string)
+  {
+    let currentImage = 'assets/images/user.png';
+    if(base64string != "" && base64string != null)
+    {
+      let byteArray = new Uint8Array(
+        atob(base64string)
+        .split('')
+        .map((char)=> char.charCodeAt(0))
+      );
+      let file = new Blob([byteArray], {type: 'image/png'});
+      currentImage = URL.createObjectURL(file);
+    }
+    return currentImage;
+  }
 }

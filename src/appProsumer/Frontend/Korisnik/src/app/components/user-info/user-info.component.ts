@@ -9,6 +9,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 import {HttpEventType} from '@angular/common/http'
 import { ImageCroppedEvent } from 'ngx-image-cropper';
 import { DeviceWidthService } from 'src/app/services/device-width.service';
+import { SendPhoto } from 'src/app/models/sendPhoto';
 
 @Component({
   selector: 'app-user-info',
@@ -181,45 +182,31 @@ export class UserInfoComponent implements OnInit, AfterViewInit {
     if(this.selectedImageFile != null)
     {
       this.croppedImage = this.croppedImage.replace('data:image/png;base64,', '');
-      console.log(this.croppedImage);
-      // let byteArray = new Uint8Array(
-      //   atob(this.croppedImage)
-      //   .split('')
-      //   .map((char)=> char.charCodeAt(0))
-      // );
-      // let file = new Blob([byteArray], {type: 'image/png'});
-      // let formData = new FormData();
-      // formData.append('imageFile',file);
-      // this.prosumerService.UploadImage(formData)
-      // .subscribe((event)=>{
-      //     if(event.type === HttpEventType.UploadProgress)
-      //     {
-      //       this.updating = true;
-      //       this.progress = Math.round(event.loaded/event.total!*100)
-      //     }
-      //     else if(event.type === HttpEventType.Response)
-      //     {
-      //       if(event.status == 200)
-      //       {
-      //         this.success = true;
-      //         this.getInformation();
-      //         // setTimeout(()=>{
-      //           document.getElementById('closeCropping')!.click();
-      //           this.toast.success('Photo Updated.', 'Success!',{timeOut:2000});
-      //         // })
-      //       }
-      //       else if(event.status == 400)
-      //       {
-      //         this.toast.error('Unable to update photo','Error!',{timeOut: 3000});
-      //         console.log(event.statusText);
-      //       }
-      //     }
-      // });
+      // console.log(this.croppedImage);
+      
+      let sp = new SendPhoto(this.cookie.get('id'),this.croppedImage);
+      
+      this.prosumerService.UploadImage(sp)
+      .subscribe({
+        next:(res)=>{
+          this.success = true;
+          this.updating = true;
+          setTimeout(()=>{
+            this.Image(this.croppedImage);
+            document.getElementById('closeCropImadePhotoUpdated')!.click();
+            this.closeImageChange();
+          },700);
+        },
+        error:(err)=>{
+          this.toast.error('Unable to update photo','Error!',{timeOut: 3000});
+          console.log(err.error);
+        }
+      });
     }
     else
     {
       this.error = true;
-      this.toast.error("No Photo was selected.", 'Error!',{timeOut:2000});
+      this.toast.error("No Photo was selected.", 'Error!',{timeOut:3000});
     }
   }
   deleteImage()

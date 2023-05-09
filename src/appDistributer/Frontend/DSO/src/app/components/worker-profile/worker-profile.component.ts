@@ -8,6 +8,7 @@ import { ToastrService } from 'ngx-toastr';
 import { ChangeWorkerPasswordComponent } from 'src/app/forms/change-worker-password/change-worker-password.component';
 import { ImageCroppedEvent } from 'ngx-image-cropper';
 import { DomSanitizer } from '@angular/platform-browser';
+import { SendPhoto } from 'src/app/models/sendPhoto';
 
 @Component({
   selector: 'app-worker-profile',
@@ -35,6 +36,7 @@ export class WorkerProfileComponent implements OnInit, AfterViewInit {
   updatedPhotoSuccess : boolean = false;
   updatedPhotoError : boolean = false;
   noFile : boolean = false;
+
 
   @ViewChild('changePasswordWorkerForm', {static : true}) changePasswordWorkerForm! : ChangeWorkerPasswordComponent;
 
@@ -118,7 +120,7 @@ export class WorkerProfileComponent implements OnInit, AfterViewInit {
   closeChange()
   {
     document.getElementById('openWorkerProfileAgain')!.click()
-    this.selectedImageFile = null;
+    this.resetAll();
   }
   confirmNewPassword()
   {
@@ -133,34 +135,34 @@ export class WorkerProfileComponent implements OnInit, AfterViewInit {
   }
   confirmNewPhoto()
   {
+    this.updatedPhotoError = false;
+    this.updatedPhotoSuccess = false;
+    this.noFile = false;
     if(this.selectedImageFile != null)
     {
       this.croppedImage = this.croppedImage.replace('data:image/png;base64,','');
-      console.log(this.croppedImage);
-      // let byteArray = new Uint8Array(
-      //   atob(this.croppedImage)
-      //   .split('')
-      //   .map((char)=> char.charCodeAt(0))
-      // );
-      // let file = new Blob([byteArray], {type: 'image/png'});
+      // console.log(this.croppedImage);
 
-      // let formData = new FormData();
-      // formData.append('imageFile',file);
-      // this.employeeService.updateProfilePhoto(this.cookie.get('id'), formData)
-      // .subscribe({
-      //   next:(res)=>{
-      //     this.getInfo();
-      //     this.updatedPhotoSuccess = true;
-      //     setTimeout(()=>{
-      //       this.closeChange();
-      //       this.resetAll();
-      //     }, 700)
-      //   },
-      //   error:(err)=>{
-      //     this.updatedPhotoError = true;
-      //     console.log(err.error);
-      //   }
-      // })
+      let sp = new SendPhoto(this.cookie.get('id'), this.croppedImage);
+
+      this.employeeService.updateProfilePhoto(this.cookie.get('id'), sp)
+      .subscribe({
+        next:(res)=>{
+          this.updatedPhotoSuccess = true;
+          setTimeout(()=>{
+            this.Image(this.croppedImage);
+            document.getElementById('closeCropImadePhotoUpdated')!.click();
+            this.closeChange();
+          },700);
+        },
+        error:(err)=>{
+          this.toast.error('Unable to update photo','Error!',{timeOut: 3000});
+          // this.updatedPhotoError = true;
+          document.getElementById('closeCropImadePhotoUpdated')!.click();
+          this.closeChange();
+          console.log(err.error);
+        }
+      });
     }
     else
     {

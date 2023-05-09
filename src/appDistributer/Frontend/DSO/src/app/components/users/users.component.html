@@ -121,8 +121,9 @@
             >
               <td >
                 <img
-                  src="assets/images/user.png"
+                  [src]="Image(item.image)"
                   style="width: 30px; height: 30px"
+                  class="rounded-circle"
                 />
               </td>
               <td >{{ item.username }}</td>

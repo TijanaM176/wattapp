@@ -158,7 +158,7 @@
             class="btn-close"
             id="closeOprionsForPhoto"
             data-bs-dismiss="modal"
-            data-bs-target="changePhotoWorkerProfile"
+            data-bs-target="#changePhotoWorkerProfile"
             aria-label="Close"
             (click)="closeChange()"
             style="background-color: white;"
@@ -171,7 +171,7 @@
             style="width: 90%;"
             class="img-fluid rounded-circle"
           >
-          <small class="text-danger" *ngIf="errorDeletePhoto">Error! Try agian later.</small>
+          <h6 class="text-danger" *ngIf="errorDeletePhoto">Error! Try agian later.</h6>
         </div>
         <div class="col-5 m-0 p-0 d-flex align-items-center">
           <div class="container px-0">
@@ -214,10 +214,11 @@
             class="btn-close"
             id="closeCropPhoto"
             data-bs-dismiss="modal"
-            data-bs-target="changePhotoWorkerProfile"
+            data-bs-target="#cropNewImageWorkerProfile"
             aria-label="Close"
             (click)="closeChange()"
             style="background-color: white;"
+            [disabled]="updatedPhotoSuccess"
           ></button>
       </div>
       <div class="modal-body px-0 d-flex justify-content-center align-items-center">
@@ -240,12 +241,12 @@
         <div class="col-4 px-0 m-0 row" style="display: flex; justify-content: center; align-items: center;">
           <div class="col-12 px-0 mb-3" style="display: flex; justify-content: center;">
             <input type="file" style="display: none;" #fileInputNew (change)="onFileSelected($event)">
-            <button class="btn btn-primary" (click)="fileInputNew.click()">Choose A Different Photo</button>
+            <button class="btn btn-primary" (click)="fileInputNew.click()" [disabled]="updatedPhotoSuccess">Choose A Different Photo</button>
           </div>
           <div class="col-12 pe-0 ps-2 text-center mt-3">
-            <small class="text-success" *ngIf="updatedPhotoSuccess">Photo Uploaded! <br>Updating profile... Please wait</small>
-            <small class="text-danger" *ngIf="updatedPhotoError">Error occurred! Try again later.</small>
-            <small class="text-danger" *ngIf="noFile">No file was selected.</small>
+            <h6 class="text-success" *ngIf="updatedPhotoSuccess">Updating profile... Please wait</h6>
+            <h6 class="text-danger" *ngIf="updatedPhotoError">Error occurred! Try again later.</h6>
+            <h6 class="text-danger" *ngIf="noFile">No file was selected.</h6>
           </div>
         </div>
       </div>
@@ -253,6 +254,7 @@
         <button type="button" id="confirmImageChangeWorkerProfile" class="btn btn-primary" (click)="confirmNewPhoto()">
           Confirm
         </button>
+        <button [hidden]="true" data-bs-dismiss="modal" data-bs-target="#cropNewImageWorkerProfile" id="closeCropImadePhotoUpdated">Close</button>
       </div>
     </div>
   </div>

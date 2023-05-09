@@ -10,6 +10,7 @@ import { fromEvent, Observable, Subscription } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
 import { DeviceserviceService } from 'src/app/services/deviceservice.service';
 import { City } from 'src/app/models/city';
+import { UserTableMapInitDto } from 'src/app/models/userTableMapInitDto';
 
 @Component({
   selector: 'app-map',
@@ -23,10 +24,10 @@ export class MapComponent implements AfterViewInit, OnInit {
   resizeSubscription$!: Subscription;
 
   minValueP: number = 0;
-  maxValueP: number = 300;
+  maxValueP: number = 0;
   optionsP: Options = {
-    floor: 0,
-    ceil: 300,
+    floor: this.minValueP,
+    ceil: this.maxValueP,
     translate: (value: number, label: LabelType): string => {
       switch (label) {
         case LabelType.Low:
@@ -38,11 +39,12 @@ export class MapComponent implements AfterViewInit, OnInit {
       }
     },
   };
+
   minValueC: number = 0;
-  maxValueC: number = 300;
+  maxValueC: number = 0;
   optionsC: Options = {
-    floor: 0,
-    ceil: 300,
+    floor: this.minValueC,
+    ceil: this.maxValueC,
     translate: (value: number, label: LabelType): string => {
       switch (label) {
         case LabelType.Low:
@@ -54,11 +56,12 @@ export class MapComponent implements AfterViewInit, OnInit {
       }
     },
   };
+
   minValue: number = 0;
-  maxValue: number = 50;
+  maxValue: number = 0;
   options: Options = {
-    floor: 0,
-    ceil: 50,
+    floor: this.minValue,
+    ceil: this.maxValue,
     translate: (value: number, label: LabelType): string => {
       switch (label) {
         case LabelType.Low:
@@ -70,6 +73,7 @@ export class MapComponent implements AfterViewInit, OnInit {
       }
     },
   };
+
   neighborhood: string = 'b';
   Neighborhoods: Neighborhood[] = [];
   dropDownNeigh: string = 'b';
@@ -212,10 +216,67 @@ export class MapComponent implements AfterViewInit, OnInit {
     this.populateTheMap(this.map);
   }
 
+  private setFilters(res : UserTableMapInitDto)
+  {
+    this.minValueP = Math.ceil(res.minProd);
+    this.maxValueP = Math.ceil(res.maxProd);
+    this.optionsP = {
+      floor: this.minValue,
+      ceil: this.maxValueP,
+      translate: (value: number, label: LabelType): string => {
+        switch (label) {
+          case LabelType.Low:
+            return value + 'W';
+          case LabelType.High:
+            return value + 'W';
+          default:
+            return '' + value;
+        }
+      },
+    };
+
+    this.minValueC = Math.ceil(res.minCons);
+    this.maxValueC = Math.ceil(res.maxCons);
+    this.optionsC = {
+      floor: this.minValueC,
+      ceil: this.maxValueC,
+      translate: (value: number, label: LabelType): string => {
+        switch (label) {
+          case LabelType.Low:
+            return value + 'W';
+          case LabelType.High:
+            return value + 'W';
+          default:
+            return '' + value;
+        }
+      },
+    };
+
+    this.minValue = res.minDevCount;
+    this.maxValue = res.maxDevCount;
+    this.options = {
+      floor: this.minValue,
+      ceil: this.maxValue,
+      translate: (value: number, label: LabelType): string => {
+        switch (label) {
+          case LabelType.Low:
+            return value + '';
+          case LabelType.High:
+            return value + '';
+          default:
+            return '' + value;
+        }
+      },
+    };
+  }
+
   populateTheMap(map: any) {
     this.deviceServer.ProsumersInfo1().subscribe({
       next: (res) => {
-        this.users = res;
+        let response = res as UserTableMapInitDto;
+        // console.log(response);
+        this.setFilters(response);
+        this.users = response.prosumers;
         let iconUrl = 'assets/images/marker-icon-2x-blueviolet.png';
 
         for (let user of this.users) {
