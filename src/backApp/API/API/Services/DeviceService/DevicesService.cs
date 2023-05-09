@@ -28,7 +28,7 @@ namespace API.Services.Devices
                 devicesData.Add(devices[i].Select(d =>
                 {
                     double currentUsage;
-                    if (d.Activity)
+                    if (d.Activity > 0)
                     {
                         if (d.TypeId == 19 && (DateTime.Now.TimeOfDay < TimeSpan.FromHours(6) || DateTime.Now.TimeOfDay > TimeSpan.FromHours(18))) currentUsage = 0;
                         else
@@ -84,10 +84,10 @@ namespace API.Services.Devices
             double currentConsumption;
             double currentProduction;
 
-            if (devices[0].Where(x => (bool)x["Activity"]).ToList().Count == 0) currentConsumption = 0;
-            else currentConsumption = devices[0].Where(x => (bool)x["Activity"]).Sum(device => (double)device["CurrentUsage"]);
-            if (devices[1].Where(x => (bool)x["Activity"]).ToList().Count == 0) currentProduction = 0;
-            currentProduction = devices[1].Where(x => (bool)x["Activity"]).Sum(device => (double)device["CurrentUsage"]);
+            if (devices[0].Where(x => (int)x["Activity"] > 0).ToList().Count == 0) currentConsumption = 0;
+            else currentConsumption = devices[0].Where(x => (int)x["Activity"] > 0).Sum(device => (double)device["CurrentUsage"]);
+            if (devices[1].Where(x => (int)x["Activity"] > 0).ToList().Count == 0) currentProduction = 0;
+            currentProduction = devices[1].Where(x => (int)x["Activity"] > 0).Sum(device => (double)device["CurrentUsage"]);
 
             return new Dictionary<string, double> { { "consumption", currentConsumption }, { "production", currentProduction } };
         }
@@ -645,13 +645,13 @@ namespace API.Services.Devices
                 await _repository.ToggleActivity(deviceId, role);
                 var dev = await _repository.GetDevice(deviceId);
 
-                if ((bool)dev["Activity"])
+                if ((int)dev["Activity"] > 0)
                 {
                     if ((long)dev["TypeId"] == 19 && (DateTime.Now.TimeOfDay < TimeSpan.FromHours(6) || DateTime.Now.TimeOfDay > TimeSpan.FromHours(18))) return 0;
                     if ((double)dev["CurrentUsage"] == 0)
                     {
                         Random random = new Random();
-                        if ((int)dev["CategoryId"] != 3) return (double)dev["AvgUsage"] * random.Next(95, 105) / 100;                            
+                        if ((long)dev["CategoryId"] != 3) return (double)dev["AvgUsage"] * random.Next(95, 105) / 100;                            
                         else return (double)dev["Wattage"] * random.Next(1, 100) / 100;
                     }
                     else return (double)dev["CurrentUsage"];
