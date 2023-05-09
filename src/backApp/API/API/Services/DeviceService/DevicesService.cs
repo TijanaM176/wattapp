@@ -36,9 +36,8 @@ namespace API.Services.Devices
                             if (d.Timestamps[0].Power != 0) currentUsage = d.Timestamps[0].Power;
                             else
                             {
-                                Random rand = new Random();
-                                if (d.CategoryId != 3) currentUsage = d.Wattage * rand.Next(95, 105) / 100;
-                                else currentUsage = d.Wattage * rand.Next(1, 100) / 100;
+                                if (d.CategoryId != 3) currentUsage = d.Wattage * 0.85;
+                                else currentUsage = 0;
                             }
                         }
                     }
@@ -650,9 +649,8 @@ namespace API.Services.Devices
                     if ((long)dev["TypeId"] == 19 && (DateTime.Now.TimeOfDay < TimeSpan.FromHours(6) || DateTime.Now.TimeOfDay > TimeSpan.FromHours(18))) return 0;
                     if ((double)dev["CurrentUsage"] == 0)
                     {
-                        Random random = new Random();
-                        if ((long)dev["CategoryId"] != 3) return (double)dev["AvgUsage"] * random.Next(95, 105) / 100;                            
-                        else return (double)dev["Wattage"] * random.Next(1, 100) / 100;
+                        if ((long)dev["CategoryId"] != 3) return (double)dev["AvgUsage"];                            
+                        else return 0;
                     }
                     else return (double)dev["CurrentUsage"];
                 }
