@@ -40,7 +40,8 @@ export class PocetnaComponent implements OnInit, AfterViewInit {
   currentPrice: number = 0;
   currentConsumption: number = 0;
   currentProduction: number = 0;
-
+  show1!:boolean;
+  show2!:boolean;
   constructor(
     private widthService: DeviceWidthService,
     private service: ProsumerService,
@@ -70,6 +71,9 @@ export class PocetnaComponent implements OnInit, AfterViewInit {
   }
 
   getDevices() {
+    this.show1=true;
+    this.show2=true;
+    this.spiner.show();
     this.service
       .getDevicesByProsumerId(this.cookie.get('id'), this.cookie.get('role'))
       .subscribe((response) => {
@@ -93,6 +97,10 @@ export class PocetnaComponent implements OnInit, AfterViewInit {
             this.numOfActiveDevices += 1;
           }
         });
+        this.spiner.hide();
+        this.show1=false;
+
+        this.show2=false;
       });
   }
 

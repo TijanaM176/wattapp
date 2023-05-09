@@ -30,10 +30,12 @@ export class HouseComponent implements OnInit, AfterViewInit {
   device: any;
   show: boolean = false;
   lastValue: number = 0;
+  show1!:boolean;
 
   constructor(
     private widthService: DeviceWidthService,
-    private deviceService: DeviceserviceService
+    private deviceService: DeviceserviceService,
+    private spiner: NgxSpinnerService
   ) {}
 
   ngAfterViewInit(): void {
@@ -49,7 +51,9 @@ export class HouseComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     this.resizeObservable$ = fromEvent(window, 'resize');
+
     this.resizeSubscription$ = this.resizeObservable$.subscribe((evt) => {
+
       const houseCont = document.getElementById('houseCont');
       let houseHeight;
       if (window.innerHeight >= window.innerWidth * 2) {
@@ -58,6 +62,7 @@ export class HouseComponent implements OnInit, AfterViewInit {
         houseHeight = this.widthService.height * 0.6;
       }
       houseCont!.style!.height = houseHeight + 'px';
+      
     });
   }
 

@@ -17,7 +17,7 @@ export class DevicesStatusComponent implements OnInit, AfterViewInit {
 
   resizeObservable$!: Observable<Event>;
   resizeSubscription$!: Subscription;
-
+  show!:boolean;
   constructor(private widthService : DeviceWidthService, private devicesService  : DevicesService) {}
 
   ngAfterViewInit(): void {
