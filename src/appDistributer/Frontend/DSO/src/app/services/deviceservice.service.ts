@@ -82,7 +82,10 @@ export class DeviceserviceService {
     ).subscribe({
       next:(res)=>{
         this.spiner.hide();
-        this.prosumers = res as Prosumer[];
+        let response = res as UserTableMapInitDto;
+        this.prosumers = response.prosumers as Prosumer[];
+        this.setFilters(response);
+        this.responseGetAllProsumers.next(response);
       },
       error:(err)=>{
         this.prosumers = [];
@@ -101,9 +104,9 @@ export class DeviceserviceService {
     maxDev: number,
     cityId : string,
     neighborhoodId : string
-  ) : Observable<Prosumer[]> {
+  ) : Observable<UserTableMapInitDto> {
     this.spiner.show();
-    return this.http.get<Prosumer[]>(
+    return this.http.get<UserTableMapInitDto>(
       this.baseUrl +
         'Devices/UpdatedProsumerFilter?minConsumption=' +
         minCon +
@@ -139,11 +142,12 @@ export class DeviceserviceService {
   }
 
   private setFilters(response : any) {
-    this.maxCons = response.maxCons;
-    this.minCons = response.minCons;
-    this.maxProd = response.maxProd;
-    this.minProd = response.minProd;
+    this.maxCons = Math.ceil(response.maxCons);
+    this.minCons = Math.ceil(response.minCons);
+    this.maxProd = Math.ceil(response.maxProd);
+    this.minProd = Math.ceil(response.minProd);
     this.maxDevCount = response.maxDevCount;
+    this.minDevCount = response.minDevCount;
   }
 
   ProsumersInfo1() : Observable<any> {
