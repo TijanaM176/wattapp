@@ -274,6 +274,7 @@ export class MapComponent implements AfterViewInit, OnInit {
     this.deviceServer.ProsumersInfo1().subscribe({
       next: (res) => {
         let response = res as UserTableMapInitDto;
+        // console.log(response);
         this.setFilters(response);
         this.users = response.prosumers;
         let iconUrl = 'assets/images/marker-icon-2x-blueviolet.png';

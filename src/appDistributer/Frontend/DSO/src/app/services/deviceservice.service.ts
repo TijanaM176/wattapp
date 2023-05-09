@@ -6,6 +6,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { CookieService } from 'ngx-cookie-service';
 import { environment } from 'src/enviroments/enviroment';
 import { UserTableMapInitDto } from '../models/userTableMapInitDto';
+import { Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -21,12 +22,15 @@ export class DeviceserviceService {
   prosumers!: Prosumer[];
   numofdevices!: number;
 
-    maxCons : number = 0;
-    maxProd : number = 0;
-    maxDevCount : number = 0;
-    minCons : number = 0;
-    minProd : number = 0;
-    minDevCount : number = 0;
+  maxCons : number = 0;
+  maxProd : number = 0;
+  maxDevCount : number = 0;
+  minCons : number = 0;
+  minProd : number = 0;
+  minDevCount : number = 0;
+
+  private responseGetAllProsumers = new Subject<UserTableMapInitDto>()
+  public information$ = this.responseGetAllProsumers.asObservable();
 
   getInfoDevice(id: string) {
     return this.http.get(`${this.baseUrl}Devices/GetDevice` + `?id=` + id);
@@ -122,18 +126,24 @@ export class DeviceserviceService {
     lastValueFrom(this.http.get(this.baseUrl + 'Devices/AllProsumerInfo')).then(
       (res) => {
         let response = res as UserTableMapInitDto;
+        // console.log(response);
         this.prosumers = response.prosumers as Prosumer[];
-        this.maxCons = response.maxCons;
-        this.minCons = response.minCons;
-        this.maxProd = response.maxProd;
-        this.minProd = response.minProd;
-        this.maxDevCount = response.maxDevCount;
+        this.setFilters(response);
+        this.responseGetAllProsumers.next(response);
         this.spiner.hide();
       },
       (err) => {
         // Handle any errors here
       }
     );
+  }
+
+  private setFilters(response : any) {
+    this.maxCons = response.maxCons;
+    this.minCons = response.minCons;
+    this.maxProd = response.maxProd;
+    this.minProd = response.minProd;
+    this.maxDevCount = response.maxDevCount;
   }
 
   ProsumersInfo1() : Observable<any> {
