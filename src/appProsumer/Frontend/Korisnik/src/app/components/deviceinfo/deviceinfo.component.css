@@ -64,3 +64,10 @@ h6 {
 #cardone, #cardtwo{
   background: #e0efea;
 }
+
+@media (max-width: 576px)
+{
+  #consumptionLimitCardBody{
+    width: 90% !important;
+  }
+}

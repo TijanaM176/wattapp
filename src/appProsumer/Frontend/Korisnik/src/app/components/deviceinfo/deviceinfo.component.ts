@@ -42,10 +42,11 @@ export class DeviceinfoComponent {
   thresholds: object = {};
   maxUsageNumber: number = 0;
 
-  gaugeLabel = 'Consumption';
-  gaugeAppendText = 'kWh';
+  gaugeLabel = 'Consumption (kW)';
+  gaugeAppendText = '';
 
-  cons: boolean = true;
+  cat: number = 0;
+  catName : string = '';
 
   @ViewChild('editData', { static: false }) editData!: EditDeviceFormComponent;
   constructor(
@@ -88,8 +89,9 @@ export class DeviceinfoComponent {
         this.AvgUsage = res.AvgUsage;
         this.currentUsage = res.CurrentUsage.toFixed(2);
         if (res.CategoryId == '1') {
-          this.gaugeLabel = 'Consumption';
-          this.cons = true;
+          this.gaugeLabel = 'Consumption (kW)';
+          this.cat = 1;
+          this.catName = 'Consumption';
           this.thresholds = {
             '0': { color: 'green', bgOpacity: 0.2, fontSize: '16px' },
             [this.AvgUsage]: {
@@ -104,8 +106,9 @@ export class DeviceinfoComponent {
             },
           };
         } else if (res.CategoryId == '2') {
-          this.gaugeLabel = 'Production';
-          this.cons = false;
+          this.gaugeLabel = 'Production (kW)';
+          this.cat = 2;
+          this.catName = 'Production';
           this.thresholds = {
             '0': { color: '#c14b48', bgOpacity: 0.2, fontSize: '16px' },
             [this.AvgUsage]: {
@@ -119,6 +122,15 @@ export class DeviceinfoComponent {
               fontSize: '16px',
             },
           };
+        } else if(res.CategoryId == '3')
+        {
+          this.cat = 3;
+          this.catName = 'Storage';
+          let h = window.innerHeight;
+          document.getElementById('consumptionLimitBody')!.style.height =
+          h * 0.25 + 'px';
+          document.getElementById('consumptionLimitCardBody')!.style.height = h*0.38 + 'px'; 
+          console.log(res);
         }
         this.deviceData = res;
         this.IpAddress = res.IpAddress;

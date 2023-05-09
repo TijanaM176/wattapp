@@ -40,11 +40,19 @@
                     [cap]="'butt'"
                     [thick]="45"
                     [thresholds]="thresholds"
+                    *ngIf="cat==1 || cat==2"
                   >
                   </ngx-gauge>
+                  <div class="w-100" *ngIf="cat==3" style="height: 70%; display: flex; align-items: center; justify-content: center;">
+                    <div class="battery-body p-1" style="height: 100%; width: 95%; border: 10px solid #08376b; border-radius: 10px;">
+                      <div class="battery-level ps-2 pt-1" style="width: 85%; background-color: #00ff00; border-radius: 5px; height: 100%;">
+                      </div>
+                    </div>
+                    <div class="battery-top ms-0" style="height: 45%; width: 5%; background-color: #08376b; border-radius: 1px;"></div>
+                  </div>
                 </div>
                 <!-- if device is consumer -->
-                <div class="legend w-100 text-center" *ngIf="cons">
+                <div class="legend w-100 text-center" *ngIf="cat==1">
                   <i class="fa fa-circle greenZone"
                     >&nbsp;0-{{ AvgUsage }} kWh</i
                   >&nbsp;&nbsp;&nbsp;
@@ -54,7 +62,7 @@
                   <i class="fa fa-circle redZone">&nbsp;{{ MaxUsage }}+ kWh</i>
                 </div>
                 <!-- if device is producer -->
-                <div class="legend w-100 text-center" *ngIf="!cons">
+                <div class="legend w-100 text-center" *ngIf="cat==2">
                   <i class="fa fa-circle redZone"
                     >&nbsp;0-{{ AvgUsage }} kWh</i
                   >&nbsp;&nbsp;&nbsp;
@@ -63,9 +71,14 @@
                   >&nbsp;&nbsp;&nbsp;
                   <i class="fa fa-circle greenZone">&nbsp;{{ MaxUsage }}+ kWh</i>
                 </div>
+                <!-- if device is storage -->
+                <div class="col-12 m-0  text-start" *ngIf="cat==3">
+                  <h4 style="color: #08376b; margin-top: 0;">Max Capacity: 350kWh</h4>
+                  <h1 style="color: #08376b;">85%</h1>
+                </div>
               </div>
 
-              <div class="card-body p-1 p-md-4">
+              <div class="card-body p-1 p-md-4" style="border: 0;">
                 <div style="display: flex; justify-content: space-between" class="px-2">
                   <h6 class="section">Device Information</h6>
                   <div *ngIf="currentUsage == 0" (click)="toggle()">
@@ -102,11 +115,11 @@
                 <div class="row pt-1 mx-0 my-0">
                   <div class="col-6 mb-1">
                     <h6 style="color: #08376b">{{ MaxUsage }}kWh</h6>
-                    <p class="text-muted">Maximum hourly consumption</p>
+                    <p class="text-muted">Maximum hourly {{catName.toLowerCase()}}</p>
                   </div>
                   <div class="col-6 mb-1">
                     <h6 style="color: #08376b">{{ AvgUsage }}kWh</h6>
-                    <p class="text-muted">Average hourly consumption</p>
+                    <p class="text-muted">Average hourly {{catName.toLowerCase()}}</p>
                   </div>
                 </div>
                 <hr class="mt-0 mb-3" />
@@ -149,13 +162,15 @@
               </div>
             </div>
 
+            <!-- grafici sa strane -->
             <div
               class="col-md-6 gradient-custom d-flex flex-column h-md-100 order-2 order-md-2"
             >
+            <!-- *ngIf="cat==1 || cat==2" -->
             <div class="col-md-12">
               <div class="card w-100" id="cardone">
               <app-realizationDevice
-                [type]="gaugeLabel"
+                [type]="catName"
                 class="w-100"
               ></app-realizationDevice>
             </div>
@@ -163,7 +178,7 @@
             <div class="col-md-12">
               <div class="card w-100" id="cardtwo">
               <app-predictionDevice
-                [type]="gaugeLabel"
+                [type]="catName"
                 class="w-100"
               ></app-predictionDevice>
             </div>
