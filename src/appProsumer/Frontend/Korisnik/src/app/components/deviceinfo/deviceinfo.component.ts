@@ -81,7 +81,6 @@ export class DeviceinfoComponent {
 
   getInformation() {
     this.idDev = this.router1.snapshot.params['idDev'];
-    //this.idDev=this.router.snapshot.params['idDev'];
     this.service.getInfoDevice(this.idDev).subscribe({
       next: (res) => {
         this.MaxUsage = res.MaxUsage;
@@ -179,9 +178,7 @@ export class DeviceinfoComponent {
             console.log(err.error);
           },
         });
-      }
-      else if (result.dismiss === Swal.DismissReason.cancel) 
-      {
+      } else if (result.dismiss === Swal.DismissReason.cancel) {
         // Swal.fire('Cancelled', 'Product still in our database.)', 'error');
       }
     });
@@ -205,15 +202,14 @@ export class DeviceinfoComponent {
   confirm() {
     if (this.showEdit) {
       this.editData.editInfo();
-      //this.showEdit = false;
     }
   }
 
   toggle() {
-    let offOn = this.currentUsage>0 ? 'Off' : 'On';
+    let offOn = this.currentUsage > 0 ? 'Off' : 'On';
     Swal.fire({
       title: 'Are you sure?',
-      text: 'Confirm you want to turn this device '+offOn+'.',
+      text: 'Confirm you want to turn this device ' + offOn + '.',
       icon: 'question',
       allowOutsideClick: false,
       showCancelButton: true,
@@ -224,12 +220,11 @@ export class DeviceinfoComponent {
     }).then((result) => {
       if (result.value) {
         this.service
-        .toggleDevice(this.router1.snapshot.params['idDev'], true)
-        .subscribe((response) => {
-          this.currentUsage = response;
-        });
+          .toggleDevice(this.router1.snapshot.params['idDev'], true)
+          .subscribe((response) => {
+            this.currentUsage = response;
+          });
       } else if (result.dismiss === Swal.DismissReason.cancel) {
-        // Swal.fire('Cancelled', 'Product still in our database.)', 'error');
       }
     });
   }

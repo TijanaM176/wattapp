@@ -1,67 +1,71 @@
-.roof{
-    border-left: 100px solid transparent;
-    border-right: 100px solid transparent;
-    border-bottom: 100px solid #c1dfd5;
+.roof {
+  border-left: 100px solid transparent;
+  border-right: 100px solid transparent;
+  border-bottom: 100px solid #c1dfd5;
 }
-.walls{
-    background-color: #c1dfd5;
-    overflow: hidden;
+.walls {
+  background-color: #c1dfd5;
+  overflow: hidden;
 }
-.card{
-    flex: 1 1 20rem;
-    display: flex;
-    align-items: center;
-    margin: 5px 10px;
-    flex-direction: column;
-    align-self: normal;
-    max-width: 23%;
-    max-height: 23%;
-    background: #b1d1c1;
-    font-family: "Roboto";
-    color: #08376b;
-    margin: 1%;
+.card {
+  flex: 1 1 20rem;
+  display: flex;
+  align-items: center;
+  margin: 5px 10px;
+  flex-direction: column;
+  align-self: normal;
+  max-width: 23%;
+  max-height: 23%;
+  background: #b1d1c1;
+  font-family: "Roboto";
+  color: #08376b;
+  margin: 1%;
 }
-.text-container{
-    width: 100%;
-    text-align: center;
+.text-container {
+  width: 100%;
+  text-align: center;
 }
-.text-container a{
-    max-width: 96%;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+.text-container a {
+  max-width: 96%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 @media only screen and (min-width: 768px) {
-    .card img {
-        width: 100%;
-    }
+  .card img {
+    width: 100%;
+  }
 }
 @media (min-width: 576px) {
-    #houseDeviceInfo{
-        text-align: start;
-    }
+  #houseDeviceInfo {
+    text-align: start;
+  }
 }
 @media only screen and (max-width: 768px) {
-    .card img {
-        width: 40%;
-    }
+  .card img {
+    width: 40%;
+  }
 }
 @media (max-width: 576) {
-    #houseDeviceInfo{
-        text-align: center !important;
-    }
+  #houseDeviceInfo {
+    text-align: center !important;
+  }
 }
-.activeDevice{
-    color: #8ee5c9;
+.activeDevice {
+  color: #8ee5c9;
 }
-.inactiveDevice{
-    color: #D0D0D0;
+.inactiveDevice {
+  color: #d0d0d0;
 }
 .off {
-    color: red;
-    font-size: 100px;
+  color: red;
+  font-size: 100px;
 }
 .on {
-    color: green;
-    font-size: 100px;
+  color: green;
+  font-size: 100px;
+}
+.visit {
+  color: black;
+  font-size: 100px;
 }

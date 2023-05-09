@@ -22,14 +22,14 @@ export class DeviceserviceService {
   prosumers!: Prosumer[];
   numofdevices!: number;
 
-  maxCons : number = 0;
-  maxProd : number = 0;
-  maxDevCount : number = 0;
-  minCons : number = 0;
-  minProd : number = 0;
-  minDevCount : number = 0;
+  maxCons: number = 0;
+  maxProd: number = 0;
+  maxDevCount: number = 0;
+  minCons: number = 0;
+  minProd: number = 0;
+  minDevCount: number = 0;
 
-  private responseGetAllProsumers = new Subject<UserTableMapInitDto>()
+  private responseGetAllProsumers = new Subject<UserTableMapInitDto>();
   public information$ = this.responseGetAllProsumers.asObservable();
 
   getInfoDevice(id: string) {
@@ -51,7 +51,7 @@ export class DeviceserviceService {
       this.baseUrl + 'Devices/GetAllDevicesForProsumer?id=' + id + '&role=Dso'
     );
   }
-  
+
   prosumerFilter(
     minCon: number,
     maxCon: number,
@@ -59,40 +59,44 @@ export class DeviceserviceService {
     maxProd: number,
     minDev: number,
     maxDev: number,
-    cityId : string,
-    neighborhoodId : string
+    cityId: string,
+    neighborhoodId: string
   ) {
     this.spiner.show();
-    this.http.get(
-      this.baseUrl +
-        'Devices/UpdatedProsumerFilter?minConsumption=' +
-        minCon +
-        '&maxConsumption=' +
-        maxCon +
-        '&minProduction=' +
-        minProd +
-        '&maxProduction=' +
-        maxProd +
-        '&minDeviceCount=' +
-        minDev +
-        '&maxDeviceCount=' +
-        maxDev +
-        '&cityId=' + cityId+
-        '&neighborhoodId=' + neighborhoodId
-    ).subscribe({
-      next:(res)=>{
-        this.spiner.hide();
-        let response = res as UserTableMapInitDto;
-        this.prosumers = response.prosumers as Prosumer[];
-        this.setFilters(response);
-        this.responseGetAllProsumers.next(response);
-      },
-      error:(err)=>{
-        this.prosumers = [];
-        this.spiner.hide();
-        console.log(err.error);
-      }
-    })
+    this.http
+      .get(
+        this.baseUrl +
+          'Devices/UpdatedProsumerFilter?minConsumption=' +
+          minCon +
+          '&maxConsumption=' +
+          maxCon +
+          '&minProduction=' +
+          minProd +
+          '&maxProduction=' +
+          maxProd +
+          '&minDeviceCount=' +
+          minDev +
+          '&maxDeviceCount=' +
+          maxDev +
+          '&cityId=' +
+          cityId +
+          '&neighborhoodId=' +
+          neighborhoodId
+      )
+      .subscribe({
+        next: (res) => {
+          this.spiner.hide();
+          let response = res as UserTableMapInitDto;
+          this.prosumers = response.prosumers as Prosumer[];
+          this.setFilters(response);
+          this.responseGetAllProsumers.next(response);
+        },
+        error: (err) => {
+          this.prosumers = [];
+          this.spiner.hide();
+          console.log(err.error);
+        },
+      });
   }
 
   prosumerFilterMap(
@@ -102,9 +106,9 @@ export class DeviceserviceService {
     maxProd: number,
     minDev: number,
     maxDev: number,
-    cityId : string,
-    neighborhoodId : string
-  ) : Observable<UserTableMapInitDto> {
+    cityId: string,
+    neighborhoodId: string
+  ): Observable<UserTableMapInitDto> {
     this.spiner.show();
     return this.http.get<UserTableMapInitDto>(
       this.baseUrl +
@@ -120,8 +124,10 @@ export class DeviceserviceService {
         minDev +
         '&maxDeviceCount=' +
         maxDev +
-        '&cityId=' + cityId+
-        '&neighborhoodId=' + neighborhoodId
+        '&cityId=' +
+        cityId +
+        '&neighborhoodId=' +
+        neighborhoodId
     );
   }
 
@@ -141,7 +147,7 @@ export class DeviceserviceService {
     );
   }
 
-  private setFilters(response : any) {
+  private setFilters(response: any) {
     this.maxCons = Math.ceil(response.maxCons);
     this.minCons = Math.ceil(response.minCons);
     this.maxProd = Math.ceil(response.maxProd);
@@ -150,7 +156,7 @@ export class DeviceserviceService {
     this.minDevCount = response.minDevCount;
   }
 
-  ProsumersInfo1() : Observable<any> {
+  ProsumersInfo1(): Observable<any> {
     return this.http.get(this.baseUrl + 'Devices/AllProsumerInfo');
   }
 

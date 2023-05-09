@@ -27,7 +27,7 @@
                 <div
                   class="col-6"
                   *ngIf="currentUsage == 0"
-                  (click)="toggle()"
+                  (click)="turnDeviceoffOn()"
                   style="
                     display: flex;
                     justify-content: right;
@@ -39,7 +39,7 @@
                 <div
                   class="col-6"
                   *ngIf="currentUsage != 0"
-                  (click)="toggle()"
+                  (click)="turnDeviceoffOn()"
                   style="
                     display: flex;
                     justify-content: right;
@@ -82,7 +82,6 @@
                   <h6 style="color: #c14b48" *ngIf="!DsoView">
                     <i class="fa fa-minus-square"></i> DSO Can't View
                   </h6>
-                  <!-- <p class="text-muted">Maximum hourly consumption</p> -->
                 </div>
                 <div class="col-6 mb-1">
                   <h6 style="color: green" *ngIf="DsoControl">
@@ -163,7 +162,6 @@
                         [thick]="10"
                       >
                       </ngx-gauge>
-                      
                     </div>
                   </div>
                 </div>

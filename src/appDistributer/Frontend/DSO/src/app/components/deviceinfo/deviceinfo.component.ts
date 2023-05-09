@@ -5,6 +5,7 @@ import { ActivatedRoute, Router, RouterConfigOptions } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
 import { Device } from 'src/app/models/device';
+import Swal from 'sweetalert2';
 import { DeviceserviceService } from 'src/app/services/deviceservice.service';
 
 @Component({
@@ -51,10 +52,49 @@ export class DeviceinfoComponent implements OnInit {
     this.getInfo();
     this.spiner.show();
   }
+
+  turnDeviceoffOn() {
+    const ofOn = this.currentUsage > 0 ? 'Off' : 'On';
+    Swal.fire({
+      title: 'Are you sure?',
+      text: 'Confirm you want to turn this device ' + ofOn,
+      icon: 'question',
+      allowOutsideClick: false,
+      showCancelButton: true,
+      confirmButtonColor: '#466471',
+      cancelButtonColor: '#8d021f',
+      confirmButtonText: 'Yes',
+      cancelButtonText: 'Cancel',
+    }).then((result: any) => {
+      if (result.value) {
+        this.service
+          .toggleDevice(this.router.snapshot.params['idDev'], true)
+          .subscribe(
+            (response) => {
+              this.currentUsage = response;
+              let active = true;
+              if (response === 0) {
+                active = false;
+              }
+            },
+            (error) => {
+              Swal.fire({
+                title: 'Error',
+                confirmButtonColor: '#466471',
+                text: "You don't have permission to manage this device.",
+                icon: 'error',
+              });
+            }
+          );
+      } else if (result.dismiss === Swal.DismissReason.cancel) {
+        // Action when Cancel button is clicked
+      }
+    });
+  }
+
   getInfo() {
     this.idDev = this.router.snapshot.params['idDev'];
     this.service.getInfoDevice(this.idDev).subscribe((res: any) => {
-      // console.log(res);
       this.setType(res.CategoryId);
       this.results = res;
       this.IpAddress = res.IpAddress;
@@ -64,8 +104,8 @@ export class DeviceinfoComponent implements OnInit {
       this.MaxUsage = res.MaxUsage;
       this.AvgUsage = res.AvgUsage;
       this.currentUsage = res.CurrentUsage;
-      this.DsoControl=res.DsoControl;
-      this.DsoView=res.DsoView;
+      this.DsoControl = res.DsoControl;
+      this.DsoView = res.DsoView;
       this.maxUsageNumber = Number(this.MaxUsage + Number(this.AvgUsage) / 6);
       this.TypeId = res.TypeId;
       this.ModelId = res.ModelId;
@@ -124,17 +164,5 @@ export class DeviceinfoComponent implements OnInit {
     } else {
       this.type = 'Storage';
     }
-  }
-  toggle() {
-    this.service
-      .toggleDevice(this.router.snapshot.params['idDev'], true)
-      .subscribe(
-        (response) => {
-          this.currentUsage = response;
-        },
-        (error) => {
-          this.toastr.error(error.error, 'Error');
-        }
-      );
   }
 }
