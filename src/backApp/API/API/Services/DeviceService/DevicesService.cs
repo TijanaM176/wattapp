@@ -647,7 +647,7 @@ namespace API.Services.Devices
 
                 if ((bool)dev["Activity"])
                 {
-                    if ((int)dev["TypeId"] == 19 && (DateTime.Now.TimeOfDay < TimeSpan.FromHours(6) || DateTime.Now.TimeOfDay > TimeSpan.FromHours(18))) return 0;
+                    if ((long)dev["TypeId"] == 19 && (DateTime.Now.TimeOfDay < TimeSpan.FromHours(6) || DateTime.Now.TimeOfDay > TimeSpan.FromHours(18))) return 0;
                     if ((double)dev["CurrentUsage"] == 0)
                     {
                         Random random = new Random();

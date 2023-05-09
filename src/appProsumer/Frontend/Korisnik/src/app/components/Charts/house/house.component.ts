@@ -7,10 +7,10 @@ import {
   EventEmitter,
 } from '@angular/core';
 import { DeviceWidthService } from 'src/app/services/device-width.service';
-import { fromEvent, Observable, Subscription } from 'rxjs';
+import { fromEvent, Observable, Subscription, timeout } from 'rxjs';
 import { DeviceserviceService } from 'src/app/services/deviceservice.service';
 import Swal from 'sweetalert2';
-import { NgxSpinnerService } from 'ngx-spinner';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-house',
@@ -33,7 +33,8 @@ export class HouseComponent implements OnInit, AfterViewInit {
 
   constructor(
     private widthService: DeviceWidthService,
-    private deviceService: DeviceserviceService
+    private deviceService: DeviceserviceService,
+    private router: Router
   ) {}
 
   ngAfterViewInit(): void {
@@ -63,7 +64,14 @@ export class HouseComponent implements OnInit, AfterViewInit {
 
   setDevices(devices: any[]) {
     this.devices = devices;
-    // console.log(devices);
+  }
+
+  navigateToPage() {
+    const closeModalBtn = document.getElementById('turnDeviceOffOn');
+    closeModalBtn!.click();
+    this.router.navigate([
+      'ProsumerApp/userDevices/' + this.device.Id + '/deviceinfo',
+    ]);
   }
 
   turnDeviceoffOn() {
@@ -100,10 +108,8 @@ export class HouseComponent implements OnInit, AfterViewInit {
               this.lastValue,
               this.device.CategoryId,
             ]);
-            // console.log(this.devices);
           });
       } else if (result.dismiss === Swal.DismissReason.cancel) {
-        // Swal.fire('Cancelled', 'Product still in our database.)', 'error');
       }
     });
   }

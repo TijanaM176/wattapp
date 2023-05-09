@@ -7,11 +7,14 @@
             <div class="card shadow mb-4">
               <div
                 class="card-header py-3 d-flex flex-row align-items-center justify-content-between"
-                style="background-color: rgb(177, 209, 193, 0.08);"
+                style="background-color: rgb(177, 209, 193, 0.08)"
               >
                 <h6 class="m-0 font-weight-bold">Your Home</h6>
               </div>
-              <app-house #house (deviceOffOn)="onDeviceTurnedOffOn($event)"></app-house>
+              <app-house
+                #house
+                (deviceOffOn)="onDeviceTurnedOffOn($event)"
+              ></app-house>
             </div>
           </div>
 
@@ -19,7 +22,7 @@
             <div class="card shadow mb-4">
               <div
                 class="card-header py-3 d-flex flex-row align-items-center justify-content-between"
-                style="background-color: rgb(177, 209, 193, 0.08);"
+                style="background-color: rgb(177, 209, 193, 0.08)"
               >
                 <h6 class="m-0 font-weight-bold">Devices Status</h6>
               </div>
@@ -30,14 +33,20 @@
 
         <div class="row">
           <div class="col-xl-3 col-md-6 mb-4">
-            <div class="card border-left-primary shadow h-100 py-2" style="background-color: rgb(177, 209, 193, 0.19); border-left: 5px solid rgb(177, 209, 193);">
+            <div
+              class="card border-left-primary shadow h-100 py-2"
+              style="
+                background-color: rgb(177, 209, 193, 0.19);
+                border-left: 5px solid rgb(177, 209, 193);
+              "
+            >
               <div class="card-body kartice">
                 <div class="row no-gutters align-items-center">
                   <div class="col mr-2">
                     <div
                       class="text-xs font-weight-bold text-success text-uppercase mb-1"
                     >
-                    <!-- success -->
+                      <!-- success -->
                       Num of. Devices
                     </div>
                     <div class="h5 mb-0 font-weight-bold text-gray-800">
@@ -53,14 +62,20 @@
           </div>
 
           <div class="col-xl-3 col-md-6 mb-4">
-            <div class="card border-left-success shadow h-100 py-2" style="background-color: rgb(177, 209, 193, 0.19); border-left: 5px solid rgb(177, 209, 193);">
+            <div
+              class="card border-left-success shadow h-100 py-2"
+              style="
+                background-color: rgb(177, 209, 193, 0.19);
+                border-left: 5px solid rgb(177, 209, 193);
+              "
+            >
               <div class="card-body kartice">
                 <div class="row no-gutters align-items-center">
                   <div class="col mr-2">
                     <div
                       class="text-xs font-weight-bold text-warning text-uppercase mb-1"
                     >
-                    <!-- warning -->
+                      <!-- warning -->
                       Num. of Active Devices
                     </div>
                     <div class="h5 mb-0 font-weight-bold text-gray-800">
@@ -76,14 +91,20 @@
           </div>
 
           <div class="col-xl-3 col-md-6 mb-4">
-            <div class="card border-left-info shadow h-100 py-2" style="background-color: rgb(177, 209, 193, 0.19); border-left: 5px solid rgb(177, 209, 193);">
+            <div
+              class="card border-left-info shadow h-100 py-2"
+              style="
+                background-color: rgb(177, 209, 193, 0.19);
+                border-left: 5px solid rgb(177, 209, 193);
+              "
+            >
               <div class="card-body kartice">
                 <div class="row no-gutters align-items-center">
                   <div class="col mr-2">
                     <div
                       class="text-xs font-weight-bold text-info text-uppercase mb-1"
                     >
-                    <!-- info -->
+                      <!-- info -->
                       Lower/Higher tariff
                     </div>
                     <div class="row no-gutters align-items-center">
@@ -105,18 +126,24 @@
           </div>
 
           <div class="col-xl-3 col-md-6 mb-4">
-            <div class="card border-left-primary shadow h-100 py-2" style="background-color: rgb(177, 209, 193, 0.19); border-left: 5px solid rgb(177, 209, 193);">
+            <div
+              class="card border-left-primary shadow h-100 py-2"
+              style="
+                background-color: rgb(177, 209, 193, 0.19);
+                border-left: 5px solid rgb(177, 209, 193);
+              "
+            >
               <div class="card-body kartice">
                 <div class="row no-gutters align-items-center">
                   <div class="col mr-2">
                     <div
                       class="text-xs font-weight-bold text-primary text-uppercase mb-1"
                     >
-                    <!-- primary -->
+                      <!-- primary -->
                       Electricity cost
                     </div>
                     <div class="h5 mb-0 font-weight-bold text-gray-800">
-                      {{currentPrice}} RSD
+                      {{ currentPrice }} RSD
                     </div>
                   </div>
                   <div class="col-auto">
@@ -127,9 +154,6 @@
             </div>
           </div>
         </div>
-        <!-- end content row -->
-
-        <!-- content row -->
         <div class="row">
           <div class="col-lg-5 mb-4">
             <div class="card shadow">
@@ -137,15 +161,13 @@
             </div>
           </div>
           <div class="col-lg-7 mb-4">
-            <!-- consumption -->
             <div class="card shadow pb-2">
-              <app-realization-chart #realizationConsumption></app-realization-chart>
+              <app-realization-chart
+                #realizationConsumption
+              ></app-realization-chart>
             </div>
           </div>
         </div>
-        <!-- end content row -->
-
-        <!-- content row -->
         <div class="row">
           <div class="col-lg-5 mb-4 order-sm-2 order-2 order-lg-1">
             <div class="card shadow mb-1 pb-2">
@@ -153,14 +175,13 @@
             </div>
           </div>
           <div class="col-lg-7 mb-4 oreder-sm-1 order-1 order-lg-2">
-            <!-- production -->
             <div class="card shadow mb-1 pb-2">
-              <app-realization-chart-production #realizationProduction></app-realization-chart-production>
+              <app-realization-chart-production
+                #realizationProduction
+              ></app-realization-chart-production>
             </div>
           </div>
         </div>
-        <!-- end content row -->
-
       </div>
     </div>
   </div>

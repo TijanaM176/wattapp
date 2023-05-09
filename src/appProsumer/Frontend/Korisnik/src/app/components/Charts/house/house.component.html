@@ -497,7 +497,7 @@
       </div>
       <div class="modal-body row d-flex">
         <div
-          class="col-12 col-lg-5"
+          class="col-12 col-lg-6"
           style="display: flex; justify-content: center; align-items: center"
         >
           <div
@@ -517,12 +517,17 @@
             <p style="color: green">Turned On</p>
           </div>
         </div>
-        <div class="col-12 col-lg-7 text-center text-lg-start">
-          <h2 style="color: #08376b">{{ device?.Name }}</h2>
-          <h5 class="text-muted">IP Address: {{ device?.IpAddress }}</h5>
-          <h6 *ngIf="device?.Manufacturer" class="text-muted">
-            Manufacturer: {{ device?.Manufacturer }}
-          </h6>
+        <div
+          class="col-12 col-lg-6 text-center text-lg-start"
+          style="display: flex; justify-content: center; align-items: center"
+        >
+          <button id="closeModalBtn" hidden="true">Close Modal</button>
+
+          <div class="text-center p-3" (click)="navigateToPage()">
+            <i class="fa fa-link visit"></i>
+
+            <p>Link to Device Page</p>
+          </div>
         </div>
         <div class="col-12">
           <small class="text-success" *ngIf="show"

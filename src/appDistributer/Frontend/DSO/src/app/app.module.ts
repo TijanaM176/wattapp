@@ -142,7 +142,7 @@ import { ImageCropperModule } from 'ngx-image-cropper';
     PredictionDeviceTableComponent,
     SearchemployeelastnamePipe,
     RealizationChartProductionComponent,
-    ChangeWorkerPasswordComponent
+    ChangeWorkerPasswordComponent,
   ],
   imports: [
     MatSlideToggleModule,
@@ -165,7 +165,7 @@ import { ImageCropperModule } from 'ngx-image-cropper';
     NgxPaginationModule,
     NgxGaugeModule,
     ToastrModule.forRoot(),
-    ImageCropperModule
+    ImageCropperModule,
   ],
   providers: [
     CookieService,
