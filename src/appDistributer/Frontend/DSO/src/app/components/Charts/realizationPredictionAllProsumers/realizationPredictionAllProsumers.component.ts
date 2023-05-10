@@ -286,7 +286,7 @@ export class RealizationPredictionAllProsumersComponent implements OnInit {
       const rowData = [this.data[0]?.series[i]?.name];
 
       for (let j = 0; j < this.data.length; j++) {
-        const value = this.data[j]?.series[i]?.value?.toFixed(5);
+        const value = this.data[j]?.series[i]?.value?.toFixed(2);
         rowData.push(value);
       }
 
