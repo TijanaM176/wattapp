@@ -13,7 +13,7 @@
         class="text-center"
         [ngStyle]="{ color: type === 'Consumption' ? '#c14b48' : '#3ea7a8' }"
       >
-        {{ value.y.toFixed(3) }} kW
+        {{ value.y.toFixed(2) }} kW
       </td>
       <td
         class="text-center"
@@ -22,7 +22,7 @@
             type === 'Consumption' ? 'rgb(204, 157, 29)' : 'rgb(152, 165, 31)'
         }"
       >
-        {{ data[1].values[i].y.toFixed(3) }} kW
+        {{ data[1].values[i].y.toFixed(2) }} kW
       </td>
     </tr>
   </tbody>
