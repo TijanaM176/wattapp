@@ -53,6 +53,7 @@ export class DeviceinfoComponent {
   maxCapacity : number = 0;
   currentCapacity : number = 0;
   percentFull : number = 0;
+  state : number = 0; //iskljuceno
 
   @ViewChild('editData', { static: false }) editData!: EditDeviceFormComponent;
   constructor(

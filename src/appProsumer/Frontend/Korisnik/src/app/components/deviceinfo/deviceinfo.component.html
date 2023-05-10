@@ -44,15 +44,16 @@
                     *ngIf="cat==1 || cat==2"
                   >
                   </ngx-gauge>
-                  <div class="w-100" *ngIf="cat==3" style="display: flex; align-items: center; justify-content: center;" 
-                    [ngStyle]="{'height': widthService.deviceWidth>576 ? '98%': '70%'}">
-                    <div class="battery-body p-1" style="height: 100%; width: 95%; border: 10px solid #08376b; border-radius: 10px; position: relative;">
-                      <h1 style="color: #08376b; position: absolute; top: 2%;"
-                      [ngStyle]="{'left': widthService.deviceWidth>576 ? '2%':'5%'}">{{percentFull}}%</h1>
-                      <div class="battery-level" id="bateryPercentage" 
-                        style="background-color: #00ff00; border-radius: 5px; height: 100%;" [ngStyle]="{'width':percentFull+'%',}"></div>
+                  <div class="w-100" id="batteryCont" *ngIf="cat==3" [ngStyle]="{'height': widthService.deviceWidth>576 ? '98%': '70%'}">
+                    <div class="battery-body p-1">
+                      <h1 [ngStyle]="{'left': widthService.deviceWidth>576 ? '2%':'5%'}">
+                        <i class="fa fa-bolt" style="color: #08376b;" *ngIf="state == 2"></i>
+                        <i class="fa fa-exclamation-triangle" style="color: #08376b;" *ngIf="state == 1 && percentFull<=20"></i>
+                        {{percentFull}}%
+                      </h1>
+                      <div class="battery-level" id="bateryPercentage" [ngStyle]="{'width':percentFull+'%','background-color': state==0 ? '#8ca6a6' : state ==1 ? '#f3734d' : '#54d454'}"></div>
                     </div>
-                    <div class="battery-top ms-0" style="height: 45%; width: 5%; background-color: #08376b; border-radius: 1px;"></div>
+                    <div class="battery-top ms-0"></div>
                   </div>
                 </div>
                 <!-- if device is consumer -->
@@ -79,6 +80,9 @@
                 <div class="legend w-100 text-center" *ngIf="cat==3">
                   <h5 style="color: #08376b;">Current Capacity: {{currentCapacity}} kWh</h5>
                   <h6 style="color: #08376b; margin-top: 0;">Max Capacity: {{maxCapacity}} kWh</h6>
+                  <i class="fa fa-circle batteryOff">&nbsp;Turned Off</i>&nbsp;&nbsp;&nbsp;
+                  <i class="fa fa-circle batteryCharging">&nbsp;Charging</i>&nbsp;&nbsp;&nbsp;
+                  <i class="fa fa-circle batteryInUse">&nbsp;In Use</i>&nbsp;&nbsp;&nbsp;
                 </div>
               </div>
 
