@@ -259,7 +259,7 @@ namespace API.Repositories.DeviceRepository
                     if (info.TypeId == 19 && (DateTime.Now.TimeOfDay < TimeSpan.FromHours(6) || DateTime.Now.TimeOfDay > TimeSpan.FromHours(18))) curr = 0;
                     else
                     {
-                        if (currentUsage == 0) curr = avg;
+                        if (currentUsage == 0) curr = avg * 0.85;
                         else curr = currentUsage;
                         
                     }
@@ -278,11 +278,11 @@ namespace API.Repositories.DeviceRepository
                 {"ModelName", info.Name },
                 { "Manufacturer", info.Manufacturer },
                 { "Wattage", info.Wattage },
-                { "CurrentUsage", curr},
+                { "CurrentUsage", Math.Round(curr, 2)},
                 { "CategoryName", (await GetDeviceCat(info.CategoryId)).Name },
                 { "TypeName", (await GetDeviceType(info.TypeId)).Name },
-                { "MaxUsage", max},
-                { "AvgUsage", avg},
+                { "MaxUsage", Math.Round(max, 2)},
+                { "AvgUsage", Math.Round(avg, 2)},
                 { "DsoView", link.DsoView },
                 { "DsoControl", link.DsoControl },
                 { "Activity", link.Activity }

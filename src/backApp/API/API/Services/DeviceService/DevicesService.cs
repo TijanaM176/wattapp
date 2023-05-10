@@ -54,7 +54,7 @@ namespace API.Services.Devices
                         { "Activity", d.Activity },
                         { "DsoView", d.DsoView},
                         { "DsoControl", d.DsoControl },
-                        { "CurrentUsage", currentUsage },
+                        { "CurrentUsage", Math.Round(currentUsage, 2) },
                     };
                 }).ToList());
             }
@@ -669,7 +669,7 @@ namespace API.Services.Devices
                 if ((int)dev["Activity"] > 0)
                 {
                     if ((long)dev["TypeId"] == 19 && (DateTime.Now.TimeOfDay < TimeSpan.FromHours(6) || DateTime.Now.TimeOfDay > TimeSpan.FromHours(18))) return 0;
-                    if ((double)dev["CurrentUsage"] == 0)  return (double)dev["AvgUsage"];                            
+                    if ((double)dev["CurrentUsage"] == 0)  return Math.Round((double)dev["AvgUsage"] * 0.85, 2);                            
                     else return (double)dev["CurrentUsage"];
                 }
                 
@@ -711,7 +711,8 @@ namespace API.Services.Devices
 
                 return new Dictionary<string, double>  {
                     { "Capacity", (double)dev["Wattage"]},
-                    { "Status", (double)dev["CurrentUsage"]}
+                    { "Status", (double)dev["CurrentUsage"]},
+                    { "State", mode }
                 } ;
 
             }
