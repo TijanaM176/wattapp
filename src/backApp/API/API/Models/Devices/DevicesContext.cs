@@ -20,13 +20,8 @@ namespace API.Models.Devices
         {
             get
             {
-                var collectionOptions = new MongoCollectionSettings
-                {
-                    ReadPreference = ReadPreference.Primary,
-                    WriteConcern = WriteConcern.W1,
-                    GuidRepresentation = GuidRepresentation.Standard
-                };
-                return db.GetCollection<DevicePower>(_config.Value.CollectionName,collectionOptions);
+                
+                return db.GetCollection<DevicePower>(_config.Value.CollectionName);
             }
         }
     }

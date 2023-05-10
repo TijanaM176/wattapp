@@ -81,13 +81,11 @@ namespace API.Services.Devices
             var devices = await GetDevices(id);
             if (devices.Count == 0) return new Dictionary<string, double> { { "consumption", 0 }, { "production", 0 } };
 
-            double currentConsumption;
-            double currentProduction;
+            var consumptionDevices = devices[0].Where(x => (bool)x["Activity"]);
+            var productionDevices = devices[1].Where(x => (bool)x["Activity"]);
 
-            if (devices[0].Where(x => (bool)x["Activity"]).ToList().Count == 0) currentConsumption = 0;
-            else currentConsumption = devices[0].Where(x => (bool)x["Activity"]).Sum(device => (double)device["CurrentUsage"]);
-            if (devices[1].Where(x => (bool)x["Activity"]).ToList().Count == 0) currentProduction = 0;
-            currentProduction = devices[1].Where(x => (bool)x["Activity"]).Sum(device => (double)device["CurrentUsage"]);
+            double currentConsumption = consumptionDevices.Sum(device => (double)device["CurrentUsage"]);
+            double currentProduction = productionDevices.Sum(device => (double)device["CurrentUsage"]);
 
             return new Dictionary<string, double> { { "consumption", currentConsumption }, { "production", currentProduction } };
         }
@@ -218,26 +216,28 @@ namespace API.Services.Devices
         public async Task<Dictionary<string, Dictionary<DateTime, double>>> ConProdForAPeriodTimestamps(int type, int period, int step)     //type 0 cons 1 prod
         {
             var prosumers = (await _repository.getAllProsumersWhoOwnDevice()).Select(x => x.ProsumerId).Distinct();
-            Dictionary<string, Dictionary<DateTime, double>> data = new Dictionary<string, Dictionary<DateTime, double>>
-                {
-                    ["timestamps"] = new Dictionary<DateTime, double>(),
-                    ["predictions"] = new Dictionary<DateTime, double>()
-                };
 
-            foreach (var prosumer in prosumers)
+            var data = new Dictionary<string, Dictionary<DateTime, double>>
             {
-                Dictionary<string, Dictionary<DateTime, double>> usagePerProsumer = await GroupedConProdForAPeriodForProsumer(prosumer, type, period, step);
-                foreach (var cat in usagePerProsumer)
+                ["timestamps"] = new Dictionary<DateTime, double>(),
+                ["predictions"] = new Dictionary<DateTime, double>()
+            };
+
+            var usageTasks = prosumers.Select(async prosumer => await GroupedConProdForAPeriodForProsumer(prosumer, type, period, step));
+            var usages = await Task.WhenAll(usageTasks);
+
+            foreach (var usage in usages)
+            {
+                foreach (var cat in usage)
                 {
                     foreach (var timestamp in cat.Value)
-                    { 
+                    {
                         if (data[cat.Key].ContainsKey(timestamp.Key))
                             data[cat.Key][timestamp.Key] += timestamp.Value;
                         else
                             data[cat.Key].Add(timestamp.Key, timestamp.Value);
                     }
                 }
-
             }
 
             if (data == null) throw new ArgumentException("No timestamps!");
@@ -458,10 +458,10 @@ namespace API.Services.Devices
         {
             var prosumers = (await _repository.GetProsumers()).Select(x => new { Id = x.Id, CityId = x.CityId });
             Dictionary<string, Dictionary<string, double>> cities = new Dictionary<string, Dictionary<string, double>>
-                {
-                    ["Consumption"] = new Dictionary<string, double>(),
-                    ["Production"] = new Dictionary<string, double>()
-                };
+            {
+                ["Consumption"] = new Dictionary<string, double>(),
+                ["Production"] = new Dictionary<string, double>()
+            };
             double totalConsumption = 0;
             double totalProduction = 0;
             var cityNames = (await _dsoRepository.GetCities()).Select(x => x.Name);
@@ -480,8 +480,8 @@ namespace API.Services.Devices
                     totalConsumption += cons;
                     cities["Consumption"][city] += cons;
                 }
-                
-                if(prod > 0)
+
+                if (prod > 0)
                 {
                     totalProduction += prod;
                     cities["Production"][city] += prod;
@@ -518,9 +518,9 @@ namespace API.Services.Devices
             }
 
             return new Dictionary<string, Dictionary<string, Dictionary<string, double>>> {
-                { "numbers", numbers.ToDictionary(pair => pair.Key, pair => pair.Value.OrderByDescending(x => x.Value).ToDictionary(x => x.Key, x => x.Value)) }, 
-                { "percentages", percentages.ToDictionary(pair => pair.Key, pair => pair.Value.OrderByDescending(x => x.Value).ToDictionary(x => x.Key, x => x.Value)) }
-            };
+        { "numbers", numbers.ToDictionary(pair => pair.Key, pair => pair.Value.OrderByDescending(x => x.Value).ToDictionary(x => x.Key, x => x.Value)) },
+        { "percentages", percentages.ToDictionary(pair => pair.Key, pair => pair.Value.OrderByDescending(x => x.Value).ToDictionary(x => x.Key, x => x.Value)) }
+    };
         }
 
         public async Task<(double, double, string, List<DateTime>, List<DateTime>)> ThisWeekTotalProduction()
