@@ -161,5 +161,18 @@ namespace API.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+        [HttpPut("ToggleStorageActivity")]
+        public async Task<IActionResult> ToggleStorageActivity(string deviceId, string role, int mode)
+        {
+            try
+            {
+                return Ok(await devService.ToggleStorageActivity(deviceId, role, mode));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }

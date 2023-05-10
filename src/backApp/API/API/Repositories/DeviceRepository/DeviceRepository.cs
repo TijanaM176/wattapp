@@ -251,21 +251,21 @@ namespace API.Repositories.DeviceRepository
             
             double curr;
             double avg = await AvgUsage(link.ModelId);
-            if (link.Activity)
-            {
-                if (info.TypeId == 19 && (DateTime.Now.TimeOfDay < TimeSpan.FromHours(6) || DateTime.Now.TimeOfDay > TimeSpan.FromHours(18))) curr = 0;
-                else
+            if (info.CategoryId == 3) curr = currentUsage;
+            else
+            { 
+                if (link.Activity > 0)
                 {
-                    if (currentUsage == 0)
+                    if (info.TypeId == 19 && (DateTime.Now.TimeOfDay < TimeSpan.FromHours(6) || DateTime.Now.TimeOfDay > TimeSpan.FromHours(18))) curr = 0;
+                    else
                     {
-                        Random random = new Random();
-                        if (info.CategoryId != 3) curr = avg * random.Next(95, 105) / 100;
-                        else curr = info.Wattage * random.Next(1, 100) / 100;
+                        if (currentUsage == 0) curr = avg;
+                        else curr = currentUsage;
+                        
                     }
-                    else curr = currentUsage;
                 }
+                else curr = 0;
             }
-            else curr = 0;
 
             return new Dictionary<string, object>
             {
@@ -803,8 +803,8 @@ namespace API.Repositories.DeviceRepository
             if (device == null) throw new ArgumentException("Device not found!");
             if (device.DsoControl == false && role != "Prosumer") throw new ArgumentException("You don't have the permission to do that!");
 
-            if ((bool)device.Activity == true) device.Activity = false;
-            else device.Activity = true;
+            if (device.Activity > 0) device.Activity = 0;
+            else device.Activity = 1;
 
             try
             {
@@ -1115,6 +1115,24 @@ namespace API.Repositories.DeviceRepository
                 return (predictedproductionForThisDay, predictedproductionProsumersForTomorrow, $"{(predictedproductionProsumersForTomorrow > predictedproductionForThisDay ? "-" : "+")}{ratio}%");
             }
 
+        }
+
+        public async Task ToggleStorageActivity(string deviceId, string role, int state)
+        {
+            var device = await GetProsumerLink(deviceId);
+            if (device == null) throw new ArgumentException("Device not found!");
+            if (device.DsoControl == false && role != "Prosumer") throw new ArgumentException("You don't have the permission to do that!");
+
+            device.Activity = state;
+
+            try
+            {
+                await _regContext.SaveChangesAsync();
+            }
+            catch (Exception)
+            {
+                throw new ArgumentException("Changes could not be saved!");
+            }
         }
 
     }
