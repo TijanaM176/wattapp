@@ -42,7 +42,7 @@ export class PredictionDeviceComponent implements OnInit {
     for (let i = 0; i < this.data[0].values.length; i++) {
       const rowData = [this.data[0].values[i].x];
 
-      const consumptionValue = this.data[0].values[i].y.toFixed(5);
+      const consumptionValue = this.data[0].values[i].y.toFixed(2);
       rowData.push(consumptionValue);
 
       sheetData.push(rowData);

@@ -41,8 +41,8 @@ export class RealizationDeviceComponent implements OnInit, AfterViewInit {
     for (let i = 0; i < this.data[0].values.length; i++) {
       const rowData = [this.data[0].values[i].x];
 
-      const consumptionValue = this.data[0].values[i].y.toFixed(5);
-      const predictedValue = this.data[1].values[i].y.toFixed(5);
+      const consumptionValue = this.data[0].values[i].y.toFixed(2);
+      const predictedValue = this.data[1].values[i].y.toFixed(2);
       rowData.push(consumptionValue);
       rowData.push(predictedValue);
 

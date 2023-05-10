@@ -53,8 +53,8 @@ export class HistoryProsumerComponent implements OnInit {
           : productionValue
           ? productionValue.x
           : '',
-        consumptionValue ? consumptionValue.y.toFixed(5) : 0,
-        productionValue ? productionValue.y.toFixed(5) : 0,
+        consumptionValue ? consumptionValue.y.toFixed(2) : 0,
+        productionValue ? productionValue.y.toFixed(2) : 0,
       ];
 
       sheetData.push(row);
