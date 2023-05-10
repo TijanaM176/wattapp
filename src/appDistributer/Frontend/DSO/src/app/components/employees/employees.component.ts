@@ -11,6 +11,8 @@ import { editEmployeeDto } from 'src/app/models/editEmployee';
 import { DataService } from 'src/app/services/data.service';
 import { image } from 'd3';
 import { DomSanitizer } from '@angular/platform-browser';
+import { ImageCroppedEvent } from 'ngx-image-cropper';
+import { SendPhoto } from 'src/app/models/sendPhoto';
 
 @Component({
   selector: 'app-employees',
@@ -49,12 +51,22 @@ export class EmployeesComponent {
   imageSource!:any;
   imageSource1!:any;
   showDetails:boolean=false;
+  imgChangeEvet: any = '';
+  croppedImage: any = '';
+  currentImage : string = 'assets/images/employee-default-pfp.png';
+  selectedImageFile : any = null;
+  fileType : any = '';
+  errorDeletePhoto : boolean = false;
+  updatedPhotoSuccess : boolean = false;
+  updatedPhotoError : boolean = false;
+  noFile : boolean = false;
   constructor(
     public service: EmployeesServiceService,
     private router: Router,
     private cookie: CookieService,
     public serviceData: DataService,
-    private _sanitizer: DomSanitizer
+    private _sanitizer: DomSanitizer,
+    public toast: ToastrService
   ) {}
 
   ngOnInit(): void {
@@ -68,13 +80,17 @@ export class EmployeesComponent {
     this.employees = this.service.employees;
     
   }
-  Image(dataImage: any) {
-    if (dataImage == '' || dataImage == null) {
-      this.imageSource = 'assets/images/user.png';
-    } else {
-      this.imageSource = this._sanitizer.bypassSecurityTrustResourceUrl(
-        `data:image/png;base64, ${dataImage}`
+  Image(image: any) {
+    this.imageSource = 'assets/images/employee-default-pfp.png';
+    if(image != "" && image != null)
+    {
+      let byteArray = new Uint8Array(
+        atob(image)
+        .split('')
+        .map((char)=> char.charCodeAt(0))
       );
+      let file = new Blob([byteArray], {type: 'image/png'});
+      this.imageSource = URL.createObjectURL(file);
     }
     return this.imageSource;
   }
@@ -119,13 +135,17 @@ export class EmployeesComponent {
     const buttonRef = document.getElementById('closeBtn3');
     buttonRef?.click();
   }
-  Image1(dataImage: any) {
-    if (dataImage == '' || dataImage == null) {
-      this.imageSource1 = 'assets/images/user.png';
-    } else {
-      this.imageSource1 = this._sanitizer.bypassSecurityTrustResourceUrl(
-        `data:image/png;base64, ${dataImage}`
+  Image1(image: any) {
+    this.imageSource1 = 'assets/images/employee-default-pfp.png';
+    if(image != "" && image != null)
+    {
+      let byteArray = new Uint8Array(
+        atob(image)
+        .split('')
+        .map((char)=> char.charCodeAt(0))
       );
+      let file = new Blob([byteArray], {type: 'image/png'});
+      this.imageSource1 = URL.createObjectURL(file);
     }
   
   }
@@ -205,5 +225,93 @@ export class EmployeesComponent {
   sort(headerName: String) {
     this.isDescOrder = !this.isDescOrder;
     this.orderHeader = headerName;
+  }
+  openChangePhoto()
+  {
+    this.resetAll();
+    document.getElementById('openChangePhotoWorker')!.click();
+  }
+  closeChange()
+  {
+    document.getElementById('openWorkerAgain')!.click()
+    this.resetAll();
+  }
+  confirmNewPhoto()
+  {
+    this.updatedPhotoError = false;
+    this.updatedPhotoSuccess = false;
+    this.noFile = false;
+    if(this.selectedImageFile != null)
+    {
+      this.croppedImage = this.croppedImage.replace('data:image/png;base64,','');
+      // console.log(this.croppedImage);
+
+      let sp = new SendPhoto(this.cookie.get('id'), this.croppedImage);
+
+      this.service.updateProfilePhoto(this.cookie.get('id'), sp)
+      .subscribe({
+        next:(res)=>{
+          this.updatedPhotoSuccess = true;
+          setTimeout(()=>{
+            this.Image1(this.croppedImage);
+            this.Image(this.croppedImage);
+            document.getElementById('closeCropImagePhotoUpdated1')!.click();
+            this.closeChange();
+          },700);
+        },
+        error:(err)=>{
+          this.toast.error('Unable to update photo','Error!',{timeOut: 3000});
+          // this.updatedPhotoError = true;
+          document.getElementById('closeCropImagePhotoUpdated1')!.click();
+          this.closeChange();
+          console.log(err.error);
+        }
+      });
+    }
+    else
+    {
+      this.noFile = true;
+    }
+  }
+  deleteImage()
+  {
+    this.errorDeletePhoto = false;
+    this.service.deleteProfilePhoto(this.cookie.get('id'))
+    .subscribe({
+      next:(res)=>{
+        this.imageSource = 'assets/images/employee-default-pfp.png';
+        this.imageSource1= 'assets/images/employee-default-pfp.png';
+        document.getElementById('closeOptionsForPhoto1')!.click();
+      },
+      error:(err)=>{
+        this.errorDeletePhoto = true;
+        console.log(err.error);
+      }
+    });
+  }
+  onFileSelected(event: any) {
+    this.imgChangeEvet = event;
+    if(event.target.files)
+    {
+      this.selectedImageFile = event.target.files[0];
+      this.fileType = event.target.files[0].type;
+      // this.changeImage = this.sant.bypassSecurityTrustUrl(window.URL.createObjectURL(this.selectedImageFile)) as string;
+    }
+  }
+  cropImg(e: ImageCroppedEvent) {
+    this.croppedImage = e.base64;
+  }
+  openCrop()
+  {
+    document.getElementById('openCropImageBtn1')!.click()
+  }
+  private resetAll()
+  {
+    this.errorDeletePhoto = false;
+    this.selectedImageFile = null;
+    this.imgChangeEvet = '';
+    this.updatedPhotoError = false;
+    this.updatedPhotoSuccess = false;
+    this.noFile = false;
   }
 }
