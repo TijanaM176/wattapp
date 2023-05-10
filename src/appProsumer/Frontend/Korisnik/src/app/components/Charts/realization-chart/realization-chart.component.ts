@@ -123,7 +123,7 @@ export class RealizationChartComponent implements OnInit, AfterViewInit {
 
   HistoryWeek(id: string) {
     this.show = true;
-    this.spiner.show();
+    this.spiner.show('spiner1');
     this.deviceService.history7Days().subscribe((response: any) => {
       const consumptionTimestamps = response.consumption.timestamps || {};
       const productionTimestamps = response.consumption.predictions || {};
@@ -196,14 +196,14 @@ export class RealizationChartComponent implements OnInit, AfterViewInit {
       });
 
       this.activateButton(id);
-      this.spiner.hide();
+      this.spiner.hide('spiner1');
       this.show = false;
     });
   }
 
   HistoryMonth(id: string) {
     this.show = true;
-    this.spiner.show();
+    this.spiner.show('spiner1');
     this.deviceService.history1Month().subscribe((response: any) => {
       const consumptionTimestamps = response.consumption.timestamps || {};
       const productionTimestamps = response.consumption.predictions || {};
@@ -276,14 +276,14 @@ export class RealizationChartComponent implements OnInit, AfterViewInit {
       });
 
       this.activateButton(id);
-      this.spiner.hide();
+      this.spiner.hide('spiner1');
       this.show = false;
     });
   }
 
   HistoryYear(id: string) {
     this.show = true;
-    this.spiner.show();
+    this.spiner.show('spiner1');
     this.deviceService.history1Year().subscribe((response: any) => {
       const consumptionTimestamps = response.consumption.timestamps || {};
       const productionTimestamps = response.consumption.predictions || {};
@@ -355,7 +355,7 @@ export class RealizationChartComponent implements OnInit, AfterViewInit {
       });
 
       this.activateButton(id);
-      this.spiner.hide();
+      this.spiner.hide('spiner1');
       this.show = false;
     });
   }

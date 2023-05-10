@@ -125,7 +125,7 @@ export class RealizationChartProductionComponent
 
   HistoryWeek(id: string) {
     this.show = true;
-    this.spiner.show();
+    this.spiner.show('spiner1');
     this.deviceService.history7Days().subscribe((response: any) => {
       const consumptionTimestamps = response.production.timestamps || {};
       const productionTimestamps = response.production.predictions || {};
@@ -198,14 +198,14 @@ export class RealizationChartProductionComponent
       });
 
       this.activateButton(id);
-      this.spiner.hide();
+      this.spiner.hide('spiner1');
       this.show = false;
     });
   }
 
   HistoryMonth(id: string) {
     this.show = true;
-    this.spiner.show();
+    this.spiner.show('spiner1');
     this.deviceService.history1Month().subscribe((response: any) => {
       const consumptionTimestamps = response.production.timestamps || {};
       const productionTimestamps = response.production.predictions || {};
@@ -278,14 +278,14 @@ export class RealizationChartProductionComponent
       });
 
       this.activateButton(id);
-      this.spiner.hide();
+      this.spiner.hide('spiner1');
       this.show = false;
     });
   }
 
   HistoryYear(id: string) {
     this.show = true;
-    this.spiner.show();
+    this.spiner.show('spiner1');
     this.deviceService.history1Year().subscribe((response: any) => {
       const consumptionTimestamps = response.production.timestamps || {};
       const productionTimestamps = response.production.predictions || {};
