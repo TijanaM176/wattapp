@@ -510,12 +510,28 @@
             <p style="color: red">Turned Off</p>
           </div>
           <div
-            *ngIf="device?.Activity != 0"
+            *ngIf="device?.Activity != 0 && device?.CategoryId!=3"
             (click)="turnDeviceoffOn()"
             class="text-center p-3"
           >
             <i class="fa fa-power-off on"></i>
             <p style="color: green">Turned On</p>
+          </div>
+          <div
+            *ngIf="device?.Activity == 1 && device?.CategoryId==3"
+            (click)="turnDeviceoffOn()"
+            class="text-center p-3"
+          >
+            <i class="fa fa-power-off on"></i>
+            <p style="color: green">In Use</p>
+          </div>
+          <div
+            *ngIf="device?.Activity == 2 && device?.CategoryId==3"
+            (click)="turnDeviceoffOn()"
+            class="text-center p-3"
+          >
+            <i class="fa fa-power-off on"></i>
+            <p style="color: green">Charging</p>
           </div>
         </div>
         <div
