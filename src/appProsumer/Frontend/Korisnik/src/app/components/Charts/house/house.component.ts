@@ -33,6 +33,7 @@ export class HouseComponent implements OnInit, AfterViewInit {
   device: any;
   show: boolean = false;
   showBattery : boolean = false;
+  showBatteryError : boolean = false;
   batteryNofit : string = '';
   lastValue: number = 0;
   show1!: boolean;
@@ -82,6 +83,7 @@ export class HouseComponent implements OnInit, AfterViewInit {
   }
 
   turnDeviceoffOn() {
+    this.reset();
     if(this.device.CategoryId != 3)
     {
       Swal.fire({
@@ -100,6 +102,7 @@ export class HouseComponent implements OnInit, AfterViewInit {
           this.deviceService
             .toggleDevice(this.device.Id, true)
             .subscribe((response) => {
+              console.log(response);
               let active = 1;
               if (response == 0) {
                 this.lastValue = this.device.CurrentUsage;
@@ -157,7 +160,7 @@ export class HouseComponent implements OnInit, AfterViewInit {
     }).then((result) => {
       if (result.value) {
         this.showBattery = false;
-        this.deviceService.toggleStorageDevice(this.device.Id,true ,mode)
+        this.deviceService.toggleStorageDevice(this.device.Id, true, mode)
         .subscribe({
           next:(res)=>{
             this.showBattery = true;
@@ -176,6 +179,7 @@ export class HouseComponent implements OnInit, AfterViewInit {
           },
           error:(err)=>{
             console.log(err);
+            this.showBatteryError = true;
           }
         })
       }
@@ -193,5 +197,6 @@ export class HouseComponent implements OnInit, AfterViewInit {
   reset() {
     this.show = false;
     this.showBattery = false;
+    this.showBatteryError = false;
   }
 }

@@ -107,3 +107,12 @@ h6 {
   background-color: #08376b; 
   border-radius: 1px;
 }
+
+.charge{
+  color: #08376b;
+  font-size: 100px;
+}
+.inUse {
+  color: green;
+  font-size: 100px;
+}
