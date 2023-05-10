@@ -71,7 +71,7 @@ export class HouseComponent implements OnInit, AfterViewInit {
   }
 
   navigateToPage() {
-    const closeModalBtn = document.getElementById('turnDeviceOffOn');
+    const closeModalBtn = document.getElementById('closeturnDeviceOffOn');
     closeModalBtn!.click();
     this.router.navigate([
       'ProsumerApp/userDevices/' + this.device.Id + '/deviceinfo',
