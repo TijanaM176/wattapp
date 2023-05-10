@@ -48,7 +48,12 @@
                     <div class="battery-body p-1">
                       <h1 [ngStyle]="{'left': widthService.deviceWidth>576 ? '2%':'5%'}">
                         <i class="fa fa-bolt" style="color: #08376b;" *ngIf="state == 2"></i>
-                        <i class="fa fa-exclamation-triangle" style="color: #08376b;" *ngIf="state == 1 && percentFull<=20"></i>
+                        <i class="fa fa-exclamation-triangle" style="color: #08376b;" *ngIf="state == 1 && percentFull<=15"
+                          mdbPopover="Your battery has 15% or less power"
+                          mdbPopoverTitle="Battery Running Out!"
+                          placement="bottom" mdbWavesEffect
+                        >
+                        </i>
                         {{percentFull}}%
                       </h1>
                       <div class="battery-level" id="bateryPercentage" [ngStyle]="{'width':percentFull+'%','background-color': state==0 ? '#8ca6a6' : state ==1 ? '#f3734d' : '#54d454'}"></div>
