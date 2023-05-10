@@ -7,6 +7,7 @@ import { ToastrService } from 'ngx-toastr';
 import { Device } from 'src/app/models/device';
 import Swal from 'sweetalert2';
 import { DeviceserviceService } from 'src/app/services/deviceservice.service';
+import { ScreenWidthService } from 'src/app/services/screen-width.service';
 
 @Component({
   selector: 'app-deviceinfo',
@@ -36,15 +37,23 @@ export class DeviceinfoComponent implements OnInit {
   markers: object = {};
   thresholds: object = {};
   width: number = 250;
+
   type: string = '';
   cat : number = 0;
+
+   //battery
+   maxCapacity: number = 0;
+   currentCapacity: number = 0;
+   percentFull: number = 0;
+   state: number = 0; //iskljuceno
 
   constructor(
     private router: ActivatedRoute,
     private service: DeviceserviceService,
     private spiner: NgxSpinnerService,
     private router1: Router,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    public widthService : ScreenWidthService
   ) {}
 
   ngOnInit(): void {
@@ -154,7 +163,13 @@ export class DeviceinfoComponent implements OnInit {
         }
         else if(this.cat == 3)
         {
-          
+          document.getElementById('consumptionLimitBody')!.style.height = this.widthService.height * 0.42 +'px';
+          document.getElementById('consumptionLimitBody')!.style.width = this.width + 'px';
+          this.maxCapacity = res.Wattage;
+          this.currentCapacity = res.CurrentUsage;
+          this.percentFull = Number(
+            ((this.currentCapacity / this.maxCapacity) * 100).toFixed(0)
+          );
         }
     });
   }

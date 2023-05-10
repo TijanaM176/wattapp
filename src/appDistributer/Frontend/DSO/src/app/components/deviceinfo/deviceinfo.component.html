@@ -102,11 +102,11 @@
               <div
                 class="card-body p-3"
                 id="consumptionLimitCardBody"
-                style="display: flex; justify-content: center"
+                style="display: flex; justify-content: center;"
               >
                 <div class="row">
                   <div class="col-12" id="consumptionLimitBody">
-                    <div class="numbers">
+                    <div class="numbers" *ngIf="cat==1 || cat==2">
                       <ngx-gauge
                         [type]="'semi'"
                         [value]="currentUsage"
@@ -120,9 +120,54 @@
                         [thick]="45"
                         [markers]="markers"
                         [thresholds]="thresholds"
-                        *ngIf="cat==1 || cat==2"
                       >
                       </ngx-gauge>
+                    </div>
+                    <div
+                        class="w-100 mt-2"
+                        id="batteryCont"
+                        *ngIf="cat == 3"
+                        [ngStyle]="{
+                          height: widthService.deviceWidth > 576 ? '98%' : '70%'
+                        }"
+                      >
+                      <div class="battery-body p-1">
+                        <h1
+                          [ngStyle]="{
+                            left: widthService.deviceWidth > 576 ? '2%' : '3%'
+                          }"
+                          >
+                          <i
+                            class="fa fa-bolt"
+                            style="color: #08376b"
+                            *ngIf="state == 2 && percentFull<100"
+                          ></i>
+                          <i
+                            class="fa fa-exclamation-triangle"
+                            style="color: #08376b"
+                            *ngIf="state == 1 && percentFull <= 15"
+                            data-bs-toggle="modal"
+                            data-bs-target="#batteryPercentageWarning"
+                          >
+                          </i>
+                          {{ percentFull }}%
+                        </h1>
+                        <div
+                          class="battery-level"
+                          id="bateryPercentage"
+                          [ngStyle]="{
+                            width: percentFull + '%',
+                            'background-color':
+                              state == 0
+                                ? '#8ca6a6'
+                                : state == 1
+                                ? '#f3734d'
+                                : '#54d454'
+                          }"
+                          >
+                        </div>
+                      </div>
+                      <div class="battery-top ms-0"></div>
                     </div>
                     <div class="legend w-100 text-center" *ngIf="cat==1">
                       <i class="fa fa-circle greenZone"
@@ -146,17 +191,19 @@
                         >&nbsp;{{ MaxUsage }}+ kWh</i
                       >
                     </div>
-                    <div class="legend w-100 text-center" *ngIf="cat==3">
-                      <!-- <i class="fa fa-circle redZone"
-                        >&nbsp;0-{{ AvgUsage }} kWh</i
+                    <div class="legend w-100 text-center" *ngIf="cat==3" style="margin-top: 3%; padding-bottom: 2%;">
+                      <h5 style="color: #08376b">
+                        Current Status: {{ currentCapacity }} kWh
+                      </h5>
+                      <h6 style="color: #08376b; margin-top: 0">
+                        Max Capacity: {{ maxCapacity }} kWh
+                      </h6>
+                      <i class="fa fa-circle batteryOff">&nbsp;Turned Off</i
                       >&nbsp;&nbsp;&nbsp;
-                      <i class="fa fa-circle blueZone"
-                        >&nbsp; {{ AvgUsage }}-{{ MaxUsage }} kWh</i
+                      <i class="fa fa-circle batteryCharging">&nbsp;Charging</i
                       >&nbsp;&nbsp;&nbsp;
-                      <i class="fa fa-circle greenZone"
-                        >&nbsp;{{ MaxUsage }}+ kWh</i
-                      > -->
-                      legenda
+                      <i class="fa fa-circle batteryInUse">&nbsp;In Use</i
+                      >&nbsp;&nbsp;&nbsp;
                     </div>
                   </div>
                 </div>
@@ -227,6 +274,30 @@
         </div>
         <div class="card p-0 mb-4">
           <app-predictionDevice [type]="type"></app-predictionDevice>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal fade"
+    id="batteryPercentageWarning"
+    tabindex="-1"
+    aria-labelledby="batteryPercentageWarningLabel"
+    aria-hidden="true"
+    data-bs-keyboard="false"
+  >
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header text-white bg-danger">
+          <h3 class="modal-title" id="batteryPercentageWarningLabel">Battery Is Running Out!</h3>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          ></button>
+        </div>
+        <div class="modal-body text-center">
+          <h5 class="text-danger">Your battery has 15% or less power left</h5>
         </div>
       </div>
     </div>
