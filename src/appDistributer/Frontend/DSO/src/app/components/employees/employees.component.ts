@@ -246,15 +246,16 @@ export class EmployeesComponent {
       this.croppedImage = this.croppedImage.replace('data:image/png;base64,','');
       // console.log(this.croppedImage);
 
-      let sp = new SendPhoto(this.cookie.get('id'), this.croppedImage);
+      let sp = new SendPhoto(this.id, this.croppedImage);
 
-      this.service.updateProfilePhoto(this.cookie.get('id'), sp)
+      this.service.updateProfilePhoto(this.id, sp)
       .subscribe({
         next:(res)=>{
           this.updatedPhotoSuccess = true;
           setTimeout(()=>{
             this.Image1(this.croppedImage);
             this.Image(this.croppedImage);
+            this.Ucitaj();
             document.getElementById('closeCropImagePhotoUpdated1')!.click();
             this.closeChange();
           },700);
@@ -276,7 +277,7 @@ export class EmployeesComponent {
   deleteImage()
   {
     this.errorDeletePhoto = false;
-    this.service.deleteProfilePhoto(this.cookie.get('id'))
+    this.service.deleteProfilePhoto(this.id)
     .subscribe({
       next:(res)=>{
         this.imageSource = 'assets/images/employee-default-pfp.png';
