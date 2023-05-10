@@ -37,6 +37,7 @@ export class DeviceinfoComponent implements OnInit {
   thresholds: object = {};
   width: number = 250;
   type: string = '';
+  cat : number = 0;
 
   constructor(
     private router: ActivatedRoute,
@@ -96,6 +97,7 @@ export class DeviceinfoComponent implements OnInit {
     this.idDev = this.router.snapshot.params['idDev'];
     this.service.getInfoDevice(this.idDev).subscribe((res: any) => {
       this.setType(res.CategoryId);
+      this.cat = res.CategoryId;
       this.results = res;
       this.IpAddress = res.IpAddress;
       this.TypeName = res.TypeName;
@@ -122,7 +124,7 @@ export class DeviceinfoComponent implements OnInit {
           fontSize: '16px',
         },
       };
-      if (this.type == 'Production') {
+      if (this.cat == 2) {
         this.thresholds = {
           '0': { color: '#c14b48', bgOpacity: 0.2, fontSize: '16px' },
           [this.AvgUsage]: {
@@ -136,7 +138,7 @@ export class DeviceinfoComponent implements OnInit {
             fontSize: '16px',
           },
         };
-      } else
+      } else if(this.cat == 1)
         this.thresholds = {
           '0': { color: 'green', bgOpacity: 0.2, fontSize: '16px' },
           [this.AvgUsage]: {
@@ -149,7 +151,11 @@ export class DeviceinfoComponent implements OnInit {
             bgOpacity: 0.2,
             fontSize: '16px',
           },
-        };
+        }
+        else if(this.cat == 3)
+        {
+          
+        }
     });
   }
   formatValue(value: number): string {

@@ -72,7 +72,7 @@
     >
       There Is No Available Data
     </h1>
-    <canvas
+    <canvas *ngIf="data.length !=0"
       id="RealizationDeviceChart"
       style="height: 100% !important; width: 100% !important"
     ></canvas>

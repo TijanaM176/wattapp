@@ -70,198 +70,222 @@ export class PredictionDeviceComponent implements OnInit, AfterViewInit {
   PredictionWeek(id: string) {
     this.show = true;
     this.spiner.show();
-    this.timeService.predictionDevice(this.idDev).subscribe((response: any) => {
-      const consumptionTimestamps = response.nextWeek.PredictionsFor7day || {};
-
-      const consumptionData = Object.keys(consumptionTimestamps).map(
-        (name: any) => {
-          const date = new Date(name);
-          const dayNumber = date.getDate();
-          const monthName = date.toLocaleString('default', { month: 'long' });
-          return {
-            x: `${monthName} ${dayNumber}`,
-            y: consumptionTimestamps[name] || 0.0,
-          };
+    this.activateButton(id);
+    this.timeService.predictionDevice(this.idDev).subscribe({
+      next:(response) => {
+        const consumptionTimestamps = response.nextWeek.PredictionsFor7day || {};
+  
+        const consumptionData = Object.keys(consumptionTimestamps).map(
+          (name: any) => {
+            const date = new Date(name);
+            const dayNumber = date.getDate();
+            const monthName = date.toLocaleString('default', { month: 'long' });
+            return {
+              x: `${monthName} ${dayNumber}`,
+              y: consumptionTimestamps[name] || 0.0,
+            };
+          }
+        );
+        this.data = [{ type: 'consumption', values: consumptionData }];
+  
+        let backgroundColor, borderColor;
+        if (this.type === 'Consumption') {
+          backgroundColor = 'rgba(255, 125, 65, 1)';
+          borderColor = 'rgba(255, 125, 65,0.5)';
+        } else if (this.type === 'Production') {
+          backgroundColor = 'rgba(0, 188, 179, 1)';
+          borderColor = 'rgba(0, 188, 179, 0.5)';
         }
-      );
-      this.data = [{ type: 'consumption', values: consumptionData }];
-
-      let backgroundColor, borderColor;
-      if (this.type === 'Consumption') {
-        backgroundColor = 'rgba(255, 125, 65, 1)';
-        borderColor = 'rgba(255, 125, 65,0.5)';
-      } else if (this.type === 'Production') {
-        backgroundColor = 'rgba(0, 188, 179, 1)';
-        borderColor = 'rgba(0, 188, 179, 0.5)';
-      }
-
-      const chartData = {
-        datasets: [
-          {
-            label: 'Predicted Energy ' + this.type,
-            data: consumptionData,
-            backgroundColor: backgroundColor,
-            borderColor: borderColor,
-          },
-        ],
-      };
-
-      const chartElement: any = document.getElementById(
-        'chartDevicePrediction'
-      ) as HTMLElement;
-      if (this.chart) {
-        this.chart.destroy();
-      }
-
-      const chart2d = chartElement.getContext('2d');
-      this.chart = new Chart(chart2d, {
-        type: 'bar',
-        data: chartData,
-        options: {
-          scales: {
-            y: {
-              beginAtZero: false,
+  
+        const chartData = {
+          datasets: [
+            {
+              label: 'Predicted Energy ' + this.type,
+              data: consumptionData,
+              backgroundColor: backgroundColor,
+              borderColor: borderColor,
             },
+          ],
+        };
+  
+        const chartElement: any = document.getElementById(
+          'chartDevicePrediction'
+        ) as HTMLElement;
+        if (this.chart) {
+          this.chart.destroy();
+        }
+  
+        const chart2d = chartElement.getContext('2d');
+        this.chart = new Chart(chart2d, {
+          type: 'bar',
+          data: chartData,
+          options: {
+            scales: {
+              y: {
+                beginAtZero: false,
+              },
+            },
+            maintainAspectRatio: false,
           },
-          maintainAspectRatio: false,
-        },
-      });
-
-      this.activateButton(id);
-      this.spiner.hide();
-      this.show = false;
+        });
+  
+        this.spiner.hide();
+        this.show = false;
+      },
+      error:(err)=>{
+        console.log(err);
+        this.data = [];
+        this.spiner.hide();
+        this.show = false;
+      }
     });
   }
 
   Prediction3Days(id: string) {
     this.show = true;
     this.spiner.show();
-    this.timeService.predictionDevice(this.idDev).subscribe((response: any) => {
-      const consumptionTimestamps = response.next3Day.PredictionsFor3day || {};
-
-      const consumptionData = Object.keys(consumptionTimestamps).map(
-        (name: any) => {
-          const date = new Date(name);
-          const dayNumber = date.getDate();
-          const monthName = date.toLocaleString('default', { month: 'long' });
-          return {
-            x: `${monthName} ${dayNumber}`,
-            y: consumptionTimestamps[name] || 0.0,
-          };
+    this.timeService.predictionDevice(this.idDev).subscribe({
+      next:(response) => {
+        const consumptionTimestamps = response.next3Day.PredictionsFor3day || {};
+  
+        const consumptionData = Object.keys(consumptionTimestamps).map(
+          (name: any) => {
+            const date = new Date(name);
+            const dayNumber = date.getDate();
+            const monthName = date.toLocaleString('default', { month: 'long' });
+            return {
+              x: `${monthName} ${dayNumber}`,
+              y: consumptionTimestamps[name] || 0.0,
+            };
+          }
+        );
+        this.data = [{ type: 'consumption', values: consumptionData }];
+  
+        let backgroundColor, borderColor;
+        if (this.type === 'Consumption') {
+          backgroundColor = 'rgba(255, 125, 65, 1)';
+          borderColor = 'rgba(255, 125, 65.5)';
+        } else if (this.type === 'Production') {
+          backgroundColor = 'rgba(0, 188, 179, 1)';
+          borderColor = 'rgba(0, 188, 179, 0.5)';
         }
-      );
-      this.data = [{ type: 'consumption', values: consumptionData }];
-
-      let backgroundColor, borderColor;
-      if (this.type === 'Consumption') {
-        backgroundColor = 'rgba(255, 125, 65, 1)';
-        borderColor = 'rgba(255, 125, 65.5)';
-      } else if (this.type === 'Production') {
-        backgroundColor = 'rgba(0, 188, 179, 1)';
-        borderColor = 'rgba(0, 188, 179, 0.5)';
-      }
-
-      const chartData = {
-        datasets: [
-          {
-            label: 'Predicted Energy ' + this.type,
-            data: consumptionData,
-            backgroundColor: backgroundColor,
-            borderColor: borderColor,
-          },
-        ],
-      };
-
-      const chartElement: any = document.getElementById(
-        'chartDevicePrediction'
-      ) as HTMLElement;
-      if (this.chart) {
-        this.chart.destroy();
-      }
-
-      const chart2d = chartElement.getContext('2d');
-      this.chart = new Chart(chart2d, {
-        type: 'bar',
-        data: chartData,
-        options: {
-          scales: {
-            y: {
-              beginAtZero: false,
+  
+        const chartData = {
+          datasets: [
+            {
+              label: 'Predicted Energy ' + this.type,
+              data: consumptionData,
+              backgroundColor: backgroundColor,
+              borderColor: borderColor,
             },
+          ],
+        };
+  
+        const chartElement: any = document.getElementById(
+          'chartDevicePrediction'
+        ) as HTMLElement;
+        if (this.chart) {
+          this.chart.destroy();
+        }
+  
+        const chart2d = chartElement.getContext('2d');
+        this.chart = new Chart(chart2d, {
+          type: 'bar',
+          data: chartData,
+          options: {
+            scales: {
+              y: {
+                beginAtZero: false,
+              },
+            },
+            maintainAspectRatio: false,
           },
-          maintainAspectRatio: false,
-        },
-      });
-
-      this.activateButton(id);
-      this.spiner.hide();
-      this.show = false;
+        });
+  
+        this.activateButton(id);
+        this.spiner.hide();
+        this.show = false;
+      },
+      error:(err)=>{
+        console.log(err);
+        this.data = [];
+        this.spiner.hide();
+        this.show = false;
+      }
     });
   }
 
   Prediction1Day(id: string) {
     this.show = true;
     this.spiner.show();
-    this.timeService.predictionDevice(this.idDev).subscribe((response: any) => {
-      const consumptionTimestamps = response.nextDay.PredictionsFor1day || {};
-
-      const consumptionData = Object.keys(consumptionTimestamps).map(
-        (name: any) => {
-          const date = new Date(name);
-          const hours = date.getHours().toString().padStart(2, '0');
-          const minutes = date.getMinutes().toString().padStart(2, '0');
-          return {
-            x: `${hours}:${minutes}H`,
-            y: consumptionTimestamps[name] || 0.0,
-          };
+    this.timeService.predictionDevice(this.idDev).subscribe({
+      next:(response) => {
+        const consumptionTimestamps = response.nextDay.PredictionsFor1day || {};
+  
+        const consumptionData = Object.keys(consumptionTimestamps).map(
+          (name: any) => {
+            const date = new Date(name);
+            const hours = date.getHours().toString().padStart(2, '0');
+            const minutes = date.getMinutes().toString().padStart(2, '0');
+            return {
+              x: `${hours}:${minutes}H`,
+              y: consumptionTimestamps[name] || 0.0,
+            };
+          }
+        );
+        this.data = [{ type: 'consumption', values: consumptionData }];
+  
+        let backgroundColor, borderColor;
+        if (this.type === 'Consumption') {
+          backgroundColor = 'rgba(255, 125, 65, 1)';
+          borderColor = 'rgba(255, 125, 65.5)';
+        } else if (this.type === 'Production') {
+          backgroundColor = 'rgba(0, 188, 179, 1)';
+          borderColor = 'rgba(0, 188, 179, 0.5)';
         }
-      );
-      this.data = [{ type: 'consumption', values: consumptionData }];
-
-      let backgroundColor, borderColor;
-      if (this.type === 'Consumption') {
-        backgroundColor = 'rgba(255, 125, 65, 1)';
-        borderColor = 'rgba(255, 125, 65.5)';
-      } else if (this.type === 'Production') {
-        backgroundColor = 'rgba(0, 188, 179, 1)';
-        borderColor = 'rgba(0, 188, 179, 0.5)';
-      }
-
-      const chartData = {
-        datasets: [
-          {
-            label: 'Predicted Energy ' + this.type,
-            data: consumptionData,
-            backgroundColor: backgroundColor,
-            borderColor: borderColor,
-          },
-        ],
-      };
-
-      const chartElement: any = document.getElementById(
-        'chartDevicePrediction'
-      ) as HTMLElement;
-      if (this.chart) {
-        this.chart.destroy();
-      }
-
-      const chart2d = chartElement.getContext('2d');
-      this.chart = new Chart(chart2d, {
-        type: 'bar',
-        data: chartData,
-        options: {
-          scales: {
-            y: {
-              beginAtZero: false,
+  
+        const chartData = {
+          datasets: [
+            {
+              label: 'Predicted Energy ' + this.type,
+              data: consumptionData,
+              backgroundColor: backgroundColor,
+              borderColor: borderColor,
             },
+          ],
+        };
+  
+        const chartElement: any = document.getElementById(
+          'chartDevicePrediction'
+        ) as HTMLElement;
+        if (this.chart) {
+          this.chart.destroy();
+        }
+  
+        const chart2d = chartElement.getContext('2d');
+        this.chart = new Chart(chart2d, {
+          type: 'bar',
+          data: chartData,
+          options: {
+            scales: {
+              y: {
+                beginAtZero: false,
+              },
+            },
+            maintainAspectRatio: false,
           },
-          maintainAspectRatio: false,
-        },
-      });
-
-      this.activateButton(id);
-      this.spiner.hide();
-      this.show = false;
+        });
+  
+        this.activateButton(id);
+        this.spiner.hide();
+        this.show = false;
+      },
+      error:(err)=>{
+        console.log(err);
+        this.data = [];
+        this.spiner.hide();
+        this.show = false;
+      }
     });
   }
   activateButton(buttonNumber: string) {

@@ -53,30 +53,30 @@
               <hr class="mt-0 mb-4" />
               <div class="row pt-1 mx-0 my-0">
                 <div class="col-6 mb-1" style="padding-left: 3%">
-                  <h6 style="color: #08376b">{{ IpAddress }}</h6>
+                  <h5 style="color: #08376b">{{ IpAddress }}</h5>
                   <p class="text-muted">IP Address</p>
                 </div>
                 <div class="col-6 mb-1">
-                  <h6 style="color: #08376b">{{ TypeName }}</h6>
+                  <h5 style="color: #08376b">{{ TypeName }}</h5>
                   <p class="text-muted">Device Type</p>
                 </div>
               </div>
               <hr class="mt-0 mb-4" />
               <div class="row pt-1 mx-0 my-0">
                 <div class="col-6 mb-1" style="padding-left: 3%">
-                  <h6 style="color: #08376b">{{ ModelName }}</h6>
+                  <h5 style="color: #08376b">{{ ModelName }}</h5>
                   <p class="text-muted">Device Model</p>
                 </div>
                 <div class="col-6 mb-1">
-                  <h6 style="color: #08376b">{{ Name }}</h6>
+                  <h5 style="color: #08376b">{{ Name }}</h5>
                   <p class="text-muted">Device Name</p>
                 </div>
               </div>
               <hr class="mt-0 mb-3" />
 
               <div class="row pt-1 mx-0 my-0 mb-2">
-                <div class="col-6 mb-1">
-                  <h6 style="color: green" *ngIf="DsoView">
+                <div class="col-6 mb-1 ps-3">
+                  <h6 class="ps-3" style="color: green" *ngIf="DsoView">
                     <i class="fa fa-check-square"></i> DSO Can View
                   </h6>
                   <h6 style="color: #c14b48" *ngIf="!DsoView">
@@ -120,10 +120,11 @@
                         [thick]="45"
                         [markers]="markers"
                         [thresholds]="thresholds"
+                        *ngIf="cat==1 || cat==2"
                       >
                       </ngx-gauge>
                     </div>
-                    <div class="legend w-100 text-center">
+                    <div class="legend w-100 text-center" *ngIf="cat==1">
                       <i class="fa fa-circle greenZone"
                         >&nbsp;0-{{ AvgUsage }} kWh</i
                       >&nbsp;&nbsp;&nbsp;
@@ -133,6 +134,29 @@
                       <i class="fa fa-circle redZone"
                         >&nbsp;{{ MaxUsage }}+ kWh</i
                       >
+                    </div>
+                    <div class="legend w-100 text-center" *ngIf="cat==2">
+                      <i class="fa fa-circle redZone"
+                        >&nbsp;0-{{ AvgUsage }} kWh</i
+                      >&nbsp;&nbsp;&nbsp;
+                      <i class="fa fa-circle blueZone"
+                        >&nbsp; {{ AvgUsage }}-{{ MaxUsage }} kWh</i
+                      >&nbsp;&nbsp;&nbsp;
+                      <i class="fa fa-circle greenZone"
+                        >&nbsp;{{ MaxUsage }}+ kWh</i
+                      >
+                    </div>
+                    <div class="legend w-100 text-center" *ngIf="cat==3">
+                      <!-- <i class="fa fa-circle redZone"
+                        >&nbsp;0-{{ AvgUsage }} kWh</i
+                      >&nbsp;&nbsp;&nbsp;
+                      <i class="fa fa-circle blueZone"
+                        >&nbsp; {{ AvgUsage }}-{{ MaxUsage }} kWh</i
+                      >&nbsp;&nbsp;&nbsp;
+                      <i class="fa fa-circle greenZone"
+                        >&nbsp;{{ MaxUsage }}+ kWh</i
+                      > -->
+                      legenda
                     </div>
                   </div>
                 </div>
