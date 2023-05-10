@@ -4,13 +4,13 @@
         <div class="row px-0 py-0 mx-0 my-0 mb-2 trenutneInformacije">
             <div class="col-6 px-0">
                 <div class="row px-0 py-0 mx-0 my-0 w-100 text-center devicesConsumption">
-                    <h5 class="mb-0">{{currentConsumption.toFixed(2)}} kW</h5>
+                    <h5 class="mb-0">{{currentConsumption.toFixed(2)}} kWh</h5>
                     <p class="mt-0">Consumption</p>
                 </div>
             </div>
             <div class="col-6 px-0">
                 <div class="row px-0 py-0 mx-0 my-0 w-100 text-center devicesProduction">
-                    <h5 class="mb-0">{{currentProduction.toFixed(2)}} kW</h5>
+                    <h5 class="mb-0">{{currentProduction.toFixed(2)}} kWh</h5>
                     <p class="mt-0">Production</p>
                 </div>
             </div>
@@ -26,7 +26,7 @@
                 <div *ngFor="let device of devices">
                     <div *ngIf="device.CurrentUsage!==0">
                         <h4 class="small font-weight-bold">{{device.Name}} <span
-                            class="float-right">{{device.CurrentUsage.toFixed(2)}} kW</span></h4>
+                            class="float-right">{{device.CurrentUsage.toFixed(2)}} kWh</span></h4>
                         <div class="progress mb-4">
                             <div class="progress-bar" role="progressbar" 
                             [ngStyle]="{'width':getProcentage(device, device.CategoryId)+'%','background-color': device.CategoryId=='1'? '#c14b48' : '#48bec1'}"
