@@ -2,8 +2,8 @@
   <thead style="position: sticky; top: 0px; background-color: white">
     <tr class="text-center">
       <th scope="col"></th>
-      <th scope="col text-center">{{ type }}</th>
-      <th scope="col text-center">Predicted</th>
+      <th scope="col text-center">{{ type }} (kWh)</th>
+      <th scope="col text-center">Predicted (kWh)</th>
     </tr>
   </thead>
   <tbody>
@@ -13,7 +13,7 @@
         class="text-center"
         [ngStyle]="{ color: type === 'Consumption' ? '#c14b48' : '#3ea7a8' }"
       >
-        {{ value.y.toFixed(2) }} 
+        {{ value.y.toFixed(2) }}
       </td>
       <td
         class="text-center"
@@ -22,7 +22,7 @@
             type === 'Consumption' ? 'rgb(204, 157, 29)' : 'rgb(152, 165, 31)'
         }"
       >
-        {{ data[1].values[i].y.toFixed(2) }} 
+        {{ data[1].values[i].y.toFixed(2) }}
       </td>
     </tr>
   </tbody>

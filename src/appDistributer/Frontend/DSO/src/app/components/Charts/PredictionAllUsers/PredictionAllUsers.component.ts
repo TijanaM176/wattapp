@@ -58,7 +58,7 @@ export class PredictionAllUsersComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.PredictionDayInit();
+    this.PredictionDay();
     document.getElementById(
       'modalFadePredictionAllProsumers'
     )!.style.maxHeight = this.widthService.height * 0.7 + 'px';
@@ -136,6 +136,14 @@ export class PredictionAllUsersComponent implements OnInit {
           scales: {
             y: {
               beginAtZero: false,
+              title: {
+                display: true,
+                text: 'Energy (kWh)',
+                font: {
+                  size: 18,
+                  weight: 'bold',
+                },
+              },
             },
           },
           maintainAspectRatio: false,
@@ -218,6 +226,14 @@ export class PredictionAllUsersComponent implements OnInit {
           scales: {
             y: {
               beginAtZero: false,
+              title: {
+                display: true,
+                text: 'Energy (kWh)',
+                font: {
+                  size: 18,
+                  weight: 'bold',
+                },
+              },
             },
           },
           maintainAspectRatio: false,
@@ -301,93 +317,20 @@ export class PredictionAllUsersComponent implements OnInit {
           scales: {
             y: {
               beginAtZero: false,
+              title: {
+                display: true,
+                text: 'Energy (kWh)',
+                font: {
+                  size: 18,
+                  weight: 'bold',
+                },
+              },
             },
           },
           maintainAspectRatio: false,
         },
       });
       this.spiner.hide('spiner3');
-    });
-  }
-  PredictionDayInit() {
-    
-    this.servicetime.PredictionNextDay().subscribe((response: any) => {
-      const consumptionTimestamps = response.consumption || {};
-      const productionTimestamps = response.production || {};
-
-      const consumptionData = Object.keys(consumptionTimestamps).map(
-        (name: any) => {
-          const date = new Date(name);
-          const hours = date.getHours().toString().padStart(2, '0');
-          const minutes = date.getMinutes().toString().padStart(2, '0');
-          return {
-            x: `${hours}:${minutes}H`,
-            y: consumptionTimestamps[name] || 0.0,
-          };
-        }
-      );
-
-      const productionData = Object.keys(productionTimestamps).map(
-        (name: any) => {
-          const date = new Date(name);
-          const hours = date.getHours().toString().padStart(2, '0');
-          const minutes = date.getMinutes().toString().padStart(2, '0');
-          return {
-            x: `${hours}:${minutes}H`,
-            y: productionTimestamps[name] || 0.0,
-          };
-        }
-      );
-
-      const chartData = {
-        datasets: [
-          {
-            label: 'Predicted Consumption',
-            data: consumptionData,
-            backgroundColor: 'rgba(255, 125, 65, 1)',
-            borderColor: 'rgba(255, 125, 65, 0.5)',
-          },
-          {
-            label: 'Predicted Production',
-            data: productionData,
-            backgroundColor: 'rgba(0, 188, 179, 1)',
-            borderColor: 'rgba(0, 188, 179, 0.5)',
-          },
-        ],
-      };
-      productionData[0]
-        ? (this.data = [
-            { type: 'consumption', values: consumptionData },
-            { type: 'production', values: productionData },
-          ])
-        : (this.data = []);
-
-      if (this.data.length == 0) {
-        
-        return;
-      }
-
-      const chartElement: any = document.getElementById(
-        'chartCanvasPredictionAll'
-      ) as HTMLElement;
-      if (this.chart) {
-        this.chart.destroy();
-      }
-
-      const chart2d = chartElement.getContext('2d');
-      this.chart = new Chart(chart2d, {
-        type: 'bar',
-        data: chartData,
-        options: {
-          scales: {
-            y: {
-              beginAtZero: false,
-            },
-          },
-          maintainAspectRatio: false,
-        },
-      });
-      
     });
   }
   activateButton(buttonNumber: string) {

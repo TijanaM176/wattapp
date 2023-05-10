@@ -156,6 +156,14 @@ export class RealizationDeviceComponent implements OnInit, AfterViewInit {
             scales: {
               y: {
                 beginAtZero: false,
+                title: {
+                  display: true,
+                  text: 'Energy (kWh)',
+                  font: {
+                    size: 18,
+                    weight: 'bold',
+                  },
+                },
               },
             },
             maintainAspectRatio: false,
@@ -257,6 +265,14 @@ export class RealizationDeviceComponent implements OnInit, AfterViewInit {
             scales: {
               y: {
                 beginAtZero: false,
+                title: {
+                  display: true,
+                  text: 'Energy (kWh)',
+                  font: {
+                    size: 18,
+                    weight: 'bold',
+                  },
+                },
               },
             },
             maintainAspectRatio: false,
@@ -357,6 +373,14 @@ export class RealizationDeviceComponent implements OnInit, AfterViewInit {
             scales: {
               y: {
                 beginAtZero: false,
+                title: {
+                  display: true,
+                  text: 'Energy (kWh)',
+                  font: {
+                    size: 18,
+                    weight: 'bold',
+                  },
+                },
               },
             },
             maintainAspectRatio: false,

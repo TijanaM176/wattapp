@@ -1,13 +1,19 @@
-<div
-  class="card-header"
-  style="background-color: rgb(177, 209, 193, 0.08);"
->
-  <div class="row" style="padding-top: 2%; padding-bottom: 2%;">
-    <div class="col-6 col-lg-5 mx-0 my-0" style="display: flex; align-items: center;">
+<div class="card-header" style="background-color: rgb(177, 209, 193, 0.08)">
+  <div class="row" style="padding-top: 2%; padding-bottom: 2%">
+    <div
+      class="col-6 col-lg-5 mx-0 my-0"
+      style="display: flex; align-items: center"
+    >
       <h6 class="m-0 font-weight-bold">This Months {{ gaugeLabel }}</h6>
     </div>
-    <div class="col-6 col-lg-7 row mx-0 my-0 pe-0 pe-lg-2" style="display: flex; justify-content: end;">
-      <div class="col-12 col-lg-5 form-check mx-lg-1" style="display: flex; justify-content: end;">
+    <div
+      class="col-6 col-lg-7 row mx-0 my-0 pe-0 pe-lg-2"
+      style="display: flex; justify-content: end"
+    >
+      <div
+        class="col-12 col-lg-5 form-check mx-lg-1"
+        style="display: flex; justify-content: end"
+      >
         <input
           class="form-check-input"
           type="radio"
@@ -17,10 +23,13 @@
           [checked]="showConsumptio"
         />
         <label class="form-check-label" for="gaugeOptionConsumption">
-          &nbsp;Consumption (kWh)
+          &nbsp;Consumption
         </label>
       </div>
-      <div class="col-12 col-lg-5 form-check mx-lg-3" style="display: flex; justify-content: end;">
+      <div
+        class="col-12 col-lg-5 form-check mx-lg-3"
+        style="display: flex; justify-content: end"
+      >
         <input
           class="form-check-input"
           type="radio"
@@ -30,7 +39,7 @@
           [checked]="showProduction"
         />
         <label class="form-check-label" for="gaugeOptionProduction">
-          &nbsp;Production (kWh)
+          &nbsp;Production
         </label>
       </div>
     </div>
@@ -50,7 +59,7 @@
       class="text-size"
       [type]="'semi'"
       [size]="width"
-      [label]="gaugeLabel +' in kW'"
+      [label]="gaugeLabel + ' (kWh)'"
       [min]="0"
       [max]="2000"
       [markers]="markers"

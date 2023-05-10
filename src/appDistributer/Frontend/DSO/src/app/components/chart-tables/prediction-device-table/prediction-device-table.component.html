@@ -5,14 +5,14 @@
   >
     <tr class="text-center">
       <th scope="col"></th>
-      <th scope="col text-center">{{ type }}</th>
+      <th scope="col text-center">{{ type }} (kWh)</th>
     </tr>
   </thead>
   <tbody>
     <ng-container *ngFor="let item of data">
       <tr *ngFor="let value of item.values; index as i">
         <th scope="row" class="ps-4">{{ value.x }}</th>
-        <td class="text-center">{{ value.y?.toFixed(2) }} </td>
+        <td class="text-center">{{ value.y?.toFixed(2) }}</td>
       </tr>
     </ng-container>
   </tbody>

@@ -172,13 +172,17 @@ export class PredictionChartComponent implements OnInit, AfterViewInit {
           scales: {
             y: {
               beginAtZero: false,
+              title: {
+                display: true,
+                text: 'Energy (kWh)',
+                font: {
+                  size: 18,
+                  weight: 'bold',
+                },
+              },
             },
           },
           maintainAspectRatio: false,
-          hover: {
-            mode: 'index',
-            intersect: true,
-          },
         },
       });
 
@@ -263,6 +267,14 @@ export class PredictionChartComponent implements OnInit, AfterViewInit {
           scales: {
             y: {
               beginAtZero: false,
+              title: {
+                display: true,
+                text: 'Energy (kWh)',
+                font: {
+                  size: 18,
+                  weight: 'bold',
+                },
+              },
             },
           },
           maintainAspectRatio: false,
@@ -349,6 +361,14 @@ export class PredictionChartComponent implements OnInit, AfterViewInit {
           scales: {
             y: {
               beginAtZero: false,
+              title: {
+                display: true,
+                text: 'Energy (kWh)',
+                font: {
+                  size: 18,
+                  weight: 'bold',
+                },
+              },
             },
           },
           maintainAspectRatio: false,

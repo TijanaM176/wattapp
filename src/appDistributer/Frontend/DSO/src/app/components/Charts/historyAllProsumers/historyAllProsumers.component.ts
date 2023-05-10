@@ -132,6 +132,14 @@ export class HistoryAllProsumersComponent implements OnInit {
           scales: {
             y: {
               beginAtZero: false,
+              title: {
+                display: true,
+                text: 'Energy (kWh)',
+                font: {
+                  size: 18,
+                  weight: 'bold',
+                },
+              },
             },
           },
           maintainAspectRatio: false,
@@ -142,7 +150,6 @@ export class HistoryAllProsumersComponent implements OnInit {
     });
   }
   HistoryWeekInit(id: string) {
- 
     this.servicetime.HistoryAllProsumers7Days().subscribe((response: any) => {
       const consumptionTimestamps = response.consumption.timestamps || {};
       const productionTimestamps = response.production.timestamps || {};
@@ -179,7 +186,6 @@ export class HistoryAllProsumersComponent implements OnInit {
       console.log(this.data);
 
       if (this.data.length == 0) {
-        
         return;
       }
 
@@ -214,13 +220,19 @@ export class HistoryAllProsumersComponent implements OnInit {
           scales: {
             y: {
               beginAtZero: false,
+              title: {
+                display: true,
+                text: 'Energy (kWh)',
+                font: {
+                  size: 18,
+                  weight: 'bold',
+                },
+              },
             },
           },
           maintainAspectRatio: false,
         },
       });
-
-      
     });
   }
 
@@ -296,6 +308,14 @@ export class HistoryAllProsumersComponent implements OnInit {
           scales: {
             y: {
               beginAtZero: false,
+              title: {
+                display: true,
+                text: 'Energy (kWh)',
+                font: {
+                  size: 18,
+                  weight: 'bold',
+                },
+              },
             },
           },
           maintainAspectRatio: false,
@@ -378,6 +398,14 @@ export class HistoryAllProsumersComponent implements OnInit {
           scales: {
             y: {
               beginAtZero: false,
+              title: {
+                display: true,
+                text: 'Energy (kWh)',
+                font: {
+                  size: 18,
+                  weight: 'bold',
+                },
+              },
             },
           },
           maintainAspectRatio: false,

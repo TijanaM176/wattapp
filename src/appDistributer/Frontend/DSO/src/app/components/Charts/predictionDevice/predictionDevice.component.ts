@@ -72,9 +72,10 @@ export class PredictionDeviceComponent implements OnInit, AfterViewInit {
     this.spiner.show();
     this.activateButton(id);
     this.timeService.predictionDevice(this.idDev).subscribe({
-      next:(response) => {
-        const consumptionTimestamps = response.nextWeek.PredictionsFor7day || {};
-  
+      next: (response) => {
+        const consumptionTimestamps =
+          response.nextWeek.PredictionsFor7day || {};
+
         const consumptionData = Object.keys(consumptionTimestamps).map(
           (name: any) => {
             const date = new Date(name);
@@ -87,7 +88,7 @@ export class PredictionDeviceComponent implements OnInit, AfterViewInit {
           }
         );
         this.data = [{ type: 'consumption', values: consumptionData }];
-  
+
         let backgroundColor, borderColor;
         if (this.type === 'Consumption') {
           backgroundColor = 'rgba(255, 125, 65, 1)';
@@ -96,7 +97,7 @@ export class PredictionDeviceComponent implements OnInit, AfterViewInit {
           backgroundColor = 'rgba(0, 188, 179, 1)';
           borderColor = 'rgba(0, 188, 179, 0.5)';
         }
-  
+
         const chartData = {
           datasets: [
             {
@@ -107,14 +108,14 @@ export class PredictionDeviceComponent implements OnInit, AfterViewInit {
             },
           ],
         };
-  
+
         const chartElement: any = document.getElementById(
           'chartDevicePrediction'
         ) as HTMLElement;
         if (this.chart) {
           this.chart.destroy();
         }
-  
+
         const chart2d = chartElement.getContext('2d');
         this.chart = new Chart(chart2d, {
           type: 'bar',
@@ -123,21 +124,29 @@ export class PredictionDeviceComponent implements OnInit, AfterViewInit {
             scales: {
               y: {
                 beginAtZero: false,
+                title: {
+                  display: true,
+                  text: 'Energy (kWh)',
+                  font: {
+                    size: 18,
+                    weight: 'bold',
+                  },
+                },
               },
             },
             maintainAspectRatio: false,
           },
         });
-  
+
         this.spiner.hide();
         this.show = false;
       },
-      error:(err)=>{
+      error: (err) => {
         console.log(err);
         this.data = [];
         this.spiner.hide();
         this.show = false;
-      }
+      },
     });
   }
 
@@ -145,9 +154,10 @@ export class PredictionDeviceComponent implements OnInit, AfterViewInit {
     this.show = true;
     this.spiner.show();
     this.timeService.predictionDevice(this.idDev).subscribe({
-      next:(response) => {
-        const consumptionTimestamps = response.next3Day.PredictionsFor3day || {};
-  
+      next: (response) => {
+        const consumptionTimestamps =
+          response.next3Day.PredictionsFor3day || {};
+
         const consumptionData = Object.keys(consumptionTimestamps).map(
           (name: any) => {
             const date = new Date(name);
@@ -160,7 +170,7 @@ export class PredictionDeviceComponent implements OnInit, AfterViewInit {
           }
         );
         this.data = [{ type: 'consumption', values: consumptionData }];
-  
+
         let backgroundColor, borderColor;
         if (this.type === 'Consumption') {
           backgroundColor = 'rgba(255, 125, 65, 1)';
@@ -169,7 +179,7 @@ export class PredictionDeviceComponent implements OnInit, AfterViewInit {
           backgroundColor = 'rgba(0, 188, 179, 1)';
           borderColor = 'rgba(0, 188, 179, 0.5)';
         }
-  
+
         const chartData = {
           datasets: [
             {
@@ -180,14 +190,14 @@ export class PredictionDeviceComponent implements OnInit, AfterViewInit {
             },
           ],
         };
-  
+
         const chartElement: any = document.getElementById(
           'chartDevicePrediction'
         ) as HTMLElement;
         if (this.chart) {
           this.chart.destroy();
         }
-  
+
         const chart2d = chartElement.getContext('2d');
         this.chart = new Chart(chart2d, {
           type: 'bar',
@@ -196,22 +206,30 @@ export class PredictionDeviceComponent implements OnInit, AfterViewInit {
             scales: {
               y: {
                 beginAtZero: false,
+                title: {
+                  display: true,
+                  text: 'Energy (kWh)',
+                  font: {
+                    size: 18,
+                    weight: 'bold',
+                  },
+                },
               },
             },
             maintainAspectRatio: false,
           },
         });
-  
+
         this.activateButton(id);
         this.spiner.hide();
         this.show = false;
       },
-      error:(err)=>{
+      error: (err) => {
         console.log(err);
         this.data = [];
         this.spiner.hide();
         this.show = false;
-      }
+      },
     });
   }
 
@@ -219,9 +237,9 @@ export class PredictionDeviceComponent implements OnInit, AfterViewInit {
     this.show = true;
     this.spiner.show();
     this.timeService.predictionDevice(this.idDev).subscribe({
-      next:(response) => {
+      next: (response) => {
         const consumptionTimestamps = response.nextDay.PredictionsFor1day || {};
-  
+
         const consumptionData = Object.keys(consumptionTimestamps).map(
           (name: any) => {
             const date = new Date(name);
@@ -234,7 +252,7 @@ export class PredictionDeviceComponent implements OnInit, AfterViewInit {
           }
         );
         this.data = [{ type: 'consumption', values: consumptionData }];
-  
+
         let backgroundColor, borderColor;
         if (this.type === 'Consumption') {
           backgroundColor = 'rgba(255, 125, 65, 1)';
@@ -243,7 +261,7 @@ export class PredictionDeviceComponent implements OnInit, AfterViewInit {
           backgroundColor = 'rgba(0, 188, 179, 1)';
           borderColor = 'rgba(0, 188, 179, 0.5)';
         }
-  
+
         const chartData = {
           datasets: [
             {
@@ -254,14 +272,14 @@ export class PredictionDeviceComponent implements OnInit, AfterViewInit {
             },
           ],
         };
-  
+
         const chartElement: any = document.getElementById(
           'chartDevicePrediction'
         ) as HTMLElement;
         if (this.chart) {
           this.chart.destroy();
         }
-  
+
         const chart2d = chartElement.getContext('2d');
         this.chart = new Chart(chart2d, {
           type: 'bar',
@@ -270,22 +288,30 @@ export class PredictionDeviceComponent implements OnInit, AfterViewInit {
             scales: {
               y: {
                 beginAtZero: false,
+                title: {
+                  display: true,
+                  text: 'Energy (kWh)',
+                  font: {
+                    size: 18,
+                    weight: 'bold',
+                  },
+                },
               },
             },
             maintainAspectRatio: false,
           },
         });
-  
+
         this.activateButton(id);
         this.spiner.hide();
         this.show = false;
       },
-      error:(err)=>{
+      error: (err) => {
         console.log(err);
         this.data = [];
         this.spiner.hide();
         this.show = false;
-      }
+      },
     });
   }
   activateButton(buttonNumber: string) {
