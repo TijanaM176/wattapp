@@ -483,9 +483,10 @@
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header text-white" style="background-color: #466471">
-        <h6 class="modal-title" id="turnDeviceOffOnLabel">
-          Turn this device {{ offOn }}?
-        </h6>
+        <h4 class="modal-title ps-2" id="turnDeviceOffOnLabel">
+          <!-- Turn this device {{ offOn }}? -->
+          {{name}}
+        </h4>
         <button
           type="button"
           class="btn-close"
@@ -495,9 +496,9 @@
           (click)="reset()"
         ></button>
       </div>
-      <div class="modal-body row d-flex">
+      <div class="modal-body row d-flex justify-content-center align-items-center">
         <div
-          class="col-12 col-lg-6"
+          class="col-6 col-lg-3"
           style="display: flex; justify-content: center; align-items: center"
         >
           <div
@@ -518,15 +519,14 @@
           </div>
         </div>
         <div
-          class="col-12 col-lg-6 text-center text-lg-start"
+          class="col-6 col-lg-3 text-center text-lg-start"
           style="display: flex; justify-content: center; align-items: center"
         >
-          <button id="closeModalBtn" hidden="true">Close Modal</button>
+          <button id="closeModalBtn" [hidden]="true" data-bs-dismiss="modal" data-bs-target="#turnDeviceOffOn">Close Modal</button>
 
           <div class="text-center p-3" (click)="navigateToPage()">
-            <i class="fa fa-link visit"></i>
-
-            <p>Link to Device Page</p>
+            <i class="fa fa-folder-open visit" style="color: #08376b;"></i>
+            <p style="color: #08376b;">Device Page</p>
           </div>
         </div>
         <div class="col-12">

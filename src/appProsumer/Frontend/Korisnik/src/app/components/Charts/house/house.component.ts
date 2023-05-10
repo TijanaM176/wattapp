@@ -27,6 +27,7 @@ export class HouseComponent implements OnInit, AfterViewInit {
   @Output() deviceOffOn = new EventEmitter<[any[], number, number, string]>();
   offOn: string = 'On';
   lastState: string = 'Off';
+  name : string = '';
   index: number = 0;
   device: any;
   show: boolean = false;
@@ -71,8 +72,7 @@ export class HouseComponent implements OnInit, AfterViewInit {
   }
 
   navigateToPage() {
-    const closeModalBtn = document.getElementById('turnDeviceOffOn');
-    closeModalBtn!.click();
+    document.getElementById('closeModalBtn')!.click();
     this.router.navigate([
       'ProsumerApp/userDevices/' + this.device.Id + '/deviceinfo',
     ]);
@@ -120,6 +120,7 @@ export class HouseComponent implements OnInit, AfterViewInit {
   selectedDevice(index: number) {
     this.index = index;
     this.device = this.devices[this.index];
+    this.name = this.device.Name;
     this.offOn = this.device.CurrentUsage > 0 ? 'Off' : 'On';
   }
   reset() {
