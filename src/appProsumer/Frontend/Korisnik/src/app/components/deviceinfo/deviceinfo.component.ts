@@ -8,6 +8,7 @@ import { DeviceserviceService } from 'src/app/services/deviceservice.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
 import Swal from 'sweetalert2';
+import { DeviceWidthService } from 'src/app/services/device-width.service';
 
 @Component({
   selector: 'app-deviceinfo',
@@ -48,13 +49,20 @@ export class DeviceinfoComponent {
   cat: number = 0;
   catName : string = '';
 
+  //battery
+  maxCapacity : number = 0;
+  currentCapacity : number = 0;
+  percentFull : number = 0;
+  state : number = 0; //iskljuceno
+
   @ViewChild('editData', { static: false }) editData!: EditDeviceFormComponent;
   constructor(
     private router: Router,
     private service: DeviceserviceService,
     private toast: ToastrService,
     private router1: ActivatedRoute,
-    private spiner: NgxSpinnerService
+    private spiner: NgxSpinnerService,
+    public widthService : DeviceWidthService
   ) {}
 
   ngAfterViewInit(): void {
@@ -84,8 +92,8 @@ export class DeviceinfoComponent {
     this.idDev = this.router1.snapshot.params['idDev'];
     this.service.getInfoDevice(this.idDev).subscribe({
       next: (res) => {
-        this.MaxUsage = res.MaxUsage;
-        this.AvgUsage = res.AvgUsage;
+        this.MaxUsage = Number(res.MaxUsage).toFixed(2).toString();
+        this.AvgUsage = Number(res.AvgUsage).toFixed(2).toString();
         this.currentUsage = res.CurrentUsage.toFixed(2);
         if (res.CategoryId == '1') {
           this.gaugeLabel = 'Consumption (kW)';
@@ -126,10 +134,12 @@ export class DeviceinfoComponent {
           this.cat = 3;
           this.catName = 'Storage';
           let h = window.innerHeight;
-          document.getElementById('consumptionLimitBody')!.style.height =
-          h * 0.25 + 'px';
-          document.getElementById('consumptionLimitCardBody')!.style.height = h*0.38 + 'px'; 
-          console.log(res);
+          document.getElementById('consumptionLimitBody')!.style.height = h * 0.25 + 'px';
+          document.getElementById('consumptionLimitCardBody')!.style.height = h*0.38 + 'px';
+          // console.log(res)
+          this.maxCapacity = res.Wattage;
+          this.currentCapacity = res.CurrentUsage;
+          this.percentFull = Number(((this.currentCapacity/this.maxCapacity) * 100).toFixed(0));
         }
         this.deviceData = res;
         this.IpAddress = res.IpAddress;

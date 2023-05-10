@@ -6,7 +6,7 @@
       <div class="col px-0 mx-0 my-0 py-0 h-100">
         <div class="card h-md-100" style="border-radius: 0">
           <div
-            class="row g-0 h-md-100 justify-content-center align-items-start align-items-md-center px-0 py-0"
+            class="row g-0 h-md-100 justify-content-center align-items-start px-0 py-0"
           >
             <div
               class="col-md-6 justify-content-center align-items-center h-md-100 order-1 order-md-1 mx-0 my-0 px-0 py-0"
@@ -15,6 +15,9 @@
                 class="card-body"
                 style="width: 80%; margin: 0 auto; margin-bottom: 0%"
                 id="consumptionLimitCardBody"
+                [ngStyle]="{
+                  'margin-top': widthService.deviceWidth > 576 ? '10%' : '0%'
+                }"
               >
                 <div
                   class="w-80 px-0 py-0 mx-0 my-0"
@@ -44,42 +47,50 @@
                   </ngx-gauge>
                   <div
                     class="w-100"
+                    id="batteryCont"
                     *ngIf="cat == 3"
-                    style="
-                      height: 70%;
-                      display: flex;
-                      align-items: center;
-                      justify-content: center;
-                    "
+                    [ngStyle]="{
+                      height: widthService.deviceWidth > 576 ? '98%' : '70%'
+                    }"
                   >
-                    <div
-                      class="battery-body p-1"
-                      style="
-                        height: 100%;
-                        width: 95%;
-                        border: 10px solid #08376b;
-                        border-radius: 10px;
-                      "
-                    >
+                    <div class="battery-body p-1">
+                      <h1
+                        [ngStyle]="{
+                          left: widthService.deviceWidth > 576 ? '2%' : '5%'
+                        }"
+                      >
+                        <i
+                          class="fa fa-bolt"
+                          style="color: #08376b"
+                          *ngIf="state == 2"
+                        ></i>
+                        <i
+                          class="fa fa-exclamation-triangle"
+                          style="color: #08376b"
+                          *ngIf="state == 1 && percentFull <= 15"
+                          mdbPopover="Your battery has 15% or less power"
+                          mdbPopoverTitle="Battery Running Out!"
+                          placement="bottom"
+                          mdbWavesEffect
+                        >
+                        </i>
+                        {{ percentFull }}%
+                      </h1>
                       <div
-                        class="battery-level ps-2 pt-1"
-                        style="
-                          width: 85%;
-                          background-color: #00ff00;
-                          border-radius: 5px;
-                          height: 100%;
-                        "
+                        class="battery-level"
+                        id="bateryPercentage"
+                        [ngStyle]="{
+                          width: percentFull + '%',
+                          'background-color':
+                            state == 0
+                              ? '#8ca6a6'
+                              : state == 1
+                              ? '#f3734d'
+                              : '#54d454'
+                        }"
                       ></div>
                     </div>
-                    <div
-                      class="battery-top ms-0"
-                      style="
-                        height: 45%;
-                        width: 5%;
-                        background-color: #08376b;
-                        border-radius: 1px;
-                      "
-                    ></div>
+                    <div class="battery-top ms-0"></div>
                   </div>
                 </div>
                 <!-- if device is consumer -->
@@ -99,16 +110,22 @@
                   <i class="fa fa-circle blueZone"
                     >&nbsp; {{ AvgUsage }}-{{ MaxUsage }} kWh</i
                   >&nbsp;&nbsp;&nbsp;
-                  <i class="fa fa-circle greenZone"
-                    >&nbsp;{{ MaxUsage }}+ kWh</i
-                  >
+                  <i class="fa fa-circle greenZone">&nbsp;{{ MaxUsage }} kWh</i>
                 </div>
                 <!-- if device is storage -->
-                <div class="col-12 m-0 text-start" *ngIf="cat == 3">
-                  <h4 style="color: #08376b; margin-top: 0">
-                    Max Capacity: 350kWh
-                  </h4>
-                  <h1 style="color: #08376b">85%</h1>
+                <div class="legend w-100 text-center" *ngIf="cat == 3">
+                  <h5 style="color: #08376b">
+                    Current Capacity: {{ currentCapacity }} kWh
+                  </h5>
+                  <h6 style="color: #08376b; margin-top: 0">
+                    Max Capacity: {{ maxCapacity }} kWh
+                  </h6>
+                  <i class="fa fa-circle batteryOff">&nbsp;Turned Off</i
+                  >&nbsp;&nbsp;&nbsp;
+                  <i class="fa fa-circle batteryCharging">&nbsp;Charging</i
+                  >&nbsp;&nbsp;&nbsp;
+                  <i class="fa fa-circle batteryInUse">&nbsp;In Use</i
+                  >&nbsp;&nbsp;&nbsp;
                 </div>
               </div>
 
@@ -128,22 +145,22 @@
                 <hr class="mt-0 mb-3" />
                 <div class="row pt-1 mx-0 my-0">
                   <div class="col-6 mb-1">
-                    <h6 style="color: #08376b">{{ IpAddress }}</h6>
+                    <h5 style="color: #08376b">{{ IpAddress }}</h5>
                     <p class="text-muted">IP Address</p>
                   </div>
                   <div class="col-6 mb-1">
-                    <h6 style="color: #08376b">{{ TypeName }}</h6>
+                    <h5 style="color: #08376b">{{ TypeName }}</h5>
                     <p class="text-muted">Device Type</p>
                   </div>
                 </div>
                 <hr class="mt-0 mb-3" />
                 <div class="row pt-1 mx-0 my-0">
                   <div class="col-6 mb-1">
-                    <h6 style="color: #08376b">{{ ModelName }}</h6>
+                    <h5 style="color: #08376b">{{ ModelName }}</h5>
                     <p class="text-muted">Device Model</p>
                   </div>
                   <div class="col-6 mb-1">
-                    <h6 style="color: #08376b">{{ Name }}</h6>
+                    <h5 style="color: #08376b">{{ Name }}</h5>
                     <p class="text-muted">Device Name</p>
                   </div>
                 </div>
@@ -151,6 +168,7 @@
 
                 <div class="row pt-1 mx-0 my-0">
                   <div class="col-6 mb-1">
+                    <<<<<<< HEAD
                     <h6 style="color: #08376b">{{ MaxUsage }}kWh</h6>
                     <p class="text-muted">
                       Maximum hourly {{ catName.toLowerCase() }}
@@ -161,6 +179,18 @@
                     <p class="text-muted">
                       Average hourly {{ catName.toLowerCase() }}
                     </p>
+                    =======
+                    <h5 style="color: #08376b">{{ MaxUsage }} kWh</h5>
+                    <p class="text-muted">
+                      Maximum hourly {{ catName.toLowerCase() }}
+                    </p>
+                  </div>
+                  <div class="col-6 mb-1">
+                    <h5 style="color: #08376b">{{ AvgUsage }} kWh</h5>
+                    <p class="text-muted">
+                      Average hourly {{ catName.toLowerCase() }}
+                    </p>
+                    >>>>>>> origin/220-stranica-za-storage
                   </div>
                 </div>
                 <hr class="mt-0 mb-3" />

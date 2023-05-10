@@ -39,7 +39,7 @@ export class DeviceCardsComponent implements OnInit {
     this.service
       .getDevicesByProsumerId(this.id, this.role)
       .subscribe((response) => {
-        console.log(response);
+        // console.log(response);
         this.devices = [
           ...response.consumers,
           ...response.producers,
