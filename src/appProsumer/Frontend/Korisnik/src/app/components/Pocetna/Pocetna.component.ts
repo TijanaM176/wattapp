@@ -74,6 +74,7 @@ export class PocetnaComponent implements OnInit, AfterViewInit {
     this.service
       .getDevicesByProsumerId(this.cookie.get('id'), this.cookie.get('role'))
       .subscribe((response) => {
+        console.log(response);
         this.devices = [
           ...response.consumers,
           ...response.producers,
@@ -97,6 +98,7 @@ export class PocetnaComponent implements OnInit, AfterViewInit {
         this.show1 = false;
 
         this.show2 = false;
+        console.log(this.devices);
       });
   }
 

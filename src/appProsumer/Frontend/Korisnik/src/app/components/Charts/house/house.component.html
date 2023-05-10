@@ -29,7 +29,7 @@
           class="card px-0 py-0"
           *ngFor="let device of devices; index as i"
           [ngStyle]="{
-            'background-color': !device.Activity ? '#D8D8D8' : '#8ee5c9'
+            'background-color': device.Activity==0 ? '#D8D8D8' : '#8ee5c9'
           }"
           (click)="selectedDevice(i)"
           data-bs-toggle="modal"
@@ -502,7 +502,7 @@
           style="display: flex; justify-content: center; align-items: center"
         >
           <div
-            *ngIf="device?.CurrentUsage == 0"
+            *ngIf="device?.Activity == 0"
             (click)="turnDeviceoffOn()"
             class="text-center p-3"
           >
@@ -510,7 +510,7 @@
             <p style="color: red">Turned Off</p>
           </div>
           <div
-            *ngIf="device?.CurrentUsage != 0"
+            *ngIf="device?.Activity != 0"
             (click)="turnDeviceoffOn()"
             class="text-center p-3"
           >
@@ -529,9 +529,72 @@
             <p style="color: #08376b;">Device Page</p>
           </div>
         </div>
-        <div class="col-12">
+        <div class="col-12 ps-2">
           <small class="text-success" *ngIf="show"
             >Device turned {{ lastState }}!</small
+          >
+          <small class="text-success" *ngIf="showBattery"
+            >{{batteryNofit}}</small
+          >
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div
+  class="modal fade"
+  id="turnBatteryOn"
+  data-bs-backdrop="static"
+  data-bs-keyboard="false"
+  tabindex="-1"
+  aria-labelledby="turnBatteryOnLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header text-white" style="background-color: #466471">
+        <h4 class="modal-title ps-2" id="turnBatteryOnLabel">
+          <!-- Turn this device {{ offOn }}? -->
+          Turn On {{name}}
+        </h4>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+          style="background-color: white"
+          (click)="reset()"
+        ></button>
+      </div>
+      <div class="modal-body row d-flex justify-content-center align-items-center">
+        <div
+          class="col-6 col-lg-6"
+          style="display: flex; justify-content: center; align-items: center"
+        >
+        <!-- use battery -->
+          <div
+            (click)="toggleStorage(1)"
+            class="text-center p-3"
+          >
+            <i class="fa fa-power-off on"></i>
+            <p style="color: green">Use The Battery</p>
+          </div>
+        </div>
+        <div
+          class="col-6 col-lg-6 text-center text-lg-start"
+          style="display: flex; justify-content: center; align-items: center"
+        >
+          <button id="closeModalBatteryBtn" [hidden]="true" data-bs-dismiss="modal" data-bs-target="#turnBatteryOn">Close Modal</button>
+          <button id="openModalBatteryBtn" [hidden]="true" data-bs-toggle="modal" data-bs-target="#turnBatteryOn">Open Modal</button>
+          <!-- charge battery -->
+          <div class="text-center p-3" (click)="toggleStorage(2)">
+            <i class="fa fa-plug charge"></i>
+            <p style="color: #08376b;">Charge The Battery</p>
+          </div>
+        </div>
+        <div class="col-12 ps-2">
+          <small class="text-success" *ngIf="showBattery"
+            >{{batteryNofit}}</small
           >
         </div>
       </div>

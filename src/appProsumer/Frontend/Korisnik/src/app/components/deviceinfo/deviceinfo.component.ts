@@ -131,6 +131,7 @@ export class DeviceinfoComponent {
           };
         } else {
           this.cat = 3;
+          this.state = res.Activity;
           this.catName = 'Storage';
           let h = window.innerHeight;
           document.getElementById('consumptionLimitBody')!.style.height =
