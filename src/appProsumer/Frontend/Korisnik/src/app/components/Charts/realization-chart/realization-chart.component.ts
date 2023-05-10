@@ -123,6 +123,7 @@ export class RealizationChartComponent implements OnInit, AfterViewInit {
 
   HistoryWeek(id: string) {
     this.show = true;
+    this.activateButton(id);
     this.spiner.show();
     this.deviceService.history7Days().subscribe((response: any) => {
       const consumptionTimestamps = response.consumption.timestamps || {};
@@ -195,7 +196,6 @@ export class RealizationChartComponent implements OnInit, AfterViewInit {
         },
       });
 
-      this.activateButton(id);
       this.spiner.hide();
       this.show = false;
     });
@@ -203,6 +203,7 @@ export class RealizationChartComponent implements OnInit, AfterViewInit {
 
   HistoryMonth(id: string) {
     this.show = true;
+    this.activateButton(id);
     this.spiner.show();
     this.deviceService.history1Month().subscribe((response: any) => {
       const consumptionTimestamps = response.consumption.timestamps || {};
@@ -275,7 +276,6 @@ export class RealizationChartComponent implements OnInit, AfterViewInit {
         },
       });
 
-      this.activateButton(id);
       this.spiner.hide();
       this.show = false;
     });
@@ -283,6 +283,7 @@ export class RealizationChartComponent implements OnInit, AfterViewInit {
 
   HistoryYear(id: string) {
     this.show = true;
+    this.activateButton(id);
     this.spiner.show();
     this.deviceService.history1Year().subscribe((response: any) => {
       const consumptionTimestamps = response.consumption.timestamps || {};
@@ -354,7 +355,6 @@ export class RealizationChartComponent implements OnInit, AfterViewInit {
         },
       });
 
-      this.activateButton(id);
       this.spiner.hide();
       this.show = false;
     });
