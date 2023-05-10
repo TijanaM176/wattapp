@@ -124,8 +124,7 @@
                       </ngx-gauge>
                     </div>
                     <div
-                        class="w-100 mt-2"
-                        id="batteryCont"
+                        class="w-100 mt-2 batteryCont"
                         *ngIf="cat == 3"
                         [ngStyle]="{
                           height: widthService.deviceWidth > 576 ? '98%' : '70%'
@@ -219,8 +218,8 @@
                 style="display: flex; justify-content: center"
               >
                 <div class="row">
-                  <div class="col-12">
-                    <div class="numbers">
+                  <div class="col-12" id="avgBatteryCard">
+                    <div class="numbers" *ngIf="cat==1 || cat==2">
                       <ngx-gauge
                         [type]="'semi'"
                         [value]="AvgUsage"
@@ -233,6 +232,34 @@
                         [thick]="10"
                       >
                       </ngx-gauge>
+                    </div>
+                    <div
+                        class="w-100 mt-2 batteryCont"
+                        *ngIf="cat == 3"
+                        [ngStyle]="{
+                          height: widthService.deviceWidth > 576 ? '85%' : '65%'
+                        }"
+                      >
+                      <div class="battery-body p-1">
+                        <h4
+                        style="color: #08376b;"
+                          [ngStyle]="{
+                            left: widthService.deviceWidth > 576 ? '2%' : '5%'
+                          }"
+                        >{{avgFull}}%</h4>
+                        <div
+                          class="battery-level"
+                          id="bateryPercentage"
+                          [ngStyle]="{
+                            width: avgFull + '%',
+                            'background-color': '#4ca4c9'}"
+                        >
+                        </div>
+                      </div>
+                      <div class="battery-top ms-0"></div>
+                    </div>
+                    <div class="w-100 text-center" style="height: 25%; margin-top: 5%;" *ngIf="cat == 3">
+                      <h6 class="text-muted">Average hourly Storage: {{AvgUsage}} kWh</h6>
                     </div>
                   </div>
                 </div>
@@ -247,7 +274,7 @@
               >
                 <div class="row">
                   <div class="col-12">
-                    <div class="numbers">
+                    <div class="numbers" *ngIf="cat==1 || cat==2">
                       <ngx-gauge
                         [type]="'semi'"
                         [value]="MaxUsage"

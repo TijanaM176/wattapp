@@ -45,6 +45,8 @@ export class DeviceinfoComponent implements OnInit {
    maxCapacity: number = 0;
    currentCapacity: number = 0;
    percentFull: number = 0;
+   avgFull : number = 0;
+   maxFull : number = 0;
    state: number = 0; //iskljuceno
 
   constructor(
@@ -165,11 +167,14 @@ export class DeviceinfoComponent implements OnInit {
         {
           document.getElementById('consumptionLimitBody')!.style.height = this.widthService.height * 0.42 +'px';
           document.getElementById('consumptionLimitBody')!.style.width = this.width + 'px';
+          document.getElementById('avgBatteryCard')!.style.height = this.widthService.height * 0.2 + 'px'
           this.maxCapacity = res.Wattage;
           this.currentCapacity = res.CurrentUsage;
           this.percentFull = Number(
             ((this.currentCapacity / this.maxCapacity) * 100).toFixed(0)
           );
+          this.avgFull = Number((this.AvgUsage/this.maxCapacity*100).toFixed(0));
+          this.maxFull = Number((this.MaxUsage/this.maxCapacity*100).toFixed(0));
         }
     });
   }
