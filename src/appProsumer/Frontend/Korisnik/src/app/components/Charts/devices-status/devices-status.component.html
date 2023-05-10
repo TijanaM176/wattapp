@@ -31,7 +31,7 @@
 
                         <!-- storage -->
                         <h4 class="small font-weight-bold" *ngIf="device.CategoryId==3">{{device.Name}} <span
-                            class="float-right">{{device.CurrentUsage.toFixed(1)}}/{{device.Wattage.toFixed(1)}} kWh</span></h4>
+                            class="float-right">{{device.CurrentUsage.toFixed(2)}}/{{device.Wattage.toFixed(2)}} kWh</span></h4>
 
                         <div class="progress mb-4">
                             <!-- consumption and production -->
@@ -41,11 +41,16 @@
 
                             <!-- storage -->
                             <div class="progress-bar" role="progressbar" *ngIf="device.CategoryId==3"
-                            [ngStyle]="{'width':getBatteryPercentage(device)+'%','background-color': '#08376b'}"
+                            [ngStyle]="{'width':getBatteryPercentage(device)+'%','background-color': device.Activity==1? '#f3734d' : '#4ab64a'}"
                             aria-valuemin="0" aria-valuemax="100"></div>
                         </div>
                     </div>
                 </div>
+            </div>
+            <div class="w-100 text-center" *ngIf="devices.length!=0">
+                <i class="fa fa-circle batteryInUse">&nbsp;Battery In Use</i
+                >&nbsp;&nbsp;&nbsp;
+                <i class="fa fa-circle batteryCharging">&nbsp;Battery Charging</i>
             </div>
         </div>
     </div>
