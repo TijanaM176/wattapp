@@ -282,6 +282,7 @@ export class EmployeesComponent {
       next:(res)=>{
         this.imageSource = 'assets/images/employee-default-pfp.png';
         this.imageSource1= 'assets/images/employee-default-pfp.png';
+        this.Ucitaj();
         document.getElementById('closeOptionsForPhoto1')!.click();
       },
       error:(err)=>{
