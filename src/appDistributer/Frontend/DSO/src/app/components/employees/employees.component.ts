@@ -215,6 +215,7 @@ export class EmployeesComponent {
         next: (res) => {
           this.Ucitaj();
           this.Paging();
+          this.closeside();
         },
         error: (err) => {
           console.log(err.error);
