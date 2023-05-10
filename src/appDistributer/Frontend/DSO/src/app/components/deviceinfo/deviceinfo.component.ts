@@ -167,7 +167,8 @@ export class DeviceinfoComponent implements OnInit {
         {
           document.getElementById('consumptionLimitBody')!.style.height = this.widthService.height * 0.42 +'px';
           document.getElementById('consumptionLimitBody')!.style.width = this.width + 'px';
-          document.getElementById('avgBatteryCard')!.style.height = this.widthService.height * 0.2 + 'px'
+          // document.getElementById('avgBatteryCard')!.style.height = this.widthService.height * 0.2 + 'px'
+          // document.getElementById('maxBatteryCard')!.style.height = this.widthService.height * 0.2 + 'px'
           this.maxCapacity = res.Wattage;
           this.currentCapacity = res.CurrentUsage;
           this.percentFull = Number(
