@@ -40,8 +40,8 @@ export class PocetnaComponent implements OnInit, AfterViewInit {
   currentPrice: number = 0;
   currentConsumption: number = 0;
   currentProduction: number = 0;
-  show1!:boolean;
-  show2!:boolean;
+  show1!: boolean;
+  show2!: boolean;
   constructor(
     private widthService: DeviceWidthService,
     private service: ProsumerService,
@@ -59,7 +59,6 @@ export class PocetnaComponent implements OnInit, AfterViewInit {
   ngOnInit() {
     this.getDevices();
     this.getPrice();
-    // this.get7DaysHistory();
     let hour = new Date().getHours();
     if (hour >= 22 || hour <= 6) {
       this.tariff = 'LOWER';
@@ -71,8 +70,6 @@ export class PocetnaComponent implements OnInit, AfterViewInit {
   }
 
   getDevices() {
-    this.show1=true;
-    this.show2=true;
     this.spiner.show();
     this.service
       .getDevicesByProsumerId(this.cookie.get('id'), this.cookie.get('role'))
@@ -82,7 +79,6 @@ export class PocetnaComponent implements OnInit, AfterViewInit {
           ...response.producers,
           ...response.storage,
         ];
-        // console.log(this.devices);
         this.currentConsumption = response.currentConsumption;
         this.currentProduction = response.currentProduction;
         this.house.setDevices(this.devices);
@@ -98,9 +94,9 @@ export class PocetnaComponent implements OnInit, AfterViewInit {
           }
         });
         this.spiner.hide();
-        this.show1=false;
+        this.show1 = false;
 
-        this.show2=false;
+        this.show2 = false;
       });
   }
 

@@ -17,9 +17,9 @@
                     {{ totalCons.toFixed(2) }} kW
                   </h5>
                   <p class="mb-0" *ngIf="ratioCons.charAt(0) != '-'">
-                    <span class="text-success text-sm font-weight-bolder"
-                      >+{{ ratioCons }}</span
-                    >
+                    <span class="text-success text-sm font-weight-bolder">{{
+                      ratioCons
+                    }}</span>
                     more than yesterday
                   </p>
                   <p class="mb-0" *ngIf="ratioCons.charAt(0) == '-'">

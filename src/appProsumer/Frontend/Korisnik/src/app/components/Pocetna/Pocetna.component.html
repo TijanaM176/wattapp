@@ -1,3 +1,13 @@
+<ngx-spinner
+  bdColor="rgba(0, 0, 0, 0.95)"
+  size="medium"
+  color="#fff"
+  type="ball-clip-rotate"
+  [showSpinner]="true"
+  [fullScreen]="true"
+  [zIndex]="9999"
+  ><p style="font-size: 25px; color: white">Loading Data...</p></ngx-spinner
+>
 <div id="wrapper">
   <div id="content-wrapper" class="d-flex flex-column">
     <div id="content">
@@ -5,15 +15,6 @@
         <div class="row">
           <div class="col-xl-6 col-lg-6">
             <div class="card shadow mb-4">
-              <ngx-spinner
-                bdColor="rgba(0, 0, 0, 0)"
-                size="medium"
-                color="black"
-                type="ball-clip-rotate"
-                [showSpinner]="show1"
-                [fullScreen]="false"
-                *ngIf="show1"
-              ></ngx-spinner>
               <div
                 class="card-header py-3 d-flex flex-row align-items-center justify-content-between"
                 style="background-color: rgb(177, 209, 193, 0.08)"
@@ -29,22 +30,13 @@
 
           <div class="col-xl-6 col-lg-6">
             <div class="card shadow mb-4">
-              <ngx-spinner
-              bdColor="rgba(0, 0, 0, 0)"
-              size="medium"
-              color="black"
-              type="ball-clip-rotate"
-              [showSpinner]="show2"
-              [fullScreen]="false"
-              *ngIf="show2"
-            ></ngx-spinner>
               <div
                 class="card-header py-3 d-flex flex-row align-items-center justify-content-between"
                 style="background-color: rgb(177, 209, 193, 0.08)"
               >
                 <h6 class="m-0 font-weight-bold">Devices Status</h6>
               </div>
-              <app-devices-status #devicesStatus></app-devices-status>
+              <app-devices-status #devicesStatus> </app-devices-status>
             </div>
           </div>
         </div>

@@ -710,24 +710,22 @@ namespace API.Repositories.DeviceRepository
 
             foreach (var timestamp in device1.Timestamps)
             {
-                var roundedTime = timestamp.Date.AddMinutes(-(timestamp.Date.Minute % 2)); // round the time to the nearest 2 minutes
-                var twoHourTime = roundedTime.AddHours(-(roundedTime.Hour % 2)); // round the time to the nearest 2 hours
-                
-                if (datePowerByDevicePredictionFor1Day["PredictionsFor1day"].TryGetValue(twoHourTime, out double power))
-                    datePowerByDevicePredictionFor1Day["PredictionsFor1day"][twoHourTime] = power + timestamp.PredictedPower;
-                
+                var roundedTime = timestamp.Date.AddMinutes(-(timestamp.Date.Minute % 60)); // round the time to the nearest hour
 
+                if (datePowerByDevicePredictionFor1Day["PredictionsFor1day"].TryGetValue(roundedTime, out double power))
+                    datePowerByDevicePredictionFor1Day["PredictionsFor1day"][roundedTime] = power + timestamp.PredictedPower;
                 else
-                    datePowerByDevicePredictionFor1Day["PredictionsFor1day"].Add(twoHourTime, timestamp.PredictedPower);
-
-              
+                    datePowerByDevicePredictionFor1Day["PredictionsFor1day"].Add(roundedTime, timestamp.PredictedPower);
             }
 
+            var tempDict1 = datePowerByDevicePredictionFor1Day["PredictionsFor1day"].ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
+            datePowerByDevicePredictionFor1Day["PredictionsFor1day"] = tempDict1;
 
 
 
-            var tempDict1 = datePowerByDevicePredictionFor1Day["PredictionsFor1day"].GroupBy(kvp => kvp.Key.AddHours(-(kvp.Key.Hour % 2))).ToDictionary(g => g.Key, g => g.Sum(kvp => kvp.Value));
-            datePowerByDevicePredictionFor1Day["PredictionsFor1day"] = tempDict1.ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
+
+
+           
 
 
 
