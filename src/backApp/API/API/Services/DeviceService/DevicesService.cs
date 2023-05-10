@@ -513,9 +513,34 @@ namespace API.Services.Devices
                 }
             }
 
-            return new Dictionary<string, Dictionary<string, Dictionary<string, double>>> {
-                { "numbers", numbers.ToDictionary(pair => pair.Key, pair => pair.Value.OrderByDescending(x => x.Value).ToDictionary(x => x.Key, x => x.Value)) }, 
-                { "percentages", percentages.ToDictionary(pair => pair.Key, pair => pair.Value.OrderByDescending(x => x.Value).ToDictionary(x => x.Key, x => x.Value)) }
+            return new Dictionary<string, Dictionary<string, Dictionary<string, double>>>
+            {
+                {
+                    "numbers",
+                    numbers.ToDictionary(
+                        pair => pair.Key,
+                        pair => {
+                            var sorted = pair.Value.OrderByDescending(x => x.Value);
+                            var result = sorted.Take(5).ToDictionary(x => x.Key, x => x.Value);
+                            var sumOfOthers = sorted.Skip(5).Sum(x => x.Value);
+                            result.Add("Others", sumOfOthers);
+                            return result;
+                        }
+                    )
+                },
+                {
+                    "percentages",
+                    percentages.ToDictionary(
+                        pair => pair.Key,
+                        pair => {
+                            var sorted = pair.Value.OrderByDescending(x => x.Value);
+                            var result = sorted.Take(5).ToDictionary(x => x.Key, x => x.Value);
+                            var sumOfOthers = sorted.Skip(5).Sum(x => x.Value);
+                            result.Add("Others", sumOfOthers);
+                            return result;
+                        }
+                    )
+                }
             };
         }
 
