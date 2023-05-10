@@ -25,6 +25,7 @@ import { UsersServiceService } from 'src/app/services/users-service.service';
 import { Neighborhood } from 'src/app/models/neighborhood';
 import { City } from 'src/app/models/city';
 import { DataService } from 'src/app/services/data.service';
+import { NgxSpinnerService } from 'ngx-spinner';
 @Component({
   selector: 'app-Home',
   templateUrl: './Home.component.html',
@@ -57,6 +58,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
 
   signupForm!: FormGroup;
   signupFormValues!: FormGroup;
+  showSpinner!:boolean;
 
   constructor(
     private cookie: CookieService,
@@ -68,14 +70,18 @@ export class HomeComponent implements OnInit, AfterViewInit {
     private router: Router,
     private serviceData: DataService,
     private service: UsersServiceService,
-    private location1: Location
+    private location1: Location,
+    private spiner:NgxSpinnerService
   ) {}
 
   ngAfterViewInit(): void {
     this.showModal = false;
+    this.spiner.hide();
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+   this.spiner.show();
+  }
 
   LogOut() {
     this.cookie.deleteAll();

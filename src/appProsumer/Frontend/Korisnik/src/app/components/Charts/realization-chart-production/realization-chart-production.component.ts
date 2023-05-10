@@ -94,39 +94,10 @@ export class RealizationChartProductionComponent
     });
   }
 
-  // HistoryWeekInit(data: any) {
-  //   if (data.production) {
-  //     const myList = Object.keys(data.production.timestamps).map((name) => {
-  //       let consumptionValue = data.production.timestamps[name];
-  //       let predictionValue = data.production.predictions[name];
-  //       const prod: string = 'production';
-  //       const pred: string = 'prediction';
-  //       if (predictionValue == undefined) {
-  //         predictionValue = 0.0;
-  //       }
-  //       if (consumptionValue == undefined) {
-  //         consumptionValue = 0.0;
-  //       }
-  //       const series = [
-  //         { name: prod, value: consumptionValue },
-  //         { name: pred, value: predictionValue },
-  //       ];
-  //       return { name, series };
-  //     });
-  //     this.data = myList.map((item) => {
-  //       const date = new Date(item.name);
-  //       const dayName = date.toLocaleDateString('en-US', { weekday: 'long' });
-  //       return { name: dayName, series: item.series };
-  //     });
-  //   } else {
-  //     this.data = [];
-  //   }
-  // }
-
   HistoryWeek(id: string) {
     this.show = true;
     this.activateButton(id);
-    this.spiner.show();
+    this.spiner.show('spiner1');
     this.deviceService.history7Days().subscribe((response: any) => {
       const consumptionTimestamps = response.production.timestamps || {};
       const productionTimestamps = response.production.predictions || {};
@@ -198,7 +169,8 @@ export class RealizationChartProductionComponent
         },
       });
 
-      this.spiner.hide();
+      this.activateButton(id);
+      this.spiner.hide('spiner1');
       this.show = false;
     });
   }
@@ -206,7 +178,7 @@ export class RealizationChartProductionComponent
   HistoryMonth(id: string) {
     this.show = true;
     this.activateButton(id);
-    this.spiner.show();
+    this.spiner.show('spiner1');
     this.deviceService.history1Month().subscribe((response: any) => {
       const consumptionTimestamps = response.production.timestamps || {};
       const productionTimestamps = response.production.predictions || {};
@@ -278,7 +250,8 @@ export class RealizationChartProductionComponent
         },
       });
 
-      this.spiner.hide();
+      this.activateButton(id);
+      this.spiner.hide('spiner1');
       this.show = false;
     });
   }
@@ -286,7 +259,7 @@ export class RealizationChartProductionComponent
   HistoryYear(id: string) {
     this.show = true;
     this.activateButton(id);
-    this.spiner.show();
+    this.spiner.show('spiner1');
     this.deviceService.history1Year().subscribe((response: any) => {
       const consumptionTimestamps = response.production.timestamps || {};
       const productionTimestamps = response.production.predictions || {};

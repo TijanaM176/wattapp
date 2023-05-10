@@ -49,7 +49,7 @@ export class RealizationPredictionAllProsumersComponent implements OnInit {
 
   HistoryMonth() {
     this.show = true;
-    this.spinner.show();
+    this.spinner.show('spiner1');
     this.servicetime.HistoryAllProsumers1Month().subscribe((response: any) => {
       const seriesData: any = [
         { name: 'Consumption', series: [] },
@@ -103,14 +103,14 @@ export class RealizationPredictionAllProsumersComponent implements OnInit {
         seriesItem.series.pop();
       });
       this.data = seriesData;
-      this.spinner.hide();
+      this.spinner.hide('spiner1');
       this.show = false;
     });
   }
 
   HistoryYear() {
     this.show = true;
-    this.spinner.show();
+    this.spinner.show('spiner1');
     this.servicetime.HistoryAllProsumers1Year().subscribe((response: any) => {
       const seriesData: any = [
         { name: 'Consumption', series: [] },
@@ -161,14 +161,14 @@ export class RealizationPredictionAllProsumersComponent implements OnInit {
         });
       });
       this.data = seriesData;
-      this.spinner.hide();
+      this.spinner.hide('spiner1');
       this.show = false;
     });
   }
 
   HistoryWeek() {
     this.show = true;
-    this.spinner.show();
+    this.spinner.show('spiner1');
     this.servicetime.HistoryAllProsumers7Days().subscribe((response: any) => {
       console.log(response);
       const seriesData: any[] = [
@@ -214,14 +214,14 @@ export class RealizationPredictionAllProsumersComponent implements OnInit {
       });
 
       this.data = seriesData;
-      this.spinner.hide();
+      this.spinner.hide('spiner1');
       this.show = false;
     });
   }
 
   HistoryWeekInit() {
-    this.show = false;
-
+    
+    this.spinner.show('mainSpiner');
     this.servicetime.HistoryAllProsumers7Days().subscribe((response: any) => {
       const seriesData: any[] = [
         { name: 'Consumption', series: [] },
@@ -264,6 +264,7 @@ export class RealizationPredictionAllProsumersComponent implements OnInit {
       });
 
       this.data = seriesData;
+      this.spinner.hide('mainSpiner');
       console.log(this.data);
     });
   }

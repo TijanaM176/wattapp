@@ -54,13 +54,13 @@ export class HistoryAllProsumersComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.HistoryWeek('bttn1');
+    this.HistoryWeekInit('bttn1');
     document.getElementById('modalFadeHistoryAllProsumers')!.style.maxHeight =
       this.widthService.height * 0.7 + 'px';
   }
 
   HistoryWeek(id: string) {
-    this.spiner.show();
+    this.spiner.show('spiner2');
     this.servicetime.HistoryAllProsumers7Days().subscribe((response: any) => {
       const consumptionTimestamps = response.consumption.timestamps || {};
       const productionTimestamps = response.production.timestamps || {};
@@ -97,7 +97,7 @@ export class HistoryAllProsumersComponent implements OnInit {
       console.log(this.data);
 
       if (this.data.length == 0) {
-        this.spiner.hide();
+        this.spiner.hide('spiner2');
         return;
       }
 
@@ -138,12 +138,94 @@ export class HistoryAllProsumersComponent implements OnInit {
         },
       });
 
-      this.spiner.hide();
+      this.spiner.hide('spiner2');
+    });
+  }
+  HistoryWeekInit(id: string) {
+ 
+    this.servicetime.HistoryAllProsumers7Days().subscribe((response: any) => {
+      const consumptionTimestamps = response.consumption.timestamps || {};
+      const productionTimestamps = response.production.timestamps || {};
+
+      const consumptionData = Object.keys(consumptionTimestamps).map(
+        (name: any) => {
+          const date = new Date(name);
+          const dayNumber = date.getDate();
+          const monthName = date.toLocaleString('default', { month: 'long' });
+          return {
+            x: `${monthName} ${dayNumber}`,
+            y: consumptionTimestamps[name] || 0.0,
+          };
+        }
+      );
+
+      const productionData = Object.keys(productionTimestamps).map(
+        (name: any) => {
+          const date = new Date(name);
+          const dayNumber = date.getDate();
+          const monthName = date.toLocaleString('default', { month: 'long' });
+          return {
+            x: `${monthName} ${dayNumber}`,
+            y: productionTimestamps[name] || 0.0,
+          };
+        }
+      );
+      productionData[0]
+        ? (this.data = [
+            { type: 'consumption', values: consumptionData },
+            { type: 'production', values: productionData },
+          ])
+        : (this.data = []);
+      console.log(this.data);
+
+      if (this.data.length == 0) {
+        
+        return;
+      }
+
+      const chartData = {
+        datasets: [
+          {
+            label: 'Energy Consumption',
+            data: consumptionData,
+            backgroundColor: 'rgba(193, 75, 72, 1)',
+            borderColor: 'rgba(193, 75, 72, 0.5)',
+          },
+          {
+            label: 'Energy Production',
+            data: productionData,
+            backgroundColor: 'rgba(128, 188, 0, 1)',
+            borderColor: 'rgba(128, 188, 0, 0.5)',
+          },
+        ],
+      };
+
+      const chartElement: any = document.getElementById(
+        'chartCanvasHistoryAll'
+      ) as HTMLElement;
+      if (this.chart) {
+        this.chart.destroy();
+      }
+      const chart2d = chartElement.getContext('2d');
+      this.chart = new Chart(chart2d, {
+        type: 'bar',
+        data: chartData,
+        options: {
+          scales: {
+            y: {
+              beginAtZero: false,
+            },
+          },
+          maintainAspectRatio: false,
+        },
+      });
+
+      
     });
   }
 
   HistoryMonth(id: string) {
-    this.spiner.show();
+    this.spiner.show('spiner2');
     this.servicetime.HistoryAllProsumers1Month().subscribe((response: any) => {
       const consumptionTimestamps = response.consumption.timestamps || {};
       const productionTimestamps = response.production.timestamps || {};
@@ -179,7 +261,7 @@ export class HistoryAllProsumersComponent implements OnInit {
         : (this.data = []);
 
       if (this.data.length == 0) {
-        this.spiner.hide();
+        this.spiner.hide('spiner2');
         return;
       }
 
@@ -220,12 +302,12 @@ export class HistoryAllProsumersComponent implements OnInit {
         },
       });
 
-      this.spiner.hide();
+      this.spiner.hide('spiner2');
     });
   }
 
   HistoryYear(id: string) {
-    this.spiner.show();
+    this.spiner.show('spiner2');
     this.servicetime.HistoryAllProsumers1Year().subscribe((response: any) => {
       const consumptionTimestamps = response.consumption.timestamps || {};
       const productionTimestamps = response.production.timestamps || {};
@@ -277,7 +359,7 @@ export class HistoryAllProsumersComponent implements OnInit {
 
       if (this.data.length == 0) {
         this.activateButton(id);
-        this.spiner.hide();
+        this.spiner.hide('spiner1');
         return;
       }
 
@@ -303,7 +385,7 @@ export class HistoryAllProsumersComponent implements OnInit {
       });
 
       this.activateButton(id);
-      this.spiner.hide();
+      this.spiner.hide('spiner2');
     });
   }
   activateButton(buttonNumber: string) {

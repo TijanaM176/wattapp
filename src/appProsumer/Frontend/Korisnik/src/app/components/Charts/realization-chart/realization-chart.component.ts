@@ -92,39 +92,10 @@ export class RealizationChartComponent implements OnInit, AfterViewInit {
     });
   }
 
-  // HistoryWeekInit(data: any) {
-  //   if (data.consumption) {
-  //     const myList = Object.keys(data.consumption.timestamps).map((name) => {
-  //       let consumptionValue = data.consumption.timestamps[name];
-  //       let predictionValue = data.consumption.predictions[name];
-  //       const cons: string = 'consumption';
-  //       const pred: string = 'prediction';
-  //       if (predictionValue == undefined) {
-  //         predictionValue = 0.0;
-  //       }
-  //       if (consumptionValue == undefined) {
-  //         consumptionValue = 0.0;
-  //       }
-  //       const series = [
-  //         { name: cons, value: consumptionValue },
-  //         { name: pred, value: predictionValue },
-  //       ];
-  //       return { name, series };
-  //     });
-  //     this.data = myList.map((item) => {
-  //       const date = new Date(item.name);
-  //       const dayName = date.toLocaleDateString('en-US', { weekday: 'long' });
-  //       return { name: dayName, series: item.series };
-  //     });
-  //   } else {
-  //     this.data = [];
-  //   }
-  // }
-
   HistoryWeek(id: string) {
     this.show = true;
     this.activateButton(id);
-    this.spiner.show();
+    this.spiner.show('spiner1');
     this.deviceService.history7Days().subscribe((response: any) => {
       const consumptionTimestamps = response.consumption.timestamps || {};
       const productionTimestamps = response.consumption.predictions || {};
@@ -196,7 +167,8 @@ export class RealizationChartComponent implements OnInit, AfterViewInit {
         },
       });
 
-      this.spiner.hide();
+      this.activateButton(id);
+      this.spiner.hide('spiner1');
       this.show = false;
     });
   }
@@ -204,7 +176,7 @@ export class RealizationChartComponent implements OnInit, AfterViewInit {
   HistoryMonth(id: string) {
     this.show = true;
     this.activateButton(id);
-    this.spiner.show();
+    this.spiner.show('spiner1');
     this.deviceService.history1Month().subscribe((response: any) => {
       const consumptionTimestamps = response.consumption.timestamps || {};
       const productionTimestamps = response.consumption.predictions || {};
@@ -276,7 +248,8 @@ export class RealizationChartComponent implements OnInit, AfterViewInit {
         },
       });
 
-      this.spiner.hide();
+      this.activateButton(id);
+      this.spiner.hide('spiner1');
       this.show = false;
     });
   }
@@ -284,7 +257,7 @@ export class RealizationChartComponent implements OnInit, AfterViewInit {
   HistoryYear(id: string) {
     this.show = true;
     this.activateButton(id);
-    this.spiner.show();
+    this.spiner.show('spiner1');
     this.deviceService.history1Year().subscribe((response: any) => {
       const consumptionTimestamps = response.consumption.timestamps || {};
       const productionTimestamps = response.consumption.predictions || {};
@@ -355,7 +328,8 @@ export class RealizationChartComponent implements OnInit, AfterViewInit {
         },
       });
 
-      this.spiner.hide();
+      this.activateButton(id);
+      this.spiner.hide('spiner1');
       this.show = false;
     });
   }

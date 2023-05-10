@@ -26,7 +26,7 @@ export class PredictionChartComponent implements OnInit, AfterViewInit {
   constructor(
     private deviceService: DevicesService,
     private widthService: DeviceWidthService,
-    private spiner: NgxSpinnerService
+    private spiner1: NgxSpinnerService
   ) {}
 
   ngAfterViewInit(): void {
@@ -100,7 +100,7 @@ export class PredictionChartComponent implements OnInit, AfterViewInit {
   PredictionWeek(id: string) {
     this.show = true;
     this.activateButton(id);
-    this.spiner.show();
+    this.spiner1.show('spiner1');
     this.deviceService.prediction1Week().subscribe((response: any) => {
       const consumptionTimestamps = response.consumption || {};
       const productionTimestamps = response.production || {};
@@ -136,7 +136,7 @@ export class PredictionChartComponent implements OnInit, AfterViewInit {
         : (this.data = []);
 
       if (this.data.length == 0) {
-        this.spiner.hide();
+        this.spiner1.hide('spiner1');
         return;
       }
 
@@ -182,7 +182,8 @@ export class PredictionChartComponent implements OnInit, AfterViewInit {
         },
       });
 
-      this.spiner.hide();
+      this.activateButton(id);
+      this.spiner1.hide('spiner1');
       this.show = false;
     });
   }
@@ -190,7 +191,7 @@ export class PredictionChartComponent implements OnInit, AfterViewInit {
   Prediction3Days(id: string) {
     this.show = true;
     this.activateButton(id);
-    this.spiner.show();
+    this.spiner1.show('spiner1');
     this.deviceService.prediction3Days().subscribe((response: any) => {
       const consumptionTimestamps = response.consumption || {};
       const productionTimestamps = response.production || {};
@@ -226,7 +227,7 @@ export class PredictionChartComponent implements OnInit, AfterViewInit {
         : (this.data = []);
 
       if (this.data.length == 0) {
-        this.spiner.hide();
+        this.spiner1.hide('spiner1');
         return;
       }
 
@@ -268,14 +269,15 @@ export class PredictionChartComponent implements OnInit, AfterViewInit {
         },
       });
 
-      this.spiner.hide();
+      this.activateButton(id);
+      this.spiner1.hide('spiner1');
       this.show = false;
     });
   }
   Prediction1Day(id: string) {
     this.show = true;
     this.activateButton(id);
-    this.spiner.show();
+    this.spiner1.show('spiner1');
     this.deviceService.prediction1Day().subscribe((response: any) => {
       const consumptionTimestamps = response.consumption || {};
       const productionTimestamps = response.production || {};
@@ -311,7 +313,7 @@ export class PredictionChartComponent implements OnInit, AfterViewInit {
         : (this.data = []);
 
       if (this.data.length == 0) {
-        this.spiner.hide();
+        this.spiner1.hide('spiner1');
         return;
       }
 
@@ -353,7 +355,8 @@ export class PredictionChartComponent implements OnInit, AfterViewInit {
         },
       });
 
-      this.spiner.hide();
+      this.activateButton(id);
+      this.spiner1.hide('spiner1');
       this.show = false;
     });
   }

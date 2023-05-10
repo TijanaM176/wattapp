@@ -1,7 +1,9 @@
 // import { NgToastService } from 'ng-angular-popup';
 import { CookieService } from 'ngx-cookie-service';
 import { Router, NavigationEnd } from '@angular/router';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { EmployeesServiceService } from 'src/app/services/employees-service.service';
+import { WorkerProfileComponent } from '../worker-profile/worker-profile.component';
 
 @Component({
   selector: 'app-navBar',
@@ -12,7 +14,10 @@ export class NavBarComponent implements OnInit {
   value: string = '';
   url: string = '';
   letValue: string = '';
-  constructor(private router: Router, private cookie: CookieService) {}
+  currentImage:any;
+  @ViewChild('WorkerProfile', {static : true}) WorkerProfile! : WorkerProfileComponent;
+
+  constructor(private router: Router, private cookie: CookieService,private service:EmployeesServiceService) {}
 
   ngOnInit(): void {
     this.value = this.cookie.get('role');
@@ -25,8 +30,24 @@ export class NavBarComponent implements OnInit {
         this.ChangeActive();
       }
     });
+    this.service.detailsEmployee(this.cookie.get('id')).subscribe((res) => {
+      this.Image(res.image);
+    });
   }
-
+  private Image(image : any)
+  {
+    this.currentImage = 'assets/images/employee-default-pfp.png';
+    if(image != "" && image != null)
+    {
+      let byteArray = new Uint8Array(
+        atob(image)
+        .split('')
+        .map((char)=> char.charCodeAt(0))
+      );
+      let file = new Blob([byteArray], {type: 'image/png'});
+      this.currentImage = URL.createObjectURL(file);
+    }
+  }
   ChangeActive() {
     if (this.url === '/DsoApp/users') {
       document.getElementById('navbarDropdownUsers')?.classList.add('active');
