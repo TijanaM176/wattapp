@@ -7,6 +7,7 @@ import { ToastrService } from 'ngx-toastr';
 import { Device } from 'src/app/models/device';
 import Swal from 'sweetalert2';
 import { DeviceserviceService } from 'src/app/services/deviceservice.service';
+import { ScreenWidthService } from 'src/app/services/screen-width.service';
 
 @Component({
   selector: 'app-deviceinfo',
@@ -36,14 +37,25 @@ export class DeviceinfoComponent implements OnInit {
   markers: object = {};
   thresholds: object = {};
   width: number = 250;
+
   type: string = '';
+  cat : number = 0;
+
+   //battery
+   maxCapacity: number = 0;
+   currentCapacity: number = 0;
+   percentFull: number = 0;
+   avgFull : number = 0;
+   maxFull : number = 0;
+   state: number = 0; //iskljuceno
 
   constructor(
     private router: ActivatedRoute,
     private service: DeviceserviceService,
     private spiner: NgxSpinnerService,
     private router1: Router,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    public widthService : ScreenWidthService
   ) {}
 
   ngOnInit(): void {
@@ -96,6 +108,7 @@ export class DeviceinfoComponent implements OnInit {
     this.idDev = this.router.snapshot.params['idDev'];
     this.service.getInfoDevice(this.idDev).subscribe((res: any) => {
       this.setType(res.CategoryId);
+      this.cat = res.CategoryId;
       this.results = res;
       this.IpAddress = res.IpAddress;
       this.TypeName = res.TypeName;
@@ -122,7 +135,7 @@ export class DeviceinfoComponent implements OnInit {
           fontSize: '16px',
         },
       };
-      if (this.type == 'Production') {
+      if (this.cat == 2) {
         this.thresholds = {
           '0': { color: '#c14b48', bgOpacity: 0.2, fontSize: '16px' },
           [this.AvgUsage]: {
@@ -136,7 +149,7 @@ export class DeviceinfoComponent implements OnInit {
             fontSize: '16px',
           },
         };
-      } else
+      } else if(this.cat == 1)
         this.thresholds = {
           '0': { color: 'green', bgOpacity: 0.2, fontSize: '16px' },
           [this.AvgUsage]: {
@@ -149,7 +162,21 @@ export class DeviceinfoComponent implements OnInit {
             bgOpacity: 0.2,
             fontSize: '16px',
           },
-        };
+        }
+        else if(this.cat == 3)
+        {
+          document.getElementById('consumptionLimitBody')!.style.height = this.widthService.height * 0.42 +'px';
+          document.getElementById('consumptionLimitBody')!.style.width = this.width + 'px';
+          // document.getElementById('avgBatteryCard')!.style.height = this.widthService.height * 0.2 + 'px'
+          // document.getElementById('maxBatteryCard')!.style.height = this.widthService.height * 0.2 + 'px'
+          this.maxCapacity = res.Wattage;
+          this.currentCapacity = res.CurrentUsage;
+          this.percentFull = Number(
+            ((this.currentCapacity / this.maxCapacity) * 100).toFixed(0)
+          );
+          this.avgFull = Number((this.AvgUsage/this.maxCapacity*100).toFixed(0));
+          this.maxFull = Number((this.MaxUsage/this.maxCapacity*100).toFixed(0));
+        }
     });
   }
   formatValue(value: number): string {

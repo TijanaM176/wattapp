@@ -125,6 +125,7 @@ export class RealizationChartProductionComponent
 
   HistoryWeek(id: string) {
     this.show = true;
+    this.activateButton(id);
     this.spiner.show();
     this.deviceService.history7Days().subscribe((response: any) => {
       const consumptionTimestamps = response.production.timestamps || {};
@@ -197,7 +198,6 @@ export class RealizationChartProductionComponent
         },
       });
 
-      this.activateButton(id);
       this.spiner.hide();
       this.show = false;
     });
@@ -205,6 +205,7 @@ export class RealizationChartProductionComponent
 
   HistoryMonth(id: string) {
     this.show = true;
+    this.activateButton(id);
     this.spiner.show();
     this.deviceService.history1Month().subscribe((response: any) => {
       const consumptionTimestamps = response.production.timestamps || {};
@@ -277,7 +278,6 @@ export class RealizationChartProductionComponent
         },
       });
 
-      this.activateButton(id);
       this.spiner.hide();
       this.show = false;
     });
@@ -285,6 +285,7 @@ export class RealizationChartProductionComponent
 
   HistoryYear(id: string) {
     this.show = true;
+    this.activateButton(id);
     this.spiner.show();
     this.deviceService.history1Year().subscribe((response: any) => {
       const consumptionTimestamps = response.production.timestamps || {};
@@ -356,7 +357,6 @@ export class RealizationChartProductionComponent
         },
       });
 
-      this.activateButton(id);
       this.spiner.hide();
       this.show = false;
     });

@@ -53,42 +53,42 @@
               <hr class="mt-0 mb-4" />
               <div class="row pt-1 mx-0 my-0">
                 <div class="col-6 mb-1" style="padding-left: 3%">
-                  <h6 style="color: #08376b">{{ IpAddress }}</h6>
+                  <h5 style="color: #08376b">{{ IpAddress }}</h5>
                   <p class="text-muted">IP Address</p>
                 </div>
                 <div class="col-6 mb-1">
-                  <h6 style="color: #08376b">{{ TypeName }}</h6>
+                  <h5 style="color: #08376b">{{ TypeName }}</h5>
                   <p class="text-muted">Device Type</p>
                 </div>
               </div>
               <hr class="mt-0 mb-4" />
               <div class="row pt-1 mx-0 my-0">
                 <div class="col-6 mb-1" style="padding-left: 3%">
-                  <h6 style="color: #08376b">{{ ModelName }}</h6>
+                  <h5 style="color: #08376b">{{ ModelName }}</h5>
                   <p class="text-muted">Device Model</p>
                 </div>
                 <div class="col-6 mb-1">
-                  <h6 style="color: #08376b">{{ Name }}</h6>
+                  <h5 style="color: #08376b">{{ Name }}</h5>
                   <p class="text-muted">Device Name</p>
                 </div>
               </div>
               <hr class="mt-0 mb-3" />
 
               <div class="row pt-1 mx-0 my-0 mb-2">
-                <div class="col-6 mb-1">
-                  <h6 style="color: green" *ngIf="DsoView">
-                    <i class="fa fa-check-square"></i> DSO Can View
+                <div class="col-6 mb-1 ps-3">
+                  <h6 class="ps-3" style="color: green" *ngIf="DsoView">
+                    <i class="fa fa-check-square"></i> Can View
                   </h6>
                   <h6 style="color: #c14b48" *ngIf="!DsoView">
-                    <i class="fa fa-minus-square"></i> DSO Can't View
+                    <i class="fa fa-minus-square"></i> Can't View
                   </h6>
                 </div>
                 <div class="col-6 mb-1">
                   <h6 style="color: green" *ngIf="DsoControl">
-                    <i class="fa fa-check-square"></i> DSO Can Control
+                    <i class="fa fa-check-square"></i> Can Control
                   </h6>
                   <h6 style="color: #c14b48" *ngIf="!DsoControl">
-                    <i class="fa fa-minus-square"></i> DSO Can't Control
+                    <i class="fa fa-minus-square"></i> Can't Control
                   </h6>
                   <!-- <p class="text-muted">Average hourly consumption</p> -->
                 </div>
@@ -102,11 +102,11 @@
               <div
                 class="card-body p-3"
                 id="consumptionLimitCardBody"
-                style="display: flex; justify-content: center"
+                style="display: flex; justify-content: center;"
               >
                 <div class="row">
                   <div class="col-12" id="consumptionLimitBody">
-                    <div class="numbers">
+                    <div class="numbers" *ngIf="cat==1 || cat==2">
                       <ngx-gauge
                         [type]="'semi'"
                         [value]="currentUsage"
@@ -123,7 +123,52 @@
                       >
                       </ngx-gauge>
                     </div>
-                    <div class="legend w-100 text-center">
+                    <div
+                        class="w-100 mt-2 batteryCont"
+                        *ngIf="cat == 3"
+                        [ngStyle]="{
+                          height: widthService.deviceWidth > 576 ? '98%' : '70%'
+                        }"
+                      >
+                      <div class="battery-body p-1">
+                        <h1
+                          [ngStyle]="{
+                            left: widthService.deviceWidth > 576 ? '2%' : '3%'
+                          }"
+                          >
+                          <i
+                            class="fa fa-bolt"
+                            style="color: #08376b"
+                            *ngIf="state == 2 && percentFull<100"
+                          ></i>
+                          <i
+                            class="fa fa-exclamation-triangle"
+                            style="color: #08376b"
+                            *ngIf="state == 1 && percentFull <= 15"
+                            data-bs-toggle="modal"
+                            data-bs-target="#batteryPercentageWarning"
+                          >
+                          </i>
+                          {{ percentFull }}%
+                        </h1>
+                        <div
+                          class="battery-level"
+                          id="bateryPercentage"
+                          [ngStyle]="{
+                            width: percentFull + '%',
+                            'background-color':
+                              state == 0
+                                ? '#8c99a6'
+                                : state == 1
+                                ? '#f3734d'
+                                : '#54d454'
+                          }"
+                          >
+                        </div>
+                      </div>
+                      <div class="battery-top ms-0"></div>
+                    </div>
+                    <div class="legend w-100 text-center" *ngIf="cat==1">
                       <i class="fa fa-circle greenZone"
                         >&nbsp;0-{{ AvgUsage }} kWh</i
                       >&nbsp;&nbsp;&nbsp;
@@ -133,6 +178,31 @@
                       <i class="fa fa-circle redZone"
                         >&nbsp;{{ MaxUsage }}+ kWh</i
                       >
+                    </div>
+                    <div class="legend w-100 text-center" *ngIf="cat==2">
+                      <i class="fa fa-circle redZone"
+                        >&nbsp;0-{{ AvgUsage }} kWh</i
+                      >&nbsp;&nbsp;&nbsp;
+                      <i class="fa fa-circle blueZone"
+                        >&nbsp; {{ AvgUsage }}-{{ MaxUsage }} kWh</i
+                      >&nbsp;&nbsp;&nbsp;
+                      <i class="fa fa-circle greenZone"
+                        >&nbsp;{{ MaxUsage }}+ kWh</i
+                      >
+                    </div>
+                    <div class="legend w-100 text-center" *ngIf="cat==3" style="margin-top: 3%; padding-bottom: 2%;">
+                      <h5 style="color: #08376b">
+                        Current Status: {{ currentCapacity }} kWh
+                      </h5>
+                      <h6 style="color: #08376b; margin-top: 0">
+                        Max Capacity: {{ maxCapacity }} kWh
+                      </h6>
+                      <i class="fa fa-circle batteryOff">&nbsp;Turned Off</i
+                      >&nbsp;&nbsp;&nbsp;
+                      <i class="fa fa-circle batteryCharging">&nbsp;Charging</i
+                      >&nbsp;&nbsp;&nbsp;
+                      <i class="fa fa-circle batteryInUse">&nbsp;In Use</i
+                      >&nbsp;&nbsp;&nbsp;
                     </div>
                   </div>
                 </div>
@@ -148,8 +218,9 @@
                 style="display: flex; justify-content: center"
               >
                 <div class="row">
-                  <div class="col-12">
+                  <div class="col-12" id="avgBatteryCard">
                     <div class="numbers">
+                      <!--  *ngIf="cat==1 || cat==2" -->
                       <ngx-gauge
                         [type]="'semi'"
                         [value]="AvgUsage"
@@ -163,6 +234,34 @@
                       >
                       </ngx-gauge>
                     </div>
+                    <!-- <div
+                        class="w-100 mt-2 batteryCont"
+                        *ngIf="cat == 3"
+                        [ngStyle]="{
+                          height: widthService.deviceWidth > 576 ? '85%' : '65%'
+                        }"
+                      >
+                      <div class="battery-body p-1">
+                        <h4
+                        style="color: #08376b;"
+                          [ngStyle]="{
+                            left: widthService.deviceWidth > 576 ? '2%' : '5%'
+                          }"
+                        >{{avgFull}}%</h4>
+                        <div
+                          class="battery-level"
+                          id="bateryPercentage"
+                          [ngStyle]="{
+                            width: avgFull + '%',
+                            'background-color': '#4ca4c9'}"
+                        >
+                        </div>
+                      </div>
+                      <div class="battery-top ms-0"></div>
+                    </div>
+                    <div class="w-100 text-center" style="height: 25%; margin-top: 5%;" *ngIf="cat == 3">
+                      <h6 class="text-muted">Average hourly Storage: {{AvgUsage}} kWh</h6>
+                    </div> -->
                   </div>
                 </div>
               </div>
@@ -175,8 +274,9 @@
                 style="display: flex; justify-content: center"
               >
                 <div class="row">
-                  <div class="col-12">
+                  <div class="col-12" id="maxBatteryCard">
                     <div class="numbers">
+                      <!--  *ngIf="cat==1 || cat==2" -->
                       <ngx-gauge
                         [type]="'semi'"
                         [value]="MaxUsage"
@@ -190,6 +290,34 @@
                       >
                       </ngx-gauge>
                     </div>
+                    <!-- <div
+                        class="w-100 mt-2 batteryCont"
+                        *ngIf="cat == 3"
+                        [ngStyle]="{
+                          height: widthService.deviceWidth > 576 ? '85%' : '65%'
+                        }"
+                      >
+                      <div class="battery-body p-1">
+                        <h4
+                        style="color: #08376b;"
+                          [ngStyle]="{
+                            left: widthService.deviceWidth > 576 ? '2%' : '5%'
+                          }"
+                        >{{maxFull}}%</h4>
+                        <div
+                          class="battery-level"
+                          id="bateryPercentage"
+                          [ngStyle]="{
+                            width: maxFull + '%',
+                            'background-color': '#4ca4c9'}"
+                        >
+                        </div>
+                      </div>
+                      <div class="battery-top ms-0"></div>
+                    </div>
+                    <div class="w-100 text-center" style="height: 25%; margin-top: 5%;" *ngIf="cat == 3">
+                      <h6 class="text-muted">Maximum hourly Storage: {{MaxUsage}} kWh</h6>
+                    </div> -->
                   </div>
                 </div>
               </div>
@@ -203,6 +331,30 @@
         </div>
         <div class="card p-0 mb-4">
           <app-predictionDevice [type]="type"></app-predictionDevice>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal fade"
+    id="batteryPercentageWarning"
+    tabindex="-1"
+    aria-labelledby="batteryPercentageWarningLabel"
+    aria-hidden="true"
+    data-bs-keyboard="false"
+  >
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header text-white bg-danger">
+          <h3 class="modal-title" id="batteryPercentageWarningLabel">Battery Is Running Out!</h3>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          ></button>
+        </div>
+        <div class="modal-body text-center">
+          <h5 class="text-danger">Your battery has 15% or less power left</h5>
         </div>
       </div>
     </div>

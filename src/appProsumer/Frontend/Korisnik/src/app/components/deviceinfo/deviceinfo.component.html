@@ -62,16 +62,14 @@
                         <i
                           class="fa fa-bolt"
                           style="color: #08376b"
-                          *ngIf="state == 2"
+                          *ngIf="state == 2 && percentFull<100"
                         ></i>
                         <i
                           class="fa fa-exclamation-triangle"
                           style="color: #08376b"
                           *ngIf="state == 1 && percentFull <= 15"
-                          mdbPopover="Your battery has 15% or less power"
-                          mdbPopoverTitle="Battery Running Out!"
-                          placement="bottom"
-                          mdbWavesEffect
+                          data-bs-toggle="modal"
+                          data-bs-target="#batteryPercentageWarning"
                         >
                         </i>
                         {{ percentFull }}%
@@ -115,7 +113,7 @@
                 <!-- if device is storage -->
                 <div class="legend w-100 text-center" *ngIf="cat == 3">
                   <h5 style="color: #08376b">
-                    Current Capacity: {{ currentCapacity }} kWh
+                    Current Status: {{ currentCapacity }} kWh
                   </h5>
                   <h6 style="color: #08376b; margin-top: 0">
                     Max Capacity: {{ maxCapacity }} kWh
@@ -292,6 +290,30 @@
         <button type="button" class="btn btn-primary" (click)="confirm()">
           Confirm
         </button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal fade"
+  id="batteryPercentageWarning"
+  tabindex="-1"
+  aria-labelledby="batteryPercentageWarningLabel"
+  aria-hidden="true"
+  data-bs-keyboard="false"
+>
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header text-white bg-danger">
+        <h3 class="modal-title" id="batteryPercentageWarningLabel">Battery Is Running Out!</h3>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body text-center">
+        <h5 class="text-danger">Your battery has 15% or less power left</h5>
       </div>
     </div>
   </div>

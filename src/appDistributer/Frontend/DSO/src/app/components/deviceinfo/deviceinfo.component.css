@@ -20,3 +20,43 @@
   box-shadow: 0 0 1rem 0 rgba(0, 0, 0, 0.1);
   border-radius: 15px;
 }
+.batteryCont{
+  display: flex; 
+  align-items: center; 
+  justify-content: center;
+}
+.battery-body{
+  height: 100%; 
+  width: 95%; 
+  border: 10px solid #08376b; 
+  border-radius: 10px; 
+  position: relative;
+}
+.battery-body h1{
+  color: #08376b; 
+  position: absolute; top: 2%;
+}
+.battery-body h4{
+  color: #08376b; 
+  position: absolute; top: 2%;
+}
+.battery-level{
+  /* background-color: #00ff00;  */
+  border-radius: 5px; 
+  height: 100%;
+}
+.battery-top{
+  height: 45%; 
+  width: 5%; 
+  background-color: #08376b; 
+  border-radius: 1px;
+}
+.batteryOff{
+  color: #8c99a6;
+}
+.batteryCharging{
+  color: #54d454;
+}
+.batteryInUse{
+  color: #f3734d;
+}

@@ -99,6 +99,7 @@ export class PredictionChartComponent implements OnInit, AfterViewInit {
 
   PredictionWeek(id: string) {
     this.show = true;
+    this.activateButton(id);
     this.spiner.show();
     this.deviceService.prediction1Week().subscribe((response: any) => {
       const consumptionTimestamps = response.consumption || {};
@@ -181,7 +182,6 @@ export class PredictionChartComponent implements OnInit, AfterViewInit {
         },
       });
 
-      this.activateButton(id);
       this.spiner.hide();
       this.show = false;
     });
@@ -189,6 +189,7 @@ export class PredictionChartComponent implements OnInit, AfterViewInit {
 
   Prediction3Days(id: string) {
     this.show = true;
+    this.activateButton(id);
     this.spiner.show();
     this.deviceService.prediction3Days().subscribe((response: any) => {
       const consumptionTimestamps = response.consumption || {};
@@ -267,13 +268,13 @@ export class PredictionChartComponent implements OnInit, AfterViewInit {
         },
       });
 
-      this.activateButton(id);
       this.spiner.hide();
       this.show = false;
     });
   }
   Prediction1Day(id: string) {
     this.show = true;
+    this.activateButton(id);
     this.spiner.show();
     this.deviceService.prediction1Day().subscribe((response: any) => {
       const consumptionTimestamps = response.consumption || {};
@@ -352,7 +353,6 @@ export class PredictionChartComponent implements OnInit, AfterViewInit {
         },
       });
 
-      this.activateButton(id);
       this.spiner.hide();
       this.show = false;
     });
