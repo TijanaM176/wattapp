@@ -55,6 +55,11 @@ export class DevicesStatusComponent implements OnInit, AfterViewInit {
     return proc.toString();
   }
 
+  getBatteryPercentage(device : any)
+  {
+    return (device.CurrentUsage/device.Wattage)*100;
+  }
+
   setCurrentConsumptionAndProduction(cons : number, prod : number)
   {
     this.currentConsumption = cons;

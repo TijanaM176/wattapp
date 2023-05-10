@@ -108,8 +108,8 @@ export class HouseComponent implements OnInit, AfterViewInit {
               this.devices[this.index].CurrentUsage = response;
               this.devices[this.index].Activity = active;
               this.device.CurrentUsage = response;
-              this.offOn = this.device.CurrentUsage > 0 ? 'Off' : 'On';
-              this.lastState = this.device.CurrentUsage > 0 ? 'On' : 'Off';
+              this.offOn = this.device.Activity > 0 ? 'Off' : 'On';
+              this.lastState = this.device.Activity > 0 ? 'On' : 'Off';
               this.show = true;
               this.deviceOffOn.emit([
                 this.devices,
@@ -124,15 +124,13 @@ export class HouseComponent implements OnInit, AfterViewInit {
     }
     else
     {
-      if(this.device.Activity == 0) //ukljucivanje baterije
+      if(this.device.Activity == 0) //ukljucivanje bateriju
       {
         document.getElementById('closeModalBtn')!.click();
         document.getElementById('openModalBatteryBtn')!.click();
-        // alert('baterija ukljucivanje');
       }
-      else //iskljuci baterije
+      else //iskljuci bateriju
       {
-        // alert('baterija iskljucivanje');
         this.toggleStorage(0);
       }
     }
@@ -163,7 +161,18 @@ export class HouseComponent implements OnInit, AfterViewInit {
         .subscribe({
           next:(res)=>{
             this.showBattery = true;
-            console.log(res);
+            this.devices[this.index].CurrentUsage = res.Status;
+            this.devices[this.index].Activity = res.State;
+            this.devices[this.index].Wattage = res.Capacity;
+            this.device.CurrentUsage = res.Status;
+            this.device.Activity = res.State;
+            this.device.Wattage = res.Capacity;
+            this.deviceOffOn.emit([
+              this.devices,
+              this.device.Activity,
+              res.Capacity,
+              this.device.CategoryId,
+            ]);
           },
           error:(err)=>{
             console.log(err);

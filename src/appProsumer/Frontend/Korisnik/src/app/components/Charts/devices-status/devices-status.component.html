@@ -24,12 +24,24 @@
         <div class="container-fluid px-0 py-0 mx-0 my-0" style="display: flex; flex-direction: column; align-items: center; justify-content: center; overflow: hidden;">
             <div class="w-100" style="overflow-y: auto; overflow-x: hidden;">
                 <div *ngFor="let device of devices">
-                    <div *ngIf="device.CurrentUsage!==0">
-                        <h4 class="small font-weight-bold">{{device.Name}} <span
+                    <div *ngIf="device.Activity!==0">
+                        <!-- consumption and production -->
+                        <h4 class="small font-weight-bold" *ngIf="device.CategoryId!=3">{{device.Name}} <span
                             class="float-right">{{device.CurrentUsage.toFixed(2)}} kWh</span></h4>
+
+                        <!-- storage -->
+                        <h4 class="small font-weight-bold" *ngIf="device.CategoryId==3">{{device.Name}} <span
+                            class="float-right">{{device.CurrentUsage.toFixed(1)}}/{{device.Wattage.toFixed(1)}} kWh</span></h4>
+
                         <div class="progress mb-4">
-                            <div class="progress-bar" role="progressbar" 
+                            <!-- consumption and production -->
+                            <div class="progress-bar" role="progressbar" *ngIf="device.CategoryId!=3"
                             [ngStyle]="{'width':getProcentage(device, device.CategoryId)+'%','background-color': device.CategoryId=='1'? '#c14b48' : '#48bec1'}"
+                            aria-valuemin="0" aria-valuemax="100"></div>
+
+                            <!-- storage -->
+                            <div class="progress-bar" role="progressbar" *ngIf="device.CategoryId==3"
+                            [ngStyle]="{'width':getBatteryPercentage(device)+'%','background-color': '#08376b'}"
                             aria-valuemin="0" aria-valuemax="100"></div>
                         </div>
                     </div>
