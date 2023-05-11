@@ -50,16 +50,16 @@
         <tr>
           <th>Name</th>
           <th>Address</th>
-          <th>Consumption</th>
-          <th>Production</th>
+          <th>Consumption (kW)</th>
+          <th>Production (kW)</th>
         </tr>
       </thead>
       <tbody>
         <tr *ngFor="let item of producers">
           <td>{{ item.FirstName }} {{ item.LastName }}</td>
           <td>{{ item.Address }}</td>
-          <td>{{ item.Consumption.toFixed(2) }} kW</td>
-          <td>{{ item.Production.toFixed(2) }} kW</td>
+          <td class="text-center">{{ item.Consumption.toFixed(2) }}</td>
+          <td class="text-center">{{ item.Production.toFixed(2) }}</td>
         </tr>
       </tbody>
     </table>
@@ -115,16 +115,16 @@
         <tr>
           <th>Name</th>
           <th>Address</th>
-          <th>Consumption</th>
-          <th>Production</th>
+          <th>Consumption (kW)</th>
+          <th>Production (kW)</th>
         </tr>
       </thead>
       <tbody>
         <tr *ngFor="let item of consumers">
           <td>{{ item.FirstName }} {{ item.LastName }}</td>
           <td>{{ item.Address }}</td>
-          <td>{{ item.Consumption.toFixed(2) }} kW</td>
-          <td>{{ item.Production.toFixed(2) }} kW</td>
+          <td class="text-center">{{ item.Consumption.toFixed(2) }}</td>
+          <td class="text-center">{{ item.Production.toFixed(2) }}</td>
         </tr>
       </tbody>
     </table>

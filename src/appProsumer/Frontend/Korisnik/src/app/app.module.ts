@@ -27,7 +27,6 @@ import { EditDeviceFormComponent } from './forms/edit-device-form/edit-device-fo
 import { AddDeviceFormComponent } from './forms/add-device-form/add-device-form.component';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { RealizationChartComponent } from './components/Charts/realization-chart/realization-chart.component';
-import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { PredictionChartComponent } from './components/Charts/prediction-chart/prediction-chart.component';
 import { HouseComponent } from './components/Charts/house/house.component';
 import { DevicesStatusComponent } from './components/Charts/devices-status/devices-status.component';
@@ -87,7 +86,6 @@ import { ImageCropperModule } from 'ngx-image-cropper';
     MatSlideToggleModule,
     CommonModule,
     MatButtonToggleModule,
-    NgxChartsModule,
     NgxSpinnerModule,
     NgxGaugeModule,
     ToastrModule.forRoot(),

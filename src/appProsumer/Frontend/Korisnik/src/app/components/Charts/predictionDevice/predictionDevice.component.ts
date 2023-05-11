@@ -1,6 +1,5 @@
 import { Component, OnInit, AfterViewInit, Input } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Color, ScaleType } from '@swimlane/ngx-charts';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { DeviceWidthService } from 'src/app/services/device-width.service';
 import { DevicesService } from 'src/app/services/devices.service';
