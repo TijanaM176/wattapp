@@ -27,57 +27,60 @@ namespace API.Repositories.DeviceRepository
         private readonly DevicesContext _usageContext;
         private readonly RegContext _regContext;
 
-      
+     
         public DeviceRepository(DevicesContext usage, RegContext reg)
         {
             _usageContext = usage;
             _regContext = reg;
-        }
 
+           
+        }
+   
         public async Task<List<ProsumerLink>> GetLinksForProsumer(string id)
         {
             return await _regContext.ProsumerLinks.Where(x => x.ProsumerId == id).ToListAsync();
         }
-          
-        public async Task<List<List<Device>>> GetDevices(string id)
-        {
-            var linkInfo = await GetLinksForProsumer(id);
-            var links = linkInfo.Select(x => x.ModelId);
+   
+         public async Task<List<List<Device>>> GetDevices(string id)
+         {
+             var linkInfo = await GetLinksForProsumer(id);
+             var links = linkInfo.Select(x => x.ModelId);
 
-            var filter = Builders<DevicePower>.Filter.In(x => x.DeviceId, links);        
-            var usageData = await _usageContext.PowerUsage.Find(filter).ToListAsync();
-
-            var specs = await _regContext.Devices.ToListAsync();
-
-            // Join the data from both queries to create a list of Device objects
-            var devices = from usage in usageData
-                          join spec in specs on usage.DeviceId equals spec.Id
-                          join link in linkInfo on spec.Id equals link.ModelId
-                          select new { Usage = usage, Spec = spec, Link = link };
+             var filter = Builders<DevicePower>.Filter.In(x => x.DeviceId, links);        
+             var usageData = await _usageContext.PowerUsage.Find(filter).ToListAsync();
 
 
-            var devicesData = devices.Select(d => new Device
-            {
-                Id = d.Link.Id,
-                IpAddress = d.Link.IpAddress,
-                Name = d.Link.Name,
-                TypeId = d.Spec.TypeId,
-                CategoryId = d.Spec.CategoryId,
-                Manufacturer = d.Spec.Manufacturer,
-                Wattage = d.Spec.Wattage,
-                Activity = d.Link.Activity,
-                DsoView = d.Link.DsoView,
-                DsoControl = d.Link.DsoControl,
-                Timestamps = d.Usage.Timestamps.Where(t =>
-                       t.Date.Year == DateTime.Now.Year &&
-                       t.Date.Month == DateTime.Now.Month &&
-                       t.Date.Day == DateTime.Now.Day &&
-                       t.Date.Hour == DateTime.Now.Hour
-                   ).ToList()
-            });
-            return new List<List<Device>> { devicesData.Where(x => x.CategoryId == 1).ToList(), devicesData.Where(x => x.CategoryId == 2).ToList(), devicesData.Where(x => x.CategoryId == 3).ToList() };
-            
-        }
+             var specs = await _regContext.Devices.ToListAsync();
+
+             // Join the data from both queries to create a list of Device objects
+             var devices = from usage in usageData
+                           join spec in specs on usage.DeviceId equals spec.Id
+                           join link in linkInfo on spec.Id equals link.ModelId
+                           select new { Usage = usage, Spec = spec, Link = link };
+
+
+             var devicesData = devices.Select(d => new Device
+             {
+                 Id = d.Link.Id,
+                 IpAddress = d.Link.IpAddress,
+                 Name = d.Link.Name,
+                 TypeId = d.Spec.TypeId,
+                 CategoryId = d.Spec.CategoryId,
+                 Manufacturer = d.Spec.Manufacturer,
+                 Wattage = d.Spec.Wattage,
+                 Activity = d.Link.Activity,
+                 DsoView = d.Link.DsoView,
+                 DsoControl = d.Link.DsoControl,
+                 Timestamps = d.Usage.Timestamps.Where(t =>
+                        t.Date.Year == DateTime.Now.Year &&
+                        t.Date.Month == DateTime.Now.Month &&
+                        t.Date.Day == DateTime.Now.Day &&
+                        t.Date.Hour == DateTime.Now.Hour
+                    ).ToList()
+             });
+             return new List<List<Device>> { devicesData.Where(x => x.CategoryId == 1).ToList(), devicesData.Where(x => x.CategoryId == 2).ToList(), devicesData.Where(x => x.CategoryId == 3).ToList() };
+
+         }
 
         public async Task<List<Device>> GetDevicesByCategoryForAPeriod(string id, string catStr, int period)
         {
@@ -85,34 +88,26 @@ namespace API.Repositories.DeviceRepository
             var links = linkInfo.Select(x => x.ModelId);
             var cat = await GetDeviceCategory(catStr);
 
-        
-            var usageFilter = Builders<DevicePower>.Filter.In(x => x.DeviceId, links);
-            var usages = await _usageContext.PowerUsage.Find(usageFilter).ToListAsync();
-            var specs = await _regContext.Devices.Where(x => x.CategoryId == cat && links.Contains(x.Id)).ToListAsync();
-            var devices = from usage in usages
-                          join spec in specs on usage.DeviceId equals spec.Id
-                          join link in linkInfo on spec.Id equals link.ModelId
-                          select new { Usage = usage, Spec = spec, Link = link };
+            var usages = _usageContext.PowerUsage
+             .AsQueryable()
+             .Where(d => links.Contains(d.DeviceId))
+             .SelectMany(d => d.Timestamps, (d, t) => new { d.DeviceId, Timestamp = t })
+             .Where(t => t.Timestamp.Date >= DateTime.Now.AddDays(period) && t.Timestamp.Date <= DateTime.Now ||
+                         t.Timestamp.Date <= DateTime.Now.AddDays(period) && t.Timestamp.Date >= DateTime.Now)
+             .GroupBy(t => t.DeviceId)
+             .Select(g => new { DeviceId = g.Key, Timestamps = g.Select(x => x.Timestamp).ToList() });
 
-            var devicesData = devices.Select(d => new Device
+
+            var devicesData = usages.Select(d => new Device
             {
-                Id = d.Link.Id,
-                IpAddress = d.Link.IpAddress,
-                Name = d.Link.Name,
-                TypeId = d.Spec.TypeId,
-                CategoryId = d.Spec.CategoryId,
-                Manufacturer = d.Spec.Manufacturer,
-                Wattage = d.Spec.Wattage,
-                Activity = d.Link.Activity,
-                DsoView = d.Link.DsoView,
-                DsoControl = d.Link.DsoControl,
-                Timestamps = d.Usage.Timestamps.Where(t =>
-                   t.Date >= DateTime.Now.AddDays(period) && t.Date <= DateTime.Now || t.Date <= DateTime.Now.AddDays(period) && t.Date >= DateTime.Now
-                ).ToList()
+                Id = d.DeviceId,
+                Timestamps = d.Timestamps
             });
             return devicesData.ToList();
         }
-       
+
+
+
         public async Task<long> GetDeviceCategory(string name)
         {
             return (await _regContext.DeviceCategories.FirstOrDefaultAsync(x => x.Name == name)).Id;
@@ -197,7 +192,8 @@ namespace API.Repositories.DeviceRepository
 
             return device;
         }
-       
+        
+
         public async Task<EnumCategory.DeviceCatergory> getDeviceCategoryEnum(string id)
         {
             var idDevice = (await _regContext.ProsumerLinks.FirstOrDefaultAsync(x => x.Id == id)).ModelId;

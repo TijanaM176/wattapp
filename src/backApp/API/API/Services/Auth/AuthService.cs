@@ -27,22 +27,16 @@ namespace API.Services.Auth
 
         public async Task<string> CheckUserName(UserDto request)
         {
-            List<Prosumer> listaProsumer = await _repository.GetAllProsumers();
-            List<string> listaUsername = new List<string>();
-            string username = "";
-            bool check = true;
-            int count = 1;
-            foreach (var item in listaProsumer)
-            {
-                listaUsername.Add(item.Username);
-            }
+            List<string> listaUsername = (await _repository.GetAllProsumers()).Select(p => p.Username).ToList();
 
-            while (check)
+            string username;
+            for (int i = 1; ; i++)
             {
-                if (listaUsername.Contains(username = request.getUsername(count++)))
-                    check = true;
-                else
-                    check = false;
+                username = request.getUsername(i);
+                if (!listaUsername.Contains(username))
+                {
+                    break;
+                }
             }
 
             return username;
@@ -50,19 +44,9 @@ namespace API.Services.Auth
 
         public async Task<bool> checkEmail(UserDto request)
         {
-            List<Prosumer> listaProsumer = await _repository.GetAllProsumers();
-            List<string> listaEmail = new List<string>();
+            List<string> listaEmail = (await _repository.GetAllProsumers()).Select(p => p.Email).ToList();
 
-            foreach (var item in listaProsumer)
-            {
-                listaEmail.Add(item.Email);
-            }
-
-
-            if (listaEmail.Contains(request.Email))
-                return false;
-
-            return true;
+            return !listaEmail.Contains(request.Email);
         }
 
         public bool IsValidEmail(string email)

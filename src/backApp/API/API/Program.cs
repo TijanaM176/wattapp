@@ -18,6 +18,7 @@ using API.Repositories.UserRepository;
 using API.Models.Users;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.OpenApi.Models;
+using Microsoft.Extensions.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -28,7 +29,9 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+
 //add dbContext
+
 builder.Services.AddDbContext<RegContext>();
 builder.Services.Configure<DevicesSettings>(builder.Configuration.GetSection("devicesDatabase"));
 
@@ -38,6 +41,8 @@ builder.Services.AddSingleton(sp =>
     var options = sp.GetService<IOptions<DevicesSettings>>();
     return new DevicesContext(options);
 });
+
+
 
 builder.Services.AddScoped<IDsoRepository, DsoRepository>();
 builder.Services.AddScoped<IProsumerRepository, ProsumerRepository>();
