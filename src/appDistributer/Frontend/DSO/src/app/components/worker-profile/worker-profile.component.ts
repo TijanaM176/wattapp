@@ -51,7 +51,7 @@ export class WorkerProfileComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void {
     // this.sadrzaj.style.height = this.widthService.height * 0.7 + 'px';
-    this.side.style.height = this.widthService.height * 0.7 + 'px';
+    document.getElementById('side')!.style.height = this.widthService.height * 0.7 + 'px';
     document.getElementById('cropNewImageWorkerProfile')!.style.maxHeight = this.widthService.height * 0.95 + 'px';
     document.getElementById('showChangeImage')!.style.maxHeight = this.widthService.height * 0.7 + 'px';
   }
@@ -78,7 +78,7 @@ export class WorkerProfileComponent implements OnInit, AfterViewInit {
 
   private getInfo() {
     let id = this.cookie.get('id');
-
+    document.getElementById('side')!.style.height = this.widthService.height * 0.7 + 'px';
     this.workerService.detailsEmployee(id).subscribe({
       next: (res) => {
         this.worker = res;
@@ -99,7 +99,7 @@ export class WorkerProfileComponent implements OnInit, AfterViewInit {
 
   private Image(image : any)
   {
-    this.currentImage = 'assets/images/employee-default-pfp.png';
+    this.currentImage = 'assets/images/defaultWorker.png';
     if(image != "" && image != null)
     {
       let byteArray = new Uint8Array(
@@ -175,7 +175,7 @@ export class WorkerProfileComponent implements OnInit, AfterViewInit {
     this.employeeService.deleteProfilePhoto(this.cookie.get('id'))
     .subscribe({
       next:(res)=>{
-        this.currentImage = 'assets/images/employee-default-pfp.png';
+        this.currentImage = 'assets/images/defaultWorker.png';
         document.getElementById('closeOprionsForPhoto')!.click();
       },
       error:(err)=>{

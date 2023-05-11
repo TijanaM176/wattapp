@@ -60,3 +60,18 @@
 .batteryInUse{
   color: #f3734d;
 }
+.inUse{
+  font-size: 150px;
+  color: green;
+}
+.charge{
+  font-size: 150px;
+  color: #08376b;
+}
+.btn-close{
+  background-color: white;
+  border: 2px solid #08376b;
+}
+.manageDeviceWork{
+  cursor: pointer;
+}

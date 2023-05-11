@@ -23,6 +23,7 @@ export class User1Component implements OnInit, AfterViewInit {
   currentConsumption: number = 0;
   currentProduction: number = 0;
   deviceCount: number = 0;
+  realDeviceCount : number = 0;
   loader: boolean = true;
   resizeObservable$!: Observable<Event>;
   resizeSubscription$!: Subscription;
@@ -67,8 +68,8 @@ export class User1Component implements OnInit, AfterViewInit {
   thresholds: object = {};
   canDeleteEdit : boolean = false;
 
-  onCurrentValuesReceived(values: [number, number, number]) {
-    const [consumption, production, deviceCount] = values;
+  onCurrentValuesReceived(values: [number, number, number, number]) {
+    const [consumption, production, deviceCount, realDeviceCount] = values;
     // Do something with the received values
     console.log(
       `Consumption: ${consumption}, Production: ${production}, Device count: ${deviceCount}`
@@ -76,6 +77,7 @@ export class User1Component implements OnInit, AfterViewInit {
     this.deviceCount = deviceCount;
     this.currentConsumption = consumption;
     this.currentProduction = production;
+    this.realDeviceCount = realDeviceCount;
   }
 
   ngOnInit(): void {
@@ -97,6 +99,7 @@ export class User1Component implements OnInit, AfterViewInit {
     this.user
       .detailsEmployee(this.router.snapshot.params['id'])
       .subscribe((data: any) => {
+        // console.log(data);
         this.firstName = data.firstName;
         this.lastName = data.lastName;
         this.username = data.username;

@@ -74,6 +74,7 @@ export class PocetnaComponent implements OnInit, AfterViewInit {
     this.service
       .getDevicesByProsumerId(this.cookie.get('id'), this.cookie.get('role'))
       .subscribe((response) => {
+        // console.log(response);
         this.devices = [
           ...response.consumers,
           ...response.producers,
@@ -97,6 +98,7 @@ export class PocetnaComponent implements OnInit, AfterViewInit {
         this.show1 = false;
 
         this.show2 = false;
+        // console.log(this.devices);
       });
   }
 
@@ -127,18 +129,25 @@ export class PocetnaComponent implements OnInit, AfterViewInit {
     this.devices = data[0];
     let last = data[2];
     let cat = data[3];
-    if (offOn != 0) {
-      //one of the devices has been turned on
-      this.numOfActiveDevices += 1;
-      cat == '1'
-        ? (this.currentConsumption += offOn)
-        : (this.currentProduction += offOn);
-    } else if (offOn == 0) {
-      //one of the devices has been turned off
-      this.numOfActiveDevices -= 1;
-      cat == '1'
-        ? (this.currentConsumption -= last)
-        : (this.currentProduction -= last);
+    if(cat !='3')
+    {
+      if (offOn != 0) {
+        //one of the devices has been turned on
+        this.numOfActiveDevices += 1;
+        cat == '1'
+          ? (this.currentConsumption += offOn)
+          : (this.currentProduction += offOn);
+      } else if (offOn == 0) {
+        //one of the devices has been turned off
+        this.numOfActiveDevices -= 1;
+        cat == '1'
+          ? (this.currentConsumption -= last)
+          : (this.currentProduction -= last);
+      }
+    }
+    else
+    {
+      offOn!=0 ? this.numOfActiveDevices+=1 : this.numOfActiveDevices-=1;
     }
     this.devicesStatus.setDevices(this.devices);
     this.devicesStatus.setCurrentConsumptionAndProduction(

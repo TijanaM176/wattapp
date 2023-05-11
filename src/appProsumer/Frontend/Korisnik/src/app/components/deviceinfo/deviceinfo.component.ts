@@ -31,6 +31,7 @@ export class DeviceinfoComponent {
   disabled = false;
   checked = false;
   currentUsage!: number;
+  activity! : number;
   idDev!: string;
   DsoView!: boolean;
   DsoControl!: boolean;
@@ -54,6 +55,10 @@ export class DeviceinfoComponent {
   currentCapacity: number = 0;
   percentFull: number = 0;
   state: number = 0; //iskljuceno
+
+  batteryNofit : string = '';
+  showBattery : boolean = false;
+  showBatteryError : boolean = false;
 
   @ViewChild('editData', { static: false }) editData!: EditDeviceFormComponent;
   constructor(
@@ -95,6 +100,7 @@ export class DeviceinfoComponent {
         this.MaxUsage = res.MaxUsage;
         this.AvgUsage = res.AvgUsage;
         this.currentUsage = res.CurrentUsage.toFixed(2);
+        this.activity = res.Activity;
         if (res.CategoryId == '1') {
           this.gaugeLabel = 'Consumption (kW)';
           this.cat = 1;
@@ -131,6 +137,8 @@ export class DeviceinfoComponent {
           };
         } else {
           this.cat = 3;
+          this.state = res.Activity;
+          this.showBattery = false;
           this.catName = 'Storage';
           let h = window.innerHeight;
           document.getElementById('consumptionLimitBody')!.style.height =
@@ -230,10 +238,55 @@ export class DeviceinfoComponent {
   }
 
   toggle() {
-    let offOn = this.currentUsage > 0 ? 'Off' : 'On';
+    if(this.cat != 3)
+    {
+      let offOn = this.activity > 0 ? 'Off' : 'On';
+      Swal.fire({
+        title: 'Are you sure?',
+        text: 'Confirm you want to turn this device ' + offOn + '.',
+        icon: 'question',
+        allowOutsideClick: false,
+        showCancelButton: true,
+        confirmButtonColor: '#466471',
+        cancelButtonColor: '#8d021f',
+        confirmButtonText: 'Yes',
+        cancelButtonText: 'Cancel',
+      }).then((result) => {
+        if (result.value) {
+          this.service
+            .toggleDevice(this.router1.snapshot.params['idDev'], true)
+            .subscribe((response) => {
+              this.activity = response==0? 0 : 1;
+              this.currentUsage = response;
+            });
+        } else if (result.dismiss === Swal.DismissReason.cancel) {
+        }
+      });
+    }
+    else
+    {
+      if(this.activity == 0) //ukljucivanje bateriju
+      {
+        // document.getElementById('closeModalBtnDeviceInfo')!.click();
+        document.getElementById('openModalBatteryBtnDeviceInfo')!.click();
+      }
+      else //iskljuci bateriju
+      {
+        this.toggleStorage(0);
+      }
+    }
+  }
+
+  toggleStorage(mode : number)
+  {
+    let state = mode==1? 'Confirm you want to use '+this.Name+'.' : 
+                mode==2? 'Confirm you want to charge '+this.Name+'.' : 'Confirm you want to turn Off '+this.Name+'.';
+
+    this.batteryNofit = mode==1 ? 'Battery is now in use!' : mode == 2 ? 'Battery is now charging!' : 'Battery turned Off!';
+    // alert(state);
     Swal.fire({
       title: 'Are you sure?',
-      text: 'Confirm you want to turn this device ' + offOn + '.',
+      text: state,
       icon: 'question',
       allowOutsideClick: false,
       showCancelButton: true,
@@ -243,13 +296,30 @@ export class DeviceinfoComponent {
       cancelButtonText: 'Cancel',
     }).then((result) => {
       if (result.value) {
-        this.service
-          .toggleDevice(this.router1.snapshot.params['idDev'], true)
-          .subscribe((response) => {
-            this.currentUsage = response;
-          });
-      } else if (result.dismiss === Swal.DismissReason.cancel) {
+        this.showBattery = false;
+        this.service.toggleStorageDevice(this.idDev, true, mode)
+        .subscribe({
+          next:(res)=>{
+            this.showBattery = true;
+            this.activity = res.State;
+            this.state = res.State;
+            this.currentCapacity = res.Status;
+            document.getElementById('closeModalBatteryBtnDeviceInfo')!.click();
+          },
+          error:(err)=>{
+            console.log(err);
+            this.showBatteryError = true;
+            document.getElementById('closeModalBatteryBtnDeviceInfo')!.click();
+            Swal.fire({
+              title: 'Error',
+              confirmButtonColor: '#466471',
+              text: 'Error! Try again later!',
+              icon: 'error',
+            });
+          }
+        })
       }
+      else if (result.dismiss === Swal.DismissReason.cancel) {}
     });
   }
 
@@ -272,5 +342,10 @@ export class DeviceinfoComponent {
         button.classList.remove('active');
       }
     });
+  }
+  reset()
+  {
+    this.showBattery = false;
+    this.showBatteryError = false;
   }
 }

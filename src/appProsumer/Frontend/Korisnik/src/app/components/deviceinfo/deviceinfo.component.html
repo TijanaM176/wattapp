@@ -133,10 +133,10 @@
                   class="px-2"
                 >
                   <h6 class="section">Device Information</h6>
-                  <div *ngIf="currentUsage == 0" (click)="toggle()">
+                  <div *ngIf="activity == 0" (click)="toggle()">
                     <i class="fa fa-power-off fa-lg off"></i>&nbsp;Turn On
                   </div>
-                  <div *ngIf="currentUsage != 0" (click)="toggle()">
+                  <div *ngIf="activity != 0" (click)="toggle()">
                     <i class="fa fa-power-off fa-lg on"></i>&nbsp;Turn Off
                   </div>
                 </div>
@@ -314,6 +314,65 @@
       </div>
       <div class="modal-body text-center">
         <h5 class="text-danger">Your battery has 15% or less power left</h5>
+      </div>
+    </div>
+  </div>
+</div>
+<div
+  class="modal fade"
+  id="turnBatteryOnDeviceInfo"
+  data-bs-backdrop="static"
+  data-bs-keyboard="false"
+  tabindex="-1"
+  aria-labelledby="turnBatteryOnDeviceInfoLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header text-white" style="background-color: #466471">
+        <h4 class="modal-title ps-2" id="turnBatteryOnDeviceInfoLabel">
+          <!-- Turn this device {{ offOn }}? -->
+          Turn On {{Name}}
+        </h4>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+          style="background-color: white"
+        ></button>
+      </div>
+      <div class="modal-body row d-flex justify-content-center align-items-center">
+        <div
+          class="col-6 col-lg-6"
+          style="display: flex; justify-content: center; align-items: center"
+        >
+        <!-- use battery -->
+          <div
+            (click)="toggleStorage(1)"
+            class="text-center p-3"
+          >
+            <i class="fa fa-power-off inUse"></i>
+            <p style="color: green">Use The Battery</p>
+          </div>
+        </div>
+        <div
+          class="col-6 col-lg-6 text-center text-lg-start"
+          style="display: flex; justify-content: center; align-items: center"
+        >
+          <button id="closeModalBatteryBtnDeviceInfo" [hidden]="true" data-bs-dismiss="modal" data-bs-target="#turnBatteryOnDeviceInfo">Close Modal</button>
+          <button id="openModalBatteryBtnDeviceInfo" [hidden]="true" data-bs-toggle="modal" data-bs-target="#turnBatteryOnDeviceInfo">Open Modal</button>
+          <!-- charge battery -->
+          <div class="text-center p-3" (click)="toggleStorage(2)">
+            <i class="fa fa-plug charge"></i>
+            <p style="color: #08376b;">Charge The Battery</p>
+          </div>
+        </div>
+        <!-- <div class="col-12 ps-2">
+          <small class="text-success" *ngIf="showBattery"
+            >{{batteryNofit}}</small
+          >
+        </div> -->
       </div>
     </div>
   </div>

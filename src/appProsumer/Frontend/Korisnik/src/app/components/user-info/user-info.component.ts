@@ -123,7 +123,7 @@ export class UserInfoComponent implements OnInit, AfterViewInit {
   }
   private Image(resImg : string)
   {
-    this.image = 'assets/images/prosumer-default-profileimage.png';
+    this.image = 'assets/images/defaultProfileImage.png';
     this.changeImage = this.image;
     if(!(resImg === '' || resImg == null))
     {
@@ -215,7 +215,7 @@ export class UserInfoComponent implements OnInit, AfterViewInit {
     .subscribe({
       next:(res)=>{
         this.toast.success('Photo deleted.', 'Success!',{timeOut:2000});
-        this.image = 'assets/images/prosumer-default-profileimage.png';
+        this.image = 'assets/images/defaultProfileImage.png';
         this.changeImage = this.image;
       },
       error:(err)=>{

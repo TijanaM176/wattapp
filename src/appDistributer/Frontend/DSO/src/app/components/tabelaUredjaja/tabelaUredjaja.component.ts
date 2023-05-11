@@ -21,7 +21,7 @@ import { DeviceserviceService } from 'src/app/services/deviceservice.service';
 })
 export class TabelaUredjajaComponent implements OnInit {
   id: string = '';
-  @Output() current = new EventEmitter<[number, number, number]>();
+  @Output() current = new EventEmitter<[number, number, number, number]>();
   showConsumers = true;
   showProducers = true;
   showStorages = true;
@@ -38,6 +38,7 @@ export class TabelaUredjajaComponent implements OnInit {
   currentConsumption: number = 0;
   currentProduction: number = 0;
   deviceCount: number = 0;
+  realDeviceCount : number = 0;
   constructor(
     private userService: UsersServiceService,
     private cookie: CookieService,
@@ -52,10 +53,12 @@ export class TabelaUredjajaComponent implements OnInit {
       this.currentConsumption = response.currentConsumption;
       this.currentProduction = response.currentProduction;
       this.deviceCount = response.deviceCount;
+      this.realDeviceCount = response.realDeviceCount;
       this.current.emit([
         this.currentConsumption,
         this.currentProduction,
         this.deviceCount,
+        this.realDeviceCount
       ]);
       this.devicesToShow = [
         ...response.consumers,

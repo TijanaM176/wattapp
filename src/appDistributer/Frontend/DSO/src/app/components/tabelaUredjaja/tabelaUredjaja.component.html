@@ -129,7 +129,7 @@
               | orderBy : orderHeader : isDescOrder
           "
         >
-          <tr routerLink="/DsoApp/user/{{ id }}/Devices/deviceinfo/{{
+          <tr *ngIf="device.DsoView==1" routerLink="/DsoApp/user/{{ id }}/Devices/deviceinfo/{{
             device.Id
           }}" style="cursor:pointer;">
             <td [ngSwitch]="device.TypeId"
@@ -213,7 +213,7 @@
                   >
                 </div>
               </ng-template>
-              <div *ngIf="device.CurrentUsage; else offToggle">
+              <div *ngIf="device.Activity!=0; else offToggle">
                 <div
                   class="form-check form-switch ps-0"
                   style="color: green; font-weight: bold"

@@ -57,7 +57,7 @@ export class UsersComponent implements OnInit {
 
   Image(base64string : string)
   {
-    let currentImage = 'assets/images/user.png';
+    let currentImage = 'assets/images/defaultProsumer.png';
     if(base64string != "" && base64string != null)
     {
       let byteArray = new Uint8Array(

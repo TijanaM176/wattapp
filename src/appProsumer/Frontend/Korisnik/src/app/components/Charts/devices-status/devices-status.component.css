@@ -20,3 +20,9 @@
 .devicesProduction{
     color: #48bec1;
 }
+.batteryInUse{
+    color: #f3734d;
+}
+.batteryCharging{
+    color: #4ab64a;
+}

@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { Device } from '../models/device';
 import { EditDevice } from '../models/deviceedit';
 import { environment } from 'src/enviroment/enviroment';
+import { BatteryToggle } from '../models/batteryToggle';
 
 @Injectable({
   providedIn: 'root',
@@ -61,5 +62,10 @@ export class DeviceserviceService {
       this.baseUrl + 'Devices/ToggleActivity?deviceId=' + id + '&role=Prosumer',
       { active: state }
     );
+  }
+
+  toggleStorageDevice(id: string, state: boolean, mode : number)
+  {
+    return this.http.put<any>(this.baseUrl+'Devices/ToggleStorageActivity?deviceId='+id +'&role=Prosumer&mode='+mode, { active: state });
   }
 }
