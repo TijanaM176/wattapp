@@ -25,8 +25,8 @@
                   Device Information
                 </h6>
                 <div
-                  class="col-6"
-                  *ngIf="currentUsage == 0"
+                  class="col-6 manageDeviceWork"
+                  *ngIf="activity == 0"
                   (click)="turnDeviceoffOn()"
                   style="
                     display: flex;
@@ -37,8 +37,8 @@
                   <i class="fa fa-power-off fa-lg off"></i>&nbsp; Turn On
                 </div>
                 <div
-                  class="col-6"
-                  *ngIf="currentUsage != 0"
+                  class="col-6 manageDeviceWork"
+                  *ngIf="activity != 0"
                   (click)="turnDeviceoffOn()"
                   style="
                     display: flex;
@@ -234,34 +234,6 @@
                       >
                       </ngx-gauge>
                     </div>
-                    <!-- <div
-                        class="w-100 mt-2 batteryCont"
-                        *ngIf="cat == 3"
-                        [ngStyle]="{
-                          height: widthService.deviceWidth > 576 ? '85%' : '65%'
-                        }"
-                      >
-                      <div class="battery-body p-1">
-                        <h4
-                        style="color: #08376b;"
-                          [ngStyle]="{
-                            left: widthService.deviceWidth > 576 ? '2%' : '5%'
-                          }"
-                        >{{avgFull}}%</h4>
-                        <div
-                          class="battery-level"
-                          id="bateryPercentage"
-                          [ngStyle]="{
-                            width: avgFull + '%',
-                            'background-color': '#4ca4c9'}"
-                        >
-                        </div>
-                      </div>
-                      <div class="battery-top ms-0"></div>
-                    </div>
-                    <div class="w-100 text-center" style="height: 25%; margin-top: 5%;" *ngIf="cat == 3">
-                      <h6 class="text-muted">Average hourly Storage: {{AvgUsage}} kWh</h6>
-                    </div> -->
                   </div>
                 </div>
               </div>
@@ -290,34 +262,6 @@
                       >
                       </ngx-gauge>
                     </div>
-                    <!-- <div
-                        class="w-100 mt-2 batteryCont"
-                        *ngIf="cat == 3"
-                        [ngStyle]="{
-                          height: widthService.deviceWidth > 576 ? '85%' : '65%'
-                        }"
-                      >
-                      <div class="battery-body p-1">
-                        <h4
-                        style="color: #08376b;"
-                          [ngStyle]="{
-                            left: widthService.deviceWidth > 576 ? '2%' : '5%'
-                          }"
-                        >{{maxFull}}%</h4>
-                        <div
-                          class="battery-level"
-                          id="bateryPercentage"
-                          [ngStyle]="{
-                            width: maxFull + '%',
-                            'background-color': '#4ca4c9'}"
-                        >
-                        </div>
-                      </div>
-                      <div class="battery-top ms-0"></div>
-                    </div>
-                    <div class="w-100 text-center" style="height: 25%; margin-top: 5%;" *ngIf="cat == 3">
-                      <h6 class="text-muted">Maximum hourly Storage: {{MaxUsage}} kWh</h6>
-                    </div> -->
                   </div>
                 </div>
               </div>
@@ -344,7 +288,7 @@
   >
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
-        <div class="modal-header text-white bg-danger">
+        <div class="modal-header text-white bg-danger ps-3">
           <h3 class="modal-title" id="batteryPercentageWarningLabel">Battery Is Running Out!</h3>
           <button
             type="button"
@@ -361,3 +305,58 @@
   </div>
 </main>
 <app-worker-profile></app-worker-profile>
+<div
+  class="modal fade"
+  id="turnBatteryOnDeviceInfo"
+  data-bs-backdrop="static"
+  data-bs-keyboard="false"
+  tabindex="-1"
+  aria-labelledby="turnBatteryOnDeviceInfoLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header text-white" style="background-color: #466471">
+        <h4 class="modal-title ps-2" id="turnBatteryOnDeviceInfoLabel">
+          <!-- Turn this device {{ offOn }}? -->
+          Turn On {{Name}}
+        </h4>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+          style="background-color: white"
+        ></button>
+      </div>
+      <div class="modal-body row d-flex justify-content-center align-items-center">
+        <div
+          class="col-6 col-lg-6"
+          style="display: flex; justify-content: center; align-items: center"
+        >
+        <!-- use battery -->
+          <div
+            (click)="toggleStorageDev(1)"
+            class="text-center p-3 manageDeviceWork"
+          >
+            <i class="fa fa-power-off inUse"></i>
+            <p style="color: green; margin-top: 3%;">Use The Battery</p>
+          </div>
+        </div>
+        <div
+          class="col-6 col-lg-6 text-center text-lg-start"
+          style="display: flex; justify-content: center; align-items: center"
+        >
+          <button id="closeModalBatteryBtnDeviceInfo" [hidden]="true" data-bs-dismiss="modal" data-bs-target="#turnBatteryOnDeviceInfo">Close Modal</button>
+          <button id="openModalBatteryBtnDeviceInfo" [hidden]="true" data-bs-toggle="modal" data-bs-target="#turnBatteryOnDeviceInfo">Open Modal</button>
+          
+          <!-- charge battery -->
+          <div class="text-center p-3 manageDeviceWork" (click)="toggleStorageDev(2)">
+            <i class="fa fa-plug charge"></i>
+            <p style="color: #08376b; margin-top: 3%;">Charge The Battery</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

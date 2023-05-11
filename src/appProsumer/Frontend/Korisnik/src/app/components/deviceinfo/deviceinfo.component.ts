@@ -310,7 +310,12 @@ export class DeviceinfoComponent {
             console.log(err);
             this.showBatteryError = true;
             document.getElementById('closeModalBatteryBtnDeviceInfo')!.click();
-            this.toast.error('Try again later.', 'Error!',{timeOut:2500});
+            Swal.fire({
+              title: 'Error',
+              confirmButtonColor: '#466471',
+              text: 'Error! Try again later!',
+              icon: 'error',
+            });
           }
         })
       }

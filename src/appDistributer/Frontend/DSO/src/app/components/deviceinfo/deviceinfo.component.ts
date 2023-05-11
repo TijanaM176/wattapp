@@ -18,6 +18,7 @@ export class DeviceinfoComponent implements OnInit {
   color: ThemePalette = 'accent';
   disabled = false;
   checked = false;
+  activity! : number;
   currentUsage!: number;
   idDev!: string;
   results: Device = new Device();
@@ -66,10 +67,62 @@ export class DeviceinfoComponent implements OnInit {
   }
 
   turnDeviceoffOn() {
-    const ofOn = this.currentUsage > 0 ? 'Off' : 'On';
+    if(this.cat!=3)
+    {
+      const ofOn = this.activity > 0 ? 'Off' : 'On';
+      Swal.fire({
+        title: 'Are you sure?',
+        text: 'Confirm you want to turn this device ' + ofOn,
+        icon: 'question',
+        allowOutsideClick: false,
+        showCancelButton: true,
+        confirmButtonColor: '#466471',
+        cancelButtonColor: '#8d021f',
+        confirmButtonText: 'Yes',
+        cancelButtonText: 'Cancel',
+      }).then((result: any) => {
+        if (result.value) {
+          this.service
+            .toggleDevice(this.router.snapshot.params['idDev'], true)
+            .subscribe({
+              next:(response)=> {
+                this.activity = response > 0? 1 : 0;
+                this.currentUsage = response;
+              },
+              error:(error) => {
+                Swal.fire({
+                  title: 'Error',
+                  confirmButtonColor: '#466471',
+                  text: error.error,
+                  icon: 'error',
+                });
+              }
+            });
+        } else if (result.dismiss === Swal.DismissReason.cancel) {
+          // Action when Cancel button is clicked
+        }
+      });
+    }
+    else
+    {
+      if(this.state==0) //ukljuciti bateriju
+      {
+        document.getElementById('openModalBatteryBtnDeviceInfo')!.click();
+      }
+      else //iskljuciti bateriju
+      {
+        this.toggleStorageDev(0);
+      }
+    }
+  }
+
+  toggleStorageDev(mode : number)
+  {
+    let state = mode==1? 'Confirm you want to use '+this.Name+'.' : 
+                mode==2? 'Confirm you want to charge '+this.Name+'.' : 'Confirm you want to turn Off '+this.Name+'.';
     Swal.fire({
       title: 'Are you sure?',
-      text: 'Confirm you want to turn this device ' + ofOn,
+      text: state,
       icon: 'question',
       allowOutsideClick: false,
       showCancelButton: true,
@@ -77,30 +130,30 @@ export class DeviceinfoComponent implements OnInit {
       cancelButtonColor: '#8d021f',
       confirmButtonText: 'Yes',
       cancelButtonText: 'Cancel',
-    }).then((result: any) => {
+      }).then((result) => {
       if (result.value) {
-        this.service
-          .toggleDevice(this.router.snapshot.params['idDev'], true)
-          .subscribe(
-            (response) => {
-              this.currentUsage = response;
-              let active = true;
-              if (response === 0) {
-                active = false;
-              }
-            },
-            (error) => {
-              Swal.fire({
-                title: 'Error',
-                confirmButtonColor: '#466471',
-                text: "You don't have permission to manage this device.",
-                icon: 'error',
-              });
-            }
-          );
-      } else if (result.dismiss === Swal.DismissReason.cancel) {
-        // Action when Cancel button is clicked
+        this.service.toggleStorageDevice(this.idDev, true, mode)
+        .subscribe({
+          next:(res)=>{
+            this.activity = res.State;
+            this.state = res.State;
+            this.currentCapacity = res.Status;
+            this.maxCapacity = res.Capacity;
+            document.getElementById('closeModalBatteryBtnDeviceInfo')!.click();
+          },
+          error:(err)=>{
+            console.log(err);
+            document.getElementById('closeModalBatteryBtnDeviceInfo')!.click();
+            Swal.fire({
+              title: 'Error',
+              confirmButtonColor: '#466471',
+              text: err.error,
+              icon: 'error',
+            });
+          }
+        });
       }
+      else if (result.dismiss === Swal.DismissReason.cancel) {}
     });
   }
 
@@ -109,6 +162,7 @@ export class DeviceinfoComponent implements OnInit {
     this.service.getInfoDevice(this.idDev).subscribe((res: any) => {
       this.setType(res.CategoryId);
       this.cat = res.CategoryId;
+      this.activity = res.Activity;
       this.results = res;
       this.IpAddress = res.IpAddress;
       this.TypeName = res.TypeName;
@@ -167,10 +221,9 @@ export class DeviceinfoComponent implements OnInit {
         {
           document.getElementById('consumptionLimitBody')!.style.height = this.widthService.height * 0.42 +'px';
           document.getElementById('consumptionLimitBody')!.style.width = this.width + 'px';
-          // document.getElementById('avgBatteryCard')!.style.height = this.widthService.height * 0.2 + 'px'
-          // document.getElementById('maxBatteryCard')!.style.height = this.widthService.height * 0.2 + 'px'
           this.maxCapacity = res.Wattage;
           this.currentCapacity = res.CurrentUsage;
+          this.state = res.Activity;
           this.percentFull = Number(
             ((this.currentCapacity / this.maxCapacity) * 100).toFixed(0)
           );

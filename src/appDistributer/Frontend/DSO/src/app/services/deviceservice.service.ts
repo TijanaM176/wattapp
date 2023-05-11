@@ -166,4 +166,9 @@ export class DeviceserviceService {
       { active: state }
     );
   }
+
+  toggleStorageDevice(id: string, state: boolean, mode : number)
+  {
+    return this.http.put<any>(this.baseUrl+'Devices/ToggleStorageActivity?deviceId='+id +'&role='+this.cookie.get('role')+'&mode='+mode, { active: state });
+  }
 }
