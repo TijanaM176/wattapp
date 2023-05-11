@@ -112,13 +112,13 @@ namespace API.Services.ProsumerService
 
         public async Task<List<string>> getEmails()
         {
-            List<string> emails = new List<string>();
-            var users = await _repository.GetAllProsumers();
-            foreach (var user in users)
-                emails.Add(user.Email);
-            var dsos = await _repository.GetAllDsos();
-            foreach (var dso in dsos)
-                emails.Add(dso.Email);
+            var userTask = _repository.GetAllProsumers();
+            var dsoTask = _repository.GetAllDsos();
+
+            var users = await userTask;
+            var dsos = await dsoTask;
+
+            var emails = users.Select(user => user.Email).Concat(dsos.Select(dso => dso.Email)).ToList();
 
             return emails;
         }
@@ -126,11 +126,7 @@ namespace API.Services.ProsumerService
         public async Task<bool> checkEmail(string email)
         {
             var emails = await getEmails();
-            foreach (var e in emails)
-                if (e.Equals(email))
-                    return false;
-
-            return true;
+            return !emails.Contains(email);
         }
 
         public async Task<List<Neigborhood>> GetNeigborhoods()

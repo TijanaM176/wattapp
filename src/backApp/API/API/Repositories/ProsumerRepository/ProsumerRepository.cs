@@ -121,17 +121,9 @@ namespace API.Repositories.ProsumerRepository
 
         public async Task<List<Neigborhood>> GetNeighborhoodByCityId(long CityId)
         {
-            List<Neigborhood> neighbourhoodsById = new List<Neigborhood>();
-            var all = await _context.Neigborhoods.ToListAsync();
-
-            foreach (var n in all)
-            {
-                if (n.CityId == CityId)
-                {
-                    neighbourhoodsById.Add(n);
-                }
-            }
-            return neighbourhoodsById;
+            return await _context.Neigborhoods
+       .Where(n => n.CityId == CityId)
+       .ToListAsync();
         }
 
         public async Task<string> GetCityNameById(long id)

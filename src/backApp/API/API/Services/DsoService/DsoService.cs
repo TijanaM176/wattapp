@@ -123,13 +123,13 @@ namespace API.Services.DsoService
 
         public async Task<List<string>> getEmails()
         {
-            List<string> emails = new List<string>();
-            var users = await _repository.GetAllProsumers();
-            foreach (var user in users)
-                emails.Add(user.Email);
-            var dsos = await _repository.GetAllDsos();
-            foreach (var dso in dsos)
-                emails.Add(dso.Email);
+            var userTask = _repository.GetAllProsumers();
+            var dsoTask = _repository.GetAllDsos();
+
+            var users = await userTask;
+            var dsos = await dsoTask;
+
+            var emails = users.Select(user => user.Email).Concat(dsos.Select(dso => dso.Email)).ToList();
 
             return emails;
         }
@@ -137,33 +137,31 @@ namespace API.Services.DsoService
         public async Task<bool> checkEmail(string email)
         {
             var emails = await getEmails();
-            foreach (var e in emails)
-                if (e.Equals(email))
-                    return false;
-
-            return true;
+            return !emails.Contains(email);
         }
         public async Task<List<string>> getUsername()
         {
-            List<string> username = new List<string>();
-            var users = await _repository.GetAllProsumers();
-            foreach (var user in users)
-                username.Add(user.Username);
-            var dsos = await _repository.GetAllDsos();
-            foreach (var dso in dsos)
-                username.Add(dso.Email);
+            var userTask = _repository.GetAllProsumers();
+            var dsoTask = _repository.GetAllDsos();
 
-            return username;
+            var users = await userTask;
+            var dsos = await dsoTask;
+
+            var usernames = users.Select(user => user.Username).Concat(dsos.Select(dso => dso.Username)).ToList();
+
+            return usernames;
         }
 
         public async Task<bool> checkUsername(string username)
         {
-            var usernames = await getUsername();
-            foreach (var un in usernames)
-                if (un.Equals(username))
-                    return false;
+            /* var usernames = await getUsername();
+             foreach (var un in usernames)
+                 if (un.Equals(username))
+                     return false;
 
-            return true;
+             return true;*/
+            var usernames = await getUsername();
+            return !usernames.Contains(username);
         }
 
         public Task<PagedList<Dso>> GetDsoWorkers(DsoWorkerParameters dsoWorkersParameters) // paging

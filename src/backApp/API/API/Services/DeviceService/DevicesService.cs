@@ -621,20 +621,16 @@ namespace API.Services.Devices
         }
         public async Task<Tuple<double, double>> ThisMonthTotalConsumptionProductionForProsumer(string prosumerId)
         {
-            var producers = await _repository.GetDevicesByCategoryForAPeriod(prosumerId, "Producer", -30);
-            var consumers = await _repository.GetDevicesByCategoryForAPeriod(prosumerId, "Consumer", -30);
-            double production = 0;
-            double consumption = 0;
+            var producerTask = _repository.GetDevicesByCategoryForAPeriod(prosumerId, "Producer", -30);
+            var consumerTask = _repository.GetDevicesByCategoryForAPeriod(prosumerId, "Consumer", -30);
 
-            foreach (var device in producers)
-                foreach (var ts in device.Timestamps)
-                    production += ts.Power;
+            var producers = await producerTask;
+            var consumers = await consumerTask;
 
-            foreach (var device in consumers)
-                foreach (var ts in device.Timestamps)
-                    consumption += ts.Power;
+            var production = producers.SelectMany(device => device.Timestamps).Sum(ts => ts.Power);
+            var consumption = consumers.SelectMany(device => device.Timestamps).Sum(ts => ts.Power);
 
-            return new Tuple<double, double>(consumption, production);
+            return Tuple.Create(consumption, production);
 
         }
 
