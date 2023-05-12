@@ -29,7 +29,7 @@
             Home
           </button>
         </li>
-        <li class="nav-item dropdown">
+        <li class="nav-item dropdown" *ngIf="letValue == 'Admin'">
           <button
             class="nav-link btn dropdown"
             type="button"
@@ -48,7 +48,7 @@
               <a class="dropdown-item" routerLink="users">All Users</a>
             </li>
             <li>
-              <a 
+              <a
                 class="dropdown-item"
                 data-bs-toggle="modal"
                 data-bs-target="#exampleModal3"
@@ -57,35 +57,49 @@
             </li>
           </ul>
         </li>
-        <div *ngIf="letValue === 'Dso'">
-        <li class="nav-item dropdown">
+
+        <li class="nav-item mr-2" *ngIf="letValue !== 'Admin'">
           <button
-            class="nav-link btn dropdown"
+            id="navbarDropdownUsers"
+            class="nav-link btn"
             type="button"
-            id="navbarDropdownEmployees"
-            data-bs-toggle="dropdown"
-            aria-expanded="false"
+            routerLink="users"
           >
-            Employees
+            Users
           </button>
-          <ul
-            class="dropdown-menu dropdown-menu-end"
-            aria-labelledby="navbarDropdownEmployees"
-          >
-            <li>
-              <a class="dropdown-item" routerLink="employees">All Employees</a>
-            </li>
-            <li>
-              <a
-                class="dropdown-item"
-                data-bs-toggle="modal"
-                data-bs-target="#exampleModal2"
-                >Add New Employees</a
-              >
-            </li>
-          </ul>
         </li>
-      </div>
+
+        <div *ngIf="letValue === 'Admin'">
+          <li class="nav-item dropdown">
+            <button
+              class="nav-link btn dropdown"
+              type="button"
+              id="navbarDropdownEmployees"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+            >
+              Employees
+            </button>
+            <ul
+              class="dropdown-menu dropdown-menu-end"
+              aria-labelledby="navbarDropdownEmployees"
+            >
+              <li>
+                <a class="dropdown-item" routerLink="employees"
+                  >All Employees</a
+                >
+              </li>
+              <li>
+                <a
+                  class="dropdown-item"
+                  data-bs-toggle="modal"
+                  data-bs-target="#exampleModal2"
+                  >Add New Employees</a
+                >
+              </li>
+            </ul>
+          </li>
+        </div>
         <li class="nav-item dropdown">
           <a
             class="nav-link dropdown"
@@ -110,9 +124,12 @@
             aria-labelledby="navbarDropdown"
           >
             <li>
-              <a class="dropdown-item"
-              data-bs-toggle="modal"
-              data-bs-target="#exampleModal4">See Profile</a>
+              <a
+                class="dropdown-item"
+                data-bs-toggle="modal"
+                data-bs-target="#exampleModal4"
+                >See Profile</a
+              >
             </li>
             <li>
               <a class="dropdown-item" routerLink="../login" (click)="LogOut()"

@@ -14,48 +14,60 @@ export class NavBarComponent implements OnInit {
   value: string = '';
   url: string = '';
   letValue: string = '';
-  currentImage:any;
-  @ViewChild('WorkerProfile', {static : true}) WorkerProfile! : WorkerProfileComponent;
+  currentImage: any;
+  @ViewChild('WorkerProfile', { static: true })
+  WorkerProfile!: WorkerProfileComponent;
 
-  constructor(private router: Router, private cookie: CookieService,private service:EmployeesServiceService) {}
+  constructor(
+    private router: Router,
+    private cookie: CookieService,
+    private service: EmployeesServiceService
+  ) {}
+
+  ngAfterViewInit(): void {
+    this.ChangeActive();
+  }
 
   ngOnInit(): void {
-    this.value = this.cookie.get('role');
     this.url = window.location.pathname;
-    this.ChangeActive();
     this.letValue = this.cookie.get('role');
+    this.service.detailsEmployee(this.cookie.get('id')).subscribe((res) => {
+      this.Image(res.image);
+    });
+
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
         this.url = event.url;
         this.ChangeActive();
       }
     });
-    this.service.detailsEmployee(this.cookie.get('id')).subscribe((res) => {
-      this.Image(res.image);
-    });
+
+    this.ChangeActive();
   }
-  private Image(image : any)
-  {
+
+  private Image(image: any) {
     this.currentImage = 'assets/images/employee-default-pfp.png';
-    if(image != "" && image != null)
-    {
+    if (image != '' && image != null) {
       let byteArray = new Uint8Array(
         atob(image)
-        .split('')
-        .map((char)=> char.charCodeAt(0))
+          .split('')
+          .map((char) => char.charCodeAt(0))
       );
-      let file = new Blob([byteArray], {type: 'image/png'});
+      let file = new Blob([byteArray], { type: 'image/png' });
       this.currentImage = URL.createObjectURL(file);
     }
   }
   ChangeActive() {
-    if (this.url === '/DsoApp/users') {
+    if (
+      this.url.includes('/DsoApp/users') ||
+      this.url.includes('/DsoApp/user')
+    ) {
       document.getElementById('navbarDropdownUsers')?.classList.add('active');
       document.getElementById('home')?.classList.remove('active');
       document
         .getElementById('navbarDropdownEmployees')
         ?.classList.remove('active');
-    } else if (this.url === '/DsoApp/home') {
+    } else if (this.url.includes('/DsoApp/home')) {
       document
         .getElementById('navbarDropdownUsers')
         ?.classList.remove('active');
@@ -63,7 +75,7 @@ export class NavBarComponent implements OnInit {
       document
         .getElementById('navbarDropdownEmployees')
         ?.classList.remove('active');
-    } else if (this.url === '/DsoApp/employees') {
+    } else if (this.url.includes('/DsoApp/employees')) {
       document
         .getElementById('navbarDropdownUsers')
         ?.classList.remove('active');

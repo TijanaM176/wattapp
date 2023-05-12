@@ -12,18 +12,12 @@
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let item of data[0]?.series; index as i">
-      <th scope="row">{{ item.name }}</th>
-      <td class="text-center px-0">{{ item.value.toFixed(2) }}</td>
-      <td class="text-center px-0">
-        {{ data[2]?.series[i]?.value?.toFixed(2) }}
-      </td>
-      <td class="text-center px-0">
-        {{ data[1]?.series[i]?.value?.toFixed(2) }}
-      </td>
-      <td class="text-center px-0">
-        {{ data[3]?.series[i]?.value?.toFixed(2) }}
-      </td>
+    <tr *ngFor="let value of data[0]?.values; let i = index">
+      <th scope="row" class="ps-4">{{ value.x }}</th>
+      <td class="text-center">{{ value.y.toFixed(2) }}</td>
+      <td class="text-center">{{ data[2]?.values[i]?.y?.toFixed(2) }}</td>
+      <td class="text-center">{{ data[1]?.values[i]?.y?.toFixed(2) }}</td>
+      <td class="text-center">{{ data[3]?.values[i]?.y?.toFixed(2) }}</td>
     </tr>
   </tbody>
 </table>

@@ -12,7 +12,6 @@
     <tr *ngFor="let item of currentData; index as i">
       <th scope="row" class="text-center">{{ item.name }}</th>
       <td class="text-center">{{ item?.value?.toFixed(2) }}</td>
-      <!-- <td class="text-center">{{((item?.value/currentTotal)*100).toFixed(5)}}%</td> -->
     </tr>
   </tbody>
 </table>

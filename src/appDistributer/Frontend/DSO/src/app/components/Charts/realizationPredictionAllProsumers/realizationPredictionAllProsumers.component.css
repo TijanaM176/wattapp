@@ -2,11 +2,23 @@
   outline: none;
   box-shadow: none;
 }
-.btn-close{
+.btn-close {
   color: white;
   background-color: white;
 }
-.btn-primary{
-  background-color: #5875A1;
-  border-color: #5875A1;
+.btn-primary {
+  background-color: #5875a1;
+  border-color: #5875a1;
+}
+
+.fa-bar-chart:active,
+.fa-bar-chart:focus {
+  color: white;
+  background-color: blue;
+}
+
+.fa-line-chart:active,
+.fa-line-chart:focus {
+  color: white;
+  background-color: blue;
 }
