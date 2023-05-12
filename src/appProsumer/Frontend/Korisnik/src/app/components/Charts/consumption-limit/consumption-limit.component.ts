@@ -113,7 +113,7 @@ export class ConsumptionLimitComponent implements OnInit, AfterViewInit {
   getConumptionAndProductionLimit() {
     this.deviceService.getConsumptionAndProductionLimit().subscribe({
       next: (res) => {
-        console.log(res);
+        // console.log(res);
         this.loaded = true;
         this.consumption = res.consumption.toFixed(1);
         this.production = res.production.toFixed(1);

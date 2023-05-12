@@ -15,9 +15,11 @@ export class NavbarOffcanvasComponent implements OnInit, OnDestroy{
   resizeObservable$!: Observable<Event>
   resizeSubscription$!: Subscription
   
-  constructor(private widthService : DeviceWidthService,private router: Router, private cookie: CookieService) {
-    
-  }
+  constructor(
+    private widthService : DeviceWidthService,
+    private router: Router, 
+    private cookie: CookieService,
+    ) {}
   ngOnInit(): void {
     const offcanv = document.getElementById('offcanv');
     const offcanvBody = document.getElementById('offcanvBody');
