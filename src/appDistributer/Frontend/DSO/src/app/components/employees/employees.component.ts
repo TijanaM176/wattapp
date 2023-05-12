@@ -78,7 +78,11 @@ export class EmployeesComponent {
     this.Ucitaj();
     this.Paging();
     this.regionName = this.cookie.get('region');
-
+    this.profilePhotoService.profilePhoto$.subscribe((picture: string) => {
+      // Update the component's picture data
+      this.imageSource1 = picture;
+      this.Ucitaj();
+    });
   }
 
   Ucitaj() {
