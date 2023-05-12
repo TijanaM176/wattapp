@@ -139,6 +139,7 @@ export class UserInfoComponent implements OnInit, AfterViewInit {
   }
 
   changePass() {
+    this.changePassword.reset();
     this.modalTitle = 'Change Password';
     this.showChangePass = true;
   }
@@ -272,5 +273,9 @@ export class UserInfoComponent implements OnInit, AfterViewInit {
   //za ngx-image-crop
   cropImg(e: ImageCroppedEvent) {
     this.croppedImage = e.base64; //part of the image that is cropped
+  }
+  resetImageChange()
+  {
+    this.imgChangeEvt = '';
   }
 }

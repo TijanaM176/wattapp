@@ -15,24 +15,6 @@
               <div class="card-body p-1 p-md-4">
                 <div class="col-12 pt-2" style="width: 100%; display: flex;">
                   <h6 class="section ps-3">Information</h6>
-                  <!-- <div class="col-6 py-0" style="display: flex; justify-content: start; align-items: last baseline;">
-                    <h6 class="section ps-3">Information</h6>
-                  </div>
-                  <div class="col-6 py-2 pe-3" style="display: flex; justify-content: end; align-items: center;">
-                    <button
-                      class="btn btn-primary"
-                      data-bs-toggle="modal"
-                      data-bs-target="#staticBackdrop"
-                      (click)="changePass()"
-                    >
-                      <i class="fa fa-lock fa-lg"></i
-                      ><span
-                        class="d-none d-sm-inline-flex align-items-center"
-                        style="white-space: nowrap"
-                        >&nbsp;Change Password</span
-                      >
-                    </button>
-                  </div> -->
                 </div>
                 <hr class="mt-0 mb-4" />
                 <div class="row pt-1 mx-0 my-0">
@@ -69,18 +51,6 @@
                 </div>
                 <hr class="mt-0 mb-3" />
                 <div class="d-flex justify-content-start mx-0 my-0 ps-2 pb-2">
-                  <!-- <button
-                    class="btn btn-primary"
-                    data-bs-toggle="modal"
-                    data-bs-target="#staticBackdrop"
-                    (click)="edit()"
-                  >
-                    <i class="fa fa-edit fa-lg"></i
-                    ><span class="d-none d-sm-inline-flex align-items-center"
-                      >&nbsp;Edit Profile</span
-                    >
-                  </button>
-                  &nbsp;&nbsp; -->
                   <button
                     class="btn btn-primary"
                     data-bs-toggle="modal"
@@ -110,6 +80,7 @@
               <div class="mt-0">
                 <a id="changeImageLink" data-bs-toggle="modal"
                   data-bs-target="#changeImageUserInfo" class="infoUser"
+                  (click)="resetImageChange()"
                   >
                   Change Photo
                 </a>
@@ -127,7 +98,6 @@
   <div
     class="modal fade"
     id="changePasswordUserInfo"
-    data-bs-backdrop="static"
     data-bs-keyboard="false"
     tabindex="-1"
     aria-labelledby="changePasswordUserInfoLabel"
@@ -146,11 +116,6 @@
           ></button>
         </div>
         <div class="modal-body">
-          <!-- <app-edit-info-form
-            [userData]="userData"
-            *ngIf="showEdit == true"
-            #editData
-          ></app-edit-info-form> -->
           <app-change-password
             #changePassword
           ></app-change-password>
@@ -175,7 +140,6 @@
   <div
     class="modal fade"
     id="changeImageUserInfo"
-    data-bs-backdrop="static"
     data-bs-keyboard="false"
     tabindex="-1"
     aria-labelledby="changeImageUserInfoLabel"
@@ -210,31 +174,13 @@
             <button class="btn btn-primary" [hidden]="true" id="openCropImageBtn" data-bs-toggle="modal" data-bs-target="#cropNewImageUserInfo">Open Crop</button>
             <button class="btn btn-primary" id="deleteImageUserInfo" (click)="deleteImage()" data-bs-dismiss="modal">Delete Image</button>
           </div>
-          <!-- <div class="col-12 text-center">
-           <small class="text-danger" *ngIf="error">New file wasn't selected!<br></small>
-           <small class="text-warning" *ngIf="updating">Updating photo...{{progress}}%<br></small>
-           <small class="text-success" *ngIf="success">Profile photo updated!<br></small> 
-          </div> -->
         </div>
-        <!-- <div class="modal-footer">
-          <button
-            type="button"
-            class="btn btn-secondary"
-            data-bs-dismiss="modal"
-          >
-            Close
-          </button>
-          <button type="button" id="confirmImageChangeUserInfo" class="btn btn-primary" (click)="confirmImage()">
-            Confirm
-          </button>
-        </div> -->
       </div>
     </div>
   </div>
   <div
     class="modal fade"
     id="cropNewImageUserInfo"
-    data-bs-backdrop="static"
     data-bs-keyboard="false"
     tabindex="-1"
     aria-labelledby="cropNewImageUserInfoLabel"

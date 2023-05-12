@@ -19,7 +19,7 @@ export class ChangePasswordComponent implements OnInit{
   success : boolean = false;
   dontMatch : boolean = false;
   incorrectCurrent : boolean = false;
-  empty : boolean = false;
+  empty : boolean = false; 
 
   constructor(private userService : ProsumerService, private cookie : CookieService, private router : Router) {}
 
@@ -65,6 +65,13 @@ export class ChangePasswordComponent implements OnInit{
         }
       });
     }
+  }
+
+  reset()
+  {
+    this.currentPass = '';
+    this.newPass = '';
+    this.confirmNewPass = '';
   }
 
   private allToFalse()
