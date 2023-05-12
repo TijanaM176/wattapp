@@ -23,7 +23,7 @@ namespace API.Controllers
         }
        
         [HttpPost("registerProsumer")]
-        //[Authorize(Roles = "Dso, WorkerDso")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Register(ProsumerDto request)
         {
             Prosumer prosumer = await authService.Register(request);
@@ -48,7 +48,7 @@ namespace API.Controllers
         }
 
         [HttpPost("registerDsoWorker")]
-        [Authorize(Roles = "Dso")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Register( DsoWorkerDto request)
 
         {
@@ -166,19 +166,10 @@ namespace API.Controllers
         {
             //var refreshToken = Request.Cookies["refreshToken"];
             User user = null;
-            try
-            {
+            if (refreshToken.role == "Prosumer")
                user = await authService.GetProsumer(refreshToken.username);
-            }
-            catch (Exception e) { }
-
-            if (user == null) {
-                try
-                {
-                    user = await authService.GetDSO(refreshToken.username);
-                }
-                catch (Exception e) { }
-            }
+            else
+                user = await authService.GetDSO(refreshToken.username);
 
             if (user == null) return BadRequest("Invalid username");
 
@@ -319,6 +310,13 @@ namespace API.Controllers
 
             if (!await authService.SaveToken(worker, authService.CreateRandomToken())) return Ok(new { error = true, message = "Token could not be saved" }); // kreiramo random token za workera-a
             return Ok(new { error = false, message = "Password changed!"});
-        }        
+        }
+
+        [HttpPut("Logout")]
+        public async Task<IActionResult> Logout(string username, string role)
+        {
+            if (await authService.DeleteToken(username, role)) return Ok(true);
+            else return BadRequest(false);
+        }
     }
 }

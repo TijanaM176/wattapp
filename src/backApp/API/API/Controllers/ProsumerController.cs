@@ -119,7 +119,7 @@ namespace API.Controllers
         }
 
         [HttpDelete("DeleteProsumer")]
-        [Authorize(Roles = "Dso")]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult> DeleteProsumer(string id)
         {
             if (await prosumerService.DeleteProsumer(id)) return Ok(new

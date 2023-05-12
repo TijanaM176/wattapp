@@ -430,7 +430,7 @@ namespace API.Services.Auth
                // workerDSO.Role = await getRole("WorkerDso");
                // workerDSO.Region = await getRegion("Šumadija");
 
-                workerDSO.RoleId = (await getRole("WorkerDso")).Id;
+                workerDSO.RoleId = (await getRole("Dispatcher")).Id;
                 workerDSO.RegionId = (await getRegion("Šumadija")).Id;
 
 
@@ -481,6 +481,25 @@ namespace API.Services.Auth
             return null;
         }
 
+        public async Task<bool> DeleteToken(string username, string role)
+        {
+            User user;
+            if (role == "Prosumer") user = await GetProsumer(username);
+            else user = await GetDSO(username);
+
+            user.Token = null;
+            user.TokenExpiry = null;
+
+            try
+            {
+                await _repository.Save();
+                return true;
+            }
+            catch (Exception) 
+            {
+                return false;
+            }
+        }
         /*
         public string CreateBody()
         {

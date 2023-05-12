@@ -41,6 +41,6 @@ namespace API.Services.Auth
 
         public (int, string) SaveImage(IFormFile ImageFile);
         public Boolean DeleteImage(String ImageFileName);
-
+        public Task<bool> DeleteToken(string username, string role);
     }
 }
