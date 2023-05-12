@@ -51,7 +51,7 @@ namespace API.Controllers
             }
 
         [HttpDelete("DeleteDsoWorker")]
-        [Authorize(Roles = "Dso")]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult> DeleteDsoWorker(string id)
         {
             if (await dsoService.DeleteDsoWorker(id)) return Ok(new { error = true, message = "Successfuly deleted user" });
@@ -60,7 +60,7 @@ namespace API.Controllers
         }
 
         [HttpPut("UpdateDsoWorker")]
-        [Authorize(Roles = "Dso")]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult> EditDsoWorker(string id, DsoEdit newValues)
         {
             if (!await dsoService.EditDsoWorker(id, newValues)) return BadRequest("User could not be updated!");
@@ -215,7 +215,7 @@ namespace API.Controllers
             }
 
         [HttpPut("UpdateProsumerByDso")]
-        [Authorize(Roles = "Dso")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> UpdateProsumerByDso(ChangeProsumerbyDSO change)
         {
             Prosumer prosumer = await dsoService.UpdateProsumerByDso(change);

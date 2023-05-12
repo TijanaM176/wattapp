@@ -430,7 +430,7 @@ namespace API.Services.Auth
                // workerDSO.Role = await getRole("WorkerDso");
                // workerDSO.Region = await getRegion("Šumadija");
 
-                workerDSO.RoleId = (await getRole("WorkerDso")).Id;
+                workerDSO.RoleId = (await getRole("Dispatcher")).Id;
                 workerDSO.RegionId = (await getRegion("Šumadija")).Id;
 
 

@@ -23,7 +23,7 @@ namespace API.Controllers
         }
        
         [HttpPost("registerProsumer")]
-        //[Authorize(Roles = "Dso, WorkerDso")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Register(ProsumerDto request)
         {
             Prosumer prosumer = await authService.Register(request);
@@ -48,7 +48,7 @@ namespace API.Controllers
         }
 
         [HttpPost("registerDsoWorker")]
-        [Authorize(Roles = "Dso")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Register( DsoWorkerDto request)
 
         {
