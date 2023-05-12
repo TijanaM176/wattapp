@@ -85,6 +85,7 @@ export class ConsumptionLimitComponent implements OnInit, AfterViewInit {
   getConumptionAndProductionLimit() {
     this.deviceService.getConsumptionAndProductionLimit().subscribe({
       next: (res) => {
+        console.log(res);
         this.loaded = true;
         this.consumption = res.consumption.toFixed(1);
         this.production = res.production.toFixed(1);
@@ -126,6 +127,7 @@ export class ConsumptionLimitComponent implements OnInit, AfterViewInit {
       '1500': { color: 'black', label: '1500' },
     };
     this.thresholds = { '0': { color: 'green', bgOpacity: 0.2 } };
+    console.log(this.markers, this.thresholds);
   }
 
   onRadioButtonChange(event: any, type: string) {

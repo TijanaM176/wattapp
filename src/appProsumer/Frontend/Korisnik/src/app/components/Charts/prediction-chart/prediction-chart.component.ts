@@ -34,7 +34,7 @@ export class PredictionChartComponent implements OnInit, AfterViewInit {
       'grafikPredictionConsumptionProduction'
     );
     grafik!.style!.height = this.widthService.height * this.coef + 'px';
-    document.getElementById('prediction1')!.classList.add('active');
+    document.getElementById('prediction3')!.classList.add('active');
   }
 
   exportTable(data: any[]): void {
@@ -80,7 +80,7 @@ export class PredictionChartComponent implements OnInit, AfterViewInit {
     )
       this.coef = 0.5;
 
-    this.PredictionWeek('prediction1');
+    this.PredictionWeek('prediction3');
 
     this.resizeObservable$ = fromEvent(window, 'resize');
     this.resizeSubscription$ = this.resizeObservable$.subscribe((evt) => {

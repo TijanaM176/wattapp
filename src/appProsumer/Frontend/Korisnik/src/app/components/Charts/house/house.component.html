@@ -474,17 +474,15 @@
 <div
   class="modal fade"
   id="turnDeviceOffOn"
-  data-bs-backdrop="static"
   data-bs-keyboard="false"
   tabindex="-1"
   aria-labelledby="turnDeviceOffOnLabel"
   aria-hidden="true"
->
+> <!-- data-bs-backdrop="static" -->
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header text-white" style="background-color: #466471">
         <h4 class="modal-title ps-2" id="turnDeviceOffOnLabel">
-          <!-- Turn this device {{ offOn }}? -->
           {{name}}
         </h4>
         <button
@@ -508,7 +506,7 @@
             class="text-center p-3"
           >
             <i class="fa fa-power-off off"></i>
-            <p style="color: red">Turned Off</p>
+            <p style="color: red"><b>Turned Off</b></p>
           </div>
           <div
             *ngIf="device?.Activity != 0 && device?.CategoryId!=3"
@@ -516,7 +514,7 @@
             class="text-center p-3"
           >
             <i class="fa fa-power-off on"></i>
-            <p style="color: green">Turned On</p>
+            <p style="color: green"><b>Turned On</b></p>
           </div>
           <div
             *ngIf="device?.Activity == 1 && device?.CategoryId==3"
@@ -524,7 +522,7 @@
             class="text-center p-3"
           >
             <i class="fa fa-power-off on"></i>
-            <p style="color: green">In Use</p>
+            <p style="color: green"><b>In Use</b></p>
           </div>
           <div
             *ngIf="device?.Activity == 2 && device?.CategoryId==3"
@@ -532,7 +530,7 @@
             class="text-center p-3"
           >
             <i class="fa fa-power-off on"></i>
-            <p style="color: green">Charging</p>
+            <p style="color: green"><b>Charging</b></p>
           </div>
         </div>
         <div
@@ -540,20 +538,24 @@
           style="display: flex; justify-content: center; align-items: center"
         >
           <button id="closeModalBtn" [hidden]="true" data-bs-dismiss="modal" data-bs-target="#turnDeviceOffOn">Close Modal</button>
+          <button id="openModalBtn" [hidden]="true" data-bs-toggle="modal" data-bs-target="#turnDeviceOffOn">Open Modal</button>
 
           <div class="text-center p-3" (click)="navigateToPage()">
             <i class="fa fa-folder-open visit" style="color: #08376b;"></i>
-            <p style="color: #08376b;">Device Page</p>
+            <p style="color: #08376b;"><b>Device Page</b></p>
           </div>
         </div>
-        <div class="col-12 ps-2">
+        <!-- <div class="col-12 ps-2">
           <small class="text-success" *ngIf="show"
             >Device turned {{ lastState }}!</small
           >
           <small class="text-success" *ngIf="showBattery"
             >{{batteryNofit}}</small
           >
-        </div>
+          <small class="text-error" *ngIf="showBatteryError"
+            >Error occurred! Try again later.</small
+          >
+        </div> -->
       </div>
     </div>
   </div>
@@ -561,12 +563,11 @@
 <div
   class="modal fade"
   id="turnBatteryOn"
-  data-bs-backdrop="static"
   data-bs-keyboard="false"
   tabindex="-1"
   aria-labelledby="turnBatteryOnLabel"
   aria-hidden="true"
->
+> <!-- data-bs-backdrop="static" -->
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header text-white" style="background-color: #466471">
@@ -594,7 +595,7 @@
             class="text-center p-3"
           >
             <i class="fa fa-power-off on"></i>
-            <p style="color: green">Use The Battery</p>
+            <p style="color: green"><b>Use The Battery</b></p>
           </div>
         </div>
         <div
@@ -606,16 +607,8 @@
           <!-- charge battery -->
           <div class="text-center p-3" (click)="toggleStorage(2)">
             <i class="fa fa-plug charge"></i>
-            <p style="color: #08376b;">Charge The Battery</p>
+            <p style="color: #08376b;"><b>Charge The Battery</b></p>
           </div>
-        </div>
-        <div class="col-12 ps-2">
-          <small class="text-success" *ngIf="showBattery"
-            >{{batteryNofit}}</small
-          >
-          <small class="text-error" *ngIf="showBatteryError"
-            >Error occurred! Try again later.</small
-          >
         </div>
       </div>
     </div>
