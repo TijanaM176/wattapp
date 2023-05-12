@@ -53,7 +53,8 @@
   <div
     class="w-100 px-0 py-0 mx-0 my-0"
     style="display: flex; justify-content: center; align-items: center"
-    id="consumptionLimitBody"
+    id="consumptionLimitBody1"
+    *ngIf="showConsumptio"
   >
     <ngx-gauge
       class="text-size"
@@ -62,11 +63,32 @@
       [label]="gaugeLabel + ' (kWh)'"
       [min]="0"
       [max]="2000"
-      [markers]="markers"
+      [markers]="markersConsumption"
       [value]="data"
       [cap]="'butt'"
       [thick]="thickness"
-      [thresholds]="thresholds"
+      [thresholds]="thresholdsConsumption"
+    >
+    </ngx-gauge>
+  </div>
+  <div
+    class="w-100 px-0 py-0 mx-0 my-0"
+    style="display: flex; justify-content: center; align-items: center"
+    id="consumptionLimitBody2"
+    *ngIf="showProduction"
+  >
+    <ngx-gauge
+      class="text-size"
+      [type]="'semi'"
+      [size]="width"
+      [label]="gaugeLabel + ' (kWh)'"
+      [min]="0"
+      [max]="2000"
+      [markers]="markersProduction"
+      [value]="data"
+      [cap]="'butt'"
+      [thick]="thickness"
+      [thresholds]="thresholdsProduction"
     >
     </ngx-gauge>
   </div>
