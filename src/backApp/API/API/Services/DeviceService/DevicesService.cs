@@ -77,8 +77,8 @@ namespace API.Services.Devices
             var devices = await GetDevices(id);
             if (devices.Count == 0) return new Dictionary<string, double> { { "consumption", 0 }, { "production", 0 } };
 
-            var consumptionDevices = devices[0].Where(x => (bool)x["Activity"]);
-            var productionDevices = devices[1].Where(x => (bool)x["Activity"]);
+            var consumptionDevices = devices[0].Where(x => (int)x["Activity"] > 0);
+            var productionDevices = devices[1].Where(x => (int)x["Activity"] > 0);
 
             double currentConsumption = consumptionDevices.Sum(device => (double)device["CurrentUsage"]);
             double currentProduction = productionDevices.Sum(device => (double)device["CurrentUsage"]);
@@ -513,10 +513,36 @@ namespace API.Services.Devices
                 }
             }
 
-            return new Dictionary<string, Dictionary<string, Dictionary<string, double>>> {
-        { "numbers", numbers.ToDictionary(pair => pair.Key, pair => pair.Value.OrderByDescending(x => x.Value).ToDictionary(x => x.Key, x => x.Value)) },
-        { "percentages", percentages.ToDictionary(pair => pair.Key, pair => pair.Value.OrderByDescending(x => x.Value).ToDictionary(x => x.Key, x => x.Value)) }
-    };
+            return new Dictionary<string, Dictionary<string, Dictionary<string, double>>>
+            {
+                {
+                    "numbers",
+                    numbers.ToDictionary(
+                        pair => pair.Key,
+                        pair => {
+                            var sorted = pair.Value.OrderByDescending(x => x.Value);
+                            var result = sorted.Take(5).ToDictionary(x => x.Key, x => x.Value);
+                            var sumOfOthers = sorted.Skip(5).Sum(x => x.Value);
+                            result.Add("Others", sumOfOthers);
+                            return result;
+                        }
+                    )
+                },
+                {
+                    "percentages",
+                    percentages.ToDictionary(
+                        pair => pair.Key,
+                        pair => {
+                            var sorted = pair.Value.OrderByDescending(x => x.Value);
+                            var result = sorted.Take(5).ToDictionary(x => x.Key, x => x.Value);
+                            var sumOfOthers = sorted.Skip(5).Sum(x => x.Value);
+                            result.Add("Others", sumOfOthers);
+                            return result;
+                        }
+                    )
+                }
+            };
+
         }
 
         public async Task<(double, double, string, List<DateTime>, List<DateTime>)> ThisWeekTotalProduction()
