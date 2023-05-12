@@ -8,10 +8,10 @@
   </thead>
   <tbody>
     <tr *ngFor="let value of data[0]?.values; let i = index">
-      <th scope="row" class="ps-4">{{ value.x }}</th>
+      <th scope="row" class="ps-2">{{ value.x }}</th>
       <td
         class="text-center"
-        [ngStyle]="{ color: type === 'Consumption' ? '#c14b48' : '#3ea7a8' }"
+        [ngStyle]="{ color: type === 'Consumption' ? 'rgba(193, 75, 72, 1)' : 'rgba(128, 188, 0, 1)' }"
       >
         {{ value.y.toFixed(2) }}
       </td>
@@ -19,7 +19,7 @@
         class="text-center"
         [ngStyle]="{
           color:
-            type === 'Consumption' ? 'rgb(204, 157, 29)' : 'rgb(152, 165, 31)'
+            type === 'Consumption' ? 'rgba(255, 125, 65, 1)' : 'rgba(0, 188, 179, 1)'
         }"
       >
         {{ data[1].values[i].y.toFixed(2) }}
