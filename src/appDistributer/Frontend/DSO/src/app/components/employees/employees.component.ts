@@ -13,6 +13,7 @@ import { image } from 'd3';
 import { DomSanitizer } from '@angular/platform-browser';
 import { ImageCroppedEvent } from 'ngx-image-cropper';
 import { SendPhoto } from 'src/app/models/sendPhoto';
+import { ProfilePictureServiceService } from 'src/app/services/profile-picture-service.service';
 
 @Component({
   selector: 'app-employees',
@@ -66,7 +67,8 @@ export class EmployeesComponent {
     private cookie: CookieService,
     public serviceData: DataService,
     private _sanitizer: DomSanitizer,
-    public toast: ToastrService
+    public toast: ToastrService,
+    private profilePhotoService:ProfilePictureServiceService
   ) {}
 
   ngOnInit(): void {
@@ -256,6 +258,7 @@ export class EmployeesComponent {
           setTimeout(()=>{
             this.Image1(this.croppedImage);
             this.Image(this.croppedImage);
+            this.profilePhotoService.updateProfilePhoto(this.Image(this.croppedImage));
             this.Ucitaj();
             document.getElementById('closeCropImagePhotoUpdated1')!.click();
             this.closeChange();
