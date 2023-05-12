@@ -24,7 +24,23 @@
       "
     >
       <h6>
-        Realization and Prediction &nbsp;<button
+        Realization and Prediction &nbsp;
+
+        <button
+          class="btn btn-outline-primary p-0 px-1"
+          [class.active]="activeChartType === 'line'"
+          (click)="HistoryData(activePeriod, activeServiceFunction, 'line')"
+        >
+          <i class="fa fa-line-chart"></i>
+        </button>
+        <button
+          class="btn btn-outline-primary mx-1 p-0 px-1"
+          [class.active]="activeChartType === 'bar'"
+          (click)="HistoryData(activePeriod, activeServiceFunction, 'bar')"
+        >
+          <i class="fa fa-bar-chart"></i>
+        </button>
+        <button
           class="btn btn-outline-primary p-0 px-1"
           data-bs-toggle="modal"
           data-bs-target="#realizationAndPredictionTable"
@@ -43,7 +59,7 @@
       "
     >
       <button
-        class="btn"
+        class="btn1"
         (click)="HistoryWeek()"
         style="margin: 1px"
         type="button"
@@ -52,7 +68,7 @@
         7 Days
       </button>
       <button
-        class="btn"
+        class="btn2"
         (click)="HistoryMonth()"
         style="margin: 1px"
         type="button"
@@ -61,7 +77,7 @@
         1 Month
       </button>
       <button
-        class="btn"
+        class="btn3"
         (click)="HistoryYear()"
         type="button"
         style="margin: 1px"
@@ -72,28 +88,12 @@
     </div>
   </div>
   <div class="card-body">
-    <div style="width: 99%; margin: 0 auto; margin-top: 1%; height: 70%">
-      <ngx-charts-line-chart
-        [scheme]="colors"
-        [results]="data"
-        [xAxis]="showXAxis"
-        [yAxis]="showYAxis"
-        [showXAxisLabel]="false"
-        [showYAxisLabel]="true"
-        [animations]="false"
-        [roundDomains]="false"
-        [showGridLines]="true"
-        [trimYAxisTicks]="true"
-        [tooltipDisabled]="false"
-        [showGridLines]="true"
-        [legend]="true"
-        [yAxisTickFormatting]="yAxisTickFormatting"
-        [yAxisLabel]="yAxisLabel"
-        [rotateXAxisTicks]="true"
-        [showRefLines]="true"
-        [showRefLabels]="true"
-      >
-      </ngx-charts-line-chart>
+    <div style="width: 100%; margin: 0 auto; margin-top: 1%; height: 80%">
+      <canvas
+        *ngIf="data.length != 0"
+        id="chartCanvasHistoryPredictionAll"
+        style="height: 450px !important; width: 100% !important"
+      ></canvas>
 
       <h1
         *ngIf="!data"
@@ -142,7 +142,11 @@
         ></app-realization-prediction-all-prosumers-table>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-primary" (click)="exportTable()">
+        <button
+          type="button"
+          class="btn btn-primary"
+          (click)="exportTable(data)"
+        >
           Export Table
         </button>
       </div>

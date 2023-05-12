@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { ScaleType, Color, LegendPosition } from '@swimlane/ngx-charts';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { TimestampService } from 'src/app/services/timestamp.service';
 import { ScreenWidthService } from 'src/app/services/screen-width.service';
 import * as XLSX from 'xlsx';
+import { Chart, registerables, ChartType } from 'chart.js';
+
+Chart.register(...registerables);
 
 @Component({
   selector: 'app-realizationPredictionAllProsumers',
@@ -11,287 +13,206 @@ import * as XLSX from 'xlsx';
   styleUrls: ['./realizationPredictionAllProsumers.component.css'],
 })
 export class RealizationPredictionAllProsumersComponent implements OnInit {
-  production = true;
-  consumption = true;
-  legendPosition: LegendPosition = 'below' as LegendPosition;
+  chart: any;
   id: string = '';
-  data: any = [];
-  dataConsumers: any = [];
-  dataProducers: any = [];
-  colors: Color = {
-    name: 'mycolors',
-    selectable: true,
-    group: ScaleType.Ordinal,
-    domain: ['#FF0000', '#93FF00 ', '#0028A4', '#068700'],
-  };
-  showXAxis = true;
-  showYAxis = true;
-  gradient = false;
-  showLegend = true;
-  yAxisLabel = 'Energy  ( kWh )';
+  data: any = ['z'];
   show!: boolean;
+  activeChartType: ChartType = 'line';
+  activePeriod: string = 'week';
+  activeServiceFunction: any = this.servicetime.HistoryAllProsumers7Days.bind(
+    this.servicetime
+  );
   constructor(
     private spinner: NgxSpinnerService,
     private servicetime: TimestampService,
     private widthService: ScreenWidthService
   ) {}
 
-  yAxisTickFormatting(value: number) {
-    return value;
-  }
-
   ngOnInit() {
-    this.HistoryWeekInit();
+    this.HistoryWeek();
     document.getElementById(
       'modalFadeRealizationPredictionAllProsumers'
     )!.style.maxHeight = this.widthService.height * 0.7 + 'px';
   }
 
-  HistoryMonth() {
+  HistoryData(period: string, serviceFunction: any, chartType: ChartType) {
+    this.activePeriod = period;
+    this.activeServiceFunction = serviceFunction;
+    this.activeChartType = chartType;
     this.show = true;
     this.spinner.show('spiner1');
-    this.servicetime.HistoryAllProsumers1Month().subscribe((response: any) => {
-      const seriesData: any = [
-        { name: 'Consumption', series: [] },
-        { name: 'Production', series: [] },
-        { name: 'Prediction for Consumption', series: [] },
-        { name: 'Prediction for Production', series: [] },
-      ];
-
+    serviceFunction().subscribe((response: any) => {
       const consumptionTimestamps = response.consumption.timestamps || {};
-      const consumptionPredictions = response.consumption.predictions || {};
       const productionTimestamps = response.production.timestamps || {};
+      const consumptionPredictions = response.consumption.predictions || {};
       const productionPredictions = response.production.predictions || {};
 
-      const allTimestamps = {
-        ...consumptionTimestamps,
-        ...productionTimestamps,
+      const formatData = (data: any, period: string) => {
+        return Object.keys(data).map((name) => {
+          const date = new Date(name);
+          let label = '';
+
+          if (period === 'year') {
+            label = date.toLocaleString('default', { month: 'long' });
+          } else {
+            const dayNumber = date.getDate();
+            const monthName = date.toLocaleString('default', { month: 'long' });
+            label = `${monthName} ${dayNumber}`;
+          }
+
+          return {
+            x: label,
+            y: data[name] || 0.0,
+          };
+        });
       };
 
-      Object.keys(allTimestamps).forEach((name) => {
-        const consumptionValue = consumptionTimestamps[name] || 0.0;
-        const consumptionPredictionValue = consumptionPredictions[name] || 0.0;
-        const productionValue = productionTimestamps[name] || 0.0;
-        const productionPredictionValue = productionPredictions[name] || 0.0;
+      const consumptionData = formatData(consumptionTimestamps, period);
+      const productionData = formatData(productionTimestamps, period);
+      const consumptionPredictionData = formatData(
+        consumptionPredictions,
+        period
+      );
+      const productionPredictionData = formatData(
+        productionPredictions,
+        period
+      );
 
-        // Create a new Date object from the name string
-        const date = new Date(name);
+      this.data = [];
 
-        const series = [
-          { name: 'Consumption', value: consumptionValue },
-          { name: 'Production', value: productionValue },
-          {
-            name: 'Prediction for Consumption',
-            value: consumptionPredictionValue,
-          },
-          {
-            name: 'Prediction for Production',
-            value: productionPredictionValue,
-          },
+      if (productionData.length > 0 && consumptionData.length > 0) {
+        this.data = [
+          { type: 'consumption', values: consumptionData },
+          { type: 'production', values: productionData },
+          { type: 'predictionConsumption', values: consumptionPredictionData },
+          { type: 'predictionProduction', values: productionPredictionData },
         ];
+      }
 
-        series.forEach((seriesItem: any, index: any) => {
-          const dayNumber = date.getDate();
-          const monthName = date.toLocaleString('default', { month: 'long' });
-          seriesData[index].series.push({
-            name: `${monthName}  ${dayNumber}`,
-            value: seriesItem.value,
-          });
-        });
-      });
-      seriesData.forEach((seriesItem: any) => {
-        seriesItem.series.pop();
-      });
-      this.data = seriesData;
-      this.spinner.hide('spiner1');
-      this.show = false;
-    });
-  }
+      if (this.data.length === 0) {
+        this.spinner.hide('spiner1');
+        return;
+      }
 
-  HistoryYear() {
-    this.show = true;
-    this.spinner.show('spiner1');
-    this.servicetime.HistoryAllProsumers1Year().subscribe((response: any) => {
-      const seriesData: any = [
-        { name: 'Consumption', series: [] },
-        { name: 'Production', series: [] },
-        { name: 'Prediction for Consumption', series: [] },
-        { name: 'Prediction for Production', series: [] },
-      ];
-
-      const consumptionTimestamps = response.consumption.timestamps || {};
-      const consumptionPredictions = response.consumption.predictions || {};
-      const productionTimestamps = response.production.timestamps || {};
-      const productionPredictions = response.production.predictions || {};
-
-      const allTimestamps = {
-        ...consumptionTimestamps,
-        ...productionTimestamps,
+      const chartData = {
+        datasets: [
+          {
+            label: 'Consumption',
+            data: consumptionData,
+            backgroundColor: 'rgba(193, 75, 72, 1)',
+            borderColor: 'rgba(193, 75, 72, 0.5)',
+          },
+          {
+            label: 'Production',
+            data: productionData,
+            backgroundColor: 'rgba(128, 188, 0, 1)',
+            borderColor: 'rgba(128, 188, 0, 0.5)',
+          },
+          {
+            label: 'Prediction for Consumption',
+            data: consumptionPredictionData,
+            backgroundColor: 'rgba(255, 125, 65, 1)',
+            borderColor: 'rgba(255, 125, 65, 0.5)',
+          },
+          {
+            label: 'Prediction for Production',
+            data: productionPredictionData,
+            backgroundColor: 'rgba(0, 188, 179, 1)',
+            borderColor: 'rgba(0, 188, 179, 0.5)',
+          },
+        ],
       };
 
-      Object.keys(allTimestamps).forEach((name) => {
-        const consumptionValue = consumptionTimestamps[name] || 0.0;
-        const consumptionPredictionValue = consumptionPredictions[name] || 0.0;
-        const productionValue = productionTimestamps[name] || 0.0;
-        const productionPredictionValue = productionPredictions[name] || 0.0;
+      const chartElement: any = document.getElementById(
+        'chartCanvasHistoryPredictionAll'
+      ) as HTMLElement;
+      if (this.chart) {
+        this.chart.destroy();
+      }
 
-        // Create a new Date object from the name string
-        const date = new Date(name);
-
-        const series = [
-          { name: 'Consumption', value: consumptionValue },
-          { name: 'Production', value: productionValue },
-          {
-            name: 'Prediction for Consumption',
-            value: consumptionPredictionValue,
+      const chart2d = chartElement.getContext('2d');
+      this.chart = new Chart(chart2d, {
+        type: chartType,
+        data: chartData,
+        options: {
+          scales: {
+            y: {
+              beginAtZero: false,
+              title: {
+                display: true,
+                text: 'Energy (kWh)',
+                font: {
+                  size: 18,
+                  weight: 'bold',
+                },
+              },
+            },
           },
-          {
-            name: 'Prediction for Production',
-            value: productionPredictionValue,
-          },
-        ];
-
-        series.forEach((seriesItem: any, index: any) => {
-          const dayNumber = date.getDate();
-          const monthName = date.toLocaleString('default', { month: 'long' });
-          seriesData[index].series.push({
-            name: `${monthName}`,
-            value: seriesItem.value,
-          });
-        });
+          maintainAspectRatio: false,
+        },
       });
-      this.data = seriesData;
+
       this.spinner.hide('spiner1');
       this.show = false;
     });
   }
 
   HistoryWeek() {
-    this.show = true;
-    this.spinner.show('spiner1');
-    this.servicetime.HistoryAllProsumers7Days().subscribe((response: any) => {
-      console.log(response);
-      const seriesData: any[] = [
-        { name: 'Consumption', series: [] },
-        { name: 'Production', series: [] },
-        { name: 'Prediction for Consumption', series: [] },
-        { name: 'Prediction for Production', series: [] },
-      ];
-
-      const allTimestamps = {
-        ...response.consumption.timestamps,
-        ...response.production.timestamps,
-      };
-
-      Object.entries(allTimestamps).forEach(([name, value]) => {
-        const consumptionValue = response.consumption.timestamps[name] || 0.0;
-        const consumptionPredictionValue =
-          response.consumption.predictions[name] || 0.0;
-        const productionValue = response.production.timestamps[name] || 0.0;
-        const productionPredictionValue =
-          response.production.predictions[name] || 0.0;
-
-        const date = new Date(name);
-        const dayNumber = date.getDate();
-        const monthName = date.toLocaleString('default', { month: 'long' });
-
-        seriesData.forEach((seriesItem, index) => {
-          seriesItem.series.push({
-            name: `${monthName} ${dayNumber}`,
-            value: [
-              consumptionValue,
-              productionValue,
-              consumptionPredictionValue,
-              productionPredictionValue,
-            ][index],
-          });
-        });
-      });
-
-      // Remove the last item from each series array
-      seriesData.forEach((seriesItem) => {
-        seriesItem.series.pop();
-      });
-
-      this.data = seriesData;
-      this.spinner.hide('spiner1');
-      this.show = false;
-    });
+    this.HistoryData(
+      'week',
+      this.servicetime.HistoryAllProsumers7Days.bind(this.servicetime),
+      this.activeChartType
+    );
   }
 
-  HistoryWeekInit() {
-    
-    this.spinner.show('mainSpiner');
-    this.servicetime.HistoryAllProsumers7Days().subscribe((response: any) => {
-      const seriesData: any[] = [
-        { name: 'Consumption', series: [] },
-        { name: 'Production', series: [] },
-        { name: 'Prediction for Consumption', series: [] },
-        { name: 'Prediction for Production', series: [] },
-      ];
-
-      const allTimestamps = {
-        ...response.consumption.timestamps,
-        ...response.production.timestamps,
-      };
-
-      Object.entries(allTimestamps).forEach(([name, value]) => {
-        const consumptionValue = response.consumption.timestamps[name] || 0.0;
-        const consumptionPredictionValue =
-          response.consumption.predictions[name] || 0.0;
-        const productionValue = response.production.timestamps[name] || 0.0;
-        const productionPredictionValue =
-          response.production.predictions[name] || 0.0;
-
-        const date = new Date(name);
-        const dayNumber = date.getDate();
-        const monthName = date.toLocaleString('default', { month: 'long' });
-
-        seriesData.forEach((seriesItem, index) => {
-          seriesItem.series.push({
-            name: `${monthName} ${dayNumber}`,
-            value: [
-              consumptionValue,
-              productionValue,
-              consumptionPredictionValue,
-              productionPredictionValue,
-            ][index],
-          });
-        });
-      });
-      seriesData.forEach((seriesItem) => {
-        seriesItem.series.pop();
-      });
-
-      this.data = seriesData;
-      this.spinner.hide('mainSpiner');
-      console.log(this.data);
-    });
+  HistoryMonth() {
+    this.HistoryData(
+      'month',
+      this.servicetime.HistoryAllProsumers1Month.bind(this.servicetime),
+      this.activeChartType
+    );
   }
 
-  exportTable(): void {
-    let headerRow: any[] = [];
+  HistoryYear() {
+    this.HistoryData(
+      'year',
+      this.servicetime.HistoryAllProsumers1Year.bind(this.servicetime),
+      this.activeChartType
+    );
+  }
 
-    headerRow = [
+  exportTable(data: any[]): void {
+    const headerRow = [
       '',
-
-      'Consumption',
-      'Prediction for Consumption (kW)',
-      'Production',
-      'Prediction for Production (kW)',
+      'Consumption (kWh)',
+      'Prediction for Consumption (kWh)',
+      'Production (kWh)',
+      'Prediction for Production (kWh)',
     ];
-
     const sheetData = [headerRow];
 
-    for (let i = 0; i < this.data[0]?.series.length; i++) {
-      const rowData = [this.data[0]?.series[i]?.name];
+    const maxLength = Math.max(
+      data[0]?.values.length,
+      data[1]?.values.length,
+      data[2]?.values.length,
+      data[3]?.values.length
+    );
 
-      for (let j = 0; j < this.data.length; j++) {
-        const value = this.data[j]?.series[i]?.value?.toFixed(2);
-        rowData.push(value);
-      }
+    for (let i = 0; i < maxLength; i++) {
+      const value = data[0]?.values[i];
+      const consumptionPrediction = data[1]?.values[i];
+      const production = data[2]?.values[i];
+      const productionPrediction = data[3]?.values[i];
 
-      sheetData.push(rowData);
+      const row = [
+        value ? value.x : '',
+        value ? value.y.toFixed(2) : '0',
+        consumptionPrediction ? consumptionPrediction.y.toFixed(2) : '0',
+        production ? production.y.toFixed(2) : '0',
+        productionPrediction ? productionPrediction.y.toFixed(2) : '0',
+      ];
+
+      sheetData.push(row);
     }
 
     const worksheet: XLSX.WorkSheet = XLSX.utils.aoa_to_sheet(sheetData);

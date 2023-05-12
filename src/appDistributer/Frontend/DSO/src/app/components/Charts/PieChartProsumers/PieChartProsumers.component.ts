@@ -38,7 +38,7 @@ export class PieChartProsumersComponent implements OnInit {
   constructor(
     private service: UsersServiceService,
     private servicedash: DashboarddataService,
-    private widthService : ScreenWidthService
+    private widthService: ScreenWidthService
   ) {}
 
   exportTable(): void {
@@ -77,9 +77,9 @@ export class PieChartProsumersComponent implements OnInit {
         })
       );
       this.currentData = this.dataConsumers;
-      console.log(this.dataConsumers,this.dataProducers);
     });
-    document.getElementById('modalFadePieChartProsumers')!.style.maxHeight = this.widthService.height * 0.7 + 'px';
+    document.getElementById('modalFadePieChartProsumers')!.style.maxHeight =
+      this.widthService.height * 0.7 + 'px';
   }
 
   onRadioButtonChange(event: any, type: string) {

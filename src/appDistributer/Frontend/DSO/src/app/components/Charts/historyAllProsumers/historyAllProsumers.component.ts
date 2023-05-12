@@ -54,7 +54,7 @@ export class HistoryAllProsumersComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.HistoryWeekInit('bttn1');
+    this.HistoryWeek('bttn1');
     document.getElementById('modalFadeHistoryAllProsumers')!.style.maxHeight =
       this.widthService.height * 0.7 + 'px';
   }
@@ -94,7 +94,6 @@ export class HistoryAllProsumersComponent implements OnInit {
             { type: 'production', values: productionData },
           ])
         : (this.data = []);
-      console.log(this.data);
 
       if (this.data.length == 0) {
         this.spiner.hide('spiner2');
@@ -147,92 +146,6 @@ export class HistoryAllProsumersComponent implements OnInit {
       });
 
       this.spiner.hide('spiner2');
-    });
-  }
-  HistoryWeekInit(id: string) {
-    this.servicetime.HistoryAllProsumers7Days().subscribe((response: any) => {
-      const consumptionTimestamps = response.consumption.timestamps || {};
-      const productionTimestamps = response.production.timestamps || {};
-
-      const consumptionData = Object.keys(consumptionTimestamps).map(
-        (name: any) => {
-          const date = new Date(name);
-          const dayNumber = date.getDate();
-          const monthName = date.toLocaleString('default', { month: 'long' });
-          return {
-            x: `${monthName} ${dayNumber}`,
-            y: consumptionTimestamps[name] || 0.0,
-          };
-        }
-      );
-
-      const productionData = Object.keys(productionTimestamps).map(
-        (name: any) => {
-          const date = new Date(name);
-          const dayNumber = date.getDate();
-          const monthName = date.toLocaleString('default', { month: 'long' });
-          return {
-            x: `${monthName} ${dayNumber}`,
-            y: productionTimestamps[name] || 0.0,
-          };
-        }
-      );
-      productionData[0]
-        ? (this.data = [
-            { type: 'consumption', values: consumptionData },
-            { type: 'production', values: productionData },
-          ])
-        : (this.data = []);
-      console.log(this.data);
-
-      if (this.data.length == 0) {
-        return;
-      }
-
-      const chartData = {
-        datasets: [
-          {
-            label: 'Energy Consumption',
-            data: consumptionData,
-            backgroundColor: 'rgba(193, 75, 72, 1)',
-            borderColor: 'rgba(193, 75, 72, 0.5)',
-          },
-          {
-            label: 'Energy Production',
-            data: productionData,
-            backgroundColor: 'rgba(128, 188, 0, 1)',
-            borderColor: 'rgba(128, 188, 0, 0.5)',
-          },
-        ],
-      };
-
-      const chartElement: any = document.getElementById(
-        'chartCanvasHistoryAll'
-      ) as HTMLElement;
-      if (this.chart) {
-        this.chart.destroy();
-      }
-      const chart2d = chartElement.getContext('2d');
-      this.chart = new Chart(chart2d, {
-        type: 'bar',
-        data: chartData,
-        options: {
-          scales: {
-            y: {
-              beginAtZero: false,
-              title: {
-                display: true,
-                text: 'Energy (kWh)',
-                font: {
-                  size: 18,
-                  weight: 'bold',
-                },
-              },
-            },
-          },
-          maintainAspectRatio: false,
-        },
-      });
     });
   }
 
