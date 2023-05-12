@@ -84,7 +84,6 @@
 <div
   class="modal fade"
   id="predictionDeviceTable"
-  data-bs-backdrop="static"
   data-bs-keyboard="false"
   tabindex="-1"
   aria-labelledby="predictionDeviceTableLabel"
@@ -103,7 +102,7 @@
           aria-label="Close"
         ></button>
       </div>
-      <div class="modal-body">
+      <div class="modal-body py-0 px-2" id="PredictionDeviceTableModalBody" style="overflow-y: auto; overflow-x: hidden;">
         <app-prediction-device-table
           [type]="type"
           [data]="data"

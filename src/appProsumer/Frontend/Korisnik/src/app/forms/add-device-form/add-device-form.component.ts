@@ -114,18 +114,22 @@ export class AddDeviceFormComponent {
   ChangeName(e: any) {
     this.service.name = this.Name;
   }
-  ChangeButton() {
+  
+  ChangeButtonView() {
     this.service.dsoView = this.DsoView;
-    this.service.dsoControl = this.DsoControl;
-    this.controlChanged();
+    if(this.DsoView == false)
+    {
+      this.DsoControl = false;
+      this.service.dsoControl = this.DsoControl;
+    }
   }
-
-  controlChanged()
-  {
-    if(this.DsoControl)
+  ChangeButtonControl() {
+    this.service.dsoControl = this.DsoControl;
+    if(this.DsoControl == true)
     {
       this.DsoView = true;
       this.service.dsoView = this.DsoView;
     }
   }
+
 }

@@ -1,5 +1,5 @@
 <table class="table table-striped">
-  <thead>
+  <thead style="position: sticky; top: 0px; background-color: white; margin-top: 0;">
     <tr class="text-center">
       <th scope="col"></th>
       <th scope="col text-center">Prediction (kWh)</th>
@@ -8,7 +8,10 @@
   <tbody>
     <tr *ngFor="let value of data[0]?.values; let i = index">
       <th scope="row" class="ps-4">{{ value.x }}</th>
-      <td class="text-center" style="color: #d96d2a">
+      <td class="text-center" [ngStyle]="{
+        color:
+          type === 'Consumption' ? 'rgba(255, 125, 65, 1)' : 'rgba(0, 188, 179, 1)'
+      }">
         {{ value.y.toFixed(2) }}
       </td>
     </tr>

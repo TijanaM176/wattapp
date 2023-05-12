@@ -204,6 +204,22 @@
           <div class="col-12 px-0 mb-4" style="display: flex; justify-content: center; align-items: center;">
             
             <image-cropper
+            *ngIf="widthService.deviceWidth<576"
+              [imageChangedEvent]="imgChangeEvt" 
+              [maintainAspectRatio]="true" 
+              [aspectRatio]="1 / 1"
+              format="png"
+              [imageAltText] = "'Crop Image'"
+              [cropperMinWidth] = "100"
+              [cropperMinHeight] = "100"
+              [roundCropper] = "true"
+              [hideResizeSquares] = "true"
+              (imageCropped) = "cropImg($event)"
+              id="showChangeImage"
+            >
+            </image-cropper>
+            <image-cropper
+            *ngIf="widthService.deviceWidth>=576"
               [imageChangedEvent]="imgChangeEvt" 
               [maintainAspectRatio]="true" 
               [aspectRatio]="1 / 1"
@@ -223,12 +239,12 @@
           </div>
           <div class="col-12 mb-2" style="display: flex; justify-content: center; align-items: center;">
             <input type="file" style="display: none;" #fileInputNew (change)="onFileSelected($event)">
-            <button class="btn btn-primary" (click)="fileInputNew.click()" [disabled]="updating">Choose A Different Photo</button>
+            <button class="btn btn-primary" (click)="fileInputNew.click()" [disabled]="updating" style="background-color: #54859b;">Choose A Different Photo</button>
             <button class="btn btn-primary" [hidden]="true" id="closeCropImadePhotoUpdated" data-bs-dismiss="modal" data-bs-target="#cropNewImageUserInfo">Close</button>
           </div>
         </div>
         <div class="modal-footer">
-          <button type="button" id="confirmImageChangeUserInfo" class="btn btn-primary" (click)="confirmImage()">
+          <button type="button" id="confirmImageChangeUserInfo" class="btn btn-primary" (click)="confirmImage()" [disabled]="selectedImageFile==null">
             Confirm
           </button>
         </div>

@@ -331,7 +331,6 @@
     <div class="modal-content">
       <div class="modal-header text-white" style="background-color: #466471">
         <h4 class="modal-title ps-2" id="turnBatteryOnDeviceInfoLabel">
-          <!-- Turn this device {{ offOn }}? -->
           Turn On {{Name}}
         </h4>
         <button
@@ -362,17 +361,13 @@
         >
           <button id="closeModalBatteryBtnDeviceInfo" [hidden]="true" data-bs-dismiss="modal" data-bs-target="#turnBatteryOnDeviceInfo">Close Modal</button>
           <button id="openModalBatteryBtnDeviceInfo" [hidden]="true" data-bs-toggle="modal" data-bs-target="#turnBatteryOnDeviceInfo">Open Modal</button>
+          
           <!-- charge battery -->
           <div class="text-center p-3" (click)="toggleStorage(2)">
             <i class="fa fa-plug charge"></i>
             <p style="color: #08376b;">Charge The Battery</p>
           </div>
         </div>
-        <!-- <div class="col-12 ps-2">
-          <small class="text-success" *ngIf="showBattery"
-            >{{batteryNofit}}</small
-          >
-        </div> -->
       </div>
     </div>
   </div>

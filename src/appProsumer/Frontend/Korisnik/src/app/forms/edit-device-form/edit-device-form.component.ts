@@ -101,4 +101,17 @@ export class EditDeviceFormComponent {
       },
     });
   }
+
+  ChangeButtonView() {
+    if(this.DsoView == false)
+    {
+      this.DsoControl = false;
+    }
+  }
+  ChangeButtonControl() {
+    if(this.DsoControl == true)
+    {
+      this.DsoView = true;
+    }
+  }
 }

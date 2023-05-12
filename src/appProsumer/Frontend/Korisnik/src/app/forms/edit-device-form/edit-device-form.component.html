@@ -27,9 +27,9 @@
     <input type="text" class="form-control" id="name" [(ngModel)]="Name" placeholder="Device Name">
   </div>
  
-  <mat-slide-toggle [(ngModel)]="DsoView">Allow DSO to view</mat-slide-toggle ><br/>
-  <mat-slide-toggle [(ngModel)]="DsoControl">Allow DSO to control</mat-slide-toggle >
+  <mat-slide-toggle [(ngModel)]="DsoView" (click)="ChangeButtonView()">Allow DSO to view</mat-slide-toggle ><br/>
+  <mat-slide-toggle [(ngModel)]="DsoControl" (click)="ChangeButtonControl()" class="mt-2">Allow DSO to control</mat-slide-toggle >
      <br/>
   <small class="text-danger" *ngIf="notFilled">*All fileds must be populated</small>
-  <small class="text-success" *ngIf="success">Information successfully edited!</small>
-  <small class="text-danger" *ngIf="failure">Error occurred. Try again later.</small>
+  <!-- <small class="text-success" *ngIf="success">Information successfully edited!</small>
+  <small class="text-danger" *ngIf="failure">Error occurred. Try again later.</small> -->

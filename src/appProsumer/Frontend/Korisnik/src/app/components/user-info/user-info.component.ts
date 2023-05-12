@@ -54,7 +54,7 @@ export class UserInfoComponent implements OnInit, AfterViewInit {
     private cookie: CookieService,
     private sant : DomSanitizer,
     private location: Location,
-    private widthService : DeviceWidthService
+    public widthService : DeviceWidthService
   ) {
     // this.location.replaceState("/");
   }
@@ -199,6 +199,7 @@ export class UserInfoComponent implements OnInit, AfterViewInit {
           },700);
         },
         error:(err)=>{
+          document.getElementById('closeCropImadePhotoUpdated')!.click();
           this.toast.error('Unable to update photo','Error!',{timeOut: 3000});
           console.log(err.error);
         }
