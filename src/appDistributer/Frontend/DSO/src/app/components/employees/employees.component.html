@@ -24,7 +24,7 @@
   });
 </script>
 
-
+<app-worker-profile #WorkerProfile></app-worker-profile>
   <div class="col-md-12 p-0" *ngIf="!showDetails" style="display:flex;justify-content: center;">
   <div class="container-xl p-0">
   <div class="table-responsive">
@@ -695,7 +695,7 @@
         <div class="col-5 m-0 p-0 d-flex align-items-center">
           <div class="container px-0">
             <div class="card my-2 col-12" style="border: 0;">
-              <div class="card-body">
+              <div class="card-body" style="overflow-y: auto;">
                 <input type="file" style="display: none;" #fileInput (change)="onFileSelected($event)">
                 <button class="btn btn-primary" [hidden]="true" id="openCropImageBtn1" data-bs-toggle="modal" data-bs-target="#cropNewImageWorker">Open Crop</button>
                 <button class="btn btn-primary mb-2" data-bs-dismiss="modal" (click)="fileInput.click(); openCrop()">Choose New</button>
@@ -739,7 +739,7 @@
             [disabled]="updatedPhotoSuccess"
           ></button>
       </div>
-      <div class="modal-body px-0 d-flex justify-content-center align-items-center">
+      <div class="modal-body px-0 d-flex justify-content-center align-items-center" style="overflow-y: auto;max-height: 500px;">
         <div class="col-8 px-0 m-0" style="display: flex; justify-content: center; align-items: center;">
           <image-cropper
               [imageChangedEvent]="imgChangeEvet" 

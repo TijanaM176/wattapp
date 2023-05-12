@@ -9,6 +9,7 @@ import { ChangeWorkerPasswordComponent } from 'src/app/forms/change-worker-passw
 import { ImageCroppedEvent } from 'ngx-image-cropper';
 import { DomSanitizer } from '@angular/platform-browser';
 import { SendPhoto } from 'src/app/models/sendPhoto';
+import { ProfilePictureServiceService } from 'src/app/services/profile-picture-service.service';
 
 @Component({
   selector: 'app-worker-profile',
@@ -46,7 +47,8 @@ export class WorkerProfileComponent implements OnInit, AfterViewInit {
     public toast: ToastrService,
     private widthService: ScreenWidthService,
     private sant : DomSanitizer,
-    private employeeService : EmployeesServiceService
+    private employeeService : EmployeesServiceService,
+    private profilePhotoService: ProfilePictureServiceService
   ) {}
 
   ngAfterViewInit(): void {
@@ -74,9 +76,13 @@ export class WorkerProfileComponent implements OnInit, AfterViewInit {
     setTimeout(() => {
       this.loader = false;
     }, 2000);
+    this.profilePhotoService.profilePhoto$.subscribe((picture: string) => {
+      // Update the component's picture data
+      this.currentImage = picture;
+    });
   }
 
-  private getInfo() {
+   getInfo() {
     let id = this.cookie.get('id');
     document.getElementById('side')!.style.height = this.widthService.height * 0.7 + 'px';
     this.workerService.detailsEmployee(id).subscribe({
@@ -97,7 +103,7 @@ export class WorkerProfileComponent implements OnInit, AfterViewInit {
     });
   }
 
-  private Image(image : any)
+   Image(image : any)
   {
     this.currentImage = 'assets/images/defaultWorker.png';
     if(image != "" && image != null)
@@ -110,6 +116,21 @@ export class WorkerProfileComponent implements OnInit, AfterViewInit {
       let file = new Blob([byteArray], {type: 'image/png'});
       this.currentImage = URL.createObjectURL(file);
     }
+  }
+  private Image1(image : any)
+  {
+    this.currentImage = 'assets/images/defaultWorker.png';
+    if(image != "" && image != null)
+    {
+      let byteArray = new Uint8Array(
+        atob(image)
+        .split('')
+        .map((char)=> char.charCodeAt(0))
+      );
+      let file = new Blob([byteArray], {type: 'image/png'});
+      this.currentImage = URL.createObjectURL(file);
+    }
+    return this.currentImage;
   }
 
   //izmena sifre
@@ -151,6 +172,7 @@ export class WorkerProfileComponent implements OnInit, AfterViewInit {
           this.updatedPhotoSuccess = true;
           setTimeout(()=>{
             this.Image(this.croppedImage);
+            this.profilePhotoService.updateProfilePhoto(this.Image1(this.croppedImage));
             document.getElementById('closeCropImadePhotoUpdated')!.click();
             this.closeChange();
           },700);

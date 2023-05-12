@@ -4,6 +4,7 @@ import { Router, NavigationEnd } from '@angular/router';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { EmployeesServiceService } from 'src/app/services/employees-service.service';
 import { WorkerProfileComponent } from '../worker-profile/worker-profile.component';
+import { ProfilePictureServiceService } from 'src/app/services/profile-picture-service.service';
 
 @Component({
   selector: 'app-navBar',
@@ -21,7 +22,8 @@ export class NavBarComponent implements OnInit {
   constructor(
     private router: Router,
     private cookie: CookieService,
-    private service: EmployeesServiceService
+    private service: EmployeesServiceService,
+    private profilePhotoService: ProfilePictureServiceService
   ) {}
 
   ngAfterViewInit(): void {
@@ -43,6 +45,12 @@ export class NavBarComponent implements OnInit {
     });
 
     this.ChangeActive();
+    this.service.detailsEmployee(this.cookie.get('id')).subscribe((res) => {
+      this.Image(res.image);
+    });
+    this.profilePhotoService.profilePhoto$.subscribe((photoUrl) => {
+      this.currentImage = photoUrl;
+    });
   }
 
   private Image(image: any) {
