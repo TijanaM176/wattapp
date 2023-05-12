@@ -66,13 +66,18 @@ namespace API.Services.DsoService
             }
 
             //sifra
-            if (newValues.Password.Length > 0)
+            if (newValues.Password.Length > 0 && newValues.OldPassword.Length > 0)
             {
-                var hmac = new HMACSHA512();
-                byte[] passwordSalt = hmac.Key;
-                byte[] passwordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(newValues.Password));
-                dso.SaltPassword = passwordSalt;
-                dso.HashPassword = passwordHash;
+                var hmac = new HMACSHA512(dso.SaltPassword);
+                byte[] oldPasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(newValues.OldPassword));
+                if (oldPasswordHash.SequenceEqual(dso.HashPassword))
+                {
+                    byte[] passwordSalt = hmac.Key;
+                    byte[] passwordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(newValues.Password));
+                    dso.SaltPassword = passwordSalt;
+                    dso.HashPassword = passwordHash;
+                }
+                else return false;
             }
 
             if (newValues.FirstName.Length > 0) dso.FirstName = newValues.FirstName;
