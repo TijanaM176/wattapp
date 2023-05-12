@@ -76,9 +76,13 @@ export class WorkerProfileComponent implements OnInit, AfterViewInit {
     setTimeout(() => {
       this.loader = false;
     }, 2000);
+    this.profilePhotoService.profilePhoto$.subscribe((picture: string) => {
+      // Update the component's picture data
+      this.currentImage = picture;
+    });
   }
 
-  private getInfo() {
+   getInfo() {
     let id = this.cookie.get('id');
     document.getElementById('side')!.style.height = this.widthService.height * 0.7 + 'px';
     this.workerService.detailsEmployee(id).subscribe({
@@ -99,7 +103,7 @@ export class WorkerProfileComponent implements OnInit, AfterViewInit {
     });
   }
 
-  private Image(image : any)
+   Image(image : any)
   {
     this.currentImage = 'assets/images/defaultWorker.png';
     if(image != "" && image != null)

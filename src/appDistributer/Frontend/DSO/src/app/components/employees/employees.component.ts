@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { EmployeesServiceService } from 'src/app/services/employees-service.service';
 import { lastValueFrom, Observable, tap } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
@@ -14,6 +14,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { ImageCroppedEvent } from 'ngx-image-cropper';
 import { SendPhoto } from 'src/app/models/sendPhoto';
 import { ProfilePictureServiceService } from 'src/app/services/profile-picture-service.service';
+import { WorkerProfileComponent } from '../worker-profile/worker-profile.component';
 
 @Component({
   selector: 'app-employees',
@@ -61,6 +62,8 @@ export class EmployeesComponent {
   updatedPhotoSuccess : boolean = false;
   updatedPhotoError : boolean = false;
   noFile : boolean = false;
+ 
+  
   constructor(
     public service: EmployeesServiceService,
     private router: Router,
@@ -75,6 +78,7 @@ export class EmployeesComponent {
     this.Ucitaj();
     this.Paging();
     this.regionName = this.cookie.get('region');
+
   }
 
   Ucitaj() {
@@ -259,6 +263,7 @@ export class EmployeesComponent {
             this.Image1(this.croppedImage);
             this.Image(this.croppedImage);
             this.profilePhotoService.updateProfilePhoto(this.Image(this.croppedImage));
+        
             this.Ucitaj();
             document.getElementById('closeCropImagePhotoUpdated1')!.click();
             this.closeChange();

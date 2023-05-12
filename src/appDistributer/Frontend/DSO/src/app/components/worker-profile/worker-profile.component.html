@@ -164,7 +164,7 @@
             style="background-color: white;"
           ></button>
       </div>
-      <div class="modal-body pe-0 ps-3 py-2" style="display: flex; align-items: center; justify-content: center;">
+      <div class="modal-body pe-0 ps-3 py-2" style="display: flex;overflow-y: auto; align-items: center; justify-content: center;">
         <div class="col-7 m-0">
           <img
             [src] = "currentImage"
@@ -221,7 +221,7 @@
             [disabled]="updatedPhotoSuccess"
           ></button>
       </div>
-      <div class="modal-body px-0 d-flex justify-content-center align-items-center">
+      <div class="modal-body px-0 d-flex justify-content-center align-items-center" style="max-height: 500px;overflow-y: auto;">
         <div class="col-8 px-0 m-0" style="display: flex; justify-content: center; align-items: center;">
           <image-cropper
               [imageChangedEvent]="imgChangeEvet" 
