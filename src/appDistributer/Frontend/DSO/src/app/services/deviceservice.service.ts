@@ -135,7 +135,6 @@ export class DeviceserviceService {
     lastValueFrom(this.http.get(this.baseUrl + 'Devices/AllProsumerInfo')).then(
       (res) => {
         let response = res as UserTableMapInitDto;
-        // console.log(response);
         this.prosumers = response.prosumers as Prosumer[];
         this.setFilters(response);
         this.responseGetAllProsumers.next(response);
@@ -167,8 +166,16 @@ export class DeviceserviceService {
     );
   }
 
-  toggleStorageDevice(id: string, state: boolean, mode : number)
-  {
-    return this.http.put<any>(this.baseUrl+'Devices/ToggleStorageActivity?deviceId='+id +'&role='+this.cookie.get('role')+'&mode='+mode, { active: state });
+  toggleStorageDevice(id: string, state: boolean, mode: number) {
+    return this.http.put<any>(
+      this.baseUrl +
+        'Devices/ToggleStorageActivity?deviceId=' +
+        id +
+        '&role=' +
+        this.cookie.get('role') +
+        '&mode=' +
+        mode,
+      { active: state }
+    );
   }
 }
