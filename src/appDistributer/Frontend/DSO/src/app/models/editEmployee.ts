@@ -7,5 +7,6 @@ export class editEmployeeDto
   regionId: string='';
   email: string='';
   password: string='';
+  oldPassword:string='';
 
 }

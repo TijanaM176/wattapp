@@ -14,6 +14,7 @@ import jwt_decode from 'jwt-decode';
 import { path } from 'd3';
 import { ToastrService } from 'ngx-toastr';
 import { AuthService } from 'src/app/services/auth.service';
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-login',
@@ -27,13 +28,15 @@ export class LoginComponent implements OnInit {
   eyeIcon: string = 'fa-eye-slash';
   public resetPasswordEmail!: string;
   public isValidEmail!: boolean;
+  messageHTML!: SafeHtml;
   constructor(
     private fb: FormBuilder,
     private router: Router,
     private cookie: CookieService,
     private auth: AuthService,
     private reset: ResetPasswordService,
-    public toast: ToastrService
+    public toast: ToastrService,
+    private sanitizer: DomSanitizer
   ) {}
 
   ngOnInit(): void {
@@ -127,9 +130,16 @@ export class LoginComponent implements OnInit {
   }
 
   confirmToSend() {
+    const resetPasswordUrl = 'http://softeng.pmf.kg.ac.rs:10072/resetpassword'; // Replace with your reset password URL
+    //const encodedResetPasswordUrl = this.sanitizer.bypassSecurityTrustUrl(resetPasswordUrl);
+
+    const resetPasswordLink = `<a href="${resetPasswordUrl}">Reset Password</a>`;
+
+    //const message = `${resetPasswordLink}`;
+    //this.messageHTML = this.sanitizer.bypassSecurityTrustHtml(message);
     if (this.checkValidEmail(this.resetPasswordEmail)) {
       //console.log(this.resetPasswordEmail);
-      this.auth.sendResetPasswordLink(this.resetPasswordEmail).subscribe({
+      this.auth.sendResetPasswordLink(this.resetPasswordEmail,resetPasswordLink).subscribe({
         next: (res) => {
           this.toast.success('Success', 'Email is sent', {
             timeOut: 2500,

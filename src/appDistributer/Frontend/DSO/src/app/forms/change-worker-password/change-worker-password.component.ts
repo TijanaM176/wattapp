@@ -43,6 +43,7 @@ export class ChangeWorkerPasswordComponent {
     {
       let dto : editEmployeeDto = new editEmployeeDto();
       dto.password = this.newPass;
+      dto.oldPassword=this.currentPass;
       // dto.newPassword = this.newPass;
       // dto.oldPassword = this.currentPass;
       this.employeeService.updateEmployee(this.cookie.get('id'), dto)

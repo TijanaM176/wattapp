@@ -34,6 +34,7 @@ export class EmployeesServiceService {
 
   updateEmployee(id: string, dto: editEmployeeDto) {
     return this.http.put(this.baseUrl + 'Dso/UpdateDsoWorker?id=' + id, dto);
+  
   }
 
   deleteEmployee(id: string) {

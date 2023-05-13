@@ -55,7 +55,7 @@ export class EmployeesComponent {
   showDetails:boolean=false;
   imgChangeEvet: any = '';
   croppedImage: any = '';
-  currentImage : string = 'assets/images/employee-default-pfp.png';
+  currentImage : string = 'assets/images/defaultWorker.png';
   selectedImageFile : any = null;
   fileType : any = '';
   errorDeletePhoto : boolean = false;
@@ -91,7 +91,7 @@ export class EmployeesComponent {
     
   }
   Image(image: any) {
-    this.imageSource = 'assets/images/employee-default-pfp.png';
+    this.imageSource = 'assets/images/defaultWorker.png';
     if(image != "" && image != null)
     {
       let byteArray = new Uint8Array(
@@ -146,7 +146,7 @@ export class EmployeesComponent {
     buttonRef?.click();
   }
   Image1(image: any) {
-    this.imageSource1 = 'assets/images/employee-default-pfp.png';
+    this.imageSource1 = 'assets/images/defaultWorker.png';
     if(image != "" && image != null)
     {
       let byteArray = new Uint8Array(
@@ -293,9 +293,12 @@ export class EmployeesComponent {
     this.service.deleteProfilePhoto(this.id)
     .subscribe({
       next:(res)=>{
-        this.imageSource = 'assets/images/employee-default-pfp.png';
-        this.imageSource1= 'assets/images/employee-default-pfp.png';
+        this.imageSource = 'assets/images/defaultWorker.png';
+        this.imageSource1= 'assets/images/defaultWorker.png';
         this.Ucitaj();
+        this.profilePhotoService.updateProfilePhoto(this.imageSource);
+        
+        
         document.getElementById('closeOptionsForPhoto1')!.click();
       },
       error:(err)=>{

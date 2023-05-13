@@ -80,6 +80,7 @@ export class WorkerProfileComponent implements OnInit, AfterViewInit {
       // Update the component's picture data
       this.currentImage = picture;
     });
+    
   }
 
    getInfo() {

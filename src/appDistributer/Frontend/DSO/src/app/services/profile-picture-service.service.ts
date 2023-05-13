@@ -5,7 +5,7 @@ import { BehaviorSubject } from 'rxjs';
   providedIn: 'root'
 })
 export class ProfilePictureServiceService {
-  private profilePhotoSubject: BehaviorSubject<string> = new BehaviorSubject<string>('assets/images/employee-default-pfp.png');
+  private profilePhotoSubject: BehaviorSubject<string> = new BehaviorSubject<string>('assets/images/defaultWorker.png');
   profilePhoto$ = this.profilePhotoSubject.asObservable();
   
 
