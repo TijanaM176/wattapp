@@ -54,7 +54,7 @@ export class NavBarComponent implements OnInit {
   }
 
   private Image(image: any) {
-    this.currentImage = 'assets/images/employee-default-pfp.png';
+    this.currentImage = 'assets/images/defaultWorker.png';
     if (image != '' && image != null) {
       let byteArray = new Uint8Array(
         atob(image)

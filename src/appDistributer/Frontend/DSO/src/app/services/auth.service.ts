@@ -36,12 +36,13 @@ export class AuthService {
       {}
     );
   }
-  sendResetPasswordLink(email: string) {
+  sendResetPasswordLink(email: string,message:any) {
+   
     return this.http.post<any>(
       `${this.baseUrl}Auth/Send_E-mail?emailUser=` +
         email +
         `&messagetoClientHTML=` +
-        `%3Ca%20href%3D%22http%3A%2F%2Flocalhost%3A4200%2Fresetpassword%22%3EReset%20password%3C%2Fa%3E`,
+        message,
       {}
     ); //napraviti model u kom ce da bude i mail i telo htmla
   }

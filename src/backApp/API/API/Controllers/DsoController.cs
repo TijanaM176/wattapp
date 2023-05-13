@@ -60,7 +60,7 @@ namespace API.Controllers
         }
 
         [HttpPut("UpdateDsoWorker")]
-        [Authorize(Roles = "Admin, Dispatcher")]
+        //[Authorize(Roles = "Admin, Dispatcher")]
         public async Task<ActionResult> EditDsoWorker(string id, DsoEdit newValues)
         {
             if (!await dsoService.EditDsoWorker(id, newValues)) return BadRequest("User could not be updated!");

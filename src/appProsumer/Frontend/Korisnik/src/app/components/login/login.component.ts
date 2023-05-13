@@ -114,10 +114,13 @@ export class LoginComponent implements OnInit {
     return this.isValidEmail;
   }
   confirmToSend() {
+    const resetPasswordUrl = 'http://softeng.pmf.kg.ac.rs:10073/resetpassword'; 
+    const resetPasswordLink = `<a href="${resetPasswordUrl}">Reset Password</a>`;
+
     if (this.checkValidEmail(this.resetPasswordEmail)) {
       console.log(this.resetPasswordEmail);
 
-      this.reset.sendResetPasswordLink(this.resetPasswordEmail).subscribe({
+      this.reset.sendResetPasswordLink(this.resetPasswordEmail,resetPasswordLink).subscribe({
         next: (res: any) => {
           this.toast.success('Success', 'Email is sent', {
             timeOut: 3000,
