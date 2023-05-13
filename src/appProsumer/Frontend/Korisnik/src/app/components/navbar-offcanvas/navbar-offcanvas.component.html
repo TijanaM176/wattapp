@@ -1,67 +1,68 @@
 <nav
-  class="navbar px-4"
+  class="navbar px-2"
   aria-label="Dark offcanvas navbar"
   style="background-color: #c1dfd5"
 >
   <div class="container-fluid">
     <!-- <a class="navbar-brand" href="#">Dark offcanvas navbar</a> -->
-    <img class="img-fluid" src="assets/logo.png" style="max-width: 150px" />
+    <img class="img-fluid" src="assets/logo.png" style="max-width: 150px" routerLink="home"/>
     <button
       class="navbar-toggler"
-      type="button"
       data-bs-toggle="offcanvas"
       data-bs-target="#offcanvasNavbarDark"
       aria-controls="offcanvasNavbarDark"
-      *ngIf="deviceWidth < 576"
+      *ngIf="deviceWidth < 768"
     >
       <span class="navbar-toggler-icon"></span>
     </button>
-    <div
-      class="offcanvas offcanvas-end text-bg-dark"
-      tabindex="-1"
-      id="offcanvasNavbarDark"
-      aria-labelledby="offcanvasNavbarDarkLabel"
-      style="max-width: 80%;"
-      data-bs-backdrop="static" 
-      data-bs-keyboard="false"
-    >
-      <div class="offcanvas-header" style="background-color: #59747f">
-        <h5 class="offcanvas-title" id="offcanvasNavbarDarkLabel"></h5>
-        <button
-          type="button"
-          class="btn-close btn-close-white"
-          data-bs-dismiss="offcanvas"
-          aria-label="Close"
-          style="background-color: white;"
-        ></button>
-      </div>
-      <div class="offcanvas-body" id="offcanvBody">
-        <ul class="navbar-nav justify-content-end flex-grow-1 pe-1" id="offcanv">
-          <li class="nav-item offcanvasBtn" id="offcanvasHome" (click)="activateBtn('offcanvasHome')">
-            <a class="nav-link" data-bs-dismiss="offcanvas" routerLink="home" (click)="activateBtn('offcanvasHome')"
-              ><i class="fa fa-home"></i>&nbsp;Home</a
-            >
-          </li>
-          <li class="nav-item offcanvasBtn" id="offcanvasUserInfo" (click)="activateBtn('offcanvasUserInfo')">
-            <a class="nav-link" routerLink="userInfo" data-bs-dismiss="offcanvas" (click)="activateBtn('offcanvasUserInfo')"
-              ><i class="fa fa-user"></i>&nbsp;View Profile</a
-            >
-          </li>
-          <li class="nav-item offcanvasBtn" id="offcanvasUserDevices" (click)="activateBtn('offcanvasUserDevices')">
-            <a class="nav-link" routerLink="userDevices" data-bs-dismiss="offcanvas" (click)="activateBtn('offcanvasUserDevices')"
-              ><i class="fa fa-list"></i>&nbsp;View Devices</a
-            >
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" data-bs-dismiss="offcanvas" data-bs-toggle="modal" data-bs-target="#staticBackdrop1"
-              ><i class="fa fa-plus-square"></i>&nbsp;Add New Device</a
-            >
-          </li>
-          <li class="nav-item" (click)="logout()">
-            <a class="nav-link"><i class="fa fa-sign-out"></i>&nbsp;Logout</a>
-          </li>
-        </ul>
-      </div>
-    </div>
   </div>
 </nav>
+
+<div
+  class="offcanvas offcanvas-end text-bg-dark"
+  tabindex="-1"
+  id="offcanvasNavbarDark"
+  aria-labelledby="offcanvasNavbarDarkLabel"
+  style="max-width: 80%;"
+  data-bs-keyboard="false"
+  data-bs-backdrop="static"
+  >
+  <div class="offcanvas-header" style="background-color: #59747f">
+    <h5 class="offcanvas-title" id="offcanvasNavbarDarkLabel"></h5>
+    <button
+      id="closeOffcanvas"
+      type="button"
+      class="btn-close btn-close-white"
+      data-bs-dismiss="offcanvas"
+      aria-label="Close"
+      style="background-color: white;"
+    ></button>
+  </div>
+  <div class="offcanvas-body" id="offcanvBody">
+    <ul class="navbar-nav justify-content-end flex-grow-1 pe-1" id="offcanv">
+      <li class="nav-item offcanvasBtn" id="offcanvasHome">
+        <a class="nav-link" data-bs-dismiss="offcanvas" routerLink="home"
+          ><i class="fa fa-home"></i>&nbsp;Home</a
+        >
+      </li>
+      <li class="nav-item offcanvasBtn" id="offcanvasUserInfo">
+        <a class="nav-link" routerLink="userInfo" data-bs-dismiss="offcanvas"
+          ><i class="fa fa-user"></i>&nbsp;View Profile</a
+         >
+      </li>
+      <li class="nav-item offcanvasBtn" id="offcanvasUserDevices">
+        <a class="nav-link" routerLink="userDevices" data-bs-dismiss="offcanvas"
+          ><i class="fa fa-list"></i>&nbsp;View Devices</a
+        >
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" data-bs-dismiss="offcanvas" data-bs-toggle="modal" data-bs-target="#staticBackdrop1"
+          ><i class="fa fa-plus-square"></i>&nbsp;Add New Device</a
+        >
+      </li>
+      <li class="nav-item" (click)="logout()">
+        <a class="nav-link"><i class="fa fa-sign-out"></i>&nbsp;Logout</a>
+      </li>
+    </ul>
+  </div>
+</div>

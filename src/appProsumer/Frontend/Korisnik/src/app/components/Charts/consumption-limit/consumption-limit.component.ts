@@ -20,8 +20,24 @@ export class ConsumptionLimitComponent implements OnInit, AfterViewInit {
   showProduction: boolean = false;
   data: number = 0;
 
-  markers = {};
-  thresholds = {};
+  markersConsumption = {
+    '0': { color: 'black', label: '0' },
+    '350': { color: 'black', label: '350' },
+    '1600': { color: 'black', label: '1600' },
+  };
+  markersProduction = {
+    '0': { color: 'black', label: '0' },
+    '500': { color: 'black', label: '500' },
+    '1000': { color: 'black', label: '1000' },
+    '1500': { color: 'black', label: '1500' },
+  };
+
+  thresholdsConsumption  = {
+    '0': { color: 'green', bgOpacity: 0.2 },
+    '350': { color: '#2a96d9', bgOpacity: 0.2 },
+    '1600': { color: '#c14b48', bgOpacity: 0.2 },
+  };
+  thresholdsProduction = { '0': { color: 'green', bgOpacity: 0.2 } };
 
   gaugeLabel = 'Consumption';
 
@@ -38,14 +54,20 @@ export class ConsumptionLimitComponent implements OnInit, AfterViewInit {
     let w = window.innerWidth;
     let h = window.innerHeight;
     if (w >= 576) {
-      document.getElementById('consumptionLimitBody')!.style.height =
+      document.getElementById('consumptionLimitBody1')!.style.height =
+        h * 0.5 + 'px';
+      document.getElementById('consumptionLimitBody2')!.style.height =
         h * 0.5 + 'px';
     } else {
       if (this.widthService.height >= this.widthService.deviceWidth * 2) {
-        document.getElementById('consumptionLimitBody')!.style.height =
+        document.getElementById('consumptionLimitBody1')!.style.height =
+          h * 0.35 + 'px';
+        document.getElementById('consumptionLimitBody2')!.style.height =
           h * 0.35 + 'px';
       } else {
-        document.getElementById('consumptionLimitBody')!.style.height =
+        document.getElementById('consumptionLimitBody1')!.style.height =
+          h * 0.4 + 'px';
+        document.getElementById('consumptionLimitBody2')!.style.height =
           h * 0.4 + 'px';
       }
     }
@@ -62,17 +84,23 @@ export class ConsumptionLimitComponent implements OnInit, AfterViewInit {
       let w = this.widthService.deviceWidth;
       let h = this.widthService.height;
       if (w >= 576) {
-        document.getElementById('consumptionLimitBody')!.style.height =
+        document.getElementById('consumptionLimitBody1')!.style.height =
+          h * 0.5 + 'px';
+        document.getElementById('consumptionLimitBody2')!.style.height =
           h * 0.5 + 'px';
         this.width =
           document.getElementById('consumptionLimitCardBody')!.offsetWidth *
           0.9;
       } else {
         if (this.widthService.height >= this.widthService.deviceWidth * 2) {
-          document.getElementById('consumptionLimitBody')!.style!.height =
+          document.getElementById('consumptionLimitBody1')!.style.height =
+            h * 0.35 + 'px';
+          document.getElementById('consumptionLimitBody2')!.style.height =
             h * 0.35 + 'px';
         } else {
-          document.getElementById('consumptionLimitBody')!.style!.height =
+          document.getElementById('consumptionLimitBody1')!.style.height =
+            h * 0.4 + 'px';
+          document.getElementById('consumptionLimitBody2')!.style.height =
             h * 0.4 + 'px';
         }
         this.width =
@@ -85,6 +113,7 @@ export class ConsumptionLimitComponent implements OnInit, AfterViewInit {
   getConumptionAndProductionLimit() {
     this.deviceService.getConsumptionAndProductionLimit().subscribe({
       next: (res) => {
+        // console.log(res);
         this.loaded = true;
         this.consumption = res.consumption.toFixed(1);
         this.production = res.production.toFixed(1);
@@ -102,16 +131,6 @@ export class ConsumptionLimitComponent implements OnInit, AfterViewInit {
     this.showProduction = false;
     this.data = this.consumption;
     this.gaugeLabel = 'Consumption';
-    this.markers = {
-      '0': { color: 'black', label: '0' },
-      '350': { color: 'black', label: '350' },
-      '1600': { color: 'black', label: '1600' },
-    };
-    this.thresholds = {
-      '0': { color: 'green', bgOpacity: 0.2 },
-      '350': { color: '#2a96d9', bgOpacity: 0.2 },
-      '1600': { color: '#c14b48', bgOpacity: 0.2 },
-    };
   }
 
   Production() {
@@ -119,13 +138,6 @@ export class ConsumptionLimitComponent implements OnInit, AfterViewInit {
     this.showProduction = true;
     this.data = this.production;
     this.gaugeLabel = 'Production';
-    this.markers = {
-      '0': { color: 'black', label: '0' },
-      '500': { color: 'black', label: '500' },
-      '1000': { color: 'black', label: '1000' },
-      '1500': { color: 'black', label: '1500' },
-    };
-    this.thresholds = { '0': { color: 'green', bgOpacity: 0.2 } };
   }
 
   onRadioButtonChange(event: any, type: string) {

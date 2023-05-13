@@ -58,6 +58,7 @@ export class PredictionDeviceComponent implements OnInit {
     const grafik = document.getElementById('predikcija');
     grafik!.style!.height = this.widthService.height * 0.6 + 'px';
     this.Prediction1Day('predictionDev1');
+    document.getElementById('PredictionDeviceTableModalBody')!.style.maxHeight = this.widthService.height * 0.6 +'px';
   }
 
   PredictionWeek(id: string) {

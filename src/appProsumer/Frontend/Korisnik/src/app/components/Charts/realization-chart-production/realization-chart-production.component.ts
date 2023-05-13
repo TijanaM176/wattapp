@@ -127,15 +127,15 @@ export class RealizationChartProductionComponent
       );
       productionData[0]
         ? (this.data = [
-            { type: 'consumption', values: consumptionData },
-            { type: 'production', values: productionData },
+            { type: 'production', values: consumptionData },
+            { type: 'prediction', values: productionData },
           ])
         : (this.data = []);
 
       const chartData = {
         datasets: [
           {
-            label: 'Consumption',
+            label: 'Production',
             data: consumptionData,
             backgroundColor: 'rgba(128, 188, 0, 1)',
             borderColor: 'rgba(128, 188, 0, 0.5)',
@@ -216,15 +216,15 @@ export class RealizationChartProductionComponent
       );
       productionData[0]
         ? (this.data = [
-            { type: 'consumption', values: consumptionData },
-            { type: 'production', values: productionData },
+            { type: 'production', values: consumptionData },
+            { type: 'prediction', values: productionData },
           ])
         : (this.data = []);
 
       const chartData = {
         datasets: [
           {
-            label: 'Consumption',
+            label: 'Production',
             data: consumptionData,
             backgroundColor: 'rgba(128, 188, 0, 1)',
             borderColor: 'rgba(128, 188, 0, 0.5)',
@@ -303,15 +303,15 @@ export class RealizationChartProductionComponent
       );
       productionData[0]
         ? (this.data = [
-            { type: 'consumption', values: consumptionData },
-            { type: 'production', values: productionData },
+            { type: 'production', values: consumptionData },
+            { type: 'prediction', values: productionData },
           ])
         : (this.data = []);
 
       const chartData = {
         datasets: [
           {
-            label: 'Consumption',
+            label: 'Production',
             data: consumptionData,
             backgroundColor: 'rgba(128, 188, 0, 1)',
             borderColor: 'rgba(128, 188, 0, 0.5)',

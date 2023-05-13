@@ -60,7 +60,8 @@ export class DeviceinfoComponent {
   showBattery : boolean = false;
   showBatteryError : boolean = false;
 
-  @ViewChild('editData', { static: false }) editData!: EditDeviceFormComponent;
+  @ViewChild('editData', { static: true }) editData!: EditDeviceFormComponent;
+
   constructor(
     private router: Router,
     private service: DeviceserviceService,
@@ -176,6 +177,7 @@ export class DeviceinfoComponent {
         };
         this.spiner.hide();
         this.deviceData = res;
+        this.editData.resetInfo(this.deviceData);
       },
       error: (err) => {
         this.toast.error('Error!', 'Unable to load device data.', {
@@ -216,6 +218,7 @@ export class DeviceinfoComponent {
     });
   }
   edit() {
+    this.editData.resetInfo(this.deviceData);
     this.modalTitle = 'Edit Information';
     this.showEdit = true;
   }
@@ -265,12 +268,11 @@ export class DeviceinfoComponent {
     }
     else
     {
-      if(this.activity == 0) //ukljucivanje bateriju
+      if(this.activity == 0) //ukljucivanje baterije
       {
-        // document.getElementById('closeModalBtnDeviceInfo')!.click();
         document.getElementById('openModalBatteryBtnDeviceInfo')!.click();
       }
-      else //iskljuci bateriju
+      else //iskljucivanje baterije
       {
         this.toggleStorage(0);
       }
@@ -347,5 +349,21 @@ export class DeviceinfoComponent {
   {
     this.showBattery = false;
     this.showBatteryError = false;
+  }
+
+  editedDevice(data : [boolean])
+  {
+    let isSuccessful = data[0];
+    if(isSuccessful)
+    {
+      this.close();
+      document.getElementById('closeEditDeviceInfo')!.click();
+      this.toast.success('Information successfully edited.', 'Success!', {timeOut: 2500});
+    }
+    else
+    {
+      document.getElementById('closeEditDeviceInfo')!.click();
+      this.toast.error('Unable to edit device information.', 'Error!', { timeOut:3000 });
+    }
   }
 }

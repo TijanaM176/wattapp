@@ -65,6 +65,7 @@ export class RealizationDeviceComponent implements OnInit, AfterViewInit {
   ngOnInit(): void {
     this.idDev = this.router1.snapshot.params['idDev'];
     this.HistoryWeek('realizDev1');
+    document.getElementById('realizationDeviceTableModalBody')!.style.maxHeight = this.widthService.height * 0.6 + 'px';
   }
 
   HistoryWeek(id: string) {

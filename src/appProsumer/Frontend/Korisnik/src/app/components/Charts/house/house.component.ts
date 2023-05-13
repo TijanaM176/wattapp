@@ -13,6 +13,7 @@ import Swal from 'sweetalert2';
 import { Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { BatteryToggle } from 'src/app/models/batteryToggle';
+import { Toast, ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-house',
@@ -25,7 +26,7 @@ export class HouseComponent implements OnInit, AfterViewInit {
 
   devices: any[] = [];
 
-  @Output() deviceOffOn = new EventEmitter<[any[], number, number, string]>();
+  @Output() deviceOffOn = new EventEmitter<[any[], number, number, number,string]>();
   offOn: string = 'On';
   lastState: string = 'Off';
   name: string = '';
@@ -42,7 +43,8 @@ export class HouseComponent implements OnInit, AfterViewInit {
     private widthService: DeviceWidthService,
     private deviceService: DeviceserviceService,
     private router: Router,
-    private spiner: NgxSpinnerService
+    private spiner: NgxSpinnerService,
+    private toast : ToastrService
   ) {}
 
   ngAfterViewInit(): void {
@@ -85,6 +87,7 @@ export class HouseComponent implements OnInit, AfterViewInit {
 
   turnDeviceoffOn() {
     this.reset();
+    this.offOn = this.device.Activity==0? 'On' : 'Off';
     if(this.device.CategoryId != 3)
     {
       Swal.fire({
@@ -102,25 +105,30 @@ export class HouseComponent implements OnInit, AfterViewInit {
           this.show = false;
           this.deviceService
             .toggleDevice(this.device.Id, true)
-            .subscribe((response) => {
-              console.log(response);
-              let active = 1;
-              if (response == 0) {
-                this.lastValue = this.device.CurrentUsage;
-                active = 0;
+            .subscribe({
+              next:(response) => {
+                if (response == 0) {
+                  this.lastValue = this.device.CurrentUsage;
+                }
+                this.devices[this.index].CurrentUsage = response;
+                this.devices[this.index].Activity = this.device.Activity==1? 0 : 1;
+                this.device.CurrentUsage = response;
+                this.offOn = this.device.Activity > 0 ? 'Off' : 'On';
+                this.lastState = this.device.Activity > 0 ? 'On' : 'Off';
+                this.show = true;
+                this.deviceOffOn.emit([
+                  this.devices,
+                  this.device.CurrentUsage,
+                  this.device.Activity,
+                  this.lastValue,
+                  this.device.CategoryId,
+                ]);
+              },
+              error:(err) => {
+                console.log(err.error);
+                document.getElementById('closeModalBtn')!.click();
+              this.toast.error('Unable to turn device '+ this.offOn, 'Error!', {timeOut: 3000});
               }
-              this.devices[this.index].CurrentUsage = response;
-              this.devices[this.index].Activity = active;
-              this.device.CurrentUsage = response;
-              this.offOn = this.device.Activity > 0 ? 'Off' : 'On';
-              this.lastState = this.device.Activity > 0 ? 'On' : 'Off';
-              this.show = true;
-              this.deviceOffOn.emit([
-                this.devices,
-                this.device.CurrentUsage,
-                this.lastValue,
-                this.device.CategoryId,
-              ]);
             });
         } else if (result.dismiss === Swal.DismissReason.cancel) {
         }
@@ -161,6 +169,7 @@ export class HouseComponent implements OnInit, AfterViewInit {
     }).then((result) => {
       if (result.value) {
         this.showBattery = false;
+        this.showBatteryError = false;
         this.deviceService.toggleStorageDevice(this.device.Id, true, mode)
         .subscribe({
           next:(res)=>{
@@ -168,19 +177,24 @@ export class HouseComponent implements OnInit, AfterViewInit {
             this.devices[this.index].CurrentUsage = res.Status;
             this.devices[this.index].Activity = res.State;
             this.devices[this.index].Wattage = res.Capacity;
-            this.device.CurrentUsage = res.Status;
-            this.device.Activity = res.State;
-            this.device.Wattage = res.Capacity;
             this.deviceOffOn.emit([
               this.devices,
+              this.device.CurrentUsage,
               this.device.Activity,
-              res.Capacity,
+              this.device.Capacity,
               this.device.CategoryId,
             ]);
+            if(mode != 0)
+            {
+              document.getElementById('closeModalBatteryBtn')!.click();
+              document.getElementById('openModalBtn')!.click();
+            }
           },
           error:(err)=>{
             console.log(err);
-            this.showBatteryError = true;
+            document.getElementById('closeModalBatteryBtn')!.click();
+            document.getElementById('closeModalBtn')!.click();
+            this.toast.error('Unable to turn device '+ this.offOn, 'Error!', {timeOut: 3000});
           }
         })
       }
