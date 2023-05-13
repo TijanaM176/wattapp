@@ -35,7 +35,7 @@ export class DashboardComponent implements OnInit, OnDestroy, AfterViewInit {
     this.widthService.deviceWidth = window.innerWidth;
     this.deviceWidth = this.widthService.deviceWidth;
     const content = document.getElementById('content');
-    if (window.innerWidth <= 280) {
+    if (window.innerWidth <= 250) {
       let height = window.innerHeight - 104.69;
       this.widthService.height = height;
       content!.style.height = height + 'px';
@@ -49,7 +49,7 @@ export class DashboardComponent implements OnInit, OnDestroy, AfterViewInit {
     this.resizeSubscription$ = this.resizeObservable$.subscribe((evt) => {
       this.widthService.deviceWidth = window.innerWidth;
       this.deviceWidth = this.widthService.deviceWidth;
-      if (window.innerWidth <= 280) {
+      if (window.innerWidth <= 250) {
         let height = window.innerHeight - 104.69;
         this.widthService.height = height;
         content!.style.height = height + 'px';

@@ -26,7 +26,7 @@ export class HouseComponent implements OnInit, AfterViewInit {
 
   devices: any[] = [];
 
-  @Output() deviceOffOn = new EventEmitter<[any[], number, number, string]>();
+  @Output() deviceOffOn = new EventEmitter<[any[], number, number, number,string]>();
   offOn: string = 'On';
   lastState: string = 'Off';
   name: string = '';
@@ -119,6 +119,7 @@ export class HouseComponent implements OnInit, AfterViewInit {
                 this.deviceOffOn.emit([
                   this.devices,
                   this.device.CurrentUsage,
+                  this.device.Activity,
                   this.lastValue,
                   this.device.CategoryId,
                 ]);
@@ -178,6 +179,7 @@ export class HouseComponent implements OnInit, AfterViewInit {
             this.devices[this.index].Wattage = res.Capacity;
             this.deviceOffOn.emit([
               this.devices,
+              this.device.CurrentUsage,
               this.device.Activity,
               this.device.Capacity,
               this.device.CategoryId,
