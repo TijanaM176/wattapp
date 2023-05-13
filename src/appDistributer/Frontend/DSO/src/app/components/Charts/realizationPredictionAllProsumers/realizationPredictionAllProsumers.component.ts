@@ -68,11 +68,12 @@ export class RealizationPredictionAllProsumersComponent implements OnInit {
       };
 
       const consumptionData = formatData(consumptionTimestamps, period);
-      const productionData = formatData(productionTimestamps, period);
       const consumptionPredictionData = formatData(
         consumptionPredictions,
         period
       );
+      const productionData = formatData(productionTimestamps, period);
+
       const productionPredictionData = formatData(
         productionPredictions,
         period
@@ -83,8 +84,9 @@ export class RealizationPredictionAllProsumersComponent implements OnInit {
       if (productionData.length > 0 && consumptionData.length > 0) {
         this.data = [
           { type: 'consumption', values: consumptionData },
-          { type: 'production', values: productionData },
+
           { type: 'predictionConsumption', values: consumptionPredictionData },
+          { type: 'production', values: productionData },
           { type: 'predictionProduction', values: productionPredictionData },
         ];
       }
@@ -103,16 +105,16 @@ export class RealizationPredictionAllProsumersComponent implements OnInit {
             borderColor: 'rgba(193, 75, 72, 0.5)',
           },
           {
-            label: 'Production',
-            data: productionData,
-            backgroundColor: 'rgba(128, 188, 0, 1)',
-            borderColor: 'rgba(128, 188, 0, 0.5)',
-          },
-          {
             label: 'Prediction for Consumption',
             data: consumptionPredictionData,
             backgroundColor: 'rgba(255, 125, 65, 1)',
             borderColor: 'rgba(255, 125, 65, 0.5)',
+          },
+          {
+            label: 'Production',
+            data: productionData,
+            backgroundColor: 'rgba(128, 188, 0, 1)',
+            borderColor: 'rgba(128, 188, 0, 0.5)',
           },
           {
             label: 'Prediction for Production',
@@ -157,7 +159,7 @@ export class RealizationPredictionAllProsumersComponent implements OnInit {
     });
   }
 
-  HistoryWeek(id:string) {
+  HistoryWeek(id: string) {
     this.activateButton(id);
     this.HistoryData(
       'week',
@@ -167,7 +169,7 @@ export class RealizationPredictionAllProsumersComponent implements OnInit {
     this.activateButton(id);
   }
 
-  HistoryMonth(id:string) {
+  HistoryMonth(id: string) {
     this.activateButton(id);
     this.HistoryData(
       'month',
@@ -177,7 +179,7 @@ export class RealizationPredictionAllProsumersComponent implements OnInit {
     this.activateButton(id);
   }
 
-  HistoryYear(id:string) {
+  HistoryYear(id: string) {
     this.activateButton(id);
     this.HistoryData(
       'year',

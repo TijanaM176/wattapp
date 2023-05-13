@@ -85,8 +85,10 @@ namespace API.Repositories.DeviceRepository
         public async Task<List<Device>> GetDevicesByCategoryForAPeriod(string id, string catStr, int period)
         {
             var linkInfo = await GetLinksForProsumer(id);
-            var links = linkInfo.Select(x => x.ModelId);
+            
             var cat = await GetDeviceCategory(catStr);
+            var models = await _regContext.Devices.Where(x => x.CategoryId == cat).Select(x => x.Id).ToListAsync();
+            var links = linkInfo.Where(x => models.Contains(x.ModelId)).Select(x => x.ModelId);
 
             var usages = _usageContext.PowerUsage
              .AsQueryable()
