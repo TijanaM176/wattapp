@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Device } from 'src/app/models/device';
 import { EditDevice } from 'src/app/models/deviceedit';
@@ -12,6 +12,7 @@ import { DeviceserviceService } from 'src/app/services/deviceservice.service';
 })
 export class EditDeviceFormComponent {
   @Input() deviceData: any;
+  @Output() editedBoolean = new  EventEmitter<[boolean]>();
 
   IpAddress: string = '';
   TypeName: string = '';
@@ -37,13 +38,9 @@ export class EditDeviceFormComponent {
   ) {}
 
   ngOnInit(): void {
-    this.loadInfo();
-    this.getModels();
-    this.model = this.ModelId;
   }
 
   loadInfo() {
-    console.log("usao");
     this.IpAddress = this.deviceData.IpAddress;
     this.Name = this.deviceData.Name;
     this.ModelName = this.deviceData.ModelName;
@@ -51,10 +48,14 @@ export class EditDeviceFormComponent {
     this.DsoView = this.deviceData.DsoView;
     this.service.type = this.deviceData.TypeId;
     this.ModelId = this.deviceData.ModelId;
-    console.log(this.IpAddress);
-    console.log(this.Name);
-    console.log(this.ModelName);
-    console.log(this.DsoControl);
+    this.model = this.ModelId;
+  }
+  resetInfo(devData : any)
+  {
+    this.allToFalse();
+    this.deviceData = devData;
+    this.loadInfo();
+    this.getModels();
   }
   editInfo() {
     if (this.IpAddress != '' && this.Name != '') {
@@ -70,11 +71,13 @@ export class EditDeviceFormComponent {
         next: (res) => {
           this.allToFalse();
           this.success = true;
+          this.editedBoolean.emit([true]);
         },
         error: (err) => {
           this.allToFalse();
           console.log(err.error);
           this.failure = true;
+          this.editedBoolean.emit([false]);
         },
       });
     } else {

@@ -30,18 +30,23 @@ export class PocetnaComponent implements OnInit, AfterViewInit {
   tariff: string = 'HIGHER';
 
   @ViewChild('house', { static: true }) house!: HouseComponent;
+  
   @ViewChild('devicesStatus', { static: true })
   devicesStatus!: DevicesStatusComponent;
+
   @ViewChild('realizationConsumption', { static: true })
   realizationConsumption!: RealizationChartComponent;
+
   @ViewChild('realizationProduction', { static: true })
   realizationProduction!: RealizationChartProductionComponent;
 
   currentPrice: number = 0;
   currentConsumption: number = 0;
   currentProduction: number = 0;
+
   show1!: boolean;
   show2!: boolean;
+
   constructor(
     private widthService: DeviceWidthService,
     private service: ProsumerService,
@@ -51,7 +56,6 @@ export class PocetnaComponent implements OnInit, AfterViewInit {
     private location: Location,
     private spiner: NgxSpinnerService
   ) {
-    // this.location.replaceState("/");
   }
 
   ngAfterViewInit(): void {}
@@ -74,7 +78,6 @@ export class PocetnaComponent implements OnInit, AfterViewInit {
     this.service
       .getDevicesByProsumerId(this.cookie.get('id'), this.cookie.get('role'))
       .subscribe((response) => {
-        // console.log(response);
         this.devices = [
           ...response.consumers,
           ...response.producers,
@@ -98,7 +101,6 @@ export class PocetnaComponent implements OnInit, AfterViewInit {
         this.show1 = false;
 
         this.show2 = false;
-        // console.log(this.devices);
       });
   }
 
@@ -112,15 +114,6 @@ export class PocetnaComponent implements OnInit, AfterViewInit {
       },
     });
   }
-
-  // get7DaysHistory() {
-  //   this.deviceService.history7Days().subscribe({
-  //     next: (res) => {
-  //       this.realizationConsumption.HistoryWeekInit(res);
-  //       this.realizationProduction.HistoryWeekInit(res);
-  //     },
-  //   });
-  // }
 
   onDeviceTurnedOffOn(
     data: [any[], number, number, string] //devices : any[], offOn : number

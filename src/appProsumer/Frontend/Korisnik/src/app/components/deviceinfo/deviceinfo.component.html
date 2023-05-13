@@ -253,7 +253,6 @@
 <div
   class="modal fade"
   id="staticBackdrop2"
-  data-bs-backdrop="static"
   data-bs-keyboard="false"
   tabindex="-1"
   aria-labelledby="staticBackdrop2Label"
@@ -262,20 +261,19 @@
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header text-white" style="background-color: #466471">
-        <h5 class="modal-title" id="staticBackdrop2Label">{{ modalTitle }}</h5>
+        <h5 class="modal-title" id="staticBackdrop2Label">Edit Information</h5>
         <button
           type="button"
           class="btn-close"
           data-bs-dismiss="modal"
           aria-label="Close"
-          (click)="close()"
         ></button>
       </div>
       <div class="modal-body">
         <app-edit-device-form
           [deviceData]="deviceData"
-          *ngIf="showEdit == true"
           #editData
+          (editedBoolean)="editedDevice($event)"
         ></app-edit-device-form>
       </div>
       <div class="modal-footer">
@@ -283,13 +281,13 @@
           type="button"
           class="btn btn-secondary"
           data-bs-dismiss="modal"
-          (click)="close()"
         >
           Close
         </button>
         <button type="button" class="btn btn-primary" (click)="confirm()">
           Confirm
         </button>
+        <button [hidden]="true" id="closeEditDeviceInfo" data-bs-dismiss="modal" data-bs-target="#staticBackdrop2">Close Edit</button>
       </div>
     </div>
   </div>
