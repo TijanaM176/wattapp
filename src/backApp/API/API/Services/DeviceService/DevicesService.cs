@@ -35,9 +35,10 @@ namespace API.Services.Devices
                         {
                             if (d.TypeId == 19 && (DateTime.Now.TimeOfDay < TimeSpan.FromHours(6) || DateTime.Now.TimeOfDay > TimeSpan.FromHours(18))) currentUsage = 0;
                             else
-                            { 
+                            {
+                                double avg = (_repository.AvgUsage(d.ModelId)).Result;
                                 if (d.Timestamps[0].Power != 0) currentUsage = d.Timestamps[0].Power;
-                                else currentUsage = d.Wattage * 0.85;
+                                else currentUsage = avg * 0.85;
                             }
                         }
                         else currentUsage = 0;

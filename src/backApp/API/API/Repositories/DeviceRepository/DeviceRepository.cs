@@ -64,6 +64,7 @@ namespace API.Repositories.DeviceRepository
                  Id = d.Link.Id,
                  IpAddress = d.Link.IpAddress,
                  Name = d.Link.Name,
+                 ModelId = d.Spec.Id,
                  TypeId = d.Spec.TypeId,
                  CategoryId = d.Spec.CategoryId,
                  Manufacturer = d.Spec.Manufacturer,

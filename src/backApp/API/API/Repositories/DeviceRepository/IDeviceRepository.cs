@@ -39,6 +39,7 @@ namespace API.Repositories.DeviceRepository
         public Task<(double, double, string)> TodayAndTomorrowPredictionTotalConsumptionAndRatio();
         public Task<(double, double, string)> TodayAndTomorrowPredictionTotalProductionAndRatio();
         public Task ToggleStorageActivity(string deviceId, string role, int state);
+        public Task<double> AvgUsage(string id);
 
     }
 }
