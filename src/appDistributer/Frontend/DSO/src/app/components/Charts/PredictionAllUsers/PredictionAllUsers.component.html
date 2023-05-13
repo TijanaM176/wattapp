@@ -36,29 +36,32 @@
       style="display: flex; justify-content: right; margin: 0px 0px 2px auto"
     >
       <button
-        class="btn"
-        (click)="PredictionDay()"
+      class="btn btn-outline-primary predictionbtn"
+      id="pred1"
+        (click)="PredictionDay('pred1')"
         style="margin: 1px"
         type="button"
-        class="btn btn-outline-primary"
+        
       >
         24H
       </button>
       <button
-        class="btn"
-        (click)="Prediction3Days()"
+      class="btn btn-outline-primary predictionbtn"
+      id="pred2"
+        (click)="Prediction3Days('pred2')"
         style="margin: 1px"
         type="button"
-        class="btn btn-outline-primary"
+       
       >
         3 Days
       </button>
       <button
-        class="btn"
-        (click)="PredictionWeek()"
+      class="btn btn-outline-primary predictionbtn"
+      id="pred3"
+        (click)="PredictionWeek('pred3')"
         type="button"
         style="margin: 1px"
-        class="btn btn-outline-primary"
+        
       >
         Week
       </button>

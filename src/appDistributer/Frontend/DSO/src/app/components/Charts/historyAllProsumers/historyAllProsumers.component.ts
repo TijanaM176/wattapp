@@ -54,12 +54,13 @@ export class HistoryAllProsumersComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.HistoryWeek('bttn1');
+    this.HistoryWeek('realiz1');
     document.getElementById('modalFadeHistoryAllProsumers')!.style.maxHeight =
       this.widthService.height * 0.7 + 'px';
   }
 
   HistoryWeek(id: string) {
+    this.activateButton(id);
     this.spiner.show('spiner2');
     this.servicetime.HistoryAllProsumers7Days().subscribe((response: any) => {
       const consumptionTimestamps = response.consumption.timestamps || {};
@@ -144,12 +145,13 @@ export class HistoryAllProsumersComponent implements OnInit {
           maintainAspectRatio: false,
         },
       });
-
+      this.activateButton(id);
       this.spiner.hide('spiner2');
     });
   }
 
   HistoryMonth(id: string) {
+    this.activateButton(id);
     this.spiner.show('spiner2');
     this.servicetime.HistoryAllProsumers1Month().subscribe((response: any) => {
       const consumptionTimestamps = response.consumption.timestamps || {};
@@ -234,12 +236,13 @@ export class HistoryAllProsumersComponent implements OnInit {
           maintainAspectRatio: false,
         },
       });
-
+      this.activateButton(id);
       this.spiner.hide('spiner2');
     });
   }
 
   HistoryYear(id: string) {
+    this.activateButton(id);
     this.spiner.show('spiner2');
     this.servicetime.HistoryAllProsumers1Year().subscribe((response: any) => {
       const consumptionTimestamps = response.consumption.timestamps || {};

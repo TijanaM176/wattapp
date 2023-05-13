@@ -31,12 +31,12 @@ export class PredictionProsumerComponent implements OnInit {
     document.getElementById('predictionUserInfoCardBody')!.style.height =
       this.widthService.height * 0.6 + 'px';
     this.PredictionDay('predictionUser1');
-    this.activateButton('predictionUser1');
     document.getElementById('modalFadePredictionProsumer')!.style.maxHeight =
       this.widthService.height * 0.7 + 'px';
   }
 
   PredictionWeek(id: string) {
+    this.activateButton(id);
     this.show = true;
     this.spiner.show();
     this.serviceData
@@ -133,6 +133,7 @@ export class PredictionProsumerComponent implements OnInit {
   }
 
   Prediction3Days(id: string) {
+    this.activateButton(id);
     this.show = true;
     this.spiner.show();
     this.serviceData
@@ -228,6 +229,7 @@ export class PredictionProsumerComponent implements OnInit {
       });
   }
   PredictionDay(id: string) {
+    this.activateButton(id);
     this.show = true;
     this.spiner.show();
     this.serviceData
@@ -354,9 +356,8 @@ export class PredictionProsumerComponent implements OnInit {
     XLSX.utils.book_append_sheet(workbook, worksheet, 'Chart Data');
     XLSX.writeFile(workbook, 'chart-data.xlsx');
   }
-
   activateButton(buttonNumber: string) {
-    const buttons = document.querySelectorAll('.predictionbtn');
+    const buttons = document.querySelectorAll('.prediction2btn');
     buttons.forEach((button) => {
       if (button.id == buttonNumber) {
         button.classList.add('active');
@@ -365,4 +366,6 @@ export class PredictionProsumerComponent implements OnInit {
       }
     });
   }
+  
+  
 }
