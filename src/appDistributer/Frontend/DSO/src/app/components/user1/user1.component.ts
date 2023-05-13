@@ -175,7 +175,7 @@ export class User1Component implements OnInit, AfterViewInit {
 
   Image(dataImage: any) {
     if (dataImage == '' || dataImage == null) {
-      this.imageSource = 'assets/images/user.png';
+      this.imageSource = 'assets/images/defaultProsumer.png';
     } else {
       this.imageSource = this._sanitizer.bypassSecurityTrustResourceUrl(
         `data:image/png;base64, ${dataImage}`
