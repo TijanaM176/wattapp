@@ -42,7 +42,7 @@ export class RealizationChartProductionComponent
 
   ngOnInit(): void {
     this.id = this.router.snapshot.params['id'];
-    this.HistoryWeek('realizPred1');
+    this.HistoryWeek('realizPrediction1');
     if (
       this.widthService.deviceWidth >= 576 ||
       this.widthService.height >= this.widthService.deviceWidth * 2
@@ -99,6 +99,7 @@ export class RealizationChartProductionComponent
   }
 
   HistoryWeek(id: string) {
+    this.activateButton(id);
     this.show = true;
     this.spiner.show();
     this.serviceTime
@@ -196,6 +197,7 @@ export class RealizationChartProductionComponent
   }
 
   HistoryMonth(id: string) {
+    this.activateButton(id);
     this.show = true;
     this.spiner.show();
     this.serviceTime
@@ -293,6 +295,7 @@ export class RealizationChartProductionComponent
   }
 
   HistoryYear(id: string) {
+    this.activateButton(id);
     this.show = true;
     this.spiner.show();
     this.serviceTime
@@ -388,7 +391,7 @@ export class RealizationChartProductionComponent
       });
   }
   activateButton(buttonNumber: string) {
-    const buttons = document.querySelectorAll('.realizationbtn');
+    const buttons = document.querySelectorAll('.realizationPredictionbtn');
     buttons.forEach((button) => {
       if (button.id == buttonNumber) {
         button.classList.add('active');

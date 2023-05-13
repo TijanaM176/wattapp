@@ -58,13 +58,14 @@ export class PredictionAllUsersComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.PredictionDay();
+    this.PredictionDay('pred1');
     document.getElementById(
       'modalFadePredictionAllProsumers'
     )!.style.maxHeight = this.widthService.height * 0.7 + 'px';
   }
 
-  PredictionWeek() {
+  PredictionWeek(id:string) {
+    this.activateButton(id);
     this.spiner.show('spiner3');
     this.servicetime.PredictionNextWeek().subscribe((response: any) => {
       const consumptionTimestamps = response.consumption || {};
@@ -149,12 +150,13 @@ export class PredictionAllUsersComponent implements OnInit {
           maintainAspectRatio: false,
         },
       });
-
+      this.activateButton(id);
       this.spiner.hide('spiner3');
     });
   }
 
-  Prediction3Days() {
+  Prediction3Days(id:string) {
+    this.activateButton(id);
     this.spiner.show('spiner3');
     this.servicetime.PredictionNext3Days().subscribe((response: any) => {
       const consumptionTimestamps = response.consumption || {};
@@ -239,12 +241,13 @@ export class PredictionAllUsersComponent implements OnInit {
           maintainAspectRatio: false,
         },
       });
-
+      this.activateButton(id);
       this.spiner.hide('spiner3');
     });
   }
 
-  PredictionDay() {
+  PredictionDay(id:string) {
+    this.activateButton(id);
     this.spiner.show('spiner3');
     this.servicetime.PredictionNextDay().subscribe((response: any) => {
       const consumptionTimestamps = response.consumption || {};
@@ -330,11 +333,12 @@ export class PredictionAllUsersComponent implements OnInit {
           maintainAspectRatio: false,
         },
       });
+      this.activateButton(id);
       this.spiner.hide('spiner3');
     });
   }
   activateButton(buttonNumber: string) {
-    const buttons = document.querySelectorAll('.realizationbtn');
+    const buttons = document.querySelectorAll('.predictionbtn');
     buttons.forEach((button) => {
       if (button.id == buttonNumber) {
         button.classList.add('active');

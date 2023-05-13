@@ -84,7 +84,7 @@ export class User1Component implements OnInit, AfterViewInit {
     document.getElementById('userInfoDataContainer')!.style.height =
       this.widthService.height + 'px';
     this.letValue = this.cookie.get('role');
-    if(this.letValue === 'Dso') this.canDeleteEdit = true;
+    if(this.letValue === 'Admin') this.canDeleteEdit = true;
     this.spiner.show();
     this.disableDelete(this.letValue);
     this.getInformations();
@@ -175,7 +175,7 @@ export class User1Component implements OnInit, AfterViewInit {
 
   Image(dataImage: any) {
     if (dataImage == '' || dataImage == null) {
-      this.imageSource = 'assets/images/user.png';
+      this.imageSource = 'assets/images/defaultProsumer.png';
     } else {
       this.imageSource = this._sanitizer.bypassSecurityTrustResourceUrl(
         `data:image/png;base64, ${dataImage}`

@@ -70,12 +70,13 @@ export class HistoryProsumerComponent implements OnInit {
     this.id = this.router.snapshot.params['id'];
     document.getElementById('grafik')!.style.height =
       this.widthService.height * this.coef + 'px';
-    this.HistoryWeek('realiz2');
+    this.HistoryWeek('realizuser1');
     document.getElementById(
       'modalFadeConsumptionHistoryProsumer'
     )!.style.maxHeight = this.widthService.height * 0.7 + 'px';
   }
   HistoryWeek(id: string) {
+    this.activateButton(id);
     this.show = true;
     this.spiner.show();
     this.serviceTime
@@ -167,6 +168,7 @@ export class HistoryProsumerComponent implements OnInit {
   }
 
   HistoryMonth(id: string) {
+    this.activateButton(id);
     this.show = true;
     this.spiner.show();
     this.serviceTime
@@ -257,6 +259,7 @@ export class HistoryProsumerComponent implements OnInit {
   }
 
   HistoryYear(id: string) {
+    this.activateButton(id);
     this.show = true;
     this.spiner.show();
     this.serviceTime
@@ -346,7 +349,7 @@ export class HistoryProsumerComponent implements OnInit {
   }
 
   activateButton(buttonNumber: string) {
-    const buttons = document.querySelectorAll('.realizationbtn');
+    const buttons = document.querySelectorAll('.realization2btn');
     buttons.forEach((button) => {
       if (button.id == buttonNumber) {
         button.classList.add('active');

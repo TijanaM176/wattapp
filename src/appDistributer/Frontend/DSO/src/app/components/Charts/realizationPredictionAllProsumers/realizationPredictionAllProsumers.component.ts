@@ -29,7 +29,7 @@ export class RealizationPredictionAllProsumersComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.HistoryWeek();
+    this.HistoryWeek('realizpred1');
     document.getElementById(
       'modalFadeRealizationPredictionAllProsumers'
     )!.style.maxHeight = this.widthService.height * 0.7 + 'px';
@@ -157,28 +157,34 @@ export class RealizationPredictionAllProsumersComponent implements OnInit {
     });
   }
 
-  HistoryWeek() {
+  HistoryWeek(id:string) {
+    this.activateButton(id);
     this.HistoryData(
       'week',
       this.servicetime.HistoryAllProsumers7Days.bind(this.servicetime),
       this.activeChartType
     );
+    this.activateButton(id);
   }
 
-  HistoryMonth() {
+  HistoryMonth(id:string) {
+    this.activateButton(id);
     this.HistoryData(
       'month',
       this.servicetime.HistoryAllProsumers1Month.bind(this.servicetime),
       this.activeChartType
     );
+    this.activateButton(id);
   }
 
-  HistoryYear() {
+  HistoryYear(id:string) {
+    this.activateButton(id);
     this.HistoryData(
       'year',
       this.servicetime.HistoryAllProsumers1Year.bind(this.servicetime),
       this.activeChartType
     );
+    this.activateButton(id);
   }
 
   exportTable(data: any[]): void {
@@ -219,5 +225,15 @@ export class RealizationPredictionAllProsumersComponent implements OnInit {
     const workbook: XLSX.WorkBook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(workbook, worksheet, 'Chart Data');
     XLSX.writeFile(workbook, 'chart-data.xlsx');
+  }
+  activateButton(buttonNumber: string) {
+    const buttons = document.querySelectorAll('.realizationpredictionbtn');
+    buttons.forEach((button) => {
+      if (button.id == buttonNumber) {
+        button.classList.add('active');
+      } else {
+        button.classList.remove('active');
+      }
+    });
   }
 }
