@@ -68,10 +68,10 @@ export class WorkerProfileComponent implements OnInit, AfterViewInit {
       this.side.style.height = this.widthService.height * 0.7 + 'px';
     });
     this.getInfo();
-    if (this.cookie.get('role') == 'Dso') {
+    if (this.cookie.get('role') == 'Admin') {
       this.role = 'Admin';
-    } else if (this.cookie.get('role') == 'WorkerDso') {
-      this.role = 'Employee';
+    } else if (this.cookie.get('role') == 'Dispatcher') {
+      this.role = 'Dispatcher';
     }
     setTimeout(() => {
       this.loader = false;
