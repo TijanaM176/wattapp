@@ -57,7 +57,7 @@ namespace API.Services.DsoService
                 return false;       //ako ne moze da ga nadje, nije editovan
             }
 
-            if (newValues.Email.Length > 0)
+            if (newValues.Email !=  null)
             {
                 if (dso.Email.Equals(newValues.Email) || await checkEmail(newValues.Email))
                     dso.Email = newValues.Email;
@@ -65,30 +65,17 @@ namespace API.Services.DsoService
                     return false;
             }
 
-            //sifra
-            if (newValues.Password.Length > 0 && newValues.OldPassword.Length > 0)
-            {
-                var hmac = new HMACSHA512(dso.SaltPassword);
-                byte[] oldPasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(newValues.OldPassword));
-                if (oldPasswordHash.SequenceEqual(dso.HashPassword))
-                {
-                    byte[] passwordSalt = hmac.Key;
-                    byte[] passwordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(newValues.Password));
-                    dso.SaltPassword = passwordSalt;
-                    dso.HashPassword = passwordHash;
-                }
-                else return false;
-            }
-
-            if (newValues.FirstName.Length > 0) dso.FirstName = newValues.FirstName;
-            if (newValues.LastName.Length > 0) dso.LastName = newValues.LastName;
-            if (newValues.Salary > 0) dso.Salary = newValues.Salary;
+            if (newValues.FirstName != null) dso.FirstName = newValues.FirstName;
+            if (newValues.LastName != null) dso.LastName = newValues.LastName;
+            if (newValues.Salary != null) dso.Salary = newValues.Salary;
 
             var roles = await GetRoleIds();
             var regions = await GetRegionIds();
-            if (roles.Contains(newValues.RoleId)) dso.RoleId = newValues.RoleId;
-            if (regions.Contains(newValues.RegionId)) dso.RegionId = newValues.RegionId;
+            if (newValues.RoleId != null)
+            {
+                if (roles.Contains((long)newValues.RoleId)) dso.RoleId = newValues.RoleId;
 
+            }
             try
             {
                 await _repository.Save();
@@ -332,5 +319,48 @@ namespace API.Services.DsoService
 
             return answer;
         }
+        public async Task<bool> ChangePasswordDSO(string id, string oldPassword, string newPassword)
+        {
+            Dso worker;
+            try
+            {
+                worker = await GetDsoWorkerById(id);
+            }
+            catch (Exception)
+            {
+                return false; //ako ne moze da ga nadje, nije editovan
+            }
+
+
+
+            //sifra
+            if (!string.IsNullOrEmpty(oldPassword) && !string.IsNullOrEmpty(newPassword))
+            {
+                var hmac = new HMACSHA512(worker.SaltPassword);
+                var passwordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(oldPassword));
+                if (passwordHash.SequenceEqual(worker.HashPassword))
+                {
+                    // Ako se oldPassword poklapa sa trenutnom, izračunava se novi hash za newPassword
+                    var newHmac = new HMACSHA512();
+                    worker.SaltPassword = newHmac.Key;
+                    worker.HashPassword = newHmac.ComputeHash(Encoding.UTF8.GetBytes(newPassword));
+
+                }
+                else
+                    return false;
+
+            }
+
+            try
+            {
+                await _repository.Save();
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
     }
 }

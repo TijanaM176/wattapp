@@ -61,7 +61,7 @@ namespace API.Controllers
 
         [HttpPut("UpdateDsoWorker")]
         [Authorize(Roles = "Admin, Dispatcher")]
-        public async Task<ActionResult> EditDsoWorker(string id, DsoEdit newValues)
+        public async Task<ActionResult> EditDsoWorker(string id, [FromForm] DsoEdit newValues)
         {
             if (!await dsoService.EditDsoWorker(id, newValues)) return BadRequest("User could not be updated!");
             return Ok("User updated successfully!");
@@ -289,5 +289,18 @@ namespace API.Controllers
                 return StatusCode(500, ex.Message);
             }
         }
+        [HttpPut("ChangePasswordDispatcher")]
+        [Authorize(Roles = "Dispatcher")] 
+        public async Task<ActionResult> ChangePasswordDSO(string id, string oldPassword,string newPassword)
+        {
+            if (!await dsoService.ChangePasswordDSO(id, oldPassword, newPassword)) return BadRequest("Error! Password!");
+            return Ok(new
+            {
+                newPassword = newPassword,
+                error = false,
+                message = "Dispatcher change password successfully!"
+            });
+        }
+
     }
 }

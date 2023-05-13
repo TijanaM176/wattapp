@@ -27,5 +27,6 @@ namespace API.Services.DsoService
         public Task<Dictionary<string, double>> CurrentPrice();
         public Task<bool> DeleteImage(String WorkerID);
         public Task<(String, Boolean)> SaveImage(String WorkerID, string base64string);
+        public Task<bool> ChangePasswordDSO(string id, string oldPassword, string newPassword);
     }
 }
