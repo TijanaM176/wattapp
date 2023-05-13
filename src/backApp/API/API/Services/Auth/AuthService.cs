@@ -10,6 +10,14 @@ using System.Web;
 using Microsoft.AspNetCore.Mvc;
 using API.Models.Users;
 using System.IO;
+using MailKit.Security;
+using MimeKit;
+using MailKit.Net.Smtp;
+using System.Reflection.Emit;
+using System.Xml.Linq;
+using Org.BouncyCastle.Asn1.Ocsp;
+using static System.Net.WebRequestMethods;
+using System;
 
 namespace API.Services.Auth
 {
@@ -317,6 +325,122 @@ namespace API.Services.Auth
                 return false;
             }
         }
+
+        private void SendRegisterEmail(User user, String Password)  // messagetoClinet mora biti HTML!!!
+        {
+            
+            var message = new MimeMessage(); // Mime.Kit
+            message.From.Add(MailboxAddress.Parse("VoltaDSO@gmail.com"));
+            message.To.Add(MailboxAddress.Parse(user.Email)); //email how forgot a password
+            
+            StringBuilder cssCode = new StringBuilder();
+            cssCode.AppendLine("<style>");
+            cssCode.AppendLine(".notification {");
+            cssCode.AppendLine("  background-color: #f2f2f2;");
+            cssCode.AppendLine("  border-left: 15px solid #333;");
+            cssCode.AppendLine("  margin: 20px 0;");
+            cssCode.AppendLine("  padding: 12px;");
+            cssCode.AppendLine("}");
+            cssCode.AppendLine(".notification-content {");
+            cssCode.AppendLine("  font-size: 16px;");
+            cssCode.AppendLine("  line-height: 1.6;");
+            cssCode.AppendLine("}");
+            cssCode.AppendLine(".username {");
+            cssCode.AppendLine("  font-weight: bold;");
+            cssCode.AppendLine("}");
+            cssCode.AppendLine(".usernamepass {");
+            cssCode.AppendLine("  font-weight: bold;");
+            cssCode.AppendLine("  color: black;");
+            cssCode.AppendLine("}");
+            cssCode.AppendLine("</style>");
+            if (user is Prosumer)
+            {
+                // Build the HTML code
+                StringBuilder htmlCode = new StringBuilder();
+                string site ="http://softeng.pmf.kg.ac.rs:10073/login";
+
+                htmlCode.AppendLine("<!DOCTYPE html>");
+                htmlCode.AppendLine("<html>");
+                htmlCode.AppendLine("<head>");
+                htmlCode.AppendLine("<meta charset='UTF-8'>");
+                htmlCode.AppendLine("<title>Notification</title>");
+                htmlCode.AppendLine(cssCode.ToString()); // Add the CSS code to the HTML
+                htmlCode.AppendLine("</head>");
+                htmlCode.AppendLine("<body>");
+                htmlCode.AppendLine("<div class='notification'>");
+                htmlCode.AppendLine("<div class='notification-content'>");
+                htmlCode.AppendLine($"<p>Your username is <span class='username'>{user.Username}</span></p>");
+                htmlCode.AppendLine($"<p>Your password is <span class='usernamepass'>{Password}</span></p>");
+                htmlCode.AppendLine($"<p>Click <a href='{site}'>Here</a> to access our app.</p>");
+                htmlCode.AppendLine("</div>");
+                htmlCode.AppendLine("</div>");
+                htmlCode.AppendLine("</body>");
+                htmlCode.AppendLine("</html>");
+
+                message.Body = new TextPart(MimeKit.Text.TextFormat.Html)
+                {
+                    Text = htmlCode.ToString()
+                };
+
+
+                message.Subject = "Volta: Prosumer " + user.FirstName + " " + user.LastName + " ,we have sent you account information"; 
+            
+            }
+            else
+            {
+                
+                    // Build the HTML code
+                    StringBuilder htmlCode = new StringBuilder();
+                    string site = "http://softeng.pmf.kg.ac.rs:10072/login";
+
+                    htmlCode.AppendLine("<!DOCTYPE html>");
+                    htmlCode.AppendLine("<html>");
+                    htmlCode.AppendLine("<head>");
+                    htmlCode.AppendLine("<meta charset='UTF-8'>");
+                    htmlCode.AppendLine("<title>Notification</title>");
+                    htmlCode.AppendLine(cssCode.ToString()); // Add the CSS code to the HTML
+                    htmlCode.AppendLine("</head>");
+                    htmlCode.AppendLine("<body>");
+                    htmlCode.AppendLine("<div class='notification'>");
+                    htmlCode.AppendLine("<div class='notification-content'>");
+                    htmlCode.AppendLine($"<p>Your username is <span class='username'>{user.Username}</span></p>");
+                    htmlCode.AppendLine($"<p>Your password is <span class='usernamepass'>{Password}</span></p>");
+                    htmlCode.AppendLine($"<p>Click <a href='{site}'>Here</a> to access our app.</p>");
+                    htmlCode.AppendLine("</div>");
+                    htmlCode.AppendLine("</div>");
+                    htmlCode.AppendLine("</body>");
+                    htmlCode.AppendLine("</html>");
+
+                    message.Body = new TextPart(MimeKit.Text.TextFormat.Html)
+                    {
+                        Text = htmlCode.ToString()
+                    };
+
+
+                    message.Subject = "Volta: Dispatcher " + user.FirstName + " " + user.LastName + " ,we have sent you account information";
+
+                }
+
+
+
+
+            
+            var smtp = new SmtpClient(); //using MailKit.Net.Smtp;
+            if (user.Email.Contains("gmail.com"))
+                smtp.Connect("smtp.gmail.com", 587, SecureSocketOptions.StartTls); // za gmail , 587 je port, using MailKit.Security
+
+            if (user.Email.Contains("hotmail.com"))
+                smtp.Connect("smtp.office365.com", 587, SecureSocketOptions.StartTls); // za hotmail , 587 je port, using MailKit.Security
+
+            if (user.Email.Contains("yahoo.com"))
+                smtp.Connect("smtp.mail.yahoo.com", 465, SecureSocketOptions.StartTls); // za hotmail , 587 je port, using MailKit.Security
+
+            smtp.Authenticate("VoltaDSO@gmail.com", "qdbfwrmrgkrzkbdx");
+            smtp.Send(message);
+            smtp.Disconnect(true);
+
+           
+        }
         public async Task<Prosumer> Register(ProsumerDto request)
         {
             CreatePasswordHash(request.Password, out byte[] passwordHash, out byte[] passwordSalt); // vracamo dve vrednosti!
@@ -391,14 +515,19 @@ namespace API.Services.Auth
                         // ako default slika ne postoji, koristi null umesto slike
                         prosumer.Image = null;
                     }
-                
-             
 
 
 
 
-                if (await InsertProsumer(prosumer)) return prosumer; // sacuvaju se i 
 
+
+                if (await InsertProsumer(prosumer))
+                {
+                    // send e-mail 
+                    SendRegisterEmail(prosumer, request.Password);
+
+                    return prosumer; // sacuvaju se i 
+                }
             }
             return null;
         }
@@ -440,8 +569,8 @@ namespace API.Services.Auth
               
                 //datum kreiranja
                 workerDSO.DateCreate = DateTime.Now.ToString("MM/dd/yyyy");
-           
-            
+
+                /*
                 if (request.imageFile != null)
                 {
                     var result = this.SaveImage(request.imageFile);
@@ -451,6 +580,11 @@ namespace API.Services.Auth
 
                     }
 
+                }*/
+                if(!string.IsNullOrEmpty(request.image64String)) 
+                {
+
+                    workerDSO.Image = request.image64String;
                 }
                 else
                 {
@@ -475,8 +609,12 @@ namespace API.Services.Auth
                     }
                 }
 
-                if (await InsertDSOWorker(workerDSO)) return workerDSO;   // sacuvaju se i izmene
+                if (await InsertDSOWorker(workerDSO))
+                {
+                    SendRegisterEmail(workerDSO, request.Password);
 
+                    return workerDSO;   // sacuvaju se i izmene
+                }
             }
             return null;
         }
