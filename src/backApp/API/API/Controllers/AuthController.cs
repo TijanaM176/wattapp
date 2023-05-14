@@ -23,7 +23,7 @@ namespace API.Controllers
         }
        
         [HttpPost("registerProsumer")]
-        [Authorize(Roles = "Admin")]
+        // [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Register(ProsumerDto request)
         {
             Prosumer prosumer = await authService.Register(request);
@@ -48,7 +48,7 @@ namespace API.Controllers
         }
 
         [HttpPost("registerDsoWorker")]
-        [Authorize(Roles = "Admin")]
+        // [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Register( DsoWorkerDto request)
 
         {
@@ -161,35 +161,35 @@ namespace API.Controllers
             }) ;
         }
 
-        [HttpPost("refreshToken")]
-        public async Task<ActionResult> RefreshToken([FromBody] ReceiveRefreshToken refreshToken)
-        {
-            //var refreshToken = Request.Cookies["refreshToken"];
-            User user = null;
-            if (refreshToken.role == "Prosumer")
-               user = await authService.GetProsumer(refreshToken.username);
-            else
-                user = await authService.GetDSO(refreshToken.username);
-
-            if (user == null) return BadRequest("Invalid username");
-
-            if (!user.Token.Equals(refreshToken.refreshToken))
-                return Unauthorized("Invalid Refresh Token.");
-            else if (user.TokenExpiry < DateTime.Now)
-                return Unauthorized("Expired Token.");
-
-            string token = await authService.CreateToken(user);
-            var updatedRefreshToken = authService.GenerateRefreshToken();
-            SetRefreshToken(updatedRefreshToken);
-            if (!await authService.SaveToken(user, updatedRefreshToken.Token, updatedRefreshToken.Expires)) return BadRequest("Token could not be saved!");
-            
-            return Ok(new
+            [HttpPost("refreshToken")]
+            public async Task<ActionResult> RefreshToken([FromBody] ReceiveRefreshToken refreshToken)
             {
-                token = token,
-                refreshToken = updatedRefreshToken.Token
-            });
+                //var refreshToken = Request.Cookies["refreshToken"];
+                User user = null;
+                if (refreshToken.role == "Prosumer")
+                   user = await authService.GetProsumer(refreshToken.username);
+                else
+                    user = await authService.GetDSO(refreshToken.username);
 
-        }
+                if (user == null) return BadRequest("Invalid username");
+
+                if (!user.Token.Equals(refreshToken.refreshToken))
+                    return Unauthorized("Invalid Refresh Token.");
+                else if (user.TokenExpiry < DateTime.Now)
+                    return Unauthorized("Expired Token.");
+
+                string token = await authService.CreateToken(user);
+                var updatedRefreshToken = authService.GenerateRefreshToken();
+                SetRefreshToken(updatedRefreshToken);
+                if (!await authService.SaveToken(user, updatedRefreshToken.Token, updatedRefreshToken.Expires)) return BadRequest("Token could not be saved!");
+                
+                return Ok(new
+                {
+                    token,
+                    refreshToken = updatedRefreshToken.Token
+                });
+
+            }
 
         [HttpPost("Send_E-mail")]
         public IActionResult SendEmail(string emailUser,string messagetoClientHTML)  // messagetoClinet mora biti HTML!!!

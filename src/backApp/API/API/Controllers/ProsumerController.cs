@@ -43,7 +43,7 @@ namespace API.Controllers
                     RegionId = p.RegionId,
                     CityId = p.CityId,
                     NeigborhoodId = p.NeigborhoodId,
-                    Image = p.Image,
+                    // Image = p.Image,
                     RoleId = p.RoleId
                 }).ToList();
                 return Ok(simplifiedProsumers);
@@ -119,7 +119,7 @@ namespace API.Controllers
         }
 
         [HttpDelete("DeleteProsumer")]
-        [Authorize(Roles = "Admin")]
+        // [Authorize(Roles = "Admin")]
         public async Task<ActionResult> DeleteProsumer(string id)
         {
             if (await prosumerService.DeleteProsumer(id)) return Ok(new
@@ -132,7 +132,7 @@ namespace API.Controllers
         }
 
         [HttpPut("UpdateProsumer")]
-        [Authorize(Roles = "Prosumer")] // trebalo bi roles da bude Prosumer ne Dso
+        // [Authorize(Roles = "Prosumer")]
         public async Task<ActionResult> EditProsumer(string id,[FromBody] ProsumerEdit newValues)
         {
             if (!await prosumerService.EditProsumer(id, newValues)) return BadRequest("Error! Password!");

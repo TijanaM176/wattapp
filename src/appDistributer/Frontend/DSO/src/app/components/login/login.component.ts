@@ -48,7 +48,7 @@ export class LoginComponent implements OnInit {
     this.cookie.delete('lat', '/');
     this.cookie.delete('long', '/');
     this.cookie.delete('acc', '/');
-    this.cookie.delete('country', '/');
+    this.cookie.delete('region', '/');
     this.cookie.deleteAll();
     this.loginForm = this.fb.group({
       usernameOrEmail: ['', Validators.required],
@@ -139,32 +139,30 @@ export class LoginComponent implements OnInit {
     //this.messageHTML = this.sanitizer.bypassSecurityTrustHtml(message);
     if (this.checkValidEmail(this.resetPasswordEmail)) {
       //console.log(this.resetPasswordEmail);
-      this.auth.sendResetPasswordLink(this.resetPasswordEmail,resetPasswordLink).subscribe({
-        next: (res) => {
-          this.toast.success('Success', 'Email is sent', {
-            timeOut: 2500,
-          });
-          this.resetPasswordEmail = '';
-          const buttonRef = document.getElementById('closeBtn');
-          buttonRef?.click();
-        },
-        error: (err) => {
-          this.toast.error('Error!', 'Unable to send email.', {
-            timeOut: 2500,
-          });
-        },
-      });
+      this.auth
+        .sendResetPasswordLink(this.resetPasswordEmail, resetPasswordLink)
+        .subscribe({
+          next: (res) => {
+            this.toast.success('Success', 'Email is sent', {
+              timeOut: 2500,
+            });
+            this.resetPasswordEmail = '';
+            const buttonRef = document.getElementById('closeBtn');
+            buttonRef?.click();
+          },
+          error: (err) => {
+            this.toast.error('Error!', 'Unable to send email.', {
+              timeOut: 2500,
+            });
+          },
+        });
     }
   }
 
   PrivremeniToken() {
-    //console.log(this.resetPasswordEmail);
     this.auth.forgotPass(this.resetPasswordEmail).subscribe({
       next: (res) => {
-        //alert(res.message);
         this.cookie.set('resetToken', res.resetToken, { path: '/' });
-        //console.log(res);
-        //console.log(this.resetPasswordEmail);
       },
       error: (err) => {
         this.toast.error('Error!', 'Error.', {

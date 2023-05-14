@@ -36,8 +36,7 @@ export class AuthService {
       {}
     );
   }
-  sendResetPasswordLink(email: string,message:any) {
-   
+  sendResetPasswordLink(email: string, message: any) {
     return this.http.post<any>(
       `${this.baseUrl}Auth/Send_E-mail?emailUser=` +
         email +
@@ -53,8 +52,8 @@ export class AuthService {
     );
   }
 
-  refreshToken(refreshToken: SendRefreshToken) {
-    return this.http.post<RefreshTokenDto>(
+  refreshToken(refreshToken: SendRefreshToken): Observable<any> {
+    return this.http.post<any>(
       this.baseUrl + 'Auth/refreshToken',
       refreshToken
     );

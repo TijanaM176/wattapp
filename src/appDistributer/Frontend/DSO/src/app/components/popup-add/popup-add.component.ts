@@ -27,23 +27,23 @@ export class PopupAddComponent implements OnInit {
   isText: boolean = false;
   imgChangeEvet: any = '';
   croppedImage: any = '';
-  currentImage : string = 'assets/images/defaultWorker.png';
-  selectedImageFile : any = null;
-  fileType : any = '';
-  errorDeletePhoto : boolean = false;
-  updatedPhotoSuccess : boolean = false;
-  updatedPhotoError : boolean = false;
-  noFile : boolean = false;
-  file:boolean=false;
-  imageSource!:any;
-  imageSource1!:any;
+  currentImage: string = 'assets/images/defaultWorker.png';
+  selectedImageFile: any = null;
+  fileType: any = '';
+  errorDeletePhoto: boolean = false;
+  updatedPhotoSuccess: boolean = false;
+  updatedPhotoError: boolean = false;
+  noFile: boolean = false;
+  file: boolean = false;
+  imageSource!: any;
+  imageSource1!: any;
   constructor(
     private fb: FormBuilder,
     private router: Router,
     private auth: AuthService,
     public toast: ToastrService,
-    public cookie:CookieService,
-    private service:EmployeesServiceService,
+    public cookie: CookieService,
+    private service: EmployeesServiceService,
     private http: HttpClient
   ) {}
   ngOnInit(): void {
@@ -53,7 +53,7 @@ export class PopupAddComponent implements OnInit {
       lastName: ['', Validators.required],
       password: ['', Validators.required],
       email: ['', Validators.required],
-      image64String: ['']
+      image64String: [''],
     });
   }
   get fields() {
@@ -61,7 +61,6 @@ export class PopupAddComponent implements OnInit {
   }
   onSignUp() {
     if (this.signupWorkerForm.valid) {
-      console.log(this.signupWorkerForm.value);
     } else {
       this.validateAllFormFields(this.signupWorkerForm);
     }
@@ -79,50 +78,44 @@ export class PopupAddComponent implements OnInit {
   close() {
     this.signupWorkerForm.reset();
   }
-  openCrop()
-  {
-    document.getElementById('openCropImageBtn2')!.click()
+  openCrop() {
+    document.getElementById('openCropImageBtn2')!.click();
   }
-  closeChange()
-  {
-    document.getElementById('openAgain')!.click()
+  closeChange() {
+    document.getElementById('openAgain')!.click();
     this.resetAll();
   }
 
-  confirmNewPhoto()
-  {
+  confirmNewPhoto() {
     this.updatedPhotoError = false;
     this.updatedPhotoSuccess = false;
     this.noFile = false;
-    if(this.selectedImageFile != null)
-    {
-      this.croppedImage = this.croppedImage.replace('data:image/png;base64,','');
+    if (this.selectedImageFile != null) {
+      this.croppedImage = this.croppedImage.replace(
+        'data:image/png;base64,',
+        ''
+      );
       // console.log(this.croppedImage);
-      this.file=true;
-      let sp = new SendPhoto1( this.croppedImage);
-      this.signupWorkerForm.value.image64String=sp.base64String;
-      
-          this.updatedPhotoSuccess = true;
-          setTimeout(()=>{
-            
-            document.getElementById('closeCropImagePhotoUpdated2')!.click();
-            this.closeChange();
-          },700);
-       
-    }
-    else
-    {
+      this.file = true;
+      let sp = new SendPhoto1(this.croppedImage);
+      this.signupWorkerForm.value.image64String = sp.base64String;
+
+      this.updatedPhotoSuccess = true;
+      setTimeout(() => {
+        document.getElementById('closeCropImagePhotoUpdated2')!.click();
+        this.closeChange();
+      }, 700);
+    } else {
       this.noFile = true;
-      this.file=false;
+      this.file = false;
     }
   }
-  deleteselectimage(){
-    this.signupWorkerForm.value.image64String=false;
-    this.file=false;
+  deleteselectimage() {
+    this.signupWorkerForm.value.image64String = false;
+    this.file = false;
     this.resetAll();
   }
-  private resetAll()
-  {
+  private resetAll() {
     this.errorDeletePhoto = false;
     this.selectedImageFile = null;
     this.imgChangeEvet = '';
@@ -135,33 +128,29 @@ export class PopupAddComponent implements OnInit {
   }
   onFileSelected(event: any) {
     this.imgChangeEvet = event;
-    if(event.target.files)
-    {
+    if (event.target.files) {
       this.selectedImageFile = event.target.files[0];
       this.fileType = event.target.files[0].type;
       // this.changeImage = this.sant.bypassSecurityTrustUrl(window.URL.createObjectURL(this.selectedImageFile)) as string;
     }
   }
-  onSubmit() {console.log("ss");
-  
+  onSubmit() {
+    console.log('ss');
+
     if (!this.signupWorkerForm.value.image64String) {
-     
-      this.http.get(this.currentImage, { responseType: 'blob' })
-      .subscribe((imageBlob: Blob) => {
-        const reader = new FileReader();
-        reader.onloadend = () => {
-          let base64String = reader.result as string;
-          base64String = base64String.replace('data:image/png;base64,','');
-          let sp1 = new SendPhoto1( base64String);
-          this.signupWorkerForm.value.image64String=sp1.base64String;
-         // console.log(base64String); // You can use or further process the base64 string here
-          
-        };
-        reader.readAsDataURL(imageBlob);
-        
-      });
-      
-     
+      this.http
+        .get(this.currentImage, { responseType: 'blob' })
+        .subscribe((imageBlob: Blob) => {
+          const reader = new FileReader();
+          reader.onloadend = () => {
+            let base64String = reader.result as string;
+            base64String = base64String.replace('data:image/png;base64,', '');
+            let sp1 = new SendPhoto1(base64String);
+            this.signupWorkerForm.value.image64String = sp1.base64String;
+            // console.log(base64String); // You can use or further process the base64 string here
+          };
+          reader.readAsDataURL(imageBlob);
+        });
     }
     this.signupWorkerForm.value.salary = Number(
       this.signupWorkerForm.value.salary

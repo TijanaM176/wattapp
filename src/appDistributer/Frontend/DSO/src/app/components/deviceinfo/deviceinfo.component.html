@@ -102,11 +102,11 @@
               <div
                 class="card-body p-3"
                 id="consumptionLimitCardBody"
-                style="display: flex; justify-content: center;"
+                style="display: flex; justify-content: center"
               >
                 <div class="row">
                   <div class="col-12" id="consumptionLimitBody">
-                    <div class="numbers" *ngIf="cat==1 || cat==2">
+                    <div class="numbers" *ngIf="cat == 1 || cat == 2">
                       <ngx-gauge
                         [type]="'semi'"
                         [value]="currentUsage"
@@ -124,22 +124,22 @@
                       </ngx-gauge>
                     </div>
                     <div
-                        class="w-100 mt-2 batteryCont"
-                        *ngIf="cat == 3"
-                        [ngStyle]="{
-                          height: widthService.deviceWidth > 576 ? '98%' : '70%'
-                        }"
-                      >
+                      class="w-100 mt-2 batteryCont"
+                      *ngIf="cat == 3"
+                      [ngStyle]="{
+                        height: widthService.deviceWidth > 576 ? '98%' : '70%'
+                      }"
+                    >
                       <div class="battery-body p-1">
                         <h1
                           [ngStyle]="{
                             left: widthService.deviceWidth > 576 ? '2%' : '3%'
                           }"
-                          >
+                        >
                           <i
                             class="fa fa-bolt"
                             style="color: #08376b"
-                            *ngIf="state == 2 && percentFull<100"
+                            *ngIf="state == 2 && percentFull < 100"
                           ></i>
                           <i
                             class="fa fa-exclamation-triangle"
@@ -163,12 +163,11 @@
                                 ? '#f3734d'
                                 : '#54d454'
                           }"
-                          >
-                        </div>
+                        ></div>
                       </div>
                       <div class="battery-top ms-0"></div>
                     </div>
-                    <div class="legend w-100 text-center" *ngIf="cat==1">
+                    <div class="legend w-100 text-center" *ngIf="cat == 1">
                       <i class="fa fa-circle greenZone"
                         >&nbsp;0-{{ AvgUsage }} kWh</i
                       >&nbsp;&nbsp;&nbsp;
@@ -179,7 +178,7 @@
                         >&nbsp;{{ MaxUsage }}+ kWh</i
                       >
                     </div>
-                    <div class="legend w-100 text-center" *ngIf="cat==2">
+                    <div class="legend w-100 text-center" *ngIf="cat == 2">
                       <i class="fa fa-circle redZone"
                         >&nbsp;0-{{ AvgUsage }} kWh</i
                       >&nbsp;&nbsp;&nbsp;
@@ -190,7 +189,11 @@
                         >&nbsp;{{ MaxUsage }}+ kWh</i
                       >
                     </div>
-                    <div class="legend w-100 text-center" *ngIf="cat==3" style="margin-top: 3%; padding-bottom: 2%;">
+                    <div
+                      class="legend w-100 text-center"
+                      *ngIf="cat == 3"
+                      style="margin-top: 3%; padding-bottom: 2%"
+                    >
                       <h5 style="color: #08376b">
                         Current Status: {{ currentCapacity }} kWh
                       </h5>
@@ -279,7 +282,8 @@
       </div>
     </div>
   </div>
-  <div class="modal fade"
+  <div
+    class="modal fade"
     id="batteryPercentageWarning"
     tabindex="-1"
     aria-labelledby="batteryPercentageWarningLabel"
@@ -289,7 +293,9 @@
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
         <div class="modal-header text-white bg-danger ps-3">
-          <h3 class="modal-title" id="batteryPercentageWarningLabel">Battery Is Running Out!</h3>
+          <h3 class="modal-title" id="batteryPercentageWarningLabel">
+            Battery Is Running Out!
+          </h3>
           <button
             type="button"
             class="btn-close"
@@ -319,7 +325,7 @@
       <div class="modal-header text-white" style="background-color: #466471">
         <h4 class="modal-title ps-2" id="turnBatteryOnDeviceInfoLabel">
           <!-- Turn this device {{ offOn }}? -->
-          Turn On {{Name}}
+          Turn On {{ Name }}
         </h4>
         <button
           type="button"
@@ -329,31 +335,50 @@
           style="background-color: white"
         ></button>
       </div>
-      <div class="modal-body row d-flex justify-content-center align-items-center">
+      <div
+        class="modal-body row d-flex justify-content-center align-items-center"
+      >
         <div
           class="col-6 col-lg-6"
           style="display: flex; justify-content: center; align-items: center"
         >
-        <!-- use battery -->
+          <!-- use battery -->
           <div
             (click)="toggleStorageDev(1)"
             class="text-center p-3 manageDeviceWork"
           >
             <i class="fa fa-power-off inUse"></i>
-            <p style="color: green; margin-top: 3%;">Use The Battery</p>
+            <p style="color: green; margin-top: 3%">Use The Battery</p>
           </div>
         </div>
         <div
           class="col-6 col-lg-6 text-center text-lg-start"
           style="display: flex; justify-content: center; align-items: center"
         >
-          <button id="closeModalBatteryBtnDeviceInfo" [hidden]="true" data-bs-dismiss="modal" data-bs-target="#turnBatteryOnDeviceInfo">Close Modal</button>
-          <button id="openModalBatteryBtnDeviceInfo" [hidden]="true" data-bs-toggle="modal" data-bs-target="#turnBatteryOnDeviceInfo">Open Modal</button>
-          
+          <button
+            id="closeModalBatteryBtnDeviceInfo"
+            [hidden]="true"
+            data-bs-dismiss="modal"
+            data-bs-target="#turnBatteryOnDeviceInfo"
+          >
+            Close Modal
+          </button>
+          <button
+            id="openModalBatteryBtnDeviceInfo"
+            [hidden]="true"
+            data-bs-toggle="modal"
+            data-bs-target="#turnBatteryOnDeviceInfo"
+          >
+            Open Modal
+          </button>
+
           <!-- charge battery -->
-          <div class="text-center p-3 manageDeviceWork" (click)="toggleStorageDev(2)">
+          <div
+            class="text-center p-3 manageDeviceWork"
+            (click)="toggleStorageDev(2)"
+          >
             <i class="fa fa-plug charge"></i>
-            <p style="color: #08376b; margin-top: 3%;">Charge The Battery</p>
+            <p style="color: #08376b; margin-top: 3%">Charge The Battery</p>
           </div>
         </div>
       </div>

@@ -18,7 +18,7 @@ export class DeviceinfoComponent implements OnInit {
   color: ThemePalette = 'accent';
   disabled = false;
   checked = false;
-  activity! : number;
+  activity!: number;
   currentUsage!: number;
   idDev!: string;
   results: Device = new Device();
@@ -40,15 +40,15 @@ export class DeviceinfoComponent implements OnInit {
   width: number = 250;
 
   type: string = '';
-  cat : number = 0;
+  cat: number = 0;
 
-   //battery
-   maxCapacity: number = 0;
-   currentCapacity: number = 0;
-   percentFull: number = 0;
-   avgFull : number = 0;
-   maxFull : number = 0;
-   state: number = 0; //iskljuceno
+  //battery
+  maxCapacity: number = 0;
+  currentCapacity: number = 0;
+  percentFull: number = 0;
+  avgFull: number = 0;
+  maxFull: number = 0;
+  state: number = 0; //iskljuceno
 
   constructor(
     private router: ActivatedRoute,
@@ -56,7 +56,7 @@ export class DeviceinfoComponent implements OnInit {
     private spiner: NgxSpinnerService,
     private router1: Router,
     private toastr: ToastrService,
-    public widthService : ScreenWidthService
+    public widthService: ScreenWidthService
   ) {}
 
   ngOnInit(): void {
@@ -67,8 +67,7 @@ export class DeviceinfoComponent implements OnInit {
   }
 
   turnDeviceoffOn() {
-    if(this.cat!=3)
-    {
+    if (this.cat != 3) {
       const ofOn = this.activity > 0 ? 'Off' : 'On';
       Swal.fire({
         title: 'Are you sure?',
@@ -85,41 +84,41 @@ export class DeviceinfoComponent implements OnInit {
           this.service
             .toggleDevice(this.router.snapshot.params['idDev'], true)
             .subscribe({
-              next:(response)=> {
-                this.activity = response > 0? 1 : 0;
+              next: (response) => {
+                this.activity = response > 0 ? 1 : 0;
                 this.currentUsage = response;
               },
-              error:(error) => {
+              error: (error) => {
                 Swal.fire({
                   title: 'Error',
                   confirmButtonColor: '#466471',
                   text: error.error,
                   icon: 'error',
                 });
-              }
+              },
             });
         } else if (result.dismiss === Swal.DismissReason.cancel) {
           // Action when Cancel button is clicked
         }
       });
-    }
-    else
-    {
-      if(this.state==0) //ukljuciti bateriju
-      {
+    } else {
+      if (this.state == 0) {
+        //ukljuciti bateriju
         document.getElementById('openModalBatteryBtnDeviceInfo')!.click();
-      }
-      else //iskljuciti bateriju
-      {
+      } //iskljuciti bateriju
+      else {
         this.toggleStorageDev(0);
       }
     }
   }
 
-  toggleStorageDev(mode : number)
-  {
-    let state = mode==1? 'Confirm you want to use '+this.Name+'.' : 
-                mode==2? 'Confirm you want to charge '+this.Name+'.' : 'Confirm you want to turn Off '+this.Name+'.';
+  toggleStorageDev(mode: number) {
+    let state =
+      mode == 1
+        ? 'Confirm you want to use ' + this.Name + '.'
+        : mode == 2
+        ? 'Confirm you want to charge ' + this.Name + '.'
+        : 'Confirm you want to turn Off ' + this.Name + '.';
     Swal.fire({
       title: 'Are you sure?',
       text: state,
@@ -130,18 +129,17 @@ export class DeviceinfoComponent implements OnInit {
       cancelButtonColor: '#8d021f',
       confirmButtonText: 'Yes',
       cancelButtonText: 'Cancel',
-      }).then((result) => {
+    }).then((result) => {
       if (result.value) {
-        this.service.toggleStorageDevice(this.idDev, true, mode)
-        .subscribe({
-          next:(res)=>{
+        this.service.toggleStorageDevice(this.idDev, true, mode).subscribe({
+          next: (res) => {
             this.activity = res.State;
             this.state = res.State;
             this.currentCapacity = res.Status;
             this.maxCapacity = res.Capacity;
             document.getElementById('closeModalBatteryBtnDeviceInfo')!.click();
           },
-          error:(err)=>{
+          error: (err) => {
             console.log(err);
             document.getElementById('closeModalBatteryBtnDeviceInfo')!.click();
             Swal.fire({
@@ -150,10 +148,10 @@ export class DeviceinfoComponent implements OnInit {
               text: err.error,
               icon: 'error',
             });
-          }
+          },
         });
+      } else if (result.dismiss === Swal.DismissReason.cancel) {
       }
-      else if (result.dismiss === Swal.DismissReason.cancel) {}
     });
   }
 
@@ -203,7 +201,7 @@ export class DeviceinfoComponent implements OnInit {
             fontSize: '16px',
           },
         };
-      } else if(this.cat == 1)
+      } else if (this.cat == 1)
         this.thresholds = {
           '0': { color: 'green', bgOpacity: 0.2, fontSize: '16px' },
           [this.AvgUsage]: {
@@ -216,20 +214,25 @@ export class DeviceinfoComponent implements OnInit {
             bgOpacity: 0.2,
             fontSize: '16px',
           },
-        }
-        else if(this.cat == 3)
-        {
-          document.getElementById('consumptionLimitBody')!.style.height = this.widthService.height * 0.42 +'px';
-          document.getElementById('consumptionLimitBody')!.style.width = this.width + 'px';
-          this.maxCapacity = res.Wattage;
-          this.currentCapacity = res.CurrentUsage;
-          this.state = res.Activity;
-          this.percentFull = Number(
-            ((this.currentCapacity / this.maxCapacity) * 100).toFixed(0)
-          );
-          this.avgFull = Number((this.AvgUsage/this.maxCapacity*100).toFixed(0));
-          this.maxFull = Number((this.MaxUsage/this.maxCapacity*100).toFixed(0));
-        }
+        };
+      else if (this.cat == 3) {
+        document.getElementById('consumptionLimitBody')!.style.height =
+          this.widthService.height * 0.42 + 'px';
+        document.getElementById('consumptionLimitBody')!.style.width =
+          this.width + 'px';
+        this.maxCapacity = res.Wattage;
+        this.currentCapacity = res.CurrentUsage;
+        this.state = res.Activity;
+        this.percentFull = Number(
+          ((this.currentCapacity / this.maxCapacity) * 100).toFixed(0)
+        );
+        this.avgFull = Number(
+          ((this.AvgUsage / this.maxCapacity) * 100).toFixed(0)
+        );
+        this.maxFull = Number(
+          ((this.MaxUsage / this.maxCapacity) * 100).toFixed(0)
+        );
+      }
     });
   }
   formatValue(value: number): string {
