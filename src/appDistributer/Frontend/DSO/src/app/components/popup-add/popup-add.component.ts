@@ -117,7 +117,7 @@ export class PopupAddComponent implements OnInit {
     }
   }
   deleteselectimage(){
-    this.signupWorkerForm.value.image64String=false;
+    this.signupWorkerForm.value.image64String='';
     this.file=false;
     this.resetAll();
   }
@@ -143,7 +143,7 @@ export class PopupAddComponent implements OnInit {
     }
   }
   onSubmit() {console.log("ss");
-  
+  console.log(this.signupWorkerForm.value.image64String);
     if (!this.signupWorkerForm.value.image64String) {
      
       this.http.get(this.currentImage, { responseType: 'blob' })
