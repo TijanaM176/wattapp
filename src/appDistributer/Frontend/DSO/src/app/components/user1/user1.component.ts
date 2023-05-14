@@ -23,7 +23,7 @@ export class User1Component implements OnInit, AfterViewInit {
   currentConsumption: number = 0;
   currentProduction: number = 0;
   deviceCount: number = 0;
-  realDeviceCount : number = 0;
+  realDeviceCount: number = 0;
   loader: boolean = true;
   resizeObservable$!: Observable<Event>;
   resizeSubscription$!: Subscription;
@@ -66,7 +66,7 @@ export class User1Component implements OnInit, AfterViewInit {
   message: boolean = false;
   userOldInfo: any;
   thresholds: object = {};
-  canDeleteEdit : boolean = false;
+  canDeleteEdit: boolean = false;
 
   onCurrentValuesReceived(values: [number, number, number, number]) {
     const [consumption, production, deviceCount, realDeviceCount] = values;
@@ -84,7 +84,7 @@ export class User1Component implements OnInit, AfterViewInit {
     document.getElementById('userInfoDataContainer')!.style.height =
       this.widthService.height + 'px';
     this.letValue = this.cookie.get('role');
-    if(this.letValue === 'Admin') this.canDeleteEdit = true;
+    if (this.letValue === 'Admin') this.canDeleteEdit = true;
     this.spiner.show();
     this.disableDelete(this.letValue);
     this.getInformations();
@@ -150,7 +150,6 @@ export class User1Component implements OnInit, AfterViewInit {
   }
 
   DeleteUser() {
-    //console.log(this.router.snapshot.params['id']);
     if (confirm('Do you want to delete ?')) {
       this.user.deleteUser(this.router.snapshot.params['id']).subscribe({
         next: (res) => {

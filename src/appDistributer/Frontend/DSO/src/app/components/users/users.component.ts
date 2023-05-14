@@ -23,7 +23,11 @@ export class UsersComponent implements OnInit {
   tableSizes: any = [10, 15, 20];
   orderHeader: String = '';
   isDescOrder: boolean = true;
-  constructor(public service: UsersServiceService, private router: Router,public serviceDevice:DeviceserviceService) {}
+  constructor(
+    public service: UsersServiceService,
+    private router: Router,
+    public serviceDevice: DeviceserviceService
+  ) {}
   ngOnInit(): void {
     this.serviceDevice.ProsumersInfo();
   }
@@ -40,7 +44,7 @@ export class UsersComponent implements OnInit {
   }
 
   Paging() {
-    this.service.Page(this.page, this.perPage).subscribe((res:any) => {
+    this.service.Page(this.page, this.perPage).subscribe((res: any) => {
       this.prosumers = res;
       console.log(this.serviceDevice.prosumers);
     });
@@ -55,17 +59,15 @@ export class UsersComponent implements OnInit {
     this.orderHeader = headerName;
   }
 
-  Image(base64string : string)
-  {
+  Image(base64string: string) {
     let currentImage = 'assets/images/defaultProsumer.png';
-    if(base64string != "" && base64string != null)
-    {
+    if (base64string != '' && base64string != null) {
       let byteArray = new Uint8Array(
         atob(base64string)
-        .split('')
-        .map((char)=> char.charCodeAt(0))
+          .split('')
+          .map((char) => char.charCodeAt(0))
       );
-      let file = new Blob([byteArray], {type: 'image/png'});
+      let file = new Blob([byteArray], { type: 'image/png' });
       currentImage = URL.createObjectURL(file);
     }
     return currentImage;
