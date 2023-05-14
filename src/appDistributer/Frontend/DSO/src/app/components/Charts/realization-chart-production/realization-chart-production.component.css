@@ -1,26 +1,37 @@
-.consumption{
-    color: #c14b48;
+.consumption {
+  color: #c14b48;
 }
-.production{
-    color: #238f91;
+.production {
+  color: #238f91;
 }
-.prediction{
-    color:#d3f72f;
+.prediction {
+  color: #d3f72f;
 }
-h6{
-    color: #5875a1;
+h6 {
+  color: #466471;
 }
-#realizationProsumerProductionTableLabel{
-    color: white;
-}
-
-.realizationPredictionAllbtn.active{
-    background-color: #c1dfd5;
-    border-color: #5875a1;
-    color: #5875a1;
+#realizationProsumerProductionTableLabel {
+  color: white;
 }
 
-.btn-close{
-    color: white;
-    background-color: white;
+.realizationPredictionbtn.active {
+  background-color: #ccdee9 !important;
+  border-color: #5875a1;
+  color: #5875a1 !important;
+}
+.realizationPredictionbtn:not(.active) {
+  background-color: #5875a1;
+  border-color: #5875a1;
+}
+.btn:focus {
+  outline: none !important;
+  box-shadow: none !important;
+}
+.btn-close {
+  color: white;
+  background-color: white;
+}
+.btn-primary {
+  background-color: #5875a1;
+  border-color: #5875a1;
 }

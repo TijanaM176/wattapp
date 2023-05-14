@@ -101,7 +101,7 @@ export class PredictionDeviceComponent implements OnInit, AfterViewInit {
         const chartData = {
           datasets: [
             {
-              label: 'Predicted Energy ' + this.type,
+              label: 'Predicted ' + this.type,
               data: consumptionData,
               backgroundColor: backgroundColor,
               borderColor: borderColor,
@@ -183,7 +183,7 @@ export class PredictionDeviceComponent implements OnInit, AfterViewInit {
         const chartData = {
           datasets: [
             {
-              label: 'Predicted Energy ' + this.type,
+              label: 'Predicted ' + this.type,
               data: consumptionData,
               backgroundColor: backgroundColor,
               borderColor: borderColor,
@@ -265,7 +265,7 @@ export class PredictionDeviceComponent implements OnInit, AfterViewInit {
         const chartData = {
           datasets: [
             {
-              label: 'Predicted Energy ' + this.type,
+              label: 'Predicted ' + this.type,
               data: consumptionData,
               backgroundColor: backgroundColor,
               borderColor: borderColor,

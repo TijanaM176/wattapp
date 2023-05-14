@@ -1,16 +1,3 @@
-.btn:focus {
-  outline: none;
-  box-shadow: none;
-}
-.btn-close {
-  color: white;
-  background-color: white;
-}
-.btn-primary {
-  background-color: #5875a1;
-  border-color: #5875a1;
-}
-
 .fa-bar-chart:active,
 .fa-bar-chart:focus {
   color: white;
@@ -21,4 +8,28 @@
 .fa-line-chart:focus {
   color: white;
   background-color: blue;
+}
+.realizationpredictionbtn.active {
+  background-color: #ccdee9 !important;
+  border-color: #5875a1;
+  color: #5875a1 !important;
+}
+.realizationpredictionbtn:not(.active) {
+  background-color: #5875a1;
+  border-color: #5875a1;
+}
+h6 {
+  color: #466471 !important;
+}
+.btn:focus {
+  outline: none !important;
+  box-shadow: none !important;
+}
+.btn-close {
+  color: white;
+  background-color: white;
+}
+.btn-primary {
+  background-color: #5875a1;
+  border-color: #5875a1;
 }

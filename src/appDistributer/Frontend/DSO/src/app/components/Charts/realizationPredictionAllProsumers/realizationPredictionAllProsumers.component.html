@@ -23,7 +23,7 @@
         justify-content: center;
       "
     >
-      <h6>
+      <h6 class="m-0 font-weight-bold ps-2">
         Realization and Prediction &nbsp;
 
         <button
@@ -50,7 +50,7 @@
       </h6>
     </div>
     <div
-      class="col-7"
+      class="col-7 group"
       style="
         display: flex;
         justify-content: right;
@@ -59,33 +59,29 @@
       "
     >
       <button
-        class="btn btn-outline-primary realizationpredictionbtn"
+        class="btn btn-primary realizationpredictionbtn"
         id="realizpred1"
         (click)="HistoryWeek('realizpred1')"
         style="margin: 1px"
         type="button"
-        
       >
         7 Days
       </button>
       <button
-        class="btn btn-outline-primary realizationpredictionbtn"
+        class="btn btn-primary realizationpredictionbtn"
         id="realizpred2"
-        
         (click)="HistoryMonth('realizpred2')"
         style="margin: 1px"
         type="button"
-        
       >
         1 Month
       </button>
       <button
-      class="btn btn-outline-primary realizationpredictionbtn"
-      id="realizpred3"
+        class="btn btn-primary realizationpredictionbtn"
+        id="realizpred3"
         (click)="HistoryYear('realizpred3')"
         type="button"
         style="margin: 1px"
-        
       >
         1 Year
       </button>

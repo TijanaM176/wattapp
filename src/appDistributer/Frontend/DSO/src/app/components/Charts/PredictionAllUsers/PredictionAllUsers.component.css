@@ -1,12 +1,24 @@
-.btn:focus {
-  outline: none;
-  box-shadow: none;
+.predictionbtn.active {
+  background-color: #ccdee9 !important;
+  border-color: #5875a1;
+  color: #5875a1 !important;
 }
-.btn-close{
+.predictionbtn:not(.active) {
+  background-color: #5875a1;
+  border-color: #5875a1;
+}
+h6 {
+  color: #466471 !important;
+}
+.btn:focus {
+  outline: none !important;
+  box-shadow: none !important;
+}
+.btn-close {
   color: white;
   background-color: white;
 }
-.btn-primary{
-  background-color: #5875A1;
-  border-color: #5875A1;
+.btn-primary {
+  background-color: #5875a1;
+  border-color: #5875a1;
 }

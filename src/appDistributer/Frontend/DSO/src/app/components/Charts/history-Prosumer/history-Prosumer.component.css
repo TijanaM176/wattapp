@@ -1,6 +1,19 @@
+h6 {
+  color: #466471;
+}
+
+.realization2btn.active {
+  background-color: #ccdee9 !important;
+  border-color: #5875a1;
+  color: #5875a1 !important;
+}
+.realization2btn:not(.active) {
+  background-color: #5875a1;
+  border-color: #5875a1;
+}
 .btn:focus {
-  outline: none;
-  box-shadow: none;
+  outline: none !important;
+  box-shadow: none !important;
 }
 .btn-close {
   color: white;
@@ -9,15 +22,4 @@
 .btn-primary {
   background-color: #5875a1;
   border-color: #5875a1;
-}
-.consumption {
-  color: #c14b48;
-}
-.prediction {
-  color: #80bc00;
-}
-.realizationPredictionbtn.active {
-  background-color: #c1d3df;
-  border-color: #5875a1;
-  color: #5875a1;
 }

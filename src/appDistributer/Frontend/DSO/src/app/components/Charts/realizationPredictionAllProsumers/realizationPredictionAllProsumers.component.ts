@@ -81,7 +81,7 @@ export class RealizationPredictionAllProsumersComponent implements OnInit {
 
       this.data = [];
 
-      if (productionData.length > 0 && consumptionData.length > 0) {
+      if (productionData.length > 0 || consumptionData.length > 0) {
         this.data = [
           { type: 'consumption', values: consumptionData },
 
@@ -106,7 +106,7 @@ export class RealizationPredictionAllProsumersComponent implements OnInit {
             borderDash: [],
           },
           {
-            label: 'Prediction for Consumption',
+            label: 'Predicted Consumption',
             data: consumptionPredictionData,
             backgroundColor: 'rgba(255, 125, 65, 1)',
             borderColor: 'rgba(255, 125, 65, 1)',
@@ -120,7 +120,7 @@ export class RealizationPredictionAllProsumersComponent implements OnInit {
             borderDash: [],
           },
           {
-            label: 'Prediction for Production',
+            label: 'Predicted Production',
             data: productionPredictionData,
             backgroundColor: 'rgba(0, 188, 179, 1)',
             borderColor: 'rgba(0, 188, 179, 1)',

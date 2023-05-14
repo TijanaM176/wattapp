@@ -5,7 +5,6 @@
   type="ball-clip-rotate"
   [showSpinner]="show"
   [fullScreen]="false"
-  *ngIf="show"
 ></ngx-spinner>
 <div class="card-header py-3 row mx-0 my-0 px-0">
   <div
@@ -18,8 +17,8 @@
     "
   >
     <h6 class="m-0 font-weight-bold ps-2">
-      Consumption History &nbsp;<button
-        class="btn btn-outline-primary p-0 px-1 m-0"
+      Consumption Realization &nbsp;<button
+        class="btn btn-outline-primary p-0 px-1"
         data-bs-toggle="modal"
         data-bs-target="#realizationProsumerConsumptionTable"
       >
@@ -32,21 +31,21 @@
     style="display: flex; justify-content: right; margin: auto"
   >
     <button
-      class="btn btn-outline-primary m-1 realization2btn"
+      class="btn btn-primary m-1 realization2btn"
       id="realizuser1"
       (click)="HistoryWeek('realizuser1')"
     >
       7 Days
     </button>
     <button
-      class="btn btn-outline-primary m-1 realization2btn"
+      class="btn btn-primary m-1 realization2btn"
       id="realizuser2"
       (click)="HistoryMonth('realizuser2')"
     >
       1 Month
     </button>
     <button
-      class="btn btn-outline-primary m-1 realization2btn"
+      class="btn btn-primary m-1 realization2btn"
       id="realizuser3"
       (click)="HistoryYear('realizuser3')"
     >
