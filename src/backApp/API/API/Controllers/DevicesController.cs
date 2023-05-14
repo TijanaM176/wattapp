@@ -131,7 +131,11 @@ namespace API.Controllers
         {
             try
             {
-                var prosumers = await devService.AllProsumerInfo();
+                var prosumers = (await devService.AllProsumerInfo()).Where(x =>
+                (cityId == "all" || (long)x["cityId"] == long.Parse(cityId)) &&
+                (neighborhoodId == "all" || (string)x["neighborhoodId"] == neighborhoodId)
+                );
+
                 var filtered = await devService.UpdatedProsumerFilter(minConsumption, maxConsumption, minProduction, maxProduction, minDeviceCount, maxDeviceCount, cityId, neighborhoodId);
                 return Ok(new
                 {

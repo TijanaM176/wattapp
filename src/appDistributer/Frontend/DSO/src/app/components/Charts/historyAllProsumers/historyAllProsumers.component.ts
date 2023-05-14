@@ -106,14 +106,14 @@ export class HistoryAllProsumersComponent implements OnInit {
           {
             label: 'Energy Consumption',
             data: consumptionData,
-            backgroundColor: 'rgba(193, 75, 72, 1)',
-            borderColor: 'rgba(193, 75, 72, 0.5)',
+            backgroundColor: 'rgba(212, 43, 17, 1)',
+            borderColor: 'rgba(212, 43, 17, 0.75)',
           },
           {
             label: 'Energy Production',
             data: productionData,
-            backgroundColor: 'rgba(128, 188, 0, 1)',
-            borderColor: 'rgba(128, 188, 0, 0.5)',
+            backgroundColor: 'rgba(2, 150, 39, 1)',
+            borderColor: 'rgba(2, 150, 39, 0.75)',
           },
         ],
       };
@@ -197,14 +197,14 @@ export class HistoryAllProsumersComponent implements OnInit {
           {
             label: 'Energy Consumption',
             data: consumptionData,
-            backgroundColor: 'rgba(193, 75, 72, 1)',
-            borderColor: 'rgba(193, 75, 72, 0.5)',
+            backgroundColor: 'rgba(212, 43, 17, 1)',
+            borderColor: 'rgba(212, 43, 17, 0.75)',
           },
           {
             label: 'Energy Production',
             data: productionData,
-            backgroundColor: 'rgba(128, 188, 0, 1)',
-            borderColor: 'rgba(128, 188, 0, 0.5)',
+            backgroundColor: 'rgba(2, 150, 39, 1)',
+            borderColor: 'rgba(2, 150, 39, 0.75)',
           },
         ],
       };
@@ -275,14 +275,14 @@ export class HistoryAllProsumersComponent implements OnInit {
           {
             label: 'Energy Consumption',
             data: consumptionData,
-            backgroundColor: 'rgba(193, 75, 72, 1)',
-            borderColor: 'rgba(193, 75, 72, 0.5)',
+            backgroundColor: 'rgba(212, 43, 17, 1)',
+            borderColor: 'rgba(212, 43, 17, 0.75)',
           },
           {
             label: 'Energy Production',
             data: productionData,
-            backgroundColor: 'rgba(128, 188, 0, 1)',
-            borderColor: 'rgba(128, 188, 0, 0.5)',
+            backgroundColor: 'rgba(2, 150, 39, 1)',
+            borderColor: 'rgba(2, 150, 39, 0.75)',
           },
         ],
       };
