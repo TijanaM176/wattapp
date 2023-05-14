@@ -58,7 +58,8 @@ export class PredictionDeviceComponent implements OnInit {
     const grafik = document.getElementById('predikcija');
     grafik!.style!.height = this.widthService.height * 0.6 + 'px';
     this.Prediction1Day('predictionDev1');
-    document.getElementById('PredictionDeviceTableModalBody')!.style.maxHeight = this.widthService.height * 0.6 +'px';
+    document.getElementById('PredictionDeviceTableModalBody')!.style.maxHeight =
+      this.widthService.height * 0.6 + 'px';
   }
 
   PredictionWeek(id: string) {
@@ -97,7 +98,7 @@ export class PredictionDeviceComponent implements OnInit {
         const chartData = {
           datasets: [
             {
-              label: 'Predicted Energy ' + this.type,
+              label: 'Predicted ' + this.type,
               data: consumptionData,
               backgroundColor: backgroundColor,
               borderColor: borderColor,
@@ -174,7 +175,7 @@ export class PredictionDeviceComponent implements OnInit {
         const chartData = {
           datasets: [
             {
-              label: 'Predicted Energy ' + this.type,
+              label: 'Predicted ' + this.type,
               data: consumptionData,
               backgroundColor: backgroundColor,
               borderColor: borderColor,
@@ -250,7 +251,7 @@ export class PredictionDeviceComponent implements OnInit {
         const chartData = {
           datasets: [
             {
-              label: 'Predicted Energy ' + this.type,
+              label: 'Predicted ' + this.type,
               data: consumptionData,
               backgroundColor: backgroundColor,
               borderColor: borderColor,

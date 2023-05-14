@@ -59,44 +59,47 @@ export class HistoryAllProsumersComponent implements OnInit {
       this.widthService.height * 0.7 + 'px';
   }
 
-  HistoryWeek(id: string) {
-    this.activateButton(id);
+  HistoryData(period: string, serviceFunction: any) {
     this.spiner.show('spiner2');
-    this.servicetime.HistoryAllProsumers7Days().subscribe((response: any) => {
+    serviceFunction().subscribe((response: any) => {
       const consumptionTimestamps = response.consumption.timestamps || {};
       const productionTimestamps = response.production.timestamps || {};
 
-      const consumptionData = Object.keys(consumptionTimestamps).map(
-        (name: any) => {
+      const formatData = (data: any, period: string) => {
+        return Object.keys(data).map((name) => {
           const date = new Date(name);
-          const dayNumber = date.getDate();
-          const monthName = date.toLocaleString('default', { month: 'long' });
-          return {
-            x: `${monthName} ${dayNumber}`,
-            y: consumptionTimestamps[name] || 0.0,
-          };
-        }
-      );
+          let label = '';
 
-      const productionData = Object.keys(productionTimestamps).map(
-        (name: any) => {
-          const date = new Date(name);
-          const dayNumber = date.getDate();
-          const monthName = date.toLocaleString('default', { month: 'long' });
-          return {
-            x: `${monthName} ${dayNumber}`,
-            y: productionTimestamps[name] || 0.0,
-          };
-        }
-      );
-      productionData[0]
-        ? (this.data = [
-            { type: 'consumption', values: consumptionData },
-            { type: 'production', values: productionData },
-          ])
-        : (this.data = []);
+          if (period === 'year') {
+            label = date.toLocaleString('default', { month: 'long' });
+          } else {
+            const dayNumber = date.getDate();
+            const monthName = date.toLocaleString('default', { month: 'long' });
+            label = `${monthName} ${dayNumber}`;
+          }
 
-      if (this.data.length == 0) {
+          return {
+            x: label,
+            y: data[name] || 0.0,
+          };
+        });
+      };
+
+      const consumptionData = formatData(consumptionTimestamps, period);
+
+      const productionData = formatData(productionTimestamps, period);
+
+      this.data = [];
+
+      if (consumptionData.length > 0) {
+        this.data = [
+          { type: 'consumption', values: consumptionData },
+
+          { type: 'production', values: productionData },
+        ];
+      }
+
+      if (this.data.length === 0) {
         this.spiner.hide('spiner2');
         return;
       }
@@ -104,16 +107,16 @@ export class HistoryAllProsumersComponent implements OnInit {
       const chartData = {
         datasets: [
           {
-            label: 'Energy Consumption',
+            label: 'Consumption',
             data: consumptionData,
             backgroundColor: 'rgba(193, 75, 72, 1)',
-            borderColor: 'rgba(193, 75, 72, 0.5)',
+            borderColor: 'rgba(193, 75, 72, 1)',
           },
           {
-            label: 'Energy Production',
+            label: 'Production',
             data: productionData,
             backgroundColor: 'rgba(128, 188, 0, 1)',
-            borderColor: 'rgba(128, 188, 0, 0.5)',
+            borderColor: 'rgba(128, 188, 0, 1)',
           },
         ],
       };
@@ -124,6 +127,7 @@ export class HistoryAllProsumersComponent implements OnInit {
       if (this.chart) {
         this.chart.destroy();
       }
+
       const chart2d = chartElement.getContext('2d');
       this.chart = new Chart(chart2d, {
         type: 'bar',
@@ -145,192 +149,32 @@ export class HistoryAllProsumersComponent implements OnInit {
           maintainAspectRatio: false,
         },
       });
-      this.activateButton(id);
       this.spiner.hide('spiner2');
     });
+  }
+
+  HistoryWeek(id: string) {
+    this.HistoryData(
+      'week',
+      this.servicetime.HistoryAllProsumers7Days.bind(this.servicetime)
+    );
+    this.activateButton(id);
   }
 
   HistoryMonth(id: string) {
+    this.HistoryData(
+      'month',
+      this.servicetime.HistoryAllProsumers1Month.bind(this.servicetime)
+    );
     this.activateButton(id);
-    this.spiner.show('spiner2');
-    this.servicetime.HistoryAllProsumers1Month().subscribe((response: any) => {
-      const consumptionTimestamps = response.consumption.timestamps || {};
-      const productionTimestamps = response.production.timestamps || {};
-
-      const consumptionData = Object.keys(consumptionTimestamps).map(
-        (name: any) => {
-          const date = new Date(name);
-          const dayNumber = date.getDate();
-          const monthName = date.toLocaleString('default', { month: 'long' });
-          return {
-            x: `${monthName} ${dayNumber}`,
-            y: consumptionTimestamps[name] || 0.0,
-          };
-        }
-      );
-
-      const productionData = Object.keys(productionTimestamps).map(
-        (name: any) => {
-          const date = new Date(name);
-          const dayNumber = date.getDate();
-          const monthName = date.toLocaleString('default', { month: 'long' });
-          return {
-            x: `${monthName} ${dayNumber}`,
-            y: productionTimestamps[name] || 0.0,
-          };
-        }
-      );
-      productionData[0]
-        ? (this.data = [
-            { type: 'consumption', values: consumptionData },
-            { type: 'production', values: productionData },
-          ])
-        : (this.data = []);
-
-      if (this.data.length == 0) {
-        this.spiner.hide('spiner2');
-        return;
-      }
-
-      const chartData = {
-        datasets: [
-          {
-            label: 'Energy Consumption',
-            data: consumptionData,
-            backgroundColor: 'rgba(193, 75, 72, 1)',
-            borderColor: 'rgba(193, 75, 72, 0.5)',
-          },
-          {
-            label: 'Energy Production',
-            data: productionData,
-            backgroundColor: 'rgba(128, 188, 0, 1)',
-            borderColor: 'rgba(128, 188, 0, 0.5)',
-          },
-        ],
-      };
-
-      const chartElement: any = document.getElementById(
-        'chartCanvasHistoryAll'
-      ) as HTMLElement;
-      if (this.chart) {
-        this.chart.destroy();
-      }
-      const chart2d = chartElement.getContext('2d');
-      this.chart = new Chart(chart2d, {
-        type: 'bar',
-        data: chartData,
-        options: {
-          scales: {
-            y: {
-              beginAtZero: false,
-              title: {
-                display: true,
-                text: 'Energy (kWh)',
-                font: {
-                  size: 18,
-                  weight: 'bold',
-                },
-              },
-            },
-          },
-          maintainAspectRatio: false,
-        },
-      });
-      this.activateButton(id);
-      this.spiner.hide('spiner2');
-    });
   }
 
   HistoryYear(id: string) {
+    this.HistoryData(
+      'year',
+      this.servicetime.HistoryAllProsumers1Year.bind(this.servicetime)
+    );
     this.activateButton(id);
-    this.spiner.show('spiner2');
-    this.servicetime.HistoryAllProsumers1Year().subscribe((response: any) => {
-      const consumptionTimestamps = response.consumption.timestamps || {};
-      const productionTimestamps = response.production.timestamps || {};
-
-      const consumptionData = Object.keys(consumptionTimestamps).map(
-        (name: any) => {
-          const date = new Date(name);
-          const monthName = date.toLocaleString('default', { month: 'long' });
-          return {
-            x: `${monthName} `,
-            y: consumptionTimestamps[name] || 0.0,
-          };
-        }
-      );
-
-      const productionData = Object.keys(productionTimestamps).map(
-        (name: any) => {
-          const date = new Date(name);
-          const monthName = date.toLocaleString('default', { month: 'long' });
-          return {
-            x: `${monthName} `,
-            y: productionTimestamps[name] || 0.0,
-          };
-        }
-      );
-
-      const chartData = {
-        datasets: [
-          {
-            label: 'Energy Consumption',
-            data: consumptionData,
-            backgroundColor: 'rgba(193, 75, 72, 1)',
-            borderColor: 'rgba(193, 75, 72, 0.5)',
-          },
-          {
-            label: 'Energy Production',
-            data: productionData,
-            backgroundColor: 'rgba(128, 188, 0, 1)',
-            borderColor: 'rgba(128, 188, 0, 0.5)',
-          },
-        ],
-      };
-      productionData[0]
-        ? (this.data = [
-            { type: 'consumption', values: consumptionData },
-            { type: 'production', values: productionData },
-          ])
-        : (this.data = []);
-
-      if (this.data.length == 0) {
-        this.activateButton(id);
-        this.spiner.hide('spiner1');
-        return;
-      }
-
-      const chartElement: any = document.getElementById(
-        'chartCanvasHistoryAll'
-      ) as HTMLElement;
-      if (this.chart) {
-        this.chart.destroy();
-      }
-
-      const chart2d = chartElement.getContext('2d');
-      this.chart = new Chart(chart2d, {
-        type: 'bar',
-        data: chartData,
-        options: {
-          scales: {
-            y: {
-              beginAtZero: false,
-              title: {
-                display: true,
-                text: 'Energy (kWh)',
-                font: {
-                  size: 18,
-                  weight: 'bold',
-                },
-              },
-            },
-          },
-          maintainAspectRatio: false,
-        },
-      });
-
-      this.activateButton(id);
-      this.spiner.hide('spiner2');
-    });
   }
   activateButton(buttonNumber: string) {
     const buttons = document.querySelectorAll('.realizationbtn');

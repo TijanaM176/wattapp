@@ -21,8 +21,8 @@
         justify-content: center;
       "
     >
-      <h6 style="margin-bottom: 2px">
-        Consumption/Production Prediction&nbsp;<button
+      <h6 class="m-0 font-weight-bold ps-2" style="margin-bottom: 2px">
+        Prediction&nbsp;<button
           class="btn btn-outline-primary p-0 px-1 m-0"
           data-bs-toggle="modal"
           data-bs-target="#predictionAllProsumersTable"
@@ -36,32 +36,29 @@
       style="display: flex; justify-content: right; margin: 0px 0px 2px auto"
     >
       <button
-      class="btn btn-outline-primary predictionbtn"
-      id="pred1"
+        class="btn btn-primary predictionbtn"
+        id="pred1"
         (click)="PredictionDay('pred1')"
         style="margin: 1px"
         type="button"
-        
       >
         24H
       </button>
       <button
-      class="btn btn-outline-primary predictionbtn"
-      id="pred2"
+        class="btn btn-primary predictionbtn"
+        id="pred2"
         (click)="Prediction3Days('pred2')"
         style="margin: 1px"
         type="button"
-       
       >
         3 Days
       </button>
       <button
-      class="btn btn-outline-primary predictionbtn"
-      id="pred3"
+        class="btn btn-primary predictionbtn"
+        id="pred3"
         (click)="PredictionWeek('pred3')"
         type="button"
         style="margin: 1px"
-        
       >
         Week
       </button>
