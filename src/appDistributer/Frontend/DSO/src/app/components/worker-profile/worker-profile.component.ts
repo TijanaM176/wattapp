@@ -198,6 +198,7 @@ export class WorkerProfileComponent implements OnInit, AfterViewInit {
     this.employeeService.deleteProfilePhoto(this.cookie.get('id')).subscribe({
       next: (res) => {
         this.currentImage = 'assets/images/defaultWorker.png';
+        this.profilePhotoService.updateProfilePhoto(this.currentImage);
         document.getElementById('closeOprionsForPhoto')!.click();
       },
       error: (err) => {
