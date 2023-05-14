@@ -89,10 +89,13 @@ export class PredictionDeviceComponent implements OnInit {
         let backgroundColor, borderColor;
         if (this.type === 'Consumption') {
           backgroundColor = 'rgba(255, 125, 65, 1)';
-          borderColor = 'rgba(255, 125, 65,0.5)';
+          borderColor = 'rgba(255, 125, 65,0.75)';
         } else if (this.type === 'Production') {
           backgroundColor = 'rgba(0, 188, 179, 1)';
-          borderColor = 'rgba(0, 188, 179, 0.5)';
+          borderColor = 'rgba(0, 188, 179, 0.75)';
+        } else {
+          backgroundColor = 'rgba(0, 150, 179, 1)';
+          borderColor = 'rgba(0, 150, 179, 0.75)';
         }
 
         const chartData = {
@@ -166,10 +169,13 @@ export class PredictionDeviceComponent implements OnInit {
         let backgroundColor, borderColor;
         if (this.type === 'Consumption') {
           backgroundColor = 'rgba(255, 125, 65, 1)';
-          borderColor = 'rgba(255, 125, 65.5)';
+          borderColor = 'rgba(255, 125, 65,0.75)';
         } else if (this.type === 'Production') {
           backgroundColor = 'rgba(0, 188, 179, 1)';
-          borderColor = 'rgba(0, 188, 179, 0.5)';
+          borderColor = 'rgba(0, 188, 179, 0.75)';
+        } else {
+          backgroundColor = 'rgba(0, 150, 179, 1)';
+          borderColor = 'rgba(0, 150, 179, 0.75)';
         }
 
         const chartData = {
@@ -242,10 +248,13 @@ export class PredictionDeviceComponent implements OnInit {
         let backgroundColor, borderColor;
         if (this.type === 'Consumption') {
           backgroundColor = 'rgba(255, 125, 65, 1)';
-          borderColor = 'rgba(255, 125, 65.5)';
+          borderColor = 'rgba(255, 125, 65,0.75)';
         } else if (this.type === 'Production') {
           backgroundColor = 'rgba(0, 188, 179, 1)';
-          borderColor = 'rgba(0, 188, 179, 0.5)';
+          borderColor = 'rgba(0, 188, 179, 0.75)';
+        } else {
+          backgroundColor = 'rgba(0, 150, 179, 1)';
+          borderColor = 'rgba(0, 150, 179, 0.75)';
         }
 
         const chartData = {

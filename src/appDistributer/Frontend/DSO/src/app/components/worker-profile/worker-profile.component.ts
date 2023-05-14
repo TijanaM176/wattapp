@@ -80,7 +80,6 @@ export class WorkerProfileComponent implements OnInit, AfterViewInit {
     this.profilePhotoService.profilePhoto$.subscribe((picture: string) => {
       this.currentImage = picture;
     });
-    
   }
 
   getInfo() {

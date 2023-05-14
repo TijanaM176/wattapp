@@ -128,6 +128,11 @@ export class RealizationDeviceComponent implements OnInit, AfterViewInit {
         borderColor = 'rgba(128, 188, 0, 1)';
         backgroundColor1 = 'rgba(0, 188, 179, 1)';
         borderColor1 = 'rgba(0, 188, 179, 1)';
+      } else {
+        backgroundColor = 'rgba(217, 109, 42,1)';
+        borderColor = 'rgba(217, 109, 42,1)';
+        backgroundColor1 = 'rgba(0, 150, 179, 1)';
+        borderColor1 = 'rgba(0, 150, 179, 0.75)';
       }
 
       const chartData = {
