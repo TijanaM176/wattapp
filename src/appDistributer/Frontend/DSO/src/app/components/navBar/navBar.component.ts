@@ -68,6 +68,7 @@ export class NavBarComponent implements OnInit {
   ChangeActive() {
     if (
       this.url.includes('/DsoApp/users') ||
+      this.url.includes('/DsoApp/map') ||
       this.url.includes('/DsoApp/user')
     ) {
       document.getElementById('navbarDropdownUsers')?.classList.add('active');

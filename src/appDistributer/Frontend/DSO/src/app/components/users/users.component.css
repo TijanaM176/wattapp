@@ -85,16 +85,13 @@ table.table th {
   vertical-align: middle;
   color: white;
 }
-.table tbody tr:hover{
+.table tbody tr:hover {
   background-color: white;
 }
 table.table th i {
   font-size: 13px;
   margin: 0 5px;
   cursor: pointer;
-}
-table.table td:last-child {
-  width: 130px;
 }
 table.table td a {
   color: #a0a5b1;

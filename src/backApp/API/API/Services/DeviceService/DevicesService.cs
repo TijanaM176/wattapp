@@ -270,7 +270,6 @@ namespace API.Services.Devices
                 { "neighborhoodId", prosumer.NeigborhoodId },
                 { "lat", prosumer.Latitude },
                 { "long", prosumer.Longitude },
-                { "image", prosumer.Image },
                 { "consumption", cons },
                 { "production", prod },
                 { "devCount", devCount }

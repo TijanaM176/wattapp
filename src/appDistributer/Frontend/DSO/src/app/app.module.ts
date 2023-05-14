@@ -38,9 +38,7 @@ import { TabelaUredjajaComponent } from './components/tabelaUredjaja/tabelaUredj
 import { UserDevicesComponent } from './components/UserDevices/UserDevices.component';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
-
 import { SignupWorkerPageComponent } from './components/signup-worker-page/signup-worker-page.component';
-
 import { UserComponent } from './components/user/user.component';
 import { SidebarPotrosnjaComponent } from './components/sidebar-potrosnja/sidebar-potrosnja.component';
 import { DeviceinfoComponent } from './components/deviceinfo/deviceinfo.component';

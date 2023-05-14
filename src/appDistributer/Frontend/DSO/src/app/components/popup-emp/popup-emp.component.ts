@@ -8,7 +8,6 @@ import {
 } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
-// import { NgToastService } from 'ng-angular-popup';
 import { CookieService } from 'ngx-cookie-service';
 import { RegisterProsumerDto } from 'src/app/models/registerProsumerDto';
 import { SetCoordsDto } from 'src/app/models/setCoordsDto';
@@ -104,7 +103,7 @@ export class PopupEmpComponent implements OnInit {
         ',' +
         'Serbia';
 
-      this.address = this.address.replaceAll('dj','đ');
+      this.address = this.address.replaceAll('dj', 'đ');
       // console.log(this.address);
 
       this.auth.signUp(this.signupForm.value).subscribe({
