@@ -44,7 +44,7 @@ export class ChangeWorkerPasswordComponent {
       // dto.newPassword = this.newPass;
       // dto.oldPassword = this.currentPass;
       this.employeeService
-        .updateEmployee(this.cookie.get('id'), dto)
+        .changePassword(this.cookie.get('id'), this.currentPass,this.newPass)
         .subscribe({
           next: (res) => {
             this.allToFalse();

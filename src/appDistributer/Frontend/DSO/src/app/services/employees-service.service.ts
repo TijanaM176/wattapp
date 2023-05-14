@@ -36,6 +36,10 @@ export class EmployeesServiceService {
     return this.http.put(this.baseUrl + 'Dso/UpdateDsoWorker?id=' + id, dto);
   
   }
+  changePassword(id: string, oldPass:string,newPass:string) {
+    return this.http.put(this.baseUrl + 'Dso/ChangePasswordDispatcher?id=' + id+'&oldPassword='+oldPass+'&newPassword='+newPass,{} );
+  
+  }
 
   deleteEmployee(id: string) {
     return this.http.delete(`${this.baseUrl}Dso/DeleteDsoWorker` + `?id=` + id);
