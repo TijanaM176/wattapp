@@ -54,7 +54,9 @@ export class AddDeviceFormComponent {
   }
 
   ChangeCategory(e: any) {
-    this.dropdownType=!this.dropdownType;
+    this.dropdownType=true;
+    this.model=-1;
+    this.Name='';
     this.service.category = this.category;
     this.getTypes();
     this.type = -1;
@@ -72,7 +74,7 @@ export class AddDeviceFormComponent {
   }
 
   ChangeType(e: any) {
-    this.dropdownModel=!this.dropdownModel;
+    this.dropdownModel=true;
     this.service.type = this.type;
     this.getModels();
     this.model = -1;

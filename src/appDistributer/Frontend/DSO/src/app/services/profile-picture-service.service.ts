@@ -12,4 +12,7 @@ export class ProfilePictureServiceService {
   updateProfilePhoto(photoUrl: string): void {
     this.profilePhotoSubject.next(photoUrl);
   }
+  updateProfilePhoto1(id:string,photoUrl: string): void {
+    this.profilePhotoSubject.next(photoUrl);
+  }
 }
