@@ -39,8 +39,7 @@ export class ChangeWorkerPasswordComponent {
       this.dontMatch = true;
     } else {
       let dto: editEmployeeDto = new editEmployeeDto();
-      dto.password = this.newPass;
-      dto.oldPassword = this.currentPass;
+      
       // dto.newPassword = this.newPass;
       // dto.oldPassword = this.currentPass;
       this.employeeService
