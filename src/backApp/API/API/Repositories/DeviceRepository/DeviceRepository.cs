@@ -64,6 +64,7 @@ namespace API.Repositories.DeviceRepository
                  Id = d.Link.Id,
                  IpAddress = d.Link.IpAddress,
                  Name = d.Link.Name,
+                 ModelId = d.Spec.Id,
                  TypeId = d.Spec.TypeId,
                  CategoryId = d.Spec.CategoryId,
                  Manufacturer = d.Spec.Manufacturer,
@@ -216,11 +217,6 @@ namespace API.Repositories.DeviceRepository
             DeviceInfo deviceInfo = await GetDeviceInfoById(id);
             //if (deviceInfo == null); // greska
             Device device = await GetDeviceByCategoryForAPeriod(deviceInfo, period);
-
-            if (deviceInfo.CategoryId != 1 && deviceInfo.CategoryId != 2) // storage device, greska
-            {
-                throw new ArgumentException("Devices is Storage!");
-            }
 
             Dictionary<DateTime, double> timestamps = device.Timestamps
                 .GroupBy(t => t.Date.Date)
@@ -674,14 +670,6 @@ namespace API.Repositories.DeviceRepository
             Device device1 = await GetDeviceByCategoryForAPeriodForDays(deviceInfo, 1); // one day
             Device device3 = await GetDeviceByCategoryForAPeriodForDays(deviceInfo, 3); // for two days
             Device device7 = await GetDeviceByCategoryForAPeriodForDays(deviceInfo, 7); // for seven days
-
-
-
-            if (deviceInfo.CategoryId != 1 && deviceInfo.CategoryId != 2) // consumer / producer device
-                    throw new ArgumentException("Device is storage.");
-
-            
-
 
             Dictionary<string, Dictionary<DateTime, double>> datePowerByDevicePredictionFor1Day = new Dictionary<string, Dictionary<DateTime, double>>()
             {
