@@ -99,6 +99,7 @@ export class PredictionChartComponent implements OnInit, AfterViewInit {
 
   HistoryData(period: string, serviceFunction: any) {
     this.show = true;
+    this.spiner1.show('spiner1');
     serviceFunction().subscribe((response: any) => {
       const consumptionTimestamps = response.consumption || {};
       const productionTimestamps = response.production || {};
@@ -139,7 +140,10 @@ export class PredictionChartComponent implements OnInit, AfterViewInit {
       }
 
       if (this.data.length === 0) {
-        this.show = false;
+        setTimeout(() => {
+          this.spiner1.hide('spiner1');
+          this.show = false;
+        }, 500);
         return;
       }
 
@@ -189,7 +193,10 @@ export class PredictionChartComponent implements OnInit, AfterViewInit {
         },
       });
     });
-    this.show = false;
+    setTimeout(() => {
+      this.spiner1.hide('spiner1');
+      this.show = false;
+    }, 500);
   }
 
   Prediction1Day(id: string) {

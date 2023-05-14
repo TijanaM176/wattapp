@@ -94,7 +94,7 @@ export class RealizationChartComponent implements OnInit, AfterViewInit {
 
   HistoryData(period: string, serviceFunction: any) {
     this.show = true;
-    this.spiner.show('spiner1');
+    this.spiner.show('spiner2');
     serviceFunction().subscribe((response: any) => {
       const consumptionTimestamps = response.consumption.timestamps || {};
       const productionTimestamps = response.consumption.predictions || {};
@@ -134,8 +134,10 @@ export class RealizationChartComponent implements OnInit, AfterViewInit {
       }
 
       if (this.data.length === 0) {
-        this.show = false;
-        this.spiner.hide('spiner1');
+        setTimeout(() => {
+          this.spiner.hide('spiner2');
+          this.show = false;
+        }, 500);
         return;
       }
 
@@ -185,8 +187,10 @@ export class RealizationChartComponent implements OnInit, AfterViewInit {
         },
       });
     });
-    this.spiner.hide('spiner1');
-    this.show = false;
+    setTimeout(() => {
+      this.spiner.hide('spiner2');
+      this.show = false;
+    }, 500);
   }
 
   HistoryWeek(id: string) {

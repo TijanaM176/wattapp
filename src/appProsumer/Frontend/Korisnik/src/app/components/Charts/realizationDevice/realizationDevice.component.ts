@@ -71,8 +71,7 @@ export class RealizationDeviceComponent implements OnInit, AfterViewInit {
   }
 
   HistoryData(period: string, serviceFunction: any) {
-    this.show = true;
-    this.spiner.show();
+ 
     serviceFunction().subscribe((response: any) => {
       const consumptionTimestamps = response.timestamps || {};
       const productionTimestamps = response.predictions || {};
@@ -112,8 +111,7 @@ export class RealizationDeviceComponent implements OnInit, AfterViewInit {
       }
 
       if (this.data.length === 0) {
-        this.show = false;
-        this.spiner.hide();
+       
         return;
       }
       let backgroundColor, borderColor, backgroundColor1, borderColor1;
@@ -180,32 +178,50 @@ export class RealizationDeviceComponent implements OnInit, AfterViewInit {
         },
       });
     });
-    this.spiner.hide();
-    this.show = false;
+    
   }
 
   HistoryWeek(id: string) {
+    this.show=true;
     this.spiner.show();
+
     this.HistoryData(
       'week',
       this.deviceService.historyDeviceWeek.bind(this.deviceService, this.idDev)
     );
+    setTimeout(() => {
+      this.spiner.hide();
+      this.show = false;
+    }, 500);
+
     this.activateButton(id);
   }
 
   HistoryMonth(id: string) {
+    this.show=true;
+    this.spiner.show();
     this.HistoryData(
       'month',
       this.deviceService.historyDeviceMonth.bind(this.deviceService, this.idDev)
     );
+    setTimeout(() => {
+      this.spiner.hide();
+      this.show = false;
+    }, 500);
     this.activateButton(id);
   }
 
   HistoryYear(id: string) {
+    this.show=true;
+    this.spiner.show();
     this.HistoryData(
       'year',
       this.deviceService.historyDeviceYear.bind(this.deviceService, this.idDev)
     );
+    setTimeout(() => {
+      this.spiner.hide();
+      this.show = false;
+    }, 500);
     this.activateButton(id);
   }
 
