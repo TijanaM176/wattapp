@@ -2,13 +2,14 @@
 {
     public class DsoEdit
     {
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
-        public long Salary { get; set; }
-        public long RoleId { get; set; }
-        public string RegionId { get; set; }
-        public string Email { get; set; }
-        public string Password { get; set; }
-        public string OldPassword { get; set; }
+
+        public string? FirstName { get; set; } = null;
+
+        public string? LastName { get; set; } = null;
+        public long? Salary { get; set; }
+        public long? RoleId { get; set; } 
+        public string? RegionId { get; set; } = null;
+        public string? Email { get; set; } = null;
+      
     }
 }
