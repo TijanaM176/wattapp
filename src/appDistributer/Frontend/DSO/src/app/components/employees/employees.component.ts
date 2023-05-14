@@ -265,8 +265,10 @@ export class EmployeesComponent {
           setTimeout(()=>{
             this.Image1(this.croppedImage);
             this.Image(this.croppedImage);
-            this.profilePhotoService.updateProfilePhoto(this.Image(this.croppedImage));
-        
+            console.log(this.id);
+            if(this.id==this.cookie.get('id')){
+              this.profilePhotoService.updateProfilePhoto(this.Image(this.croppedImage));
+            }
             this.Ucitaj();
             document.getElementById('closeCropImagePhotoUpdated1')!.click();
             this.closeChange();
