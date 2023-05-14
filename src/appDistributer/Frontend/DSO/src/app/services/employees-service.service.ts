@@ -6,6 +6,7 @@ import { lastValueFrom } from 'rxjs';
 import { FormGroup } from '@angular/forms';
 import { editEmployeeDto } from '../models/editEmployee';
 import { environment } from 'src/enviroments/enviroment';
+import { text } from 'd3';
 
 @Injectable({
   providedIn: 'root',
@@ -32,8 +33,12 @@ export class EmployeesServiceService {
       });
   }
 
-  updateEmployee(id: string, dto: editEmployeeDto) {
-    return this.http.put(this.baseUrl + 'Dso/UpdateDsoWorker?id=' + id, dto);
+  updateEmployee(id: string, dto: editEmployeeDto): Observable<any>  {
+    return this.http.put(this.baseUrl + 'Dso/UpdateDsoWorker?id=' + id, dto,{responseType:'text'});
+  
+  }
+  changePassword(id: string, oldPass:string,newPass:string) {
+    return this.http.put(this.baseUrl + 'Dso/ChangePasswordDispatcher?id=' + id+'&oldPassword='+oldPass+'&newPassword='+newPass,{} );
   
   }
 

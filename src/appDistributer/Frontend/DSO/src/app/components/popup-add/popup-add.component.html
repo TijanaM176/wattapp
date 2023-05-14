@@ -180,31 +180,92 @@
               <div class="form-group pt-3">
                 <div
                   class="input-field"
-                  [class.error]="
-                    signupWorkerForm.controls['image'].dirty &&
-                    signupWorkerForm.hasError('required', 'image')
-                  "
                   style="display: flex; justify-content: center"
                 >
-                  <span style="font-size: 20px; margin-top: 2%"
+                  <span style="font-size: 20px; margin-top: 1%"
                     ><i class="fa fa-image p-2"></i
                   ></span>
-                  <input
-                    type="file"
-                    id="image"
-                    formControlName="image"
-                    name="images"
-                    accept="image/png, image/jpeg,image/jpg"
-                  />
-                </div>
+                  <input type="file" style="display: none;" #fileInput (change)="onFileSelected($event)">
+                
+                  <button class="btn btn-primary" [hidden]="true" id="openCropImageBtn2" data-bs-toggle="modal" data-bs-target="#cropNewImage">Open Crop</button>
+                <button [ngStyle]="{'border-color': file ? 'green' : 'initial'}" class="btn btn-primary mb-2" style="font-weight:bold;margin-left:0px;width:100%;background-color: #e8f3f8;color:#5875a1;border-color:#5875a1;border-radius:10px;border:2px solid #5875a1;" data-bs-dismiss="modal" (click)="fileInput.click(); openCrop()">Choose photo</button>
+                <span *ngIf="file===true"><i  class="fa fa-trash" style="color:red;margin-top:35%;margin-left:10%;font-size:24px;cursor: pointer;"(click)=deleteselectimage()></i></span>
+              </div>
+                
+                
               </div>
 
-              <button type="submit" class="btn" (click)="onSubmit()">
+              <button type="submit" class="btn btn1" (click)="onSubmit()">
                 Confirm
               </button>
+              <button class="btn btn-primary" id="openAgain" [hidden]="true" data-bs-toggle="modal" data-bs-target="#exampleModal2">Open Add Worker Modal</button>
+     
             </form>
           </div>
         </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div
+    class="modal fade"
+    id="cropNewImage"
+    data-bs-backdrop="static"
+    data-bs-keyboard="false"
+    tabindex="-1"
+    aria-labelledby="cropNewImageLabel"
+    aria-hidden="true"
+  >
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content">
+      <div class="modal-header text-white" style="background-color: #5875a1">
+        <h5 class="modal-title" id="cropNewImageLabel">Choose Photo</h5>
+          <button
+            type="button"
+            class="btn-close"
+            id="closeCropPhoto"
+            data-bs-dismiss="modal"
+            data-bs-target="#cropNewImage"
+            aria-label="Close"
+            (click)="closeChange()"
+            style="background-color: white;"
+            [disabled]="updatedPhotoSuccess"
+          ></button>
+      </div>
+      <div class="modal-body px-0 d-flex justify-content-center align-items-center" style="overflow-y: auto;max-height: 500px;">
+        <div class="col-8 px-0 m-0" style="display: flex; justify-content: center; align-items: center;">
+          <image-cropper
+              [imageChangedEvent]="imgChangeEvet" 
+              [maintainAspectRatio]="true" 
+              [aspectRatio]="1 / 1"
+              format="png"
+              [imageAltText] = "'Crop Image'"
+              [cropperMinWidth] = "100"
+              [cropperMinHeight] = "100"
+              [roundCropper] = "true"
+              [hideResizeSquares] = "false"
+              (imageCropped) = "cropImg($event)"
+              id="showChangeImage"
+            >
+            </image-cropper>
+        </div>
+        <div class="col-4 px-0 m-0 row" style="display: flex; justify-content: center; align-items: center;">
+          <div class="col-12 px-0 mb-3" style="display: flex; justify-content: center;">
+            <input type="file" style="display: none;" #fileInputNew (change)="onFileSelected($event)">
+            <button class="btn btn-primary" (click)="fileInputNew.click()" [disabled]="updatedPhotoSuccess">Choose A Different Photo</button>
+          </div>
+          <div class="col-12 pe-0 ps-2 text-center mt-3">
+            <h6 class="text-success" *ngIf="updatedPhotoSuccess">Photo succesful added... Please wait</h6>
+            <h6 class="text-danger" *ngIf="updatedPhotoError">Error occurred! Try again later.</h6>
+            <h6 class="text-danger" *ngIf="noFile">No file was selected.</h6>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" id="confirmImageChange" class="btn btn-primary" (click)="confirmNewPhoto()">
+          Confirm
+        </button>
+        <button [hidden]="true" data-bs-dismiss="modal" data-bs-target="#cropNewImage" id="closeCropImagePhotoUpdated2">Close</button>
       </div>
     </div>
   </div>

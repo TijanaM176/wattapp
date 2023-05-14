@@ -290,7 +290,7 @@ namespace API.Controllers
             }
         }
         [HttpPut("ChangePasswordDispatcher")]
-        [Authorize(Roles = "Dispatcher")] 
+        [Authorize(Roles = "Admin,Dispatcher")] 
         public async Task<ActionResult> ChangePasswordDSO(string id, string oldPassword,string newPassword)
         {
             if (!await dsoService.ChangePasswordDSO(id, oldPassword, newPassword)) return BadRequest("Error! Password!");

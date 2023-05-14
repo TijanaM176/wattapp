@@ -202,7 +202,6 @@ export class EmployeesComponent {
     dto.regionId = this.region;
     dto.roleId = this.role;
     dto.email = this.email;
-    dto.password = this.password;
     console.log(dto);
     this.service.updateEmployee(id, dto).subscribe((res) => {
       this.Ucitaj();
