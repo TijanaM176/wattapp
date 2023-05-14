@@ -175,6 +175,7 @@ export class PopupAddComponent implements OnInit {
             timeOut: 2500,
           });
           this.signupWorkerForm.reset();
+          this.deleteselectimage();
         },
         error: (err) => {
           this.toast.error('Error!', 'Unable to add new Employee.', {
