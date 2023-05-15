@@ -31,17 +31,13 @@ export class HistoryAllProsumersComponent implements OnInit {
     const maxLength = Math.max(data[0]?.values.length, data[1]?.values.length);
 
     for (let i = 0; i < maxLength; i++) {
-      const consumptionValue = data[0]?.values[i].toFixed(2);
-      const productionValue = data[1]?.values[i].toFixed(2);
+      const consumptionValue = data[0]?.values[i];
+      const productionValue = data[1]?.values[i];
 
       const row = [
-        consumptionValue
-          ? consumptionValue.x
-          : productionValue
-          ? productionValue.x
-          : '',
-        consumptionValue ? consumptionValue.y.toFixed(2) : 0,
-        productionValue ? productionValue.y.toFixed(2) : 0,
+        consumptionValue ? consumptionValue.x : '',
+        consumptionValue ? consumptionValue.y.toFixed(2) : '0',
+        productionValue ? productionValue.y.toFixed(2) : '0',
       ];
 
       sheetData.push(row);
@@ -98,6 +94,7 @@ export class HistoryAllProsumersComponent implements OnInit {
           { type: 'production', values: productionData },
         ];
       }
+      console.log(this.data);
 
       if (this.data.length === 0) {
         this.spiner.hide('spiner2');

@@ -179,13 +179,12 @@ export class RealizationDeviceComponent implements OnInit, AfterViewInit {
           maintainAspectRatio: false,
         },
       });
+      this.spiner.hide();
+      this.show = false;
     });
-    this.spiner.hide();
-    this.show = false;
   }
 
   HistoryWeek(id: string) {
-    this.spiner.show();
     this.HistoryData(
       'week',
       this.deviceService.historyDeviceWeek.bind(this.deviceService, this.idDev)

@@ -72,7 +72,6 @@ export class RealizationDeviceComponent implements OnInit, AfterViewInit {
   }
 
   HistoryData(period: string, serviceFunction: any) {
-    this.show = true;
     this.spiner.show();
     serviceFunction().subscribe((response: any) => {
       const consumptionTimestamps = response.timestamps || {};
@@ -113,7 +112,6 @@ export class RealizationDeviceComponent implements OnInit, AfterViewInit {
       }
 
       if (this.data.length === 0) {
-        this.show = false;
         this.spiner.hide();
         return;
       }
@@ -180,13 +178,11 @@ export class RealizationDeviceComponent implements OnInit, AfterViewInit {
           maintainAspectRatio: false,
         },
       });
+      this.spiner.hide();
     });
-    this.spiner.hide();
-    this.show = false;
   }
 
   HistoryWeek(id: string) {
-    this.spiner.show();
     this.HistoryData(
       'week',
       this.timeService.historyDeviceWeek.bind(this.timeService, this.idDev)

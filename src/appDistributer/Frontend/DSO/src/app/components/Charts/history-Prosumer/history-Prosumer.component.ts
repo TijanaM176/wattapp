@@ -76,7 +76,6 @@ export class HistoryProsumerComponent implements OnInit {
     )!.style.maxHeight = this.widthService.height * 0.7 + 'px';
   }
   HistoryData(period: string, serviceFunction: any) {
-    this.show = true;
     this.spiner.show();
     serviceFunction().subscribe((response: any) => {
       const consumptionTimestamps = response.consumption.timestamps || {};
@@ -167,13 +166,11 @@ export class HistoryProsumerComponent implements OnInit {
           maintainAspectRatio: false,
         },
       });
+      this.spiner.hide();
     });
-    this.spiner.hide();
-    this.show = false;
   }
 
   HistoryWeek(id: string) {
-    this.spiner.show();
     this.HistoryData(
       'week',
       this.serviceTime.HistoryProsumer7Days.bind(this.serviceTime, this.id)

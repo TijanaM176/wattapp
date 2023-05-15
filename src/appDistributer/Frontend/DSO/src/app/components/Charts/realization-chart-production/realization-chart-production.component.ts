@@ -99,8 +99,7 @@ export class RealizationChartProductionComponent
   }
 
   HistoryData(period: string, serviceFunction: any) {
-    this.show = true;
-    this.spiner.show('show');
+    this.spiner.show();
     serviceFunction().subscribe((response: any) => {
       const consumptionTimestamps = response.production.timestamps || {};
       const productionTimestamps = response.production.predictions || {};
@@ -140,7 +139,7 @@ export class RealizationChartProductionComponent
       }
 
       if (this.data.length === 0) {
-        this.spiner.hide('show');
+        this.spiner.hide();
         return;
       }
 
@@ -189,9 +188,8 @@ export class RealizationChartProductionComponent
           maintainAspectRatio: false,
         },
       });
+      this.spiner.hide();
     });
-    this.spiner.hide('show');
-    this.show = false;
   }
 
   HistoryWeek(id: string) {

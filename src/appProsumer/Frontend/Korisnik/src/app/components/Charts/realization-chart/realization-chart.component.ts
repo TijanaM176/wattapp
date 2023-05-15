@@ -184,9 +184,9 @@ export class RealizationChartComponent implements OnInit, AfterViewInit {
           maintainAspectRatio: false,
         },
       });
+      this.spiner.hide('spiner1');
+      this.show = false;
     });
-    this.spiner.hide('spiner1');
-    this.show = false;
   }
 
   HistoryWeek(id: string) {

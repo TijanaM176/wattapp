@@ -65,7 +65,6 @@ export class PredictionAllUsersComponent implements OnInit {
   }
 
   HistoryData(period: string, serviceFunction: any) {
-    this.show = true;
     this.spiner.show('spiner3');
     serviceFunction().subscribe((response: any) => {
       const consumptionTimestamps = response.consumption || {};
@@ -77,7 +76,7 @@ export class PredictionAllUsersComponent implements OnInit {
           let label = '';
 
           if (period === 'day') {
-            const hours = date.getHours();
+            const hours = date.getHours().toString().padStart(2, '0');
             label = `${hours}H`;
           } else {
             const dayNumber = date.getDate();
@@ -157,9 +156,8 @@ export class PredictionAllUsersComponent implements OnInit {
           maintainAspectRatio: false,
         },
       });
+      this.spiner.hide('spiner3');
     });
-    this.spiner.hide('spiner3');
-    this.show = false;
   }
 
   PredictionDay(id: string) {
@@ -172,7 +170,7 @@ export class PredictionAllUsersComponent implements OnInit {
 
   Prediction3Days(id: string) {
     this.HistoryData(
-      'month',
+      'week',
       this.servicetime.PredictionNext3Days.bind(this.servicetime, this.id)
     );
     this.activateButton(id);

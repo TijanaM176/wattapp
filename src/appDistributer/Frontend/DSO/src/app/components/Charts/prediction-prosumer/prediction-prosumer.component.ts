@@ -36,7 +36,6 @@ export class PredictionProsumerComponent implements OnInit {
   }
 
   HistoryData(period: string, serviceFunction: any) {
-    this.show = true;
     this.spiner.show();
     serviceFunction().subscribe((response: any) => {
       const consumptionTimestamps = response.consumption || {};
@@ -128,9 +127,8 @@ export class PredictionProsumerComponent implements OnInit {
           maintainAspectRatio: false,
         },
       });
+      this.spiner.hide();
     });
-    this.spiner.hide();
-    this.show = false;
   }
 
   PredictionDay(id: string) {

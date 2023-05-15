@@ -96,7 +96,7 @@ export class RealizationChartProductionComponent
 
   HistoryData(period: string, serviceFunction: any) {
     this.show = true;
-    this.spiner.show('spiner1');
+    this.spiner.show('spiner2');
     serviceFunction().subscribe((response: any) => {
       const consumptionTimestamps = response.production.timestamps || {};
       const productionTimestamps = response.production.predictions || {};
@@ -136,7 +136,7 @@ export class RealizationChartProductionComponent
       }
 
       if (this.data.length === 0) {
-        this.spiner.hide('spiner1');
+        this.spiner.hide('spiner2');
         return;
       }
 
@@ -185,9 +185,9 @@ export class RealizationChartProductionComponent
           maintainAspectRatio: false,
         },
       });
+      this.spiner.hide('spiner2');
+      this.show = false;
     });
-    this.spiner.hide('spiner1');
-    this.show = false;
   }
 
   HistoryWeek(id: string) {
