@@ -46,5 +46,6 @@ namespace API.Services.Devices
         public Task<(double, double, string)> TodayAndTomorrowPredictionTotalConsumptionAndRatio();
         public Task<(double, double, string)> TodayAndTomorrowPredictionTotalProductionAndRatio();
         public Task<Dictionary<string, double>> ToggleStorageActivity(string deviceId, string role, int mode);
+        public Task<Dictionary<string, double>> FilterRanges(string cityId, string neighborhoodId);
     }
 }
