@@ -10,15 +10,16 @@
 <div style="height: 100%">
   <div
     class="card-header pb-0 pt-3 bg-transparent row"
-    style="margin-left: 0; margin-right: 0; height: 60px"
+    style="margin-left: 0; margin-right: 0"
   >
     <div
-      class="col-md-6"
+      class="col-6"
       style="
         display: flex;
         flex-direction: column;
         align-items: start;
         justify-content: center;
+        padding-right: 0;
       "
     >
       <h6 class="m-0 font-weight-bold ps-2" style="margin-bottom: 2px">
@@ -33,7 +34,12 @@
     </div>
     <div
       class="col-6"
-      style="display: flex; justify-content: right; margin: 0px 0px 2px auto"
+      style="
+        display: flex;
+        justify-content: right;
+        margin: 0px 0px 2px auto;
+        padding: 0;
+      "
     >
       <button
         class="btn btn-primary realizationbtn"
@@ -66,7 +72,7 @@
   </div>
   <div
     class="card-body"
-    style="padding-top: 5px; padding-bottom: 0px; height: calc(100% - 60px)"
+    style="padding-top: 5px; padding-bottom: 0px; max-height: 100% !important"
   >
     <h1
       *ngIf="data.length == 0"
@@ -83,7 +89,11 @@
     <canvas
       *ngIf="data.length != 0"
       id="chartCanvasHistoryAll"
-      style="max-height: 100% !important; width: 100% !important"
+      style="
+        min-height: 100% !important;
+        max-height: 100% !important;
+        width: 100% !important;
+      "
     ></canvas>
   </div>
 </div>
