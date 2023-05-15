@@ -131,22 +131,8 @@ namespace API.Controllers
         {
             try
             {
-                var prosumers = (await devService.AllProsumerInfo()).Where(x =>
-                (cityId == "all" || (long)x["cityId"] == long.Parse(cityId)) &&
-                (neighborhoodId == "all" || (string)x["neighborhoodId"] == neighborhoodId)
-                );
-
                 var filtered = await devService.UpdatedProsumerFilter(minConsumption, maxConsumption, minProduction, maxProduction, minDeviceCount, maxDeviceCount, cityId, neighborhoodId);
-                return Ok(new
-                {
-                    prosumers = filtered,
-                    minCons = (double)prosumers.Min(x => x["consumption"]) * 1000,
-                    maxCons = (double)prosumers.Max(x => x["consumption"]) * 1000,
-                    minProd = (double)prosumers.Min(x => x["production"]) * 1000,
-                    maxProd = (double)prosumers.Max(x => x["production"]) * 1000,
-                    minDevCount = (int)prosumers.Min(x => x["devCount"]),
-                    maxDevCount = (int)prosumers.Max(x => x["devCount"])
-                });
+                return Ok(filtered);
             }
             catch (Exception ex)
             {
@@ -173,6 +159,19 @@ namespace API.Controllers
             try
             {
                 return Ok(await devService.ToggleStorageActivity(deviceId, role, mode));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet("FilterRanges")]
+        public async Task<IActionResult> FilterRanges(string cityId, string neighborhoodId)
+        {
+            try
+            {
+                return Ok(await devService.FilterRanges(cityId, neighborhoodId));
             }
             catch (Exception ex)
             {

@@ -718,5 +718,22 @@ namespace API.Services.Devices
                 throw new ArgumentException(ex.Message);
             }
         }
+
+        public async Task<Dictionary<string, double>> FilterRanges(string cityId, string neighborhoodId)
+        {
+            var prosumers = (await AllProsumerInfo()).Where(x =>
+                (cityId == "all" || (long)x["cityId"] == long.Parse(cityId)) &&
+                (neighborhoodId == "all" || (string)x["neighborhoodId"] == neighborhoodId)
+            );
+
+            return new Dictionary<string, double>  {
+                { "minCons", (double)prosumers.Min(x => x["consumption"]) * 1000 },
+                { "maxCons", (double)prosumers.Max(x => x["consumption"]) * 1000 },
+                { "minProd", (double)prosumers.Min(x => x["production"]) * 1000 },
+                { "maxProd", (double)prosumers.Max(x => x["production"]) * 1000 },
+                { "minDevCount", (int)prosumers.Min(x => x["devCount"]) },
+                { "maxDevCount", (int)prosumers.Max(x => x["devCount"]) }
+            };
+        }
     }
 }
