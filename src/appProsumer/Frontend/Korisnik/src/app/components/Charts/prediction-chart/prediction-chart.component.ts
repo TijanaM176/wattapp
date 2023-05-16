@@ -80,7 +80,7 @@ export class PredictionChartComponent implements OnInit, AfterViewInit {
     )
       this.coef = 0.5;
 
-    this.Prediction1Day('prediction3');
+    this.PredictionWeek('prediction3');
 
     this.resizeObservable$ = fromEvent(window, 'resize');
     this.resizeSubscription$ = this.resizeObservable$.subscribe((evt) => {

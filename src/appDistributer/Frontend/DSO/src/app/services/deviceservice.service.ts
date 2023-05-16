@@ -51,6 +51,14 @@ export class DeviceserviceService {
       this.baseUrl + 'Devices/GetAllDevicesForProsumer?id=' + id + '&role=Dso'
     );
   }
+  FilterRanges(cityId: string, neighId: string): Observable<any> {
+    return this.http.get<any>(
+      `${this.baseUrl}Devices/FilterRanges?cityId=` +
+        cityId +
+        `&neighborhoodId=` +
+        neighId
+    );
+  }
 
   prosumerFilter(
     minCon: number,
@@ -63,6 +71,16 @@ export class DeviceserviceService {
     neighborhoodId: string
   ) {
     this.spiner.show();
+    console.log(
+      minCon,
+      maxCon,
+      minProd,
+      maxProd,
+      minDev,
+      maxDev,
+      cityId,
+      neighborhoodId
+    );
     this.http
       .get(
         this.baseUrl +
@@ -85,11 +103,10 @@ export class DeviceserviceService {
       )
       .subscribe({
         next: (res) => {
-          this.spiner.hide();
           let response = res as UserTableMapInitDto;
-          this.prosumers = response.prosumers as Prosumer[];
-          this.setFilters(response);
+          this.prosumers = res as Prosumer[];
           this.responseGetAllProsumers.next(response);
+          this.spiner.hide();
         },
         error: (err) => {
           this.prosumers = [];

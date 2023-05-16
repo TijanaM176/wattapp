@@ -25,6 +25,8 @@ export class TabelaUredjajaComponent implements OnInit {
   showConsumers = true;
   showProducers = true;
   showStorages = true;
+  showActivity = false;
+  showControl = false;
   currentPage = 1;
   itemsPerPage = 10;
   searchName: string = '';
@@ -38,7 +40,7 @@ export class TabelaUredjajaComponent implements OnInit {
   currentConsumption: number = 0;
   currentProduction: number = 0;
   deviceCount: number = 0;
-  realDeviceCount : number = 0;
+  realDeviceCount: number = 0;
   constructor(
     private userService: UsersServiceService,
     private cookie: CookieService,
@@ -58,7 +60,7 @@ export class TabelaUredjajaComponent implements OnInit {
         this.currentConsumption,
         this.currentProduction,
         this.deviceCount,
-        this.realDeviceCount
+        this.realDeviceCount,
       ]);
       this.devicesToShow = [
         ...response.consumers,
@@ -93,6 +95,22 @@ export class TabelaUredjajaComponent implements OnInit {
         selectedCategories.includes(device.CategoryId)
       );
     }
+
+    // Apply additional filtering based on conditions
+    this.devicesToShow = this.devicesToShow.filter((device) => {
+      const currentUsage = device.CurrentUsage;
+      const dsoControl = device.DsoControl;
+
+      if (this.showActivity && currentUsage <= 0) {
+        return false;
+      }
+
+      if (this.showControl && !dsoControl) {
+        return false;
+      }
+
+      return true;
+    });
 
     this.filterByName();
     this.pages;

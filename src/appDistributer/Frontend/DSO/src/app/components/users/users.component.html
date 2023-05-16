@@ -44,8 +44,7 @@
   color="#fff"
   type="ball-clip-rotate"
   [showSpinner]="true"
-  [fullScreen]="true"
-  [zIndex]="9999"
+  [fullScreen]="false"
   ><p style="font-size: 25px; color: white">Loading Data...</p></ngx-spinner
 >
 <div class="container-fluid">
@@ -93,21 +92,31 @@
           <thead>
             <tr>
               <th></th>
-              <th (click)="sort('username')">Username<i class="fa fa-sort"></i></th>
-              <th (click)="sort('address')">Address<i class="fa fa-sort"></i></th>
+              <th (click)="sort('username')">
+                Username<i class="fa fa-sort"></i>
+              </th>
+              <th (click)="sort('address')">
+                Address<i class="fa fa-sort"></i>
+              </th>
 
-              <th (click)="sort('consumption')">Consumption <i class="fa fa-sort"></i></th>
-              <th (click)="sort('production')">Production <i class="fa fa-sort"></i></th>
-              <th (click)="sort('devCount')">Number of devices <i class="fa fa-sort"></i></th>
-              
+              <th (click)="sort('consumption')">
+                Consumption <i class="fa fa-sort"></i>
+              </th>
+              <th (click)="sort('production')">
+                Production <i class="fa fa-sort"></i>
+              </th>
+              <th (click)="sort('devCount')">
+                Number of devices <i class="fa fa-sort"></i>
+              </th>
             </tr>
           </thead>
           <tbody>
             <tr
-            routerLink="/DsoApp/user/{{ item.id }}" style="cursor:pointer;"
+              routerLink="/DsoApp/user/{{ item.id }}"
+              style="cursor: pointer"
               *ngFor="
                 let item of serviceDevice.prosumers
-                  | orderBy:orderHeader:isDescOrder
+                  | orderBy : orderHeader : isDescOrder
                   | search : searchName
                   | searchaddress : searchAddress
                   | paginate
@@ -119,20 +128,19 @@
                 let i = index
               "
             >
-              <td >
+              <td>
                 <img
                   [src]="Image(item.image)"
                   style="width: 30px; height: 30px"
                   class="rounded-circle"
                 />
               </td>
-              <td >{{ item.username }}</td>
-              <td >{{ item.address }}</td>
+              <td>{{ item.username }}</td>
+              <td>{{ item.address }}</td>
 
-              <td >{{ item.consumption.toFixed(2) }} kW</td>
-              <td >{{ item.production.toFixed(2) }} kW</td>
-              <td >{{ item.devCount }}</td>
-              
+              <td>{{ item.consumption.toFixed(2) }} kW</td>
+              <td>{{ item.production.toFixed(2) }} kW</td>
+              <td>{{ item.devCount }}</td>
             </tr>
           </tbody>
         </table>
@@ -159,4 +167,3 @@
 <app-popup-add></app-popup-add>
 <app-popup-emp></app-popup-emp>
 <app-worker-profile></app-worker-profile>
-

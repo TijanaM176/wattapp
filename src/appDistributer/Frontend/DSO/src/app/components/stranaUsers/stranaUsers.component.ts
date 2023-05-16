@@ -10,8 +10,7 @@ export class StranaUsersComponent implements OnInit {
   constructor(private spiner: NgxSpinnerService) {}
 
   ngOnInit() {
-    this.spiner.show();
-    let t = window.innerWidth < 320? 140.6 : 101;
+    let t = window.innerWidth < 320 ? 140.6 : 101;
     let h = window.innerHeight - t;
     document.getElementById('tabelaUsersSidebarCont')!.style.height = h + 'px';
   }

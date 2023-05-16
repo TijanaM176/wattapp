@@ -63,9 +63,9 @@ export class SidebarComponent implements OnInit, AfterViewInit {
 
   private filtersSubscription!: Subscription;
 
-  neighborhood: string = 'b';
+  neighborhood: string = 'all';
   Neighborhoods: Neighborhood[] = [];
-  dropDownNeigh: string = 'b';
+  dropDownNeigh: string = 'all';
 
   city: number = -1;
   cities: City[] = [];
@@ -95,6 +95,7 @@ export class SidebarComponent implements OnInit, AfterViewInit {
         this.setFilters();
       }
     );
+
     this.disableNeigh = true;
     let t = window.innerWidth < 320 ? 140.6 : 101;
     let h = window.innerHeight - t;
@@ -156,18 +157,46 @@ export class SidebarComponent implements OnInit, AfterViewInit {
 
   ChangeNeighborhood(e: any) {
     this.dropDownNeigh = e.target.value;
+    this.deviceService
+      .FilterRanges(this.city.toString(), this.dropDownNeigh)
+      .subscribe((res) => {
+        this.minValueC = res.minCons;
+        this.minValueP = res.minProd;
+        this.minValue = res.minDevCount;
+        this.maxValueC = res.maxCons;
+        this.maxValueP = res.maxProd;
+        this.maxValue = res.maxDevCount;
+      });
   }
 
   ChangeCity(e: any) {
     if (this.city == -1) {
-      this.dropDownNeigh = 'b';
-      this.neighborhood = 'b';
+      this.dropDownNeigh = 'all';
+      this.neighborhood = 'all';
       this.disableNeigh = true;
+      this.deviceService.FilterRanges('all', 'all').subscribe((res) => {
+        this.minValueC = res.minCons;
+        this.minValueP = res.minProd;
+        this.minValue = res.minDevCount;
+        this.maxValueC = res.maxCons;
+        this.maxValueP = res.maxProd;
+        this.maxValue = res.maxDevCount;
+      });
     } else {
       this.getNeighsByCityId(this.city);
-      this.dropDownNeigh = 'b';
-      this.neighborhood = 'b';
+      this.dropDownNeigh = 'all';
+      this.neighborhood = 'all';
       this.disableNeigh = false;
+      this.deviceService
+        .FilterRanges(this.city.toString(), 'all')
+        .subscribe((res) => {
+          this.minValueC = res.minCons;
+          this.minValueP = res.minProd;
+          this.minValue = res.minDevCount;
+          this.maxValueC = res.maxCons;
+          this.maxValueP = res.maxProd;
+          this.maxValue = res.maxDevCount;
+        });
     }
   }
   getNeighsByCityId(id: number) {
@@ -205,7 +234,7 @@ export class SidebarComponent implements OnInit, AfterViewInit {
   }
 
   filterWithCity() {
-    if (this.dropDownNeigh === 'b' || this.dropDownNeigh === '') {
+    if (this.dropDownNeigh == 'all' || this.dropDownNeigh == '') {
       this.filterwithoutNeighborhood(this.city.toString());
     } else {
       this.filterwithNeighborhood(this.city.toString());
@@ -218,14 +247,34 @@ export class SidebarComponent implements OnInit, AfterViewInit {
   filter() {
     if (this.city != -1) {
       this.filterWithCity();
+      this.deviceService
+        .FilterRanges(this.city.toString(), this.dropDownNeigh)
+        .subscribe((res) => {
+          this.minValueC = res.minCons;
+          this.minValueP = res.minProd;
+          this.minValue = res.minDevCount;
+          this.maxValueC = res.maxCons;
+          this.maxValueP = res.maxProd;
+          this.maxValue = res.maxDevCount;
+        });
     } else {
       this.filterWithoutCity();
+      this.deviceService
+        .FilterRanges(this.city.toString(), this.dropDownNeigh)
+        .subscribe((res) => {
+          this.minValueC = res.minCons;
+          this.minValueP = res.minProd;
+          this.minValue = res.minDevCount;
+          this.maxValueC = res.maxCons;
+          this.maxValueP = res.maxProd;
+          this.maxValue = res.maxDevCount;
+        });
     }
   }
 
   reset() {
-    this.neighborhood = 'b';
-    this.dropDownNeigh = 'b';
+    this.neighborhood = 'all';
+    this.dropDownNeigh = 'all';
     this.city = -1;
     this.deviceService.ProsumersInfo();
   }

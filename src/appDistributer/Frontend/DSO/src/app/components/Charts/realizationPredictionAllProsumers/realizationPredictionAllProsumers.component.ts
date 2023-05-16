@@ -109,7 +109,7 @@ export class RealizationPredictionAllProsumersComponent implements OnInit {
             data: consumptionPredictionData,
             backgroundColor: 'rgba(217, 109, 42,1)',
             borderColor: 'rgba(217, 109, 42,1)',
-            borderDash: [5, 5],
+            // borderDash: [5, 5],
           },
           {
             label: 'Production',
@@ -122,7 +122,7 @@ export class RealizationPredictionAllProsumersComponent implements OnInit {
             data: productionPredictionData,
             backgroundColor: 'rgba(0, 188, 179, 1)',
             borderColor: 'rgba(0, 188, 179, 1)',
-            borderDash: [5, 5],
+            // borderDash: [5, 5],
           },
         ],
       };

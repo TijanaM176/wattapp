@@ -42,7 +42,7 @@
         [(ngModel)]="neighborhood"
         [disabled]="disableNeigh"
       >
-        <option value="b">All</option>
+        <option value="all">All</option>
         <option
           *ngFor="let neighborhood of Neighborhoods"
           [value]="neighborhood.id"
