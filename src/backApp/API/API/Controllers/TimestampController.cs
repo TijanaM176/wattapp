@@ -315,8 +315,8 @@ namespace API.Controllers
         [HttpGet("NextAndLast3DaysConsumptionAndProductionTimestamps")]
         public async Task<IActionResult> proba()
         {
-            var consumptionHistory = await devService.ConProdForAPeriodTimestamps(0, -3, 24);
-            var productionHistory = await devService.ConProdForAPeriodTimestamps(1, -3, 24);
+            var consumptionHistory = await devService.ConProdForAPeriodTimestamps(0, -4, 24);
+            var productionHistory = await devService.ConProdForAPeriodTimestamps(1, -4, 24);
             var consumptionPrediction = (await devService.ConProdForAPeriodTimestamps(0, 3, 24))["predictions"];
             var productionPrediction = (await devService.ConProdForAPeriodTimestamps(1, 3, 24))["predictions"];
 

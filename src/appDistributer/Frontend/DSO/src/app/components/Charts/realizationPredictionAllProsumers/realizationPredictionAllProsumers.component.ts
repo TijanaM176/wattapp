@@ -165,7 +165,7 @@ export class RealizationPredictionAllProsumersComponent implements OnInit {
     this.activateButton(id);
     this.HistoryData(
       'week',
-      this.servicetime.HistoryAllProsumers7Days.bind(this.servicetime),
+      this.servicetime.HistoryPrediction3Days.bind(this.servicetime),
       this.activeChartType
     );
     this.activateButton(id);

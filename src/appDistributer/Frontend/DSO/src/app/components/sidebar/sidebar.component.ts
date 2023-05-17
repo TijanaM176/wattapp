@@ -259,16 +259,14 @@ export class SidebarComponent implements OnInit, AfterViewInit {
         });
     } else {
       this.filterWithoutCity();
-      this.deviceService
-        .FilterRanges(this.city.toString(), this.dropDownNeigh)
-        .subscribe((res) => {
-          this.minValueC = res.minCons;
-          this.minValueP = res.minProd;
-          this.minValue = res.minDevCount;
-          this.maxValueC = res.maxCons;
-          this.maxValueP = res.maxProd;
-          this.maxValue = res.maxDevCount;
-        });
+      this.deviceService.FilterRanges('all', 'all').subscribe((res) => {
+        this.minValueC = res.minCons;
+        this.minValueP = res.minProd;
+        this.minValue = res.minDevCount;
+        this.maxValueC = res.maxCons;
+        this.maxValueP = res.maxProd;
+        this.maxValue = res.maxDevCount;
+      });
     }
   }
 

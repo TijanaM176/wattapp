@@ -32,6 +32,13 @@ export class TimestampService {
       'https://localhost:7156/api/Timestamp/LastMonthsConsumptionAndProductionTimestamps'
     );
   }
+
+  HistoryPrediction3Days(): Observable<any> {
+    return this.http.get(
+      'https://localhost:7156/api/Timestamp/NextAndLast3DaysConsumptionAndProductionTimestamps'
+    );
+  }
+
   HistoryAllProsumers1Year() {
     return this.http.get(
       'https://localhost:7156/api/Timestamp/LastYearsConsumptionAndProductionTimestamps'
