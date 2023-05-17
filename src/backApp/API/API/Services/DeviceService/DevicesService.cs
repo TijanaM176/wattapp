@@ -266,6 +266,8 @@ namespace API.Services.Devices
             return new Dictionary<string, object> {
                 { "id", id },
                 { "username", prosumer.Username },
+                { "firstname", prosumer.FirstName},
+                { "lastname", prosumer.LastName },
                 { "address", prosumer.Address },
                 { "cityId", prosumer.CityId},
                 { "neighborhoodId", prosumer.NeigborhoodId },
