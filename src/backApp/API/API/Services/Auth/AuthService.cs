@@ -18,6 +18,7 @@ using System.Xml.Linq;
 using Org.BouncyCastle.Asn1.Ocsp;
 using static System.Net.WebRequestMethods;
 using System;
+using System.Data;
 
 namespace API.Services.Auth
 {
@@ -443,6 +444,8 @@ namespace API.Services.Auth
         }
         public async Task<Prosumer> Register(ProsumerDto request)
         {
+            if (!request.Password.Equals(request.PasswordAgain))
+                throw new Exception("Sifre se ne poklapaju!");
             CreatePasswordHash(request.Password, out byte[] passwordHash, out byte[] passwordSalt); // vracamo dve vrednosti!
 
             Prosumer prosumer = new Prosumer(); // pravimo novog prosumer-a
@@ -456,7 +459,7 @@ namespace API.Services.Auth
                 prosumer.Id = id.ToString();
                 prosumer.FirstName = request.FirstName;
                 prosumer.LastName = request.LastName;
-                prosumer.Username = username; 
+                prosumer.Username = username;
                 prosumer.Email = request.Email;
                 prosumer.Address = request.Address;
 
@@ -466,11 +469,11 @@ namespace API.Services.Auth
 
                 //token 
                 prosumer.Token = null;
-             
-                
+
+
                 City city = await getCity(request.City);
                 Neigborhood neigborhood = await getNeigborhood(request.NeigbName);
-                
+
                 if (city == null || neigborhood == null) return null;
 
 
@@ -489,32 +492,32 @@ namespace API.Services.Auth
 
                 prosumer.Longitude = null;
                 prosumer.Latitude = null;
-                
+
                 //datum kreiranja
                 prosumer.DateCreate = DateTime.Now.ToString("MM/dd/yyyy");
 
 
                 //slika
-                
-                   var defaultImage = "default.png";
-                    prosumer.Image = defaultImage;
-                   var path = Path.Combine(enviroment.ContentRootPath,"Uploads",defaultImage);
 
-                    if (System.IO.File.Exists(path))
-                    {
-                        using (var stream = new FileStream(path, FileMode.Open))
-                        {
-                            var bytes = new byte[stream.Length];
-                            await stream.ReadAsync(bytes, 0, (int)stream.Length);
+                var defaultImage = "default.png";
+                prosumer.Image = defaultImage;
+                var path = Path.Combine(enviroment.ContentRootPath, "Uploads", defaultImage);
 
-                            prosumer.Image = Convert.ToBase64String(bytes);
-                        }
-                    }
-                    else
+                if (System.IO.File.Exists(path))
+                {
+                    using (var stream = new FileStream(path, FileMode.Open))
                     {
-                        // ako default slika ne postoji, koristi null umesto slike
-                        prosumer.Image = null;
+                        var bytes = new byte[stream.Length];
+                        await stream.ReadAsync(bytes, 0, (int)stream.Length);
+
+                        prosumer.Image = Convert.ToBase64String(bytes);
                     }
+                }
+                else
+                {
+                    // ako default slika ne postoji, koristi null umesto slike
+                    prosumer.Image = null;
+                }
 
 
 
@@ -529,11 +532,14 @@ namespace API.Services.Auth
                     return prosumer; // sacuvaju se i 
                 }
             }
+            else throw new Exception("Niste uneli validan e-mail!");
             return null;
         }
 
         public async Task<Dso> Register(DsoWorkerDto request)
         {
+            if (!request.Password.Equals(request.PasswordAgain))
+                throw new Exception("Sifre se ne poklapaju!"); 
             CreatePasswordHash(request.Password, out byte[] passwordHash, out byte[] passwordSalt); // vracamo dve vrednosti!
 
             Dso workerDSO = new Dso(); // pravimo novog DSO
@@ -616,6 +622,8 @@ namespace API.Services.Auth
                     return workerDSO;   // sacuvaju se i izmene
                 }
             }
+            else throw new Exception("Niste uneli validan e-mail!");
+           
             return null;
         }
 

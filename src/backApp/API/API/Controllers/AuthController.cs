@@ -26,52 +26,64 @@ namespace API.Controllers
         // [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Register(ProsumerDto request)
         {
-            Prosumer prosumer = await authService.Register(request);
-            if (prosumer != null)
-            {
-                var json = new
+                Prosumer prosumer = await authService.Register(request);
+                if (prosumer != null)
                 {
-                    ID = prosumer.Id,
-                    Firstname = prosumer.FirstName,
-                    Lastname = prosumer.LastName,
-                    Username = prosumer.Username,
-                    Email = prosumer.Email,
-                    RoleId = prosumer.RoleId,
-                    RegionId = prosumer.RegionId,
-                    CityId = prosumer.CityId,
-                    NeigborhoodId = prosumer.NeigborhoodId
-                };
-                return Ok(json);
-            }
-            else
-                return BadRequest("Error!");
+                    var json = new
+                    {
+                        ID = prosumer.Id,
+                        Firstname = prosumer.FirstName,
+                        Lastname = prosumer.LastName,
+                        Username = prosumer.Username,
+                        Email = prosumer.Email,
+                        RoleId = prosumer.RoleId,
+                        RegionId = prosumer.RegionId,
+                        CityId = prosumer.CityId,
+                        NeigborhoodId = prosumer.NeigborhoodId
+                    };
+                    return Ok(json);
+                }
+
+                else
+                    return BadRequest("Error!");
+            
         }
 
         [HttpPost("registerDsoWorker")]
         // [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Register( DsoWorkerDto request)
-
         {
-            Dso dso = await authService.Register(request);
-            if (dso != null)
+            try
             {
-                var json = new
-                {
-                    ID = dso.Id,
-                    Firstname = dso.FirstName,
-                    Lastname = dso.LastName,
-                    Username = dso.Username,
-                    Email = dso.Email,
-                    Salary = dso.Salary,
-                    RoleId = dso.RoleId,
-                    RegionId = dso.RegionId
-                  
 
-                };
-                return Ok(json);
+
+                Dso dso = await authService.Register(request);
+                if (dso != null)
+                {
+                    var json = new
+                    {
+                        ID = dso.Id,
+                        Firstname = dso.FirstName,
+                        Lastname = dso.LastName,
+                        Username = dso.Username,
+                        Email = dso.Email,
+                        Salary = dso.Salary,
+                        RoleId = dso.RoleId,
+                        RegionId = dso.RegionId
+
+
+                    };
+                    return Ok(json);
+                }
+                else
+                    return BadRequest("Error!");
             }
-            else
-                return BadRequest("Error!");
+            catch(Exception ex)
+            {
+
+
+                return BadRequest(ex.Message);
+            }
         }
 
         [HttpPost("setRefreshToken")]
