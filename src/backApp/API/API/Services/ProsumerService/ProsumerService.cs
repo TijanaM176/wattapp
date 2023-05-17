@@ -201,6 +201,14 @@ namespace API.Services.ProsumerService
 
             return NeigbName;
         }
+        public async Task<string> GetRoleName(long id)
+        {
+            string roleName = await _repository.GetRoleName(id);
+            if (roleName == null) throw new ArgumentException("No Role for that id");
+
+            return roleName;
+        }
+
         public async Task<bool> DeleteImage(String prosumerID)
         {
             bool answer =  await _repository.DeleteImageProsumer(prosumerID);

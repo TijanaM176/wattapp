@@ -28,7 +28,6 @@ namespace API.Controllers
             try
             {
                 var prosumers = await prosumerService.GetProsumers(prosumerParameters);
-
                 var simplifiedProsumers = prosumers.Select(p => new
                 {
                     Id = p.Id,
@@ -40,11 +39,14 @@ namespace API.Controllers
                     Latitude = p.Latitude,
                     Longitude = p.Longitude,
                     ProsumerCreationDate = p.DateCreate,
-                    RegionId = p.RegionId,
                     CityId = p.CityId,
+                    CityName = prosumerService.GetCityNameById((int)p.CityId).Result,
                     NeigborhoodId = p.NeigborhoodId,
-                    // Image = p.Image,
-                    RoleId = p.RoleId
+                    NeigborghoodName = prosumerService.GetNeighborhoodByName(p.NeigborhoodId).Result,
+                    Image = p.Image,
+                    RoleId = p.RoleId,
+                    RoleName = prosumerService.GetRoleName((long)p.RoleId).Result
+
                 }).ToList();
                 return Ok(simplifiedProsumers);
             }
@@ -74,11 +76,13 @@ namespace API.Controllers
                     Latitude = p.Latitude,
                     Longitude = p.Longitude,
                     ProsumerCreationDate = p.DateCreate,
-                    RegionId = p.RegionId,
                     CityId = p.CityId,
+                    CityName = prosumerService.GetCityNameById((int)p.CityId).Result,
                     NeigborhoodId = p.NeigborhoodId,
+                    NeigborghoodName = prosumerService.GetNeighborhoodByName(p.NeigborhoodId).Result,
                     Image = p.Image,
-                    RoleId = p.RoleId
+                    RoleId = p.RoleId,
+                    RoleName = prosumerService.GetRoleName((long)p.RoleId).Result
                 }).ToList();
                 return Ok(simplifiedProsumers);
             }
@@ -103,17 +107,19 @@ namespace API.Controllers
                     Id = prosumer.Id,
                     FirstName = prosumer.FirstName,
                     LastName = prosumer.LastName,
-                    Username = prosumer.Username,
+                    UserName = prosumer.Username,
                     Email = prosumer.Email,
                     Address = prosumer.Address,
                     Latitude = prosumer.Latitude,
                     Longitude = prosumer.Longitude,
                     ProsumerCreationDate = prosumer.DateCreate,
-                    RegionId = prosumer.RegionId,
                     CityId = prosumer.CityId,
+                    CityName = prosumerService.GetCityNameById((int)prosumer.CityId).Result,
                     NeigborhoodId = prosumer.NeigborhoodId,
+                    NeigborghoodName = prosumerService.GetNeighborhoodByName(prosumer.NeigborhoodId).Result,
                     Image = prosumer.Image,
-                    RoleId = prosumer.RoleId
+                    RoleId = prosumer.RoleId,
+                    RoleName = prosumerService.GetRoleName((long)prosumer.RoleId).Result
                 });
             }
         }

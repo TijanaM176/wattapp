@@ -26,5 +26,6 @@ namespace API.Services.ProsumerService
         public Task<string> GetNeighborhoodByName(string id);
         public Task<(String, Boolean)> SaveImage(String ProsumerId, string base64string);
         public Task<bool> DeleteImage(String prosumerID);
+        public Task<string> GetRoleName(long id);
     }
 }

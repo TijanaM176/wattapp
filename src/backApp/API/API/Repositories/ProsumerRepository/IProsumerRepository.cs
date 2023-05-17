@@ -34,5 +34,6 @@ namespace API.Repositories.ProsumerRepository
         public Task<string> GetNeighborhoodByName(string id);
         public Task<(String, Boolean)> SaveImageProsumer(String ProsumerId, string base64String);
         public Task<bool> DeleteImageProsumer(String ProsumerId);
+        public Task<string> GetRoleName(long id);
     }
 }

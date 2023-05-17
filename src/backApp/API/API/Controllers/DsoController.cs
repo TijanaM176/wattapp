@@ -13,10 +13,12 @@ namespace API.Controllers
     public class DsoController : Controller
     {
         private readonly IDsoService dsoService;
+        private readonly IProsumerService prosumerService;
 
-        public DsoController(IDsoService dsoService)
+        public DsoController(IDsoService dsoService, IProsumerService prosumerService)
         {
             this.dsoService = dsoService;
+            this.prosumerService = prosumerService;
         }
 
         [HttpGet("GetDsoById")]
@@ -38,6 +40,7 @@ namespace API.Controllers
                         Salary = worker.Salary,
                         ProsumerCreationDate = worker.DateCreate,
                         RoleId = worker.RoleId,
+                        RoleName = dsoService.GetRoleName((long)worker.RoleId).Result,
                         RegionId = worker.RegionId,
                         Image = worker.Image
 
@@ -85,9 +88,9 @@ namespace API.Controllers
                         Salary = d.Salary,
                         ProsumerCreationDate = d.DateCreate,
                         RoleId = d.RoleId,
-                        RoleName=dsoService.GetRoleName(d.RoleId.GetValueOrDefault()).Result,
-                        RegionId = d.RegionId,
-                        // Image = d.Image
+                        RoleName = dsoService.GetRoleName(d.RoleId.GetValueOrDefault()).Result,
+                        Image = d.Image,
+                        
                     }).ToList();
                     return Ok(simplifiedDsoworkers);
                 }
@@ -115,8 +118,8 @@ namespace API.Controllers
                     Salary = d.Salary,
                     ProsumerCreationDate = d.DateCreate,
                     RoleId = d.RoleId,
-                    RegionId = d.RegionId,
-                    // Image = d.Image
+                    RoleName = dsoService.GetRoleName((long)d.RoleId).Result,
+                    Image = d.Image
                 }).ToList();
                 return Ok(simplifiedDsoworkers);
             }
@@ -143,8 +146,8 @@ namespace API.Controllers
                     Salary = d.Salary,
                     ProsumerCreationDate = d.DateCreate,
                     RoleId = d.RoleId,
-                    RegionId = d.RegionId,
-                    // Image = d.Image
+                    RoleName = dsoService.GetRoleName((long)d.RoleId).Result,
+                    Image = d.Image
                 }).ToList();
                 return Ok(simplifiedDsoworkers);
             }
@@ -172,8 +175,8 @@ namespace API.Controllers
                         Salary = d.Salary,
                         ProsumerCreationDate = d.DateCreate,
                         RoleId = d.RoleId,
-                        RegionId = d.RegionId,
-                        // Image = d.Image
+                        RoleName = dsoService.GetRoleName((long)d.RoleId).Result,
+                        Image = d.Image
                     }).ToList();
                     return Ok(simplifiedDsoworkers);
                 }
@@ -202,7 +205,7 @@ namespace API.Controllers
                         Salary = d.Salary,
                         ProsumerCreationDate = d.DateCreate,
                         RoleId = d.RoleId,
-                        RegionId = d.RegionId,
+                        RoleName = dsoService.GetRoleName((long)d.RoleId).Result,
                         Image = d.Image
                     }).ToList();
                     return Ok(simplifiedDsoworkers);
@@ -231,11 +234,14 @@ namespace API.Controllers
                     Address = prosumer.Address,
                     Email = prosumer.Email,
                     CityID = prosumer.CityId,
+                    CityName = prosumerService.GetCityNameById((long)prosumer.CityId).Result,
                     NeigborhoodID = prosumer.NeigborhoodId,
+                    NeigborhoodName = prosumerService.GetNeighborhoodByName(prosumer.NeigborhoodId).Result,
                     Latitude = prosumer.Latitude,
                     Longitude = prosumer.Longitude,
-                    RegionId = prosumer.RegionId,
-                    RoleId = prosumer.RoleId
+                    RoleId = prosumer.RoleId,
+                    RoleName = prosumerService.GetRoleName((long)prosumer.RoleId).Result
+
                 });
             }
             catch(Exception ex)
