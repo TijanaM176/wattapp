@@ -125,7 +125,13 @@ namespace API.Repositories.ProsumerRepository
        .Where(n => n.CityId == CityId)
        .ToListAsync();
         }
+        public async Task<string> GetRoleName(long id)
+        {
+            Role role = await _context.Roles.FirstOrDefaultAsync(x => x.Id == id);
+            if (role == null) return null;
 
+            return role.RoleName;
+        }
         public async Task<string> GetCityNameById(long id)
         {
             var city = await _context.Cities.FirstOrDefaultAsync(x => x.Id == id);

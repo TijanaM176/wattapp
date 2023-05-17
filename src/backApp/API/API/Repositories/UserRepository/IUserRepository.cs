@@ -21,6 +21,7 @@ namespace API.Repositories.UserRepository
         public Task<List<long>> GetRoleIds();
         public Task<List<string>> GetRegionIds();
         public Task<string> GetRegionName(string id);
+        public Task<string> GetRoleName(long id);
 
     }
 }

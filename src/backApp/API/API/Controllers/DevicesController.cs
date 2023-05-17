@@ -1,7 +1,9 @@
-﻿using API.Services.Devices;
+﻿using API.Models.Users;
+using API.Services.Devices;
 using API.Services.ProsumerService;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Infrastructure;
 
 namespace API.Controllers
 {
@@ -10,10 +12,11 @@ namespace API.Controllers
     public class DevicesController : Controller
     {
         private readonly IDevicesService devService;
-
-        public DevicesController(IDevicesService devService)
+        private readonly IProsumerService prosumerService;
+        public DevicesController(IDevicesService devService, IProsumerService prosumerService)
         {
             this.devService = devService;
+            this.prosumerService = prosumerService;
         }
 
         [HttpGet("GetAllDevicesForProsumer")]
@@ -109,14 +112,34 @@ namespace API.Controllers
             try
             {
                 var prosumers = await devService.AllProsumerInfo();
-                return Ok(new 
-                { 
-                    prosumers = prosumers,
+                var simplifiedProsumers = prosumers.Select(p => new
+                {
+                    Id = (string)p["id"],
+                    FirstName =  (string)p["firstname"],
+                    LastName = (string)p["lastname"],
+                    UserName = (string)p["username"],
+                    Address = (string)p["address"],
+                    CityId = (long)p["cityId"],
+                    CityName = prosumerService.GetCityNameById((long)p["cityId"]).Result,
+                    NeigborhoodId = (string)p["neighborhoodId"],
+                    NeigborhoodName = prosumerService.GetNeighborhoodByName((string)p["neighborhoodId"]).Result,
+                    Latitude = (string)p["lat"],
+                    Longitude = (string)p["long"],
+                    Consumption = (double)p["consumption"],
+                    Production = (double)p["production"],
+                    DevCount = (int)p["devCount"]
+                
+            }).ToList();
+
+                return Ok(new
+                {
+              
+                    prosumers = simplifiedProsumers,
                     minCons = (double)prosumers.Min(x => x["consumption"]) * 1000,
                     maxCons = (double)prosumers.Max(x => x["consumption"]) * 1000,
                     minProd = (double)prosumers.Min(x => x["production"]) * 1000,
                     maxProd = (double)prosumers.Max(x => x["production"]) * 1000,
-                    minDevCount = (int)prosumers.Min(x => x["devCount"]),
+                   minDevCount = (int)prosumers.Min(x => x["devCount"]),
                     maxDevCount = (int)prosumers.Max(x => x["devCount"])
                 });
             }

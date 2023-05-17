@@ -280,5 +280,10 @@ namespace API.Repositories.UserRepository
         {
             return dsoRepository.SaveImageDso(DsoWorkerId, base64StringFile);
         }
+
+        public Task<string> GetRoleName(long id)
+        {
+            return prosumerRepository.GetRoleName(id);
+        }
     }
 }
