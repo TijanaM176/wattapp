@@ -36,8 +36,8 @@ export class HistoryProsumerComponent implements OnInit {
   exportTable(data: any[]): void {
     const headerRow = [
       '',
-      'Energy Consumption (kW)',
-      'Predicted Consumption (kW)',
+      'Energy Consumption [kW]',
+      'Predicted Consumption [kW]',
     ];
     const sheetData = [headerRow];
 
@@ -76,6 +76,7 @@ export class HistoryProsumerComponent implements OnInit {
     )!.style.maxHeight = this.widthService.height * 0.7 + 'px';
   }
   HistoryData(period: string, serviceFunction: any) {
+    this.show=true;
     this.spiner.show();
     serviceFunction().subscribe((response: any) => {
       const consumptionTimestamps = response.consumption.timestamps || {};
@@ -155,7 +156,7 @@ export class HistoryProsumerComponent implements OnInit {
               beginAtZero: false,
               title: {
                 display: true,
-                text: 'Energy (kWh)',
+                text: 'Energy [kWh]',
                 font: {
                   size: 18,
                   weight: 'bold',
@@ -167,6 +168,7 @@ export class HistoryProsumerComponent implements OnInit {
         },
       });
       this.spiner.hide();
+      this.show=false;
     });
   }
 

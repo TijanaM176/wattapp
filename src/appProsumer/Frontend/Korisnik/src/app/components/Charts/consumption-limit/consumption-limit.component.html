@@ -60,7 +60,7 @@
       class="text-size"
       [type]="'semi'"
       [size]="width"
-      [label]="gaugeLabel + ' (kWh)'"
+      [label]="gaugeLabel + ' [kWh]'"
       [min]="0"
       [max]="2000"
       [markers]="markersConsumption"
@@ -81,7 +81,7 @@
       class="text-size"
       [type]="'semi'"
       [size]="width"
-      [label]="gaugeLabel + ' (kWh)'"
+      [label]="gaugeLabel + ' [kWh]'"
       [min]="0"
       [max]="2000"
       [markers]="markersProduction"
@@ -93,8 +93,8 @@
     </ngx-gauge>
   </div>
   <div class="legend w-100 text-center" *ngIf="showConsumptio">
-    <i class="fa fa-circle greenZone">&nbsp;0-350 kW</i>&nbsp;&nbsp;&nbsp;
-    <i class="fa fa-circle blueZone">&nbsp;350-1600 kW</i>&nbsp;&nbsp;&nbsp;
-    <i class="fa fa-circle redZone">&nbsp;1600+ kW</i>
+    <i class="fa fa-circle greenZone">&nbsp;0-350 kWh</i>&nbsp;&nbsp;&nbsp;
+    <i class="fa fa-circle blueZone">&nbsp;350-1600 kWh</i>&nbsp;&nbsp;&nbsp;
+    <i class="fa fa-circle redZone">&nbsp;1600+ kWh</i>
   </div>
 </div>

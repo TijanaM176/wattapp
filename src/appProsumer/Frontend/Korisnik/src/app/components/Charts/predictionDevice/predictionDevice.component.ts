@@ -126,7 +126,7 @@ export class PredictionDeviceComponent implements OnInit {
                 beginAtZero: false,
                 title: {
                   display: true,
-                  text: 'Energy (kWh)',
+                  text: 'Energy [kWh]',
                   font: {
                     size: 18,
                     weight: 'bold',
@@ -206,7 +206,7 @@ export class PredictionDeviceComponent implements OnInit {
                 beginAtZero: false,
                 title: {
                   display: true,
-                  text: 'Energy (kWh)',
+                  text: 'Energy [kWh]',
                   font: {
                     size: 18,
                     weight: 'bold',
@@ -285,7 +285,7 @@ export class PredictionDeviceComponent implements OnInit {
                 beginAtZero: false,
                 title: {
                   display: true,
-                  text: 'Energy (kWh)',
+                  text: 'Energy [kWh]',
                   font: {
                     size: 18,
                     weight: 'bold',

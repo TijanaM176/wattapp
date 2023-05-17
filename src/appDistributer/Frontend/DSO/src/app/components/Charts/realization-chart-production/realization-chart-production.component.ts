@@ -99,6 +99,7 @@ export class RealizationChartProductionComponent
   }
 
   HistoryData(period: string, serviceFunction: any) {
+    this.show=true;
     this.spiner.show();
     serviceFunction().subscribe((response: any) => {
       const consumptionTimestamps = response.production.timestamps || {};
@@ -140,6 +141,7 @@ export class RealizationChartProductionComponent
 
       if (this.data.length === 0) {
         this.spiner.hide();
+        this.show=false;
         return;
       }
 
@@ -177,7 +179,7 @@ export class RealizationChartProductionComponent
               beginAtZero: false,
               title: {
                 display: true,
-                text: 'Energy (kWh)',
+                text: 'Energy [kWh]',
                 font: {
                   size: 18,
                   weight: 'bold',
@@ -189,6 +191,7 @@ export class RealizationChartProductionComponent
         },
       });
       this.spiner.hide();
+      this.show=false;
     });
   }
 

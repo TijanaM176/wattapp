@@ -11,7 +11,7 @@ export class SearchPipe implements PipeTransform {
 
     
     return prosumers.filter((item:any)=>
-      item.username.toLocaleLowerCase().includes(searchName.toLocaleLowerCase()));
+      item.userName.toLocaleLowerCase().includes(searchName.toLocaleLowerCase()));
 
   }
 

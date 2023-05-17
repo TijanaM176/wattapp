@@ -177,7 +177,7 @@ export class PredictionChartComponent implements OnInit, AfterViewInit {
               beginAtZero: false,
               title: {
                 display: true,
-                text: 'Energy (kWh)',
+                text: 'Energy [kWh]',
                 font: {
                   size: 18,
                   weight: 'bold',

@@ -92,7 +92,7 @@
           <thead>
             <tr>
               <th></th>
-              <th (click)="sort('username')">
+              <th (click)="sort('userName')">
                 Username<i class="fa fa-sort"></i>
               </th>
               <th (click)="sort('address')">
@@ -135,7 +135,7 @@
                   class="rounded-circle"
                 />
               </td>
-              <td>{{ item.username }}</td>
+              <td>{{ item.userName }}</td>
               <td>{{ item.address }}</td>
 
               <td>{{ item.consumption.toFixed(2) }} kW</td>

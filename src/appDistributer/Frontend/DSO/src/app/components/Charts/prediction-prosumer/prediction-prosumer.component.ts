@@ -36,6 +36,7 @@ export class PredictionProsumerComponent implements OnInit {
   }
 
   HistoryData(period: string, serviceFunction: any) {
+    this.show=true;
     this.spiner.show();
     serviceFunction().subscribe((response: any) => {
       const consumptionTimestamps = response.consumption || {};
@@ -116,7 +117,7 @@ export class PredictionProsumerComponent implements OnInit {
               beginAtZero: false,
               title: {
                 display: true,
-                text: 'Energy (kWh)',
+                text: 'Energy [kWh]',
                 font: {
                   size: 18,
                   weight: 'bold',
@@ -128,6 +129,7 @@ export class PredictionProsumerComponent implements OnInit {
         },
       });
       this.spiner.hide();
+      this.show=false;
     });
   }
 
