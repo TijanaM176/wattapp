@@ -33,6 +33,7 @@ export class UsersComponent implements OnInit {
   }
   Details(id: string) {
     this.service.detailsEmployee(id).subscribe((res) => {
+      console.log(res);
       this.prosumer = res;
 
       console.log(this.prosumer);

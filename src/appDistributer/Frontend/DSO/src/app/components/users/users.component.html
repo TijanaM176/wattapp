@@ -66,7 +66,7 @@
                   [(ngModel)]="searchName"
                   style="background-color: #f8f8fa; border-radius: 10px"
                   class="form-control"
-                  placeholder="By Username"
+                  placeholder="By Name"
                 />
               </div>
             </div>
@@ -92,9 +92,7 @@
           <thead>
             <tr>
               <th></th>
-              <th (click)="sort('username')">
-                Username<i class="fa fa-sort"></i>
-              </th>
+              <th (click)="sort('username')">Name<i class="fa fa-sort"></i></th>
               <th (click)="sort('address')">
                 Address<i class="fa fa-sort"></i>
               </th>
@@ -135,8 +133,11 @@
                   class="rounded-circle"
                 />
               </td>
-              <td>{{ item.username }}</td>
-              <td>{{ item.address }}</td>
+              <td>{{ item.firstname }} {{ item.lastname }}</td>
+              <td>
+                {{ item.address }}, {{ item.neigborhoodName }},
+                {{ item.cityName }}
+              </td>
 
               <td>{{ item.consumption.toFixed(2) }} kW</td>
               <td>{{ item.production.toFixed(2) }} kW</td>

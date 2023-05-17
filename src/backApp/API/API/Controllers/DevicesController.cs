@@ -115,8 +115,8 @@ namespace API.Controllers
                 var simplifiedProsumers = prosumers.Select(p => new
                 {
                     Id = (string)p["id"],
-                    FirstName =  (string)p["firstname"],
-                    LastName = (string)p["lastname"],
+                    Firstname =  (string)p["firstname"],
+                    Lastname = (string)p["lastname"],
                     UserName = (string)p["username"],
                     Address = (string)p["address"],
                     CityId = (long)p["cityId"],

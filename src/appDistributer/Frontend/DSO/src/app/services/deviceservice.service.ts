@@ -151,6 +151,7 @@ export class DeviceserviceService {
   ProsumersInfo() {
     lastValueFrom(this.http.get(this.baseUrl + 'Devices/AllProsumerInfo')).then(
       (res) => {
+        console.log(res);
         let response = res as UserTableMapInitDto;
         this.prosumers = response.prosumers as Prosumer[];
         this.setFilters(response);
