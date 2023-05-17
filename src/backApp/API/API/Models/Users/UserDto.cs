@@ -7,7 +7,7 @@
         public string LastName { get; set; } = string.Empty;
 
         public string Password { get; set; } = string.Empty;
-
+        public string PasswordAgain { get; set; } = string.Empty;
         public string Email { get; set; }
         public string getUsername(int numberK)
         {
