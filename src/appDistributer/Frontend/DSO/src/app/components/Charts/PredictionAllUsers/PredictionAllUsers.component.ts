@@ -114,13 +114,13 @@ export class PredictionAllUsersComponent implements OnInit {
       const chartData = {
         datasets: [
           {
-            label: 'Predicted Consumption',
+            label: 'Electric Energy Predicted Consumption',
             data: consumptionData,
             backgroundColor: 'rgba(242, 103, 17, 1)',
             borderColor: 'rgba(242, 103, 17, 0.75)',
           },
           {
-            label: 'Predicted Production',
+            label: 'Electric Energy Predicted Production',
             data: productionData,
             backgroundColor: 'rgba(0, 188, 179, 1)',
             borderColor: 'rgba(0, 188, 179, 0.75)',
@@ -145,7 +145,7 @@ export class PredictionAllUsersComponent implements OnInit {
               beginAtZero: false,
               title: {
                 display: true,
-                text: 'Energy [kWh]',
+                text: 'Electric Energy [kWh]',
                 font: {
                   size: 18,
                   weight: 'bold',
