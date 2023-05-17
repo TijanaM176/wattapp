@@ -12,6 +12,9 @@ import { editUserDto } from 'src/app/models/editUserDto';
 import { DeviceserviceService } from 'src/app/services/deviceservice.service';
 import { TabelaUredjajaComponent } from '../tabelaUredjaja/tabelaUredjaja.component';
 import { DomSanitizer } from '@angular/platform-browser';
+import { AuthService } from 'src/app/services/auth.service';
+import { SendRefreshToken } from 'src/app/models/sendRefreshToken';
+import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-user1',
   templateUrl: './user1.component.html',
@@ -38,7 +41,9 @@ export class User1Component implements OnInit, AfterViewInit {
     private widthService: ScreenWidthService,
     private r: Router,
     private deviceService: DeviceserviceService,
-    private _sanitizer: DomSanitizer
+    private _sanitizer: DomSanitizer,
+    private auth : AuthService,
+    private toast : ToastrService
   ) {}
   letValue: string = '';
   id: string = '';
@@ -135,37 +140,95 @@ export class User1Component implements OnInit, AfterViewInit {
       this.widthService.height + 'px';
   }
   UpdateData() {
-    let dto: editUserDto = new editUserDto();
-    dto.id = this.router.snapshot.params['id'];
-    dto.firstName = this.editUser.value.FirstName!;
-    dto.lastName = this.editUser.value.LastName!;
-    if (this.userOldInfo.email != this.editUser.value.Email) {
-      dto.email = this.editUser.value.Email!;
-    }
-    this.user.updateUserData(dto.id, dto).subscribe((res) => {
-      this.getInformations();
+    let refreshDto = new SendRefreshToken(this.cookie.get('refresh'), this.cookie.get('username'), this.cookie.get('role'));
+    this.auth.refreshToken(refreshDto)
+    .subscribe({
+      next:(data)=>{
+        this.cookie.delete('token', '/');
+        this.cookie.delete('refresh', '/');
+        this.cookie.set('token', data.token.toString().trim(), { path: '/' });
+        this.cookie.set('refresh', data.refreshToken.toString().trim(), {
+          path: '/',
+        });
+
+        let dto: editUserDto = new editUserDto();
+        dto.id = this.router.snapshot.params['id'];
+        dto.firstName = this.editUser.value.FirstName!;
+        dto.lastName = this.editUser.value.LastName!;
+        if (this.userOldInfo.email != this.editUser.value.Email) {
+          dto.email = this.editUser.value.Email!;
+        }
+
+        this.user.updateUserData(dto.id, dto).subscribe((res) => {
+          this.getInformations();
+        });
+
+        const buttonRef = document.getElementById('closeBtn1');
+        buttonRef?.click();
+      },
+      error:(err)=>{
+        this.auth.logout(this.cookie.get('username'), this.cookie.get('role'))
+          .subscribe({
+            next:(res)=>{
+              this.toast.error(err.error, 'Error!', {timeOut: 3000});
+              this.cookie.deleteAll('/');
+              this.r.navigate(['login']);
+            },
+            error:(error)=>{
+              console.log(error);
+              this.toast.error('Unknown error occurred', 'Error!', {timeOut: 2500});
+              this.r.navigate(['login']);
+            }
+          });
+      }
     });
-    const buttonRef = document.getElementById('closeBtn1');
-    buttonRef?.click();
   }
 
   DeleteUser() {
     if (confirm('Do you want to delete ?')) {
-      this.user.deleteUser(this.router.snapshot.params['id']).subscribe({
-        next: (res) => {
-          // console.log(res);
-          this.r.navigate(['/DsoApp/users']);
+      let refreshDto = new SendRefreshToken(this.cookie.get('refresh'), this.cookie.get('username'), this.cookie.get('role'));
+      this.auth.refreshToken(refreshDto)
+      .subscribe({
+        next:(data)=>{
+          this.cookie.delete('token', '/');
+          this.cookie.delete('refresh', '/');
+          this.cookie.set('token', data.token.toString().trim(), { path: '/' });
+          this.cookie.set('refresh', data.refreshToken.toString().trim(), {
+            path: '/',
+          });
+
+          this.user.deleteUser(this.router.snapshot.params['id']).subscribe({
+            next: (res) => {
+              // console.log(res);
+              this.r.navigate(['/DsoApp/users']);
+            },
+            error: (err) => {
+              console.log(err.error);
+              this.toast.error('Unable to delete prosumer.', 'Error!', {timeOut:2500});
+            },
+          });
         },
-        error: (err) => {
-          console.log(err.error);
-        },
+        error:(err)=>{
+          this.auth.logout(this.cookie.get('username'), this.cookie.get('role'))
+            .subscribe({
+              next:(res)=>{
+                this.toast.error(err.error, 'Error!', {timeOut: 3000});
+                this.cookie.deleteAll('/');
+                this.r.navigate(['login']);
+              },
+              error:(error)=>{
+                console.log(error);
+                this.toast.error('Unknown error occurred', 'Error!', {timeOut: 2500});
+              }
+            });
+        }
       });
     }
   }
 
   disableDelete(role: string) {
     let deleteBtn = document.getElementById('delete');
-    if (role == 'Dso') {
+    if (role == 'Admin') {
       deleteBtn?.removeAttribute('disabled');
     } else {
       deleteBtn?.setAttribute('disabled', 'disabled');
@@ -180,5 +243,35 @@ export class User1Component implements OnInit, AfterViewInit {
         `data:image/png;base64, ${dataImage}`
       );
     }
+  }
+
+  private refreshToken()
+  {
+    let refreshDto = new SendRefreshToken(this.cookie.get('refresh'), this.cookie.get('username'), this.cookie.get('role'));
+    this.auth.refreshToken(refreshDto)
+    .subscribe({
+      next:(data)=>{
+        this.cookie.delete('token', '/');
+        this.cookie.delete('refresh', '/');
+        this.cookie.set('token', data.token.toString().trim(), { path: '/' });
+        this.cookie.set('refresh', data.refreshToken.toString().trim(), {
+          path: '/',
+        });
+      },
+      error:(err)=>{
+        this.auth.logout(this.cookie.get('username'), this.cookie.get('role'))
+          .subscribe({
+            next:(res)=>{
+              this.toast.error(err.error, 'Error!', {timeOut: 3000});
+              this.cookie.deleteAll('/');
+              this.r.navigate(['login']);
+            },
+            error:(error)=>{
+              console.log(error);
+              this.toast.error('Unknown error occurred', 'Error!', {timeOut: 2500});
+            }
+          });
+      }
+    })
   }
 }

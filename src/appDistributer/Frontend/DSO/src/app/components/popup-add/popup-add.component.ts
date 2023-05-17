@@ -135,7 +135,7 @@ export class PopupAddComponent implements OnInit {
     }
   }
   onSubmit() {
-    console.log(this.signupWorkerForm.value.image64String);
+    // console.log(this.signupWorkerForm.value.image64String);
     if (!this.signupWorkerForm.value.image64String) {
       this.http
         .get(this.currentImage, { responseType: 'blob' })
@@ -154,8 +154,8 @@ export class PopupAddComponent implements OnInit {
     this.signupWorkerForm.value.salary = Number(
       this.signupWorkerForm.value.salary
     );
-    console.log(this.signupWorkerForm.valid);
-    console.log(this.signupWorkerForm.value);
+    // console.log(this.signupWorkerForm.valid);
+    // console.log(this.signupWorkerForm.value);
     if (this.signupWorkerForm.valid) {
       this.auth.signupWorker(this.signupWorkerForm.value).subscribe({
         next: (res) => {
@@ -169,9 +169,10 @@ export class PopupAddComponent implements OnInit {
           this.toast.error('Error!', 'Unable to add new Employee.', {
             timeOut: 2500,
           });
+          console.log(err);
         },
       });
-      console.log(this.signupWorkerForm.value);
+      // console.log(this.signupWorkerForm.value);
     } else {
       this.validateAllFormFields(this.signupWorkerForm);
     }

@@ -6,12 +6,22 @@ import { RefreshTokenDto } from '../models/refreshTokenDto';
 import { ResetPassword } from '../models/reset-password';
 import { ForgotPassword } from '../models/forgotpassword';
 import { environment } from 'src/enviroments/enviroment';
+import { CookieService } from 'ngx-cookie-service';
+import { ToastrService } from 'ngx-toastr';
+import { Router } from '@angular/router';
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
   private baseUrl = environment.apiUrl;
-  constructor(private http: HttpClient) {}
+
+  constructor(private http: HttpClient,
+    private cookie : CookieService, 
+    private toast : ToastrService,
+    private router : Router
+    ) {}
+
+
   signUp(userObj: any) {
     return this.http.post<any>(`${this.baseUrl}Auth/registerProsumer`, userObj);
   }
@@ -57,5 +67,42 @@ export class AuthService {
       this.baseUrl + 'Auth/refreshToken',
       refreshToken
     );
+  }
+
+  logout(username : string, role : string)
+  {
+    return this.http.put(this.baseUrl+'Auth/Logout', {username, role});
+  }
+
+  validateToken()
+  {
+    let refreshDto = new SendRefreshToken(this.cookie.get('refresh'), this.cookie.get('username'), this.cookie.get('role'));
+    this.refreshToken(refreshDto).subscribe({
+      next:(res)=>{
+        this.cookie.delete('token', '/');
+        this.cookie.delete('refresh', '/');
+        this.cookie.set('token', res.token.toString().trim(), { path: '/' });
+        this.cookie.set('refresh', res.refreshToken.toString().trim(), {
+          path: '/',
+        });
+      },
+      error:(err)=>{
+        this.logout(this.cookie.get('username'), this.cookie.get('role'))
+        .subscribe((res)=>{
+          if(res)
+          {
+            this.cookie.deleteAll('/');
+            this.toast.error('Session has expired. Please, log in again.','Error!', {timeOut:3000});
+            this.router.navigate(['login']);
+          }
+          else
+          {
+            this.cookie.deleteAll('/');
+            this.toast.error('Unknown error occurred. Try again later.','Error!', {timeOut:3000});
+            this.router.navigate(['login']);
+          }
+        });
+      }
+    });
   }
 }
