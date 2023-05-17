@@ -26,12 +26,13 @@ export class AuthGuard {
     | UrlTree {
     if (this.cookie.check('token')) {
       //ako token postoji
-      var token = this.cookie.get('token');
+      // var token = this.cookie.get('token');
 
-      let letUser = false; 
-      if(this.cookie.get('role') == 'Admin' || this.cookie.get('role') == 'Dispatcher')
+      let letUser = (this.cookie.get('role') == 'Admin' || this.cookie.get('role') == 'Dispatcher') ? true : false; 
+      if(!letUser)
       {
-        letUser = true;
+        this.cookie.deleteAll('/');
+        this.router.navigate(['login']);
       }
       this.auth.validateToken();
       return letUser;
