@@ -311,5 +311,25 @@ namespace API.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+        [HttpGet("NextAndLast3DaysConsumptionAndProductionTimestamps")]
+        public async Task<IActionResult> proba()
+        {
+            var consumptionHistory = await devService.ConProdForAPeriodTimestamps(0, -3, 24);
+            var productionHistory = await devService.ConProdForAPeriodTimestamps(1, -3, 24);
+            var consumptionPrediction = (await devService.ConProdForAPeriodTimestamps(0, 3, 24))["predictions"];
+            var productionPrediction = (await devService.ConProdForAPeriodTimestamps(1, 3, 24))["predictions"];
+
+            var consumptionTimestamps = consumptionHistory["timestamps"];
+            var consumptionPredictions = consumptionHistory["predictions"].Union(consumptionPrediction).ToDictionary(kv => kv.Key, kv => kv.Value);
+            var productionTimestamps = productionHistory["timestamps"];
+            var productionPredictions = productionHistory["predictions"].Union(productionPrediction).ToDictionary(kv => kv.Key, kv => kv.Value);
+
+            return Ok(new
+            {
+                consumption = new {  timestamps = consumptionTimestamps, predictions= consumptionPredictions },
+                production = new { timestamps = productionTimestamps, predictions = productionPredictions },
+            });
+        }
     }
 }
