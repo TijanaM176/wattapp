@@ -64,7 +64,7 @@ namespace API.Controllers
             }
         }
 
-        /*[HttpGet("Top5Consumers")]
+        [HttpGet("Top5Consumers")]
         public async Task<IActionResult> Top5Consumers()
         {
             try
@@ -76,38 +76,13 @@ namespace API.Controllers
                 return BadRequest(ex.Message);
             }
         }
-        
+
         [HttpGet("Top5Producers")]
         public async Task<IActionResult> Top5Producers()
         {
             try
             {
                 return Ok(await devService.Top5Producers());
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }*/
-        [HttpGet("Top5ConsumersAndProducers")]
-        public async Task<IActionResult> Top5ConsumersAndProducers()
-        {
-            try
-            {
-                var top5prod = await devService.Top5Producers();
-                var top5cons = await devService.Top5Consumers();
-
-                return Ok(
-                        new
-                        {
-                            top5consumers = top5cons,
-                            top5producers = top5prod
-                        }
-
-                    );
-                    
-
-                
             }
             catch (Exception ex)
             {
