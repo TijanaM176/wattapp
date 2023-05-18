@@ -46,9 +46,13 @@ export class UsersServiceService {
     );
   }
 
-  getAllCities()
-  {
+  getAllCities() {
     return this.http.get<City[]>(this.baseUrl + 'GenericData/GetCities');
+  }
+  getAllCitiesProsumers() {
+    return this.http.get<City[]>(
+      this.baseUrl + 'GenericData/GetCitiesWithProsumers'
+    );
   }
 
   getAllNeighborhoods(): Observable<Neighborhood[]> {
@@ -57,9 +61,17 @@ export class UsersServiceService {
     );
   }
 
-  getNeightborhoodsByCityId( id : number)
-  {
-    return this.http.get<Neighborhood[]>(this.baseUrl + 'GenericData/GetNeighborhoodsByCityId?id=' + id);
+  getNeightborhoodsByCityId(id: number) {
+    return this.http.get<Neighborhood[]>(
+      this.baseUrl + 'GenericData/GetNeighborhoodsByCityId?id=' + id
+    );
+  }
+  getNeightborhoodsByCityIdProsumers(id: number) {
+    return this.http.get<Neighborhood[]>(
+      this.baseUrl +
+        'GenericData/GetNeighborhoodsWithProsumersByCityId?id=' +
+        id
+    );
   }
 
   GetProsumersByNeighborhoodId(id: string): Observable<Prosumer[]> {

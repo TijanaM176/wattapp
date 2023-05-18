@@ -54,7 +54,10 @@ export class PredictionAllUsersComponent implements OnInit {
     const worksheet: XLSX.WorkSheet = XLSX.utils.aoa_to_sheet(sheetData);
     const workbook: XLSX.WorkBook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(workbook, worksheet, 'Chart Data');
-    XLSX.writeFile(workbook, 'Predicted_Consumption_Production_Prediction_Table.xlsx');
+    XLSX.writeFile(
+      workbook,
+      'Predicted_Consumption_Production_Prediction_Table.xlsx'
+    );
   }
 
   ngOnInit() {
@@ -114,13 +117,13 @@ export class PredictionAllUsersComponent implements OnInit {
       const chartData = {
         datasets: [
           {
-            label: 'Electric Energy Predicted Consumption',
+            label: 'Predicted Consumption',
             data: consumptionData,
             backgroundColor: 'rgba(242, 103, 17, 1)',
             borderColor: 'rgba(242, 103, 17, 0.75)',
           },
           {
-            label: 'Electric Energy Predicted Production',
+            label: 'Predicted Production',
             data: productionData,
             backgroundColor: 'rgba(0, 188, 179, 1)',
             borderColor: 'rgba(0, 188, 179, 0.75)',

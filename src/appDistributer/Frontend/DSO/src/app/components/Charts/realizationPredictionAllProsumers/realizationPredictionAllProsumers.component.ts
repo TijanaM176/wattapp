@@ -99,26 +99,26 @@ export class RealizationPredictionAllProsumersComponent implements OnInit {
       const chartData = {
         datasets: [
           {
-            label: 'Electric Energy Consumption',
+            label: 'Consumption',
             data: consumptionData,
             backgroundColor: 'rgba(193, 75, 72, 1)',
             borderColor: 'rgba(193, 75, 72, 1)',
           },
           {
-            label: 'Electric Energy Predicted Consumption',
+            label: 'Predicted Consumption',
             data: consumptionPredictionData,
             backgroundColor: 'rgba(217, 109, 42,1)',
             borderColor: 'rgba(217, 109, 42,1)',
             // borderDash: [5, 5],
           },
           {
-            label: 'Electric Energy Production',
+            label: 'Production',
             data: productionData,
             backgroundColor: 'rgba(128, 188, 0, 1)',
             borderColor: 'rgba(128, 188, 0, 1)',
           },
           {
-            label: 'Electric Energy Predicted Production',
+            label: 'Predicted Production',
             data: productionPredictionData,
             backgroundColor: 'rgba(0, 188, 179, 1)',
             borderColor: 'rgba(0, 188, 179, 1)',

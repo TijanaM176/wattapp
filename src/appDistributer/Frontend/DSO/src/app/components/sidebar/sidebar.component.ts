@@ -77,7 +77,7 @@ export class SidebarComponent implements OnInit, AfterViewInit {
   ) {}
 
   ngAfterViewInit(): void {
-    this.userService.getAllCities().subscribe((res) => {
+    this.userService.getAllCitiesProsumers().subscribe((res) => {
       this.cities = res;
     });
     this.disableNeigh = true;
@@ -87,7 +87,7 @@ export class SidebarComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
-    this.userService.getAllCities().subscribe((res) => {
+    this.userService.getAllCitiesProsumers().subscribe((res) => {
       this.cities = res;
     });
     this.filtersSubscription = this.deviceService.information$.subscribe(
@@ -200,7 +200,7 @@ export class SidebarComponent implements OnInit, AfterViewInit {
     }
   }
   getNeighsByCityId(id: number) {
-    this.userService.getNeightborhoodsByCityId(id).subscribe((res) => {
+    this.userService.getNeightborhoodsByCityIdProsumers(id).subscribe((res) => {
       this.Neighborhoods = res;
     });
     let t = window.innerWidth < 320 ? 140.6 : 101;

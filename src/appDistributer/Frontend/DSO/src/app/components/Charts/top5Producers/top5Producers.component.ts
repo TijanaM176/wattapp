@@ -14,6 +14,7 @@ export class Top5ProducersComponent implements OnInit {
 
   producers: any[] = [];
   consumers: any[] = [];
+  currentHour: number = 0;
 
   constructor(
     private service: UsersServiceService,
@@ -27,6 +28,7 @@ export class Top5ProducersComponent implements OnInit {
     this.servicedash.Top5Producers().subscribe((response) => {
       this.producers = response;
     });
+    this.currentHour = new Date().getHours();
   }
 
   onRadioButtonChange(event: any, type: string) {

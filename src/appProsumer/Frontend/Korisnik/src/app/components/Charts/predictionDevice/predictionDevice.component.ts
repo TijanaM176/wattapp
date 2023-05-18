@@ -50,7 +50,7 @@ export class PredictionDeviceComponent implements OnInit {
     const worksheet: XLSX.WorkSheet = XLSX.utils.aoa_to_sheet(sheetData);
     const workbook: XLSX.WorkBook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(workbook, worksheet, 'Chart Data');
-    XLSX.writeFile(workbook,'Predicted_'+ this.type+'.xlsx');
+    XLSX.writeFile(workbook, 'Predicted_' + this.type + '.xlsx');
   }
 
   ngOnInit(): void {
@@ -101,7 +101,7 @@ export class PredictionDeviceComponent implements OnInit {
         const chartData = {
           datasets: [
             {
-              label: 'Electric Energy Predicted ' + this.type,
+              label: 'Predicted ' + this.type,
               data: consumptionData,
               backgroundColor: backgroundColor,
               borderColor: borderColor,
@@ -126,7 +126,7 @@ export class PredictionDeviceComponent implements OnInit {
                 beginAtZero: false,
                 title: {
                   display: true,
-                  text: 'Electric Energy [kWh]',
+                  text: 'Electric Energy Prediction [kWh]',
                   font: {
                     size: 18,
                     weight: 'bold',
@@ -181,7 +181,7 @@ export class PredictionDeviceComponent implements OnInit {
         const chartData = {
           datasets: [
             {
-              label: 'Electric Energy Predicted ' + this.type,
+              label: 'Predicted ' + this.type,
               data: consumptionData,
               backgroundColor: backgroundColor,
               borderColor: borderColor,
@@ -206,7 +206,7 @@ export class PredictionDeviceComponent implements OnInit {
                 beginAtZero: false,
                 title: {
                   display: true,
-                  text: 'Electric Energy [kWh]',
+                  text: 'Electric Energy Prediction [kWh]',
                   font: {
                     size: 18,
                     weight: 'bold',
@@ -260,7 +260,7 @@ export class PredictionDeviceComponent implements OnInit {
         const chartData = {
           datasets: [
             {
-              label: 'Electric Energy Predicted ' + this.type,
+              label: 'Predicted ' + this.type,
               data: consumptionData,
               backgroundColor: backgroundColor,
               borderColor: borderColor,
@@ -285,7 +285,7 @@ export class PredictionDeviceComponent implements OnInit {
                 beginAtZero: false,
                 title: {
                   display: true,
-                  text: 'Electric Energy [kWh]',
+                  text: 'Electric Energy Prediction [kWh]',
                   font: {
                     size: 18,
                     weight: 'bold',

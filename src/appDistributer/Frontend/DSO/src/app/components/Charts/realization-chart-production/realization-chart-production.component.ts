@@ -99,7 +99,7 @@ export class RealizationChartProductionComponent
   }
 
   HistoryData(period: string, serviceFunction: any) {
-    this.show=true;
+    this.show = true;
     this.spiner.show();
     serviceFunction().subscribe((response: any) => {
       const consumptionTimestamps = response.production.timestamps || {};
@@ -141,20 +141,20 @@ export class RealizationChartProductionComponent
 
       if (this.data.length === 0) {
         this.spiner.hide();
-        this.show=false;
+        this.show = false;
         return;
       }
 
       const chartData = {
         datasets: [
           {
-            label: 'Electric Energy Production',
+            label: 'Production',
             data: consumptionData,
             backgroundColor: 'rgba(128, 188, 0, 1)',
             borderColor: 'rgba(128, 188, 0, 1)',
           },
           {
-            label: 'Electric Energy Predicted Production',
+            label: 'Predicted Production',
             data: productionData,
             backgroundColor: 'rgba(0, 188, 179, 1)',
             borderColor: 'rgba(0, 188, 179, 1)',
@@ -179,7 +179,7 @@ export class RealizationChartProductionComponent
               beginAtZero: false,
               title: {
                 display: true,
-                text: 'Electric Energy [kWh]',
+                text: 'Electric Energy Production [kWh]',
                 font: {
                   size: 18,
                   weight: 'bold',
@@ -191,7 +191,7 @@ export class RealizationChartProductionComponent
         },
       });
       this.spiner.hide();
-      this.show=false;
+      this.show = false;
     });
   }
 

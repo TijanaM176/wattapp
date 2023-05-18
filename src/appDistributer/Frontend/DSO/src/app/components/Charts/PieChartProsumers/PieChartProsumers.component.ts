@@ -34,6 +34,7 @@ export class PieChartProsumersComponent implements OnInit {
   showYAxis = true;
   gradient = false;
   showLegend = true;
+  currentHour: number = 0;
 
   constructor(
     private service: UsersServiceService,
@@ -58,7 +59,10 @@ export class PieChartProsumersComponent implements OnInit {
     const worksheet: XLSX.WorkSheet = XLSX.utils.aoa_to_sheet(sheetData);
     const workbook: XLSX.WorkBook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(workbook, worksheet, 'Chart Data');
-    XLSX.writeFile(workbook, 'Current_'+this.currentTitle+'_per_City_Table.xlsx');
+    XLSX.writeFile(
+      workbook,
+      'Current_' + this.currentTitle + '_per_City_Table.xlsx'
+    );
   }
 
   ngOnInit() {
@@ -80,6 +84,7 @@ export class PieChartProsumersComponent implements OnInit {
     });
     document.getElementById('modalFadePieChartProsumers')!.style.maxHeight =
       this.widthService.height * 0.7 + 'px';
+    this.currentHour = new Date().getHours();
   }
 
   onRadioButtonChange(event: any, type: string) {

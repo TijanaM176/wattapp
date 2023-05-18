@@ -143,13 +143,13 @@ export class RealizationChartProductionComponent
       const chartData = {
         datasets: [
           {
-            label: 'Electric Energy Production',
+            label: 'Production',
             data: consumptionData,
             backgroundColor: 'rgba(128, 188, 0, 1)',
             borderColor: 'rgba(128, 188, 0, 1)',
           },
           {
-            label: 'Electric Energy Predicted Production',
+            label: 'Predicted Production',
             data: productionData,
             backgroundColor: 'rgba(0, 188, 179, 1)',
             borderColor: 'rgba(0, 188, 179, 1)',
@@ -174,7 +174,7 @@ export class RealizationChartProductionComponent
               beginAtZero: false,
               title: {
                 display: true,
-                text: 'Electric Energy [kWh]',
+                text: 'Electric Energy Production [kWh]',
                 font: {
                   size: 18,
                   weight: 'bold',

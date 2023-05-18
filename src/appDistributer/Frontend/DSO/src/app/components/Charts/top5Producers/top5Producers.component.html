@@ -42,10 +42,10 @@
     </div>
   </div>
   <div
-    class="table-responsive"
-    style="width: 90%; margin: 0 auto; height: calc(100% - 52.2px)"
+    class="table-responsive d-flex align-items-center justify-content-center"
+    style="width: 95%; margin: 0 auto; height: calc(100% - 52.2px)"
   >
-    <table class="table align-items-center" style="margin: 2rem auto">
+    <table class="table align-items-center">
       <thead>
         <tr>
           <th>Name</th>
@@ -63,12 +63,18 @@
         </tr>
       </tbody>
     </table>
+    <p
+      class="position-absolute bottom-0 mb-0 text-center"
+      style="font-size: 14px; text-align: center; left: 0; right: 0"
+    >
+      <i>Measured at {{ currentHour }}h</i>
+    </p>
   </div>
 </div>
 <div *ngIf="isConsumersChecked === true" style="height: 100%">
   <div
     class="card-header pb-0 pt-3 bg-transparent row"
-    style="margin-left: 0; margin-right: 0; margin-bottom: 2px"
+    style="margin-left: 0; margin-right: 0"
   >
     <div class="col-md-5 pb-2">
       <h6 class="text-capitalize">Current Top 5 Consumers</h6>
@@ -107,10 +113,10 @@
     </div>
   </div>
   <div
-    class="table-responsive"
-    style="width: 90%; margin: 0 auto; height: calc(100% - 52.2px)"
+    class="table-responsive d-flex align-items-center justify-content-center"
+    style="width: 95%; margin: 0 auto; height: calc(100% - 52.2px)"
   >
-    <table class="table align-items-center" style="margin: 2rem auto">
+    <table class="table align-items-center">
       <thead>
         <tr>
           <th>Name</th>
@@ -128,5 +134,11 @@
         </tr>
       </tbody>
     </table>
+    <p
+      class="position-absolute bottom-0 mb-0 text-center"
+      style="font-size: 14px; text-align: center; left: 0; right: 0"
+    >
+      <i>Measured at {{ currentHour }}h</i>
+    </p>
   </div>
 </div>

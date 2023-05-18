@@ -48,7 +48,10 @@ export class PredictionDeviceComponent implements OnInit, AfterViewInit {
     const worksheet: XLSX.WorkSheet = XLSX.utils.aoa_to_sheet(sheetData);
     const workbook: XLSX.WorkBook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(workbook, worksheet, 'Chart Data');
-    XLSX.writeFile(workbook, this.type+ 'Prediction_for_'+this.type+'_Table.xlsx');
+    XLSX.writeFile(
+      workbook,
+      this.type + 'Prediction_for_' + this.type + '_Table.xlsx'
+    );
   }
 
   ngAfterViewInit(): void {
@@ -104,7 +107,7 @@ export class PredictionDeviceComponent implements OnInit, AfterViewInit {
         const chartData = {
           datasets: [
             {
-              label: 'Electric Energy Predicted ' + this.type,
+              label: 'Predicted ' + this.type,
               data: consumptionData,
               backgroundColor: backgroundColor,
               borderColor: borderColor,
@@ -129,7 +132,7 @@ export class PredictionDeviceComponent implements OnInit, AfterViewInit {
                 beginAtZero: false,
                 title: {
                   display: true,
-                  text: 'Electric Energy [kWh]',
+                  text: 'Electric Energy Prediction [kWh]',
                   font: {
                     size: 18,
                     weight: 'bold',
@@ -189,7 +192,7 @@ export class PredictionDeviceComponent implements OnInit, AfterViewInit {
         const chartData = {
           datasets: [
             {
-              label: 'Electric Energy Predicted ' + this.type,
+              label: 'Predicted ' + this.type,
               data: consumptionData,
               backgroundColor: backgroundColor,
               borderColor: borderColor,
@@ -214,7 +217,7 @@ export class PredictionDeviceComponent implements OnInit, AfterViewInit {
                 beginAtZero: false,
                 title: {
                   display: true,
-                  text: 'Electric Energy [kWh]',
+                  text: 'Electric Energy Prediction [kWh]',
                   font: {
                     size: 18,
                     weight: 'bold',
@@ -274,7 +277,7 @@ export class PredictionDeviceComponent implements OnInit, AfterViewInit {
         const chartData = {
           datasets: [
             {
-              label: 'Electric Energy Predicted ' + this.type,
+              label: 'Predicted ' + this.type,
               data: consumptionData,
               backgroundColor: backgroundColor,
               borderColor: borderColor,
@@ -299,7 +302,7 @@ export class PredictionDeviceComponent implements OnInit, AfterViewInit {
                 beginAtZero: false,
                 title: {
                   display: true,
-                  text: 'Electric Energy [kWh]',
+                  text: 'Electric Energy Prediction [kWh]',
                   font: {
                     size: 18,
                     weight: 'bold',

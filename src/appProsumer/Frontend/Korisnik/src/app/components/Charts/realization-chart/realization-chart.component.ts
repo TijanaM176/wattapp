@@ -142,13 +142,13 @@ export class RealizationChartComponent implements OnInit, AfterViewInit {
       const chartData = {
         datasets: [
           {
-            label: 'Electric Energy Consumption',
+            label: 'Consumption',
             data: consumptionData,
             backgroundColor: 'rgba(193, 75, 72, 1)',
             borderColor: 'rgba(193, 75, 72, 1)',
           },
           {
-            label: 'Electric Energy Predicted Consumption',
+            label: 'Predicted Consumption',
             data: productionData,
             backgroundColor: 'rgba(255, 125, 65, 1)',
             borderColor: 'rgba(255, 125, 65, 1)',
@@ -173,7 +173,7 @@ export class RealizationChartComponent implements OnInit, AfterViewInit {
               beginAtZero: false,
               title: {
                 display: true,
-                text: 'Electric Energy [kWh]',
+                text: 'Electric Energy Consumption [kWh]',
                 font: {
                   size: 18,
                   weight: 'bold',

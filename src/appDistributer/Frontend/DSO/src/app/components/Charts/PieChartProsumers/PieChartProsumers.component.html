@@ -61,6 +61,12 @@
         [label]="'Production [kW]'"
       >
       </ngx-charts-pie-grid>
+      <p
+        class="position-absolute bottom-0 mb-0 text-center"
+        style="font-size: 14px; text-align: center; left: 0; right: 0"
+      >
+        <i>Measured at {{ currentHour }}h</i>
+      </p>
     </div>
     <h1
       *ngIf="dataProducers.length === 0"
@@ -141,6 +147,12 @@
         [label]="'Consumption [kW]'"
       >
       </ngx-charts-pie-grid>
+      <p
+        class="position-absolute bottom-0 mb-0 text-center"
+        style="font-size: 14px; text-align: center; left: 0; right: 0"
+      >
+        <i>Measured at {{ currentHour }}h</i>
+      </p>
     </div>
     <h1
       *ngIf="!dataConsumers.length"

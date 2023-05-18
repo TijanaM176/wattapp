@@ -52,7 +52,7 @@ export class RealizationDeviceComponent implements OnInit, AfterViewInit {
     const worksheet: XLSX.WorkSheet = XLSX.utils.aoa_to_sheet(sheetData);
     const workbook: XLSX.WorkBook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(workbook, worksheet, 'Chart Data');
-    XLSX.writeFile(workbook, this.type+'_and_Prediction_Table_History.xlsx');
+    XLSX.writeFile(workbook, this.type + '_and_Prediction_Table_History.xlsx');
   }
 
   ngAfterViewInit(): void {
@@ -137,13 +137,13 @@ export class RealizationDeviceComponent implements OnInit, AfterViewInit {
       const chartData = {
         datasets: [
           {
-            label: `Electric Energy ${this.type}`,
+            label: `${this.type}`,
             data: consumptionData,
             backgroundColor: backgroundColor,
             borderColor: borderColor,
           },
           {
-            label: `Electric Energy Predicted ${this.type}`,
+            label: `Predicted ${this.type}`,
             data: productionData,
             backgroundColor: backgroundColor1,
             borderColor: borderColor1,
@@ -168,7 +168,7 @@ export class RealizationDeviceComponent implements OnInit, AfterViewInit {
               beginAtZero: false,
               title: {
                 display: true,
-                text: 'Electric Energy [kWh]',
+                text: `Electric Energy ${this.type} [kWh]`,
                 font: {
                   size: 18,
                   weight: 'bold',

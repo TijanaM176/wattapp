@@ -79,9 +79,9 @@ export class MapComponent implements AfterViewInit, OnInit {
   Neighborhoods: Neighborhood[] = [];
   dropDownNeigh: string = 'b';
 
-  city : number = -1;
-  cities : City[] = [];
-  disableNeigh : boolean = true;
+  city: number = -1;
+  cities: City[] = [];
+  disableNeigh: boolean = true;
 
   users!: any[];
   markers!: any[];
@@ -92,21 +92,17 @@ export class MapComponent implements AfterViewInit, OnInit {
   constructor(
     private mapService: UsersServiceService,
     private widthService: ScreenWidthService,
-    public toast:ToastrService,
+    public toast: ToastrService,
     private cookie: CookieService,
-    private deviceServer:DeviceserviceService
+    private deviceServer: DeviceserviceService
   ) {}
 
-  ChangeCity(e : any)
-  {
-    if(this.city == -1)
-    {
+  ChangeCity(e: any) {
+    if (this.city == -1) {
       this.dropDownNeigh = 'b';
       this.neighborhood = 'b';
       this.disableNeigh = true;
-    }
-    else
-    {
+    } else {
       this.getNeighsByCityId(this.city);
       this.dropDownNeigh = 'b';
       this.neighborhood = 'b';
@@ -118,26 +114,26 @@ export class MapComponent implements AfterViewInit, OnInit {
     this.dropDownNeigh = e.target.value;
   }
 
-  getNeighsByCityId(id : number)
-  {
-    this.mapService.getNeightborhoodsByCityId(id)
-    .subscribe((res)=>{
+  getNeighsByCityId(id: number) {
+    this.mapService.getNeightborhoodsByCityIdProsumers(id).subscribe((res) => {
       this.Neighborhoods = res;
-    })
+    });
   }
 
   ngOnInit(): void {
     setTimeout(() => {
       this.loader = false;
     }, 3000);
-    let t = window.innerWidth < 320? 140.6 : 101;
+    let t = window.innerWidth < 320 ? 140.6 : 101;
     let h = window.innerHeight - t;
 
     document.getElementById('sadrzaj')!.style.height = h + 'px';
     document.getElementById('mapCont')!.style.height = h + 'px';
     document.getElementById('side')!.style.height = h + 'px';
 
-    this.mapService.getAllCities().subscribe((res)=>{this.cities = res});
+    this.mapService.getAllCitiesProsumers().subscribe((res) => {
+      this.cities = res;
+    });
     this.disableNeigh = true;
 
     this.currentLocationIsSet = false;
@@ -147,7 +143,7 @@ export class MapComponent implements AfterViewInit, OnInit {
 
     this.resizeObservable$ = fromEvent(window, 'resize');
     this.resizeSubscription$ = this.resizeObservable$.subscribe((evt) => {
-      let t = window.innerWidth < 320? 140.6 : 101;
+      let t = window.innerWidth < 320 ? 140.6 : 101;
       let h = window.innerHeight - t;
       document.getElementById('sadrzaj')!.style.height = h + 'px';
       document.getElementById('mapCont')!.style.height = h + 'px';
@@ -160,7 +156,7 @@ export class MapComponent implements AfterViewInit, OnInit {
   }
 
   private initMap() {
-    let t = window.innerWidth < 320? 140.6 : 101;
+    let t = window.innerWidth < 320 ? 140.6 : 101;
     let h = window.innerHeight - t;
     document.getElementById('sadrzaj')!.style.height = h + 'px';
     document.getElementById('mapCont')!.style.height = h + 'px';
@@ -217,8 +213,7 @@ export class MapComponent implements AfterViewInit, OnInit {
     this.populateTheMap(this.map);
   }
 
-  private setFilters(res : UserTableMapInitDto)
-  {
+  private setFilters(res: UserTableMapInitDto) {
     this.minValueP = Math.ceil(res.minProd);
     this.maxValueP = Math.ceil(res.maxProd);
     this.optionsP = {
@@ -316,7 +311,6 @@ export class MapComponent implements AfterViewInit, OnInit {
         }
       },
       error: (err) => {
-
         this.toast.error('Error!', 'Unable to retreive prosumer locations.', {
           timeOut: 2500,
         });
@@ -370,26 +364,40 @@ export class MapComponent implements AfterViewInit, OnInit {
     this.markers = [];
   }
 
-  filterwithoutNeighborhood(map: any, cityId : string) {
+  filterwithoutNeighborhood(map: any, cityId: string) {
     this.deleteAllMarkers(map);
-    this.deviceServer.prosumerFilterMap(this.minValueC, this.maxValueC, 
-      this.minValueP,this.maxValueP, 
-      this.minValue, this.maxValue, 
-      cityId.toString(), "all")
-      .subscribe((res)=>{
+    this.deviceServer
+      .prosumerFilterMap(
+        this.minValueC,
+        this.maxValueC,
+        this.minValueP,
+        this.maxValueP,
+        this.minValue,
+        this.maxValue,
+        cityId.toString(),
+        'all'
+      )
+      .subscribe((res) => {
         let response = res as UserTableMapInitDto;
         this.users = response.prosumers as Prosumer[];
         this.setFilters(response);
         this.populateTheMap2(map);
       });
   }
-  filterwithNeighborhood(map: any, cityId : string) {
+  filterwithNeighborhood(map: any, cityId: string) {
     this.deleteAllMarkers(map);
-    this.deviceServer.prosumerFilterMap(this.minValueC, this.maxValueC, 
-      this.minValueP,this.maxValueP, 
-      this.minValue, this.maxValue, 
-      cityId.toString(), this.dropDownNeigh)
-      .subscribe((res)=>{
+    this.deviceServer
+      .prosumerFilterMap(
+        this.minValueC,
+        this.maxValueC,
+        this.minValueP,
+        this.maxValueP,
+        this.minValue,
+        this.maxValue,
+        cityId.toString(),
+        this.dropDownNeigh
+      )
+      .subscribe((res) => {
         let response = res as UserTableMapInitDto;
         this.users = response.prosumers as Prosumer[];
         this.setFilters(response);
@@ -397,30 +405,21 @@ export class MapComponent implements AfterViewInit, OnInit {
       });
   }
 
-  filterWithCity()
-  {
-    if(this.dropDownNeigh==='b' || this.dropDownNeigh === '')
-    {
+  filterWithCity() {
+    if (this.dropDownNeigh === 'b' || this.dropDownNeigh === '') {
       this.filterwithoutNeighborhood(this.map, this.city.toString());
-    }
-    else
-    {
+    } else {
       this.filterwithNeighborhood(this.map, this.city.toString());
     }
   }
-  filterWithoutCity()
-  {
-    this.filterwithoutNeighborhood(this.map, "all");
-  
+  filterWithoutCity() {
+    this.filterwithoutNeighborhood(this.map, 'all');
   }
 
   filter() {
-    if(this.city != -1)
-    {
+    if (this.city != -1) {
       this.filterWithCity();
-    }
-    else
-    {
+    } else {
       this.filterWithoutCity();
     }
   }
@@ -431,8 +430,7 @@ export class MapComponent implements AfterViewInit, OnInit {
     //   this.users = response;
     //   this.populateTheMap(this.map);
     // });
-    this.deviceServer.ProsumersInfo1()
-    .subscribe((res)=>{
+    this.deviceServer.ProsumersInfo1().subscribe((res) => {
       let response = res as UserTableMapInitDto;
       this.users = response.prosumers as Prosumer[];
       this.populateTheMap(this.map);
