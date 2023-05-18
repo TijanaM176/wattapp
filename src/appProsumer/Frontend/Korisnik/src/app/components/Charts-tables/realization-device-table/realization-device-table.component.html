@@ -11,7 +11,7 @@
       <th scope="row" class="ps-2">{{ value.x }}</th>
       <td
         class="text-center"
-        [ngStyle]="{ color: type === 'Consumption' ? 'rgba(193, 75, 72, 1)' : 'rgba(128, 188, 0, 1)' }"
+        [ngStyle]="{ color: type === 'Consumption' ? 'rgba(193, 75, 72, 1)' : type == 'Production' ? 'rgba(128, 188, 0, 1)' : 'rgba(217, 109, 42,1)' }"
       >
         {{ value.y.toFixed(2) }}
       </td>
@@ -19,7 +19,7 @@
         class="text-center"
         [ngStyle]="{
           color:
-            type === 'Consumption' ? 'rgba(255, 125, 65, 1)' : 'rgba(0, 188, 179, 1)'
+            type === 'Consumption' ? 'rgba(255, 125, 65, 1)' : type == 'Production' ? 'rgba(0, 188, 179, 1)' : 'rgba(0, 150, 179, 1)'
         }"
       >
         {{ data[1].values[i].y.toFixed(2) }}

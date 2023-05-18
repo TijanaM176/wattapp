@@ -56,6 +56,7 @@ export class ChangeWorkerPasswordComponent {
           },
           error: (err) => {
             console.log(err.error);
+            this.failure = true;
           },
         });
     }

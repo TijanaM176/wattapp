@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { mode } from 'd3';
 import { CookieService } from 'ngx-cookie-service';
 import { ToastrService } from 'ngx-toastr';
 import { Category } from 'src/app/models/categories';
@@ -17,26 +18,25 @@ export class AddDeviceFormComponent {
   success: boolean = false;
   failure: boolean = false;
   categories: Category[] = [];
-  dropDownCategory: boolean = false;
-  dropDownType: boolean = false;
-  dropDownModel: boolean = false;
+
   category: number = -1;
   type: number = -1;
-  types: DeviceType[] = [];
   model: any = -1;
+
+  dropdownType : boolean = false;
+  dropdownModel : boolean = false;
+
+  types: DeviceType[] = [];
   models: Models[] = [];
   Name: string = '';
   manufacturer: string = '';
   DsoView: boolean = false;
   DsoControl: boolean = false;
   id: string = '';
-  cat: any;
-  typ: any;
-  mod: any;
+  
   maxlength: number = 18;
-  dropdownCategory:boolean=false;
-  dropdownType:boolean=true;
-  dropdownModel:boolean=true;
+
+  showError : boolean = false;
 
   constructor(
     private service: AdddeviceserviceService,
@@ -45,21 +45,43 @@ export class AddDeviceFormComponent {
   ) {}
 
   ngOnInit(): void {
-    this.dropDownCategory = false;
-    this.dropDownType = false;
-    this.dropDownModel = false;
+    this.dropdownType = false;
+    this.dropdownModel = false;
     this.service.dsoView = false;
     this.service.dsoControl = false;
+    this.service.category = -1;
+    this.service.type = -1;
+    this.service.model = '-1';
+    this.service.name = '';
     this.getCategories();
   }
 
   ChangeCategory(e: any) {
-    this.dropdownType=true;
-    this.model=-1;
-    this.Name='';
-    this.service.category = this.category;
-    this.getTypes();
-    this.type = -1;
+    this.resetError();
+    if(this.category != -1)
+    {
+      this.dropdownType = true;
+      this.model = -1;
+      this.Name = '';
+      this.service.category = this.category;
+      this.service.type = -1;
+      this.service.model = '-1';
+      this.service.name = '';
+      this.getTypes();
+      this.type = -1;
+    }
+    else
+    {
+      this.type = -1;
+      this.dropdownType = false;
+      this.model = -1;
+      this.dropdownModel = false;
+      this.Name = '';
+      this.service.category = -1;
+      this.service.type = -1;
+      this.service.model = '-1';
+      this.service.name = '';
+    }
   }
 
   getCategories() {
@@ -74,10 +96,25 @@ export class AddDeviceFormComponent {
   }
 
   ChangeType(e: any) {
-    this.dropdownModel=true;
-    this.service.type = this.type;
-    this.getModels();
-    this.model = -1;
+    this.resetError();
+    if(this.type != -1)
+    {
+      this.model = -1;
+      this.dropdownModel = true;
+      this.service.type = this.type;
+      this.service.model = '-1';
+      this.service.name = '';
+      this.getModels();
+    }
+    else
+    {
+      this.model = -1;
+      this.dropdownModel = false;
+      this.Name = '';
+      this.service.type = -1;
+      this.service.model = '-1';
+      this.service.name = '';
+    }
   }
   
   getTypes() {
@@ -85,7 +122,7 @@ export class AddDeviceFormComponent {
       next: (response) => {
         this.types = response;
 
-        this.dropDownType = true;
+        this.dropdownType = true;
       },
       error: (err) => {
         console.log(err.error);
@@ -94,10 +131,19 @@ export class AddDeviceFormComponent {
   }
 
   ChangeModels(e: any) {
-    this.service.model = this.model.id;
-    this.Name = this.model.name;
-    this.service.name = this.Name;
-    // console.log(this.model);
+    this.resetError();
+    if(this.model != -1)
+    {
+      this.service.model = this.model.id;
+      this.Name = this.model.name;
+      this.service.name = this.Name;
+    }
+    else
+    {
+      this.service.model = '-1';
+      this.Name = '';
+      this.service.name = '';
+    }
   }
 
   getModels() {
@@ -105,7 +151,6 @@ export class AddDeviceFormComponent {
     this.service.getModels().subscribe({
       next: (response) => {
         this.models = response;
-        this.dropDownModel = true;
       },
       error: (err) => {
         console.log(err.error);
@@ -134,4 +179,12 @@ export class AddDeviceFormComponent {
     }
   }
 
+  error()
+  {
+    this.showError = true;
+  }
+  resetError()
+  {
+    this.showError = false;
+  }
 }

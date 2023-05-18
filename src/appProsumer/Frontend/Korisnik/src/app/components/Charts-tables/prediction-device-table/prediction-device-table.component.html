@@ -10,7 +10,7 @@
       <th scope="row" class="ps-4">{{ value.x }}</th>
       <td class="text-center" [ngStyle]="{
         color:
-          type === 'Consumption' ? 'rgba(255, 125, 65, 1)' : 'rgba(0, 188, 179, 1)'
+          type === 'Consumption' ? 'rgba(255, 125, 65, 1)' : type == 'Production' ? 'rgba(0, 188, 179, 1)' : 'rgba(0, 150, 179, 1)'
       }">
         {{ value.y.toFixed(2) }}
       </td>

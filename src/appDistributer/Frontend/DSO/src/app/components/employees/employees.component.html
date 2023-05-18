@@ -366,7 +366,7 @@
             align-items: center;
           "
           ><i
-            style="color: #566787; font-size: 16px; margin-top: 5%"
+            style="color: #566787; font-size: 16px;"
             class="material-icons"
             >edit</i
           >
@@ -394,7 +394,7 @@
             align-items: center;
           "
           ><i
-            style="color: #566787; font-size: 16px; margin-top: 5%"
+            style="color: #566787; font-size: 16px;"
             class="material-icons"
             >delete</i
           >
@@ -581,21 +581,24 @@
             <select
               class="dropdown dropdown-toggle"
               name="model"
-              [(ngModel)]="region"
-              (change)="ChangeRole($event)"
               class="form-control"
               style="
                 width: 90%;
-                border: 1px solid #566787;
+                border: 1px solid #c2ccd1;
                 color: #566787;
-                background-color: #e8f3f8;
+                background-color: #c2ccd1;
                 font-weight: 600;
               "
+              [disabled]="true"
             >
-              <option value="0">Choose Region</option>
-              <option *ngFor="let item of Region" [ngValue]="item.id">
+            <!-- 
+              [(ngModel)]="region"
+              (change)="ChangeRole($event)" -->
+
+              <option value="0">{{regionName}}</option>
+              <!-- <option *ngFor="let item of Region" [ngValue]="item.id">
                 {{ item.regionName }}
-              </option>
+              </option> -->
             </select>
           </div>
         </div>

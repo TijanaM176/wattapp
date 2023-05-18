@@ -32,7 +32,7 @@ export class ConsumptionLimitComponent implements OnInit, AfterViewInit {
     '1500': { color: 'black', label: '1500' },
   };
 
-  thresholdsConsumption  = {
+  thresholdsConsumption = {
     '0': { color: 'green', bgOpacity: 0.2 },
     '350': { color: '#2a96d9', bgOpacity: 0.2 },
     '1600': { color: '#c14b48', bgOpacity: 0.2 },
@@ -50,62 +50,21 @@ export class ConsumptionLimitComponent implements OnInit, AfterViewInit {
     private spiner: NgxSpinnerService
   ) {}
 
- ngAfterViewInit(): void {
-  let w = window.innerWidth;
-  let h = window.innerHeight;
-  
-  const element1 = document.getElementById('consumptionLimitBody1');
-  const element2 = document.getElementById('consumptionLimitBody2');
-
-  if (element1 && element2) {
-    if (w >= 576) {
-      element1.style.height = h * 0.5 + 'px';
-      element2.style.height = h * 0.5 + 'px';
-    } else {
-      if (this.widthService.height >= this.widthService.deviceWidth * 2) {
-        element1.style.height = h * 0.35 + 'px';
-        element2.style.height = h * 0.35 + 'px';
-      } else {
-        element1.style.height = h * 0.4 + 'px';
-        element2.style.height = h * 0.4 + 'px';
-      }
-    }
+  ngAfterViewInit(): void {
+    this.ajustHeight();
   }
-}
 
+  ngOnInit(): void {
+    this.loaded = false;
+    this.width =
+      document.getElementById('consumptionLimitCardBody')!.offsetWidth * 0.9;
+    this.getConumptionAndProductionLimit();
 
-ngOnInit(): void {
-  this.loaded = false;
-  const consumptionLimitCardBody = document.getElementById('consumptionLimitCardBody');
-  this.width = (consumptionLimitCardBody?.offsetWidth ?? 0) * 0.9;
-  this.getConumptionAndProductionLimit();
-
-  this.resizeObservable$ = fromEvent(window, 'resize');
-  this.resizeSubscription$ = this.resizeObservable$.subscribe((evt) => {
-    let w = this.widthService.deviceWidth;
-    let h = this.widthService.height;
-    const consumptionLimitBody1 = document.getElementById('consumptionLimitBody1');
-    const consumptionLimitBody2 = document.getElementById('consumptionLimitBody2');
-
-    if (consumptionLimitCardBody && consumptionLimitBody1 && consumptionLimitBody2) {
-      if (w >= 576) {
-        consumptionLimitBody1.style.height = h * 0.5 + 'px';
-        consumptionLimitBody2.style.height = h * 0.5 + 'px';
-        this.width = consumptionLimitCardBody.offsetWidth * 0.9;
-      } else {
-        if (this.widthService.height >= this.widthService.deviceWidth * 2) {
-          consumptionLimitBody1.style.height = h * 0.35 + 'px';
-          consumptionLimitBody2.style.height = h * 0.35 + 'px';
-        } else {
-          consumptionLimitBody1.style.height = h * 0.4 + 'px';
-          consumptionLimitBody2.style.height = h * 0.4 + 'px';
-        }
-        this.width = consumptionLimitCardBody.offsetWidth * 0.9;
-      }
-    }
-  });
-}
-
+    this.resizeObservable$ = fromEvent(window, 'resize');
+    this.resizeSubscription$ = this.resizeObservable$.subscribe((evt) => {
+      this.ajustHeightOnWidthChange();
+    });
+  }
 
   getConumptionAndProductionLimit() {
     this.deviceService.getConsumptionAndProductionLimit().subscribe({
@@ -138,6 +97,7 @@ ngOnInit(): void {
   }
 
   onRadioButtonChange(event: any, type: string) {
+    this.ajustHeight();
     if (type === 'consumption') {
       this.showConsumptio = event.target.checked;
       if (this.showConsumptio) {
@@ -152,6 +112,74 @@ ngOnInit(): void {
       } else {
         this.Consumption();
       }
+    }
+  }
+
+  ajustHeight() {
+    let w = window.innerWidth;
+    let h = window.innerHeight;
+    if (w >= 576) {
+      if (this.showConsumptio) {
+        document.getElementById('consumptionLimitBody1')!.style.height =
+          h * 0.5 + 'px';
+      } else {
+        document.getElementById('consumptionLimitBody2')!.style.height =
+          h * 0.5 + 'px';
+      }
+    } else {
+      if (this.widthService.height >= this.widthService.deviceWidth * 2) {
+        if (this.showConsumptio) {
+          document.getElementById('consumptionLimitBody1')!.style.height =
+            h * 0.35 + 'px';
+        } else {
+          document.getElementById('consumptionLimitBody2')!.style.height =
+            h * 0.35 + 'px';
+        }
+      } else {
+        if (this.showConsumptio) {
+          document.getElementById('consumptionLimitBody1')!.style.height =
+            h * 0.4 + 'px';
+        } else {
+          document.getElementById('consumptionLimitBody2')!.style.height =
+            h * 0.4 + 'px';
+        }
+      }
+    }
+  }
+
+  ajustHeightOnWidthChange() {
+    let w = this.widthService.deviceWidth;
+    let h = this.widthService.height;
+    if (w >= 576) {
+      if (this.showConsumptio) {
+        document.getElementById('consumptionLimitBody1')!.style.height =
+          h * 0.5 + 'px';
+      } else {
+        document.getElementById('consumptionLimitBody2')!.style.height =
+          h * 0.5 + 'px';
+      }
+      this.width =
+        document.getElementById('consumptionLimitCardBody')!.offsetWidth * 0.9;
+    } else {
+      if (this.widthService.height >= this.widthService.deviceWidth * 2) {
+        if (this.showConsumptio) {
+          document.getElementById('consumptionLimitBody1')!.style.height =
+            h * 0.35 + 'px';
+        } else {
+          document.getElementById('consumptionLimitBody2')!.style.height =
+            h * 0.35 + 'px';
+        }
+      } else {
+        if (this.showConsumptio) {
+          document.getElementById('consumptionLimitBody1')!.style.height =
+            h * 0.4 + 'px';
+        } else {
+          document.getElementById('consumptionLimitBody2')!.style.height =
+            h * 0.4 + 'px';
+        }
+      }
+      this.width =
+        document.getElementById('consumptionLimitCardBody')!.offsetWidth * 0.9;
     }
   }
 }

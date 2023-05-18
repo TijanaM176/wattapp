@@ -17,13 +17,12 @@ export class LoginGuard {
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
       if(!this.cookie.check("token"))
-      {//ako token postoji
-        var token = this.cookie.get("token");
-        //return this.auth.validateJwt(token) za sad ne postoji f-ja na beku da se proveri
+      {//ako token ne postoji
+        
         return true;
       }
       else
-      {//ako token ne postoji vraca na login
+      {//ako token postoji ide na home
         this.router.navigate([""])
         return false;
       }

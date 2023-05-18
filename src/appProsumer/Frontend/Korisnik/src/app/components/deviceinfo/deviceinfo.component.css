@@ -116,3 +116,25 @@ h6 {
   color: green;
   font-size: 100px;
 }
+.faBtn{
+  cursor: pointer;
+  border: 2px solid rgb(246, 255, 251);
+  border-radius: 10px;
+  background-color: #ebf5f1;
+}
+.faBtn:hover{
+  background-color: #d9dfdd;
+  border-color: #d9dfdd;
+  border-radius: 10px;
+}
+.faBtnSmall{
+  cursor: pointer;
+  border: 2px solid #ddece5;
+  border-radius: 5px;
+  background-color: #ecf5f1;
+}
+.faBtnSmall:hover{
+  background-color: #d9dfdd;
+  border-color: #d9dfdd;
+  border-radius: 5px;
+}

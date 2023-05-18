@@ -15,6 +15,8 @@ import { ImageCroppedEvent } from 'ngx-image-cropper';
 import { SendPhoto } from 'src/app/models/sendPhoto';
 import { ProfilePictureServiceService } from 'src/app/services/profile-picture-service.service';
 import { WorkerProfileComponent } from '../worker-profile/worker-profile.component';
+import { SendRefreshToken } from 'src/app/models/sendRefreshToken';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-employees',
@@ -71,7 +73,8 @@ export class EmployeesComponent {
     public serviceData: DataService,
     private _sanitizer: DomSanitizer,
     public toast: ToastrService,
-    private profilePhotoService:ProfilePictureServiceService
+    private profilePhotoService:ProfilePictureServiceService,
+    private auth : AuthService
   ) {}
 
   ngOnInit(): void {
@@ -88,7 +91,6 @@ export class EmployeesComponent {
   Ucitaj() {
     this.service.getAllData();
     this.employees = this.service.employees;
-    
   }
   Image(image: any) {
     this.imageSource = 'assets/images/defaultWorker.png';
@@ -107,19 +109,20 @@ export class EmployeesComponent {
   Paging() {
     this.service.Page(this.page, this.perPage).subscribe((res) => {
       this.employees = res;
+      // console.log(res);
     });
   }
   onTableDataChange(event: any) {
     this.page = event;
-    console.log(this.page);
+    // console.log(this.page);
     this.Paging();
   }
 
   Details(id: string) { 
     this.showDetails=true;
-    console.log(this.service.employees);
+    // console.log(this.service.employees);
     this.service.idEmp = id;
-    console.log(this.service.idEmp);
+    // console.log(this.service.idEmp);
     this.service.detailsEmployee(id).subscribe((res) => {
       this.employee = res;
       this.id = res.id;
@@ -178,7 +181,7 @@ export class EmployeesComponent {
   getAllRoles() {
     this.serviceData.getAllRoles().subscribe({
       next: (res) => {
-        this.Role = res;
+        this.Role = res.filter(item => item.roleName != 'Prosumer');
       },
       error: (err) => {
         //this.toast.error({detail:"Error!",summary:"Unable to load user data.", duration:3000});
@@ -188,47 +191,101 @@ export class EmployeesComponent {
   }
 
   update(id: string) {
-    this.getAllRegions();
+    // this.getAllRegions();
     this.getAllRoles();
     const buttonRef = document.getElementById('closeBtn');
     buttonRef?.click();
   }
   onUpdate(id: string) {
-    //console.log(this.updateForm.value);
-    let dto: editEmployeeDto = new editEmployeeDto();
-    dto.firstName = this.firstName;
-    dto.lastName = this.lastName;
-    dto.salary = this.salary;
-    dto.regionId = this.region;
-    dto.roleId = this.role;
-    dto.email = this.email;
-    console.log(dto);
-    this.service.updateEmployee(id, dto).subscribe((res) => {
-      this.Ucitaj();
-      this.Paging();
-      console.log(res);
-    });
-    this.currentRoute = this.router.url;
-    this.router
-      .navigateByUrl('/DsoApp/home', { skipLocationChange: true })
-      .then(() => {
-        this.router.navigate([this.currentRoute]);
-      });
-      const buttonRef = document.getElementById('closeBtn1');
-      buttonRef?.click();
+    let refreshDto = new SendRefreshToken(this.cookie.get('refresh'), this.cookie.get('username'), this.cookie.get('role'));
+    this.auth.refreshToken(refreshDto)
+    .subscribe({
+      next:(data)=>{
+        this.cookie.delete('token', '/');
+        this.cookie.delete('refresh', '/');
+        this.cookie.set('token', data.token.toString().trim(), { path: '/' });
+        this.cookie.set('refresh', data.refreshToken.toString().trim(), {
+          path: '/',
+        });
+
+        //update-ovanje korisnika
+        let dto: editEmployeeDto = new editEmployeeDto();
+        dto.firstName = this.firstName;
+        dto.lastName = this.lastName;
+        dto.salary = this.salary;
+        dto.regionId = this.region;
+        dto.roleId = this.role;
+        dto.email = this.email;
+        // console.log(dto);
+        this.service.updateEmployee(id, dto).subscribe((res) => {
+          this.Ucitaj();
+          this.Paging();
+        });
+        this.currentRoute = this.router.url;
+        this.router
+          .navigateByUrl('/DsoApp/home', { skipLocationChange: true })
+          .then(() => {
+            this.router.navigate([this.currentRoute]);
+          });
+        const buttonRef = document.getElementById('closeBtn1');
+        buttonRef?.click();
+      },
+      error:(err)=>{
+        this.auth.logout(this.cookie.get('username'), this.cookie.get('role'))
+          .subscribe({
+            next:(res)=>{
+              this.toast.error(err.error, 'Error!', {timeOut: 3000});
+              this.cookie.deleteAll('/');
+              this.router.navigate(['login']);
+            },
+            error:(error)=>{
+              console.log(error);
+              this.toast.error('Unknown error occurred', 'Error!', {timeOut: 2500});
+            }
+          });
+      }
+    })
   }
 
   onDelete(id: string) {
     if (confirm('Do you want to delete ?')) {
-      this.service.deleteEmployee(id).subscribe({
-        next: (res) => {
-          this.Ucitaj();
-          this.Paging();
-          this.closeside();
+      let refreshDto = new SendRefreshToken(this.cookie.get('refresh'), this.cookie.get('username'), this.cookie.get('role'));
+      this.auth.refreshToken(refreshDto)
+      .subscribe({
+        next:(data)=>{
+          this.cookie.delete('token', '/');
+          this.cookie.delete('refresh', '/');
+          this.cookie.set('token', data.token.toString().trim(), { path: '/' });
+          this.cookie.set('refresh', data.refreshToken.toString().trim(), {
+            path: '/',
+          });
+
+          //brisanje korisnika
+          this.service.deleteEmployee(id).subscribe({
+            next: (res) => {
+              this.Ucitaj();
+              this.Paging();
+              this.closeside();
+            },
+            error: (err) => {
+              console.log(err.error);
+            },
+          });
         },
-        error: (err) => {
-          console.log(err.error);
-        },
+        error:(err)=>{
+          this.auth.logout(this.cookie.get('username'), this.cookie.get('role'))
+            .subscribe({
+              next:(res)=>{
+                this.toast.error(err.error, 'Error!', {timeOut: 3000});
+                this.cookie.deleteAll('/');
+                this.router.navigate(['login']);
+              },
+              error:(error)=>{
+                console.log(error);
+                this.toast.error('Unknown error occurred', 'Error!', {timeOut: 2500});
+              }
+            });
+        }
       });
     }
   }
@@ -253,33 +310,61 @@ export class EmployeesComponent {
     this.noFile = false;
     if(this.selectedImageFile != null)
     {
-      this.croppedImage = this.croppedImage.replace('data:image/png;base64,','');
-      // console.log(this.croppedImage);
-
-      let sp = new SendPhoto(this.id, this.croppedImage);
-
-      this.service.updateProfilePhoto(this.id, sp)
+      let refreshDto = new SendRefreshToken(this.cookie.get('refresh'), this.cookie.get('username'), this.cookie.get('role'));
+      this.auth.refreshToken(refreshDto)
       .subscribe({
-        next:(res)=>{
-          this.updatedPhotoSuccess = true;
-          setTimeout(()=>{
-            this.Image1(this.croppedImage);
-            this.Image(this.croppedImage);
-            console.log(this.id);
-            if(this.id==this.cookie.get('id')){
-              this.profilePhotoService.updateProfilePhoto(this.Image(this.croppedImage));
+        next:(data)=>{
+          this.cookie.delete('token', '/');
+          this.cookie.delete('refresh', '/');
+          this.cookie.set('token', data.token.toString().trim(), { path: '/' });
+          this.cookie.set('refresh', data.refreshToken.toString().trim(), {
+            path: '/',
+          });
+          
+          //izmena slike
+          this.croppedImage = this.croppedImage.replace('data:image/png;base64,','');
+          // console.log(this.croppedImage);
+    
+          let sp = new SendPhoto(this.id, this.croppedImage);
+    
+          this.service.updateProfilePhoto(this.id, sp)
+          .subscribe({
+            next:(res)=>{
+              this.updatedPhotoSuccess = true;
+              setTimeout(()=>{
+                this.Image1(this.croppedImage);
+                this.Image(this.croppedImage);
+                console.log(this.id);
+                if(this.id==this.cookie.get('id')){
+                  this.profilePhotoService.updateProfilePhoto(this.Image(this.croppedImage));
+                }
+                this.Ucitaj();
+                document.getElementById('closeCropImagePhotoUpdated1')!.click();
+                this.closeChange();
+              },700);
+            },
+            error:(err)=>{
+              this.toast.error('Unable to update photo','Error!',{timeOut: 3000});
+              // this.updatedPhotoError = true;
+              document.getElementById('closeCropImagePhotoUpdated1')!.click();
+              this.closeChange();
+              console.log(err.error);
             }
-            this.Ucitaj();
-            document.getElementById('closeCropImagePhotoUpdated1')!.click();
-            this.closeChange();
-          },700);
+          });
         },
         error:(err)=>{
-          this.toast.error('Unable to update photo','Error!',{timeOut: 3000});
-          // this.updatedPhotoError = true;
-          document.getElementById('closeCropImagePhotoUpdated1')!.click();
-          this.closeChange();
-          console.log(err.error);
+          this.auth.logout(this.cookie.get('username'), this.cookie.get('role'))
+            .subscribe({
+              next:(res)=>{
+                this.toast.error(err.error, 'Error!', {timeOut: 3000});
+                this.cookie.deleteAll('/');
+                this.router.navigate(['login']);
+              },
+              error:(error)=>{
+                console.log(error);
+                this.toast.error('Unknown error occurred', 'Error!', {timeOut: 2500});
+              }
+            });
         }
       });
     }
@@ -290,21 +375,49 @@ export class EmployeesComponent {
   }
   deleteImage()
   {
-    this.errorDeletePhoto = false;
-    this.service.deleteProfilePhoto(this.id)
+    let refreshDto = new SendRefreshToken(this.cookie.get('refresh'), this.cookie.get('username'), this.cookie.get('role'));
+    this.auth.refreshToken(refreshDto)
     .subscribe({
-      next:(res)=>{
-        this.imageSource = 'assets/images/defaultWorker.png';
-        this.imageSource1= 'assets/images/defaultWorker.png';
-        this.Ucitaj();
-        this.profilePhotoService.updateProfilePhoto(this.imageSource);
-        
-        
-        document.getElementById('closeOptionsForPhoto1')!.click();
+      next:(data)=>{
+        this.cookie.delete('token', '/');
+        this.cookie.delete('refresh', '/');
+        this.cookie.set('token', data.token.toString().trim(), { path: '/' });
+        this.cookie.set('refresh', data.refreshToken.toString().trim(), {
+          path: '/',
+        });
+
+        //brisanje profilne slike
+        this.errorDeletePhoto = false;
+        this.service.deleteProfilePhoto(this.id)
+        .subscribe({
+          next:(res)=>{
+            this.imageSource = 'assets/images/defaultWorker.png';
+            this.imageSource1= 'assets/images/defaultWorker.png';
+            this.Ucitaj();
+            this.profilePhotoService.updateProfilePhoto(this.imageSource);
+            
+            
+            document.getElementById('closeOptionsForPhoto1')!.click();
+          },
+          error:(err)=>{
+            this.errorDeletePhoto = true;
+            console.log(err.error);
+          }
+        });
       },
       error:(err)=>{
-        this.errorDeletePhoto = true;
-        console.log(err.error);
+        this.auth.logout(this.cookie.get('username'), this.cookie.get('role'))
+          .subscribe({
+            next:(res)=>{
+              this.toast.error(err.error, 'Error!', {timeOut: 3000});
+              this.cookie.deleteAll('/');
+              this.router.navigate(['login']);
+            },
+            error:(error)=>{
+              console.log(error);
+              this.toast.error('Unknown error occurred', 'Error!', {timeOut: 2500});
+            }
+          });
       }
     });
   }

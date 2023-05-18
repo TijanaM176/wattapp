@@ -94,7 +94,7 @@ export class HistoryAllProsumersComponent implements OnInit {
           { type: 'production', values: productionData },
         ];
       }
-      console.log(this.data);
+      // console.log(this.data);
 
       if (this.data.length === 0) {
         this.spiner.hide('spiner2');

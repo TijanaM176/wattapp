@@ -63,7 +63,7 @@ namespace API.Controllers
         }
 
         [HttpPost("RegisterDevice")]
-        // [Authorize(Roles = "Prosumer")]
+        [Authorize(Roles = "Prosumer")]
         public async Task<IActionResult> RegisterDevice(string prosumerId, string modelId, string name, bool dsoView, bool dsoControl)
         {
             try
@@ -78,7 +78,7 @@ namespace API.Controllers
         }
 
         [HttpDelete("DeleteDevice")]
-        // [Authorize(Roles = "Prosumer")]
+        [Authorize(Roles = "Prosumer")]
         public async Task<IActionResult> DeleteDevice(string idDevice)
         {
             try
@@ -94,7 +94,7 @@ namespace API.Controllers
         }
 
         [HttpPut("EditDevice")]
-        // [Authorize(Roles = "Prosumer")]
+        [Authorize(Roles = "Prosumer")]
         public async Task<IActionResult> EditDevice(string IdDevice, string model, string DeviceName, string IpAddress, bool dsoView, bool dsoControl)
         {
             try

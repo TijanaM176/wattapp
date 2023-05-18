@@ -34,6 +34,7 @@
           (click)="selectedDevice(i)"
           data-bs-toggle="modal"
           data-bs-target="#turnDeviceOffOn"
+          style="cursor: pointer;"
         >
           <span
             [ngSwitch]="device.TypeId"
@@ -505,7 +506,7 @@
             (click)="turnDeviceoffOn()"
             class="text-center p-3"
           >
-            <i class="fa fa-power-off off"></i>
+            <i class="fa fa-power-off off faBtn px-2 shadow mb-2"></i>
             <p style="color: red"><b>Turned Off</b></p>
           </div>
           <div
@@ -513,7 +514,7 @@
             (click)="turnDeviceoffOn()"
             class="text-center p-3"
           >
-            <i class="fa fa-power-off on"></i>
+            <i class="fa fa-power-off on faBtn px-2 shadow mb-2"></i>
             <p style="color: green"><b>Turned On</b></p>
           </div>
           <div
@@ -521,7 +522,7 @@
             (click)="turnDeviceoffOn()"
             class="text-center p-3"
           >
-            <i class="fa fa-power-off on"></i>
+            <i class="fa fa-power-off on faBtn px-2 shadow mb-2"></i>
             <p style="color: green"><b>In Use</b></p>
           </div>
           <div
@@ -529,7 +530,7 @@
             (click)="turnDeviceoffOn()"
             class="text-center p-3"
           >
-            <i class="fa fa-power-off on"></i>
+            <i class="fa fa-power-off on faBtn px-2 shadow mb-2"></i>
             <p style="color: green"><b>Charging</b></p>
           </div>
         </div>
@@ -541,7 +542,7 @@
           <button id="openModalBtn" [hidden]="true" data-bs-toggle="modal" data-bs-target="#turnDeviceOffOn">Open Modal</button>
 
           <div class="text-center p-3" (click)="navigateToPage()">
-            <i class="fa fa-folder-open visit" style="color: #08376b;"></i>
+            <i class="fa fa-folder-open visit faBtn px-2 shadow mb-2" style="color: #08376b;"></i>
             <p style="color: #08376b;"><b>Device Page</b></p>
           </div>
         </div>
@@ -594,7 +595,7 @@
             (click)="toggleStorage(1)"
             class="text-center p-3"
           >
-            <i class="fa fa-power-off on"></i>
+            <i class="fa fa-power-off on faBtn px-2 shadow mb-2"></i>
             <p style="color: green"><b>Use The Battery</b></p>
           </div>
         </div>
@@ -606,7 +607,7 @@
           <button id="openModalBatteryBtn" [hidden]="true" data-bs-toggle="modal" data-bs-target="#turnBatteryOn">Open Modal</button>
           <!-- charge battery -->
           <div class="text-center p-3" (click)="toggleStorage(2)">
-            <i class="fa fa-plug charge"></i>
+            <i class="fa fa-plug charge faBtn px-2 shadow mb-2"></i>
             <p style="color: #08376b;"><b>Charge The Battery</b></p>
           </div>
         </div>
