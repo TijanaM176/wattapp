@@ -276,8 +276,8 @@ export class MapComponent implements AfterViewInit, OnInit {
         let iconUrl = 'assets/images/marker-icon-2x-blueviolet.png';
 
         for (let user of this.users) {
-          let lon = user.long;
-          let lat = user.lat;
+          let lon = user.longitude;
+          let lat = user.latitude;
           if (lon != null && lat != null) {
             iconUrl = this.decideOnMarker(user.consumption, user.production);
             const prosumerIcon = L.icon({
@@ -293,7 +293,7 @@ export class MapComponent implements AfterViewInit, OnInit {
             ).addTo(map);
             marker.bindPopup(
               '<h5><b>' +
-                user.username +
+                user.userName +
                 '</b></h5><h6><b>' +
                 user.address +
                 '</b></h6>Current consumption: <b>' +
@@ -322,8 +322,8 @@ export class MapComponent implements AfterViewInit, OnInit {
   populateTheMap2(map: any) {
     let iconUrl = 'assets/images/marker-icon-2x-blueviolet.png';
     for (let user of this.users) {
-      let lon = user.long;
-      let lat = user.lat;
+      let lon = user.longitude;
+          let lat = user.latitude;
       if (lon != null && lat != null) {
         iconUrl = this.decideOnMarker(user.consumption, user.production);
         const prosumerIcon = L.icon({
@@ -339,7 +339,7 @@ export class MapComponent implements AfterViewInit, OnInit {
         ).addTo(map);
         marker.bindPopup(
           '<h5><b>' +
-            user.username +
+            user.userName +
             '</b></h5><h6><b>' +
             user.address +
             '</b></h6>Current consumption: <b>' +
