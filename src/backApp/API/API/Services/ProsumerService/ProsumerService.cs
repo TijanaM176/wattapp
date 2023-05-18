@@ -223,5 +223,14 @@ namespace API.Services.ProsumerService
 
             return answer;
         }
+
+        public async Task<List<City>> GetCitiesWithProsumers()
+        {
+            return (await _repository.GetCities()).Where(x => _repository.HasProsumers(x.Id)).ToList();
+        }
+        public async Task<List<Neigborhood>> GetNeighborhoodsWithProsumersByCityId(long CityId)
+        {
+            return (await _repository.GetNeighborhoodByCityId(CityId)).Where(x => _repository.HasProsumers(x.Id)).ToList();
+        }
     }
 }

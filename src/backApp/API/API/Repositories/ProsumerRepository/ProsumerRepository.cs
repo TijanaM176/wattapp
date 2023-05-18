@@ -235,6 +235,17 @@ namespace API.Repositories.ProsumerRepository
 
         }
 
+        public bool HasProsumers(long cityId)
+        {
+            if (_context.Prosumers.Where(x => x.CityId == cityId).Any()) return true;
+            return false;
+        }
+
+        public bool HasProsumers(string neighborhoodId)
+        {
+            if (_context.Prosumers.Where(x => x.NeigborhoodId == neighborhoodId).Any()) return true;
+            return false;
+        }
     }
 
 }
