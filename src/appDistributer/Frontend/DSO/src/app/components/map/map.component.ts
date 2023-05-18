@@ -131,6 +131,9 @@ export class MapComponent implements AfterViewInit, OnInit {
     document.getElementById('mapCont')!.style.height = h + 'px';
     document.getElementById('side')!.style.height = h + 'px';
 
+    document.getElementById('mininavbarProsumersMap')!.style.backgroundColor = 'white'
+    document.getElementById('mininavbarProsumersTable')!.style.backgroundColor = '#ddd';
+
     this.mapService.getAllCitiesProsumers().subscribe((res) => {
       this.cities = res;
     });
@@ -161,6 +164,9 @@ export class MapComponent implements AfterViewInit, OnInit {
     document.getElementById('sadrzaj')!.style.height = h + 'px';
     document.getElementById('mapCont')!.style.height = h + 'px';
     document.getElementById('side')!.style.height = h + 'px';
+
+    document.getElementById('mininavbarProsumersMap')!.style.backgroundColor = 'white'
+    document.getElementById('mininavbarProsumersTable')!.style.backgroundColor = '#ddd';
 
     let map = L.map('map', { minZoom: 8 }); //.setView([44.012794, 20.911423], 15);
 

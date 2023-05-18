@@ -1,8 +1,10 @@
 <nav>
-  <ul>
-    <li>
-      <a style="text-decoration: none" routerLink="/DsoApp/users">Table</a>
+  <ul (click)="changeColor()">
+    <li (click)="changeColor()" id="mininavbarProsumersTableBack">
+      <a style="text-decoration: none" routerLink="/DsoApp/users" id="mininavbarProsumersTable" (click)="changeColor()">Table</a>
     </li>
-    <li><a style="text-decoration: none" routerLink="/DsoApp/map">Map</a></li>
+    <li (click)="changeColor()">
+      <a style="text-decoration: none" routerLink="/DsoApp/map" id="mininavbarProsumersMap" (click)="changeColor()">Map</a>
+    </li>
   </ul>
 </nav>

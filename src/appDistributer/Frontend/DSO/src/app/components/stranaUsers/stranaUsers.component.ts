@@ -13,5 +13,9 @@ export class StranaUsersComponent implements OnInit {
     let t = window.innerWidth < 320 ? 140.6 : 101;
     let h = window.innerHeight - t;
     document.getElementById('tabelaUsersSidebarCont')!.style.height = h + 'px';
+    document.getElementById('mininavbarProsumersTable')!.style.backgroundColor = 'white';
+    document.getElementById('mininavbarProsumersMap')!.style.backgroundColor = '#ddd'
+    document.getElementById('mininavbarProsumersTableBack')!.click();
+    document.getElementById('mininavbarProsumersTableBack')!.click();
   }
 }
