@@ -6,45 +6,45 @@ import { ActivatedRoute } from '@angular/router';
   templateUrl: './mininavbar.component.html',
   styleUrls: ['./mininavbar.component.css']
 })
-export class MininavbarComponent implements OnInit, AfterViewInit {
+export class MininavbarComponent {
 
   currRoute : string = '';
 
   constructor(private router : ActivatedRoute) {}
 
 
-  ngAfterViewInit(): void {
-    if(this.currRoute == 'users')
-    {
-      document.getElementById('mininavbarProsumersTable')!.style.backgroundColor = 'white';
-      document.getElementById('mininavbarProsumersMap')!.style.backgroundColor = '#ddd'
-    }
-    else if(this.currRoute == 'map')
-    {
-      document.getElementById('mininavbarProsumersMap')!.style.backgroundColor = 'white'
-      document.getElementById('mininavbarProsumersTable')!.style.backgroundColor = '#ddd';
-    }
-  }
+  // ngAfterViewInit(): void {
+  //   if(this.currRoute == 'users')
+  //   {
+  //     document.getElementById('mininavbarProsumersTable')!.style.backgroundColor = 'white';
+  //     document.getElementById('mininavbarProsumersMap')!.style.backgroundColor = '#ddd'
+  //   }
+  //   else if(this.currRoute == 'map')
+  //   {
+  //     document.getElementById('mininavbarProsumersMap')!.style.backgroundColor = 'white'
+  //     document.getElementById('mininavbarProsumersTable')!.style.backgroundColor = '#ddd';
+  //   }
+  // }
 
 
-  ngOnInit(): void {
-    this.currRoute = this.router.snapshot.url.join('/');
-    // console.log(this.currRoute);
-    this.changeColor();
-  }
+  // ngOnInit(): void {
+  //   this.currRoute = this.router.snapshot.url.join('/');
+  //   // console.log(this.currRoute);
+  //   this.changeColor();
+  // }
 
-  changeColor()
-  {
-    if(this.currRoute == 'users')
-    {
-      document.getElementById('mininavbarProsumersTable')!.style.backgroundColor = 'white';
-      document.getElementById('mininavbarProsumersMap')!.style.backgroundColor = '#ddd'
-    }
-    else if(this.currRoute == 'map')
-    {
-      document.getElementById('mininavbarProsumersMap')!.style.backgroundColor = 'white'
-      document.getElementById('mininavbarProsumersTable')!.style.backgroundColor = '#ddd';
-    }
-  }
+  // changeColor()
+  // {
+  //   if(this.currRoute == 'users')
+  //   {
+  //     document.getElementById('mininavbarProsumersTable')!.style.backgroundColor = 'white';
+  //     document.getElementById('mininavbarProsumersMap')!.style.backgroundColor = '#ddd'
+  //   }
+  //   else if(this.currRoute == 'map')
+  //   {
+  //     document.getElementById('mininavbarProsumersMap')!.style.backgroundColor = 'white'
+  //     document.getElementById('mininavbarProsumersTable')!.style.backgroundColor = '#ddd';
+  //   }
+  // }
 
 }
