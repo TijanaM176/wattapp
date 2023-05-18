@@ -14,9 +14,11 @@ import { Subscription } from 'rxjs';
 export class SidebarComponent implements OnInit, AfterViewInit {
   minValueP: number = 0;
   maxValueP: number = 0;
+  staticMaxProd : number = 0;
+  staticMinProd : number = 0;
   optionsP: Options = {
-    floor: this.minValueP,
-    ceil: this.maxValueP,
+    floor: this.staticMinProd,
+    ceil: this.staticMaxProd,
     translate: (value: number, label: LabelType): string => {
       switch (label) {
         case LabelType.Low:
@@ -30,9 +32,11 @@ export class SidebarComponent implements OnInit, AfterViewInit {
   };
   minValueC: number = 0;
   maxValueC: number = 0;
+  staticMaxCons : number = 0;
+  staticMinCons : number = 0;
   optionsC: Options = {
-    floor: this.minValueC,
-    ceil: this.maxValueC,
+    floor: this.staticMinCons,
+    ceil: this.staticMaxCons,
     translate: (value: number, label: LabelType): string => {
       switch (label) {
         case LabelType.Low:
@@ -46,9 +50,11 @@ export class SidebarComponent implements OnInit, AfterViewInit {
   };
   minValue: number = 0;
   maxValue: number = 0;
+  staticMaxDev : number = 0;
+  staticMinDev : number = 0;
   options: Options = {
-    floor: this.minValue,
-    ceil: this.maxValue,
+    floor: this.staticMinDev,
+    ceil: this.staticMaxDev,
     translate: (value: number, label: LabelType): string => {
       switch (label) {
         case LabelType.Low:
@@ -61,7 +67,7 @@ export class SidebarComponent implements OnInit, AfterViewInit {
     },
   };
 
-  private filtersSubscription!: Subscription;
+  private initFiltersSubscription! : Subscription;
 
   neighborhood: string = 'all';
   Neighborhoods: Neighborhood[] = [];
@@ -90,12 +96,10 @@ export class SidebarComponent implements OnInit, AfterViewInit {
     this.userService.getAllCitiesProsumers().subscribe((res) => {
       this.cities = res;
     });
-    this.filtersSubscription = this.deviceService.information$.subscribe(
-      (res) => {
-        this.setFilters();
-      }
-    );
-
+    this.initFiltersSubscription = this.deviceService.initInfo$.subscribe((res)=>{
+      this.setFilters();
+      this.resetMaxMin();
+    });
     this.disableNeigh = true;
     let t = window.innerWidth < 320 ? 140.6 : 101;
     let h = window.innerHeight - t;
@@ -103,11 +107,11 @@ export class SidebarComponent implements OnInit, AfterViewInit {
   }
 
   setFilters() {
-    this.minValueP = this.deviceService.minProd;
-    this.maxValueP = this.deviceService.maxProd;
+    this.staticMinProd = this.deviceService.minProd;
+    this.staticMaxProd = this.deviceService.maxProd;
     this.optionsP = {
-      floor: this.minValue,
-      ceil: this.maxValueP,
+      floor: this.staticMinProd,
+      ceil: this.staticMaxProd,
       translate: (value: number, label: LabelType): string => {
         switch (label) {
           case LabelType.Low:
@@ -120,11 +124,11 @@ export class SidebarComponent implements OnInit, AfterViewInit {
       },
     };
 
-    this.minValueC = this.deviceService.minCons;
-    this.maxValueC = this.deviceService.maxCons;
+    this.staticMinCons = this.deviceService.minCons;
+    this.staticMaxCons = this.deviceService.maxCons;
     this.optionsC = {
-      floor: this.minValueC,
-      ceil: this.maxValueC,
+      floor: this.staticMinCons,
+      ceil: this.staticMaxCons,
       translate: (value: number, label: LabelType): string => {
         switch (label) {
           case LabelType.Low:
@@ -137,11 +141,63 @@ export class SidebarComponent implements OnInit, AfterViewInit {
       },
     };
 
-    this.minValue = this.deviceService.minDevCount;
-    this.maxValue = this.deviceService.maxDevCount;
+    this.staticMinDev = this.deviceService.minDevCount;
+    this.staticMaxDev = this.deviceService.maxDevCount;
     this.options = {
-      floor: this.minValue,
-      ceil: this.maxValue,
+      floor: this.staticMinDev,
+      ceil: this.staticMaxDev,
+      translate: (value: number, label: LabelType): string => {
+        switch (label) {
+          case LabelType.Low:
+            return value + '';
+          case LabelType.High:
+            return value + '';
+          default:
+            return '' + value;
+        }
+      },
+    };
+  }
+  updateFilters(res : any) {
+    if(res.minProd < this.staticMinProd) this.staticMinProd = res.minProd;
+    if(res.maxProd > this.staticMaxProd) this.staticMaxProd = res.maxProd;
+    this.optionsP = {
+      floor: this.staticMinProd,
+      ceil: this.staticMaxProd,
+      translate: (value: number, label: LabelType): string => {
+        switch (label) {
+          case LabelType.Low:
+            return value + 'W';
+          case LabelType.High:
+            return value + 'W';
+          default:
+            return '' + value;
+        }
+      },
+    };
+
+    if(res.minCons < this.staticMinCons) this.staticMinCons = res.minCons;
+    if(res.maxCons > this.staticMaxCons) this.staticMaxCons = res.maxCons;
+    this.optionsC = {
+      floor: this.staticMinCons,
+      ceil: this.staticMaxCons,
+      translate: (value: number, label: LabelType): string => {
+        switch (label) {
+          case LabelType.Low:
+            return value + 'W';
+          case LabelType.High:
+            return value + 'W';
+          default:
+            return '' + value;
+        }
+      },
+    };
+
+    if(res.minDevCount < this.staticMinDev) this.staticMinDev = res.minDevCount;
+    if(res.maxDevCount > this.staticMaxDev) this.staticMaxDev = res.maxDevCount;
+    this.options = {
+      floor: this.staticMinDev,
+      ceil: this.staticMaxDev,
       translate: (value: number, label: LabelType): string => {
         switch (label) {
           case LabelType.Low:
@@ -155,17 +211,25 @@ export class SidebarComponent implements OnInit, AfterViewInit {
     };
   }
 
+  resetMaxMin()
+  {
+    this.maxValueP = this.staticMaxProd;
+    this.minValueP = this.staticMinProd;
+
+    this.maxValueC = this.staticMaxCons;
+    this.minValueC = this.staticMinCons;
+
+    this.maxValue = this.staticMaxDev;
+    this.minValue = this.staticMinDev;
+  }
+
   ChangeNeighborhood(e: any) {
     this.dropDownNeigh = e.target.value;
     this.deviceService
       .FilterRanges(this.city.toString(), this.dropDownNeigh)
       .subscribe((res) => {
-        this.minValueC = res.minCons;
-        this.minValueP = res.minProd;
-        this.minValue = res.minDevCount;
-        this.maxValueC = res.maxCons;
-        this.maxValueP = res.maxProd;
-        this.maxValue = res.maxDevCount;
+        // console.log(res);
+        this.updateFilters(res);
       });
   }
 
@@ -175,12 +239,8 @@ export class SidebarComponent implements OnInit, AfterViewInit {
       this.neighborhood = 'all';
       this.disableNeigh = true;
       this.deviceService.FilterRanges('all', 'all').subscribe((res) => {
-        this.minValueC = res.minCons;
-        this.minValueP = res.minProd;
-        this.minValue = res.minDevCount;
-        this.maxValueC = res.maxCons;
-        this.maxValueP = res.maxProd;
-        this.maxValue = res.maxDevCount;
+        // console.log(res);
+        this.updateFilters(res);
       });
     } else {
       this.getNeighsByCityId(this.city);
@@ -190,12 +250,8 @@ export class SidebarComponent implements OnInit, AfterViewInit {
       this.deviceService
         .FilterRanges(this.city.toString(), 'all')
         .subscribe((res) => {
-          this.minValueC = res.minCons;
-          this.minValueP = res.minProd;
-          this.minValue = res.minDevCount;
-          this.maxValueC = res.maxCons;
-          this.maxValueP = res.maxProd;
-          this.maxValue = res.maxDevCount;
+          // console.log(res);
+          this.updateFilters(res);
         });
     }
   }
@@ -250,22 +306,22 @@ export class SidebarComponent implements OnInit, AfterViewInit {
       this.deviceService
         .FilterRanges(this.city.toString(), this.dropDownNeigh)
         .subscribe((res) => {
-          this.minValueC = res.minCons;
-          this.minValueP = res.minProd;
-          this.minValue = res.minDevCount;
-          this.maxValueC = res.maxCons;
-          this.maxValueP = res.maxProd;
-          this.maxValue = res.maxDevCount;
+          this.staticMinCons = res.minCons;
+          this.staticMinProd = res.minProd;
+          this.staticMinDev = res.minDevCount;
+          this.staticMaxCons = res.maxCons;
+          this.staticMaxProd = res.maxProd;
+          this.staticMaxDev = res.maxDevCount;
         });
     } else {
       this.filterWithoutCity();
       this.deviceService.FilterRanges('all', 'all').subscribe((res) => {
-        this.minValueC = res.minCons;
-        this.minValueP = res.minProd;
-        this.minValue = res.minDevCount;
-        this.maxValueC = res.maxCons;
-        this.maxValueP = res.maxProd;
-        this.maxValue = res.maxDevCount;
+        this.staticMinCons = res.minCons;
+          this.staticMinProd = res.minProd;
+          this.staticMinDev = res.minDevCount;
+          this.staticMaxCons = res.maxCons;
+          this.staticMaxProd = res.maxProd;
+          this.staticMaxDev = res.maxDevCount;
       });
     }
   }

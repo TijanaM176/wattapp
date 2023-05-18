@@ -26,7 +26,6 @@ export class AuthGuard {
     | UrlTree {
     if (this.cookie.check('token')) {
       //ako token postoji
-      // var token = this.cookie.get('token');
 
       let letUser = (this.cookie.get('role') == 'Admin' || this.cookie.get('role') == 'Dispatcher') ? true : false; 
       if(!letUser)
@@ -39,7 +38,8 @@ export class AuthGuard {
         this.auth.validateToken();
       }
       return letUser;
-    } else {
+    } 
+    else {
       //ako token ne postoji vraca na login
       this.router.navigate(['login']);
       return false;

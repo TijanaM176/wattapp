@@ -25,7 +25,7 @@ nav a {
 
 nav a:hover {
   background-color: #555; /* add background color on hover */
-  text-decoration: underline;
+  text-decoration: none;
 }
 .pagination {
   justify-content: center;

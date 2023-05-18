@@ -1,0 +1,67 @@
+nav {
+    background-color: #ddd; /* set background color */
+    color: white; /* set text color */
+    width: 100%;
+  }
+  
+  nav ul {
+    list-style-type: none; /* remove bullet points */
+    margin: 0; /* remove default margin */
+    padding: 0; /* remove default padding */
+  }
+  
+  nav li {
+    display: inline-block; /* display links side by side */
+    background-color: active;
+  }
+  
+  nav a {
+    display: block; /* make entire link clickable */
+    padding: 10px 20px; /* add padding for clickable area */
+    color: #5875a1; /* set text color */
+    /* font-family: "Roboto"; */
+    text-decoration: none;
+  }
+  
+  nav a:hover {
+    background-color: #555; /* add background color on hover */
+    text-decoration: none;
+  }
+  .pagination {
+    justify-content: center;
+    margin: 0 0 5px;
+  }
+  .pagination li a {
+    border: none;
+    font-size: 13px;
+    min-width: 30px;
+    min-height: 30px;
+    padding: 0 10px;
+    color: #5875a1;
+    margin: 0 2px;
+    line-height: 30px;
+    border-radius: 30px !important;
+    text-align: center;
+  }
+  .pagination li a:hover {
+    color: #666;
+  }
+  .pagination li.active a {
+    background: #e8f3f8;
+  }
+  .pagination li.active a:hover {
+    background: #c3cbce;
+  }
+  .pagination li.disabled i {
+    color: #ccc;
+  }
+  .pagination li i {
+    font-size: 16px;
+    padding-top: 6px;
+  }
+  .hint-text {
+    float: left;
+    margin-top: 10px;
+    font-size: 13px;
+  }
+  

@@ -26,9 +26,11 @@ export class MapComponent implements AfterViewInit, OnInit {
 
   minValueP: number = 0;
   maxValueP: number = 0;
+  staticMaxProd : number = 0;
+  staticMinProd : number = 0;
   optionsP: Options = {
-    floor: this.minValueP,
-    ceil: this.maxValueP,
+    floor: this.staticMinProd,
+    ceil: this.staticMaxProd,
     translate: (value: number, label: LabelType): string => {
       switch (label) {
         case LabelType.Low:
@@ -43,9 +45,11 @@ export class MapComponent implements AfterViewInit, OnInit {
 
   minValueC: number = 0;
   maxValueC: number = 0;
+  staticMaxCons : number = 0;
+  staticMinCons : number = 0;
   optionsC: Options = {
-    floor: this.minValueC,
-    ceil: this.maxValueC,
+    floor: this.staticMinCons,
+    ceil: this.staticMaxCons,
     translate: (value: number, label: LabelType): string => {
       switch (label) {
         case LabelType.Low:
@@ -60,9 +64,11 @@ export class MapComponent implements AfterViewInit, OnInit {
 
   minValue: number = 0;
   maxValue: number = 0;
+  staticMaxDev : number = 0;
+  staticMinDev : number = 0;
   options: Options = {
-    floor: this.minValue,
-    ceil: this.maxValue,
+    floor: this.staticMinDev,
+    ceil: this.staticMaxDev,
     translate: (value: number, label: LabelType): string => {
       switch (label) {
         case LabelType.Low:
@@ -75,9 +81,9 @@ export class MapComponent implements AfterViewInit, OnInit {
     },
   };
 
-  neighborhood: string = 'b';
+  neighborhood: string = 'all';
   Neighborhoods: Neighborhood[] = [];
-  dropDownNeigh: string = 'b';
+  dropDownNeigh: string = 'all';
 
   city: number = -1;
   cities: City[] = [];
@@ -98,20 +104,34 @@ export class MapComponent implements AfterViewInit, OnInit {
   ) {}
 
   ChangeCity(e: any) {
+    this.dropDownNeigh = 'all';
+    this.neighborhood = 'all';
     if (this.city == -1) {
-      this.dropDownNeigh = 'b';
-      this.neighborhood = 'b';
       this.disableNeigh = true;
+      this.deviceServer.FilterRanges('all', 'all')
+      .subscribe((res) => {
+        // console.log(res);
+        this.setFilters(res);
+      });
     } else {
       this.getNeighsByCityId(this.city);
-      this.dropDownNeigh = 'b';
-      this.neighborhood = 'b';
       this.disableNeigh = false;
+      this.deviceServer.FilterRanges(this.city.toString(), 'all')
+      .subscribe((res) => {
+        // console.log(res);
+        this.setFilters(res);
+      });
     }
   }
 
   ChangeNeighborhood(e: any) {
     this.dropDownNeigh = e.target.value;
+    let c = this.city == -1 ? 'all' : this.city.toString();
+    this.deviceServer.FilterRanges(c, this.dropDownNeigh)
+    .subscribe((res) => {
+      // console.log(res);
+      this.setFilters(res);
+    });
   }
 
   getNeighsByCityId(id: number) {
@@ -214,11 +234,11 @@ export class MapComponent implements AfterViewInit, OnInit {
   }
 
   private setFilters(res: UserTableMapInitDto) {
-    this.minValueP = Math.ceil(res.minProd);
-    this.maxValueP = Math.ceil(res.maxProd);
+    if(res.minProd < this.staticMinProd) this.staticMinProd = res.minProd;
+    if(res.maxProd > this.staticMaxProd) this.staticMaxProd = res.maxProd;
     this.optionsP = {
-      floor: this.minValue,
-      ceil: this.maxValueP,
+      floor: this.staticMinProd,
+      ceil: this.staticMaxProd,
       translate: (value: number, label: LabelType): string => {
         switch (label) {
           case LabelType.Low:
@@ -231,11 +251,11 @@ export class MapComponent implements AfterViewInit, OnInit {
       },
     };
 
-    this.minValueC = Math.ceil(res.minCons);
-    this.maxValueC = Math.ceil(res.maxCons);
+    if(res.minCons < this.staticMinCons) this.staticMinCons = res.minCons;
+    if(res.maxCons > this.staticMaxCons) this.staticMaxCons = res.maxCons;
     this.optionsC = {
-      floor: this.minValueC,
-      ceil: this.maxValueC,
+      floor: this.staticMinCons,
+      ceil: this.staticMaxCons,
       translate: (value: number, label: LabelType): string => {
         switch (label) {
           case LabelType.Low:
@@ -248,11 +268,11 @@ export class MapComponent implements AfterViewInit, OnInit {
       },
     };
 
-    this.minValue = res.minDevCount;
-    this.maxValue = res.maxDevCount;
+    if(res.minDevCount < this.staticMinDev) this.staticMinDev = res.minDevCount;
+    if(res.maxDevCount > this.staticMaxDev) this.staticMaxDev = res.maxDevCount;
     this.options = {
-      floor: this.minValue,
-      ceil: this.maxValue,
+      floor: this.staticMinDev,
+      ceil: this.staticMaxDev,
       translate: (value: number, label: LabelType): string => {
         switch (label) {
           case LabelType.Low:
@@ -266,18 +286,31 @@ export class MapComponent implements AfterViewInit, OnInit {
     };
   }
 
+  private resetMaxMin()
+  {
+    this.maxValueP = this.staticMaxProd;
+    this.minValueP = this.staticMinProd;
+
+    this.maxValueC = this.staticMaxCons;
+    this.minValueC = this.staticMinCons;
+
+    this.maxValue = this.staticMaxDev;
+    this.minValue = this.staticMinDev;
+  }
+
   populateTheMap(map: any) {
     this.deviceServer.ProsumersInfo1().subscribe({
       next: (res) => {
         let response = res as UserTableMapInitDto;
         // console.log(response);
         this.setFilters(response);
+        this.resetMaxMin();
         this.users = response.prosumers;
         let iconUrl = 'assets/images/marker-icon-2x-blueviolet.png';
 
         for (let user of this.users) {
-          let lon = user.long;
-          let lat = user.lat;
+          let lon = user.longitude;
+          let lat = user.latitude;
           if (lon != null && lat != null) {
             iconUrl = this.decideOnMarker(user.consumption, user.production);
             const prosumerIcon = L.icon({
@@ -293,7 +326,7 @@ export class MapComponent implements AfterViewInit, OnInit {
             ).addTo(map);
             marker.bindPopup(
               '<h5><b>' +
-                user.username +
+                user.userName +
                 '</b></h5><h6><b>' +
                 user.address +
                 '</b></h6>Current consumption: <b>' +
@@ -322,8 +355,8 @@ export class MapComponent implements AfterViewInit, OnInit {
   populateTheMap2(map: any) {
     let iconUrl = 'assets/images/marker-icon-2x-blueviolet.png';
     for (let user of this.users) {
-      let lon = user.long;
-      let lat = user.lat;
+      let lon = user.longitude;
+          let lat = user.latitude;
       if (lon != null && lat != null) {
         iconUrl = this.decideOnMarker(user.consumption, user.production);
         const prosumerIcon = L.icon({
@@ -339,7 +372,7 @@ export class MapComponent implements AfterViewInit, OnInit {
         ).addTo(map);
         marker.bindPopup(
           '<h5><b>' +
-            user.username +
+            user.userName +
             '</b></h5><h6><b>' +
             user.address +
             '</b></h6>Current consumption: <b>' +
@@ -378,9 +411,8 @@ export class MapComponent implements AfterViewInit, OnInit {
         'all'
       )
       .subscribe((res) => {
-        let response = res as UserTableMapInitDto;
-        this.users = response.prosumers as Prosumer[];
-        this.setFilters(response);
+        console.log(res)
+        this.users = res as Prosumer[];
         this.populateTheMap2(map);
       });
   }
@@ -398,9 +430,8 @@ export class MapComponent implements AfterViewInit, OnInit {
         this.dropDownNeigh
       )
       .subscribe((res) => {
-        let response = res as UserTableMapInitDto;
-        this.users = response.prosumers as Prosumer[];
-        this.setFilters(response);
+        // console.log(res)
+        this.users = res as Prosumer[];
         this.populateTheMap2(map);
       });
   }
@@ -426,10 +457,6 @@ export class MapComponent implements AfterViewInit, OnInit {
 
   reset() {
     this.deleteAllMarkers(this.map);
-    // this.mapService.getAllNeighborhoods().subscribe((response) => {
-    //   this.users = response;
-    //   this.populateTheMap(this.map);
-    // });
     this.deviceServer.ProsumersInfo1().subscribe((res) => {
       let response = res as UserTableMapInitDto;
       this.users = response.prosumers as Prosumer[];

@@ -32,6 +32,9 @@ export class DeviceserviceService {
   private responseGetAllProsumers = new Subject<UserTableMapInitDto>();
   public information$ = this.responseGetAllProsumers.asObservable();
 
+  private initProsumersTable = new Subject<UserTableMapInitDto>();
+  public initInfo$ = this.initProsumersTable.asObservable();
+
   getInfoDevice(id: string) {
     return this.http.get(`${this.baseUrl}Devices/GetDevice` + `?id=` + id);
   }
@@ -51,6 +54,8 @@ export class DeviceserviceService {
       this.baseUrl + 'Devices/GetAllDevicesForProsumer?id=' + id + '&role=Dso'
     );
   }
+
+  //new range
   FilterRanges(cityId: string, neighId: string): Observable<any> {
     return this.http.get<any>(
       `${this.baseUrl}Devices/FilterRanges?cityId=` +
@@ -71,16 +76,6 @@ export class DeviceserviceService {
     neighborhoodId: string
   ) {
     this.spiner.show();
-    console.log(
-      minCon,
-      maxCon,
-      minProd,
-      maxProd,
-      minDev,
-      maxDev,
-      cityId,
-      neighborhoodId
-    );
     this.http
       .get(
         this.baseUrl +
@@ -103,9 +98,8 @@ export class DeviceserviceService {
       )
       .subscribe({
         next: (res) => {
-          let response = res as UserTableMapInitDto;
+          console.log(res);
           this.prosumers = res as Prosumer[];
-          this.responseGetAllProsumers.next(response);
           this.spiner.hide();
         },
         error: (err) => {
@@ -125,9 +119,9 @@ export class DeviceserviceService {
     maxDev: number,
     cityId: string,
     neighborhoodId: string
-  ): Observable<UserTableMapInitDto> {
+  ): Observable<Prosumer[]> {
     this.spiner.show();
-    return this.http.get<UserTableMapInitDto>(
+    return this.http.get<Prosumer[]>(
       this.baseUrl +
         'Devices/UpdatedProsumerFilter?minConsumption=' +
         minCon +
@@ -151,11 +145,11 @@ export class DeviceserviceService {
   ProsumersInfo() {
     lastValueFrom(this.http.get(this.baseUrl + 'Devices/AllProsumerInfo')).then(
       (res) => {
-        console.log(res);
+        // console.log(res);
         let response = res as UserTableMapInitDto;
         this.prosumers = response.prosumers as Prosumer[];
         this.setFilters(response);
-        this.responseGetAllProsumers.next(response);
+        this.initProsumersTable.next(response);
         this.spiner.hide();
       },
       (err) => {
