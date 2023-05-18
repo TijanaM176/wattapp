@@ -34,7 +34,10 @@ export class AuthGuard {
         this.cookie.deleteAll('/');
         this.router.navigate(['login']);
       }
-      this.auth.validateToken();
+      else
+      {
+        this.auth.validateToken();
+      }
       return letUser;
     } else {
       //ako token ne postoji vraca na login

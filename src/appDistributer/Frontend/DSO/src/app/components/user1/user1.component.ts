@@ -244,34 +244,4 @@ export class User1Component implements OnInit, AfterViewInit {
       );
     }
   }
-
-  private refreshToken()
-  {
-    let refreshDto = new SendRefreshToken(this.cookie.get('refresh'), this.cookie.get('username'), this.cookie.get('role'));
-    this.auth.refreshToken(refreshDto)
-    .subscribe({
-      next:(data)=>{
-        this.cookie.delete('token', '/');
-        this.cookie.delete('refresh', '/');
-        this.cookie.set('token', data.token.toString().trim(), { path: '/' });
-        this.cookie.set('refresh', data.refreshToken.toString().trim(), {
-          path: '/',
-        });
-      },
-      error:(err)=>{
-        this.auth.logout(this.cookie.get('username'), this.cookie.get('role'))
-          .subscribe({
-            next:(res)=>{
-              this.toast.error(err.error, 'Error!', {timeOut: 3000});
-              this.cookie.deleteAll('/');
-              this.r.navigate(['login']);
-            },
-            error:(error)=>{
-              console.log(error);
-              this.toast.error('Unknown error occurred', 'Error!', {timeOut: 2500});
-            }
-          });
-      }
-    })
-  }
 }

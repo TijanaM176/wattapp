@@ -89,7 +89,7 @@ export class TokenInterceptor implements HttpInterceptor {
             },
             error:(error)=>{
               console.log(error);
-              this.toast.error('Unknown error occurred', 'Error!', {timeOut: 2500});
+              this.toast.error('Unknown error occurred.', 'Error!', {timeOut: 2500});
             }
           });
         }

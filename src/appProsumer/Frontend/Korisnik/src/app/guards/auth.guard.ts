@@ -26,6 +26,10 @@ export class AuthGuard {
           this.cookie.deleteAll('/');
           this.router.navigate(["login"])
         }
+        else
+        {
+          this.auth.validateToken();
+        }
         return letUser;
       }
       else
