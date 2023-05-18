@@ -14,8 +14,8 @@ import { Subscription } from 'rxjs';
 export class SidebarComponent implements OnInit, AfterViewInit {
   minValueP: number = 0;
   maxValueP: number = 0;
-  staticMaxProd : number = 0;
-  staticMinProd : number = 0;
+  staticMaxProd: number = 0;
+  staticMinProd: number = 0;
   optionsP: Options = {
     floor: this.staticMinProd,
     ceil: this.staticMaxProd,
@@ -32,8 +32,8 @@ export class SidebarComponent implements OnInit, AfterViewInit {
   };
   minValueC: number = 0;
   maxValueC: number = 0;
-  staticMaxCons : number = 0;
-  staticMinCons : number = 0;
+  staticMaxCons: number = 0;
+  staticMinCons: number = 0;
   optionsC: Options = {
     floor: this.staticMinCons,
     ceil: this.staticMaxCons,
@@ -50,8 +50,8 @@ export class SidebarComponent implements OnInit, AfterViewInit {
   };
   minValue: number = 0;
   maxValue: number = 0;
-  staticMaxDev : number = 0;
-  staticMinDev : number = 0;
+  staticMaxDev: number = 0;
+  staticMinDev: number = 0;
   options: Options = {
     floor: this.staticMinDev,
     ceil: this.staticMaxDev,
@@ -67,7 +67,7 @@ export class SidebarComponent implements OnInit, AfterViewInit {
     },
   };
 
-  private initFiltersSubscription! : Subscription;
+  private initFiltersSubscription!: Subscription;
 
   neighborhood: string = 'all';
   Neighborhoods: Neighborhood[] = [];
@@ -96,10 +96,12 @@ export class SidebarComponent implements OnInit, AfterViewInit {
     this.userService.getAllCitiesProsumers().subscribe((res) => {
       this.cities = res;
     });
-    this.initFiltersSubscription = this.deviceService.initInfo$.subscribe((res)=>{
-      this.setFilters();
-      this.resetMaxMin();
-    });
+    this.initFiltersSubscription = this.deviceService.initInfo$.subscribe(
+      (res) => {
+        this.setFilters();
+        this.resetMaxMin();
+      }
+    );
     this.disableNeigh = true;
     let t = window.innerWidth < 320 ? 140.6 : 101;
     let h = window.innerHeight - t;
@@ -158,9 +160,9 @@ export class SidebarComponent implements OnInit, AfterViewInit {
       },
     };
   }
-  updateFilters(res : any) {
-    if(res.minProd < this.staticMinProd) this.staticMinProd = res.minProd;
-    if(res.maxProd > this.staticMaxProd) this.staticMaxProd = res.maxProd;
+  updateFilters(res: any) {
+    if (res.minProd < this.staticMinProd) this.staticMinProd = res.minProd;
+    if (res.maxProd > this.staticMaxProd) this.staticMaxProd = res.maxProd;
     this.optionsP = {
       floor: this.staticMinProd,
       ceil: this.staticMaxProd,
@@ -176,8 +178,8 @@ export class SidebarComponent implements OnInit, AfterViewInit {
       },
     };
 
-    if(res.minCons < this.staticMinCons) this.staticMinCons = res.minCons;
-    if(res.maxCons > this.staticMaxCons) this.staticMaxCons = res.maxCons;
+    if (res.minCons < this.staticMinCons) this.staticMinCons = res.minCons;
+    if (res.maxCons > this.staticMaxCons) this.staticMaxCons = res.maxCons;
     this.optionsC = {
       floor: this.staticMinCons,
       ceil: this.staticMaxCons,
@@ -193,8 +195,10 @@ export class SidebarComponent implements OnInit, AfterViewInit {
       },
     };
 
-    if(res.minDevCount < this.staticMinDev) this.staticMinDev = res.minDevCount;
-    if(res.maxDevCount > this.staticMaxDev) this.staticMaxDev = res.maxDevCount;
+    if (res.minDevCount < this.staticMinDev)
+      this.staticMinDev = res.minDevCount;
+    if (res.maxDevCount > this.staticMaxDev)
+      this.staticMaxDev = res.maxDevCount;
     this.options = {
       floor: this.staticMinDev,
       ceil: this.staticMaxDev,
@@ -211,8 +215,7 @@ export class SidebarComponent implements OnInit, AfterViewInit {
     };
   }
 
-  resetMaxMin()
-  {
+  resetMaxMin() {
     this.maxValueP = this.staticMaxProd;
     this.minValueP = this.staticMinProd;
 
@@ -317,11 +320,11 @@ export class SidebarComponent implements OnInit, AfterViewInit {
       this.filterWithoutCity();
       this.deviceService.FilterRanges('all', 'all').subscribe((res) => {
         this.staticMinCons = res.minCons;
-          this.staticMinProd = res.minProd;
-          this.staticMinDev = res.minDevCount;
-          this.staticMaxCons = res.maxCons;
-          this.staticMaxProd = res.maxProd;
-          this.staticMaxDev = res.maxDevCount;
+        this.staticMinProd = res.minProd;
+        this.staticMinDev = res.minDevCount;
+        this.staticMaxCons = res.maxCons;
+        this.staticMaxProd = res.maxProd;
+        this.staticMaxDev = res.maxDevCount;
       });
     }
   }

@@ -1,18 +1,39 @@
 .button1 {
-  width: 35%;
+  width: 20%;
+  margin-right: 25%;
+  margin-left: 1%;
   text-align: center;
 }
 .button2 {
-  width: 35%;
+  width: 20%;
+  margin-right: 1%;
   text-align: center;
 }
-
-#sideSidebar {
-  background-color: #5875a1 !important;
+.mapLegend {
+  height: calc(100% - 44px);
+}
+.icon {
+  width: 5%;
+}
+.btn-primary {
+  /* background-color: #e8f3f8; */
+  /* color: #5875A1; */
+  width: 80%;
+  /* border-color: #e8f3f8; */
+  display: flex;
+  justify-content: center;
+}
+#side {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-.input-container {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+@media (max-width: 768px) {
+  .card-text {
+    font-size: 10px;
+  }
+}
+.sliderDivs strong {
+  text-align: start !important;
 }
