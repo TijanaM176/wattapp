@@ -234,8 +234,11 @@ export class MapComponent implements AfterViewInit, OnInit {
   }
 
   private setFilters(res: UserTableMapInitDto) {
-    if(res.minProd < this.staticMinProd) this.staticMinProd = res.minProd;
-    if(res.maxProd > this.staticMaxProd) this.staticMaxProd = res.maxProd;
+    // console.log(res);
+    this.staticMinProd = res.minProd;
+    this.minValueP = res.minProd;
+    this.staticMaxProd = res.maxProd;
+    this.maxValueP = res.maxProd;
     this.optionsP = {
       floor: this.staticMinProd,
       ceil: this.staticMaxProd,
@@ -251,8 +254,10 @@ export class MapComponent implements AfterViewInit, OnInit {
       },
     };
 
-    if(res.minCons < this.staticMinCons) this.staticMinCons = res.minCons;
-    if(res.maxCons > this.staticMaxCons) this.staticMaxCons = res.maxCons;
+    this.staticMinCons = res.minCons;
+    this.minValueC = res.minCons;
+    this.staticMaxCons = res.maxCons;
+    this.maxValueC = res.maxCons;
     this.optionsC = {
       floor: this.staticMinCons,
       ceil: this.staticMaxCons,
@@ -268,8 +273,10 @@ export class MapComponent implements AfterViewInit, OnInit {
       },
     };
 
-    if(res.minDevCount < this.staticMinDev) this.staticMinDev = res.minDevCount;
-    if(res.maxDevCount > this.staticMaxDev) this.staticMaxDev = res.maxDevCount;
+    this.staticMinDev = res.minDevCount;
+    this.minValue = res.minDevCount;
+    this.staticMaxDev = res.maxDevCount;
+    this.maxValue = res.maxDevCount;
     this.options = {
       floor: this.staticMinDev,
       ceil: this.staticMaxDev,
@@ -372,7 +379,7 @@ export class MapComponent implements AfterViewInit, OnInit {
         ).addTo(map);
         marker.bindPopup(
           '<h5><b>' +
-            user.userName +
+            user.username +
             '</b></h5><h6><b>' +
             user.address +
             '</b></h6>Current consumption: <b>' +
@@ -464,8 +471,8 @@ export class MapComponent implements AfterViewInit, OnInit {
       this.setFilters(response);
     });
     this.city = -1;
-    this.dropDownNeigh = 'b';
-    this.neighborhood = 'b';
+    this.dropDownNeigh = 'all';
+    this.neighborhood = 'all';
   }
 
   private decideOnMarker(consumptionUser: any, productionUSer: any): string {
