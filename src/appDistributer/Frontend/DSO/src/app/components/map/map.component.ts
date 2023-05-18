@@ -23,7 +23,7 @@ export class MapComponent implements AfterViewInit, OnInit {
   map: any;
   resizeObservable$!: Observable<Event>;
   resizeSubscription$!: Subscription;
-
+  searchUsername: string = '';
   minValueP: number = 0;
   maxValueP: number = 0;
   optionsP: Options = {
@@ -88,6 +88,8 @@ export class MapComponent implements AfterViewInit, OnInit {
   currentLocation: any;
   currentLocationIsSet = false;
   currentHour: any;
+  allusers!:any;
+  searchAddress:string='';
 
   constructor(
     private mapService: UsersServiceService,
@@ -113,6 +115,96 @@ export class MapComponent implements AfterViewInit, OnInit {
       this.disableNeigh = false;
     }
   }
+Allusers(){
+  this.deviceServer.ProsumersInfo1().subscribe({
+    next: (res) => {
+      let response = res as UserTableMapInitDto;
+      // console.log(response);
+      this.setFilters(response);
+      this.allusers = response.prosumers;
+    },
+    error: (err) => {
+      this.toast.error('Error!', 'Unable to retreive prosumer locations.', {
+        timeOut: 2500,
+      });
+      console.log(err.error);
+    },
+  });
+}
+searchUsers() {
+    
+    if (!this.users || !this.searchUsername) {
+      if(this.searchAddress){
+        this.deleteAllMarkers(this.map);
+        this.users=this.allusers.filter((user:any) => user.address.toLocaleLowerCase().includes(this.searchAddress.toLocaleLowerCase()));
+        this.populateTheMap2(this.map);
+        return this.users;
+      }
+      else{
+
+      this.deleteAllMarkers(this.map);
+      this.users=this.allusers;
+
+      this.populateTheMap2(this.map);
+      return this.users;
+      }
+    }
+    if(!this.searchUsername){
+    const filteredUsers = this.allusers.filter((user:any) => (user.firstname+' '+user.lastname).toLocaleLowerCase().includes(this.searchUsername.toLocaleLowerCase()));
+    this.users=filteredUsers;
+    this.deleteAllMarkers(this.map);
+    this.populateTheMap2(this.map);
+    return filteredUsers;
+    }else{
+    const filteredUsers = this.allusers.filter((user:any) => user.address.toLocaleLowerCase().includes(this.searchAddress.toLocaleLowerCase()) && (user.firstname+' '+user.lastname).toLocaleLowerCase().includes(this.searchUsername.toLocaleLowerCase()));
+    this.users=filteredUsers;
+    this.deleteAllMarkers(this.map);
+    this.populateTheMap2(this.map);
+    return filteredUsers;
+    }
+  }
+searchUsersbyAddress() {
+    
+    if (!this.users || !this.searchAddress) {
+      if(this.searchUsername){
+        this.deleteAllMarkers(this.map);
+        this.users=this.allusers.filter((user:any) => (user.firstname+' '+user.lastname).toLocaleLowerCase().includes(this.searchUsername.toLocaleLowerCase()));
+        this.populateTheMap2(this.map);
+        return this.users;
+      }
+      else{
+      this.deleteAllMarkers(this.map);
+      this.users=this.allusers;
+
+      this.populateTheMap2(this.map);
+      return this.users;
+      }
+    }
+    if(!this.searchUsername){
+  
+    const filteredUsers = this.allusers.filter((user:any) => user.address.toLocaleLowerCase().includes(this.searchAddress.toLocaleLowerCase()));
+    this.users=filteredUsers;
+
+
+    this.deleteAllMarkers(this.map);
+  
+
+    this.populateTheMap2(this.map);
+    return filteredUsers;
+  }
+  else{
+    const filteredUsers = this.allusers.filter((user:any) => user.address.toLocaleLowerCase().includes(this.searchAddress.toLocaleLowerCase()) && (user.firstname+' '+user.lastname).toLocaleLowerCase().includes(this.searchUsername.toLocaleLowerCase()));
+    this.users=filteredUsers;
+
+
+    this.deleteAllMarkers(this.map);
+  
+
+    this.populateTheMap2(this.map);
+    return filteredUsers;
+  }
+  }
+  
 
   ChangeNeighborhood(e: any) {
     this.dropDownNeigh = e.target.value;
@@ -153,6 +245,7 @@ export class MapComponent implements AfterViewInit, OnInit {
       document.getElementById('mapCont')!.style.height = h + 'px';
       document.getElementById('side')!.style.height = h + 'px';
     });
+    this.Allusers();
   }
 
   ngAfterViewInit(): void {
@@ -278,11 +371,12 @@ export class MapComponent implements AfterViewInit, OnInit {
         // console.log(response);
         this.setFilters(response);
         this.users = response.prosumers;
+
         let iconUrl = 'assets/images/marker-icon-2x-blueviolet.png';
 
         for (let user of this.users) {
-          let lon = user.long;
-          let lat = user.lat;
+          let lon = user.longitude;
+          let lat = user.latitude;
           if (lon != null && lat != null) {
             iconUrl = this.decideOnMarker(user.consumption, user.production);
             const prosumerIcon = L.icon({
@@ -298,7 +392,7 @@ export class MapComponent implements AfterViewInit, OnInit {
             ).addTo(map);
             marker.bindPopup(
               '<h5><b>' +
-                user.username +
+                user.firstname+' '+user.lastname +
                 '</b></h5><h6><b>' +
                 user.address +
                 '</b></h6>Current consumption: <b>' +
@@ -324,12 +418,11 @@ export class MapComponent implements AfterViewInit, OnInit {
       },
     });
   }
-
   populateTheMap2(map: any) {
     let iconUrl = 'assets/images/marker-icon-2x-blueviolet.png';
     for (let user of this.users) {
-      let lon = user.long;
-      let lat = user.lat;
+      let lon = user.longitude;
+          let lat = user.latitude;
       if (lon != null && lat != null) {
         iconUrl = this.decideOnMarker(user.consumption, user.production);
         const prosumerIcon = L.icon({
@@ -345,7 +438,7 @@ export class MapComponent implements AfterViewInit, OnInit {
         ).addTo(map);
         marker.bindPopup(
           '<h5><b>' +
-            user.username +
+            user.firstname+' '+user.lastname +
             '</b></h5><h6><b>' +
             user.address +
             '</b></h6>Current consumption: <b>' +
@@ -425,12 +518,9 @@ export class MapComponent implements AfterViewInit, OnInit {
     }
   }
 
+  
   reset() {
     this.deleteAllMarkers(this.map);
-    // this.mapService.getAllNeighborhoods().subscribe((response) => {
-    //   this.users = response;
-    //   this.populateTheMap(this.map);
-    // });
     this.deviceServer.ProsumersInfo1()
     .subscribe((res)=>{
       let response = res as UserTableMapInitDto;
@@ -438,11 +528,13 @@ export class MapComponent implements AfterViewInit, OnInit {
       this.populateTheMap(this.map);
       this.setFilters(response);
     });
+  
+    // Clear the input values
     this.city = -1;
     this.dropDownNeigh = 'b';
     this.neighborhood = 'b';
   }
-
+  
   private decideOnMarker(consumptionUser: any, productionUSer: any): string {
     let prag = 0.0001;
     let conumption = Number(consumptionUser);

@@ -163,7 +163,14 @@
             class="col-md-9 pe-0 ps-4 py-0 mx-0 my-0 d-flex justify-content-center align-items-center"
           >
             <div class="map-container" style="border: 2px solid #5875a1" id="mapWrapper">
-              <div id="map"></div>
+             <div id="map"></div>
+             <div id="search-container" style="background-color: #f8f8fa;border-radius: 10px;height:8%;width:24%;opacity:0.9;">
+             <input type="text" style="background-color: #f8f8fa; border-radius: 10px;height:100%;width:100%;font-weight:bold;padding-left:2%;" placeholder="Search by name" [(ngModel)]="searchUsername" (keyup)="searchUsers();" />
+            </div>&nbsp;
+            <div id="search-container1" style="background-color: #f8f8fa;border-radius: 10px;height:8%;width:24%;opacity:0.9;">
+              <input type="text" style="background-color: #f8f8fa; border-radius: 10px;height:100%;width:100%;font-weight:bold;padding-left:2%;" placeholder="Search by address" [(ngModel)]="searchAddress" (keyup)="searchUsersbyAddress();" />
+             
+             </div>
             </div>
           </div>
           <div class="col-md-3 h-100 px-0 py-0 mx-0 my-0">
