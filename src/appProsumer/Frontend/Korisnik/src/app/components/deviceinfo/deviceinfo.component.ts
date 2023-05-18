@@ -44,7 +44,7 @@ export class DeviceinfoComponent {
   thresholds: object = {};
   maxUsageNumber: number = 0;
 
-  gaugeLabel = 'Consumption (kW)';
+  gaugeLabel = 'Consumption (kWh)';
   gaugeAppendText = '';
 
   cat: number = 0;
@@ -103,7 +103,7 @@ export class DeviceinfoComponent {
         this.currentUsage = res.CurrentUsage.toFixed(2);
         this.activity = res.Activity;
         if (res.CategoryId == '1') {
-          this.gaugeLabel = 'Consumption (kW)';
+          this.gaugeLabel = 'Consumption [kWh]';
           this.cat = 1;
           this.catName = 'Consumption';
           this.thresholds = {
@@ -120,7 +120,7 @@ export class DeviceinfoComponent {
             },
           };
         } else if (res.CategoryId == '2') {
-          this.gaugeLabel = 'Production (kW)';
+          this.gaugeLabel = 'Production [kWh]';
           this.cat = 2;
           this.catName = 'Production';
           this.thresholds = {

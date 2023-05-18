@@ -36,6 +36,7 @@ export class PredictionProsumerComponent implements OnInit {
   }
 
   HistoryData(period: string, serviceFunction: any) {
+    this.show=true;
     this.spiner.show();
     serviceFunction().subscribe((response: any) => {
       const consumptionTimestamps = response.consumption || {};
@@ -85,13 +86,13 @@ export class PredictionProsumerComponent implements OnInit {
       const chartData = {
         datasets: [
           {
-            label: 'Predicted Consumption',
+            label: 'Electric Energy Predicted Consumption',
             data: consumptionData,
             backgroundColor: 'rgba(255, 125, 65, 1)',
             borderColor: 'rgba(255, 125, 65, 1)',
           },
           {
-            label: 'Predicted Production',
+            label: 'Electric Energy Predicted Production',
             data: productionData,
             backgroundColor: 'rgba(0, 188, 179, 1)',
             borderColor: 'rgba(0, 188, 179, 1)',
@@ -116,7 +117,7 @@ export class PredictionProsumerComponent implements OnInit {
               beginAtZero: false,
               title: {
                 display: true,
-                text: 'Energy (kWh)',
+                text: 'Electric Energy [kWh]',
                 font: {
                   size: 18,
                   weight: 'bold',
@@ -128,6 +129,7 @@ export class PredictionProsumerComponent implements OnInit {
         },
       });
       this.spiner.hide();
+      this.show=false;
     });
   }
 

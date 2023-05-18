@@ -136,13 +136,13 @@ export class RealizationDeviceComponent implements OnInit, AfterViewInit {
       const chartData = {
         datasets: [
           {
-            label: `${this.type}`,
+            label: `Electric Energy ${this.type}`,
             data: consumptionData,
             backgroundColor: backgroundColor,
             borderColor: borderColor,
           },
           {
-            label: `Predicted ${this.type}`,
+            label: `Electric Energy Predicted ${this.type}`,
             data: productionData,
             backgroundColor: backgroundColor1,
             borderColor: borderColor1,
@@ -167,7 +167,7 @@ export class RealizationDeviceComponent implements OnInit, AfterViewInit {
               beginAtZero: false,
               title: {
                 display: true,
-                text: 'Energy (kWh)',
+                text: 'Electric Energy [kWh]',
                 font: {
                   size: 18,
                   weight: 'bold',

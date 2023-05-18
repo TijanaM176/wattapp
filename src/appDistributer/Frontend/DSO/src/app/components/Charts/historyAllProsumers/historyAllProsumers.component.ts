@@ -104,13 +104,13 @@ export class HistoryAllProsumersComponent implements OnInit {
       const chartData = {
         datasets: [
           {
-            label: 'Consumption',
+            label: 'Electric Energy Consumption',
             data: consumptionData,
             backgroundColor: 'rgba(193, 75, 72, 1)',
             borderColor: 'rgba(193, 75, 72, 1)',
           },
           {
-            label: 'Production',
+            label: 'Electric Energy Production',
             data: productionData,
             backgroundColor: 'rgba(128, 188, 0, 1)',
             borderColor: 'rgba(128, 188, 0, 1)',
@@ -135,7 +135,7 @@ export class HistoryAllProsumersComponent implements OnInit {
               beginAtZero: false,
               title: {
                 display: true,
-                text: 'Energy (kWh)',
+                text: 'Electric Energy [kWh]',
                 font: {
                   size: 18,
                   weight: 'bold',

@@ -104,7 +104,7 @@ export class PredictionDeviceComponent implements OnInit, AfterViewInit {
         const chartData = {
           datasets: [
             {
-              label: 'Predicted ' + this.type,
+              label: 'Electric Energy Predicted ' + this.type,
               data: consumptionData,
               backgroundColor: backgroundColor,
               borderColor: borderColor,
@@ -129,7 +129,7 @@ export class PredictionDeviceComponent implements OnInit, AfterViewInit {
                 beginAtZero: false,
                 title: {
                   display: true,
-                  text: 'Energy (kWh)',
+                  text: 'Electric Energy [kWh]',
                   font: {
                     size: 18,
                     weight: 'bold',
@@ -189,7 +189,7 @@ export class PredictionDeviceComponent implements OnInit, AfterViewInit {
         const chartData = {
           datasets: [
             {
-              label: 'Predicted ' + this.type,
+              label: 'Electric Energy Predicted ' + this.type,
               data: consumptionData,
               backgroundColor: backgroundColor,
               borderColor: borderColor,
@@ -214,7 +214,7 @@ export class PredictionDeviceComponent implements OnInit, AfterViewInit {
                 beginAtZero: false,
                 title: {
                   display: true,
-                  text: 'Energy (kWh)',
+                  text: 'Electric Energy [kWh]',
                   font: {
                     size: 18,
                     weight: 'bold',
@@ -274,7 +274,7 @@ export class PredictionDeviceComponent implements OnInit, AfterViewInit {
         const chartData = {
           datasets: [
             {
-              label: 'Predicted ' + this.type,
+              label: 'Electric Energy Predicted ' + this.type,
               data: consumptionData,
               backgroundColor: backgroundColor,
               borderColor: borderColor,
@@ -299,7 +299,7 @@ export class PredictionDeviceComponent implements OnInit, AfterViewInit {
                 beginAtZero: false,
                 title: {
                   display: true,
-                  text: 'Energy (kWh)',
+                  text: 'Electric Energy [kWh]',
                   font: {
                     size: 18,
                     weight: 'bold',

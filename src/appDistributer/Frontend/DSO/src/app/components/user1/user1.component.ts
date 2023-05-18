@@ -102,7 +102,7 @@ export class User1Component implements OnInit, AfterViewInit {
         // console.log(data);
         this.firstName = data.firstName;
         this.lastName = data.lastName;
-        this.username = data.username;
+        this.username = data.userName;
         this.email = data.email;
         this.address = data.address;
         this.Image(data.image);

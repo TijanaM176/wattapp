@@ -99,26 +99,26 @@ export class RealizationPredictionAllProsumersComponent implements OnInit {
       const chartData = {
         datasets: [
           {
-            label: 'Consumption',
+            label: 'Electric Energy Consumption',
             data: consumptionData,
             backgroundColor: 'rgba(193, 75, 72, 1)',
             borderColor: 'rgba(193, 75, 72, 1)',
           },
           {
-            label: 'Predicted Consumption',
+            label: 'Electric Energy Predicted Consumption',
             data: consumptionPredictionData,
             backgroundColor: 'rgba(217, 109, 42,1)',
             borderColor: 'rgba(217, 109, 42,1)',
             // borderDash: [5, 5],
           },
           {
-            label: 'Production',
+            label: 'Electric Energy Production',
             data: productionData,
             backgroundColor: 'rgba(128, 188, 0, 1)',
             borderColor: 'rgba(128, 188, 0, 1)',
           },
           {
-            label: 'Predicted Production',
+            label: 'Electric Energy Predicted Production',
             data: productionPredictionData,
             backgroundColor: 'rgba(0, 188, 179, 1)',
             borderColor: 'rgba(0, 188, 179, 1)',
@@ -144,7 +144,7 @@ export class RealizationPredictionAllProsumersComponent implements OnInit {
               beginAtZero: false,
               title: {
                 display: true,
-                text: 'Energy (kWh)',
+                text: 'Electric Energy [kWh]',
                 font: {
                   size: 18,
                   weight: 'bold',
