@@ -98,10 +98,8 @@ export class DeviceserviceService {
       )
       .subscribe({
         next: (res) => {
-          // console.log(res);
-          let response = res as UserTableMapInitDto;
+          console.log(res);
           this.prosumers = res as Prosumer[];
-          this.responseGetAllProsumers.next(response);
           this.spiner.hide();
         },
         error: (err) => {

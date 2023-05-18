@@ -411,7 +411,7 @@ export class MapComponent implements AfterViewInit, OnInit {
         'all'
       )
       .subscribe((res) => {
-        // console.log(res)
+        console.log(res)
         this.users = res as Prosumer[];
         this.populateTheMap2(map);
       });
@@ -457,10 +457,6 @@ export class MapComponent implements AfterViewInit, OnInit {
 
   reset() {
     this.deleteAllMarkers(this.map);
-    // this.mapService.getAllNeighborhoods().subscribe((response) => {
-    //   this.users = response;
-    //   this.populateTheMap(this.map);
-    // });
     this.deviceServer.ProsumersInfo1().subscribe((res) => {
       let response = res as UserTableMapInitDto;
       this.users = response.prosumers as Prosumer[];

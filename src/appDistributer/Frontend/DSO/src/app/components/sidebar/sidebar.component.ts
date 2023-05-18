@@ -67,7 +67,6 @@ export class SidebarComponent implements OnInit, AfterViewInit {
     },
   };
 
-  private filtersSubscription!: Subscription;
   private initFiltersSubscription! : Subscription;
 
   neighborhood: string = 'all';
@@ -100,12 +99,7 @@ export class SidebarComponent implements OnInit, AfterViewInit {
     this.initFiltersSubscription = this.deviceService.initInfo$.subscribe((res)=>{
       this.setFilters();
       this.resetMaxMin();
-    })
-    this.filtersSubscription = this.deviceService.information$.subscribe(
-      (res) => {
-        this.setFilters();
-      }
-    );
+    });
     this.disableNeigh = true;
     let t = window.innerWidth < 320 ? 140.6 : 101;
     let h = window.innerHeight - t;
@@ -164,6 +158,58 @@ export class SidebarComponent implements OnInit, AfterViewInit {
       },
     };
   }
+  updateFilters(res : any) {
+    if(res.minProd < this.staticMinProd) this.staticMinProd = res.minProd;
+    if(res.maxProd > this.staticMaxProd) this.staticMaxProd = res.maxProd;
+    this.optionsP = {
+      floor: this.staticMinProd,
+      ceil: this.staticMaxProd,
+      translate: (value: number, label: LabelType): string => {
+        switch (label) {
+          case LabelType.Low:
+            return value + 'W';
+          case LabelType.High:
+            return value + 'W';
+          default:
+            return '' + value;
+        }
+      },
+    };
+
+    if(res.minCons < this.staticMinCons) this.staticMinCons = res.minCons;
+    if(res.maxCons > this.staticMaxCons) this.staticMaxCons = res.maxCons;
+    this.optionsC = {
+      floor: this.staticMinCons,
+      ceil: this.staticMaxCons,
+      translate: (value: number, label: LabelType): string => {
+        switch (label) {
+          case LabelType.Low:
+            return value + 'W';
+          case LabelType.High:
+            return value + 'W';
+          default:
+            return '' + value;
+        }
+      },
+    };
+
+    if(res.minDevCount < this.staticMinDev) this.staticMinDev = res.minDevCount;
+    if(res.maxDevCount > this.staticMaxDev) this.staticMaxDev = res.maxDevCount;
+    this.options = {
+      floor: this.staticMinDev,
+      ceil: this.staticMaxDev,
+      translate: (value: number, label: LabelType): string => {
+        switch (label) {
+          case LabelType.Low:
+            return value + '';
+          case LabelType.High:
+            return value + '';
+          default:
+            return '' + value;
+        }
+      },
+    };
+  }
 
   resetMaxMin()
   {
@@ -183,12 +229,7 @@ export class SidebarComponent implements OnInit, AfterViewInit {
       .FilterRanges(this.city.toString(), this.dropDownNeigh)
       .subscribe((res) => {
         // console.log(res);
-        this.staticMinCons = res.minCons;
-        this.staticMinProd = res.minProd;
-        this.staticMinDev = res.minDevCount;
-        this.staticMaxCons = res.maxCons;
-        this.staticMaxProd = res.maxProd;
-        this.staticMaxDev = res.maxDevCount;
+        this.updateFilters(res);
       });
   }
 
@@ -199,12 +240,7 @@ export class SidebarComponent implements OnInit, AfterViewInit {
       this.disableNeigh = true;
       this.deviceService.FilterRanges('all', 'all').subscribe((res) => {
         // console.log(res);
-        this.staticMinCons = res.minCons;
-        this.staticMinProd = res.minProd;
-        this.staticMinDev = res.minDevCount;
-        this.staticMaxCons = res.maxCons;
-        this.staticMaxProd = res.maxProd;
-        this.staticMaxDev = res.maxDevCount;
+        this.updateFilters(res);
       });
     } else {
       this.getNeighsByCityId(this.city);
@@ -215,12 +251,7 @@ export class SidebarComponent implements OnInit, AfterViewInit {
         .FilterRanges(this.city.toString(), 'all')
         .subscribe((res) => {
           // console.log(res);
-          this.staticMinCons = res.minCons;
-          this.staticMinProd = res.minProd;
-          this.staticMinDev = res.minDevCount;
-          this.staticMaxCons = res.maxCons;
-          this.staticMaxProd = res.maxProd;
-          this.staticMaxDev = res.maxDevCount;
+          this.updateFilters(res);
         });
     }
   }
