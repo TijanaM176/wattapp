@@ -79,6 +79,7 @@ import { SearchemployeelastnamePipe } from './components/searchemployeelastname.
 import { RealizationChartProductionComponent } from './components/Charts/realization-chart-production/realization-chart-production.component';
 import { ChangeWorkerPasswordComponent } from './forms/change-worker-password/change-worker-password.component';
 import { ImageCropperModule } from 'ngx-image-cropper';
+import { Mininavbar2Component } from './components/mininavbar2/mininavbar2.component';
 
 @NgModule({
   declarations: [
@@ -141,6 +142,7 @@ import { ImageCropperModule } from 'ngx-image-cropper';
     SearchemployeelastnamePipe,
     RealizationChartProductionComponent,
     ChangeWorkerPasswordComponent,
+    Mininavbar2Component,
   ],
   imports: [
     MatSlideToggleModule,
