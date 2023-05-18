@@ -507,32 +507,32 @@
             class="text-center p-3"
           >
             <i class="fa fa-power-off off faBtn px-2 shadow mb-2"></i>
-            <p style="color: red"><b>Turned Off</b></p>
+            <p><b>Turn On?</b></p>
           </div>
           <div
-            *ngIf="device?.Activity != 0 && device?.CategoryId!=3"
+            *ngIf="device?.Activity != 0"
             (click)="turnDeviceoffOn()"
             class="text-center p-3"
           >
             <i class="fa fa-power-off on faBtn px-2 shadow mb-2"></i>
-            <p style="color: green"><b>Turned On</b></p>
+            <p><b>Turn Off?</b></p>
           </div>
-          <div
+          <!-- <div
             *ngIf="device?.Activity == 1 && device?.CategoryId==3"
             (click)="turnDeviceoffOn()"
             class="text-center p-3"
           >
             <i class="fa fa-power-off on faBtn px-2 shadow mb-2"></i>
             <p style="color: green"><b>In Use</b></p>
-          </div>
-          <div
+          </div> -->
+          <!-- <div
             *ngIf="device?.Activity == 2 && device?.CategoryId==3"
             (click)="turnDeviceoffOn()"
             class="text-center p-3"
           >
             <i class="fa fa-power-off on faBtn px-2 shadow mb-2"></i>
             <p style="color: green"><b>Charging</b></p>
-          </div>
+          </div> -->
         </div>
         <div
           class="col-6 col-lg-6 text-center text-lg-start"
@@ -543,7 +543,7 @@
 
           <div class="text-center p-3" (click)="navigateToPage()">
             <i class="fa fa-folder-open visit faBtn px-2 shadow mb-2" style="color: #08376b;"></i>
-            <p style="color: #08376b;"><b>Device Page</b></p>
+            <p><b>Device Page</b></p>
           </div>
         </div>
         <!-- <div class="col-12 ps-2">
