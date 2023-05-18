@@ -35,7 +35,7 @@ namespace API.Controllers
 
             }
         }
-            [HttpGet("GetRegions")]
+        [HttpGet("GetRegions")]
         public async Task<IActionResult> GetRegions()
         {
             try
@@ -43,7 +43,7 @@ namespace API.Controllers
                 var regions = await dsoService.GetRegions();
                 var simplifiedRegions = regions.Select(r => new { Id = r.Id, RegionName = r.RegionName}).ToList();
                 return Ok(simplifiedRegions);
-              
+
             }
             catch (Exception ex)
             {
@@ -159,7 +159,7 @@ namespace API.Controllers
                 var categories = await devService.GetCategories();
                 var simplifiedcategories = categories.Select(c => new { Id = c.Id, CategoryName = c.Name }).ToList();
                 return Ok(simplifiedcategories);
-             }
+            }
             catch (Exception ex)
             {
                 return BadRequest(ex.Message);
@@ -189,12 +189,43 @@ namespace API.Controllers
                 var models = await devService.GetModels(typeId);
                 var simplifiedmodels = models.Select(m => new { Id = m.Id, Name = m.Name, CategoryId = m.CategoryId, TypeId = m.TypeId, Manufacturer = m.Manufacturer, Wattage = m.Wattage}).ToList();
                 return Ok(simplifiedmodels);
- 
             }
             catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }
+        }
+
+        [HttpGet("GetCitiesWithProsumers")]
+        public async Task<IActionResult> GetCitiesWithProsumers()
+        {
+            try
+            {
+                var cities = await prosumerService.GetCitiesWithProsumers();
+                var simplifiedcities = cities.Select(c => new { Id = c.Id, CityName = c.Name }).ToList();
+                return Ok(simplifiedcities);
+            }
+            catch (Exception)
+            {
+                return BadRequest("No cities found!");
+            }
+
+        }
+
+        [HttpGet("GetNeighborhoodsWithProsumersByCityId")]
+        public async Task<IActionResult> GetNeighborhoodsWithProsumersByCityId(long id)
+        {
+            try
+            {
+                var neighCities = await prosumerService.GetNeighborhoodsWithProsumersByCityId(id);
+                var simplifiedcities = neighCities.Select(c => new { Id = c.Id, NeigbName = c.NeigbName }).ToList();
+                return Ok(simplifiedcities);
+            }
+            catch (Exception)
+            {
+                return BadRequest("No Neighborhoods found!");
+            }
+
         }
     }
 }

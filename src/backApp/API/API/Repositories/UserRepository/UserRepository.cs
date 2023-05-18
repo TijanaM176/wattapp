@@ -285,5 +285,15 @@ namespace API.Repositories.UserRepository
         {
             return prosumerRepository.GetRoleName(id);
         }
+
+        public bool HasProsumers(long cityId)
+        {
+            return prosumerRepository.HasProsumers(cityId);
+        }
+
+        public bool HasProsumers(string neighborhoodId)
+        {
+            return prosumerRepository.HasProsumers(neighborhoodId);
+        }
     }
 }
