@@ -14,7 +14,7 @@ export class PocetnaComponent implements OnInit {
   nextCons: number = 0;
   nextProd: string = '';
   data: any;
-  price: any;
+  price: any = 0;
   percentagesChange: any;
   sign: any;
   loader: boolean = true;
