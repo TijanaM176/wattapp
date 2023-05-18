@@ -54,21 +54,39 @@ export class ConsumptionLimitComponent implements OnInit, AfterViewInit {
     let w = window.innerWidth;
     let h = window.innerHeight;
     if (w >= 576) {
-      document.getElementById('consumptionLimitBody1')!.style.height =
+      if(this.showConsumptio)
+      {
+        document.getElementById('consumptionLimitBody1')!.style.height =
         h * 0.5 + 'px';
-      document.getElementById('consumptionLimitBody2')!.style.height =
+      }
+      else
+      {
+        document.getElementById('consumptionLimitBody2')!.style.height =
         h * 0.5 + 'px';
+      }
     } else {
       if (this.widthService.height >= this.widthService.deviceWidth * 2) {
-        document.getElementById('consumptionLimitBody1')!.style.height =
+        if(this.showConsumptio)
+        {
+          document.getElementById('consumptionLimitBody1')!.style.height =
           h * 0.35 + 'px';
-        document.getElementById('consumptionLimitBody2')!.style.height =
+        }
+        else
+        {
+          document.getElementById('consumptionLimitBody2')!.style.height =
           h * 0.35 + 'px';
+        }
       } else {
-        document.getElementById('consumptionLimitBody1')!.style.height =
+        if(this.showConsumptio)
+        {
+          document.getElementById('consumptionLimitBody1')!.style.height =
           h * 0.4 + 'px';
-        document.getElementById('consumptionLimitBody2')!.style.height =
+        }
+        else
+        {
+          document.getElementById('consumptionLimitBody2')!.style.height =
           h * 0.4 + 'px';
+        }
       }
     }
   }
@@ -84,24 +102,42 @@ export class ConsumptionLimitComponent implements OnInit, AfterViewInit {
       let w = this.widthService.deviceWidth;
       let h = this.widthService.height;
       if (w >= 576) {
-        document.getElementById('consumptionLimitBody1')!.style.height =
+        if(this.showConsumptio)
+        {
+          document.getElementById('consumptionLimitBody1')!.style.height =
           h * 0.5 + 'px';
-        document.getElementById('consumptionLimitBody2')!.style.height =
+        }
+        else
+        {
+          document.getElementById('consumptionLimitBody2')!.style.height =
           h * 0.5 + 'px';
+        }
         this.width =
           document.getElementById('consumptionLimitCardBody')!.offsetWidth *
           0.9;
       } else {
         if (this.widthService.height >= this.widthService.deviceWidth * 2) {
-          document.getElementById('consumptionLimitBody1')!.style.height =
+          if(this.showConsumptio)
+          {
+            document.getElementById('consumptionLimitBody1')!.style.height =
             h * 0.35 + 'px';
-          document.getElementById('consumptionLimitBody2')!.style.height =
+          }
+          else
+          {
+            document.getElementById('consumptionLimitBody2')!.style.height =
             h * 0.35 + 'px';
+          }
         } else {
-          document.getElementById('consumptionLimitBody1')!.style.height =
+          if(this.showConsumptio)
+          {
+            document.getElementById('consumptionLimitBody1')!.style.height =
             h * 0.4 + 'px';
-          document.getElementById('consumptionLimitBody2')!.style.height =
+          }
+          else
+          {
+            document.getElementById('consumptionLimitBody2')!.style.height =
             h * 0.4 + 'px';
+          }
         }
         this.width =
           document.getElementById('consumptionLimitCardBody')!.offsetWidth *

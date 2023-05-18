@@ -5,18 +5,16 @@
   data-bs-backdrop="static"
   data-bs-keyboard="false"
   tabindex="-1"
-  aria-labelledby="staticBackdropLabel"
+  aria-labelledby="staticBackdrop1Label"
   aria-hidden="true"
 >
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header text-white" style="background-color: #466471">
-        <h5 class="modal-title" id="staticBackdropLabel">Add new device</h5>
+        <h5 class="modal-title" id="staticBackdrop1Label">Add new device</h5>
         <button
-          type="button"
           class="btn-close"
           data-bs-dismiss="modal"
-          aria-label="Close"
           (click)="close()"
         ></button>
       </div>
@@ -32,6 +30,7 @@
 
       <div class="modal-footer">
         <button
+          id="closeAddDevice"
           type="button"
           class="btn btn-secondary"
           data-bs-dismiss="modal"
@@ -40,7 +39,7 @@
         >
           Close
         </button>
-        <button type="button" class="btn btn-primary" style="background-color: #466471; border-color: #466471;" data-bs-dismiss="modal" (click)="registerDevice()">
+        <button class="btn btn-primary" style="background-color: #466471; border-color: #466471;" (click)="registerDevice()">
           Add
         </button>
         <button class="btn btn-primary" [hidden]="true" id="addDeviceCloseOffcanvas" data-bs-dismiss="offcanvas" data-bs-target="#offcanvasNavbarDark">Close Modal</button>
