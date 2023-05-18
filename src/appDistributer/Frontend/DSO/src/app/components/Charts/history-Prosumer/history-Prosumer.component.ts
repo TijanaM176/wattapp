@@ -63,7 +63,7 @@ export class HistoryProsumerComponent implements OnInit {
     const worksheet: XLSX.WorkSheet = XLSX.utils.aoa_to_sheet(sheetData);
     const workbook: XLSX.WorkBook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(workbook, worksheet, 'Chart Data');
-    XLSX.writeFile(workbook, 'chart-data.xlsx');
+    XLSX.writeFile(workbook, 'Consumption_History_Table.xlsx');
   }
 
   ngOnInit() {
