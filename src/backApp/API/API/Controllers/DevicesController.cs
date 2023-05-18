@@ -30,13 +30,15 @@ namespace API.Controllers
                 var consumers = devices[0];
                 var producers = devices[1];
                 var storage = devices[2];
+                var usage = await devService.CurrentConsumptionAndProductionForProsumer(id);
+
                 return Ok(new
                 {
                     consumers = consumers,
                     producers = producers,
                     storage = storage,
-                    currentConsumption = await devService.CurrentUsageForProsumer(devices[0].Select(x => (double)x["CurrentUsage"]).ToList()),
-                    currentProduction = await devService.CurrentUsageForProsumer(devices[1].Select(x => (double)x["CurrentUsage"]).ToList()),
+                    currentConsumption = Math.Round(usage["consumption"], 2),
+                    currentProduction = Math.Round(usage["production"], 2),
                     realDeviceCount = realCount,
                     deviceCount = consumers.Count + producers.Count + storage.Count
                 });
