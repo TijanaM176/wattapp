@@ -134,10 +134,10 @@
                 >
                   <h6 class="section">Device Information</h6>
                   <div *ngIf="activity == 0" (click)="toggle()">
-                    <i class="fa fa-power-off fa-lg off"></i>&nbsp;Turn On
+                    <i class="fa fa-power-off fa-lg off faBtnSmall px-2 py-2 mb-2"></i>&nbsp;Turn On
                   </div>
                   <div *ngIf="activity != 0" (click)="toggle()">
-                    <i class="fa fa-power-off fa-lg on"></i>&nbsp;Turn Off
+                    <i class="fa fa-power-off fa-lg on faBtnSmall px-2 py-2 mb-2"></i>&nbsp;Turn Off
                   </div>
                 </div>
                 <hr class="mt-0 mb-3" />
@@ -225,7 +225,7 @@
               class="col-md-6 gradient-custom d-flex flex-column h-md-100 order-2 order-md-2"
             >
               <!-- *ngIf="cat==1 || cat==2" -->
-              <div class="col-md-12 mb-3 mt-md-2">
+              <div class="col-md-12 mb-3">
                 <div class="card shadow w-100" id="cardone">
                   <app-realizationDevice
                     [type]="catName"
@@ -233,7 +233,7 @@
                   ></app-realizationDevice>
                 </div>
               </div>
-              <div class="col-md-12 mb-2">
+              <div class="col-md-12 mb-2 mb-md-1">
                 <div class="card shadow w-100" id="cardtwo">
                   <app-predictionDevice
                     [type]="catName"
@@ -319,7 +319,6 @@
 <div
   class="modal fade"
   id="turnBatteryOnDeviceInfo"
-  data-bs-backdrop="static"
   data-bs-keyboard="false"
   tabindex="-1"
   aria-labelledby="turnBatteryOnDeviceInfoLabel"
@@ -349,7 +348,7 @@
             (click)="toggleStorage(1)"
             class="text-center p-3"
           >
-            <i class="fa fa-power-off inUse"></i>
+            <i class="fa fa-power-off inUse faBtn px-2 mb-2 shadow"></i>
             <p style="color: green">Use The Battery</p>
           </div>
         </div>
@@ -362,7 +361,7 @@
           
           <!-- charge battery -->
           <div class="text-center p-3" (click)="toggleStorage(2)">
-            <i class="fa fa-plug charge"></i>
+            <i class="fa fa-plug charge faBtn px-2 mb-2 shadow"></i>
             <p style="color: #08376b;">Charge The Battery</p>
           </div>
         </div>

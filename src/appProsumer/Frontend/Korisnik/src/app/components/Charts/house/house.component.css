@@ -72,3 +72,14 @@
   color: #08376b;
   font-size: 100px;
 }
+.faBtn{
+  cursor: pointer;
+  border: 2px solid rgb(246, 255, 251);
+  border-radius: 10px;
+  background-color: #ebf5f1;
+}
+.faBtn:hover{
+  background-color: #d9dfdd;
+  border-color: #d9dfdd;
+  border-radius: 10px;
+}
