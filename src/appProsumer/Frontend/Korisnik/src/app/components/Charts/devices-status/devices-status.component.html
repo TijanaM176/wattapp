@@ -1,5 +1,5 @@
 
-<div class="card-body">
+<div class="card-body pe-md-1">
     <div class="container-fluid pb-2" style="display: flex; flex-direction: column; align-items: center; justify-content: center;" id="devicesStatusBody">
         <div class="row px-0 py-0 mx-0 my-0 mb-2 trenutneInformacije">
             <div class="col-6 px-0">
@@ -24,7 +24,7 @@
         <div class="container-fluid px-0 py-0 mx-0 my-0" style="display: flex; flex-direction: column; align-items: center; justify-content: center; overflow: hidden;">
             <div class="w-100" style="overflow-y: auto; overflow-x: hidden;">
                 <div *ngFor="let device of devices">
-                    <div *ngIf="device.Activity!==0">
+                    <div *ngIf="device.Activity!==0" class="pe-md-2">
                         <!-- consumption and production -->
                         <h4 class="small font-weight-bold" *ngIf="device.CategoryId!=3">{{device.Name}} <span
                             class="float-right">{{device.CurrentUsage.toFixed(2)}} kWh</span></h4>
