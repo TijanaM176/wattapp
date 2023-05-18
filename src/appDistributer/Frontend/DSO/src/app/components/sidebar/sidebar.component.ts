@@ -107,10 +107,10 @@ export class SidebarComponent implements OnInit, AfterViewInit {
   }
 
   setFilters() {
-    this.staticMinProd = this.deviceService.minProd;
-    this.staticMaxProd = this.deviceService.maxProd;
-    this.minValueP = this.deviceService.minProd;
-    this.maxValueP = this.deviceService.maxProd;
+    this.staticMinProd = Math.ceil(this.deviceService.minProd);
+    this.staticMaxProd = Math.ceil(this.deviceService.maxProd);
+    this.minValueP = Math.ceil(this.deviceService.minProd);
+    this.maxValueP = Math.ceil(this.deviceService.maxProd);
     this.optionsP = {
       floor: this.staticMinProd,
       ceil: this.staticMaxProd,
@@ -126,10 +126,10 @@ export class SidebarComponent implements OnInit, AfterViewInit {
       },
     };
 
-    this.staticMinCons = this.deviceService.minCons;
-    this.staticMaxCons = this.deviceService.maxCons;
-    this.minValueC = this.deviceService.minCons;
-    this.maxValueC = this.deviceService.maxCons;
+    this.staticMinCons = Math.ceil(this.deviceService.minCons);
+    this.staticMaxCons = Math.ceil(this.deviceService.maxCons);
+    this.minValueC = Math.ceil(this.deviceService.minCons);
+    this.maxValueC = Math.ceil(this.deviceService.maxCons);
     this.optionsC = {
       floor: this.staticMinCons,
       ceil: this.staticMaxCons,
@@ -145,10 +145,10 @@ export class SidebarComponent implements OnInit, AfterViewInit {
       },
     };
 
-    this.staticMinDev = this.deviceService.minDevCount;
-    this.staticMaxDev = this.deviceService.maxDevCount;
-    this.minValue = this.deviceService.minDevCount;
-    this.maxValue = this.deviceService.maxDevCount;
+    this.staticMinDev = Math.ceil(this.deviceService.minDevCount);
+    this.staticMaxDev = Math.ceil(this.deviceService.maxDevCount);
+    this.minValue = Math.ceil(this.deviceService.minDevCount);
+    this.maxValue = Math.ceil(this.deviceService.maxDevCount);
     this.options = {
       floor: this.staticMinDev,
       ceil: this.staticMaxDev,
@@ -165,10 +165,10 @@ export class SidebarComponent implements OnInit, AfterViewInit {
     };
   }
   updateFilters(res : any) {
-    this.staticMinProd = res.minProd;
-    this.staticMaxProd = res.maxProd;
-    this.minValueP = res.minProd;
-    this.maxValueP = res.maxProd;
+    this.staticMinProd = Math.ceil(res.minProd);
+    this.staticMaxProd = Math.ceil(res.maxProd);
+    this.minValueP = Math.ceil(res.minProd);
+    this.maxValueP = Math.ceil(res.maxProd);
     this.optionsP = {
       floor: this.staticMinProd,
       ceil: this.staticMaxProd,
@@ -184,10 +184,10 @@ export class SidebarComponent implements OnInit, AfterViewInit {
       },
     };
 
-    this.staticMinCons = res.minCons;
-    this.staticMaxCons = res.maxCons;
-    this.minValueC = res.minCons;
-    this.maxValueC = res.maxCons;;
+    this.staticMinCons = Math.ceil(res.minCons);
+    this.staticMaxCons = Math.ceil(res.maxCons);
+    this.minValueC = Math.ceil(res.minCons);
+    this.maxValueC = Math.ceil(res.maxCons);
     this.optionsC = {
       floor: this.staticMinCons,
       ceil: this.staticMaxCons,
@@ -203,10 +203,10 @@ export class SidebarComponent implements OnInit, AfterViewInit {
       },
     };
 
-    this.staticMinDev = res.minDevCount;
-    this.staticMaxDev = res.maxDevCount;
-    this.minValue = res.minDevCount;
-    this.maxValue = res.maxDevCount;
+    this.staticMinDev = Math.ceil(res.minDevCount);
+    this.staticMaxDev = Math.ceil(res.maxDevCount);
+    this.minValue = Math.ceil(res.minDevCount);
+    this.maxValue = Math.ceil(res.maxDevCount);
     this.options = {
       floor: this.staticMinDev,
       ceil: this.staticMaxDev,

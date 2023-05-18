@@ -235,10 +235,10 @@ export class MapComponent implements AfterViewInit, OnInit {
 
   private setFilters(res: UserTableMapInitDto) {
     // console.log(res);
-    this.staticMinProd = res.minProd;
-    this.minValueP = res.minProd;
-    this.staticMaxProd = res.maxProd;
-    this.maxValueP = res.maxProd;
+    this.staticMinProd = Math.ceil(res.minProd);
+    this.staticMaxProd = Math.ceil(res.maxProd);
+    this.minValueP = Math.ceil(res.minProd);
+    this.maxValueP = Math.ceil(res.maxProd);
     this.optionsP = {
       floor: this.staticMinProd,
       ceil: this.staticMaxProd,
@@ -254,10 +254,10 @@ export class MapComponent implements AfterViewInit, OnInit {
       },
     };
 
-    this.staticMinCons = res.minCons;
-    this.minValueC = res.minCons;
-    this.staticMaxCons = res.maxCons;
-    this.maxValueC = res.maxCons;
+    this.staticMinCons = Math.ceil(res.minCons);
+    this.staticMaxCons = Math.ceil(res.maxCons);
+    this.minValueC = Math.ceil(res.minCons);
+    this.maxValueC = Math.ceil(res.maxCons);
     this.optionsC = {
       floor: this.staticMinCons,
       ceil: this.staticMaxCons,
@@ -273,10 +273,10 @@ export class MapComponent implements AfterViewInit, OnInit {
       },
     };
 
-    this.staticMinDev = res.minDevCount;
-    this.minValue = res.minDevCount;
-    this.staticMaxDev = res.maxDevCount;
-    this.maxValue = res.maxDevCount;
+    this.staticMinDev = Math.ceil(res.minDevCount);
+    this.staticMaxDev = Math.ceil(res.maxDevCount);
+    this.minValue = Math.ceil(res.minDevCount);
+    this.maxValue = Math.ceil(res.maxDevCount);
     this.options = {
       floor: this.staticMinDev,
       ceil: this.staticMaxDev,
