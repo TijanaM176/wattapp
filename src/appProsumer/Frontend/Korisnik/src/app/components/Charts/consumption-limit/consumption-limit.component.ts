@@ -50,65 +50,62 @@ export class ConsumptionLimitComponent implements OnInit, AfterViewInit {
     private spiner: NgxSpinnerService
   ) {}
 
-  ngAfterViewInit(): void {
-    let w = window.innerWidth;
-    let h = window.innerHeight;
+ ngAfterViewInit(): void {
+  let w = window.innerWidth;
+  let h = window.innerHeight;
+  
+  const element1 = document.getElementById('consumptionLimitBody1');
+  const element2 = document.getElementById('consumptionLimitBody2');
+
+  if (element1 && element2) {
     if (w >= 576) {
-      document.getElementById('consumptionLimitBody1')!.style.height =
-        h * 0.5 + 'px';
-      document.getElementById('consumptionLimitBody2')!.style.height =
-        h * 0.5 + 'px';
+      element1.style.height = h * 0.5 + 'px';
+      element2.style.height = h * 0.5 + 'px';
     } else {
       if (this.widthService.height >= this.widthService.deviceWidth * 2) {
-        document.getElementById('consumptionLimitBody1')!.style.height =
-          h * 0.35 + 'px';
-        document.getElementById('consumptionLimitBody2')!.style.height =
-          h * 0.35 + 'px';
+        element1.style.height = h * 0.35 + 'px';
+        element2.style.height = h * 0.35 + 'px';
       } else {
-        document.getElementById('consumptionLimitBody1')!.style.height =
-          h * 0.4 + 'px';
-        document.getElementById('consumptionLimitBody2')!.style.height =
-          h * 0.4 + 'px';
+        element1.style.height = h * 0.4 + 'px';
+        element2.style.height = h * 0.4 + 'px';
       }
     }
   }
+}
 
-  ngOnInit(): void {
-    this.loaded = false;
-    this.width =
-      document.getElementById('consumptionLimitCardBody')!.offsetWidth * 0.9;
-    this.getConumptionAndProductionLimit();
 
-    this.resizeObservable$ = fromEvent(window, 'resize');
-    this.resizeSubscription$ = this.resizeObservable$.subscribe((evt) => {
-      let w = this.widthService.deviceWidth;
-      let h = this.widthService.height;
+ngOnInit(): void {
+  this.loaded = false;
+  const consumptionLimitCardBody = document.getElementById('consumptionLimitCardBody');
+  this.width = (consumptionLimitCardBody?.offsetWidth ?? 0) * 0.9;
+  this.getConumptionAndProductionLimit();
+
+  this.resizeObservable$ = fromEvent(window, 'resize');
+  this.resizeSubscription$ = this.resizeObservable$.subscribe((evt) => {
+    let w = this.widthService.deviceWidth;
+    let h = this.widthService.height;
+    const consumptionLimitBody1 = document.getElementById('consumptionLimitBody1');
+    const consumptionLimitBody2 = document.getElementById('consumptionLimitBody2');
+
+    if (consumptionLimitCardBody && consumptionLimitBody1 && consumptionLimitBody2) {
       if (w >= 576) {
-        document.getElementById('consumptionLimitBody1')!.style.height =
-          h * 0.5 + 'px';
-        document.getElementById('consumptionLimitBody2')!.style.height =
-          h * 0.5 + 'px';
-        this.width =
-          document.getElementById('consumptionLimitCardBody')!.offsetWidth *
-          0.9;
+        consumptionLimitBody1.style.height = h * 0.5 + 'px';
+        consumptionLimitBody2.style.height = h * 0.5 + 'px';
+        this.width = consumptionLimitCardBody.offsetWidth * 0.9;
       } else {
         if (this.widthService.height >= this.widthService.deviceWidth * 2) {
-          document.getElementById('consumptionLimitBody1')!.style.height =
-            h * 0.35 + 'px';
-          document.getElementById('consumptionLimitBody2')!.style.height =
-            h * 0.35 + 'px';
+          consumptionLimitBody1.style.height = h * 0.35 + 'px';
+          consumptionLimitBody2.style.height = h * 0.35 + 'px';
         } else {
-          document.getElementById('consumptionLimitBody1')!.style.height =
-            h * 0.4 + 'px';
-          document.getElementById('consumptionLimitBody2')!.style.height =
-            h * 0.4 + 'px';
+          consumptionLimitBody1.style.height = h * 0.4 + 'px';
+          consumptionLimitBody2.style.height = h * 0.4 + 'px';
         }
-        this.width =
-          document.getElementById('consumptionLimitCardBody')!.offsetWidth *
-          0.9;
+        this.width = consumptionLimitCardBody.offsetWidth * 0.9;
       }
-    });
-  }
+    }
+  });
+}
+
 
   getConumptionAndProductionLimit() {
     this.deviceService.getConsumptionAndProductionLimit().subscribe({
