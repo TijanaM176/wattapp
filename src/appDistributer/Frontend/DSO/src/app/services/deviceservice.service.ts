@@ -121,9 +121,9 @@ export class DeviceserviceService {
     maxDev: number,
     cityId: string,
     neighborhoodId: string
-  ): Observable<UserTableMapInitDto> {
+  ): Observable<Prosumer[]> {
     this.spiner.show();
-    return this.http.get<UserTableMapInitDto>(
+    return this.http.get<Prosumer[]>(
       this.baseUrl +
         'Devices/UpdatedProsumerFilter?minConsumption=' +
         minCon +

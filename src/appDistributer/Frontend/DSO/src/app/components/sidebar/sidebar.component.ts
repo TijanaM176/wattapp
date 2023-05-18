@@ -182,7 +182,7 @@ export class SidebarComponent implements OnInit, AfterViewInit {
     this.deviceService
       .FilterRanges(this.city.toString(), this.dropDownNeigh)
       .subscribe((res) => {
-        console.log(res);
+        // console.log(res);
         this.staticMinCons = res.minCons;
         this.staticMinProd = res.minProd;
         this.staticMinDev = res.minDevCount;
@@ -198,7 +198,7 @@ export class SidebarComponent implements OnInit, AfterViewInit {
       this.neighborhood = 'all';
       this.disableNeigh = true;
       this.deviceService.FilterRanges('all', 'all').subscribe((res) => {
-        console.log(res);
+        // console.log(res);
         this.staticMinCons = res.minCons;
         this.staticMinProd = res.minProd;
         this.staticMinDev = res.minDevCount;
@@ -214,7 +214,7 @@ export class SidebarComponent implements OnInit, AfterViewInit {
       this.deviceService
         .FilterRanges(this.city.toString(), 'all')
         .subscribe((res) => {
-          console.log(res);
+          // console.log(res);
           this.staticMinCons = res.minCons;
           this.staticMinProd = res.minProd;
           this.staticMinDev = res.minDevCount;
