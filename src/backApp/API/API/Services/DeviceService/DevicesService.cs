@@ -268,6 +268,8 @@ namespace API.Services.Devices
                 { "firstname", prosumer.FirstName},
                 { "lastname", prosumer.LastName},
                 { "username", prosumer.Username },
+                { "firstname", prosumer.FirstName},
+                { "lastname", prosumer.LastName },
                 { "address", prosumer.Address },
                 { "cityId", prosumer.CityId},
                 { "neighborhoodId", prosumer.NeigborhoodId },

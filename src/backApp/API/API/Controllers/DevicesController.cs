@@ -155,7 +155,28 @@ namespace API.Controllers
             try
             {
                 var filtered = await devService.UpdatedProsumerFilter(minConsumption, maxConsumption, minProduction, maxProduction, minDeviceCount, maxDeviceCount, cityId, neighborhoodId);
-                return Ok(filtered);
+
+                var simplifiedfilter = filtered.Select(p => new
+                {
+                    id = p["id"],
+                    username = p["username"],
+                    firstname = p["firstname"],
+                    lastname  = p["lastname"],
+                    address = p["address"],
+                    cityId = p["cityId"],
+                    cityName = prosumerService.GetCityNameById((long)p["cityId"]).Result,
+                    neigborhoodNameId = p["neighborhoodId"],
+                    neigborhoodName = prosumerService.GetNeighborhoodByName((string)p["neighborhoodId"]).Result,
+                    latitude = p["lat"],
+                    longitude = p["long"],
+                    consumption = p["consumption"],
+                    production = p["production"],
+                    devCount = p["devCount"]
+
+                }).ToList();
+               return Ok(simplifiedfilter);
+
+                //return Ok(filtered);
             }
             catch (Exception ex)
             {
