@@ -77,7 +77,7 @@ export class RealizationChartComponent implements OnInit, AfterViewInit {
       this.widthService.deviceWidth >= 576 ||
       this.widthService.height >= this.widthService.deviceWidth * 2
     )
-      this.coef = 0.5;
+      this.coef = 0.55;
 
     this.resizeObservable$ = fromEvent(window, 'resize');
     this.resizeSubscription$ = this.resizeObservable$.subscribe((evt) => {
@@ -86,7 +86,7 @@ export class RealizationChartComponent implements OnInit, AfterViewInit {
         this.widthService.deviceWidth >= 576 ||
         this.widthService.height >= this.widthService.deviceWidth * 2
       )
-        this.coef = 0.5;
+        this.coef = 0.55;
       const grafik = document.getElementById('grafikConsumptionHistory');
       grafik!.style!.height = this.widthService.height * this.coef + 'px';
     });

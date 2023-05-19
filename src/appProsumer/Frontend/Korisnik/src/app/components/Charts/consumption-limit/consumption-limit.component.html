@@ -1,17 +1,17 @@
 <div class="card-header" style="background-color: rgb(177, 209, 193, 0.08)">
   <div class="row" style="padding-top: 2%; padding-bottom: 2%">
     <div
-      class="col-6 col-lg-5 mx-0 my-0"
+      class="col-6 col-lg-4 mx-0 my-0"
       style="display: flex; align-items: center"
     >
       <h6 class="m-0 font-weight-bold">This Months {{ gaugeLabel }}</h6>
     </div>
     <div
-      class="col-6 col-lg-7 row mx-0 my-0 pe-0 pe-lg-2"
-      style="display: flex; justify-content: end"
+      class="col-6 col-lg-8 row mx-0 my-0 pe-0 pe-lg-2"
+      style="display: flex; justify-content: end;"
     >
       <div
-        class="col-12 col-lg-5 form-check mx-lg-1"
+        class="col-12 col-lg-6 col-xl-12 col-xxl-6 form-check mx-lg-1 mx-xxl-0"
         style="display: flex; justify-content: end"
       >
         <input
@@ -27,7 +27,7 @@
         </label>
       </div>
       <div
-        class="col-12 col-lg-5 form-check mx-lg-3"
+        class="col-12 col-lg-5 col-xl-12 col-xxl-5 form-check mx-lg-3 mx-xxl-1"
         style="display: flex; justify-content: end"
       >
         <input
@@ -53,10 +53,10 @@
   <div
     class="w-100 px-0 py-0 mx-0 my-0"
     style="display: flex; justify-content: center; align-items: center"
-    id="consumptionLimitBody1"
-    *ngIf="showConsumptio"
+    id="consumptionLimitBody"
   >
     <ngx-gauge
+      *ngIf="showConsumptio"
       class="text-size"
       [type]="'semi'"
       [size]="width"
@@ -70,14 +70,8 @@
       [thresholds]="thresholdsConsumption"
     >
     </ngx-gauge>
-  </div>
-  <div
-    class="w-100 px-0 py-0 mx-0 my-0"
-    style="display: flex; justify-content: center; align-items: center"
-    id="consumptionLimitBody2"
-    *ngIf="showProduction"
-  >
     <ngx-gauge
+      *ngIf="showProduction"
       class="text-size"
       [type]="'semi'"
       [size]="width"

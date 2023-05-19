@@ -78,7 +78,7 @@ export class PredictionChartComponent implements OnInit, AfterViewInit {
       this.widthService.deviceWidth >= 576 ||
       this.widthService.height >= this.widthService.deviceWidth * 2
     )
-      this.coef = 0.5;
+      this.coef = 0.55;
 
     this.PredictionWeek('prediction3');
 
@@ -89,7 +89,7 @@ export class PredictionChartComponent implements OnInit, AfterViewInit {
         this.widthService.deviceWidth >= 576 ||
         this.widthService.height >= this.widthService.deviceWidth * 2
       )
-        this.coef = 0.5;
+        this.coef = 0.55;
       const grafik = document.getElementById(
         'grafikPredictionConsumptionProduction'
       );
