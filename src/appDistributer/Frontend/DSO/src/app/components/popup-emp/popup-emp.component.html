@@ -119,6 +119,44 @@
                   >*Password is required</small
                 >
               </div>
+              <div class="form-group pt-1">
+                <div
+                  class="input-field"
+                  [class.error]="
+                  signupForm.controls['passwordAgain'].dirty &&
+                    signupForm.hasError('required', 'passwordAgain')
+                  "
+                  style="display: flex; justify-content: center"
+                >
+                  <!-- <label class="lbl">Password:</label> -->
+                  <span
+                    class="fa fa-lock p-2"
+                    style="font-size: 24px; margin-top: 1%"
+                  ></span>
+                  <input
+                    formControlName="passwordAgain"
+                    type="{{ type }}"
+                    placeholder="Confirm password"
+                  />
+                  <span
+                    class="p-viewer"
+                    style="z-index: 9999; position: absolute; right: 10%"
+                    ><i
+                      (click)="hideShowPass()"
+                      class="fa {{ eyeIcon }}"
+                      style="font-size: 20px; margin-top: 60%"
+                    ></i
+                  ></span>
+                </div>
+                <small
+                *ngIf="
+                  signupForm.controls['passwordAgain'].dirty &&
+                  signupForm.hasError('required', 'passwordAgain')
+                "
+                class="text-danger"
+                >*Confirm Password is required</small
+              >
+              </div>
               <div class="form-group pt-1 text-start">
                 <div
                   class="input-field"
@@ -227,6 +265,14 @@
             </form>
           </div>
         </div>
+        <small
+        style="margin-left:10%;"
+        *ngIf="
+          signupForm.value.password!==signupForm.value.passwordAgain
+        "
+        class="text-danger"
+        >*Password and confirmation password do not match</small
+      ><br/>
       </div>
       <div class="modal-footer">
         <button type="submit" class="btn " (click)="onSignUp()">Confirm</button>
