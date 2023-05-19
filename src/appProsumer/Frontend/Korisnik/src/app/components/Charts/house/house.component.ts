@@ -40,7 +40,7 @@ export class HouseComponent implements OnInit, AfterViewInit {
   show1!: boolean;
 
   constructor(
-    private widthService: DeviceWidthService,
+    public widthService: DeviceWidthService,
     private deviceService: DeviceserviceService,
     private router: Router,
     private spiner: NgxSpinnerService,
