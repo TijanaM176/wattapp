@@ -52,15 +52,16 @@
           <span
             [ngSwitch]="device.TypeId"
             style="max-width: 100%; text-align: center"
+            class="p-1"
           >
             <div
               *ngSwitchCase="'1'"
-              class="pt-1 text-center row text-center p-md-2"
+              class="pt-1 text-center row text-center d-flex justify-content-center align-items-center" 
             >
-              <div class="col-12 col-md-5">
-                <img src="assets/images/fridge.png" />
+              <div class="col-12">
+                <img src="assets/images/fridge.png" [ngStyle]="{'width': widthService.deviceWidth>992 ? '25%' : '40%'}"/>
               </div>
-              <div class="col-12 col-md-7">
+              <div class="col-12">
                 <a
                   style="
                     max-width: 96%;
@@ -68,6 +69,7 @@
                     white-space: nowrap;
                     overflow: hidden;
                     text-overflow: ellipsis;
+                    margin-top: 5%;
                   "
                   >{{ device.Name }}</a
                 >
@@ -75,12 +77,12 @@
             </div>
             <div
               *ngSwitchCase="'2'"
-              class="pt-1 text-center row text-center p-md-2"
+              class="pt-1 text-center row text-center d-flex justify-content-center align-items-center"
             >
-              <div class="col-12 col-md-5">
-                <img src="assets/images/tv.png" />
+              <div class="col-12">
+                <img src="assets/images/tv.png" [ngStyle]="{'width': widthService.deviceWidth>992 ? '25%' : '40%'}"/>
               </div>
-              <div class="col-12 col-md-7">
+              <div class="col-12">
                 <a
                   style="
                     max-width: 96%;
@@ -88,6 +90,7 @@
                     white-space: nowrap;
                     overflow: hidden;
                     text-overflow: ellipsis;
+                    margin-top: 5%;
                   "
                   >{{ device.Name }}</a
                 >
@@ -95,12 +98,12 @@
             </div>
             <div
               *ngSwitchCase="'3'"
-              class="pt-1 text-center row text-center p-md-2"
+              class="pt-1 text-center row text-center d-flex justify-content-center align-items-center"
             >
-              <div class="col-12 col-md-5">
-                <img src="assets/images/oven.png" />
+              <div class="col-12">
+                <img src="assets/images/oven.png" [ngStyle]="{'width': widthService.deviceWidth>992 ? '25%' : '40%'}" />
               </div>
-              <div class="col-12 col-md-7">
+              <div class="col-12 ">
                 <a
                   style="
                     max-width: 96%;
@@ -108,6 +111,7 @@
                     white-space: nowrap;
                     overflow: hidden;
                     text-overflow: ellipsis;
+                    margin-top: 5%;
                   "
                   >{{ device.Name }}</a
                 >
@@ -115,12 +119,12 @@
             </div>
             <div
               *ngSwitchCase="'4'"
-              class="pt-1 text-center row text-center p-md-2"
+              class="pt-1 text-center row text-center d-flex justify-content-center align-items-center"
             >
-              <div class="col-12 col-md-5">
-                <img src="assets/images/air-conditioner.png" />
+              <div class="col-12">
+                <img src="assets/images/air-conditioner.png" [ngStyle]="{'width': widthService.deviceWidth>992 ? '25%' : '40%'}" />
               </div>
-              <div class="col-12 col-md-7">
+              <div class="col-12 ">
                 <a
                   style="
                     max-width: 96%;
@@ -128,6 +132,7 @@
                     white-space: nowrap;
                     overflow: hidden;
                     text-overflow: ellipsis;
+                    margin-top: 5%;
                   "
                   >{{ device.Name }}</a
                 >
@@ -135,12 +140,12 @@
             </div>
             <div
               *ngSwitchCase="'5'"
-              class="pt-1 text-center row text-center p-md-2"
+              class="pt-1 text-center row text-center d-flex justify-content-center align-items-center"
             >
-              <div class="col-12 col-md-5">
-                <img src="assets/images/microwave.png" />
+              <div class="col-12">
+                <img src="assets/images/microwave.png" [ngStyle]="{'width': widthService.deviceWidth>992 ? '25%' : '40%'}" />
               </div>
-              <div class="col-12 col-md-7">
+              <div class="col-12">
                 <a
                   style="
                     max-width: 96%;
@@ -148,6 +153,7 @@
                     white-space: nowrap;
                     overflow: hidden;
                     text-overflow: ellipsis;
+                    margin-top: 5%;
                   "
                   >{{ device.Name }}</a
                 >
@@ -155,12 +161,12 @@
             </div>
             <div
               *ngSwitchCase="'6'"
-              class="pt-1 text-center row text-center p-md-2"
+              class="pt-1 text-center row text-center d-flex justify-content-center align-items-center"
             >
-              <div class="col-12 col-md-5">
-                <img src="assets/images/dish-washer.png" />
+              <div class="col-12">
+                <img src="assets/images/dish-washer.png" [ngStyle]="{'width': widthService.deviceWidth>992 ? '25%' : '40%'}" />
               </div>
-              <div class="col-12 col-md-7">
+              <div class="col-12 ">
                 <a
                   style="
                     max-width: 96%;
@@ -168,6 +174,7 @@
                     white-space: nowrap;
                     overflow: hidden;
                     text-overflow: ellipsis;
+                    margin-top: 5%;
                   "
                   >{{ device.Name }}</a
                 >
@@ -175,12 +182,12 @@
             </div>
             <div
               *ngSwitchCase="'7'"
-              class="pt-1 text-center row text-center p-md-2"
+              class="pt-1 text-center row text-center d-flex justify-content-center align-items-center"
             >
-              <div class="col-12 col-md-5">
-                <img src="assets/images/coffee-machine.png" />
+              <div class="col-12">
+                <img src="assets/images/coffee-machine.png" [ngStyle]="{'width': widthService.deviceWidth>992 ? '25%' : '40%'}" />
               </div>
-              <div class="col-12 col-md-7">
+              <div class="col-12 ">
                 <a
                   style="
                     max-width: 96%;
@@ -188,6 +195,7 @@
                     white-space: nowrap;
                     overflow: hidden;
                     text-overflow: ellipsis;
+                    margin-top: 5%;
                   "
                   >{{ device.Name }}</a
                 >
@@ -195,12 +203,12 @@
             </div>
             <div
               *ngSwitchCase="'8'"
-              class="pt-1 text-center row text-center p-md-2"
+              class="pt-1 text-center row text-center d-flex justify-content-center align-items-center"
             >
-              <div class="col-12 col-md-5">
-                <img src="assets/images/pc.png" />
+              <div class="col-12">
+                <img src="assets/images/pc.png" [ngStyle]="{'width': widthService.deviceWidth>992 ? '25%' : '40%'}" />
               </div>
-              <div class="col-12 col-md-7">
+              <div class="col-12 ">
                 <a
                   style="
                     max-width: 96%;
@@ -208,6 +216,7 @@
                     white-space: nowrap;
                     overflow: hidden;
                     text-overflow: ellipsis;
+                    margin-top: 5%;
                   "
                   >{{ device.Name }}</a
                 >
@@ -215,12 +224,12 @@
             </div>
             <div
               *ngSwitchCase="'9'"
-              class="pt-1 text-center row text-center p-md-2"
+              class="pt-1 text-center row text-center d-flex justify-content-center align-items-center"
             >
-              <div class="col-12 col-md-5">
-                <img src="assets/images/washing-machine.png" />
+              <div class="col-12">
+                <img src="assets/images/washing-machine.png" [ngStyle]="{'width': widthService.deviceWidth>992 ? '25%' : '40%'}" />
               </div>
-              <div class="col-12 col-md-7">
+              <div class="col-12 ">
                 <a
                   style="
                     max-width: 96%;
@@ -228,6 +237,7 @@
                     white-space: nowrap;
                     overflow: hidden;
                     text-overflow: ellipsis;
+                    margin-top: 5%;
                   "
                   >{{ device.Name }}</a
                 >
@@ -235,12 +245,12 @@
             </div>
             <div
               *ngSwitchCase="'10'"
-              class="pt-1 text-center row text-center p-md-2"
+              class="pt-1 text-center row text-center d-flex justify-content-center align-items-center"
             >
-              <div class="col-12 col-md-5">
-                <img src="assets/images/dryer-machine.png" />
+              <div class="col-12">
+                <img src="assets/images/dryer-machine.png" [ngStyle]="{'width': widthService.deviceWidth>992 ? '25%' : '40%'}" />
               </div>
-              <div class="col-12 col-md-7">
+              <div class="col-12 ">
                 <a
                   style="
                     max-width: 96%;
@@ -248,6 +258,7 @@
                     white-space: nowrap;
                     overflow: hidden;
                     text-overflow: ellipsis;
+                    margin-top: 5%;
                   "
                   >{{ device.Name }}</a
                 >
@@ -255,12 +266,12 @@
             </div>
             <div
               *ngSwitchCase="'11'"
-              class="pt-1 text-center row text-center p-md-2"
+              class="pt-1 text-center row text-center d-flex justify-content-center align-items-center"
             >
-              <div class="col-12 col-md-5">
+              <div class="col-12">
                 <img src="assets/images/vacuum-cleaner.png" />
               </div>
-              <div class="col-12 col-md-7">
+              <div class="col-12">
                 <a
                   style="
                     max-width: 96%;
@@ -268,6 +279,7 @@
                     white-space: nowrap;
                     overflow: hidden;
                     text-overflow: ellipsis;
+                    margin-top: 5%;
                   "
                   >{{ device.Name }}</a
                 >
@@ -275,12 +287,12 @@
             </div>
             <div
               *ngSwitchCase="'12'"
-              class="pt-1 text-center row text-center p-md-2"
+              class="pt-1 text-center row text-center d-flex justify-content-center align-items-center"
             >
-              <div class="col-12 col-md-5">
-                <img src="assets/images/iron.png" />
+              <div class="col-125">
+                <img src="assets/images/iron.png" [ngStyle]="{'width': widthService.deviceWidth>992 ? '25%' : '40%'}" />
               </div>
-              <div class="col-12 col-md-7">
+              <div class="col-12">
                 <a
                   style="
                     max-width: 96%;
@@ -288,6 +300,7 @@
                     white-space: nowrap;
                     overflow: hidden;
                     text-overflow: ellipsis;
+                    margin-top: 5%;
                   "
                   >{{ device.Name }}</a
                 >
@@ -295,12 +308,12 @@
             </div>
             <div
               *ngSwitchCase="'13'"
-              class="pt-1 text-center row text-center p-md-2"
+              class="pt-1 text-center row text-center d-flex justify-content-center align-items-center"
             >
-              <div class="col-12 col-md-5">
-                <img src="assets/images/dryer.png" />
+              <div class="col-12">
+                <img src="assets/images/dryer.png" [ngStyle]="{'width': widthService.deviceWidth>992 ? '25%' : '40%'}" />
               </div>
-              <div class="col-12 col-md-7">
+              <div class="col-12">
                 <a
                   style="
                     max-width: 96%;
@@ -308,6 +321,7 @@
                     white-space: nowrap;
                     overflow: hidden;
                     text-overflow: ellipsis;
+                    margin-top: 5%;
                   "
                   >{{ device.Name }}</a
                 >
@@ -315,12 +329,12 @@
             </div>
             <div
               *ngSwitchCase="'14'"
-              class="pt-1 text-center row text-center p-md-2"
+              class="pt-1 text-center row text-center d-flex justify-content-center align-items-center"
             >
-              <div class="col-12 col-md-5">
-                <img src="assets/images/water-heater.png" />
+              <div class="col-12">
+                <img src="assets/images/water-heater.png" [ngStyle]="{'width': widthService.deviceWidth>992 ? '25%' : '40%'}" />
               </div>
-              <div class="col-12 col-md-7">
+              <div class="col-12">
                 <a
                   style="
                     max-width: 96%;
@@ -328,6 +342,7 @@
                     white-space: nowrap;
                     overflow: hidden;
                     text-overflow: ellipsis;
+                    margin-top: 5%;
                   "
                   >{{ device.Name }}</a
                 >
@@ -335,12 +350,12 @@
             </div>
             <div
               *ngSwitchCase="'15'"
-              class="pt-1 text-center row text-center p-md-2"
+              class="pt-1 text-center row text-center d-flex justify-content-center align-items-center"
             >
-              <div class="col-12 col-md-5">
-                <img src="assets/images/kettle.png" />
+              <div class="col-12">
+                <img src="assets/images/kettle.png" [ngStyle]="{'width': widthService.deviceWidth>992 ? '25%' : '40%'}" />
               </div>
-              <div class="col-12 col-md-7">
+              <div class="col-12">
                 <a
                   style="
                     max-width: 96%;
@@ -348,6 +363,7 @@
                     white-space: nowrap;
                     overflow: hidden;
                     text-overflow: ellipsis;
+                    margin-top: 5%;
                   "
                   >{{ device.Name }}</a
                 >
@@ -355,12 +371,12 @@
             </div>
             <div
               *ngSwitchCase="'16'"
-              class="pt-1 text-center row text-center p-md-2"
+              class="pt-1 text-center row text-center d-flex justify-content-center align-items-center"
             >
-              <div class="col-12 col-md-5">
-                <img src="assets/images/station-charging.png" />
+              <div class="col-12">
+                <img src="assets/images/station-charging.png" [ngStyle]="{'width': widthService.deviceWidth>992 ? '25%' : '40%'}" />
               </div>
-              <div class="col-12 col-md-7">
+              <div class="col-12">
                 <a
                   style="
                     max-width: 96%;
@@ -368,6 +384,7 @@
                     white-space: nowrap;
                     overflow: hidden;
                     text-overflow: ellipsis;
+                    margin-top: 5%;
                   "
                   >{{ device.Name }}</a
                 >
@@ -375,12 +392,12 @@
             </div>
             <div
               *ngSwitchCase="'17'"
-              class="pt-1 text-center row text-center p-md-2"
+              class="pt-1 text-center row text-center d-flex justify-content-center align-items-center"
             >
-              <div class="col-12 col-md-5">
-                <img src="assets/images/playstation.png" />
+              <div class="col-12">
+                <img src="assets/images/playstation.png" [ngStyle]="{'width': widthService.deviceWidth>992 ? '25%' : '40%'}" />
               </div>
-              <div class="col-12 col-md-7">
+              <div class="col-12">
                 <a
                   style="
                     max-width: 96%;
@@ -388,6 +405,7 @@
                     white-space: nowrap;
                     overflow: hidden;
                     text-overflow: ellipsis;
+                    margin-top: 5%;
                   "
                   >{{ device.Name }}</a
                 >
@@ -395,12 +413,12 @@
             </div>
             <div
               *ngSwitchCase="'18'"
-              class="pt-1 text-center row text-center p-md-2"
+              class="pt-1 text-center row text-center d-flex justify-content-center align-items-center"
             >
-              <div class="col-12 col-md-5">
-                <img src="assets/images/smart-heater.png" />
+              <div class="col-12">
+                <img src="assets/images/smart-heater.png" [ngStyle]="{'width': widthService.deviceWidth>992 ? '25%' : '40%'}" />
               </div>
-              <div class="col-12 col-md-7">
+              <div class="col-12">
                 <a
                   style="
                     max-width: 96%;
@@ -408,6 +426,7 @@
                     white-space: nowrap;
                     overflow: hidden;
                     text-overflow: ellipsis;
+                    margin-top: 5%;
                   "
                   >{{ device.Name }}</a
                 >
@@ -415,12 +434,12 @@
             </div>
             <div
               *ngSwitchCase="'19'"
-              class="pt-1 text-center row text-center p-md-2"
+              class="pt-1 text-center row text-center d-flex justify-content-center align-items-center"
             >
-              <div class="col-12 col-md-5">
-                <img src="assets/images/solar-panel.png" />
+              <div class="col-12">
+                <img src="assets/images/solar-panel.png" [ngStyle]="{'width': widthService.deviceWidth>992 ? '25%' : '40%'}" />
               </div>
-              <div class="col-12 col-md-7">
+              <div class="col-12">
                 <a
                   style="
                     max-width: 96%;
@@ -428,6 +447,7 @@
                     white-space: nowrap;
                     overflow: hidden;
                     text-overflow: ellipsis;
+                    margin-top: 5%;
                   "
                   >{{ device.Name }}</a
                 >
@@ -435,12 +455,12 @@
             </div>
             <div
               *ngSwitchCase="'20'"
-              class="pt-1 text-center row text-center p-md-2"
+              class="pt-1 text-center row text-center d-flex justify-content-center align-items-center"
             >
-              <div class="col-12 col-md-5">
-                <img src="assets/images/windmill.png" />
+              <div class="col-12">
+                <img src="assets/images/windmill.png" [ngStyle]="{'width': widthService.deviceWidth>992 ? '25%' : '40%'}" />
               </div>
-              <div class="col-12 col-md-7">
+              <div class="col-12">
                 <a
                   style="
                     max-width: 96%;
@@ -448,6 +468,7 @@
                     white-space: nowrap;
                     overflow: hidden;
                     text-overflow: ellipsis;
+                    margin-top: 5%;
                   "
                   >{{ device.Name }}</a
                 >
@@ -455,12 +476,12 @@
             </div>
             <div
               *ngSwitchCase="'21'"
-              class="pt-1 text-center row text-center p-md-2"
+              class="pt-1 text-center row text-center d-flex justify-content-center align-items-center"
             >
-              <div class="col-12 col-md-5">
-                <img src="assets/images/battery.png" />
+              <div class="col-12">
+                <img src="assets/images/battery.png" [ngStyle]="{'width': widthService.deviceWidth>992 ? '25%' : '40%'}" />
               </div>
-              <div class="col-12 col-md-7">
+              <div class="col-12">
                 <a
                   style="
                     max-width: 96%;
@@ -468,6 +489,7 @@
                     white-space: nowrap;
                     overflow: hidden;
                     text-overflow: ellipsis;
+                    margin-top: 5%;
                   "
                   >{{ device.Name }}</a
                 >
@@ -520,32 +542,32 @@
             class="text-center p-3"
           >
             <i class="fa fa-power-off off faBtn px-2 shadow mb-2"></i>
-            <p style="color: red"><b>Turned Off</b></p>
+            <p><b>Turn On?</b></p>
           </div>
           <div
-            *ngIf="device?.Activity != 0 && device?.CategoryId!=3"
+            *ngIf="device?.Activity != 0"
             (click)="turnDeviceoffOn()"
             class="text-center p-3"
           >
             <i class="fa fa-power-off on faBtn px-2 shadow mb-2"></i>
-            <p style="color: green"><b>Turned On</b></p>
+            <p><b>Turn Off?</b></p>
           </div>
-          <div
+          <!-- <div
             *ngIf="device?.Activity == 1 && device?.CategoryId==3"
             (click)="turnDeviceoffOn()"
             class="text-center p-3"
           >
             <i class="fa fa-power-off on faBtn px-2 shadow mb-2"></i>
             <p style="color: green"><b>In Use</b></p>
-          </div>
-          <div
+          </div> -->
+          <!-- <div
             *ngIf="device?.Activity == 2 && device?.CategoryId==3"
             (click)="turnDeviceoffOn()"
             class="text-center p-3"
           >
             <i class="fa fa-power-off on faBtn px-2 shadow mb-2"></i>
             <p style="color: green"><b>Charging</b></p>
-          </div>
+          </div> -->
         </div>
         <div
           class="col-6 col-lg-6 text-center text-lg-start"
@@ -556,7 +578,7 @@
 
           <div class="text-center p-3" (click)="navigateToPage()">
             <i class="fa fa-folder-open visit faBtn px-2 shadow mb-2" style="color: #08376b;"></i>
-            <p style="color: #08376b;"><b>Device Page</b></p>
+            <p><b>Device Page</b></p>
           </div>
         </div>
         <!-- <div class="col-12 ps-2">

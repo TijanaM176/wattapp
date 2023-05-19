@@ -346,8 +346,11 @@ export class MapComponent implements AfterViewInit, OnInit {
   }
 
   private setFilters(res: UserTableMapInitDto) {
-    if (res.minProd < this.staticMinProd) this.staticMinProd = res.minProd;
-    if (res.maxProd > this.staticMaxProd) this.staticMaxProd = res.maxProd;
+    // console.log(res);
+    this.staticMinProd = Math.ceil(res.minProd);
+    this.staticMaxProd = Math.ceil(res.maxProd);
+    this.minValueP = Math.ceil(res.minProd);
+    this.maxValueP = Math.ceil(res.maxProd);
     this.optionsP = {
       floor: this.staticMinProd,
       ceil: this.staticMaxProd,
@@ -363,8 +366,11 @@ export class MapComponent implements AfterViewInit, OnInit {
       },
     };
 
-    if (res.minCons < this.staticMinCons) this.staticMinCons = res.minCons;
-    if (res.maxCons > this.staticMaxCons) this.staticMaxCons = res.maxCons;
+
+    this.staticMinCons = Math.ceil(res.minCons);
+    this.staticMaxCons = Math.ceil(res.maxCons);
+    this.minValueC = Math.ceil(res.minCons);
+    this.maxValueC = Math.ceil(res.maxCons);
     this.optionsC = {
       floor: this.staticMinCons,
       ceil: this.staticMaxCons,
@@ -380,10 +386,11 @@ export class MapComponent implements AfterViewInit, OnInit {
       },
     };
 
-    if (res.minDevCount < this.staticMinDev)
-      this.staticMinDev = res.minDevCount;
-    if (res.maxDevCount > this.staticMaxDev)
-      this.staticMaxDev = res.maxDevCount;
+
+    this.staticMinDev = Math.ceil(res.minDevCount);
+    this.staticMaxDev = Math.ceil(res.maxDevCount);
+    this.minValue = Math.ceil(res.minDevCount);
+    this.maxValue = Math.ceil(res.maxDevCount);
     this.options = {
       floor: this.staticMinDev,
       ceil: this.staticMaxDev,
@@ -487,9 +494,11 @@ export class MapComponent implements AfterViewInit, OnInit {
         ).addTo(map);
         marker.bindPopup(
           '<h5><b>' +
+
             user.firstname +
             ' ' +
             user.lastname +
+
             '</b></h5><h6><b>' +
             user.address +
             '</b></h6>Current consumption: <b>' +
@@ -498,11 +507,9 @@ export class MapComponent implements AfterViewInit, OnInit {
             Number(user.production).toFixed(3) +
             ' kW</b> <br> Num. of devices: <b>' +
             user.devCount.toString() +
-            "</b> <br><br><a href='/DsoApp/user/" +
             user.id +
             "'>View More</a>"
         );
-        this.markers.push(marker);
       }
     }
   }
@@ -589,8 +596,8 @@ export class MapComponent implements AfterViewInit, OnInit {
 
     // Clear the input values
     this.city = -1;
-    this.dropDownNeigh = 'b';
-    this.neighborhood = 'b';
+    this.dropDownNeigh = 'all';
+    this.neighborhood = 'all';
   }
 
   private decideOnMarker(consumptionUser: any, productionUSer: any): string {

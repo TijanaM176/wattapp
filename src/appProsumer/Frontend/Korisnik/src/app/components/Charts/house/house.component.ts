@@ -40,7 +40,7 @@ export class HouseComponent implements OnInit, AfterViewInit {
   show1!: boolean;
 
   constructor(
-    private widthService: DeviceWidthService,
+    public widthService: DeviceWidthService,
     private deviceService: DeviceserviceService,
     private router: Router,
     private spiner: NgxSpinnerService,
@@ -65,7 +65,7 @@ export class HouseComponent implements OnInit, AfterViewInit {
       const houseCont = document.getElementById('houseCont');
       let houseHeight;
       if (window.innerHeight >= window.innerWidth * 2) {
-        houseHeight = this.widthService.height * 0.45;
+        houseHeight = this.widthService.height * 0.5;
       } else {
         houseHeight = this.widthService.height * 0.6;
       }

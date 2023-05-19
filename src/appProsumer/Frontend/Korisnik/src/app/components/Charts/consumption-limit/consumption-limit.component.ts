@@ -55,11 +55,13 @@ export class ConsumptionLimitComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
+    this.showConsumptio = true;
+    this.showProduction = false;
     this.loaded = false;
     this.width =
       document.getElementById('consumptionLimitCardBody')!.offsetWidth * 0.9;
     this.getConumptionAndProductionLimit();
-
+    
     this.resizeObservable$ = fromEvent(window, 'resize');
     this.resizeSubscription$ = this.resizeObservable$.subscribe((evt) => {
       this.ajustHeightOnWidthChange();
@@ -119,30 +121,13 @@ export class ConsumptionLimitComponent implements OnInit, AfterViewInit {
     let w = window.innerWidth;
     let h = window.innerHeight;
     if (w >= 576) {
-      if (this.showConsumptio) {
-        document.getElementById('consumptionLimitBody1')!.style.height =
-          h * 0.5 + 'px';
-      } else {
-        document.getElementById('consumptionLimitBody2')!.style.height =
-          h * 0.5 + 'px';
-      }
+      document.getElementById('consumptionLimitBody')!.style.height = h * 0.5 + 'px';
     } else {
       if (this.widthService.height >= this.widthService.deviceWidth * 2) {
-        if (this.showConsumptio) {
-          document.getElementById('consumptionLimitBody1')!.style.height =
-            h * 0.35 + 'px';
-        } else {
-          document.getElementById('consumptionLimitBody2')!.style.height =
-            h * 0.35 + 'px';
-        }
+        
+        document.getElementById('consumptionLimitBody')!.style.height = h * 0.35 + 'px';
       } else {
-        if (this.showConsumptio) {
-          document.getElementById('consumptionLimitBody1')!.style.height =
-            h * 0.4 + 'px';
-        } else {
-          document.getElementById('consumptionLimitBody2')!.style.height =
-            h * 0.4 + 'px';
-        }
+        document.getElementById('consumptionLimitBody')!.style.height = h * 0.4 + 'px';
       }
     }
   }
@@ -151,32 +136,18 @@ export class ConsumptionLimitComponent implements OnInit, AfterViewInit {
     let w = this.widthService.deviceWidth;
     let h = this.widthService.height;
     if (w >= 576) {
-      if (this.showConsumptio) {
-        document.getElementById('consumptionLimitBody1')!.style.height =
+        document.getElementById('consumptionLimitBody')!.style.height =
           h * 0.5 + 'px';
-      } else {
-        document.getElementById('consumptionLimitBody2')!.style.height =
-          h * 0.5 + 'px';
-      }
       this.width =
         document.getElementById('consumptionLimitCardBody')!.offsetWidth * 0.9;
     } else {
       if (this.widthService.height >= this.widthService.deviceWidth * 2) {
-        if (this.showConsumptio) {
-          document.getElementById('consumptionLimitBody1')!.style.height =
+        
+          document.getElementById('consumptionLimitBody')!.style.height =
             h * 0.35 + 'px';
-        } else {
-          document.getElementById('consumptionLimitBody2')!.style.height =
-            h * 0.35 + 'px';
-        }
       } else {
-        if (this.showConsumptio) {
-          document.getElementById('consumptionLimitBody1')!.style.height =
+          document.getElementById('consumptionLimitBody')!.style.height =
             h * 0.4 + 'px';
-        } else {
-          document.getElementById('consumptionLimitBody2')!.style.height =
-            h * 0.4 + 'px';
-        }
       }
       this.width =
         document.getElementById('consumptionLimitCardBody')!.offsetWidth * 0.9;
