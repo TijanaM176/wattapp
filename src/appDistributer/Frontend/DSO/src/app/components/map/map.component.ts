@@ -530,6 +530,9 @@ export class MapComponent implements AfterViewInit, OnInit {
       .subscribe((res) => {
         console.log(res);
         this.users = res as Prosumer[];
+        this.allusers= res as Prosumer[];
+        this.searchUsername='';
+        this.searchAddress='';
         this.populateTheMap2(map);
       });
   }
@@ -549,6 +552,9 @@ export class MapComponent implements AfterViewInit, OnInit {
       .subscribe((res) => {
         // console.log(res)
         this.users = res as Prosumer[];
+        this.allusers= res as Prosumer[];
+        this.searchUsername='';
+        this.searchAddress='';
         this.populateTheMap2(map);
       });
   }
