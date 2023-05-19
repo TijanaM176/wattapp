@@ -13,6 +13,19 @@
       style="width: 85%; height: 65%"
       id="houseWalls"
     >
+    <h1
+      *ngIf="devices.length == 0"
+      style="
+        text-align: center;
+        margin-top: 15%;
+        opacity: 60%;
+        font-style: italic;
+        font-weight: normal;
+        z-index: 100;
+      "
+    >
+      There Are No Devices
+    </h1>
       <div
         class="row px-0 py-0 mx-0 my-0"
         style="
