@@ -23,9 +23,10 @@ namespace API.Controllers
         }
        
         [HttpPost("registerProsumer")]
-        // [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Register(ProsumerDto request)
         {
+            try{
                 Prosumer prosumer = await authService.Register(request);
                 if (prosumer != null)
                 {
@@ -46,11 +47,18 @@ namespace API.Controllers
 
                 else
                     return BadRequest("Error!");
+            }
+            catch(Exception ex)
+            {
+
+
+                return BadRequest(ex.Message);
+            }
             
         }
 
         [HttpPost("registerDsoWorker")]
-        // [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Register( DsoWorkerDto request)
         {
             try

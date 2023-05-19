@@ -15,6 +15,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { AuthService } from 'src/app/services/auth.service';
 import { SendRefreshToken } from 'src/app/models/sendRefreshToken';
 import { ToastrService } from 'ngx-toastr';
+import Swal from 'sweetalert2';
 @Component({
   selector: 'app-user1',
   templateUrl: './user1.component.html',
@@ -42,8 +43,8 @@ export class User1Component implements OnInit, AfterViewInit {
     private r: Router,
     private deviceService: DeviceserviceService,
     private _sanitizer: DomSanitizer,
-    private auth : AuthService,
-    private toast : ToastrService
+    private auth: AuthService,
+    private toast: ToastrService
   ) {}
   letValue: string = '';
   id: string = '';
@@ -140,10 +141,13 @@ export class User1Component implements OnInit, AfterViewInit {
       this.widthService.height + 'px';
   }
   UpdateData() {
-    let refreshDto = new SendRefreshToken(this.cookie.get('refresh'), this.cookie.get('username'), this.cookie.get('role'));
-    this.auth.refreshToken(refreshDto)
-    .subscribe({
-      next:(data)=>{
+    let refreshDto = new SendRefreshToken(
+      this.cookie.get('refresh'),
+      this.cookie.get('username'),
+      this.cookie.get('role')
+    );
+    this.auth.refreshToken(refreshDto).subscribe({
+      next: (data) => {
         this.cookie.delete('token', '/');
         this.cookie.delete('refresh', '/');
         this.cookie.set('token', data.token.toString().trim(), { path: '/' });
@@ -166,64 +170,91 @@ export class User1Component implements OnInit, AfterViewInit {
         const buttonRef = document.getElementById('closeBtn1');
         buttonRef?.click();
       },
-      error:(err)=>{
-        this.auth.logout(this.cookie.get('username'), this.cookie.get('role'))
+      error: (err) => {
+        this.auth
+          .logout(this.cookie.get('username'), this.cookie.get('role'))
           .subscribe({
-            next:(res)=>{
-              this.toast.error(err.error, 'Error!', {timeOut: 3000});
+            next: (res) => {
+              this.toast.error(err.error, 'Error!', { timeOut: 3000 });
               this.cookie.deleteAll('/');
               this.r.navigate(['login']);
             },
-            error:(error)=>{
+            error: (error) => {
               console.log(error);
-              this.toast.error('Unknown error occurred', 'Error!', {timeOut: 2500});
+              this.toast.error('Unknown error occurred', 'Error!', {
+                timeOut: 2500,
+              });
               this.r.navigate(['login']);
-            }
+            },
           });
-      }
+      },
     });
   }
 
   DeleteUser() {
-    if (confirm('Do you want to delete ?')) {
-      let refreshDto = new SendRefreshToken(this.cookie.get('refresh'), this.cookie.get('username'), this.cookie.get('role'));
-      this.auth.refreshToken(refreshDto)
-      .subscribe({
-        next:(data)=>{
-          this.cookie.delete('token', '/');
-          this.cookie.delete('refresh', '/');
-          this.cookie.set('token', data.token.toString().trim(), { path: '/' });
-          this.cookie.set('refresh', data.refreshToken.toString().trim(), {
-            path: '/',
-          });
-
-          this.user.deleteUser(this.router.snapshot.params['id']).subscribe({
-            next: (res) => {
-              // console.log(res);
-              this.r.navigate(['/DsoApp/users']);
-            },
-            error: (err) => {
-              console.log(err.error);
-              this.toast.error('Unable to delete prosumer.', 'Error!', {timeOut:2500});
-            },
-          });
-        },
-        error:(err)=>{
-          this.auth.logout(this.cookie.get('username'), this.cookie.get('role'))
-            .subscribe({
-              next:(res)=>{
-                this.toast.error(err.error, 'Error!', {timeOut: 3000});
-                this.cookie.deleteAll('/');
-                this.r.navigate(['login']);
-              },
-              error:(error)=>{
-                console.log(error);
-                this.toast.error('Unknown error occurred', 'Error!', {timeOut: 2500});
-              }
+    Swal.fire({
+      title: 'Are you sure?',
+      text: 'Confirm you want to delete this user',
+      icon: 'question',
+      allowOutsideClick: false,
+      showCancelButton: true,
+      confirmButtonColor: '#466471',
+      cancelButtonColor: '#8d021f',
+      confirmButtonText: 'Yes',
+      cancelButtonText: 'Cancel',
+    }).then((result: any) => {
+      if (result.value) {
+        let refreshDto = new SendRefreshToken(
+          this.cookie.get('refresh'),
+          this.cookie.get('username'),
+          this.cookie.get('role')
+        );
+        this.auth.refreshToken(refreshDto).subscribe({
+          next: (data) => {
+            this.cookie.delete('token', '/');
+            this.cookie.delete('refresh', '/');
+            this.cookie.set('token', data.token.toString().trim(), {
+              path: '/',
             });
-        }
-      });
-    }
+            this.cookie.set('refresh', data.refreshToken.toString().trim(), {
+              path: '/',
+            });
+
+            this.user.deleteUser(this.router.snapshot.params['id']).subscribe({
+              next: (res) => {
+                // console.log(res);
+                this.r.navigate(['/DsoApp/users']);
+              },
+              error: (err) => {
+                console.log(err.error);
+                this.toast.error('Unable to delete prosumer.', 'Error!', {
+                  timeOut: 2500,
+                });
+              },
+            });
+          },
+          error: (err) => {
+            this.auth
+              .logout(this.cookie.get('username'), this.cookie.get('role'))
+              .subscribe({
+                next: (res) => {
+                  this.toast.error(err.error, 'Error!', { timeOut: 3000 });
+                  this.cookie.deleteAll('/');
+                  this.r.navigate(['login']);
+                },
+                error: (error) => {
+                  console.log(error);
+                  this.toast.error('Unknown error occurred', 'Error!', {
+                    timeOut: 2500,
+                  });
+                },
+              });
+          },
+        });
+      } else if (result.dismiss === Swal.DismissReason.cancel) {
+        // Action when Cancel button is clicked
+      }
+    });
   }
 
   disableDelete(role: string) {

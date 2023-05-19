@@ -17,6 +17,7 @@ import { ProfilePictureServiceService } from 'src/app/services/profile-picture-s
 import { WorkerProfileComponent } from '../worker-profile/worker-profile.component';
 import { SendRefreshToken } from 'src/app/models/sendRefreshToken';
 import { AuthService } from 'src/app/services/auth.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-employees',
@@ -48,24 +49,23 @@ export class EmployeesComponent {
   region: any;
   roleId!: number;
   regionId!: string;
-  username!:string;
+  username!: string;
   currentRoute!: string;
   id!: string;
   searchLastName!: string;
-  imageSource!:any;
-  imageSource1!:any;
-  showDetails:boolean=false;
+  imageSource!: any;
+  imageSource1!: any;
+  showDetails: boolean = false;
   imgChangeEvet: any = '';
   croppedImage: any = '';
-  currentImage : string = 'assets/images/defaultWorker.png';
-  selectedImageFile : any = null;
-  fileType : any = '';
-  errorDeletePhoto : boolean = false;
-  updatedPhotoSuccess : boolean = false;
-  updatedPhotoError : boolean = false;
-  noFile : boolean = false;
- 
-  
+  currentImage: string = 'assets/images/defaultWorker.png';
+  selectedImageFile: any = null;
+  fileType: any = '';
+  errorDeletePhoto: boolean = false;
+  updatedPhotoSuccess: boolean = false;
+  updatedPhotoError: boolean = false;
+  noFile: boolean = false;
+
   constructor(
     public service: EmployeesServiceService,
     private router: Router,
@@ -73,8 +73,8 @@ export class EmployeesComponent {
     public serviceData: DataService,
     private _sanitizer: DomSanitizer,
     public toast: ToastrService,
-    private profilePhotoService:ProfilePictureServiceService,
-    private auth : AuthService
+    private profilePhotoService: ProfilePictureServiceService,
+    private auth: AuthService
   ) {}
 
   ngOnInit(): void {
@@ -94,14 +94,13 @@ export class EmployeesComponent {
   }
   Image(image: any) {
     this.imageSource = 'assets/images/defaultWorker.png';
-    if(image != "" && image != null)
-    {
+    if (image != '' && image != null) {
       let byteArray = new Uint8Array(
         atob(image)
-        .split('')
-        .map((char)=> char.charCodeAt(0))
+          .split('')
+          .map((char) => char.charCodeAt(0))
       );
-      let file = new Blob([byteArray], {type: 'image/png'});
+      let file = new Blob([byteArray], { type: 'image/png' });
       this.imageSource = URL.createObjectURL(file);
     }
     return this.imageSource;
@@ -118,8 +117,8 @@ export class EmployeesComponent {
     this.Paging();
   }
 
-  Details(id: string) { 
-    this.showDetails=true;
+  Details(id: string) {
+    this.showDetails = true;
     // console.log(this.service.employees);
     this.service.idEmp = id;
     // console.log(this.service.idEmp);
@@ -128,7 +127,7 @@ export class EmployeesComponent {
       this.id = res.id;
       this.firstName = res.firstName;
       this.lastName = res.lastName;
-      this.username=res.userName;
+      this.username = res.userName;
       this.salary = res.salary;
       this.dateCreate = res.prosumerCreationDate;
       this.email = res.email;
@@ -150,20 +149,18 @@ export class EmployeesComponent {
   }
   Image1(image: any) {
     this.imageSource1 = 'assets/images/defaultWorker.png';
-    if(image != "" && image != null)
-    {
+    if (image != '' && image != null) {
       let byteArray = new Uint8Array(
         atob(image)
-        .split('')
-        .map((char)=> char.charCodeAt(0))
+          .split('')
+          .map((char) => char.charCodeAt(0))
       );
-      let file = new Blob([byteArray], {type: 'image/png'});
+      let file = new Blob([byteArray], { type: 'image/png' });
       this.imageSource1 = URL.createObjectURL(file);
     }
-  
   }
-  closeside(){
-    this.showDetails=false;
+  closeside() {
+    this.showDetails = false;
   }
   close() {}
   ChangeRegion(e: any) {}
@@ -181,7 +178,7 @@ export class EmployeesComponent {
   getAllRoles() {
     this.serviceData.getAllRoles().subscribe({
       next: (res) => {
-        this.Role = res.filter(item => item.roleName != 'Prosumer');
+        this.Role = res.filter((item) => item.roleName != 'Prosumer');
       },
       error: (err) => {
         //this.toast.error({detail:"Error!",summary:"Unable to load user data.", duration:3000});
@@ -197,10 +194,13 @@ export class EmployeesComponent {
     buttonRef?.click();
   }
   onUpdate(id: string) {
-    let refreshDto = new SendRefreshToken(this.cookie.get('refresh'), this.cookie.get('username'), this.cookie.get('role'));
-    this.auth.refreshToken(refreshDto)
-    .subscribe({
-      next:(data)=>{
+    let refreshDto = new SendRefreshToken(
+      this.cookie.get('refresh'),
+      this.cookie.get('username'),
+      this.cookie.get('role')
+    );
+    this.auth.refreshToken(refreshDto).subscribe({
+      next: (data) => {
         this.cookie.delete('token', '/');
         this.cookie.delete('refresh', '/');
         this.cookie.set('token', data.token.toString().trim(), { path: '/' });
@@ -230,155 +230,188 @@ export class EmployeesComponent {
         const buttonRef = document.getElementById('closeBtn1');
         buttonRef?.click();
       },
-      error:(err)=>{
-        this.auth.logout(this.cookie.get('username'), this.cookie.get('role'))
+      error: (err) => {
+        this.auth
+          .logout(this.cookie.get('username'), this.cookie.get('role'))
           .subscribe({
-            next:(res)=>{
-              this.toast.error(err.error, 'Error!', {timeOut: 3000});
+            next: (res) => {
+              this.toast.error(err.error, 'Error!', { timeOut: 3000 });
               this.cookie.deleteAll('/');
               this.router.navigate(['login']);
             },
-            error:(error)=>{
+            error: (error) => {
               console.log(error);
-              this.toast.error('Unknown error occurred', 'Error!', {timeOut: 2500});
-            }
+              this.toast.error('Unknown error occurred', 'Error!', {
+                timeOut: 2500,
+              });
+            },
           });
-      }
-    })
+      },
+    });
   }
 
   onDelete(id: string) {
-    if (confirm('Do you want to delete ?')) {
-      let refreshDto = new SendRefreshToken(this.cookie.get('refresh'), this.cookie.get('username'), this.cookie.get('role'));
-      this.auth.refreshToken(refreshDto)
-      .subscribe({
-        next:(data)=>{
-          this.cookie.delete('token', '/');
-          this.cookie.delete('refresh', '/');
-          this.cookie.set('token', data.token.toString().trim(), { path: '/' });
-          this.cookie.set('refresh', data.refreshToken.toString().trim(), {
-            path: '/',
-          });
-
-          //brisanje korisnika
-          this.service.deleteEmployee(id).subscribe({
-            next: (res) => {
-              this.Ucitaj();
-              this.Paging();
-              this.closeside();
-            },
-            error: (err) => {
-              console.log(err.error);
-            },
-          });
-        },
-        error:(err)=>{
-          this.auth.logout(this.cookie.get('username'), this.cookie.get('role'))
-            .subscribe({
-              next:(res)=>{
-                this.toast.error(err.error, 'Error!', {timeOut: 3000});
-                this.cookie.deleteAll('/');
-                this.router.navigate(['login']);
-              },
-              error:(error)=>{
-                console.log(error);
-                this.toast.error('Unknown error occurred', 'Error!', {timeOut: 2500});
-              }
+    Swal.fire({
+      title: 'Are you sure?',
+      text: 'Confirm you want to delete this employee',
+      icon: 'question',
+      allowOutsideClick: false,
+      showCancelButton: true,
+      confirmButtonColor: '#466471',
+      cancelButtonColor: '#8d021f',
+      confirmButtonText: 'Yes',
+      cancelButtonText: 'Cancel',
+    }).then((result: any) => {
+      if (result.value) {
+        let refreshDto = new SendRefreshToken(
+          this.cookie.get('refresh'),
+          this.cookie.get('username'),
+          this.cookie.get('role')
+        );
+        this.auth.refreshToken(refreshDto).subscribe({
+          next: (data) => {
+            this.cookie.delete('token', '/');
+            this.cookie.delete('refresh', '/');
+            this.cookie.set('token', data.token.toString().trim(), {
+              path: '/',
             });
-        }
-      });
-    }
+            this.cookie.set('refresh', data.refreshToken.toString().trim(), {
+              path: '/',
+            });
+
+            //brisanje korisnika
+            this.service.deleteEmployee(id).subscribe({
+              next: (res) => {
+                this.Ucitaj();
+                this.Paging();
+                this.closeside();
+              },
+              error: (err) => {
+                console.log(err.error);
+              },
+            });
+          },
+          error: (err) => {
+            this.auth
+              .logout(this.cookie.get('username'), this.cookie.get('role'))
+              .subscribe({
+                next: (res) => {
+                  this.toast.error(err.error, 'Error!', { timeOut: 3000 });
+                  this.cookie.deleteAll('/');
+                  this.router.navigate(['login']);
+                },
+                error: (error) => {
+                  console.log(error);
+                  this.toast.error('Unknown error occurred', 'Error!', {
+                    timeOut: 2500,
+                  });
+                },
+              });
+          },
+        });
+      } else if (result.dismiss === Swal.DismissReason.cancel) {
+        // Action when Cancel button is clicked
+      }
+    });
   }
   sort(headerName: String) {
     this.isDescOrder = !this.isDescOrder;
     this.orderHeader = headerName;
   }
-  openChangePhoto()
-  {
+  openChangePhoto() {
     this.resetAll();
     document.getElementById('openChangePhotoWorker')!.click();
   }
-  closeChange()
-  {
-    document.getElementById('openWorkerAgain')!.click()
+  closeChange() {
+    document.getElementById('openWorkerAgain')!.click();
     this.resetAll();
   }
-  confirmNewPhoto()
-  {
+  confirmNewPhoto() {
     this.updatedPhotoError = false;
     this.updatedPhotoSuccess = false;
     this.noFile = false;
-    if(this.selectedImageFile != null)
-    {
-      let refreshDto = new SendRefreshToken(this.cookie.get('refresh'), this.cookie.get('username'), this.cookie.get('role'));
-      this.auth.refreshToken(refreshDto)
-      .subscribe({
-        next:(data)=>{
+    if (this.selectedImageFile != null) {
+      let refreshDto = new SendRefreshToken(
+        this.cookie.get('refresh'),
+        this.cookie.get('username'),
+        this.cookie.get('role')
+      );
+      this.auth.refreshToken(refreshDto).subscribe({
+        next: (data) => {
           this.cookie.delete('token', '/');
           this.cookie.delete('refresh', '/');
           this.cookie.set('token', data.token.toString().trim(), { path: '/' });
           this.cookie.set('refresh', data.refreshToken.toString().trim(), {
             path: '/',
           });
-          
+
           //izmena slike
-          this.croppedImage = this.croppedImage.replace('data:image/png;base64,','');
+          this.croppedImage = this.croppedImage.replace(
+            'data:image/png;base64,',
+            ''
+          );
           // console.log(this.croppedImage);
-    
+
           let sp = new SendPhoto(this.id, this.croppedImage);
-    
-          this.service.updateProfilePhoto(this.id, sp)
-          .subscribe({
-            next:(res)=>{
+
+          this.service.updateProfilePhoto(this.id, sp).subscribe({
+            next: (res) => {
               this.updatedPhotoSuccess = true;
-              setTimeout(()=>{
+              setTimeout(() => {
                 this.Image1(this.croppedImage);
                 this.Image(this.croppedImage);
                 console.log(this.id);
-                if(this.id==this.cookie.get('id')){
-                  this.profilePhotoService.updateProfilePhoto(this.Image(this.croppedImage));
+                if (this.id == this.cookie.get('id')) {
+                  this.profilePhotoService.updateProfilePhoto(
+                    this.Image(this.croppedImage)
+                  );
                 }
                 this.Ucitaj();
                 document.getElementById('closeCropImagePhotoUpdated1')!.click();
                 this.closeChange();
-              },700);
+              }, 700);
             },
-            error:(err)=>{
-              this.toast.error('Unable to update photo','Error!',{timeOut: 3000});
+            error: (err) => {
+              this.toast.error('Unable to update photo', 'Error!', {
+                timeOut: 3000,
+              });
               // this.updatedPhotoError = true;
               document.getElementById('closeCropImagePhotoUpdated1')!.click();
               this.closeChange();
               console.log(err.error);
-            }
+            },
           });
         },
-        error:(err)=>{
-          this.auth.logout(this.cookie.get('username'), this.cookie.get('role'))
+        error: (err) => {
+          this.auth
+            .logout(this.cookie.get('username'), this.cookie.get('role'))
             .subscribe({
-              next:(res)=>{
-                this.toast.error(err.error, 'Error!', {timeOut: 3000});
+              next: (res) => {
+                this.toast.error(err.error, 'Error!', { timeOut: 3000 });
                 this.cookie.deleteAll('/');
                 this.router.navigate(['login']);
               },
-              error:(error)=>{
+              error: (error) => {
                 console.log(error);
-                this.toast.error('Unknown error occurred', 'Error!', {timeOut: 2500});
-              }
+                this.toast.error('Unknown error occurred', 'Error!', {
+                  timeOut: 2500,
+                });
+              },
             });
-        }
+        },
       });
-    }
-    else
-    {
+    } else {
       this.noFile = true;
     }
   }
-  deleteImage()
-  {
-    let refreshDto = new SendRefreshToken(this.cookie.get('refresh'), this.cookie.get('username'), this.cookie.get('role'));
-    this.auth.refreshToken(refreshDto)
-    .subscribe({
-      next:(data)=>{
+  deleteImage() {
+    let refreshDto = new SendRefreshToken(
+      this.cookie.get('refresh'),
+      this.cookie.get('username'),
+      this.cookie.get('role')
+    );
+    this.auth.refreshToken(refreshDto).subscribe({
+      next: (data) => {
         this.cookie.delete('token', '/');
         this.cookie.delete('refresh', '/');
         this.cookie.set('token', data.token.toString().trim(), { path: '/' });
@@ -388,43 +421,43 @@ export class EmployeesComponent {
 
         //brisanje profilne slike
         this.errorDeletePhoto = false;
-        this.service.deleteProfilePhoto(this.id)
-        .subscribe({
-          next:(res)=>{
+        this.service.deleteProfilePhoto(this.id).subscribe({
+          next: (res) => {
             this.imageSource = 'assets/images/defaultWorker.png';
-            this.imageSource1= 'assets/images/defaultWorker.png';
+            this.imageSource1 = 'assets/images/defaultWorker.png';
             this.Ucitaj();
             this.profilePhotoService.updateProfilePhoto(this.imageSource);
-            
-            
+
             document.getElementById('closeOptionsForPhoto1')!.click();
           },
-          error:(err)=>{
+          error: (err) => {
             this.errorDeletePhoto = true;
             console.log(err.error);
-          }
+          },
         });
       },
-      error:(err)=>{
-        this.auth.logout(this.cookie.get('username'), this.cookie.get('role'))
+      error: (err) => {
+        this.auth
+          .logout(this.cookie.get('username'), this.cookie.get('role'))
           .subscribe({
-            next:(res)=>{
-              this.toast.error(err.error, 'Error!', {timeOut: 3000});
+            next: (res) => {
+              this.toast.error(err.error, 'Error!', { timeOut: 3000 });
               this.cookie.deleteAll('/');
               this.router.navigate(['login']);
             },
-            error:(error)=>{
+            error: (error) => {
               console.log(error);
-              this.toast.error('Unknown error occurred', 'Error!', {timeOut: 2500});
-            }
+              this.toast.error('Unknown error occurred', 'Error!', {
+                timeOut: 2500,
+              });
+            },
           });
-      }
+      },
     });
   }
   onFileSelected(event: any) {
     this.imgChangeEvet = event;
-    if(event.target.files)
-    {
+    if (event.target.files) {
       this.selectedImageFile = event.target.files[0];
       this.fileType = event.target.files[0].type;
       // this.changeImage = this.sant.bypassSecurityTrustUrl(window.URL.createObjectURL(this.selectedImageFile)) as string;
@@ -433,12 +466,10 @@ export class EmployeesComponent {
   cropImg(e: ImageCroppedEvent) {
     this.croppedImage = e.base64;
   }
-  openCrop()
-  {
-    document.getElementById('openCropImageBtn1')!.click()
+  openCrop() {
+    document.getElementById('openCropImageBtn1')!.click();
   }
-  private resetAll()
-  {
+  private resetAll() {
     this.errorDeletePhoto = false;
     this.selectedImageFile = null;
     this.imgChangeEvet = '';

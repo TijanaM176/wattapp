@@ -25,389 +25,420 @@
 </script>
 
 <app-worker-profile #WorkerProfile></app-worker-profile>
-  <div class="col-md-12 p-0" *ngIf="!showDetails" style="display:flex;justify-content: center;">
+<div
+  class="col-md-12 p-0"
+  *ngIf="!showDetails"
+  style="display: flex; justify-content: center"
+>
   <div class="container-xl p-0">
-  <div class="table-responsive">
-    <div class="table-wrapper">
-      <div class="table-title">
-        <div class="row">
-          <div class="col-sm-5">
-            <h2>Employee <b>Overview</b></h2>
-          </div>
+    <div class="table-responsive">
+      <div class="table-wrapper">
+        <div class="table-title">
+          <div class="row">
+            <div class="col-sm-5">
+              <h2>Employee <b>Overview</b></h2>
+            </div>
 
-          <div class="col-sm-7">
-            <div class="search-box">
-              <div class="input-group" style="width: 100%">
-                <span class="input-group-addon"
-                  ><i
-                    class="material-icons"
-                    style="margin-top: 30%; margin-right: 10%"
-                    ></i
-                  ></span
-                >
-                <input
-                  type="text"
-                  [(ngModel)]="searchName"
-                  style="background-color: #f8f8fa; border-radius: 10px;margin-right:5%;width:10%;"
-                  class="form-control"
-                  placeholder="Search By First Name"
-                  
-                />
-                <span class="input-group-addon"
-                  ><i
-                    class="material-icons"
-                    style="margin-top: 30%; margin-right: 10%"
-                    ></i
-                  ></span
-                >
-                <input
-                  type="text"
-                  [(ngModel)]="searchLastName"
-                  style="background-color: #f8f8fa; border-radius: 10px;width:10%;"
-                  class="form-control"
-                  placeholder="Search By Last Name"
-                />
+            <div class="col-sm-7">
+              <div class="search-box">
+                <div class="input-group" style="width: 100%">
+                  <span class="input-group-addon"
+                    ><i
+                      class="material-icons"
+                      style="margin-top: 30%; margin-right: 10%"
+                      ></i
+                    ></span
+                  >
+                  <input
+                    type="text"
+                    [(ngModel)]="searchName"
+                    style="
+                      background-color: #f8f8fa;
+                      border-radius: 10px;
+                      margin-right: 5%;
+                      width: 10%;
+                    "
+                    class="form-control"
+                    placeholder="Search By First Name"
+                  />
+                  <span class="input-group-addon"
+                    ><i
+                      class="material-icons"
+                      style="margin-top: 30%; margin-right: 10%"
+                      ></i
+                    ></span
+                  >
+                  <input
+                    type="text"
+                    [(ngModel)]="searchLastName"
+                    style="
+                      background-color: #f8f8fa;
+                      border-radius: 10px;
+                      width: 10%;
+                    "
+                    class="form-control"
+                    placeholder="Search By Last Name"
+                  />
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
-      <table class="table">
-        <thead>
-          <tr>
-            <th></th>
-            <th (click)="sort('firstName')">First Name<i class="fa fa-sort"></i></th>
-            <th (click)="sort('lastName')">Last Name<i class="fa fa-sort"></i></th>
-            <th  (click)="sort('username')">
-              Username<i class="fa fa-sort"></i>
-            </th>
-            <th (click)="sort('region')">Region<i class="fa fa-sort"></i></th>
-            <th (click)="sort('role')">
-              Assigned Role<i class="fa fa-sort"></i>
-            </th>
-            <th>Options</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr
-            *ngFor="
-              let item of service.employees
-                | orderBy : orderHeader : isDescOrder
-                | searchemployeelastname : searchLastName
-                | searchemployeename : searchName
-                | paginate
-                  : {
-                      itemsPerPage: perPage,
-                      currentPage: page,
-                      totalItems: total
-                    };
-              let i = index
-            "
-            
-            (click)="Details(item.id)"
-            style="cursor:pointer;"
-          >
-            <td>
-              <img
-                
-                [src]="Image(item.image)"
-                class="rounded-circle"
-                style="width: 30px; height: 30px"
-              />
-            </td>
-            <td>{{item.firstName}}</td>
-            <td>{{item.lastName}}</td>
-            <td>{{ item.userName }}</td>
-            <td>{{ regionName }}</td>
-            <td >{{ item.roleName }}</td>
-            <td>
-              
-              <a
-                (click)="onDelete(item.id)"
-                class="delete"
-                title=""
-                data-toggle="tooltip"
-                data-original-title="Delete"
-                ><i class="material-icons"></i></a
-              >
-            </td>
-          </tr>
-        </tbody>
-      </table>
-      <app-popup-add></app-popup-add>
-      <app-popup-emp></app-popup-emp>
-      <div
-        style="
-          text-align: center;
-          margin-top: 27%;
-          justify-content: center;
-          position: flex;
-          bottom: 0;
-        "
-        class="start-50"
-      >
-        <pagination-controls
-          previousLabel="Prev"
-          nextLabel="Next"
-          (pageChange)="onTableDataChange($event)"
+        <table class="table">
+          <thead>
+            <tr>
+              <th></th>
+              <th (click)="sort('firstName')">
+                First Name<i class="fa fa-sort"></i>
+              </th>
+              <th (click)="sort('lastName')">
+                Last Name<i class="fa fa-sort"></i>
+              </th>
+              <th (click)="sort('username')">
+                Username<i class="fa fa-sort"></i>
+              </th>
+              <th (click)="sort('region')">Region<i class="fa fa-sort"></i></th>
+              <th (click)="sort('role')">
+                Assigned Role<i class="fa fa-sort"></i>
+              </th>
+              <th>Options</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr
+              *ngFor="
+                let item of service.employees
+                  | orderBy : orderHeader : isDescOrder
+                  | searchemployeelastname : searchLastName
+                  | searchemployeename : searchName
+                  | paginate
+                    : {
+                        itemsPerPage: perPage,
+                        currentPage: page,
+                        totalItems: total
+                      };
+                let i = index
+              "
+              (click)="Details(item.id)"
+              style="cursor: pointer"
+            >
+              <td>
+                <img
+                  [src]="Image(item.image)"
+                  class="rounded-circle"
+                  style="width: 30px; height: 30px"
+                />
+              </td>
+              <td>{{ item.firstName }}</td>
+              <td>{{ item.lastName }}</td>
+              <td>{{ item.userName }}</td>
+              <td>{{ regionName }}</td>
+              <td>{{ item.roleName }}</td>
+              <td>
+                <a (click)="onDelete(item.id)" class="delete"
+                  ><i class="material-icons"></i></a
+                >
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <app-popup-add></app-popup-add>
+        <app-popup-emp></app-popup-emp>
+        <div
+          style="
+            text-align: center;
+            margin-top: 27%;
+            justify-content: center;
+            position: flex;
+            bottom: 0;
+          "
+          class="start-50"
         >
-        </pagination-controls>
+          <pagination-controls
+            previousLabel="Prev"
+            nextLabel="Next"
+            (pageChange)="onTableDataChange($event)"
+          >
+          </pagination-controls>
+        </div>
       </div>
     </div>
-  </div>
   </div>
 </div>
 <div class="row p-0 col-md-12 m-0" *ngIf="showDetails">
-<div class="col-md-9 p-0"  >
-  <div class="container-sm p-0" style="display:flex;justify-content: center;">
-  <div class="table-responsive">
-    <div class="table-wrapper">
-      <div class="table-title">
-        <div class="row">
-          <div class="col-sm-5">
-            <h2>Employee <b>Overview</b></h2>
-          </div>
+  <div class="col-md-9 p-0">
+    <div
+      class="container-sm p-0"
+      style="display: flex; justify-content: center"
+    >
+      <div class="table-responsive">
+        <div class="table-wrapper">
+          <div class="table-title">
+            <div class="row">
+              <div class="col-sm-5">
+                <h2>Employee <b>Overview</b></h2>
+              </div>
 
-          <div class="col-sm-7">
-            <div class="search-box">
-              <div class="input-group" style="width: 100%">
-                <span class="input-group-addon"
-                  ><i
-                    class="material-icons"
-                    style="margin-top: 30%; margin-right: 10%"
-                    ></i
-                  ></span
-                >
-                <input
-                  type="text"
-                  [(ngModel)]="searchName"
-                  style="background-color: #f8f8fa; border-radius: 10px;margin-right:5%;width:10%;"
-                  class="form-control"
-                  placeholder="Search By First Name"
-                  
-                />
-                <span class="input-group-addon"
-                  ><i
-                    class="material-icons"
-                    style="margin-top: 30%; margin-right: 10%"
-                    ></i
-                  ></span
-                >
-                <input
-                  type="text"
-                  [(ngModel)]="searchLastName"
-                  style="background-color: #f8f8fa; border-radius: 10px;width:10%;"
-                  class="form-control"
-                  placeholder="Search By Last Name"
-                />
+              <div class="col-sm-7">
+                <div class="search-box">
+                  <div class="input-group" style="width: 100%">
+                    <span class="input-group-addon"
+                      ><i
+                        class="material-icons"
+                        style="margin-top: 30%; margin-right: 10%"
+                        ></i
+                      ></span
+                    >
+                    <input
+                      type="text"
+                      [(ngModel)]="searchName"
+                      style="
+                        background-color: #f8f8fa;
+                        border-radius: 10px;
+                        margin-right: 5%;
+                        width: 10%;
+                      "
+                      class="form-control"
+                      placeholder="Search By First Name"
+                    />
+                    <span class="input-group-addon"
+                      ><i
+                        class="material-icons"
+                        style="margin-top: 30%; margin-right: 10%"
+                        ></i
+                      ></span
+                    >
+                    <input
+                      type="text"
+                      [(ngModel)]="searchLastName"
+                      style="
+                        background-color: #f8f8fa;
+                        border-radius: 10px;
+                        width: 10%;
+                      "
+                      class="form-control"
+                      placeholder="Search By Last Name"
+                    />
+                  </div>
+                </div>
               </div>
             </div>
           </div>
+          <table class="table">
+            <thead>
+              <tr>
+                <th></th>
+                <th (click)="sort('firstName')">
+                  First Name<i class="fa fa-sort"></i>
+                </th>
+                <th (click)="sort('lastName')">
+                  Last Name<i class="fa fa-sort"></i>
+                </th>
+                <th (click)="sort('username')">
+                  Username<i class="fa fa-sort"></i>
+                </th>
+                <th (click)="sort('region')">
+                  Region<i class="fa fa-sort"></i>
+                </th>
+                <th (click)="sort('role')">
+                  Assigned Role<i class="fa fa-sort"></i>
+                </th>
+                <th>Options</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr
+                *ngFor="
+                  let item of service.employees
+                    | orderBy : orderHeader : isDescOrder
+                    | searchemployeelastname : searchLastName
+                    | searchemployeename : searchName
+                    | paginate
+                      : {
+                          itemsPerPage: perPage,
+                          currentPage: page,
+                          totalItems: total
+                        };
+                  let i = index
+                "
+                (click)="Details(item.id)"
+                style="cursor: pointer"
+              >
+                <td>
+                  <img
+                    [src]="Image(item.image)"
+                    class="rounded-circle"
+                    style="width: 30px; height: 30px"
+                  />
+                </td>
+                <td>{{ item.firstName }}</td>
+                <td>{{ item.lastName }}</td>
+                <td>{{ item.userName }}</td>
+                <td>{{ regionName }}</td>
+                <td>{{ item.roleName }}</td>
+                <td>
+                  <a
+                    (click)="onDelete(item.id)"
+                    class="delete"
+                    title=""
+                    data-toggle="tooltip"
+                    data-original-title="Delete"
+                    ><i class="material-icons"></i></a
+                  >
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <app-popup-add></app-popup-add>
+          <app-popup-emp></app-popup-emp>
+          <div
+            style="
+              text-align: center;
+              margin-top: 27%;
+              justify-content: center;
+              position: flex;
+              bottom: 0;
+            "
+            class="start-50"
+          >
+            <pagination-controls
+              previousLabel="Prev"
+              nextLabel="Next"
+              (pageChange)="onTableDataChange($event)"
+            >
+            </pagination-controls>
+          </div>
         </div>
       </div>
-      <table class="table">
-        <thead>
-          <tr>
-            <th></th>
-            <th (click)="sort('firstName')">First Name<i class="fa fa-sort"></i></th>
-            <th (click)="sort('lastName')">Last Name<i class="fa fa-sort"></i></th>
-            <th  (click)="sort('username')">
-              Username<i class="fa fa-sort"></i>
-            </th>
-            <th (click)="sort('region')">Region<i class="fa fa-sort"></i></th>
-            <th (click)="sort('role')">
-              Assigned Role<i class="fa fa-sort"></i>
-            </th>
-            <th>Options</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr
-            *ngFor="
-              let item of service.employees
-                | orderBy : orderHeader : isDescOrder
-                | searchemployeelastname : searchLastName
-                | searchemployeename : searchName
-                | paginate
-                  : {
-                      itemsPerPage: perPage,
-                      currentPage: page,
-                      totalItems: total
-                    };
-              let i = index
-            "
-            
-            (click)="Details(item.id)"
-            style="cursor:pointer;"
-          >
-            <td>
-              <img
-                
-                [src]="Image(item.image)"
-                class="rounded-circle"
-                style="width: 30px; height: 30px"
-              />
-            </td>
-            <td>{{item.firstName}}</td>
-            <td>{{item.lastName}}</td>
-            <td>{{ item.userName }}</td>
-            <td>{{ regionName }}</td>
-            <td >{{ item.roleName }}</td>
-            <td>
-              
-              <a
-                (click)="onDelete(item.id)"
-                class="delete"
-                title=""
-                data-toggle="tooltip"
-                data-original-title="Delete"
-                ><i class="material-icons"></i></a
-              >
-            </td>
-          </tr>
-        </tbody>
-      </table>
-      <app-popup-add></app-popup-add>
-      <app-popup-emp></app-popup-emp>
+    </div>
+  </div>
+  <div class="col-md-3 p-0" *ngIf="showDetails">
+    <div style="height: 100vh; background-color: #566787">
+      <button
+        type="button"
+        class="btn-close"
+        id="closebtn"
+        style="margin-left: 88%; margin-top: 2%"
+        (click)="closeside()"
+      ></button>
+      <img
+        [src]="imageSource1"
+        class="profile-image img-fluid rounded-circle"
+        style="
+          width: 40%;
+          justify-content: center;
+          margin-left: 30%;
+          margin-top: 7%;
+        "
+      />
+      <h3 style="display: flex; justify-content: center; color: white">
+        {{ firstName }} {{ lastName }}
+      </h3>
+      <h4 style="display: flex; justify-content: center; color: white">
+        {{ username }}
+      </h4>
+      <div
+        class="col-md-12"
+        style="
+          padding-top: 15%;
+          margin-left: 12%;
+          padding-left: 0px;
+          padding-right: 0px;
+        "
+      >
+        <div
+          class="row mb-2"
+          style="display: flex; justify-content: center; color: white"
+        >
+          <div class="col-md-12 p-0">
+            <h6>{{ email }}</h6>
+            <p style="color: #d3d3d3">e-mail</p>
+          </div>
+        </div>
+        <div
+          class="row mb-2"
+          style="display: flex; justify-content: center; color: white"
+        >
+          <div class="col-md-6 p-0">
+            <h6>{{ roleName }}</h6>
+            <p style="color: #d3d3d3">role</p>
+          </div>
+          <div class="col-md-6 p-0">
+            <h6>{{ regionName }}</h6>
+            <p style="color: #d3d3d3">region</p>
+          </div>
+        </div>
+
+        <div
+          class="row mb-2"
+          style="display: flex; justify-content: center; color: white"
+        >
+          <div class="col-md-6 p-0">
+            <h6>{{ dateCreate }}</h6>
+            <p style="color: #d3d3d3">starting date</p>
+          </div>
+          <div class="col-md-6 p-0">
+            <h6>{{ salary }}</h6>
+            <p style="color: #d3d3d3">salary</p>
+          </div>
+        </div>
+      </div>
       <div
         style="
-          text-align: center;
-          margin-top: 27%;
+          margin-top: 5%;
+          margin-bottom: 3%;
+          display: flex;
           justify-content: center;
-          position: flex;
-          bottom: 0;
-        "
-        class="start-50"
-      >
-        <pagination-controls
-          previousLabel="Prev"
-          nextLabel="Next"
-          (pageChange)="onTableDataChange($event)"
-        >
-        </pagination-controls>
-      </div>
-    </div>
-  </div>
-  </div>
-</div>
-<div class="col-md-3 p-0" *ngIf="showDetails">
-  <div style="height:100vh; background-color: #566787;">
-    <button
-    type="button"
-    class="btn-close"
-    id="closebtn"
-    style="margin-left:88%;margin-top:2%;"
-    (click)="closeside()"
-  ></button>
-    <img
-            [src]="imageSource1"
-            class="profile-image img-fluid rounded-circle"
-            style="
-            
-              width: 40%;
-              justify-content: center;
-              margin-left:30%;
-              margin-top:7%;
-            "
-          />
-    <h3 style="display:flex;justify-content: center; color:white;">{{firstName}} {{lastName}}</h3>
-    <h4 style="display:flex;justify-content: center; color:white;">{{username}}</h4>
-    <div class="col-md-12" style="padding-top:15%;margin-left:12%;padding-left:0px;padding-right:0px;">
-      <div class="row mb-2" style="display:flex;justify-content: center; color:white;">
-      <div class="col-md-12 p-0" >
-        <h6>{{email}}</h6>
-        <p style="color:#D3D3D3">e-mail</p>
-      </div>
-      
-    </div>
-        <div class="row mb-2" style="display:flex;justify-content: center; color:white;">
-          <div class="col-md-6 p-0" >
-            <h6>{{roleName}} </h6>
-            <p style="color:#D3D3D3">role</p>
-          </div>
-          <div class="col-md-6 p-0">
-            <h6>{{regionName}} </h6>
-            <p style="color:#D3D3D3">region</p>
-          </div>
-        </div>
-     
-     
-        <div class="row mb-2" style="display:flex;justify-content: center; color:white;">
-          <div class="col-md-6 p-0">
-            <h6>{{dateCreate}} </h6>
-            <p style="color:#D3D3D3">starting date</p>
-          </div>
-          <div class="col-md-6 p-0">
-            <h6>{{salary}} </h6>
-            <p style="color:#D3D3D3">salary</p>
-          </div>
-      </div>
-    </div>
-    <div style="margin-top: 5%; margin-bottom: 3%;display:flex;justify-content:center;">
-      <button
-        data-bs-target="#Modal2"
-        data-bs-toggle="modal"
-        (click)="update(id)"
-        style="
-          background-color: #d6d9df;
-          text-align: center;
-          color: #566787;
-          font-weight: bold;
-          font-size: 16px;
-          border: none;
-          width:100px;
-          border-radius: 5px;
         "
       >
-        <span
+        <button
+          data-bs-target="#Modal2"
+          data-bs-toggle="modal"
+          (click)="update(id)"
           style="
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            background-color: #d6d9df;
+            text-align: center;
+            color: #566787;
+            font-weight: bold;
+            font-size: 16px;
+            border: none;
+            width: 100px;
+            border-radius: 5px;
           "
-          ><i
-            style="color: #566787; font-size: 16px;"
-            class="material-icons"
-            >edit</i
-          >
-          Edit</span
         >
-      </button>&nbsp;
-      <button
-        (click)="onDelete(id)"
-        data-bs-dismiss="modal"
-        style="
-          background-color: #d6d9df;
-          text-align: center;
-          color: #566787;
-          font-weight: bold;
-          font-size: 16px;
-          border: none;
-          width:100px;
-          border-radius: 5px;
-        "
-      >
-        <span
+          <span
+            style="display: flex; justify-content: center; align-items: center"
+            ><i style="color: #566787; font-size: 16px" class="material-icons"
+              >edit</i
+            >
+            Edit</span
+          ></button
+        >&nbsp;
+        <button
+          (click)="onDelete(id)"
           style="
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            background-color: #d6d9df;
+            text-align: center;
+            color: #566787;
+            font-weight: bold;
+            font-size: 16px;
+            border: none;
+            width: 100px;
+            border-radius: 5px;
           "
-          ><i
-            style="color: #566787; font-size: 16px;"
-            class="material-icons"
-            >delete</i
-          >
-          Delete</span
         >
-      </button>
+          <span
+            style="display: flex; justify-content: center; align-items: center"
+            ><i style="color: #566787; font-size: 16px" class="material-icons"
+              >delete</i
+            >
+            Delete</span
+          >
+        </button>
+      </div>
     </div>
   </div>
 </div>
-</div>
-
-
-
 
 <div
   class="modal fade"
@@ -420,10 +451,8 @@
 >
   <div class="modal-dialog modal-lg" style="width: 60%">
     <div class="modal-content">
-      <div class="modal-header text-white" style="background-color: #566787;">
-        <h5 class="modal-title" id="Modal2Label">
-          Edit Employee
-        </h5>
+      <div class="modal-header text-white" style="background-color: #566787">
+        <h5 class="modal-title" id="Modal2Label">Edit Employee</h5>
         <button
           type="button"
           class="btn-close"
@@ -462,18 +491,25 @@
             (click)="openChangePhoto()"
           >
             <span
-              ><a id="changeImageLink"  class="infoUser"><i
-                style="color: #d6d9df; font-size: 16px; margin-top: 0%"
-                class="material-icons"
-                >edit</i
-              >
-              Change photo</a></span
+              ><a id="changeImageLink" class="infoUser"
+                ><i
+                  style="color: #d6d9df; font-size: 16px; margin-top: 0%"
+                  class="material-icons"
+                  >edit</i
+                >
+                Change photo</a
+              ></span
             >
           </button>
-      <button class="btn btn-primary" [hidden]="true" id="openChangePhotoWorker"
-         data-bs-toggle="modal" data-bs-target="#changePhotoWorker">
-        Open Change Photo
-      </button>
+          <button
+            class="btn btn-primary"
+            [hidden]="true"
+            id="openChangePhotoWorker"
+            data-bs-toggle="modal"
+            data-bs-target="#changePhotoWorker"
+          >
+            Open Change Photo
+          </button>
         </div>
         <div class="mb-3" style="width: 50%; float: left">
           <label
@@ -591,11 +627,11 @@
               "
               [disabled]="true"
             >
-            <!-- 
+              <!--
               [(ngModel)]="region"
               (change)="ChangeRole($event)" -->
 
-              <option value="0">{{regionName}}</option>
+              <option value="0">{{ regionName }}</option>
               <!-- <option *ngFor="let item of Region" [ngValue]="item.id">
                 {{ item.regionName }}
               </option> -->
@@ -624,7 +660,6 @@
             "
           />
         </div>
-        
       </div>
       <div class="modal-footer" style="display: flex; justify-content: center">
         <button
@@ -641,120 +676,197 @@
 </div>
 
 <div
-    class="modal fade"
-    id="changePhotoWorker"
-    data-bs-backdrop="static"
-    data-bs-keyboard="false"
-    tabindex="-1"
-    aria-labelledby="changePhotoWorkerLabel"
-    aria-hidden="true"
-  >
+  class="modal fade"
+  id="changePhotoWorker"
+  data-bs-backdrop="static"
+  data-bs-keyboard="false"
+  tabindex="-1"
+  aria-labelledby="changePhotoWorkerLabel"
+  aria-hidden="true"
+>
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header text-white" style="background-color: #5875a1">
         <h5 class="modal-title" id="changePhotoWorkerLabel">Photo Options</h5>
-          <button
-            type="button"
-            class="btn-close"
-            id="closeOptionsForPhoto1"
-            data-bs-dismiss="modal"
-            data-bs-target="#changePhotoWorker"
-            aria-label="Close"
-            (click)="closeChange()"
-            style="background-color: white;"
-          ></button>
+        <button
+          type="button"
+          class="btn-close"
+          id="closeOptionsForPhoto1"
+          data-bs-dismiss="modal"
+          data-bs-target="#changePhotoWorker"
+          aria-label="Close"
+          (click)="closeChange()"
+          style="background-color: white"
+        ></button>
       </div>
-      <div class="modal-body pe-0 ps-3 py-2" style="display: flex; align-items: center; justify-content: center;">
+      <div
+        class="modal-body pe-0 ps-3 py-2"
+        style="display: flex; align-items: center; justify-content: center"
+      >
         <div class="col-7 m-0">
           <img
-            [src] = "imageSource1"
-            style="width: 90%;"
+            [src]="imageSource1"
+            style="width: 90%"
             class="img-fluid rounded-circle"
-          >
-          
-          <h6 class="text-danger" *ngIf="errorDeletePhoto">Error! Try agian later.</h6>
+          />
+
+          <h6 class="text-danger" *ngIf="errorDeletePhoto">
+            Error! Try agian later.
+          </h6>
         </div>
         <div class="col-5 m-0 p-0 d-flex align-items-center">
           <div class="container px-0">
-            <div class="card my-2 col-12" style="border: 0;">
-              <div class="card-body" style="overflow-y: auto;">
-                <input type="file" style="display: none;" #fileInput (change)="onFileSelected($event)">
-                <button class="btn btn-primary" [hidden]="true" id="openCropImageBtn1" data-bs-toggle="modal" data-bs-target="#cropNewImageWorker">Open Crop</button>
-                <button class="btn btn-primary mb-2" data-bs-dismiss="modal" (click)="fileInput.click(); openCrop()">Choose New</button>
-                <button class="btn btn-secondary" (click)="deleteImage()"> Delete Photo</button>
+            <div class="card my-2 col-12" style="border: 0">
+              <div class="card-body" style="overflow-y: auto">
+                <input
+                  type="file"
+                  style="display: none"
+                  #fileInput
+                  (change)="onFileSelected($event)"
+                />
+                <button
+                  class="btn btn-primary"
+                  [hidden]="true"
+                  id="openCropImageBtn1"
+                  data-bs-toggle="modal"
+                  data-bs-target="#cropNewImageWorker"
+                >
+                  Open Crop
+                </button>
+                <button
+                  class="btn btn-primary mb-2"
+                  data-bs-dismiss="modal"
+                  (click)="fileInput.click(); openCrop()"
+                >
+                  Choose New
+                </button>
+                <button class="btn btn-secondary" (click)="deleteImage()">
+                  Delete Photo
+                </button>
               </div>
             </div>
           </div>
         </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-primary" (click)="confirmNewPhoto()">
+        <button
+          type="button"
+          class="btn btn-primary"
+          (click)="confirmNewPhoto()"
+        >
           Confirm
         </button>
-        <button class="btn btn-primary" id="openWorkerAgain" [hidden]="true" data-bs-toggle="modal" data-bs-target="#Modal2">Open Edit Worker Modal</button>
+        <button
+          class="btn btn-primary"
+          id="openWorkerAgain"
+          [hidden]="true"
+          data-bs-toggle="modal"
+          data-bs-target="#Modal2"
+        >
+          Open Edit Worker Modal
+        </button>
       </div>
     </div>
   </div>
 </div>
 <div
-    class="modal fade"
-    id="cropNewImageWorker"
-    data-bs-backdrop="static"
-    data-bs-keyboard="false"
-    tabindex="-1"
-    aria-labelledby="cropNewImageWorkerLabel"
-    aria-hidden="true"
-  >
+  class="modal fade"
+  id="cropNewImageWorker"
+  data-bs-backdrop="static"
+  data-bs-keyboard="false"
+  tabindex="-1"
+  aria-labelledby="cropNewImageWorkerLabel"
+  aria-hidden="true"
+>
   <div class="modal-dialog modal-dialog-centered modal-lg">
     <div class="modal-content">
       <div class="modal-header text-white" style="background-color: #5875a1">
         <h5 class="modal-title" id="cropNewImageWorkerLabel">Change Photo</h5>
-          <button
-            type="button"
-            class="btn-close"
-            id="closeCropPhoto"
-            data-bs-dismiss="modal"
-            data-bs-target="#cropNewImageWorker"
-            aria-label="Close"
-            (click)="closeChange()"
-            style="background-color: white;"
-            [disabled]="updatedPhotoSuccess"
-          ></button>
+        <button
+          type="button"
+          class="btn-close"
+          id="closeCropPhoto"
+          data-bs-dismiss="modal"
+          data-bs-target="#cropNewImageWorker"
+          aria-label="Close"
+          (click)="closeChange()"
+          style="background-color: white"
+          [disabled]="updatedPhotoSuccess"
+        ></button>
       </div>
-      <div class="modal-body px-0 d-flex justify-content-center align-items-center" style="overflow-y: auto;max-height: 500px;">
-        <div class="col-8 px-0 m-0" style="display: flex; justify-content: center; align-items: center;">
+      <div
+        class="modal-body px-0 d-flex justify-content-center align-items-center"
+        style="overflow-y: auto; max-height: 500px"
+      >
+        <div
+          class="col-8 px-0 m-0"
+          style="display: flex; justify-content: center; align-items: center"
+        >
           <image-cropper
-              [imageChangedEvent]="imgChangeEvet" 
-              [maintainAspectRatio]="true" 
-              [aspectRatio]="1 / 1"
-              format="png"
-              [imageAltText] = "'Crop Image'"
-              [cropperMinWidth] = "100"
-              [cropperMinHeight] = "100"
-              [roundCropper] = "true"
-              [hideResizeSquares] = "false"
-              (imageCropped) = "cropImg($event)"
-              id="showChangeImage"
-            >
-            </image-cropper>
+            [imageChangedEvent]="imgChangeEvet"
+            [maintainAspectRatio]="true"
+            [aspectRatio]="1 / 1"
+            format="png"
+            [imageAltText]="'Crop Image'"
+            [cropperMinWidth]="100"
+            [cropperMinHeight]="100"
+            [roundCropper]="true"
+            [hideResizeSquares]="false"
+            (imageCropped)="cropImg($event)"
+            id="showChangeImage"
+          >
+          </image-cropper>
         </div>
-        <div class="col-4 px-0 m-0 row" style="display: flex; justify-content: center; align-items: center;">
-          <div class="col-12 px-0 mb-3" style="display: flex; justify-content: center;">
-            <input type="file" style="display: none;" #fileInputNew (change)="onFileSelected($event)">
-            <button class="btn btn-primary" (click)="fileInputNew.click()" [disabled]="updatedPhotoSuccess">Choose A Different Photo</button>
+        <div
+          class="col-4 px-0 m-0 row"
+          style="display: flex; justify-content: center; align-items: center"
+        >
+          <div
+            class="col-12 px-0 mb-3"
+            style="display: flex; justify-content: center"
+          >
+            <input
+              type="file"
+              style="display: none"
+              #fileInputNew
+              (change)="onFileSelected($event)"
+            />
+            <button
+              class="btn btn-primary"
+              (click)="fileInputNew.click()"
+              [disabled]="updatedPhotoSuccess"
+            >
+              Choose A Different Photo
+            </button>
           </div>
           <div class="col-12 pe-0 ps-2 text-center mt-3">
-            <h6 class="text-success" *ngIf="updatedPhotoSuccess">Updating profile... Please wait</h6>
-            <h6 class="text-danger" *ngIf="updatedPhotoError">Error occurred! Try again later.</h6>
+            <h6 class="text-success" *ngIf="updatedPhotoSuccess">
+              Updating profile... Please wait
+            </h6>
+            <h6 class="text-danger" *ngIf="updatedPhotoError">
+              Error occurred! Try again later.
+            </h6>
             <h6 class="text-danger" *ngIf="noFile">No file was selected.</h6>
           </div>
         </div>
       </div>
       <div class="modal-footer">
-        <button type="button" id="confirmImageChangeWorker" class="btn btn-primary" (click)="confirmNewPhoto()">
+        <button
+          type="button"
+          id="confirmImageChangeWorker"
+          class="btn btn-primary"
+          (click)="confirmNewPhoto()"
+        >
           Confirm
         </button>
-        <button [hidden]="true" data-bs-dismiss="modal" data-bs-target="#cropNewImageWorker" id="closeCropImagePhotoUpdated1">Close</button>
+        <button
+          [hidden]="true"
+          data-bs-dismiss="modal"
+          data-bs-target="#cropNewImageWorker"
+          id="closeCropImagePhotoUpdated1"
+        >
+          Close
+        </button>
       </div>
     </div>
   </div>
