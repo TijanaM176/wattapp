@@ -52,6 +52,7 @@ export class PopupAddComponent implements OnInit {
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
       password: ['', Validators.required],
+      passwordAgain:['',Validators.required],
       email: ['', Validators.required],
       image64String: [''],
     });
