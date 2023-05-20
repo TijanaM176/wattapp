@@ -49,14 +49,14 @@ export class AuthServiceService {
 
   validateToken()
   {
-    let refreshDto = new SendRefreshToken(this.cookie.get('refresh'), this.cookie.get('username'));
+    let refreshDto = new SendRefreshToken(this.cookie.get('refreshProsumer'), this.cookie.get('username'));
     this.refreshToken(refreshDto)
     .subscribe({
       next:(res)=>{
-        this.cookie.delete('token', '/');
-        this.cookie.delete('refresh', '/');
-        this.cookie.set('token', res.token.toString().trim(), { path: '/' });
-        this.cookie.set('refresh', res.refreshToken.toString().trim(), {
+        this.cookie.delete('tokenProsumer', '/');
+        this.cookie.delete('refreshProsumer', '/');
+        this.cookie.set('tokenProsumer', res.token.toString().trim(), { path: '/' });
+        this.cookie.set('refreshProsumer', res.refreshToken.toString().trim(), {
           path: '/',
         });
       },
@@ -65,13 +65,15 @@ export class AuthServiceService {
           .subscribe({
             next:(res)=>{
               this.toast.error('Session has expired. Please, log in again.', 'Error!', {timeOut:3000});
-              this.cookie.deleteAll('/');
+              this.cookie.delete('tokenProsumer');
+              this.cookie.delete('refreshProsumer');
               this.router.navigate(['login']);
             },
             error:(error)=>{
               console.log(error);
               this.toast.error('Unknown error occurred. Try again later.', 'Error!', {timeOut:2500});
-              this.cookie.deleteAll('/');
+              this.cookie.delete('tokenProsumer');
+              this.cookie.delete('refreshProsumer');
               this.router.navigate(['login']);
             }
           });

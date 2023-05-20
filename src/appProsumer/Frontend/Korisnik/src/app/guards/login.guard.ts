@@ -16,7 +16,7 @@ export class LoginGuard {
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-      if(!this.cookie.check("token"))
+      if(!this.cookie.check("tokenProsumer"))
       {//ako token ne postoji
         
         return true;

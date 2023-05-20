@@ -54,7 +54,8 @@ export class ChangePasswordComponent implements OnInit{
 
           setTimeout(()=>{
             document.getElementById('closeChangePassOnSuccess')!.click();
-            this.cookie.deleteAll('/');
+            this.cookie.delete('tokenProsumer');
+            this.cookie.delete('refreshProsumer');
             this.router.navigate(['login']);
           },700)
         },

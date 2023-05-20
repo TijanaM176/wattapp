@@ -37,9 +37,10 @@ export class NavbarOffcanvasComponent implements OnInit, OnDestroy{
     this.resizeSubscription$.unsubscribe();
   }
 
-  logout()
+  logout() //funkciju za logout implementirati
   {
-    this.cookie.deleteAll('/');
+    this.cookie.delete('tokenProsumer');
+    this.cookie.delete('refreshProsumer');
     this.router.navigateByUrl("login");
   }
 }

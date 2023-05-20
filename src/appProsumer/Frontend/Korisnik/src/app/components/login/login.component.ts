@@ -89,8 +89,8 @@ export class LoginComponent implements OnInit {
           this.cookie.set('id', decodedToken['sub'].toString().trim(), {
             path: '/',
           });
-          this.cookie.set('token', res.token.toString().trim(), { path: '/' });
-          this.cookie.set('refresh', res.refreshToken.toString().trim(), {
+          this.cookie.set('tokenProsumer', res.token.toString().trim(), { path: '/' });
+          this.cookie.set('refreshProsumer', res.refreshToken.toString().trim(), {
             path: '/',
           });
           this.toast.success('Successful Login!', '', { timeOut: 2000 });
@@ -142,7 +142,7 @@ export class LoginComponent implements OnInit {
     this.reset.forgotPass(this.resetPasswordEmail).subscribe({
       next: (res) => {
         //alert(res.message);
-        this.cookie.set('resetToken', res.resetToken, { path: '/' });
+        this.cookie.set('resetTokenProsumer', res.resetToken, { path: '/' });
         //console.log(res);
         //console.log(this.resetPasswordEmail);
       },

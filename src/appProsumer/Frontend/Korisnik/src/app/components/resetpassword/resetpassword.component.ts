@@ -62,9 +62,9 @@ export class ResetpasswordComponent {
       var object = new ResetPassword();
       object.password = this.resetForm.value.password1;
       object.confirmPassword = this.resetForm.value.password2;
-      object.token = this.cookie.get('resetToken');
+      object.token = this.cookie.get('resetTokenProsumer');
       this.reset.resetPassword(object).subscribe((res: any) => {
-        this.cookie.delete('resetToken', '/');
+        this.cookie.delete('resetTokenProsumer', '/');
         if (res.error == false) {
           this.toast.success('Succes', 'Succesful resset password', {
             timeOut: 3000,

@@ -16,14 +16,15 @@ export class AuthGuard {
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-      if(this.cookie.check("token"))
+      if(this.cookie.check("tokenProsumer"))
       {//ako token postoji
         // var token = this.cookie.get("token");
 
         let letUser = this.cookie.get('role') === 'Prosumer' ? true : false;
         if(!letUser)
         {
-          this.cookie.deleteAll('/');
+          this.cookie.delete('tokenProsumer');
+          this.cookie.delete('refreshProsumer');
           this.router.navigate(["login"])
         }
         else
