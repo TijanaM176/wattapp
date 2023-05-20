@@ -155,7 +155,7 @@ export class PopupEmpComponent implements OnInit {
             this.toast.error('Unknown error occurred. Try again later.', 'Error!', {timeOut: 2500});
           }
         }
-      })
+      });
     } else {
       this.validateAllFormFields(this.signupForm);
     }

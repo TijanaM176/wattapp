@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import {
   FormBuilder,
@@ -12,6 +12,7 @@ import { ImageCroppedEvent } from 'ngx-image-cropper';
 import { ToastrService } from 'ngx-toastr';
 import { SendPhoto } from 'src/app/models/sendPhoto';
 import { SendPhoto1 } from 'src/app/models/sendPhoto1';
+import { SendRefreshToken } from 'src/app/models/sendRefreshToken';
 import { AuthService } from 'src/app/services/auth.service';
 import { EmployeesServiceService } from 'src/app/services/employees-service.service';
 
@@ -144,22 +145,55 @@ export class PopupAddComponent implements OnInit {
     );
     
     if (this.signupWorkerForm.valid) {
-      this.auth.signupWorker(this.signupWorkerForm.value).subscribe({
-        next: (res) => {
-          this.toast.success('Success', 'New Employee Added!', {
-            timeOut: 2500,
+      let refrestDto : SendRefreshToken = new SendRefreshToken(this.cookie.get('refresh'), this.cookie.get('username'), this.cookie.get('role'));
+      this.auth.refreshToken(refrestDto)
+      .subscribe({
+        next:(res)=>{
+          this.cookie.delete('token','/');
+          this.cookie.delete('refresh','/');
+          this.cookie.set('token', res.token.toString().trim(), {path: '/'});
+          this.cookie.set('refresh',res.refreshToken.toString().trim(), {path:'/'});
+
+          this.auth.signupWorker(this.signupWorkerForm.value).subscribe({
+            next: (res) => {
+              this.toast.success('Success', 'New Employee Added!', {
+                timeOut: 2500,
+              });
+              this.signupWorkerForm.reset();
+              this.deleteselectimage();
+            },
+            error: (err) => {
+              this.toast.error('Error!', 'Unable to add new Employee.', {
+                timeOut: 2500,
+              });
+              console.log(err);
+            },
           });
-          this.signupWorkerForm.reset();
-          this.deleteselectimage();
         },
-        error: (err) => {
-          this.toast.error('Error!', 'Unable to add new Employee.', {
-            timeOut: 2500,
-          });
-          console.log(err);
-        },
+        error:(err)=>{
+          if(err instanceof HttpErrorResponse && err.status == 401)
+          {
+            this.auth.logout(this.cookie.get('username'), this.cookie.get('role'))
+            .subscribe({
+              next:(res)=>{
+                this.toast.error(err.error, 'Error!', {timeOut: 3000});
+                this.cookie.deleteAll('/');
+                this.router.navigate(['login']);
+              },
+              error:(error)=>{
+                console.log('logout', error);
+                this.toast.error('Unknown error occurred.', 'Error!', {timeOut: 2500});
+                this.cookie.deleteAll('/');
+                this.router.navigate(['login']);
+              }
+            });
+          }
+          else
+          {
+            this.toast.error('Unknown error occurred. Try again later.', 'Error!', {timeOut: 2500});
+          }
+        }
       });
-      // console.log(this.signupWorkerForm.value);
     } else {
       this.validateAllFormFields(this.signupWorkerForm);
     }
