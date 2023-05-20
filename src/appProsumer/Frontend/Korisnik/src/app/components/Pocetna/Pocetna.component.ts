@@ -74,9 +74,11 @@ export class PocetnaComponent implements OnInit, AfterViewInit {
   }
 
   getDevices() {
+    let id = localStorage.getItem('idProsumer')!;
+    let role = localStorage.getItem('roleProsumer')!;
     this.spiner.show();
     this.service
-      .getDevicesByProsumerId(this.cookie.get('id'), this.cookie.get('role'))
+      .getDevicesByProsumerId(id, role)
       .subscribe((response) => {
         this.devices = [
           ...response.consumers,

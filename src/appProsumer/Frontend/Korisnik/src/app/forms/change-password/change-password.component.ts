@@ -46,7 +46,8 @@ export class ChangePasswordComponent implements OnInit{
       dto.newPassword = this.newPass;
       dto.oldPassword = this.currentPass;
 
-      this.userService.editInfo(this.cookie.get('id'), dto)
+      let id = localStorage.getItem('idProsumer')!;
+      this.userService.editInfo(id, dto)
       .subscribe({
         next:(res)=>{
           this.allToFalse();

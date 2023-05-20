@@ -42,14 +42,15 @@ export class AuthServiceService {
 
   logout()
   {
-    let username = this.cookie.get('username');
+    let username = localStorage.getItem('usernameProsumer')!;
     let role = 'Prosumer'
     return this.http.put(this.baseUrl + 'Auth/Logout', {username, role});
   }
 
   validateToken()
   {
-    let refreshDto = new SendRefreshToken(this.cookie.get('refreshProsumer'), this.cookie.get('username'));
+    let username = localStorage.getItem('usernameProsumer')!;
+    let refreshDto = new SendRefreshToken(this.cookie.get('refreshProsumer'), username);
     this.refreshToken(refreshDto)
     .subscribe({
       next:(res)=>{

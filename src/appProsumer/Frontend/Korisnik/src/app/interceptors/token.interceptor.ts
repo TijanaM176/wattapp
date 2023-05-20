@@ -54,7 +54,6 @@ export class TokenInterceptor implements HttpInterceptor {
                 this.toast.error(err.error, 'Error!', {timeOut:3000});
                 this.cookie.delete('tokenProsumer');
                 this.cookie.delete('refreshProsumer');
-
                 this.counter = 0;
                 this.router.navigate(['login']);
               },
@@ -75,7 +74,8 @@ export class TokenInterceptor implements HttpInterceptor {
   }
 
   handleAuth(request: HttpRequest<any>, next: HttpHandler) {
-    let refreshDto = new SendRefreshToken(this.cookie.get('refreshProsumer'), this.cookie.get('username'));
+    let username = localStorage.getItem('usernameProsumer')!;
+    let refreshDto = new SendRefreshToken(this.cookie.get('refreshProsumer'), username);
     return this.auth.refreshToken(refreshDto).pipe(
       switchMap((data: RefreshTokenDto) => {
 

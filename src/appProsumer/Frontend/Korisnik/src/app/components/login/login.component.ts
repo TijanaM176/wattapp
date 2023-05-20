@@ -68,27 +68,39 @@ export class LoginComponent implements OnInit {
           //console.log(decodedToken['sub']);
           //console.log(decodedToken['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name']);
           //console.log(decodedToken['http://schemas.microsoft.com/ws/2008/06/identity/claims/role']);
-          this.cookie.set(
-            'username',
-            decodedToken[
-              'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name'
-            ]
-              .toString()
-              .trim(),
-            { path: '/' }
-          );
-          this.cookie.set(
-            'role',
-            decodedToken[
-              'http://schemas.microsoft.com/ws/2008/06/identity/claims/role'
-            ]
-              .toString()
-              .trim(),
-            { path: '/' }
-          );
-          this.cookie.set('id', decodedToken['sub'].toString().trim(), {
-            path: '/',
-          });
+          // this.cookie.set(
+          //   'username',
+          //   decodedToken[
+          //     'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name'
+          //   ]
+          //     .toString()
+          //     .trim(),
+          //   { path: '/' }
+          // );
+
+          localStorage.setItem('usernameProsumer', decodedToken['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name']
+            .toString()
+            .trim());
+          
+          // this.cookie.set(
+          //   'role',
+          //   decodedToken[
+          //     'http://schemas.microsoft.com/ws/2008/06/identity/claims/role'
+          //   ]
+          //     .toString()
+          //     .trim(),
+          //   { path: '/' }
+          // );
+          localStorage.setItem('roleProsumer',decodedToken['http://schemas.microsoft.com/ws/2008/06/identity/claims/role']
+            .toString()
+            .trim());
+          
+          // this.cookie.set('id', decodedToken['sub'].toString().trim(), {
+          //   path: '/',
+          // });
+
+          localStorage.setItem('idProsumer', decodedToken['sub'].toString().trim());
+
           this.cookie.set('tokenProsumer', res.token.toString().trim(), { path: '/' });
           this.cookie.set('refreshProsumer', res.refreshToken.toString().trim(), {
             path: '/',

@@ -75,7 +75,7 @@ export class AddDeviceComponent implements OnInit {
     this.c.resetError();
   }
   registerDevice() {
-    this.service.id = this.cookie.get('id');
+    this.service.id = localStorage.getItem('idProsumer')!;
     this.c.resetError();
     if(this.service.category != -1 && this.service.model != '-1' && this.service.type != -1 && this.service.name != '') //if all fields are populated
     {
