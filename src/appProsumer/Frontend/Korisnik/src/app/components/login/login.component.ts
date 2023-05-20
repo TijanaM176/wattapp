@@ -65,39 +65,12 @@ export class LoginComponent implements OnInit {
         next: (res) => {
           this.loginForm.reset();
           var decodedToken: any = jwt_decode(res.token);
-          //console.log(decodedToken['sub']);
-          //console.log(decodedToken['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name']);
-          //console.log(decodedToken['http://schemas.microsoft.com/ws/2008/06/identity/claims/role']);
-          // this.cookie.set(
-          //   'username',
-          //   decodedToken[
-          //     'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name'
-          //   ]
-          //     .toString()
-          //     .trim(),
-          //   { path: '/' }
-          // );
 
           localStorage.setItem('usernameProsumer', decodedToken['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name']
-            .toString()
-            .trim());
+          .toString().trim());
           
-          // this.cookie.set(
-          //   'role',
-          //   decodedToken[
-          //     'http://schemas.microsoft.com/ws/2008/06/identity/claims/role'
-          //   ]
-          //     .toString()
-          //     .trim(),
-          //   { path: '/' }
-          // );
           localStorage.setItem('roleProsumer',decodedToken['http://schemas.microsoft.com/ws/2008/06/identity/claims/role']
-            .toString()
-            .trim());
-          
-          // this.cookie.set('id', decodedToken['sub'].toString().trim(), {
-          //   path: '/',
-          // });
+          .toString().trim());
 
           localStorage.setItem('idProsumer', decodedToken['sub'].toString().trim());
 
@@ -153,10 +126,7 @@ export class LoginComponent implements OnInit {
     //console.log(this.resetPasswordEmail);
     this.reset.forgotPass(this.resetPasswordEmail).subscribe({
       next: (res) => {
-        //alert(res.message);
         this.cookie.set('resetTokenProsumer', res.resetToken, { path: '/' });
-        //console.log(res);
-        //console.log(this.resetPasswordEmail);
       },
       error: (err) => {
         this.toast.error('ERROR', err.error, {

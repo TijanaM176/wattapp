@@ -19,7 +19,7 @@ export class AuthGuard {
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
       if(this.cookie.check("tokenProsumer"))
       {//ako token postoji
-        // var token = this.cookie.get("token");
+        
         var decodedToken: any = jwt_decode(this.cookie.get('tokenProsumer'));
         let role = decodedToken['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'].toString().trim();
         let letUser = role === 'Prosumer' ? true : false;

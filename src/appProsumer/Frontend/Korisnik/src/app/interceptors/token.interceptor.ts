@@ -87,9 +87,16 @@ export class TokenInterceptor implements HttpInterceptor {
         this.cookie.set('refreshProsumer', data.refreshToken.toString().trim(), {
           path: '/',
         });
-        /*var decodedToken:any = jwt_decode(data.token);
-        this.cookie.set('username',decodedToken['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name']);
-        this.cookie.set('role',decodedToken['http://schemas.microsoft.com/ws/2008/06/identity/claims/role']);*/
+
+        var decodedToken: any = jwt_decode(data.token);
+        localStorage.setItem('usernameProsumer', decodedToken['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name']
+        .toString().trim());
+
+        localStorage.setItem('roleProsumer',decodedToken['http://schemas.microsoft.com/ws/2008/06/identity/claims/role']
+        .toString().trim());
+        
+        localStorage.setItem('idProsumer', decodedToken['sub'].toString().trim());
+        
         request = request.clone({
           setHeaders: { Authorization: 'Bearer ' + this.cookie.get('tokenProsumer') },
         });
