@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import {
   FormBuilder,
@@ -12,6 +12,7 @@ import { ImageCroppedEvent } from 'ngx-image-cropper';
 import { ToastrService } from 'ngx-toastr';
 import { SendPhoto } from 'src/app/models/sendPhoto';
 import { SendPhoto1 } from 'src/app/models/sendPhoto1';
+import { SendRefreshToken } from 'src/app/models/sendRefreshToken';
 import { AuthService } from 'src/app/services/auth.service';
 import { EmployeesServiceService } from 'src/app/services/employees-service.service';
 
@@ -98,8 +99,9 @@ export class PopupAddComponent implements OnInit {
       );
       // console.log(this.croppedImage);
       this.file = true;
-      let sp = new SendPhoto1(this.croppedImage);
-      this.signupWorkerForm.value.image64String = sp.base64String;
+      // let sp = new SendPhoto1(this.croppedImage);
+      // this.signupWorkerForm.value.image64String = sp.base64String;
+      this.signupWorkerForm.value.image64String = this.croppedImage.replace('data:image/png;base64,','');
 
       this.updatedPhotoSuccess = true;
       setTimeout(() => {
@@ -120,6 +122,7 @@ export class PopupAddComponent implements OnInit {
     this.errorDeletePhoto = false;
     this.selectedImageFile = null;
     this.imgChangeEvet = '';
+    this.croppedImage = '';
     this.updatedPhotoError = false;
     this.updatedPhotoSuccess = false;
     this.noFile = false;
@@ -136,44 +139,61 @@ export class PopupAddComponent implements OnInit {
     }
   }
   onSubmit() {
-    // console.log(this.signupWorkerForm.value.image64String);
-    if (!this.signupWorkerForm.value.image64String) {
-      this.http
-        .get(this.currentImage, { responseType: 'blob' })
-        .subscribe((imageBlob: Blob) => {
-          const reader = new FileReader();
-          reader.onloadend = () => {
-            let base64String = reader.result as string;
-            base64String = base64String.replace('data:image/png;base64,', '');
-            let sp1 = new SendPhoto1(base64String);
-            this.signupWorkerForm.value.image64String = sp1.base64String;
-            // console.log(base64String); // You can use or further process the base64 string here
-          };
-          reader.readAsDataURL(imageBlob);
-        });
-    }
+    this.signupWorkerForm.value.image64String = this.croppedImage.replace('data:image/png;base64,','');
     this.signupWorkerForm.value.salary = Number(
       this.signupWorkerForm.value.salary
     );
-    // console.log(this.signupWorkerForm.valid);
-    // console.log(this.signupWorkerForm.value);
+    
     if (this.signupWorkerForm.valid) {
-      this.auth.signupWorker(this.signupWorkerForm.value).subscribe({
-        next: (res) => {
-          this.toast.success('Success', 'New Employee Added!', {
-            timeOut: 2500,
+      let refrestDto : SendRefreshToken = new SendRefreshToken(this.cookie.get('refresh'), this.cookie.get('username'), this.cookie.get('role'));
+      this.auth.refreshToken(refrestDto)
+      .subscribe({
+        next:(res)=>{
+          this.cookie.delete('token','/');
+          this.cookie.delete('refresh','/');
+          this.cookie.set('token', res.token.toString().trim(), {path: '/'});
+          this.cookie.set('refresh',res.refreshToken.toString().trim(), {path:'/'});
+
+          this.auth.signupWorker(this.signupWorkerForm.value).subscribe({
+            next: (res) => {
+              this.toast.success('Success', 'New Employee Added!', {
+                timeOut: 2500,
+              });
+              this.signupWorkerForm.reset();
+              this.deleteselectimage();
+            },
+            error: (err) => {
+              this.toast.error('Error!', 'Unable to add new Employee.', {
+                timeOut: 2500,
+              });
+              console.log(err);
+            },
           });
-          this.signupWorkerForm.reset();
-          this.deleteselectimage();
         },
-        error: (err) => {
-          this.toast.error('Error!', 'Unable to add new Employee.', {
-            timeOut: 2500,
-          });
-          console.log(err);
-        },
+        error:(err)=>{
+          if(err instanceof HttpErrorResponse && err.status == 401)
+          {
+            this.auth.logout(this.cookie.get('username'), this.cookie.get('role'))
+            .subscribe({
+              next:(res)=>{
+                this.toast.error(err.error, 'Error!', {timeOut: 3000});
+                this.cookie.deleteAll('/');
+                this.router.navigate(['login']);
+              },
+              error:(error)=>{
+                console.log('logout', error);
+                this.toast.error('Unknown error occurred.', 'Error!', {timeOut: 2500});
+                this.cookie.deleteAll('/');
+                this.router.navigate(['login']);
+              }
+            });
+          }
+          else
+          {
+            this.toast.error('Unknown error occurred. Try again later.', 'Error!', {timeOut: 2500});
+          }
+        }
       });
-      // console.log(this.signupWorkerForm.value);
     } else {
       this.validateAllFormFields(this.signupWorkerForm);
     }

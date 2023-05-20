@@ -16,6 +16,8 @@ import { Neighborhood } from 'src/app/models/neighborhood';
 import { City } from 'src/app/models/city';
 import { ToastrService } from 'ngx-toastr';
 import { DataService } from 'src/app/services/data.service';
+import { SendRefreshToken } from 'src/app/models/sendRefreshToken';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-popup-emp',
@@ -51,7 +53,8 @@ export class PopupEmpComponent implements OnInit {
     public toast: ToastrService,
     private service: UsersServiceService,
     private location1: Location,
-    private serviceData: DataService
+    private serviceData: DataService,
+    private cookie : CookieService
   ) {}
   ngOnInit(): void {
     this.serviceData.getAllCities().subscribe((response) => {
@@ -98,31 +101,60 @@ export class PopupEmpComponent implements OnInit {
   onSignUp() {
     if (this.signupForm.valid) {
       this.address =
-        this.signupForm.value.address.trim() +
-        ',' +
-        this.signupForm.value.city.trim() +
-        ',' +
-        'Serbia';
+        this.signupForm.value.address.trim() +',' +this.signupForm.value.city.trim() +',' +'Serbia';
 
       this.address = this.address.replaceAll('dj', 'đ');
-      // console.log(this.address);
+      // console.log(this.address); //adresu lepo kupi
+      let refrestDto : SendRefreshToken = new SendRefreshToken(this.cookie.get('refresh'), this.cookie.get('username'), this.cookie.get('role'));
+      this.auth.refreshToken(refrestDto)
+      .subscribe({
+        next:(res)=>{
+          this.cookie.delete('token','/');
+          this.cookie.delete('refresh','/');
+          this.cookie.set('token', res.token.toString().trim(), {path: '/'});
+          this.cookie.set('refresh',res.refreshToken.toString().trim(), {path:'/'});
 
-      this.auth.signUp(this.signupForm.value).subscribe({
-        next: (res) => {
-          this.toast.success('Success', 'New Prosumer Added!', {
-            timeOut: 2500,
+          this.auth.signUp(this.signupForm.value).subscribe({
+            next: (res) => {
+              this.toast.success('Success', 'New Prosumer Added!', {
+                timeOut: 2500,
+              });
+              
+              this.getCoordinates(this.address, res.username);
+              // console.log(res.username);
+              this.signupForm.reset();
+              // window.location.reload();
+            },
+            error: (err) => {
+              this.toast.error('Error!', 'Unable to add new Prosumer.', {
+                timeOut: 2500,
+              });
+            },
           });
-
-          this.getCoordinates(this.address, res.username);
-          console.log(res.username);
-          this.signupForm.reset();
-          // window.location.reload();
         },
-        error: (err) => {
-          this.toast.error('Error!', 'Unable to add new Prosumer.', {
-            timeOut: 2500,
-          });
-        },
+        error:(err)=>{
+          if(err instanceof HttpErrorResponse && err.status == 401)
+          {
+            this.auth.logout(this.cookie.get('username'), this.cookie.get('role'))
+            .subscribe({
+              next:(res)=>{
+                this.toast.error(err.error, 'Error!', {timeOut: 3000});
+                this.cookie.deleteAll('/');
+                this.router.navigate(['login']);
+              },
+              error:(error)=>{
+                console.log('logout', error);
+                this.toast.error('Unknown error occurred.', 'Error!', {timeOut: 2500});
+                this.cookie.deleteAll('/');
+                this.router.navigate(['login']);
+              }
+            });
+          }
+          else
+          {
+            this.toast.error('Unknown error occurred. Try again later.', 'Error!', {timeOut: 2500});
+          }
+        }
       });
     } else {
       this.validateAllFormFields(this.signupForm);
