@@ -40,16 +40,30 @@ export class TokenInterceptor implements HttpInterceptor {
     return next.handle(request).pipe(
       catchError((err: any) => {
         if (err instanceof HttpErrorResponse && err.status == 401) {
-          // if (this.counter == 0) {
-          //   this.counter = 1;
-          //   return this.handleAuth(request, next);
-          // } else if (this.counter == 1) {
-          //   this.counter = 0;
-          //   this.toast.warning('Warning', '', { timeOut: 2500 });
-          //   this.cookie.deleteAll();
-          //   this.router.navigate(['login']);
-          // }
-          return this.handleAuth(request, next);
+          if (this.counter == 0) {
+
+            return this.handleAuth(request, next);
+
+          } else if (this.counter == 1) {
+
+            console.log(this.cookie.get('username'), this.cookie.get('role'));
+
+            this.auth.logout(this.cookie.get('username'), this.cookie.get('role'))
+            .subscribe({
+              next:(res)=>{
+                this.counter = 0;
+                this.toast.error(err.error, 'Error!', {timeOut: 3000});
+                this.cookie.deleteAll('/');
+                this.router.navigate(['login']);
+              },
+              error:(error)=>{
+                console.log('logout', error);
+                this.toast.error('Unknown error occurred.', 'Error!', {timeOut: 2500});
+                this.cookie.deleteAll('/');
+                this.router.navigate(['login']);
+              }
+            });
+          }
         }
         return throwError(() => err);
       })
@@ -63,6 +77,7 @@ export class TokenInterceptor implements HttpInterceptor {
     return this.auth.refreshToken(refreshDto).pipe(
       switchMap((data: RefreshTokenDto) => {
         this.counter = 0;
+
         this.cookie.delete('token', '/');
         this.cookie.delete('refresh', '/');
         this.cookie.set('token', data.token.toString().trim(), { path: '/' });
@@ -80,21 +95,13 @@ export class TokenInterceptor implements HttpInterceptor {
       catchError((err) => {
         if(err instanceof HttpErrorResponse && err.status == 401)
         {
-          this.auth.logout(this.cookie.get('username'), this.cookie.get('role'))
-          .subscribe({
-            next:(res)=>{
-              this.toast.error(err.error, 'Error!', {timeOut: 3000});
-              this.cookie.deleteAll('/');
-              this.router.navigate(['login']);
-            },
-            error:(error)=>{
-              console.log(error);
-              this.toast.error('Unknown error occurred.', 'Error!', {timeOut: 2500});
-            }
-          });
+          this.counter = 1;
+          console.log('neautorizovano');
+          console.log(err);
         }
         else
         {
+          // this.toast.error('Unknown error occured.', 'Error!', { timeOut:3000 });
           console.log(err);
         }
         return throwError(() => err);

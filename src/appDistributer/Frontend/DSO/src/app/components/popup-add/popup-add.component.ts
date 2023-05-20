@@ -98,8 +98,9 @@ export class PopupAddComponent implements OnInit {
       );
       // console.log(this.croppedImage);
       this.file = true;
-      let sp = new SendPhoto1(this.croppedImage);
-      this.signupWorkerForm.value.image64String = sp.base64String;
+      // let sp = new SendPhoto1(this.croppedImage);
+      // this.signupWorkerForm.value.image64String = sp.base64String;
+      this.signupWorkerForm.value.image64String = this.croppedImage.replace('data:image/png;base64,','');
 
       this.updatedPhotoSuccess = true;
       setTimeout(() => {
@@ -120,6 +121,7 @@ export class PopupAddComponent implements OnInit {
     this.errorDeletePhoto = false;
     this.selectedImageFile = null;
     this.imgChangeEvet = '';
+    this.croppedImage = '';
     this.updatedPhotoError = false;
     this.updatedPhotoSuccess = false;
     this.noFile = false;
@@ -136,27 +138,11 @@ export class PopupAddComponent implements OnInit {
     }
   }
   onSubmit() {
-    // console.log(this.signupWorkerForm.value.image64String);
-    if (!this.signupWorkerForm.value.image64String) {
-      this.http
-        .get(this.currentImage, { responseType: 'blob' })
-        .subscribe((imageBlob: Blob) => {
-          const reader = new FileReader();
-          reader.onloadend = () => {
-            let base64String = reader.result as string;
-            base64String = base64String.replace('data:image/png;base64,', '');
-            let sp1 = new SendPhoto1(base64String);
-            this.signupWorkerForm.value.image64String = sp1.base64String;
-            // console.log(base64String); // You can use or further process the base64 string here
-          };
-          reader.readAsDataURL(imageBlob);
-        });
-    }
+    this.signupWorkerForm.value.image64String = this.croppedImage.replace('data:image/png;base64,','');
     this.signupWorkerForm.value.salary = Number(
       this.signupWorkerForm.value.salary
     );
-    // console.log(this.signupWorkerForm.valid);
-    // console.log(this.signupWorkerForm.value);
+    
     if (this.signupWorkerForm.valid) {
       this.auth.signupWorker(this.signupWorkerForm.value).subscribe({
         next: (res) => {

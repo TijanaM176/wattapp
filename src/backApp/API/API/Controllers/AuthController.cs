@@ -46,7 +46,7 @@ namespace API.Controllers
                 }
 
                 else
-                    return BadRequest("Error!");
+                    return BadRequest("Error! Prosumer is null!");
             }
             catch(Exception ex)
             {
