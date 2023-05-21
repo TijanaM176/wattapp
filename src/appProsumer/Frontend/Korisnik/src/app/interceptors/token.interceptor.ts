@@ -43,11 +43,11 @@ export class TokenInterceptor implements HttpInterceptor {
         if (err instanceof HttpErrorResponse && err.status == 401) {
           if (this.counter == 0) {
 
+            this.counter = 1;
             return this.handleAuth(request, next);
 
           } 
           else if (this.counter == 1) {
-
             this.auth.logout()
             .subscribe({
               next:(res)=>{
@@ -102,16 +102,8 @@ export class TokenInterceptor implements HttpInterceptor {
         });
         return next.handle(request);
       }),
+
       catchError((err) => {
-        if(err instanceof HttpErrorResponse && err.status == 401)
-        {
-          this.counter = 1;
-          console.log('neautorizovano', err.error);
-        }
-        else
-        {
-          console.log(err);
-        }
         return throwError(() => err);
       })
     );

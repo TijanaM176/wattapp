@@ -42,11 +42,11 @@ export class TokenInterceptor implements HttpInterceptor {
         if (err instanceof HttpErrorResponse && err.status == 401) {
           if (this.counter == 0) {
 
+            this.counter = 1;
             return this.handleAuth(request, next);
 
-          } else if (this.counter == 1) {
-
-            console.log(this.cookie.get('username'), this.cookie.get('role'));
+          } 
+          else if (this.counter == 1) {
 
             this.auth.logout(this.cookie.get('username'), this.cookie.get('role'))
             .subscribe({
@@ -93,17 +93,6 @@ export class TokenInterceptor implements HttpInterceptor {
         return next.handle(request);
       }),
       catchError((err) => {
-        if(err instanceof HttpErrorResponse && err.status == 401)
-        {
-          this.counter = 1;
-          console.log('neautorizovano');
-          console.log(err);
-        }
-        else
-        {
-          // this.toast.error('Unknown error occured.', 'Error!', { timeOut:3000 });
-          console.log(err);
-        }
         return throwError(() => err);
       })
     );
