@@ -2,13 +2,14 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { SendRefreshToken } from '../models/sendRefreshToken';
 import { Observable } from 'rxjs';
-import { RefreshTokenDto } from '../models/refreshTokenDto';
 import { ResetPassword } from '../models/reset-password';
 import { ForgotPassword } from '../models/forgotpassword';
 import { environment } from 'src/enviroments/enviroment';
 import { CookieService } from 'ngx-cookie-service';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
+import jwt_decode from 'jwt-decode';
+
 @Injectable({
   providedIn: 'root',
 })
@@ -87,6 +88,16 @@ export class AuthService {
         });
 
         //update podataka u localStorage
+        let decodedToken: any = jwt_decode(res.token);
+        localStorage.setItem('username', decodedToken[
+          'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name'
+        ].toString().trim());
+
+        localStorage.setItem('role', decodedToken[
+          'http://schemas.microsoft.com/ws/2008/06/identity/claims/role'
+        ].toString().trim());
+          
+        localStorage.setItem('id', decodedToken['sub'].toString().trim());
       },
       error:(err)=>{
         this.logout(localStorage.getItem('username')!, localStorage.getItem('role')!)

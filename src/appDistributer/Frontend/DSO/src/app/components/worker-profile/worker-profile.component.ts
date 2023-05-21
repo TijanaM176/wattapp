@@ -1,4 +1,3 @@
-// import { NgToastService } from 'ng-angular-popup';
 import { Component, OnInit, AfterViewInit, ViewChild } from '@angular/core';
 import { CookieService } from 'ngx-cookie-service';
 import { EmployeesServiceService } from 'src/app/services/employees-service.service';
@@ -215,7 +214,6 @@ export class WorkerProfileComponent implements OnInit, AfterViewInit {
     if (event.target.files) {
       this.selectedImageFile = event.target.files[0];
       this.fileType = event.target.files[0].type;
-      // this.changeImage = this.sant.bypassSecurityTrustUrl(window.URL.createObjectURL(this.selectedImageFile)) as string;
     }
   }
   cropImg(e: ImageCroppedEvent) {

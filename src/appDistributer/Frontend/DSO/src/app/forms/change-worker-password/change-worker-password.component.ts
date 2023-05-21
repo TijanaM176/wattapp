@@ -34,14 +34,12 @@ export class ChangeWorkerPasswordComponent {
     ) {
       this.allToFalse();
       this.empty = true;
-    } else if (this.newPass != this.confirmNewPass) {
+    } 
+    else if (this.newPass != this.confirmNewPass) {
       this.allToFalse();
       this.dontMatch = true;
-    } else {
-      let dto: editEmployeeDto = new editEmployeeDto();
-      
-      // dto.newPassword = this.newPass;
-      // dto.oldPassword = this.currentPass;
+    } 
+    else {
       this.employeeService
         .changePassword(localStorage.getItem('id')!, this.currentPass,this.newPass)
         .subscribe({

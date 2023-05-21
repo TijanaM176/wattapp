@@ -18,6 +18,7 @@ import { ToastrService } from 'ngx-toastr';
 import { DataService } from 'src/app/services/data.service';
 import { SendRefreshToken } from 'src/app/models/sendRefreshToken';
 import { HttpErrorResponse } from '@angular/common/http';
+import jwt_decode from 'jwt-decode';
 
 @Component({
   selector: 'app-popup-emp',
@@ -115,6 +116,20 @@ export class PopupEmpComponent implements OnInit {
           this.cookie.set('refresh',res.refreshToken.toString().trim(), {path:'/'});
 
           //update podataka u localStorage
+          let decodedToken: any = jwt_decode(res.token);
+          localStorage.setItem('username', decodedToken[
+            'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name'
+          ]
+            .toString()
+            .trim());
+
+          localStorage.setItem('role', decodedToken[
+            'http://schemas.microsoft.com/ws/2008/06/identity/claims/role'
+          ]
+            .toString()
+            .trim());
+          
+          localStorage.setItem('id', decodedToken['sub'].toString().trim());
 
           this.auth.signUp(this.signupForm.value).subscribe({
             next: (res) => {
@@ -205,7 +220,7 @@ export class PopupEmpComponent implements OnInit {
         coordsDto.Longitude = location[1].toString();
         this.auth.setUserCoordinates(coordsDto).subscribe({
           next: (res) => {
-            console.log(res.message);
+            // console.log(res.message);
           },
           error: (err) => {
             this.toast.error('Error!', 'Unable to get coordinates.', {

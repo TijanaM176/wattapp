@@ -16,6 +16,8 @@ import { AuthService } from 'src/app/services/auth.service';
 import { SendRefreshToken } from 'src/app/models/sendRefreshToken';
 import { ToastrService } from 'ngx-toastr';
 import Swal from 'sweetalert2';
+import jwt_decode from 'jwt-decode';
+
 @Component({
   selector: 'app-user1',
   templateUrl: './user1.component.html',
@@ -156,7 +158,18 @@ export class User1Component implements OnInit, AfterViewInit {
         });
 
         //update podataka u localStorage
+        let decodedToken: any = jwt_decode(data.token);
+        localStorage.setItem('username', decodedToken[
+          'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name'
+        ].toString().trim());
 
+        localStorage.setItem('role', decodedToken[
+          'http://schemas.microsoft.com/ws/2008/06/identity/claims/role'
+        ].toString().trim());
+          
+        localStorage.setItem('id', decodedToken['sub'].toString().trim());
+
+        //izmena podataka korisnika
         let dto: editUserDto = new editUserDto();
         dto.id = this.router.snapshot.params['id'];
         dto.firstName = this.editUser.value.FirstName!;
@@ -237,7 +250,18 @@ export class User1Component implements OnInit, AfterViewInit {
               path: '/',
             });
             //update podataka u localStorage
+            let decodedToken: any = jwt_decode(data.token);
+            localStorage.setItem('username', decodedToken[
+              'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name'
+            ].toString().trim());
 
+            localStorage.setItem('role', decodedToken[
+              'http://schemas.microsoft.com/ws/2008/06/identity/claims/role'
+            ].toString().trim());
+              
+            localStorage.setItem('id', decodedToken['sub'].toString().trim());
+
+            //brisanje korisnika
             this.user.deleteUser(this.router.snapshot.params['id']).subscribe({
               next: (res) => {
                 // console.log(res);

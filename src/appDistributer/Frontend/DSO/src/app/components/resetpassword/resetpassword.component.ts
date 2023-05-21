@@ -11,7 +11,7 @@ import { CookieService } from 'ngx-cookie-service';
 import { ToastrService } from 'ngx-toastr';
 import { AuthService } from 'src/app/services/auth.service';
 import { Router } from '@angular/router';
-// import { NgToastService } from 'ng-angular-popup';
+
 @Component({
   selector: 'app-resetpassword',
   templateUrl: './resetpassword.component.html',
