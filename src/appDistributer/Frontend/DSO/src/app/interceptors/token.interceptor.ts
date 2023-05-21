@@ -48,18 +48,32 @@ export class TokenInterceptor implements HttpInterceptor {
           } 
           else if (this.counter == 1) {
 
-            this.auth.logout(this.cookie.get('username'), this.cookie.get('role'))
+            this.auth.logout(localStorage.getItem('username')!, localStorage.getItem('role')!)
             .subscribe({
               next:(res)=>{
                 this.counter = 0;
                 this.toast.error(err.error, 'Error!', {timeOut: 3000});
-                this.cookie.deleteAll('/');
+                this.cookie.delete('token', '/');
+                this.cookie.delete('refresh', '/');
+                localStorage.removeItem('region');
+                localStorage.removeItem('lat');
+                localStorage.removeItem('long');
+                localStorage.removeItem('username');
+                localStorage.removeItem('role');
+                localStorage.removeItem('id');
                 this.router.navigate(['login']);
               },
               error:(error)=>{
                 console.log('logout', error);
                 this.toast.error('Unknown error occurred.', 'Error!', {timeOut: 2500});
-                this.cookie.deleteAll('/');
+                this.cookie.delete('token', '/');
+                this.cookie.delete('refresh', '/');
+                localStorage.removeItem('region');
+                localStorage.removeItem('lat');
+                localStorage.removeItem('long');
+                localStorage.removeItem('username');
+                localStorage.removeItem('role');
+                localStorage.removeItem('id');
                 this.router.navigate(['login']);
               }
             });
@@ -72,7 +86,7 @@ export class TokenInterceptor implements HttpInterceptor {
 
   private handleAuth(request: HttpRequest<any>, next: HttpHandler) {
 
-    let refreshDto = new SendRefreshToken(this.cookie.get('refresh'), this.cookie.get('username'), this.cookie.get('role'));
+    let refreshDto = new SendRefreshToken(this.cookie.get('refresh'), localStorage.getItem('username')!, localStorage.getItem('role')!);
 
     return this.auth.refreshToken(refreshDto).pipe(
       switchMap((data: RefreshTokenDto) => {
@@ -84,6 +98,8 @@ export class TokenInterceptor implements HttpInterceptor {
         this.cookie.set('refresh', data.refreshToken.toString().trim(), {
           path: '/',
         });
+
+        //update podataka u localStorage
 
         request = request.clone({
           setHeaders: { Authorization: 'Bearer ' + this.cookie.get('token') },

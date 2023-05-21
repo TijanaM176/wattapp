@@ -184,7 +184,7 @@ export class DeviceserviceService {
         'Devices/ToggleStorageActivity?deviceId=' +
         id +
         '&role=' +
-        this.cookie.get('role') +
+        localStorage.getItem('role')! +
         '&mode=' +
         mode,
       { active: state }

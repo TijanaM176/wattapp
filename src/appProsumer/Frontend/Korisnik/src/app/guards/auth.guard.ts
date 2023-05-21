@@ -20,7 +20,7 @@ export class AuthGuard {
       if(this.cookie.check("tokenProsumer"))
       {//ako token postoji
         
-        var decodedToken: any = jwt_decode(this.cookie.get('tokenProsumer'));
+        let decodedToken: any = jwt_decode(this.cookie.get('tokenProsumer'));
         let role = decodedToken['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'].toString().trim();
         let letUser = role === 'Prosumer' ? true : false;
         if(!letUser)

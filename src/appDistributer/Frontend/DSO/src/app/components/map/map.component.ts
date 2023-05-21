@@ -296,8 +296,8 @@ export class MapComponent implements AfterViewInit, OnInit {
 
     let map = L.map('map', { minZoom: 8 }); //.setView([44.012794, 20.911423], 15);
 
-    var lat = this.cookie.get('lat');
-    var long = this.cookie.get('long');
+    var lat = localStorage.getItem('lat');
+    var long = localStorage.getItem('long');
     map.setView([Number(lat), Number(long)], 12);
 
     const tiles = new L.TileLayer(
@@ -320,7 +320,7 @@ export class MapComponent implements AfterViewInit, OnInit {
       map
     );
     marker.bindPopup(
-      '<h6>Center of region ' + this.cookie.get('region') + '</h6>'
+      '<h6>Center of region ' + localStorage.getItem('region') + '</h6>'
     );
 
     const findMeControl = L.Control.extend({
@@ -333,7 +333,7 @@ export class MapComponent implements AfterViewInit, OnInit {
           '<span class="fa fa-crosshairs p-1 pt-2 pb-2"></span>';
         button.addEventListener('click', () => {
           map.setView(
-            [Number(this.cookie.get('lat')), Number(this.cookie.get('long'))],
+            [Number(localStorage.getItem('lat')), Number(localStorage.getItem('long'))],
             12
           );
         });

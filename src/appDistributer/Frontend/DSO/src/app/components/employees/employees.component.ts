@@ -80,7 +80,7 @@ export class EmployeesComponent {
   ngOnInit(): void {
     this.Ucitaj();
     this.Paging();
-    this.regionName = this.cookie.get('region');
+    this.regionName = localStorage.getItem('region');
     this.profilePhotoService.profilePhoto$.subscribe((picture: string) => {
       // Update the component's picture data
       this.imageSource1 = picture;
@@ -196,8 +196,8 @@ export class EmployeesComponent {
   onUpdate(id: string) {
     let refreshDto = new SendRefreshToken(
       this.cookie.get('refresh'),
-      this.cookie.get('username'),
-      this.cookie.get('role')
+      localStorage.getItem('username')!,
+      localStorage.getItem('role')!
     );
     this.auth.refreshToken(refreshDto).subscribe({
       next: (data) => {
@@ -207,6 +207,7 @@ export class EmployeesComponent {
         this.cookie.set('refresh', data.refreshToken.toString().trim(), {
           path: '/',
         });
+        //upate podataka u local storage
 
         //update-ovanje korisnika
         let dto: editEmployeeDto = new editEmployeeDto();
@@ -232,11 +233,18 @@ export class EmployeesComponent {
       },
       error: (err) => {
         this.auth
-          .logout(this.cookie.get('username'), this.cookie.get('role'))
+          .logout(localStorage.getItem('username')!, localStorage.getItem('role')!)
           .subscribe({
             next: (res) => {
               this.toast.error(err.error, 'Error!', { timeOut: 3000 });
-              this.cookie.deleteAll('/');
+              this.cookie.delete('token', '/');
+              this.cookie.delete('refresh', '/');
+              localStorage.removeItem('region');
+              localStorage.removeItem('lat');
+              localStorage.removeItem('long');
+              localStorage.removeItem('username');
+              localStorage.removeItem('role');
+              localStorage.removeItem('id');
               this.router.navigate(['login']);
             },
             error: (error) => {
@@ -244,6 +252,15 @@ export class EmployeesComponent {
               this.toast.error('Unknown error occurred', 'Error!', {
                 timeOut: 2500,
               });
+              this.cookie.delete('token', '/');
+              this.cookie.delete('refresh', '/');
+              localStorage.removeItem('region');
+              localStorage.removeItem('lat');
+              localStorage.removeItem('long');
+              localStorage.removeItem('username');
+              localStorage.removeItem('role');
+              localStorage.removeItem('id');
+              this.router.navigate(['login']);
             },
           });
       },
@@ -265,8 +282,8 @@ export class EmployeesComponent {
       if (result.value) {
         let refreshDto = new SendRefreshToken(
           this.cookie.get('refresh'),
-          this.cookie.get('username'),
-          this.cookie.get('role')
+          localStorage.getItem('username')!,
+          localStorage.getItem('role')!
         );
         this.auth.refreshToken(refreshDto).subscribe({
           next: (data) => {
@@ -278,6 +295,7 @@ export class EmployeesComponent {
             this.cookie.set('refresh', data.refreshToken.toString().trim(), {
               path: '/',
             });
+            //update podataka u localStorage
 
             //brisanje korisnika
             this.service.deleteEmployee(id).subscribe({
@@ -293,11 +311,18 @@ export class EmployeesComponent {
           },
           error: (err) => {
             this.auth
-              .logout(this.cookie.get('username'), this.cookie.get('role'))
+              .logout(localStorage.getItem('username')!, localStorage.getItem('role')!)
               .subscribe({
                 next: (res) => {
                   this.toast.error(err.error, 'Error!', { timeOut: 3000 });
-                  this.cookie.deleteAll('/');
+                  this.cookie.delete('token', '/');
+                  this.cookie.delete('refresh', '/');
+                  localStorage.removeItem('region');
+                  localStorage.removeItem('lat');
+                  localStorage.removeItem('long');
+                  localStorage.removeItem('username');
+                  localStorage.removeItem('role');
+                  localStorage.removeItem('id');
                   this.router.navigate(['login']);
                 },
                 error: (error) => {
@@ -305,6 +330,15 @@ export class EmployeesComponent {
                   this.toast.error('Unknown error occurred', 'Error!', {
                     timeOut: 2500,
                   });
+                  this.cookie.delete('token', '/');
+                  this.cookie.delete('refresh', '/');
+                  localStorage.removeItem('region');
+                  localStorage.removeItem('lat');
+                  localStorage.removeItem('long');
+                  localStorage.removeItem('username');
+                  localStorage.removeItem('role');
+                  localStorage.removeItem('id');
+                  this.router.navigate(['login']);
                 },
               });
           },
@@ -333,8 +367,8 @@ export class EmployeesComponent {
     if (this.selectedImageFile != null) {
       let refreshDto = new SendRefreshToken(
         this.cookie.get('refresh'),
-        this.cookie.get('username'),
-        this.cookie.get('role')
+        localStorage.getItem('username')!,
+        localStorage.getItem('role')!
       );
       this.auth.refreshToken(refreshDto).subscribe({
         next: (data) => {
@@ -344,6 +378,7 @@ export class EmployeesComponent {
           this.cookie.set('refresh', data.refreshToken.toString().trim(), {
             path: '/',
           });
+          //update podataka u localStorage
 
           //izmena slike
           this.croppedImage = this.croppedImage.replace(
@@ -361,7 +396,7 @@ export class EmployeesComponent {
                 this.Image1(this.croppedImage);
                 this.Image(this.croppedImage);
                 console.log(this.id);
-                if (this.id == this.cookie.get('id')) {
+                if (this.id == localStorage.getItem('id')!) {
                   this.profilePhotoService.updateProfilePhoto(
                     this.Image(this.croppedImage)
                   );
@@ -384,11 +419,18 @@ export class EmployeesComponent {
         },
         error: (err) => {
           this.auth
-            .logout(this.cookie.get('username'), this.cookie.get('role'))
+            .logout(localStorage.getItem('username')!, localStorage.getItem('role')!)
             .subscribe({
               next: (res) => {
                 this.toast.error(err.error, 'Error!', { timeOut: 3000 });
-                this.cookie.deleteAll('/');
+                this.cookie.delete('token');
+                this.cookie.delete('refresh');
+                localStorage.removeItem('region');
+                localStorage.removeItem('lat');
+                localStorage.removeItem('long');
+                localStorage.removeItem('username');
+                localStorage.removeItem('role');
+                localStorage.removeItem('id');
                 this.router.navigate(['login']);
               },
               error: (error) => {
@@ -396,6 +438,15 @@ export class EmployeesComponent {
                 this.toast.error('Unknown error occurred', 'Error!', {
                   timeOut: 2500,
                 });
+                this.cookie.delete('token');
+                this.cookie.delete('refresh');
+                localStorage.removeItem('region');
+                localStorage.removeItem('lat');
+                localStorage.removeItem('long');
+                localStorage.removeItem('username');
+                localStorage.removeItem('role');
+                localStorage.removeItem('id');
+                this.router.navigate(['login']);
               },
             });
         },
@@ -407,8 +458,8 @@ export class EmployeesComponent {
   deleteImage() {
     let refreshDto = new SendRefreshToken(
       this.cookie.get('refresh'),
-      this.cookie.get('username'),
-      this.cookie.get('role')
+      localStorage.getItem('username')!,
+      localStorage.getItem('role')!
     );
     this.auth.refreshToken(refreshDto).subscribe({
       next: (data) => {
@@ -418,6 +469,7 @@ export class EmployeesComponent {
         this.cookie.set('refresh', data.refreshToken.toString().trim(), {
           path: '/',
         });
+        //update podataka u localStorage
 
         //brisanje profilne slike
         this.errorDeletePhoto = false;
@@ -438,11 +490,18 @@ export class EmployeesComponent {
       },
       error: (err) => {
         this.auth
-          .logout(this.cookie.get('username'), this.cookie.get('role'))
+          .logout(localStorage.getItem('username')!, localStorage.getItem('role')!)
           .subscribe({
             next: (res) => {
               this.toast.error(err.error, 'Error!', { timeOut: 3000 });
-              this.cookie.deleteAll('/');
+              this.cookie.delete('token', '/');
+              this.cookie.delete('refresh', '/');
+              localStorage.removeItem('region');
+              localStorage.removeItem('lat');
+              localStorage.removeItem('long');
+              localStorage.removeItem('username');
+              localStorage.removeItem('role');
+              localStorage.removeItem('id');
               this.router.navigate(['login']);
             },
             error: (error) => {
@@ -450,6 +509,15 @@ export class EmployeesComponent {
               this.toast.error('Unknown error occurred', 'Error!', {
                 timeOut: 2500,
               });
+              this.cookie.delete('token', '/');
+              this.cookie.delete('refresh', '/');
+              localStorage.removeItem('region');
+              localStorage.removeItem('lat');
+              localStorage.removeItem('long');
+              localStorage.removeItem('username');
+              localStorage.removeItem('role');
+              localStorage.removeItem('id');
+              this.router.navigate(['login']);
             },
           });
       },

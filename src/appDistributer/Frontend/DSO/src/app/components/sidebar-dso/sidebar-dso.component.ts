@@ -24,7 +24,7 @@ export class SidebarDsoComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.letValue = this.cookie.get('role');
+    this.letValue = localStorage.getItem('role')!;
     this.id = this.router.snapshot.params['id'];
   }
   Devices() {

@@ -76,7 +76,7 @@ export class AuthService {
 
   validateToken()
   {
-    let refreshDto = new SendRefreshToken(this.cookie.get('refresh'), this.cookie.get('username'), this.cookie.get('role'));
+    let refreshDto = new SendRefreshToken(this.cookie.get('refresh'), localStorage.getItem('username')!, localStorage.getItem('role')!);
     this.refreshToken(refreshDto).subscribe({
       next:(res)=>{
         this.cookie.delete('token', '/');
@@ -85,19 +85,35 @@ export class AuthService {
         this.cookie.set('refresh', res.refreshToken.toString().trim(), {
           path: '/',
         });
+
+        //update podataka u localStorage
       },
       error:(err)=>{
-        this.logout(this.cookie.get('username'), this.cookie.get('role'))
+        this.logout(localStorage.getItem('username')!, localStorage.getItem('role')!)
         .subscribe((res)=>{
           if(res)
           {
-            this.cookie.deleteAll('/');
-            this.toast.error('Session has expired. Please, log in again.','Error!', {timeOut:3000});
+            this.cookie.delete('token', '/');
+            this.cookie.delete('refresh', '/');
+            localStorage.removeItem('region');
+            localStorage.removeItem('lat');
+            localStorage.removeItem('long');
+            localStorage.removeItem('username');
+            localStorage.removeItem('role');
+            localStorage.removeItem('id');
+            this.toast.error('Session expired. Please, log in again.','Error!', {timeOut:3000});
             this.router.navigate(['login']);
           }
           else
           {
-            this.cookie.deleteAll('/');
+            this.cookie.delete('token', '/');
+            this.cookie.delete('refresh', '/');
+            localStorage.removeItem('region');
+            localStorage.removeItem('lat');
+            localStorage.removeItem('long');
+            localStorage.removeItem('username');
+            localStorage.removeItem('role');
+            localStorage.removeItem('id');
             this.toast.error('Unknown error occurred. Try again later.','Error!', {timeOut:3000});
             this.router.navigate(['login']);
           }

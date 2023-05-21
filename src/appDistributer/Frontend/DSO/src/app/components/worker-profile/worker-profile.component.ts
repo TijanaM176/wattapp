@@ -69,9 +69,9 @@ export class WorkerProfileComponent implements OnInit, AfterViewInit {
       this.side.style.height = this.widthService.height * 0.7 + 'px';
     });
     this.getInfo();
-    if (this.cookie.get('role') == 'Admin') {
+    if (localStorage.getItem('role')! == 'Admin') {
       this.role = 'Admin';
-    } else if (this.cookie.get('role') == 'Dispatcher') {
+    } else if (localStorage.getItem('role')! == 'Dispatcher') {
       this.role = 'Dispatcher';
     }
     setTimeout(() => {
@@ -83,11 +83,13 @@ export class WorkerProfileComponent implements OnInit, AfterViewInit {
   }
 
   getInfo() {
-    let id = this.cookie.get('id');
+    let id = localStorage.getItem('id')!;
     document.getElementById('side')!.style.height =
       this.widthService.height * 0.7 + 'px';
     this.workerService.detailsEmployee(id).subscribe({
       next: (res) => {
+        document.getElementById('side')!.style.height =
+      this.widthService.height * 0.7 + 'px';
         this.worker = res;
         this.Image(this.worker.image);
         let date = new Date(this.worker.prosumerCreationDate);
@@ -98,11 +100,12 @@ export class WorkerProfileComponent implements OnInit, AfterViewInit {
           ' ' +
           date.getFullYear() +
           '.';
-        this.region = this.cookie.get('region');
+        this.region = localStorage.getItem('region')!;
       },
       error: (err) => {
         console.log(err.error);
-        this.toast.error('Error!', 'Unable to get Region Name.', {
+        document.getElementById('closeWorkerProfile')!.click();
+        this.toast.error('Error!', 'Unable to retrieve employee data.', {
           timeOut: 2500,
         });
       },
@@ -163,10 +166,10 @@ export class WorkerProfileComponent implements OnInit, AfterViewInit {
       );
       // console.log(this.croppedImage);
 
-      let sp = new SendPhoto(this.cookie.get('id'), this.croppedImage);
+      let sp = new SendPhoto(localStorage.getItem('id')!, this.croppedImage);
 
       this.employeeService
-        .updateProfilePhoto(this.cookie.get('id'), sp)
+        .updateProfilePhoto(localStorage.getItem('id')!, sp)
         .subscribe({
           next: (res) => {
             this.updatedPhotoSuccess = true;
@@ -195,7 +198,7 @@ export class WorkerProfileComponent implements OnInit, AfterViewInit {
   }
   deleteImage() {
     this.errorDeletePhoto = false;
-    this.employeeService.deleteProfilePhoto(this.cookie.get('id')).subscribe({
+    this.employeeService.deleteProfilePhoto(localStorage.getItem('id')!).subscribe({
       next: (res) => {
         this.currentImage = 'assets/images/defaultWorker.png';
         this.profilePhotoService.updateProfilePhoto(this.currentImage);

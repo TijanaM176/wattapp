@@ -67,7 +67,6 @@ export class ResetpasswordComponent implements OnInit {
     return this.isValid;
   }
   Reset() {
-    console.log("usao");
     if (this.checkValid()) {
       console.log("usao1");
       var object = new ResetPassword();
@@ -76,7 +75,7 @@ export class ResetpasswordComponent implements OnInit {
       object.token = this.cookie.get('resetToken');
       console.log(object.token);
       this.reset.resetPassword(object).subscribe((res) => {
-        this.cookie.delete('resetToken');
+        this.cookie.delete('resetToken', '/');
         if (res.error == false) {
 
           this.toast.success('Success','Succesful resset password',{timeOut:2500});

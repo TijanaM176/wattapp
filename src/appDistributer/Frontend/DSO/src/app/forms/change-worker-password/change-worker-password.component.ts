@@ -43,14 +43,21 @@ export class ChangeWorkerPasswordComponent {
       // dto.newPassword = this.newPass;
       // dto.oldPassword = this.currentPass;
       this.employeeService
-        .changePassword(this.cookie.get('id'), this.currentPass,this.newPass)
+        .changePassword(localStorage.getItem('id')!, this.currentPass,this.newPass)
         .subscribe({
           next: (res) => {
             this.allToFalse();
             this.success = true;
             setTimeout(() => {
               document.getElementById('closeChangePassOnSuccess')!.click();
-              this.cookie.deleteAll('/');
+              this.cookie.delete('token', '/');
+              this.cookie.delete('refresh', '/');
+              localStorage.removeItem('region');
+              localStorage.removeItem('lat');
+              localStorage.removeItem('long');
+              localStorage.removeItem('username');
+              localStorage.removeItem('role');
+              localStorage.removeItem('id');
               this.router.navigate(['login']);
             }, 700);
           },
