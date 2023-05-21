@@ -37,8 +37,24 @@ export class SidebarResponsiveComponent implements OnInit, AfterViewInit {
   }
 
   logout() {
-    this.cookie.delete('tokenProsumer');
-    this.cookie.delete('refreshProsumer');
-    this.router.navigateByUrl("login");
+    this.auth.logout()
+    .subscribe({
+      next:(res)=>{
+        this.cookie.delete('tokenProsumer');
+        this.cookie.delete('refreshProsumer');
+        localStorage.removeItem('usernameProsumer');
+        localStorage.removeItem('roleProsumer');
+        localStorage.removeItem('idProsumer');
+        this.router.navigateByUrl("login");
+      },
+      error:(err)=>{
+        this.cookie.delete('tokenProsumer');
+        this.cookie.delete('refreshProsumer');
+        localStorage.removeItem('usernameProsumer');
+        localStorage.removeItem('roleProsumer');
+        localStorage.removeItem('idProsumer');
+        this.router.navigateByUrl("login");
+      }
+    });
   }
 }

@@ -3,6 +3,7 @@ import { DeviceWidthService } from 'src/app/services/device-width.service';
 import { fromEvent, Observable, Subscription } from 'rxjs';
 import { Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
+import { AuthServiceService } from 'src/app/services/auth-service.service';
 
 @Component({
   selector: 'app-navbar-offcanvas',
@@ -19,6 +20,7 @@ export class NavbarOffcanvasComponent implements OnInit, OnDestroy{
     private widthService : DeviceWidthService,
     private router: Router, 
     private cookie: CookieService,
+    private auth : AuthServiceService
     ) {}
   ngOnInit(): void {
     const offcanv = document.getElementById('offcanv');
@@ -37,10 +39,26 @@ export class NavbarOffcanvasComponent implements OnInit, OnDestroy{
     this.resizeSubscription$.unsubscribe();
   }
 
-  logout() //funkciju za logout implementirati
+  logout()
   {
-    this.cookie.delete('tokenProsumer');
-    this.cookie.delete('refreshProsumer');
-    this.router.navigateByUrl("login");
+    this.auth.logout()
+    .subscribe({
+      next:(res)=>{
+        this.cookie.delete('tokenProsumer');
+        this.cookie.delete('refreshProsumer');
+        localStorage.removeItem('usernameProsumer');
+        localStorage.removeItem('roleProsumer');
+        localStorage.removeItem('idProsumer');
+        this.router.navigateByUrl("login");
+      },
+      error:(err)=>{
+        this.cookie.delete('tokenProsumer');
+        this.cookie.delete('refreshProsumer');
+        localStorage.removeItem('usernameProsumer');
+        localStorage.removeItem('roleProsumer');
+        localStorage.removeItem('idProsumer');
+        this.router.navigateByUrl("login");
+      }
+    });
   }
 }

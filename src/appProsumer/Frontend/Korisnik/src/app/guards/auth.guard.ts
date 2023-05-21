@@ -25,9 +25,25 @@ export class AuthGuard {
         let letUser = role === 'Prosumer' ? true : false;
         if(!letUser)
         {
-          this.cookie.delete('tokenProsumer');
-          this.cookie.delete('refreshProsumer');
-          this.router.navigate(["login"])
+          this.auth.logout()
+          .subscribe({
+            next:(res)=>{
+              this.cookie.delete('tokenProsumer');
+              this.cookie.delete('refreshProsumer');
+              localStorage.removeItem('usernameProsumer');
+              localStorage.removeItem('roleProsumer');
+              localStorage.removeItem('idProsumer');
+              this.router.navigateByUrl("login");
+            },
+            error:(err)=>{
+              this.cookie.delete('tokenProsumer');
+              this.cookie.delete('refreshProsumer');
+              localStorage.removeItem('usernameProsumer');
+              localStorage.removeItem('roleProsumer');
+              localStorage.removeItem('idProsumer');
+              this.router.navigateByUrl("login");
+            }
+          });
         }
         else
         {
