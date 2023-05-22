@@ -66,15 +66,21 @@ export class AuthServiceService {
           .subscribe({
             next:(res)=>{
               this.toast.error('Session has expired. Please, log in again.', 'Error!', {timeOut:3000});
-              this.cookie.delete('tokenProsumer');
-              this.cookie.delete('refreshProsumer');
+              this.cookie.delete('tokenProsumer', '/');
+              this.cookie.delete('refreshProsumer', '/');
+              localStorage.removeItem('usernameProsumer');
+              localStorage.removeItem('roleProsumer');
+              localStorage.removeItem('idProsumer');
               this.router.navigate(['login']);
             },
             error:(error)=>{
               console.log(error);
               this.toast.error('Unknown error occurred. Try again later.', 'Error!', {timeOut:2500});
-              this.cookie.delete('tokenProsumer');
-              this.cookie.delete('refreshProsumer');
+              this.cookie.delete('tokenProsumer', '/');
+              this.cookie.delete('refreshProsumer', '/');
+              localStorage.removeItem('usernameProsumer');
+              localStorage.removeItem('roleProsumer');
+              localStorage.removeItem('idProsumer');
               this.router.navigate(['login']);
             }
           });

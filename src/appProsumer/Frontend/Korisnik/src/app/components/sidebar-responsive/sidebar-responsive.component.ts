@@ -40,16 +40,16 @@ export class SidebarResponsiveComponent implements OnInit, AfterViewInit {
     this.auth.logout()
     .subscribe({
       next:(res)=>{
-        this.cookie.delete('tokenProsumer');
-        this.cookie.delete('refreshProsumer');
+        this.cookie.delete('tokenProsumer','/');
+        this.cookie.delete('refreshProsumer','/');
         localStorage.removeItem('usernameProsumer');
         localStorage.removeItem('roleProsumer');
         localStorage.removeItem('idProsumer');
         this.router.navigateByUrl("login");
       },
       error:(err)=>{
-        this.cookie.delete('tokenProsumer');
-        this.cookie.delete('refreshProsumer');
+        this.cookie.delete('tokenProsumer','/');
+        this.cookie.delete('refreshProsumer','/');
         localStorage.removeItem('usernameProsumer');
         localStorage.removeItem('roleProsumer');
         localStorage.removeItem('idProsumer');

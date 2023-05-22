@@ -439,8 +439,8 @@ export class EmployeesComponent {
             .subscribe({
               next: (res) => {
                 this.toast.error(err.error, 'Error!', { timeOut: 3000 });
-                this.cookie.delete('token');
-                this.cookie.delete('refresh');
+                this.cookie.delete('token', '/');
+                this.cookie.delete('refresh', '/');
                 localStorage.removeItem('region');
                 localStorage.removeItem('lat');
                 localStorage.removeItem('long');
@@ -454,8 +454,8 @@ export class EmployeesComponent {
                 this.toast.error('Unknown error occurred', 'Error!', {
                   timeOut: 2500,
                 });
-                this.cookie.delete('token');
-                this.cookie.delete('refresh');
+                this.cookie.delete('token', '/');
+                this.cookie.delete('refresh', '/');
                 localStorage.removeItem('region');
                 localStorage.removeItem('lat');
                 localStorage.removeItem('long');

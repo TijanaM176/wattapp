@@ -52,16 +52,22 @@ export class TokenInterceptor implements HttpInterceptor {
             .subscribe({
               next:(res)=>{
                 this.toast.error(err.error, 'Error!', {timeOut:3000});
-                this.cookie.delete('tokenProsumer');
-                this.cookie.delete('refreshProsumer');
+                this.cookie.delete('tokenProsumer','/');
+                this.cookie.delete('refreshProsumer','/');
+                localStorage.removeItem('usernameProsumer');
+                localStorage.removeItem('roleProsumer');
+                localStorage.removeItem('idProsumer');
                 this.counter = 0;
                 this.router.navigate(['login']);
               },
               error:(error)=>{
                 console.log(error);
                 this.toast.error('Unknown error occurred.', 'Error!', {timeOut:2500});
-                this.cookie.delete('tokenProsumer');
-                this.cookie.delete('refreshProsumer');
+                this.cookie.delete('tokenProsumer','/');
+                this.cookie.delete('refreshProsumer','/');
+                localStorage.removeItem('usernameProsumer');
+                localStorage.removeItem('roleProsumer');
+                localStorage.removeItem('idProsumer');
                 this.counter = 0;
                 this.router.navigate(['login']);
               }

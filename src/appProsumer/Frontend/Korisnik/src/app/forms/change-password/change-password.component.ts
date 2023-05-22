@@ -63,8 +63,8 @@ export class ChangePasswordComponent implements OnInit{
             next:(res)=>{
               setTimeout(()=>{
                 document.getElementById('closeChangePassOnSuccess')!.click();
-                this.cookie.delete('tokenProsumer');
-                this.cookie.delete('refreshProsumer');
+                this.cookie.delete('tokenProsumer','/');
+                this.cookie.delete('refreshProsumer','/');
                 localStorage.removeItem('usernameProsumer');
                 localStorage.removeItem('roleProsumer');
                 localStorage.removeItem('idProsumer');
@@ -74,8 +74,8 @@ export class ChangePasswordComponent implements OnInit{
             error:(err)=>{
               setTimeout(()=>{
                 document.getElementById('closeChangePassOnSuccess')!.click();
-                this.cookie.delete('tokenProsumer');
-                this.cookie.delete('refreshProsumer');
+                this.cookie.delete('tokenProsumer','/');
+                this.cookie.delete('refreshProsumer','/');
                 localStorage.removeItem('usernameProsumer');
                 localStorage.removeItem('roleProsumer');
                 localStorage.removeItem('idProsumer');
