@@ -58,10 +58,12 @@ export class ProsumerService {
 
   UploadImage(sp : any)
   {
-    return this.http.post(this.baseUrl+'Prosumer/'+this.cookie.get('id')+'/UploadImage', sp);
+    let id = localStorage.getItem('idProsumer')!;
+    return this.http.post(this.baseUrl+'Prosumer/'+id+'/UploadImage', sp);
   }
   DeleteImage()
   {
-    return this.http.delete(this.baseUrl+'Prosumer/'+this.cookie.get('id')+'/DeleteImage');
+    let id = localStorage.getItem('idProsumer')!;
+    return this.http.delete(this.baseUrl+'Prosumer/'+id+'/DeleteImage');
   }
 }

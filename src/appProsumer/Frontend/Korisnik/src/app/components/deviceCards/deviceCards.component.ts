@@ -34,8 +34,8 @@ export class DeviceCardsComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.id = this.cookie.get('id');
-    this.role = this.cookie.get('role');
+    this.id = localStorage.getItem('idProsumer')!;
+    this.role = localStorage.getItem('roleProsumer')!;
     this.service
       .getDevicesByProsumerId(this.id, this.role)
       .subscribe((response) => {

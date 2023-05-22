@@ -15,6 +15,7 @@ import { SendPhoto1 } from 'src/app/models/sendPhoto1';
 import { SendRefreshToken } from 'src/app/models/sendRefreshToken';
 import { AuthService } from 'src/app/services/auth.service';
 import { EmployeesServiceService } from 'src/app/services/employees-service.service';
+import jwt_decode from 'jwt-decode';
 
 @Component({
   selector: 'app-popup-add',
@@ -145,7 +146,7 @@ export class PopupAddComponent implements OnInit {
     );
     
     if (this.signupWorkerForm.valid) {
-      let refrestDto : SendRefreshToken = new SendRefreshToken(this.cookie.get('refresh'), this.cookie.get('username'), this.cookie.get('role'));
+      let refrestDto : SendRefreshToken = new SendRefreshToken(this.cookie.get('refresh'), localStorage.getItem('username')!, localStorage.getItem('role')!);
       this.auth.refreshToken(refrestDto)
       .subscribe({
         next:(res)=>{
@@ -153,6 +154,18 @@ export class PopupAddComponent implements OnInit {
           this.cookie.delete('refresh','/');
           this.cookie.set('token', res.token.toString().trim(), {path: '/'});
           this.cookie.set('refresh',res.refreshToken.toString().trim(), {path:'/'});
+
+          //update podataka u localStorage
+          let decodedToken: any = jwt_decode(res.token);
+          localStorage.setItem('username', decodedToken[
+            'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name'
+          ].toString().trim());
+
+          localStorage.setItem('role', decodedToken[
+            'http://schemas.microsoft.com/ws/2008/06/identity/claims/role'
+          ].toString().trim());
+          
+        localStorage.setItem('id', decodedToken['sub'].toString().trim());
 
           this.auth.signupWorker(this.signupWorkerForm.value).subscribe({
             next: (res) => {
@@ -173,17 +186,31 @@ export class PopupAddComponent implements OnInit {
         error:(err)=>{
           if(err instanceof HttpErrorResponse && err.status == 401)
           {
-            this.auth.logout(this.cookie.get('username'), this.cookie.get('role'))
+            this.auth.logout(localStorage.getItem('username')!, localStorage.getItem('role')!)
             .subscribe({
               next:(res)=>{
                 this.toast.error(err.error, 'Error!', {timeOut: 3000});
-                this.cookie.deleteAll('/');
+                this.cookie.delete('token', '/');
+                this.cookie.delete('refresh', '/');
+                localStorage.removeItem('region');
+                localStorage.removeItem('lat');
+                localStorage.removeItem('long');
+                localStorage.removeItem('username');
+                localStorage.removeItem('role');
+                localStorage.removeItem('id');
                 this.router.navigate(['login']);
               },
               error:(error)=>{
                 console.log('logout', error);
                 this.toast.error('Unknown error occurred.', 'Error!', {timeOut: 2500});
-                this.cookie.deleteAll('/');
+                this.cookie.delete('token', '/');
+                this.cookie.delete('refresh', '/');
+                localStorage.removeItem('region');
+                localStorage.removeItem('lat');
+                localStorage.removeItem('long');
+                localStorage.removeItem('username');
+                localStorage.removeItem('role');
+                localStorage.removeItem('id');
                 this.router.navigate(['login']);
               }
             });

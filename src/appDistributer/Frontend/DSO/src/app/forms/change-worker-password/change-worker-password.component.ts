@@ -34,23 +34,28 @@ export class ChangeWorkerPasswordComponent {
     ) {
       this.allToFalse();
       this.empty = true;
-    } else if (this.newPass != this.confirmNewPass) {
+    } 
+    else if (this.newPass != this.confirmNewPass) {
       this.allToFalse();
       this.dontMatch = true;
-    } else {
-      let dto: editEmployeeDto = new editEmployeeDto();
-      
-      // dto.newPassword = this.newPass;
-      // dto.oldPassword = this.currentPass;
+    } 
+    else {
       this.employeeService
-        .changePassword(this.cookie.get('id'), this.currentPass,this.newPass)
+        .changePassword(localStorage.getItem('id')!, this.currentPass,this.newPass)
         .subscribe({
           next: (res) => {
             this.allToFalse();
             this.success = true;
             setTimeout(() => {
               document.getElementById('closeChangePassOnSuccess')!.click();
-              this.cookie.deleteAll('/');
+              this.cookie.delete('token', '/');
+              this.cookie.delete('refresh', '/');
+              localStorage.removeItem('region');
+              localStorage.removeItem('lat');
+              localStorage.removeItem('long');
+              localStorage.removeItem('username');
+              localStorage.removeItem('role');
+              localStorage.removeItem('id');
               this.router.navigate(['login']);
             }, 700);
           },

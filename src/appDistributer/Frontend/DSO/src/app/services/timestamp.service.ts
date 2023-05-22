@@ -116,7 +116,7 @@ export class TimestampService {
   history7Days() {
     return this.http.get(
       'https://localhost:7156/api/Timestamp/LastWeeksConsumptionAndProduction?id=' +
-        this.cookie.get('id')
+        localStorage.getItem('id')!
     );
   }
 }

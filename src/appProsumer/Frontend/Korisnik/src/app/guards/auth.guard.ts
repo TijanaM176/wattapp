@@ -3,6 +3,7 @@ import { ActivatedRouteSnapshot, Router, RouterStateSnapshot, UrlTree } from '@a
 import { CookieService } from 'ngx-cookie-service';
 import { Observable } from 'rxjs';
 import { AuthServiceService } from '../services/auth-service.service';
+import jwt_decode from 'jwt-decode';
 
 @Injectable({
   providedIn: 'root'
@@ -16,15 +17,33 @@ export class AuthGuard {
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-      if(this.cookie.check("token"))
+      if(this.cookie.check("tokenProsumer"))
       {//ako token postoji
-        // var token = this.cookie.get("token");
-
-        let letUser = this.cookie.get('role') === 'Prosumer' ? true : false;
+        
+        let decodedToken: any = jwt_decode(this.cookie.get('tokenProsumer'));
+        let role = decodedToken['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'].toString().trim();
+        let letUser = role === 'Prosumer' ? true : false;
         if(!letUser)
         {
-          this.cookie.deleteAll('/');
-          this.router.navigate(["login"])
+          this.auth.logout()
+          .subscribe({
+            next:(res)=>{
+              this.cookie.delete('tokenProsumer','/');
+              this.cookie.delete('refreshProsumer','/');
+              localStorage.removeItem('usernameProsumer');
+              localStorage.removeItem('roleProsumer');
+              localStorage.removeItem('idProsumer');
+              this.router.navigateByUrl("login");
+            },
+            error:(err)=>{
+              this.cookie.delete('tokenProsumer','/');
+              this.cookie.delete('refreshProsumer','/');
+              localStorage.removeItem('usernameProsumer');
+              localStorage.removeItem('roleProsumer');
+              localStorage.removeItem('idProsumer');
+              this.router.navigateByUrl("login");
+            }
+          });
         }
         else
         {

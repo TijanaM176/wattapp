@@ -42,24 +42,38 @@ export class TokenInterceptor implements HttpInterceptor {
         if (err instanceof HttpErrorResponse && err.status == 401) {
           if (this.counter == 0) {
 
+            this.counter = 1;
             return this.handleAuth(request, next);
 
-          } else if (this.counter == 1) {
+          } 
+          else if (this.counter == 1) {
 
-            console.log(this.cookie.get('username'), this.cookie.get('role'));
-
-            this.auth.logout(this.cookie.get('username'), this.cookie.get('role'))
+            this.auth.logout(localStorage.getItem('username')!, localStorage.getItem('role')!)
             .subscribe({
               next:(res)=>{
                 this.counter = 0;
                 this.toast.error(err.error, 'Error!', {timeOut: 3000});
-                this.cookie.deleteAll('/');
+                this.cookie.delete('token', '/');
+                this.cookie.delete('refresh', '/');
+                localStorage.removeItem('region');
+                localStorage.removeItem('lat');
+                localStorage.removeItem('long');
+                localStorage.removeItem('username');
+                localStorage.removeItem('role');
+                localStorage.removeItem('id');
                 this.router.navigate(['login']);
               },
               error:(error)=>{
                 console.log('logout', error);
                 this.toast.error('Unknown error occurred.', 'Error!', {timeOut: 2500});
-                this.cookie.deleteAll('/');
+                this.cookie.delete('token', '/');
+                this.cookie.delete('refresh', '/');
+                localStorage.removeItem('region');
+                localStorage.removeItem('lat');
+                localStorage.removeItem('long');
+                localStorage.removeItem('username');
+                localStorage.removeItem('role');
+                localStorage.removeItem('id');
                 this.router.navigate(['login']);
               }
             });
@@ -72,7 +86,7 @@ export class TokenInterceptor implements HttpInterceptor {
 
   private handleAuth(request: HttpRequest<any>, next: HttpHandler) {
 
-    let refreshDto = new SendRefreshToken(this.cookie.get('refresh'), this.cookie.get('username'), this.cookie.get('role'));
+    let refreshDto = new SendRefreshToken(this.cookie.get('refresh'), localStorage.getItem('username')!, localStorage.getItem('role')!);
 
     return this.auth.refreshToken(refreshDto).pipe(
       switchMap((data: RefreshTokenDto) => {
@@ -85,6 +99,19 @@ export class TokenInterceptor implements HttpInterceptor {
           path: '/',
         });
 
+        //update podataka u localStorage
+        let decodedToken: any = jwt_decode(data.token);
+        localStorage.setItem('username', decodedToken[
+          'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name'
+        ].toString().trim());
+
+        localStorage.setItem('role', decodedToken[
+          'http://schemas.microsoft.com/ws/2008/06/identity/claims/role'
+        ].toString().trim());
+          
+        localStorage.setItem('id', decodedToken['sub'].toString().trim());
+
+        //ponovno slanje zahteva
         request = request.clone({
           setHeaders: { Authorization: 'Bearer ' + this.cookie.get('token') },
           body: refreshDto,
@@ -93,17 +120,6 @@ export class TokenInterceptor implements HttpInterceptor {
         return next.handle(request);
       }),
       catchError((err) => {
-        if(err instanceof HttpErrorResponse && err.status == 401)
-        {
-          this.counter = 1;
-          console.log('neautorizovano');
-          console.log(err);
-        }
-        else
-        {
-          // this.toast.error('Unknown error occured.', 'Error!', { timeOut:3000 });
-          console.log(err);
-        }
         return throwError(() => err);
       })
     );

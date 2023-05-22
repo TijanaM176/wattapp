@@ -18,6 +18,7 @@ import { ToastrService } from 'ngx-toastr';
 import { DataService } from 'src/app/services/data.service';
 import { SendRefreshToken } from 'src/app/models/sendRefreshToken';
 import { HttpErrorResponse } from '@angular/common/http';
+import jwt_decode from 'jwt-decode';
 
 @Component({
   selector: 'app-popup-emp',
@@ -105,7 +106,7 @@ export class PopupEmpComponent implements OnInit {
 
       this.address = this.address.replaceAll('dj', 'đ');
       // console.log(this.address); //adresu lepo kupi
-      let refrestDto : SendRefreshToken = new SendRefreshToken(this.cookie.get('refresh'), this.cookie.get('username'), this.cookie.get('role'));
+      let refrestDto : SendRefreshToken = new SendRefreshToken(this.cookie.get('refresh'), localStorage.getItem('username')!, localStorage.getItem('role')!);
       this.auth.refreshToken(refrestDto)
       .subscribe({
         next:(res)=>{
@@ -113,6 +114,22 @@ export class PopupEmpComponent implements OnInit {
           this.cookie.delete('refresh','/');
           this.cookie.set('token', res.token.toString().trim(), {path: '/'});
           this.cookie.set('refresh',res.refreshToken.toString().trim(), {path:'/'});
+
+          //update podataka u localStorage
+          let decodedToken: any = jwt_decode(res.token);
+          localStorage.setItem('username', decodedToken[
+            'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name'
+          ]
+            .toString()
+            .trim());
+
+          localStorage.setItem('role', decodedToken[
+            'http://schemas.microsoft.com/ws/2008/06/identity/claims/role'
+          ]
+            .toString()
+            .trim());
+          
+          localStorage.setItem('id', decodedToken['sub'].toString().trim());
 
           this.auth.signUp(this.signupForm.value).subscribe({
             next: (res) => {
@@ -135,17 +152,31 @@ export class PopupEmpComponent implements OnInit {
         error:(err)=>{
           if(err instanceof HttpErrorResponse && err.status == 401)
           {
-            this.auth.logout(this.cookie.get('username'), this.cookie.get('role'))
+            this.auth.logout(localStorage.getItem('username')!, localStorage.getItem('role')!)
             .subscribe({
               next:(res)=>{
                 this.toast.error(err.error, 'Error!', {timeOut: 3000});
-                this.cookie.deleteAll('/');
+                this.cookie.delete('token', '/');
+                this.cookie.delete('refresh', '/');
+                localStorage.removeItem('region');
+                localStorage.removeItem('lat');
+                localStorage.removeItem('long');
+                localStorage.removeItem('username');
+                localStorage.removeItem('role');
+                localStorage.removeItem('id');
                 this.router.navigate(['login']);
               },
               error:(error)=>{
                 console.log('logout', error);
                 this.toast.error('Unknown error occurred.', 'Error!', {timeOut: 2500});
-                this.cookie.deleteAll('/');
+                this.cookie.delete('token', '/');
+                this.cookie.delete('refresh', '/');
+                localStorage.removeItem('region');
+                localStorage.removeItem('lat');
+                localStorage.removeItem('long');
+                localStorage.removeItem('username');
+                localStorage.removeItem('role');
+                localStorage.removeItem('id');
                 this.router.navigate(['login']);
               }
             });
@@ -189,7 +220,7 @@ export class PopupEmpComponent implements OnInit {
         coordsDto.Longitude = location[1].toString();
         this.auth.setUserCoordinates(coordsDto).subscribe({
           next: (res) => {
-            console.log(res.message);
+            // console.log(res.message);
           },
           error: (err) => {
             this.toast.error('Error!', 'Unable to get coordinates.', {

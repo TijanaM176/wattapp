@@ -70,7 +70,8 @@ export class UserInfoComponent implements OnInit, AfterViewInit {
   }
 
   private getInformation() {
-    this.prosumerService.getInforamtion(this.cookie.get('id')).subscribe({
+    let id = localStorage.getItem('idProsumer')!;
+    this.prosumerService.getInforamtion(id).subscribe({
       next: (res) => {
         // console.log(res);
         this.username = res.userName;
@@ -184,8 +185,8 @@ export class UserInfoComponent implements OnInit, AfterViewInit {
     {
       this.croppedImage = this.croppedImage.replace('data:image/png;base64,', '');
       // console.log(this.croppedImage);
-      
-      let sp = new SendPhoto(this.cookie.get('id'),this.croppedImage);
+      let id = localStorage.getItem('idProsumer')!;
+      let sp = new SendPhoto(id,this.croppedImage);
       
       this.prosumerService.UploadImage(sp)
       .subscribe({

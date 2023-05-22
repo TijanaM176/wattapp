@@ -32,8 +32,8 @@ export class NavBarComponent implements OnInit {
 
   ngOnInit(): void {
     this.url = window.location.pathname;
-    this.letValue = this.cookie.get('role');
-    this.service.detailsEmployee(this.cookie.get('id')).subscribe((res) => {
+    this.letValue = localStorage.getItem('role')!;
+    this.service.detailsEmployee(localStorage.getItem('id')!).subscribe((res) => {
       this.Image(res.image);
     });
 
@@ -45,7 +45,7 @@ export class NavBarComponent implements OnInit {
     });
 
     this.ChangeActive();
-    this.service.detailsEmployee(this.cookie.get('id')).subscribe((res) => {
+    this.service.detailsEmployee(localStorage.getItem('id')!).subscribe((res) => {
       this.Image(res.image);
     });
     this.profilePhotoService.profilePhoto$.subscribe((photoUrl) => {
@@ -98,14 +98,12 @@ export class NavBarComponent implements OnInit {
   LogOut() {
     this.cookie.delete('token', '/');
     this.cookie.delete('refresh', '/');
-    this.cookie.delete('id', '/');
-    this.cookie.delete('role', '/');
-    this.cookie.delete('username', '/');
-    this.cookie.delete('lat', '/');
-    this.cookie.delete('long', '/');
-    this.cookie.delete('acc', '/');
-    this.cookie.delete('country', '/');
-    this.cookie.deleteAll();
+    localStorage.removeItem('region');
+    localStorage.removeItem('lat');
+    localStorage.removeItem('long');
+    localStorage.removeItem('username');
+    localStorage.removeItem('role');
+    localStorage.removeItem('id');
     this.router.navigate(['login']);
   }
 }

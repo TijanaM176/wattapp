@@ -42,21 +42,22 @@ export class AuthServiceService {
 
   logout()
   {
-    let username = this.cookie.get('username');
+    let username = localStorage.getItem('usernameProsumer')!;
     let role = 'Prosumer'
     return this.http.put(this.baseUrl + 'Auth/Logout', {username, role});
   }
 
   validateToken()
   {
-    let refreshDto = new SendRefreshToken(this.cookie.get('refresh'), this.cookie.get('username'));
+    let username = localStorage.getItem('usernameProsumer')!;
+    let refreshDto = new SendRefreshToken(this.cookie.get('refreshProsumer'), username);
     this.refreshToken(refreshDto)
     .subscribe({
       next:(res)=>{
-        this.cookie.delete('token', '/');
-        this.cookie.delete('refresh', '/');
-        this.cookie.set('token', res.token.toString().trim(), { path: '/' });
-        this.cookie.set('refresh', res.refreshToken.toString().trim(), {
+        this.cookie.delete('tokenProsumer', '/');
+        this.cookie.delete('refreshProsumer', '/');
+        this.cookie.set('tokenProsumer', res.token.toString().trim(), { path: '/' });
+        this.cookie.set('refreshProsumer', res.refreshToken.toString().trim(), {
           path: '/',
         });
       },
@@ -65,13 +66,21 @@ export class AuthServiceService {
           .subscribe({
             next:(res)=>{
               this.toast.error('Session has expired. Please, log in again.', 'Error!', {timeOut:3000});
-              this.cookie.deleteAll('/');
+              this.cookie.delete('tokenProsumer', '/');
+              this.cookie.delete('refreshProsumer', '/');
+              localStorage.removeItem('usernameProsumer');
+              localStorage.removeItem('roleProsumer');
+              localStorage.removeItem('idProsumer');
               this.router.navigate(['login']);
             },
             error:(error)=>{
               console.log(error);
               this.toast.error('Unknown error occurred. Try again later.', 'Error!', {timeOut:2500});
-              this.cookie.deleteAll('/');
+              this.cookie.delete('tokenProsumer', '/');
+              this.cookie.delete('refreshProsumer', '/');
+              localStorage.removeItem('usernameProsumer');
+              localStorage.removeItem('roleProsumer');
+              localStorage.removeItem('idProsumer');
               this.router.navigate(['login']);
             }
           });
