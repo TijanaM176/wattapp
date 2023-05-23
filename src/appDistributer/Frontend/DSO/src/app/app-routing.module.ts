@@ -20,7 +20,8 @@ import { WorkerProfileComponent } from './components/worker-profile/worker-profi
 import { User1Component } from './components/user1/user1.component';
 
 const routes: Routes = [
-  { path: 'login', component: LoginComponent,
+  { path: 'login', 
+    component: LoginComponent,
     canActivate: [LoginGuard] 
   },
   { path: '', redirectTo: 'DsoApp', pathMatch: 'full' },

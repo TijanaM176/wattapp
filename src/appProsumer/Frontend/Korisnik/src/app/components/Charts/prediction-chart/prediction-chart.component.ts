@@ -34,6 +34,9 @@ export class PredictionChartComponent implements OnInit, AfterViewInit {
       'grafikPredictionConsumptionProduction'
     );
     grafik!.style!.height = this.widthService.height * this.coef + 'px';
+    if(this.widthService.deviceWidth > this.widthService.height)
+      grafik!.style!.minHeight = '500px';
+    
     document.getElementById('prediction3')!.classList.add('active');
   }
 

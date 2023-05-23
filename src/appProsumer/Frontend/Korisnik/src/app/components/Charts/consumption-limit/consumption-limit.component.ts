@@ -120,6 +120,10 @@ export class ConsumptionLimitComponent implements OnInit, AfterViewInit {
   ajustHeight() {
     let w = window.innerWidth;
     let h = window.innerHeight;
+    if(h<w)
+    {
+      document.getElementById('consumptionLimitBody')!.style.minHeight = '500px';
+    }
     if (w >= 576) {
       document.getElementById('consumptionLimitBody')!.style.height = h * 0.5 + 'px';
     } else {
@@ -135,9 +139,12 @@ export class ConsumptionLimitComponent implements OnInit, AfterViewInit {
   ajustHeightOnWidthChange() {
     let w = this.widthService.deviceWidth;
     let h = this.widthService.height;
+    if(h<w)
+    {
+      document.getElementById('consumptionLimitBody')!.style.minHeight = '500px';
+    }
     if (w >= 576) {
-        document.getElementById('consumptionLimitBody')!.style.height =
-          h * 0.5 + 'px';
+      document.getElementById('consumptionLimitBody')!.style.height = h * 0.5 + 'px';
       this.width =
         document.getElementById('consumptionLimitCardBody')!.offsetWidth * 0.9;
     } else {
