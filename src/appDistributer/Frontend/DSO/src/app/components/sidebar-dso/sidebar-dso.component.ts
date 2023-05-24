@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Router } from '@angular/router';
-
 import { CookieService } from 'ngx-cookie-service';
 import { UsersServiceService } from 'src/app/services/users-service.service';
 import { UserDevicesComponent } from '../UserDevices/UserDevices.component';
+
 @Component({
   selector: 'app-sidebar-dso',
   templateUrl: './sidebar-dso.component.html',
@@ -24,7 +24,7 @@ export class SidebarDsoComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.letValue = this.cookie.get('role');
+    this.letValue = localStorage.getItem('role')!;
     this.id = this.router.snapshot.params['id'];
   }
   Devices() {
@@ -34,7 +34,7 @@ export class SidebarDsoComponent implements OnInit {
     //console.log(this.router.snapshot.params['id']);
     this.user.deleteUser(this.router.snapshot.params['id']).subscribe({
       next: (res) => {
-        console.log(res);
+        // console.log(res);
         this.r.navigate(['/DsoApp/users']);
       },
       error: (err) => {

@@ -84,7 +84,30 @@ export class HomeComponent implements OnInit, AfterViewInit {
   }
 
   LogOut() {
-    this.cookie.deleteAll();
-    this.router.navigate(['login']);
+    this.auth.logout(localStorage.getItem('username')!, localStorage.getItem('role')!)
+    .subscribe({
+      next: (res) => {
+        this.cookie.delete('token', '/');
+        this.cookie.delete('refresh', '/');
+        localStorage.removeItem('region');
+        localStorage.removeItem('lat');
+        localStorage.removeItem('long');
+        localStorage.removeItem('username');
+        localStorage.removeItem('role');
+        localStorage.removeItem('id');
+        this.router.navigate(['login']);
+      },
+      error: (error) => {
+        this.cookie.delete('token', '/');
+        this.cookie.delete('refresh', '/');
+        localStorage.removeItem('region');
+        localStorage.removeItem('lat');
+        localStorage.removeItem('long');
+        localStorage.removeItem('username');
+        localStorage.removeItem('role');
+        localStorage.removeItem('id');
+        this.router.navigate(['login']);
+      },
+    });
   }
 }

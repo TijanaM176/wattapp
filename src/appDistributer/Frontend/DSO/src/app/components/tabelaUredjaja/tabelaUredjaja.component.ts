@@ -51,7 +51,7 @@ export class TabelaUredjajaComponent implements OnInit {
   ngOnInit(): void {
     this.id = this.router.snapshot.params['id'];
     this.deviceService.getDevicesByProsumerId(this.id).subscribe((response) => {
-      console.log(response);
+      // console.log(response);
       this.currentConsumption = response.currentConsumption;
       this.currentProduction = response.currentProduction;
       this.deviceCount = response.deviceCount;

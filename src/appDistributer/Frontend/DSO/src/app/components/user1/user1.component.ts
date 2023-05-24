@@ -16,6 +16,8 @@ import { AuthService } from 'src/app/services/auth.service';
 import { SendRefreshToken } from 'src/app/models/sendRefreshToken';
 import { ToastrService } from 'ngx-toastr';
 import Swal from 'sweetalert2';
+import jwt_decode from 'jwt-decode';
+
 @Component({
   selector: 'app-user1',
   templateUrl: './user1.component.html',
@@ -77,9 +79,9 @@ export class User1Component implements OnInit, AfterViewInit {
   onCurrentValuesReceived(values: [number, number, number, number]) {
     const [consumption, production, deviceCount, realDeviceCount] = values;
     // Do something with the received values
-    console.log(
-      `Consumption: ${consumption}, Production: ${production}, Device count: ${deviceCount}`
-    );
+    // console.log(
+    //   `Consumption: ${consumption}, Production: ${production}, Device count: ${deviceCount}`
+    // );
     this.deviceCount = deviceCount;
     this.currentConsumption = consumption;
     this.currentProduction = production;
@@ -89,7 +91,7 @@ export class User1Component implements OnInit, AfterViewInit {
   ngOnInit(): void {
     document.getElementById('userInfoDataContainer')!.style.height =
       this.widthService.height + 'px';
-    this.letValue = this.cookie.get('role');
+    this.letValue = localStorage.getItem('role')!;
     if (this.letValue === 'Admin') this.canDeleteEdit = true;
     this.spiner.show();
     this.disableDelete(this.letValue);
@@ -113,7 +115,7 @@ export class User1Component implements OnInit, AfterViewInit {
         this.address = data.address;
         this.Image(data.image);
         this.id = this.router.snapshot.params['id'];
-        this.Region = this.cookie.get('region');
+        this.Region = localStorage.getItem('region')!;
         this.serviceData.getCityNameById(data.cityId).subscribe((dat) => {
           // console.log(dat)
           this.city = dat;
@@ -143,8 +145,8 @@ export class User1Component implements OnInit, AfterViewInit {
   UpdateData() {
     let refreshDto = new SendRefreshToken(
       this.cookie.get('refresh'),
-      this.cookie.get('username'),
-      this.cookie.get('role')
+      localStorage.getItem('username')!,
+      localStorage.getItem('role')!
     );
     this.auth.refreshToken(refreshDto).subscribe({
       next: (data) => {
@@ -155,6 +157,19 @@ export class User1Component implements OnInit, AfterViewInit {
           path: '/',
         });
 
+        //update podataka u localStorage
+        let decodedToken: any = jwt_decode(data.token);
+        localStorage.setItem('username', decodedToken[
+          'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name'
+        ].toString().trim());
+
+        localStorage.setItem('role', decodedToken[
+          'http://schemas.microsoft.com/ws/2008/06/identity/claims/role'
+        ].toString().trim());
+          
+        localStorage.setItem('id', decodedToken['sub'].toString().trim());
+
+        //izmena podataka korisnika
         let dto: editUserDto = new editUserDto();
         dto.id = this.router.snapshot.params['id'];
         dto.firstName = this.editUser.value.FirstName!;
@@ -172,11 +187,18 @@ export class User1Component implements OnInit, AfterViewInit {
       },
       error: (err) => {
         this.auth
-          .logout(this.cookie.get('username'), this.cookie.get('role'))
+          .logout(localStorage.getItem('username')!, localStorage.getItem('role')!)
           .subscribe({
             next: (res) => {
               this.toast.error(err.error, 'Error!', { timeOut: 3000 });
-              this.cookie.deleteAll('/');
+              this.cookie.delete('token', '/');
+              this.cookie.delete('refresh', '/');
+              localStorage.removeItem('region');
+              localStorage.removeItem('lat');
+              localStorage.removeItem('long');
+              localStorage.removeItem('username');
+              localStorage.removeItem('role');
+              localStorage.removeItem('id');
               this.r.navigate(['login']);
             },
             error: (error) => {
@@ -184,6 +206,14 @@ export class User1Component implements OnInit, AfterViewInit {
               this.toast.error('Unknown error occurred', 'Error!', {
                 timeOut: 2500,
               });
+              this.cookie.delete('token', '/');
+              this.cookie.delete('refresh', '/');
+              localStorage.removeItem('region');
+              localStorage.removeItem('lat');
+              localStorage.removeItem('long');
+              localStorage.removeItem('username');
+              localStorage.removeItem('role');
+              localStorage.removeItem('id');
               this.r.navigate(['login']);
             },
           });
@@ -206,8 +236,8 @@ export class User1Component implements OnInit, AfterViewInit {
       if (result.value) {
         let refreshDto = new SendRefreshToken(
           this.cookie.get('refresh'),
-          this.cookie.get('username'),
-          this.cookie.get('role')
+          localStorage.getItem('username')!,
+          localStorage.getItem('role')!
         );
         this.auth.refreshToken(refreshDto).subscribe({
           next: (data) => {
@@ -219,7 +249,19 @@ export class User1Component implements OnInit, AfterViewInit {
             this.cookie.set('refresh', data.refreshToken.toString().trim(), {
               path: '/',
             });
+            //update podataka u localStorage
+            let decodedToken: any = jwt_decode(data.token);
+            localStorage.setItem('username', decodedToken[
+              'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name'
+            ].toString().trim());
 
+            localStorage.setItem('role', decodedToken[
+              'http://schemas.microsoft.com/ws/2008/06/identity/claims/role'
+            ].toString().trim());
+              
+            localStorage.setItem('id', decodedToken['sub'].toString().trim());
+
+            //brisanje korisnika
             this.user.deleteUser(this.router.snapshot.params['id']).subscribe({
               next: (res) => {
                 // console.log(res);
@@ -235,11 +277,18 @@ export class User1Component implements OnInit, AfterViewInit {
           },
           error: (err) => {
             this.auth
-              .logout(this.cookie.get('username'), this.cookie.get('role'))
+              .logout(localStorage.getItem('username')!, localStorage.getItem('role')!)
               .subscribe({
                 next: (res) => {
                   this.toast.error(err.error, 'Error!', { timeOut: 3000 });
-                  this.cookie.deleteAll('/');
+                  this.cookie.delete('token', '/');
+                  this.cookie.delete('refresh', '/');
+                  localStorage.removeItem('region');
+                  localStorage.removeItem('lat');
+                  localStorage.removeItem('long');
+                  localStorage.removeItem('username');
+                  localStorage.removeItem('role');
+                  localStorage.removeItem('id');
                   this.r.navigate(['login']);
                 },
                 error: (error) => {
@@ -247,6 +296,15 @@ export class User1Component implements OnInit, AfterViewInit {
                   this.toast.error('Unknown error occurred', 'Error!', {
                     timeOut: 2500,
                   });
+                  this.cookie.delete('token', '/');
+                  this.cookie.delete('refresh', '/');
+                  localStorage.removeItem('region');
+                  localStorage.removeItem('lat');
+                  localStorage.removeItem('long');
+                  localStorage.removeItem('username');
+                  localStorage.removeItem('role');
+                  localStorage.removeItem('id');
+                  this.r.navigate(['login']);
                 },
               });
           },

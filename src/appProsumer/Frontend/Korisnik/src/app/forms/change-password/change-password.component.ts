@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
 import { EditDto } from 'src/app/models/editDto';
+import { AuthServiceService } from 'src/app/services/auth-service.service';
 import { ProsumerService } from 'src/app/services/prosumer.service';
 
 @Component({
@@ -21,7 +22,12 @@ export class ChangePasswordComponent implements OnInit{
   incorrectCurrent : boolean = false;
   empty : boolean = false; 
 
-  constructor(private userService : ProsumerService, private cookie : CookieService, private router : Router) {}
+  constructor(
+    private userService : ProsumerService, 
+    private cookie : CookieService, 
+    private router : Router,
+    private auth : AuthServiceService
+    ) {}
 
   ngOnInit(): void {
     this.allToFalse();
@@ -29,7 +35,7 @@ export class ChangePasswordComponent implements OnInit{
 
   changePass()
   {
-    if(this.newPass =="" || this.confirmNewPass =="") // || this.currentPass==""
+    if(this.newPass =="" || this.confirmNewPass =="" || this.currentPass=="")
     {
       this.allToFalse();
       this.empty = true;
@@ -41,22 +47,42 @@ export class ChangePasswordComponent implements OnInit{
     }
     else
     {
-      //prvo da se pozove fja da se potvrdi trenutna sifra pa ako je to uspesno da se pozove f-ja za izmenu
       let dto : EditDto = new EditDto();
       dto.newPassword = this.newPass;
       dto.oldPassword = this.currentPass;
 
-      this.userService.editInfo(this.cookie.get('id'), dto)
+      let id = localStorage.getItem('idProsumer')!;
+      this.userService.editInfo(id, dto)
       .subscribe({
         next:(res)=>{
           this.allToFalse();
           this.success = true;
 
-          setTimeout(()=>{
-            document.getElementById('closeChangePassOnSuccess')!.click();
-            this.cookie.deleteAll('/');
-            this.router.navigate(['login']);
-          },700)
+          this.auth.logout()
+          .subscribe({
+            next:(res)=>{
+              setTimeout(()=>{
+                document.getElementById('closeChangePassOnSuccess')!.click();
+                this.cookie.delete('tokenProsumer','/');
+                this.cookie.delete('refreshProsumer','/');
+                localStorage.removeItem('usernameProsumer');
+                localStorage.removeItem('roleProsumer');
+                localStorage.removeItem('idProsumer');
+                this.router.navigate(['login']);
+              },500)
+            },
+            error:(err)=>{
+              setTimeout(()=>{
+                document.getElementById('closeChangePassOnSuccess')!.click();
+                this.cookie.delete('tokenProsumer','/');
+                this.cookie.delete('refreshProsumer','/');
+                localStorage.removeItem('usernameProsumer');
+                localStorage.removeItem('roleProsumer');
+                localStorage.removeItem('idProsumer');
+                this.router.navigate(['login']);
+              },500)
+            }
+          });
         },
         error:(err)=>{
           this.allToFalse();

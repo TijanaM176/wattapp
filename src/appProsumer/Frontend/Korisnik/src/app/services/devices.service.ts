@@ -13,66 +13,66 @@ export class DevicesService {
   constructor(private http: HttpClient, private cookie: CookieService) {}
 
   history7Days() {
+    let id = localStorage.getItem('idProsumer')!;
     return this.http.get(
       this.baseUrl +
-        'Timestamp/LastWeeksConsumptionAndProduction?id=' +
-        this.cookie.get('id')
+        'Timestamp/LastWeeksConsumptionAndProduction?id=' + id
     );
   }
 
   history1Month() {
+    let id = localStorage.getItem('idProsumer')!;
     return this.http.get(
       this.baseUrl +
-        'Timestamp/LastMonthsConsumptionAndProduction?id=' +
-        this.cookie.get('id')
+        'Timestamp/LastMonthsConsumptionAndProduction?id=' + id
     );
   }
 
   history1Year() {
+    let id = localStorage.getItem('idProsumer')!;
     return this.http.get(
       this.baseUrl +
-        'Timestamp/LastYearsConsumptionAndProduction?id=' +
-        this.cookie.get('id')
+        'Timestamp/LastYearsConsumptionAndProduction?id=' + id
     );
   }
 
   prediction1Week() {
+    let id = localStorage.getItem('idProsumer')!;
     return this.http.get(
       this.baseUrl +
-        'Timestamp/NextWeeksConsumptionAndProduction?id=' +
-        this.cookie.get('id')
+        'Timestamp/NextWeeksConsumptionAndProduction?id=' + id
     );
   }
 
   prediction3Days() {
+    let id = localStorage.getItem('idProsumer')!;
     return this.http.get(
       this.baseUrl +
-        'Timestamp/Next3DaysConsumptionAndProduction?id=' +
-        this.cookie.get('id')
+        'Timestamp/Next3DaysConsumptionAndProduction?id=' + id
     );
   }
 
   prediction1Day() {
+    let id = localStorage.getItem('idProsumer')!;
     return this.http.get(
       this.baseUrl +
-        'Timestamp/NextDaysConsumptionAndProduction?id=' +
-        this.cookie.get('id')
+        'Timestamp/NextDaysConsumptionAndProduction?id=' + id
     );
   }
 
   getCurrentConsumptionAndProduction(): Observable<any> {
+    let id = localStorage.getItem('idProsumer')!;
     return this.http.get<any>(
       this.baseUrl +
-        'TotalPowerUsage/ConsumptionAndProductionByProsumer?id=' +
-        this.cookie.get('id')
+        'TotalPowerUsage/ConsumptionAndProductionByProsumer?id=' + id
     );
   }
 
   getConsumptionAndProductionLimit(): Observable<any> {
+    let id = localStorage.getItem('idProsumer')!;
     return this.http.get<any>(
       this.baseUrl +
-        'TotalPowerUsage/ThisMonthTotalConsumptionProductionForProsumer?prosumerId=' +
-        this.cookie.get('id')
+        'TotalPowerUsage/ThisMonthTotalConsumptionProductionForProsumer?prosumerId=' + id
     );
   }
   predictionDevice(id: string): Observable<any> {

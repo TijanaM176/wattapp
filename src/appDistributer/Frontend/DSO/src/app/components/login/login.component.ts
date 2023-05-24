@@ -42,14 +42,12 @@ export class LoginComponent implements OnInit {
   ngOnInit(): void {
     this.cookie.delete('token', '/');
     this.cookie.delete('refresh', '/');
-    this.cookie.delete('id', '/');
-    this.cookie.delete('role', '/');
-    this.cookie.delete('username', '/');
-    this.cookie.delete('lat', '/');
-    this.cookie.delete('long', '/');
-    this.cookie.delete('acc', '/');
-    this.cookie.delete('region', '/');
-    this.cookie.deleteAll();
+    localStorage.removeItem('region');
+    localStorage.removeItem('lat');
+    localStorage.removeItem('long');
+    localStorage.removeItem('username');
+    localStorage.removeItem('role');
+    localStorage.removeItem('id');
     this.loginForm = this.fb.group({
       usernameOrEmail: ['', Validators.required],
       password: ['', Validators.required],
@@ -79,34 +77,29 @@ export class LoginComponent implements OnInit {
       this.auth.login(this.loginForm.value).subscribe({
         next: (res) => {
           //alert(res.message);
-          this.cookie.deleteAll();
+          this.cookie.delete('token', '/');
+          this.cookie.delete('refresh', '/');
           this.loginForm.reset();
-          var decodedToken: any = jwt_decode(res.token);
-          this.cookie.set(
-            'username',
-            decodedToken[
-              'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name'
-            ]
-              .toString()
-              .trim(),
-            { path: '/' }
-          );
-          this.cookie.set(
-            'role',
-            decodedToken[
-              'http://schemas.microsoft.com/ws/2008/06/identity/claims/role'
-            ]
-              .toString()
-              .trim(),
-            { path: '/' }
-          );
-          this.cookie.set('id', decodedToken['sub'].toString().trim(), {
-            path: '/',
-          });
+          let decodedToken: any = jwt_decode(res.token);
+          localStorage.setItem('username', decodedToken[
+            'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name'
+          ]
+            .toString()
+            .trim());
+
+          localStorage.setItem('role', decodedToken[
+            'http://schemas.microsoft.com/ws/2008/06/identity/claims/role'
+          ]
+            .toString()
+            .trim());
+          
+          localStorage.setItem('id', decodedToken['sub'].toString().trim());
+          
           this.cookie.set('token', res.token.toString().trim(), { path: '/' });
           this.cookie.set('refresh', res.refreshToken.toString().trim(), {
             path: '/',
           });
+          
           this.toast.success('Success', 'Successful Login!', { timeOut: 2500 });
           this.router.navigate(['']);
         },
