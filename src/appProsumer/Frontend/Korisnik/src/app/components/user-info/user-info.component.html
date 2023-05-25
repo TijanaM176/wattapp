@@ -204,22 +204,6 @@
           <div class="col-12 px-0 mb-4" style="display: flex; justify-content: center; align-items: center;">
             
             <image-cropper
-            *ngIf="widthService.deviceWidth<576"
-              [imageChangedEvent]="imgChangeEvt" 
-              [maintainAspectRatio]="true" 
-              [aspectRatio]="1 / 1"
-              format="png"
-              [imageAltText] = "'Crop Image'"
-              [cropperMinWidth] = "100"
-              [cropperMinHeight] = "100"
-              [roundCropper] = "true"
-              [hideResizeSquares] = "true"
-              (imageCropped) = "cropImg($event)"
-              id="showChangeImage"
-            >
-            </image-cropper>
-            <image-cropper
-            *ngIf="widthService.deviceWidth>=576"
               [imageChangedEvent]="imgChangeEvt" 
               [maintainAspectRatio]="true" 
               [aspectRatio]="1 / 1"
