@@ -9,8 +9,8 @@
       style="width: 100%; height: 35%; margin-top: 0%"
     ></div>
     <div
-      class="walls px-1 pb-1"
-      style="width: 85%; height: 65%"
+      class="walls px-1 py-2"
+      style="width: 85%; height: 65%; overflow-x: hidden; overflow-y: auto;"
       id="houseWalls"
     >
     <h1
@@ -26,478 +26,348 @@
     >
       There Are No Devices
     </h1>
-      <div
-        class="row px-0 py-0 mx-0 my-0"
-        style="
-          width: 100%;
-          height: 100%;
-          display: flex;
-          justify-content: start;
-          align-items: center;
-          overflow-y: auto;
-          overflow-x: hidden;
-        "
-      >
-        <div
-          class="card px-0 py-0"
-          *ngFor="let device of devices; index as i"
-          [ngStyle]="{
-            'background-color': device.Activity==0 ? '#D8D8D8' : '#8ee5c9'
-          }"
-          (click)="selectedDevice(i)"
-          data-bs-toggle="modal"
-          data-bs-target="#turnDeviceOffOn"
-          style="cursor: pointer;"
-        >
-          <span
-            [ngSwitch]="device.TypeId"
-            style="max-width: 100%; text-align: center"
-            class="p-1"
-          >
-            <div
-              *ngSwitchCase="'1'"
-              class="pt-1 text-center row text-center d-flex justify-content-center align-items-center" 
-            >
-              <div class="col-12">
-                <img src="assets/images/fridge.png" [ngStyle]="{'width': widthService.deviceWidth>992 ? '25%' : '40%'}"/>
-              </div>
-              <div class="col-12">
-                <a
-                  style="
-                    max-width: 96%;
-                    display: block;
-                    white-space: nowrap;
-                    overflow: hidden;
-                    text-overflow: ellipsis;
-                    margin-top: 5%;
-                  "
-                  >{{ device.Name }}</a
-                >
-              </div>
+    <!-- device cards start -->
+      <div class="row w-100 row-cols-3 row-cols-md-4 g-1">
+        <div class="col" *ngFor="let device of devices; index as i" [ngSwitch]="device.TypeId">
+          
+          <div class="card h-100"
+            *ngSwitchCase="'1'"
+            [ngStyle]="{
+              'background-color': device.Activity==0 ? '#D8D8D8' : '#8ee5c9'
+            }"
+            (click)="selectedDevice(i)"
+            data-bs-toggle="modal"
+            data-bs-target="#turnDeviceOffOn"
+            style="cursor: pointer;">
+            <img src="assets/images/fridge.png" class="card-img-top mt-1 mb-0" style="width: 30%;">
+            <div class="card-body p-0 m-0"></div>
+            <div class="card-footer w-100 pb-0">
+              <div class="device-name mt-0">{{ device.Name }}</div>
             </div>
-            <div
-              *ngSwitchCase="'2'"
-              class="pt-1 text-center row text-center d-flex justify-content-center align-items-center"
-            >
-              <div class="col-12">
-                <img src="assets/images/tv.png" [ngStyle]="{'width': widthService.deviceWidth>992 ? '25%' : '40%'}"/>
-              </div>
-              <div class="col-12">
-                <a
-                  style="
-                    max-width: 96%;
-                    display: block;
-                    white-space: nowrap;
-                    overflow: hidden;
-                    text-overflow: ellipsis;
-                    margin-top: 5%;
-                  "
-                  >{{ device.Name }}</a
-                >
-              </div>
+          </div>
+
+          <div class="card h-100"
+            *ngSwitchCase="'2'"
+            [ngStyle]="{
+              'background-color': device.Activity==0 ? '#D8D8D8' : '#8ee5c9'
+            }"
+            (click)="selectedDevice(i)"
+            data-bs-toggle="modal"
+            data-bs-target="#turnDeviceOffOn"
+            style="cursor: pointer;">
+            <img src="assets/images/tv.png" class="card-img-top mt-1 mb-0" style="width: 30%;">
+            <div class="card-body p-0 m-0"></div>
+            <div class="card-footer w-100 pb-0">
+              <div class="device-name">{{ device.Name }}</div>
             </div>
-            <div
-              *ngSwitchCase="'3'"
-              class="pt-1 text-center row text-center d-flex justify-content-center align-items-center"
-            >
-              <div class="col-12">
-                <img src="assets/images/oven.png" [ngStyle]="{'width': widthService.deviceWidth>992 ? '25%' : '40%'}" />
-              </div>
-              <div class="col-12 ">
-                <a
-                  style="
-                    max-width: 96%;
-                    display: block;
-                    white-space: nowrap;
-                    overflow: hidden;
-                    text-overflow: ellipsis;
-                    margin-top: 5%;
-                  "
-                  >{{ device.Name }}</a
-                >
-              </div>
+          </div>
+
+          <div class="card h-100"
+            *ngSwitchCase="'3'"
+            [ngStyle]="{
+              'background-color': device.Activity==0 ? '#D8D8D8' : '#8ee5c9'
+            }"
+            (click)="selectedDevice(i)"
+            data-bs-toggle="modal"
+            data-bs-target="#turnDeviceOffOn"
+            style="cursor: pointer;">
+            <img src="assets/images/oven.png" class="card-img-top mt-1 mb-0" style="width: 30%;">
+            <div class="card-body p-0 m-0"></div>
+            <div class="card-footer w-100 pb-0">
+              <div class="device-name">{{ device.Name }}</div>
             </div>
-            <div
-              *ngSwitchCase="'4'"
-              class="pt-1 text-center row text-center d-flex justify-content-center align-items-center"
-            >
-              <div class="col-12">
-                <img src="assets/images/air-conditioner.png" [ngStyle]="{'width': widthService.deviceWidth>992 ? '25%' : '40%'}" />
-              </div>
-              <div class="col-12 ">
-                <a
-                  style="
-                    max-width: 96%;
-                    display: block;
-                    white-space: nowrap;
-                    overflow: hidden;
-                    text-overflow: ellipsis;
-                    margin-top: 5%;
-                  "
-                  >{{ device.Name }}</a
-                >
-              </div>
+          </div>
+
+          <div class="card h-100"
+            *ngSwitchCase="'4'"
+            [ngStyle]="{
+              'background-color': device.Activity==0 ? '#D8D8D8' : '#8ee5c9'
+            }"
+            (click)="selectedDevice(i)"
+            data-bs-toggle="modal"
+            data-bs-target="#turnDeviceOffOn"
+            style="cursor: pointer;">
+            <img src="assets/images/air-conditioner.png" class="card-img-top mt-1 mb-0" style="width: 30%;">
+            <div class="card-body p-0 m-0"></div>
+            <div class="card-footer w-100 pb-0">
+              <div class="device-name">{{ device.Name }}</div>
             </div>
-            <div
-              *ngSwitchCase="'5'"
-              class="pt-1 text-center row text-center d-flex justify-content-center align-items-center"
-            >
-              <div class="col-12">
-                <img src="assets/images/microwave.png" [ngStyle]="{'width': widthService.deviceWidth>992 ? '25%' : '40%'}" />
-              </div>
-              <div class="col-12">
-                <a
-                  style="
-                    max-width: 96%;
-                    display: block;
-                    white-space: nowrap;
-                    overflow: hidden;
-                    text-overflow: ellipsis;
-                    margin-top: 5%;
-                  "
-                  >{{ device.Name }}</a
-                >
-              </div>
+          </div>
+
+          <div class="card h-100"
+            *ngSwitchCase="'5'"
+            [ngStyle]="{
+              'background-color': device.Activity==0 ? '#D8D8D8' : '#8ee5c9'
+            }"
+            (click)="selectedDevice(i)"
+            data-bs-toggle="modal"
+            data-bs-target="#turnDeviceOffOn"
+            style="cursor: pointer;">
+            <img src="assets/images/microwave.png" class="card-img-top mt-1 mb-0" style="width: 30%;">
+            <div class="card-body p-0 m-0"></div>
+            <div class="card-footer w-100 pb-0">
+              <div class="device-name">{{ device.Name }}</div>
             </div>
-            <div
-              *ngSwitchCase="'6'"
-              class="pt-1 text-center row text-center d-flex justify-content-center align-items-center"
-            >
-              <div class="col-12">
-                <img src="assets/images/dish-washer.png" [ngStyle]="{'width': widthService.deviceWidth>992 ? '25%' : '40%'}" />
-              </div>
-              <div class="col-12 ">
-                <a
-                  style="
-                    max-width: 96%;
-                    display: block;
-                    white-space: nowrap;
-                    overflow: hidden;
-                    text-overflow: ellipsis;
-                    margin-top: 5%;
-                  "
-                  >{{ device.Name }}</a
-                >
-              </div>
+          </div>
+
+          <div class="card h-100"
+            *ngSwitchCase="'6'"
+            [ngStyle]="{
+              'background-color': device.Activity==0 ? '#D8D8D8' : '#8ee5c9'
+            }"
+            (click)="selectedDevice(i)"
+            data-bs-toggle="modal"
+            data-bs-target="#turnDeviceOffOn"
+            style="cursor: pointer;">
+            <img src="assets/images/dish-washer.png" class="card-img-top mt-1 mb-0" style="width: 30%;">
+            <div class="card-body p-0 m-0"></div>
+            <div class="card-footer w-100 pb-0">
+              <div class="device-name">{{ device.Name }}</div>
             </div>
-            <div
-              *ngSwitchCase="'7'"
-              class="pt-1 text-center row text-center d-flex justify-content-center align-items-center"
-            >
-              <div class="col-12">
-                <img src="assets/images/coffee-machine.png" [ngStyle]="{'width': widthService.deviceWidth>992 ? '25%' : '40%'}" />
-              </div>
-              <div class="col-12 ">
-                <a
-                  style="
-                    max-width: 96%;
-                    display: block;
-                    white-space: nowrap;
-                    overflow: hidden;
-                    text-overflow: ellipsis;
-                    margin-top: 5%;
-                  "
-                  >{{ device.Name }}</a
-                >
-              </div>
+          </div>
+
+          <div class="card h-100"
+            *ngSwitchCase="'7'"
+            [ngStyle]="{
+              'background-color': device.Activity==0 ? '#D8D8D8' : '#8ee5c9'
+            }"
+            (click)="selectedDevice(i)"
+            data-bs-toggle="modal"
+            data-bs-target="#turnDeviceOffOn"
+            style="cursor: pointer;">
+            <img src="assets/images/coffee-machine.png" class="card-img-top mt-1 mb-0" style="width: 30%;">
+            <div class="card-body p-0 m-0"></div>
+            <div class="card-footer w-100 pb-0">
+              <div class="device-name">{{ device.Name }}</div>
             </div>
-            <div
-              *ngSwitchCase="'8'"
-              class="pt-1 text-center row text-center d-flex justify-content-center align-items-center"
-            >
-              <div class="col-12">
-                <img src="assets/images/pc.png" [ngStyle]="{'width': widthService.deviceWidth>992 ? '25%' : '40%'}" />
-              </div>
-              <div class="col-12 ">
-                <a
-                  style="
-                    max-width: 96%;
-                    display: block;
-                    white-space: nowrap;
-                    overflow: hidden;
-                    text-overflow: ellipsis;
-                    margin-top: 5%;
-                  "
-                  >{{ device.Name }}</a
-                >
-              </div>
+          </div>
+
+          <div class="card h-100"
+            *ngSwitchCase="'8'"
+            [ngStyle]="{
+              'background-color': device.Activity==0 ? '#D8D8D8' : '#8ee5c9'
+            }"
+            (click)="selectedDevice(i)"
+            data-bs-toggle="modal"
+            data-bs-target="#turnDeviceOffOn"
+            style="cursor: pointer;">
+            <img src="assets/images/pc.png" class="card-img-top mt-1 mb-0" style="width: 30%;">
+            <div class="card-body p-0 m-0"></div>
+            <div class="card-footer w-100 pb-0">
+              <div class="device-name">{{ device.Name }}</div>
             </div>
-            <div
-              *ngSwitchCase="'9'"
-              class="pt-1 text-center row text-center d-flex justify-content-center align-items-center"
-            >
-              <div class="col-12">
-                <img src="assets/images/washing-machine.png" [ngStyle]="{'width': widthService.deviceWidth>992 ? '25%' : '40%'}" />
-              </div>
-              <div class="col-12 ">
-                <a
-                  style="
-                    max-width: 96%;
-                    display: block;
-                    white-space: nowrap;
-                    overflow: hidden;
-                    text-overflow: ellipsis;
-                    margin-top: 5%;
-                  "
-                  >{{ device.Name }}</a
-                >
-              </div>
+          </div>
+
+          <div class="card h-100"
+            *ngSwitchCase="'9'"
+            [ngStyle]="{
+              'background-color': device.Activity==0 ? '#D8D8D8' : '#8ee5c9'
+            }"
+            (click)="selectedDevice(i)"
+            data-bs-toggle="modal"
+            data-bs-target="#turnDeviceOffOn"
+            style="cursor: pointer;">
+            <img src="assets/images/washing-machine.png" class="card-img-top mt-1 mb-0" style="width: 30%;">
+            <div class="card-body p-0 m-0"></div>
+            <div class="card-footer w-100 pb-0">
+              <div class="device-name">{{ device.Name }}</div>
             </div>
-            <div
-              *ngSwitchCase="'10'"
-              class="pt-1 text-center row text-center d-flex justify-content-center align-items-center"
-            >
-              <div class="col-12">
-                <img src="assets/images/dryer-machine.png" [ngStyle]="{'width': widthService.deviceWidth>992 ? '25%' : '40%'}" />
-              </div>
-              <div class="col-12 ">
-                <a
-                  style="
-                    max-width: 96%;
-                    display: block;
-                    white-space: nowrap;
-                    overflow: hidden;
-                    text-overflow: ellipsis;
-                    margin-top: 5%;
-                  "
-                  >{{ device.Name }}</a
-                >
-              </div>
+          </div>
+
+          <div class="card h-100"
+            *ngSwitchCase="'10'"
+            [ngStyle]="{
+              'background-color': device.Activity==0 ? '#D8D8D8' : '#8ee5c9'
+            }"
+            (click)="selectedDevice(i)"
+            data-bs-toggle="modal"
+            data-bs-target="#turnDeviceOffOn"
+            style="cursor: pointer;">
+            <img src="assets/images/dryer-machine.png" class="card-img-top mt-1 mb-0" style="width: 30%;">
+            <div class="card-body p-0 m-0"></div>
+            <div class="card-footer w-100 pb-0">
+              <div class="device-name">{{ device.Name }}</div>
             </div>
-            <div
-              *ngSwitchCase="'11'"
-              class="pt-1 text-center row text-center d-flex justify-content-center align-items-center"
-            >
-              <div class="col-12">
-                <img src="assets/images/vacuum-cleaner.png" />
-              </div>
-              <div class="col-12">
-                <a
-                  style="
-                    max-width: 96%;
-                    display: block;
-                    white-space: nowrap;
-                    overflow: hidden;
-                    text-overflow: ellipsis;
-                    margin-top: 5%;
-                  "
-                  >{{ device.Name }}</a
-                >
-              </div>
+          </div>
+
+          <div class="card h-100"
+            *ngSwitchCase="'11'"
+            [ngStyle]="{
+              'background-color': device.Activity==0 ? '#D8D8D8' : '#8ee5c9'
+            }"
+            (click)="selectedDevice(i)"
+            data-bs-toggle="modal"
+            data-bs-target="#turnDeviceOffOn"
+            style="cursor: pointer;">
+            <img src="assets/images/vacuum-cleaner.png" class="card-img-top mt-1 mb-0" style="width: 30%;">
+            <div class="card-body p-0 m-0"></div>
+            <div class="card-footer w-100 pb-0">
+              <div class="device-name">{{ device.Name }}</div>
             </div>
-            <div
-              *ngSwitchCase="'12'"
-              class="pt-1 text-center row text-center d-flex justify-content-center align-items-center"
-            >
-              <div class="col-125">
-                <img src="assets/images/iron.png" [ngStyle]="{'width': widthService.deviceWidth>992 ? '25%' : '40%'}" />
-              </div>
-              <div class="col-12">
-                <a
-                  style="
-                    max-width: 96%;
-                    display: block;
-                    white-space: nowrap;
-                    overflow: hidden;
-                    text-overflow: ellipsis;
-                    margin-top: 5%;
-                  "
-                  >{{ device.Name }}</a
-                >
-              </div>
+          </div>
+
+          <div class="card h-100"
+            *ngSwitchCase="'12'"
+            [ngStyle]="{
+              'background-color': device.Activity==0 ? '#D8D8D8' : '#8ee5c9'
+            }"
+            (click)="selectedDevice(i)"
+            data-bs-toggle="modal"
+            data-bs-target="#turnDeviceOffOn"
+            style="cursor: pointer;">
+            <img src="assets/images/iron.png" class="card-img-top mt-1 mb-0" style="width: 30%;">
+            <div class="card-body p-0 m-0"></div>
+            <div class="card-footer w-100 pb-0">
+              <div class="device-name">{{ device.Name }}</div>
             </div>
-            <div
-              *ngSwitchCase="'13'"
-              class="pt-1 text-center row text-center d-flex justify-content-center align-items-center"
-            >
-              <div class="col-12">
-                <img src="assets/images/dryer.png" [ngStyle]="{'width': widthService.deviceWidth>992 ? '25%' : '40%'}" />
-              </div>
-              <div class="col-12">
-                <a
-                  style="
-                    max-width: 96%;
-                    display: block;
-                    white-space: nowrap;
-                    overflow: hidden;
-                    text-overflow: ellipsis;
-                    margin-top: 5%;
-                  "
-                  >{{ device.Name }}</a
-                >
-              </div>
+          </div>
+
+          <div class="card h-100"
+            *ngSwitchCase="'13'"
+            [ngStyle]="{
+              'background-color': device.Activity==0 ? '#D8D8D8' : '#8ee5c9'
+            }"
+            (click)="selectedDevice(i)"
+            data-bs-toggle="modal"
+            data-bs-target="#turnDeviceOffOn"
+            style="cursor: pointer;">
+            <img src="assets/images/dryer.png" class="card-img-top mt-1 mb-0" style="width: 30%;">
+            <div class="card-body p-0 m-0"></div>
+            <div class="card-footer w-100 pb-0">
+              <div class="device-name">{{ device.Name }}</div>
             </div>
-            <div
-              *ngSwitchCase="'14'"
-              class="pt-1 text-center row text-center d-flex justify-content-center align-items-center"
-            >
-              <div class="col-12">
-                <img src="assets/images/water-heater.png" [ngStyle]="{'width': widthService.deviceWidth>992 ? '25%' : '40%'}" />
-              </div>
-              <div class="col-12">
-                <a
-                  style="
-                    max-width: 96%;
-                    display: block;
-                    white-space: nowrap;
-                    overflow: hidden;
-                    text-overflow: ellipsis;
-                    margin-top: 5%;
-                  "
-                  >{{ device.Name }}</a
-                >
-              </div>
+          </div>
+
+          <div class="card h-100"
+            *ngSwitchCase="'14'"
+            [ngStyle]="{
+              'background-color': device.Activity==0 ? '#D8D8D8' : '#8ee5c9'
+            }"
+            (click)="selectedDevice(i)"
+            data-bs-toggle="modal"
+            data-bs-target="#turnDeviceOffOn"
+            style="cursor: pointer;">
+            <img src="assets/images/water-heater.png" class="card-img-top mt-1 mb-0" style="width: 30%;">
+            <div class="card-body p-0 m-0"></div>
+            <div class="card-footer w-100 pb-0">
+              <div class="device-name">{{ device.Name }}</div>
             </div>
-            <div
-              *ngSwitchCase="'15'"
-              class="pt-1 text-center row text-center d-flex justify-content-center align-items-center"
-            >
-              <div class="col-12">
-                <img src="assets/images/kettle.png" [ngStyle]="{'width': widthService.deviceWidth>992 ? '25%' : '40%'}" />
-              </div>
-              <div class="col-12">
-                <a
-                  style="
-                    max-width: 96%;
-                    display: block;
-                    white-space: nowrap;
-                    overflow: hidden;
-                    text-overflow: ellipsis;
-                    margin-top: 5%;
-                  "
-                  >{{ device.Name }}</a
-                >
-              </div>
+          </div>
+
+          <div class="card h-100"
+            *ngSwitchCase="'15'"
+            [ngStyle]="{
+              'background-color': device.Activity==0 ? '#D8D8D8' : '#8ee5c9'
+            }"
+            (click)="selectedDevice(i)"
+            data-bs-toggle="modal"
+            data-bs-target="#turnDeviceOffOn"
+            style="cursor: pointer;">
+            <img src="assets/images/kettle.png" class="card-img-top mt-1 mb-0" style="width: 30%;">
+            <div class="card-body p-0 m-0"></div>
+            <div class="card-footer w-100 pb-0">
+              <div class="device-name">{{ device.Name }}</div>
             </div>
-            <div
-              *ngSwitchCase="'16'"
-              class="pt-1 text-center row text-center d-flex justify-content-center align-items-center"
-            >
-              <div class="col-12">
-                <img src="assets/images/station-charging.png" [ngStyle]="{'width': widthService.deviceWidth>992 ? '25%' : '40%'}" />
-              </div>
-              <div class="col-12">
-                <a
-                  style="
-                    max-width: 96%;
-                    display: block;
-                    white-space: nowrap;
-                    overflow: hidden;
-                    text-overflow: ellipsis;
-                    margin-top: 5%;
-                  "
-                  >{{ device.Name }}</a
-                >
-              </div>
+          </div>
+
+          <div class="card h-100"
+            *ngSwitchCase="'16'"
+            [ngStyle]="{
+              'background-color': device.Activity==0 ? '#D8D8D8' : '#8ee5c9'
+            }"
+            (click)="selectedDevice(i)"
+            data-bs-toggle="modal"
+            data-bs-target="#turnDeviceOffOn"
+            style="cursor: pointer;">
+            <img src="assets/images/station-charging.png" class="card-img-top mt-1 mb-0" style="width: 30%;">
+            <div class="card-body p-0 m-0"></div>
+            <div class="card-footer w-100 pb-0">
+              <div class="device-name">{{ device.Name }}</div>
             </div>
-            <div
-              *ngSwitchCase="'17'"
-              class="pt-1 text-center row text-center d-flex justify-content-center align-items-center"
-            >
-              <div class="col-12">
-                <img src="assets/images/playstation.png" [ngStyle]="{'width': widthService.deviceWidth>992 ? '25%' : '40%'}" />
-              </div>
-              <div class="col-12">
-                <a
-                  style="
-                    max-width: 96%;
-                    display: block;
-                    white-space: nowrap;
-                    overflow: hidden;
-                    text-overflow: ellipsis;
-                    margin-top: 5%;
-                  "
-                  >{{ device.Name }}</a
-                >
-              </div>
+          </div>
+
+          <div class="card h-100"
+            *ngSwitchCase="'17'"
+            [ngStyle]="{
+              'background-color': device.Activity==0 ? '#D8D8D8' : '#8ee5c9'
+            }"
+            (click)="selectedDevice(i)"
+            data-bs-toggle="modal"
+            data-bs-target="#turnDeviceOffOn"
+            style="cursor: pointer;">
+            <img src="assets/images/playstation.png" class="card-img-top mt-1 mb-0" style="width: 30%;">
+            <div class="card-body p-0 m-0"></div>
+            <div class="card-footer w-100 pb-0">
+              <div class="device-name">{{ device.Name }}</div>
             </div>
-            <div
-              *ngSwitchCase="'18'"
-              class="pt-1 text-center row text-center d-flex justify-content-center align-items-center"
-            >
-              <div class="col-12">
-                <img src="assets/images/smart-heater.png" [ngStyle]="{'width': widthService.deviceWidth>992 ? '25%' : '40%'}" />
-              </div>
-              <div class="col-12">
-                <a
-                  style="
-                    max-width: 96%;
-                    display: block;
-                    white-space: nowrap;
-                    overflow: hidden;
-                    text-overflow: ellipsis;
-                    margin-top: 5%;
-                  "
-                  >{{ device.Name }}</a
-                >
-              </div>
+          </div>
+
+          <div class="card h-100"
+            *ngSwitchCase="'18'"
+            [ngStyle]="{
+              'background-color': device.Activity==0 ? '#D8D8D8' : '#8ee5c9'
+            }"
+            (click)="selectedDevice(i)"
+            data-bs-toggle="modal"
+            data-bs-target="#turnDeviceOffOn"
+            style="cursor: pointer;">
+            <img src="assets/images/smart-heater.png" class="card-img-top mt-1 mb-0" style="width: 30%;">
+            <div class="card-body p-0 m-0"></div>
+            <div class="card-footer w-100 pb-0">
+              <div class="device-name">{{ device.Name }}</div>
             </div>
-            <div
-              *ngSwitchCase="'19'"
-              class="pt-1 text-center row text-center d-flex justify-content-center align-items-center"
-            >
-              <div class="col-12">
-                <img src="assets/images/solar-panel.png" [ngStyle]="{'width': widthService.deviceWidth>992 ? '25%' : '40%'}" />
-              </div>
-              <div class="col-12">
-                <a
-                  style="
-                    max-width: 96%;
-                    display: block;
-                    white-space: nowrap;
-                    overflow: hidden;
-                    text-overflow: ellipsis;
-                    margin-top: 5%;
-                  "
-                  >{{ device.Name }}</a
-                >
-              </div>
+          </div>
+
+          <div class="card h-100"
+            *ngSwitchCase="'19'"
+            [ngStyle]="{
+              'background-color': device.Activity==0 ? '#D8D8D8' : '#8ee5c9'
+            }"
+            (click)="selectedDevice(i)"
+            data-bs-toggle="modal"
+            data-bs-target="#turnDeviceOffOn"
+            style="cursor: pointer;">
+            <img src="assets/images/solar-panel.png" class="card-img-top mt-1 mb-0" style="width: 30%;">
+            <div class="card-body p-0 m-0"></div>
+            <div class="card-footer w-100 pb-0">
+              <div class="device-name">{{ device.Name }}</div>
             </div>
-            <div
-              *ngSwitchCase="'20'"
-              class="pt-1 text-center row text-center d-flex justify-content-center align-items-center"
-            >
-              <div class="col-12">
-                <img src="assets/images/windmill.png" [ngStyle]="{'width': widthService.deviceWidth>992 ? '25%' : '40%'}" />
-              </div>
-              <div class="col-12">
-                <a
-                  style="
-                    max-width: 96%;
-                    display: block;
-                    white-space: nowrap;
-                    overflow: hidden;
-                    text-overflow: ellipsis;
-                    margin-top: 5%;
-                  "
-                  >{{ device.Name }}</a
-                >
-              </div>
+          </div>
+
+          <div class="card h-100"
+            *ngSwitchCase="'20'"
+            [ngStyle]="{
+              'background-color': device.Activity==0 ? '#D8D8D8' : '#8ee5c9'
+            }"
+            (click)="selectedDevice(i)"
+            data-bs-toggle="modal"
+            data-bs-target="#turnDeviceOffOn"
+            style="cursor: pointer;">
+            <img src="assets/images/windmill.png" class="card-img-top mt-1 mb-0" style="width: 30%;">
+            <div class="card-body p-0 m-0"></div>
+            <div class="card-footer w-100 pb-0">
+              <div class="device-name">{{ device.Name }}</div>
             </div>
-            <div
-              *ngSwitchCase="'21'"
-              class="pt-1 text-center row text-center d-flex justify-content-center align-items-center"
-            >
-              <div class="col-12">
-                <img src="assets/images/battery.png" [ngStyle]="{'width': widthService.deviceWidth>992 ? '25%' : '40%'}" />
-              </div>
-              <div class="col-12">
-                <a
-                  style="
-                    max-width: 96%;
-                    display: block;
-                    white-space: nowrap;
-                    overflow: hidden;
-                    text-overflow: ellipsis;
-                    margin-top: 5%;
-                  "
-                  >{{ device.Name }}</a
-                >
-              </div>
+          </div>
+
+          <div class="card h-100"
+            *ngSwitchCase="'21'"
+            [ngStyle]="{
+              'background-color': device.Activity==0 ? '#D8D8D8' : '#8ee5c9'
+            }"
+            (click)="selectedDevice(i)"
+            data-bs-toggle="modal"
+            data-bs-target="#turnDeviceOffOn"
+            style="cursor: pointer;">
+            <img src="assets/images/battery.png" class="card-img-top mt-2 mb-2" style="width: 30%;">
+            <div class="card-body p-0 m-0"></div>
+            <div class="card-footer w-100 pb-0">
+              <div class="device-name">{{ device.Name }}</div>
             </div>
-          </span>
+          </div>
         </div>
       </div>
+    <!-- device cards end -->
     </div>
   </div>
   <div class="legend w-100 text-center mt-1" *ngIf="devices.length != 0">

@@ -10,16 +10,28 @@
 .card {
   flex: 1 1 20rem;
   display: flex;
+  justify-content: center;
   align-items: center;
-  margin: 5px 10px;
+  /* margin: 5px 10px; */
   flex-direction: column;
   align-self: normal;
-  max-width: 23%;
-  max-height: 23%;
-  background: #b1d1c1;
+  /* max-width: 23%;
+  max-height: 23%; */
   font-family: "Roboto";
   color: #08376b;
   margin: 1%;
+}
+.card-footer{
+  text-align: center;
+  padding-right: 0;
+  padding-left: 0;
+}
+.device-name{
+  max-width: 97%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: inline-block;
 }
 .text-container {
   width: 100%;
