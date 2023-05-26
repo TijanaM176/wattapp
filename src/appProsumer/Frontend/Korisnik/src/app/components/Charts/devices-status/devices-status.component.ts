@@ -22,6 +22,11 @@ export class DevicesStatusComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void {
     const devicesStatusBody = document.getElementById('devicesStatusBody');
+    
+    if(this.widthService.deviceWidth > this.widthService.height)
+    {
+      devicesStatusBody!.style.minHeight = '300px';
+    }
     devicesStatusBody!.style.maxHeight = (this.widthService.height*0.65) + 'px';
   }
   ngOnInit(): void {

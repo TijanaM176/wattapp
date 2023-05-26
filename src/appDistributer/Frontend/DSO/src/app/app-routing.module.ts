@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { AuthGuard } from './guards/auth.guard';
+import { LoginGuard } from './guards/login.guard';
 import { LoginComponent } from './components/login/login.component';
 
 import { HomeComponent } from './components/Home/Home.component';
@@ -19,7 +20,10 @@ import { WorkerProfileComponent } from './components/worker-profile/worker-profi
 import { User1Component } from './components/user1/user1.component';
 
 const routes: Routes = [
-  { path: 'login', component: LoginComponent },
+  { path: 'login', 
+    component: LoginComponent,
+    canActivate: [LoginGuard] 
+  },
   { path: '', redirectTo: 'DsoApp', pathMatch: 'full' },
   {
     path: 'DsoApp',

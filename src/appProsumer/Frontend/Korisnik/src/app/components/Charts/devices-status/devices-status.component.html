@@ -26,14 +26,18 @@
                 <div *ngFor="let device of devices">
                     <div *ngIf="device.Activity!==0" class="pe-md-2">
                         <!-- consumption and production -->
-                        <h4 class="small font-weight-bold" *ngIf="device.CategoryId!=3">{{device.Name}} <span
+                        <h4 class="small font-weight-bold mb-0" *ngIf="device.CategoryId!=3">{{device.Name}} <span
                             class="float-right">{{device.CurrentUsage.toFixed(2)}} kWh</span></h4>
 
                         <!-- storage -->
-                        <h4 class="small font-weight-bold" *ngIf="device.CategoryId==3">{{device.Name}} <span
+                        <h4 class="small font-weight-bold mb-0" *ngIf="device.CategoryId==3">{{device.Name}} <span
                             class="float-right">{{device.CurrentUsage.toFixed(2)}}/{{device.Wattage.toFixed(2)}} kWh</span></h4>
 
-                        <div class="progress mb-4">
+                        <div class="progress mb-4"
+                        [ngStyle]="{'border': device.CategoryId == 1 ? '1px solid #c14b48' : 
+                                            device.CategoryId == 2 ? '1px solid #48bec1' : 
+                                            device.Activity==1 ? '1px solid #f3734d' : '1px solid #4ab64a'}"
+                        >
                             <!-- consumption and production -->
                             <div class="progress-bar" role="progressbar" *ngIf="device.CategoryId!=3"
                             [ngStyle]="{'width':getProcentage(device, device.CategoryId)+'%','background-color': device.CategoryId=='1'? '#c14b48' : '#48bec1'}"

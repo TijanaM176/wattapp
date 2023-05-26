@@ -56,6 +56,11 @@ export class HouseComponent implements OnInit, AfterViewInit {
       houseHeight = this.widthService.height * 0.6;
     }
     houseCont!.style.height = houseHeight + 'px';
+    if(this.widthService.deviceWidth > this.widthService.height)
+    {
+      houseCont!.style.minHeight = '500px';
+      document.getElementById('devicesHouseLegend')!.style.height='30px'
+    }
   }
 
   ngOnInit(): void {
@@ -70,6 +75,11 @@ export class HouseComponent implements OnInit, AfterViewInit {
         houseHeight = this.widthService.height * 0.6;
       }
       houseCont!.style!.height = houseHeight + 'px';
+      if(this.widthService.deviceWidth > this.widthService.height)
+      {
+        houseCont!.style.minHeight = '500px';
+        document.getElementById('devicesHouseLegend')!.style.height='30px'
+      }
     });
   }
 

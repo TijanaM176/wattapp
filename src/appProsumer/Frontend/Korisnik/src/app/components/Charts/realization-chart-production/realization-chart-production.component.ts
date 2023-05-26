@@ -67,6 +67,9 @@ export class RealizationChartProductionComponent
   ngAfterViewInit(): void {
     const grafik = document.getElementById('grafikPredictionHistory');
     grafik!.style!.height = this.widthService.height * this.coef + 'px';
+    if(this.widthService.deviceWidth > this.widthService.height)
+      grafik!.style!.minHeight = '500px';
+    
     document.getElementById('realizPred1')!.classList.add('active');
   }
 

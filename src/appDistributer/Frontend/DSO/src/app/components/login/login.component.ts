@@ -29,6 +29,7 @@ export class LoginComponent implements OnInit {
   public resetPasswordEmail!: string;
   public isValidEmail!: boolean;
   messageHTML!: SafeHtml;
+  isLoginBtnDisabled : boolean = false;
   constructor(
     private fb: FormBuilder,
     private router: Router,
@@ -52,6 +53,7 @@ export class LoginComponent implements OnInit {
       usernameOrEmail: ['', Validators.required],
       password: ['', Validators.required],
     });
+    this.isLoginBtnDisabled = false;
   }
 
   hideShowPass() {
@@ -74,6 +76,7 @@ export class LoginComponent implements OnInit {
   onSubmit() {
     if (this.loginForm.valid) {
       //poslati beku
+      this.isLoginBtnDisabled = true;
       this.auth.login(this.loginForm.value).subscribe({
         next: (res) => {
           //alert(res.message);
@@ -104,7 +107,8 @@ export class LoginComponent implements OnInit {
           this.router.navigate(['']);
         },
         error: (err) => {
-          this.toast.error('Error!', 'Unable to Login.', {
+          this.isLoginBtnDisabled = false;
+          this.toast.error('Error!', err.error.message, {
             timeOut: 2500,
           });
         },

@@ -32,6 +32,9 @@ export class RealizationChartComponent implements OnInit, AfterViewInit {
   ngAfterViewInit(): void {
     const grafik = document.getElementById('grafikConsumptionHistory');
     grafik!.style!.height = this.widthService.height * this.coef + 'px';
+    if(this.widthService.deviceWidth > this.widthService.height)
+      grafik!.style!.minHeight = '500px';
+    
     document.getElementById('realiz1')!.classList.add('active');
   }
 

@@ -22,6 +22,7 @@ export class LoginComponent implements OnInit {
   isText: boolean = false;
   type: string = 'password';
   eyeIcon: string = 'fa-eye-slash';
+  isLoginBtnDisabled : boolean = false;
   public resetPasswordEmail!: string;
   public isValidEmail!: boolean;
 
@@ -39,6 +40,7 @@ export class LoginComponent implements OnInit {
       usernameOrEmail: ['', Validators.required],
       password: ['', Validators.required],
     });
+    this.isLoginBtnDisabled = false;
   }
 
   hideShowPass() {
@@ -61,6 +63,7 @@ export class LoginComponent implements OnInit {
   onSubmit() {
     if (this.loginForm.valid) {
       //poslati beku
+      this.isLoginBtnDisabled = true;
       this.auth.login(this.loginForm.value).subscribe({
         next: (res) => {
           this.loginForm.reset();
@@ -82,6 +85,7 @@ export class LoginComponent implements OnInit {
           this.router.navigate(['']);
         },
         error: (err) => {
+          this.isLoginBtnDisabled = false;
           this.toast.error('ERROR', err.error.message, {
             timeOut: 3000,
           });
