@@ -26,7 +26,7 @@
             <a id="forgotpass"  data-bs-toggle="modal" data-bs-target="#exampleModal">forgot password?</a>
           </div>
           <div>
-            <br><button (click)="onSubmit()" type="submit" class="btn btn-block mt-4 w-100">Login</button>
+            <br><button (click)="onSubmit()" type="submit" class="btn btn-block mt-4 w-100" [disabled]="isLoginBtnDisabled">Login</button>
           </div>
       </form>
       </div>
