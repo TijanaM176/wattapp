@@ -510,7 +510,44 @@ export class MapComponent implements AfterViewInit, OnInit {
             user.id +
             "'>View More</a>"
         );
+        this.markers.push(marker);
       }
+    }
+  }
+  close(){
+    this.searchUsername='';
+    if(this.searchAddress){
+      this.deleteAllMarkers(this.map);
+        this.users = this.allusers.filter((user: any) =>
+          user.address
+            .toLocaleLowerCase()
+            .includes(this.searchAddress.toLocaleLowerCase())
+        );
+        this.populateTheMap2(this.map);
+    }
+    else{
+    this.deleteAllMarkers(this.map);
+    this.users = this.allusers;
+
+    this.populateTheMap2(this.map);
+    }
+  }
+  close1(){
+    this.searchAddress='';
+    if(this.searchUsername){
+      this.deleteAllMarkers(this.map);
+        this.users = this.allusers.filter((user: any) =>
+          (user.firstname + ' ' + user.lastname)
+            .toLocaleLowerCase()
+            .includes(this.searchUsername.toLocaleLowerCase())
+        );
+        this.populateTheMap2(this.map);
+    }
+    else{
+    this.deleteAllMarkers(this.map);
+    this.users = this.allusers;
+
+    this.populateTheMap2(this.map);
     }
   }
 

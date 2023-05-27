@@ -164,12 +164,19 @@
           >
             <div class="map-container" style="border: 2px solid #5875a1" id="mapWrapper">
              <div id="map"></div>
-             <div id="search-container" style="background-color: #f8f8fa;border-radius: 10px;height:8%;width:24%;opacity:0.9;">
-             <input type="text" style="background-color: #f8f8fa; border-radius: 10px;height:100%;width:100%;font-weight:bold;padding-left:2%;" placeholder="Search by name" [(ngModel)]="searchUsername" (keyup)="searchUsers();" />
-            </div>&nbsp;
-            <div id="search-container1" style="background-color: #f8f8fa;border-radius: 10px;height:8%;width:24%;opacity:0.9;">
-              <input type="text" style="background-color: #f8f8fa; border-radius: 10px;height:100%;width:100%;font-weight:bold;padding-left:2%;" placeholder="Search by address" [(ngModel)]="searchAddress" (keyup)="searchUsersbyAddress();" />
-             
+             <div id="search-container" style="background-color: #f8f8fa;border-radius: 10px;height:8%;width:27%;">
+             <input type="text" style="background-color: #f8f8fa; border-radius: 10px;height:100%;width:95%;font-weight:bold;padding-left:2%;" placeholder="Search by name" [(ngModel)]="searchUsername" (keyup)="searchUsers();" />
+             <button type="button" class="btn-close" (click)="close()" style="width:7px;height:7px;margin-left:-10%;transform: translateY(-50%);position: absolute;top: 50%;"></button> </div>&nbsp;
+            <div id="search-container1" style="background-color: #f8f8fa;border-radius: 10px;height:8%;width:27%;">
+              <input type="text" style="background-color: #f8f8fa; border-radius: 10px;height:100%;width:95%;font-weight:bold;padding-left:2%;" placeholder="Search by address" [(ngModel)]="searchAddress" (keyup)="searchUsersbyAddress();" />
+           
+              <button
+              type="button"
+              class="btn-close"
+              (click)="close1()"
+              style="width:7px;height:7px;margin-left:-10%;transform: translateY(-50%);position: absolute;top: 50%;"
+            ></button>
+         
              </div>
             </div>
           </div>
