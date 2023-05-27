@@ -507,6 +507,7 @@ export class MapComponent implements AfterViewInit, OnInit {
             Number(user.production).toFixed(3) +
             ' kW</b> <br> Num. of devices: <b>' +
             user.devCount.toString() +
+            "</b> <br><br><a href='/DsoApp/user/" +
             user.id +
             "'>View More</a>"
         );
