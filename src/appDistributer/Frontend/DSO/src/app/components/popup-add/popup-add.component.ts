@@ -29,6 +29,7 @@ export class PopupAddComponent implements OnInit {
   isText: boolean = false;
   imgChangeEvet: any = '';
   croppedImage: any = '';
+  currentRoute!: string;
   currentImage: string = 'assets/images/defaultWorker.png';
   selectedImageFile: any = null;
   fileType: any = '';
@@ -182,6 +183,18 @@ export class PopupAddComponent implements OnInit {
               console.log(err);
             },
           });
+          this.currentRoute=this.router.url;
+          if (this.router.url === '/DsoApp/employees') {
+            this.router.navigate(['/DsoApp/users'],{skipLocationChange:true}).then(()=>{
+              // console.log(this.router.url);
+              this.router.navigate(['/DsoApp/employees']);
+              //this.activateBtn('offcanvasUserDevices');
+              //this.activateButton('sidebarUserDevices');
+            });
+          } 
+          const buttonRef = document.getElementById('closebutton');
+          buttonRef?.click();
+          
         },
         error:(err)=>{
           if(err instanceof HttpErrorResponse && err.status == 401)
