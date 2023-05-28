@@ -102,6 +102,8 @@ export class MapComponent implements AfterViewInit, OnInit {
   consumpBetween0408Checked : boolean = false;
   consumpLessThan08Checked : boolean = false;
 
+  productLessThan017Checked : boolean = false;
+
   constructor(
     private mapService: UsersServiceService,
     private widthService: ScreenWidthService,
@@ -632,7 +634,7 @@ export class MapComponent implements AfterViewInit, OnInit {
       }
     } else if (razlika < -prag) {
       iconUrl = 'assets/images/marker-icon-2x-lime.png';
-      if (production < 0.17) {
+      if (production <= 0.17) {
         iconUrl = 'assets/images/marker-icon-2x-turquoise.png';
       } else if (production > 0.21) {
         iconUrl = 'assets/images/marker-icon-2x-lightgreen.png';
@@ -641,6 +643,7 @@ export class MapComponent implements AfterViewInit, OnInit {
     return iconUrl;
   }
 
+  //pins consumption
   remove04LessCons()
   {
     this.consumpLessThan04Checked = true;
@@ -747,6 +750,45 @@ export class MapComponent implements AfterViewInit, OnInit {
       let prag = 0.0001;
       let razlika = Number(this.allusers[i].consumption) - Number(this.allusers[i].production);
       if(razlika > prag && Number(this.users[i].consumption) > 0.4 && Number(this.users[i].consumption) <= 0.8)
+      {
+        this.users.push(this.allusers[i]);
+      }
+      i++;
+    }
+    this.populateTheMap2(this.map);
+  }
+
+  //pins production
+  removeLessThan017Prod()
+  {
+    this.productLessThan017Checked = true;
+    this.deleteAllMarkers(this.map);
+    let i = 0;
+    while(i < this.users.length)
+    {
+      let prag = 0.0001;
+      let razlika = Number(this.users[i].consumption) - Number(this.users[i].production);
+      if(razlika < -prag && Number(this.users[i].production) <= 0.17)
+      {
+        this.users.splice(i,1);
+      }
+      else
+      {
+        i++;
+      }
+    }
+    this.populateTheMap2(this.map);
+  }
+  addLessThan017Prod()
+  {
+    this.productLessThan017Checked = false;
+    this.deleteAllMarkers(this.map);
+    let i = 0;
+    while(i < this.allusers.length)
+    {
+      let prag = 0.0001;
+      let razlika = Number(this.allusers[i].consumption) - Number(this.allusers[i].production);
+      if(razlika < -prag && Number(this.users[i].production) <= 0.17)
       {
         this.users.push(this.allusers[i]);
       }
