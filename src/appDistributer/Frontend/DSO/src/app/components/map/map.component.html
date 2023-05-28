@@ -202,7 +202,8 @@
                     <img
                       src="assets/images/marker-icon-2x-orange.png"
                       class="icon"
-                    /><b> between 0.4 - 0.8 kW</b>
+                    /><b *ngIf="!consumpBetween0408Checked" (click)="removeBetween0408Cons()" class="legendPin"> between 0.4 - 0.8 kW</b>
+                      <s *ngIf="consumpBetween0408Checked" (click)="addBetween0408Cons()" class="legendPin"><b> between 0.4 - 0.8 kW</b></s>
                   </p>
                   <p class="card-text" style="font-size: 15px">
                     <img

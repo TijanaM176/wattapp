@@ -99,6 +99,7 @@ export class MapComponent implements AfterViewInit, OnInit {
   searchAddress: string = '';
 
   consumpLessThan04Checked : boolean = false;
+  consumpBetween0408Checked : boolean = false;
   consumpLessThan08Checked : boolean = false;
 
   constructor(
@@ -145,6 +146,7 @@ export class MapComponent implements AfterViewInit, OnInit {
   searchUsers() {
     if(this.consumpLessThan04Checked) this.add04LessCons();
     if(this.consumpLessThan08Checked) this.add08MoreCons();
+    if(this.consumpBetween0408Checked) this.addBetween0408Cons();
 
     if (!this.users || !this.searchUsername) {
       if (this.searchAddress) {
@@ -196,6 +198,10 @@ export class MapComponent implements AfterViewInit, OnInit {
     }
   }
   searchUsersbyAddress() {
+    if(this.consumpLessThan04Checked) this.add04LessCons();
+    if(this.consumpLessThan08Checked) this.add08MoreCons();
+    if(this.consumpBetween0408Checked) this.addBetween0408Cons();
+
     if (!this.users || !this.searchAddress) {
       if (this.searchUsername) {
         this.deleteAllMarkers(this.map);
@@ -703,6 +709,44 @@ export class MapComponent implements AfterViewInit, OnInit {
       let prag = 0.0001;
       let razlika = Number(this.allusers[i].consumption) - Number(this.allusers[i].production);
       if(razlika > prag && Number(this.allusers[i].consumption) > 0.8)
+      {
+        this.users.push(this.allusers[i]);
+      }
+      i++;
+    }
+    this.populateTheMap2(this.map);
+  }
+
+  removeBetween0408Cons()
+  {
+    this.consumpBetween0408Checked = true;
+    this.deleteAllMarkers(this.map);
+    let i = 0;
+    while(i < this.users.length)
+    {
+      let prag = 0.0001;
+      let razlika = Number(this.users[i].consumption) - Number(this.users[i].production);
+      if(razlika > prag && Number(this.users[i].consumption) > 0.4 && Number(this.users[i].consumption) <= 0.8)
+      {
+        this.users.splice(i,1);
+      }
+      else
+      {
+        i++;
+      }
+    }
+    this.populateTheMap2(this.map);
+  }
+  addBetween0408Cons()
+  {
+    this.consumpBetween0408Checked = false;
+    this.deleteAllMarkers(this.map);
+    let i = 0;
+    while(i < this.allusers.length)
+    {
+      let prag = 0.0001;
+      let razlika = Number(this.allusers[i].consumption) - Number(this.allusers[i].production);
+      if(razlika > prag && Number(this.users[i].consumption) > 0.4 && Number(this.users[i].consumption) <= 0.8)
       {
         this.users.push(this.allusers[i]);
       }
