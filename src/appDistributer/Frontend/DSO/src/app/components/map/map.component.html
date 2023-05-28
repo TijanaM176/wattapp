@@ -245,7 +245,8 @@
                     <img
                       src="assets/images/marker-icon-2x-lime.png"
                       class="icon"
-                    /><b> between 0.17 - 0.21 kW</b>
+                    /><b *ngIf="!productBetween017021Checked" (click)="removeBetween017021Prod()" class="legendPin"> between 0.17 - 0.21 kW</b>
+                      <s *ngIf="productBetween017021Checked" (click)="addBetween017021Prod()" class="legendPin"><b> between 0.17 - 0.21 kW</b></s>
                   </p>
                   <p class="card-text" style="font-size: 15px">
                     <img
