@@ -136,7 +136,7 @@ export class PredictionProsumerComponent implements OnInit {
   PredictionDay(id: string) {
     this.HistoryData(
       'day',
-      this.serviceData.PredictionNextDay.bind(this.serviceData, this.id)
+      this.serviceData.PredictionProsumer1Day.bind(this.serviceData, this.id)
     );
     this.activateButton(id);
   }
@@ -144,7 +144,7 @@ export class PredictionProsumerComponent implements OnInit {
   Prediction3Days(id: string) {
     this.HistoryData(
       'month',
-      this.serviceData.PredictionNext3Days.bind(this.serviceData, this.id)
+      this.serviceData.PredictionProsumer3Days.bind(this.serviceData, this.id)
     );
     this.activateButton(id);
   }
@@ -152,7 +152,7 @@ export class PredictionProsumerComponent implements OnInit {
   PredictionWeek(id: string) {
     this.HistoryData(
       'week',
-      this.serviceData.PredictionNextWeek.bind(this.serviceData, this.id)
+      this.serviceData.PredictionProsumer7Days.bind(this.serviceData, this.id)
     );
     this.activateButton(id);
   }

@@ -31,6 +31,7 @@ export class PopupEmpComponent implements OnInit {
   neighborhood: string = '';
   neighborhoods: Neighborhood[] = [];
   type: string = 'password';
+  currentRoute!: string;
   isText: boolean = false;
   eyeIcon: string = 'fa-eye-slash';
   latitude: string = '';
@@ -148,6 +149,17 @@ export class PopupEmpComponent implements OnInit {
               });
             },
           });
+          this.currentRoute=this.router.url;
+          if (this.router.url === '/DsoApp/users') {
+            this.router.navigate(['/DsoApp/employees'],{skipLocationChange:true}).then(()=>{
+              // console.log(this.router.url);
+              this.router.navigate(['/DsoApp/users']);
+              //this.activateBtn('offcanvasUserDevices');
+              //this.activateButton('sidebarUserDevices');
+            });
+          } 
+          const buttonRef = document.getElementById('closebttn');
+          buttonRef?.click();
         },
         error:(err)=>{
           if(err instanceof HttpErrorResponse && err.status == 401)
