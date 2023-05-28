@@ -252,7 +252,8 @@
                     <img
                       src="assets/images/marker-icon-2x-lightgreen.png"
                       class="icon"
-                    /><b> more than 0.21 kW</b>
+                    /><b *ngIf="!productMoreThan021Checked" (click)="removeMoreThan021Prod()" class="legendPin"> more than 0.21 kW</b>
+                      <s *ngIf="productMoreThan021Checked" (click)="addMoreThan021Prod()" class="legendPin"><b> more than 0.21 kW</b></s>
                   </p>
                   <p
                     class="position-absolute bottom-0 start-3"
