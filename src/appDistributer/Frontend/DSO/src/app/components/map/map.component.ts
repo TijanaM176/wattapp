@@ -12,6 +12,7 @@ import { DeviceserviceService } from 'src/app/services/deviceservice.service';
 import { City } from 'src/app/models/city';
 import { UserTableMapInitDto } from 'src/app/models/userTableMapInitDto';
 import { Prosumer } from 'src/app/models/userstable';
+import { index } from 'd3';
 
 @Component({
   selector: 'app-map',
@@ -94,8 +95,11 @@ export class MapComponent implements AfterViewInit, OnInit {
   currentLocation: any;
   currentLocationIsSet = false;
   currentHour: any;
-  allusers!: any;
+  allusers!: any[];
   searchAddress: string = '';
+
+  consumpLessThan04Checked : boolean = false;
+  consumpLessThan08Checked : boolean = false;
 
   constructor(
     private mapService: UsersServiceService,
@@ -111,7 +115,6 @@ export class MapComponent implements AfterViewInit, OnInit {
     if (this.city == -1) {
       this.disableNeigh = true;
       this.deviceServer.FilterRanges('all', 'all').subscribe((res) => {
-        // console.log(res);
         this.setFilters(res);
       });
     } else {
@@ -120,7 +123,6 @@ export class MapComponent implements AfterViewInit, OnInit {
       this.deviceServer
         .FilterRanges(this.city.toString(), 'all')
         .subscribe((res) => {
-          // console.log(res);
           this.setFilters(res);
         });
     }
@@ -129,7 +131,6 @@ export class MapComponent implements AfterViewInit, OnInit {
     this.deviceServer.ProsumersInfo1().subscribe({
       next: (res) => {
         let response = res as UserTableMapInitDto;
-        // console.log(response);
         this.setFilters(response);
         this.allusers = response.prosumers;
       },
@@ -142,6 +143,9 @@ export class MapComponent implements AfterViewInit, OnInit {
     });
   }
   searchUsers() {
+    if(this.consumpLessThan04Checked) this.add04LessCons();
+    if(this.consumpLessThan08Checked) this.add08MoreCons();
+
     if (!this.users || !this.searchUsername) {
       if (this.searchAddress) {
         this.deleteAllMarkers(this.map);
@@ -154,7 +158,12 @@ export class MapComponent implements AfterViewInit, OnInit {
         return this.users;
       } else {
         this.deleteAllMarkers(this.map);
-        this.users = this.allusers;
+        let i = 0;
+        while(i < this.allusers.length)
+        {
+          this.users[i] = this.allusers[i];
+          i++;
+        }
 
         this.populateTheMap2(this.map);
         return this.users;
@@ -199,7 +208,12 @@ export class MapComponent implements AfterViewInit, OnInit {
         return this.users;
       } else {
         this.deleteAllMarkers(this.map);
-        this.users = this.allusers;
+        let i = 0;
+        while(i < this.allusers.length)
+        {
+          this.users[i] = this.allusers[i];
+          i++;
+        }
 
         this.populateTheMap2(this.map);
         return this.users;
@@ -240,7 +254,6 @@ export class MapComponent implements AfterViewInit, OnInit {
     this.dropDownNeigh = e.target.value;
     let c = this.city == -1 ? 'all' : this.city.toString();
     this.deviceServer.FilterRanges(c, this.dropDownNeigh).subscribe((res) => {
-      // console.log(res);
       this.setFilters(res);
     });
   }
@@ -346,7 +359,6 @@ export class MapComponent implements AfterViewInit, OnInit {
   }
 
   private setFilters(res: UserTableMapInitDto) {
-    // console.log(res);
     this.staticMinProd = Math.ceil(res.minProd);
     this.staticMaxProd = Math.ceil(res.maxProd);
     this.minValueP = Math.ceil(res.minProd);
@@ -422,7 +434,6 @@ export class MapComponent implements AfterViewInit, OnInit {
     this.deviceServer.ProsumersInfo1().subscribe({
       next: (res) => {
         let response = res as UserTableMapInitDto;
-        // console.log(response);
         this.setFilters(response);
         this.resetMaxMin();
         this.users = response.prosumers;
@@ -507,9 +518,11 @@ export class MapComponent implements AfterViewInit, OnInit {
             Number(user.production).toFixed(3) +
             ' kW</b> <br> Num. of devices: <b>' +
             user.devCount.toString() +
+            "</b> <br><br><a href='/DsoApp/user/" +
             user.id +
             "'>View More</a>"
         );
+        this.markers.push(marker);
       }
     }
   }
@@ -535,7 +548,6 @@ export class MapComponent implements AfterViewInit, OnInit {
         'all'
       )
       .subscribe((res) => {
-        console.log(res);
         this.users = res as Prosumer[];
         this.allusers= res as Prosumer[];
         this.searchUsername='';
@@ -557,7 +569,6 @@ export class MapComponent implements AfterViewInit, OnInit {
         this.dropDownNeigh
       )
       .subscribe((res) => {
-        // console.log(res)
         this.users = res as Prosumer[];
         this.allusers= res as Prosumer[];
         this.searchUsername='';
@@ -622,5 +633,81 @@ export class MapComponent implements AfterViewInit, OnInit {
       }
     }
     return iconUrl;
+  }
+
+  remove04LessCons()
+  {
+    this.consumpLessThan04Checked = true;
+    this.deleteAllMarkers(this.map);
+    let i = 0;
+    while(i < this.users.length)
+    {
+      let prag = 0.0001;
+      let razlika = Number(this.users[i].consumption) - Number(this.users[i].production);
+      if(razlika > prag && Number(this.users[i].consumption) <= 0.4)
+      {
+        this.users.splice(i,1);
+      }
+      else
+      {
+        i++;
+      }
+    }
+    this.populateTheMap2(this.map);
+  }
+  add04LessCons()
+  {
+    this.consumpLessThan04Checked = false;
+    this.deleteAllMarkers(this.map);
+    let i = 0;
+    while(i < this.allusers.length)
+    {
+      let prag = 0.0001;
+      let razlika = Number(this.allusers[i].consumption) - Number(this.allusers[i].production);
+      if(razlika > prag && Number(this.allusers[i].consumption) <= 0.4)
+      {
+        this.users.push(this.allusers[i]);
+      }
+      i++;
+    }
+    this.populateTheMap2(this.map);
+  }
+
+  remove08MoreCons()
+  {
+    this.consumpLessThan08Checked = true;
+    this.deleteAllMarkers(this.map);
+    let i = 0;
+    while(i < this.users.length)
+    {
+      let prag = 0.0001;
+      let razlika = Number(this.users[i].consumption) - Number(this.users[i].production);
+      if(razlika > prag && Number(this.users[i].consumption) > 0.8)
+      {
+        this.users.splice(i,1);
+      }
+      else
+      {
+        i++;
+      }
+    }
+    this.populateTheMap2(this.map);
+  }
+  add08MoreCons()
+  {
+    this.consumpLessThan08Checked = false;
+    this.deleteAllMarkers(this.map);
+    let i = 0;
+    while(i < this.allusers.length)
+    {
+      let prag = 0.0001;
+      let razlika = Number(this.allusers[i].consumption) - Number(this.allusers[i].production);
+      if(razlika > prag && Number(this.allusers[i].consumption) > 0.8)
+      {
+        this.users.push(this.allusers[i]);
+      }
+      i++;
+    }
+    this.populateTheMap2(this.map);
   }
 }

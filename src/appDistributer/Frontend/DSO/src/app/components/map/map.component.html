@@ -195,7 +195,8 @@
                     <img
                       src="assets/images/marker-icon-2x-yellow.png"
                       class="icon"
-                    /><b> less than 0.4 kW</b>
+                    /><b *ngIf="!consumpLessThan04Checked" (click)="remove04LessCons()" class="legendPin"> less than 0.4 kW</b>
+                      <s *ngIf="consumpLessThan04Checked" (click)="add04LessCons()" class="legendPin"><b> less than 0.4 kW</b></s>
                   </p>
                   <p class="card-text" style="font-size: 15px">
                     <img
@@ -207,7 +208,8 @@
                     <img
                       src="assets/images/marker-icon-2x-red.png"
                       class="icon"
-                    /><b> more than 0.8 kW</b>
+                    /><b *ngIf="!consumpLessThan08Checked" (click)="remove08MoreCons()" class="legendPin"> more than 0.8 kW</b>
+                    <s><b *ngIf="consumpLessThan08Checked" (click)="add08MoreCons()" class="legendPin"> more than 0.8 kW</b></s>
                   </p>
                   <p
                     class="position-absolute bottom-0 start-3"
