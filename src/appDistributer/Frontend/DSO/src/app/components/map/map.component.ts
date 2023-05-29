@@ -106,6 +106,8 @@ export class MapComponent implements AfterViewInit, OnInit {
   productBetween017021Checked : boolean = false;
   productMoreThan021Checked : boolean = false;
 
+  equalConsumpProduct : boolean = false;
+
   constructor(
     private mapService: UsersServiceService,
     private widthService: ScreenWidthService,
@@ -155,6 +157,8 @@ export class MapComponent implements AfterViewInit, OnInit {
     if(this.productLessThan017Checked) this.addLessThan017Prod();
     if(this.productBetween017021Checked) this.addBetween017021Prod();
     if(this.productMoreThan021Checked) this.addMoreThan021Prod();
+
+    if(this.equalConsumpProduct) this.addEqualConsProd();
 
     if (!this.users || !this.searchUsername) {
       if (this.searchAddress) {
@@ -213,6 +217,8 @@ export class MapComponent implements AfterViewInit, OnInit {
     if(this.productLessThan017Checked) this.addLessThan017Prod();
     if(this.productBetween017021Checked) this.addBetween017021Prod();
     if(this.productMoreThan021Checked) this.addMoreThan021Prod();
+    
+    if(this.equalConsumpProduct) this.addEqualConsProd();
 
     if (!this.users || !this.searchAddress) {
       if (this.searchUsername) {
@@ -875,6 +881,45 @@ export class MapComponent implements AfterViewInit, OnInit {
       let prag = 0.0001;
       let razlika = Number(this.allusers[i].consumption) - Number(this.allusers[i].production);
       if(razlika < -prag && Number(this.allusers[i].production) > 0.21)
+      {
+        this.users.push(this.allusers[i]);
+      }
+      i++;
+    }
+    this.populateTheMap2(this.map);
+  }
+
+  //equal consumption and production
+  removeEqualConsProd()
+  {
+    this.equalConsumpProduct = true;
+    this.deleteAllMarkers(this.map);
+    let i = 0;
+    while(i < this.users.length)
+    {
+      let prag = 0.0001;
+      let razlika = Number(this.users[i].consumption) - Number(this.users[i].production);
+      if(!(razlika < -prag || razlika > prag))
+      {
+        this.users.splice(i,1);
+      }
+      else
+      {
+        i++;
+      }
+    }
+    this.populateTheMap2(this.map);
+  }
+  addEqualConsProd()
+  {
+    this.equalConsumpProduct = false;
+    this.deleteAllMarkers(this.map);
+    let i = 0;
+    while(i < this.allusers.length)
+    {
+      let prag = 0.0001;
+      let razlika = Number(this.allusers[i].consumption) - Number(this.allusers[i].production);
+      if(!(razlika < -prag || razlika > prag))
       {
         this.users.push(this.allusers[i]);
       }

@@ -274,14 +274,28 @@
               >
                 <div class="card-body" style="padding-top: 0">
                   <p
-                    class="card-subtitle"
+                    class="card-subtitle legendPin"
                     style="font-size: 82%; margin-top: 4%"
+                    *ngIf="!equalConsumpProduct"
+                    (click)="removeEqualConsProd()"
                   >
                     <img
                       src="assets/images/marker-icon-2x-blueviolet.png"
                       class="icon"
                     />
-                    Approximately equal current consumption and production 
+                    Approximately equal current consumption and production
+                  </p>
+                  <p
+                    class="card-subtitle legendPin"
+                    style="font-size: 82%; margin-top: 4%"
+                    *ngIf="equalConsumpProduct"
+                    (click)="addEqualConsProd()"
+                  >
+                    <img
+                      src="assets/images/marker-icon-2x-blueviolet.png"
+                      class="icon"
+                    />
+                    <s> Approximately equal current consumption and production</s>
                   </p>
                 </div>
               </div>
