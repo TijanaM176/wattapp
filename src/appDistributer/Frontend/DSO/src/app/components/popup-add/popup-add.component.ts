@@ -60,7 +60,7 @@ export class PopupAddComponent implements OnInit {
       lastName: ['', Validators.required],
       password: ['', Validators.required],
       passwordAgain:['',Validators.required],
-      email: ['', Validators.required],
+      email: ['', [Validators.required, Validators.pattern(/^([\w.-]+)@([\w-]+)((.(\w){2,3})+)(.com)$/)]],
       image64String: [this.croppedImage],
     });
   }

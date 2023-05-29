@@ -185,7 +185,15 @@
                   signupWorkerForm.hasError('required', 'email')
                 "
                 class="text-danger"
-                >*Email is empty</small
+                >*E-mail is empty</small
+              >
+              <small
+                *ngIf="
+                  signupWorkerForm.controls['email'].dirty &&
+                  signupWorkerForm.hasError('pattern', 'email')
+                "
+                class="text-danger"
+                >*E-mail should be formatted like <i>example@gmail.com</i></small
               >
               <div class="form-group pt-3">
                 <div
