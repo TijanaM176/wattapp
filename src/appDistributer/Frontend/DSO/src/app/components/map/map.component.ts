@@ -562,8 +562,13 @@ export class MapComponent implements AfterViewInit, OnInit {
         this.populateTheMap2(this.map);
     }
     else{
-    this.deleteAllMarkers(this.map);
-    this.users = this.allusers;
+      this.deleteAllMarkers(this.map);
+      let i = 0;
+      while(i < this.allusers.length)
+      {
+        this.users[i] = this.allusers[i];
+        i++;
+      }
 
     this.populateTheMap2(this.map);
     }
@@ -580,8 +585,13 @@ export class MapComponent implements AfterViewInit, OnInit {
         this.populateTheMap2(this.map);
     }
     else{
-    this.deleteAllMarkers(this.map);
-    this.users = this.allusers;
+      this.deleteAllMarkers(this.map);
+      let i = 0;
+      while(i < this.allusers.length)
+      {
+        this.users[i] = this.allusers[i];
+        i++;
+      }
 
     this.populateTheMap2(this.map);
     }
