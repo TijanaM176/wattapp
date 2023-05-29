@@ -35,8 +35,8 @@ body {
   margin: 5px 0 0;
   font-size: 24px;
 }
-.table tbody tr:hover{
-  background-color: #f5f5f5;
+.table tbody tr:hover {
+  background-color: rgba(1, 1, 1, 0.13);
 }
 .table-title .btn {
   color: #566787;
@@ -137,13 +137,13 @@ td {
   cursor: pointer;
   vertical-align: -moz-middle-with-baseline;
 }
-#closebtn{
+#closebtn {
   background-color: #566787;
 }
 .deo {
   margin-top: 3%;
 }
-.btn-close{
+.btn-close {
   color: white;
   background-color: white;
 }

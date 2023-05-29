@@ -14,7 +14,7 @@
                     Today's Consumption
                   </p>
                   <h5 class="font-weight-bolder">
-                    {{ totalCons.toFixed(2) }} kW
+                    {{ totalCons.toFixed(2) }} kWh
                   </h5>
                   <p class="mb-0" *ngIf="ratioCons.charAt(0) != '-'">
                     <span class="text-success text-sm font-weight-bolder">{{
@@ -44,7 +44,7 @@
                     Today's Production
                   </p>
                   <h5 class="font-weight-bolder">
-                    {{ totalProd.toFixed(2) }} kW
+                    {{ totalProd.toFixed(2) }} kWh
                   </h5>
                   <p class="mb-0" *ngIf="ratioProd.charAt(0) == '-'">
                     <span class="text-danger text-sm font-weight-bolder">{{
@@ -102,7 +102,7 @@
                     Tomorrow's Consumption
                   </p>
                   <h5 class="font-weight-bolder">
-                    {{ nextCons.toFixed(2) }} kW
+                    {{ nextCons.toFixed(2) }} kWh
                   </h5>
                   <p class="mb-0" *ngIf="nextProd.charAt(0) != '-'">
                     <span class="text-success text-sm font-weight-bolder">{{

@@ -10,6 +10,9 @@ body {
 * {
   box-sizing: border-box;
 }
+input[type="radio"] {
+  border: 1px solid rgba(0, 0, 0, 0.5);
+}
 
 .custom-slider .ngx-slider .ngx-slider-bar {
   background: blue;
