@@ -195,26 +195,29 @@
               >
                 <div class="card-body">
                   <p class="card-subtitle mb-2 mb-xxl-3" style="font-size: 82%">
-                    current consumption greater than current production
+                    Current consumption greater than current production
                   </p>
                   <p class="mb-1" style="font-size: 14px"><b>Consuming:</b></p>
                   <p class="card-text" style="font-size: 15px">
                     <img
                       src="assets/images/marker-icon-2x-yellow.png"
                       class="icon"
-                    /><b> less than 0.4 kW</b>
+                    /><b *ngIf="!consumpLessThan04Checked" (click)="remove04LessCons()" class="legendPin"> less than 0.4 kW</b>
+                      <s *ngIf="consumpLessThan04Checked" (click)="add04LessCons()" class="legendPin"><b> less than 0.4 kW</b></s>
                   </p>
                   <p class="card-text" style="font-size: 15px">
                     <img
                       src="assets/images/marker-icon-2x-orange.png"
                       class="icon"
-                    /><b> between 0.4 - 0.8 kW</b>
+                    /><b *ngIf="!consumpBetween0408Checked" (click)="removeBetween0408Cons()" class="legendPin"> between 0.4 - 0.8 kW</b>
+                      <s *ngIf="consumpBetween0408Checked" (click)="addBetween0408Cons()" class="legendPin"><b> between 0.4 - 0.8 kW</b></s>
                   </p>
                   <p class="card-text" style="font-size: 15px">
                     <img
                       src="assets/images/marker-icon-2x-red.png"
                       class="icon"
-                    /><b> more than 0.8 kW</b>
+                    /><b *ngIf="!consumpLessThan08Checked" (click)="remove08MoreCons()" class="legendPin"> more than 0.8 kW</b>
+                      <s><b *ngIf="consumpLessThan08Checked" (click)="add08MoreCons()" class="legendPin"> more than 0.8 kW</b></s>
                   </p>
                   <p
                     class="position-absolute bottom-0 start-3"
@@ -235,26 +238,29 @@
               >
                 <div class="card-body">
                   <p class="card-subtitle mb-2 mb-xxl-3" style="font-size: 82%">
-                    current production greater than current consumption
+                    Current production greater than current consumption
                   </p>
                   <p class="mb-1" style="font-size: 14px"><b>Producing:</b></p>
                   <p class="card-text" style="font-size: 15px">
                     <img
                       src="assets/images/marker-icon-2x-turquoise.png"
                       class="icon"
-                    /><b> less than 0.17 kW</b>
+                    /><b *ngIf="!productLessThan017Checked" (click)="removeLessThan017Prod()" class="legendPin"> less than 0.17 kW</b>
+                      <s *ngIf="productLessThan017Checked" (click)="addLessThan017Prod()" class="legendPin"><b> less than 0.17 kW</b></s>
                   </p>
                   <p class="card-text" style="font-size: 15px">
                     <img
                       src="assets/images/marker-icon-2x-lime.png"
                       class="icon"
-                    /><b> between 0.17 - 0.21 kW</b>
+                    /><b *ngIf="!productBetween017021Checked" (click)="removeBetween017021Prod()" class="legendPin"> between 0.17 - 0.21 kW</b>
+                      <s *ngIf="productBetween017021Checked" (click)="addBetween017021Prod()" class="legendPin"><b> between 0.17 - 0.21 kW</b></s>
                   </p>
                   <p class="card-text" style="font-size: 15px">
                     <img
                       src="assets/images/marker-icon-2x-lightgreen.png"
                       class="icon"
-                    /><b> more than 0.21 kW</b>
+                    /><b *ngIf="!productMoreThan021Checked" (click)="removeMoreThan021Prod()" class="legendPin"> more than 0.21 kW</b>
+                      <s *ngIf="productMoreThan021Checked" (click)="addMoreThan021Prod()" class="legendPin"><b> more than 0.21 kW</b></s>
                   </p>
                   <p
                     class="position-absolute bottom-0 start-3"
@@ -275,14 +281,28 @@
               >
                 <div class="card-body" style="padding-top: 0">
                   <p
-                    class="card-subtitle"
+                    class="card-subtitle legendPin"
                     style="font-size: 82%; margin-top: 4%"
+                    *ngIf="!equalConsumpProduct"
+                    (click)="removeEqualConsProd()"
                   >
                     <img
                       src="assets/images/marker-icon-2x-blueviolet.png"
                       class="icon"
                     />
-                    approximately equal current consumption and production 
+                    Approximately equal current consumption and production
+                  </p>
+                  <p
+                    class="card-subtitle legendPin"
+                    style="font-size: 82%; margin-top: 4%"
+                    *ngIf="equalConsumpProduct"
+                    (click)="addEqualConsProd()"
+                  >
+                    <img
+                      src="assets/images/marker-icon-2x-blueviolet.png"
+                      class="icon"
+                    />
+                    <s> Approximately equal current consumption and production</s>
                   </p>
                 </div>
               </div>

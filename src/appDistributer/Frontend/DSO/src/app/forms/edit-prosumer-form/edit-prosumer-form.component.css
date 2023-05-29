@@ -1,0 +1,18 @@
+input, select {
+    border-radius: 7px;
+    background-color: #e8f3f8;
+  
+    border: wheat;
+    width: 100%;
+    max-width: 500px;
+    height: 40px;
+    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.2), 0 6px 8px 0 rgba(0, 0, 0, 0.19);
+}
+#dugme {
+    background-color: #5875a1;
+    border-radius: 7px;
+    width: 40%;
+    float: right;
+    margin-top: 10px;
+    color: white;
+  }

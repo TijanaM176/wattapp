@@ -149,7 +149,7 @@
                   <hr />
                   <div class="container-fluid d-flex">
                     <div class="col-lg-6">
-                      <h5 class="text-bold mb-0">{{ address }}</h5>
+                      <h5 class="text-bold mb-0">{{ address }}, {{neighName}}</h5>
                       <small class="text-muted mt-0">Address</small>
                     </div>
                     <div class="col-lg-6">
@@ -196,11 +196,9 @@
                     >
                       <input
                         id="edit"
-                        type="button"
                         value="Edit"
                         routerLink="/DsoApp/user/{{ id }}"
-                        data-bs-toggle="modal"
-                        data-bs-target="#exampleModal5"
+                        (click)="openEdit()"
                         class="btn"
                         [disabled]="!canDeleteEdit"
                       />
@@ -216,7 +214,6 @@
                     >
                       <input
                         id="delete"
-                        type="button"
                         value="Delete"
                         (click)="DeleteUser()"
                         class="btn"
@@ -277,46 +274,21 @@
       <div class="modal-header text-white" style="background-color: #5875a1">
         <h6>Edit User</h6>
         <button
-          type="button"
           class="btn-close"
-          data-bs-dismiss="modal"
           aria-label="Close"
           id="closeBtn1"
+          data-bs-dismiss="modal"
         ></button>
       </div>
       <div class="modal-body">
+        <button [hidden]="true" id="resetDataInFormForEdit" (click)="resetData()"></button>
+        <button [hidden]="true" id="closeModalEditProsumerData" data-bs-dismiss="modal" data-bs-target="#exampleModal5"></button>
+        <button [hidden]="true" id="openEditFormProsumer" data-bs-toggle="modal" data-bs-target="#exampleModal5"></button>
         <div class="panelbor">
           <div class="panel-body">
             <div class="centralni">
               <div class="divinput row">
-                <form [formGroup]="editUser">
-                  <label class="mb-0 mt-3">First name:</label>
-                  <input
-                    type="text"
-                    name="firstName"
-                    formControlName="FirstName"
-                  />
-                  <label class="mb-0 mt-4">Last name:</label>
-                  <input
-                    type="text"
-                    name="lastName"
-                    formControlName="LastName"
-                  />
-                  <label class="mb-0 mt-4">Email</label>
-                  <input
-                    type="text"
-                    name="email"
-                    formControlName="Email"
-                    class="mb-4"
-                  />
-                  <input
-                    id="dugme"
-                    type="button"
-                    value="Save"
-                    routerLink="/DsoApp/user/{{ id }}"
-                    (click)="UpdateData()"
-                  />
-                </form>
+                <app-edit-prosumer-form #editProsumerProfileForm></app-edit-prosumer-form>
               </div>
             </div>
           </div>
