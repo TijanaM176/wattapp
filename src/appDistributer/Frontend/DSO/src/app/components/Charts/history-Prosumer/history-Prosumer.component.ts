@@ -26,6 +26,9 @@ export class HistoryProsumerComponent implements OnInit {
   id!: string;
   show!: boolean;
 
+  prosumerUsername : string = '';
+  tablePeriod : string = '';
+
   constructor(
     private widthService: ScreenWidthService,
     private serviceTime: TimestampService,
@@ -63,13 +66,14 @@ export class HistoryProsumerComponent implements OnInit {
     const worksheet: XLSX.WorkSheet = XLSX.utils.aoa_to_sheet(sheetData);
     const workbook: XLSX.WorkBook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(workbook, worksheet, 'Chart Data');
-    XLSX.writeFile(workbook, 'Consumption_History_Table.xlsx');
+    XLSX.writeFile(workbook, 'Consumption_History_Table_'+this.tablePeriod+this.prosumerUsername+'.xlsx');
   }
 
   ngOnInit() {
     this.id = this.router.snapshot.params['id'];
     document.getElementById('grafik')!.style.height =
       this.widthService.height * this.coef + 'px';
+      this.tablePeriod = 'Week_';
     this.HistoryWeek('realizuser1');
     document.getElementById(
       'modalFadeConsumptionHistoryProsumer'
@@ -173,6 +177,7 @@ export class HistoryProsumerComponent implements OnInit {
   }
 
   HistoryWeek(id: string) {
+    this.tablePeriod = 'Week_';
     this.HistoryData(
       'week',
       this.serviceTime.HistoryProsumer7Days.bind(this.serviceTime, this.id)
@@ -181,6 +186,7 @@ export class HistoryProsumerComponent implements OnInit {
   }
 
   HistoryMonth(id: string) {
+    this.tablePeriod = 'Month_';
     this.HistoryData(
       'month',
       this.serviceTime.HistoryProsumer1Month.bind(this.serviceTime, this.id)
@@ -189,6 +195,7 @@ export class HistoryProsumerComponent implements OnInit {
   }
 
   HistoryYear(id: string) {
+    this.tablePeriod = 'Year_';
     this.HistoryData(
       'year',
       this.serviceTime.HistoryProsumer1Year.bind(this.serviceTime, this.id)

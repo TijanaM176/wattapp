@@ -20,6 +20,10 @@ import jwt_decode from 'jwt-decode';
 import { City } from 'src/app/models/city';
 import { Neighborhood } from 'src/app/models/neighborhood';
 import { EditProsumerFormComponent } from 'src/app/forms/edit-prosumer-form/edit-prosumer-form.component';
+import { ProsumerProfileVisitService } from 'src/app/services/prosumer-profile-visit.service';
+import { HistoryProsumerComponent } from '../Charts/history-Prosumer/history-Prosumer.component';
+import { RealizationChartProductionComponent } from '../Charts/realization-chart-production/realization-chart-production.component';
+import { PredictionProsumerComponent } from '../Charts/prediction-prosumer/prediction-prosumer.component';
 
 @Component({
   selector: 'app-user1',
@@ -27,10 +31,14 @@ import { EditProsumerFormComponent } from 'src/app/forms/edit-prosumer-form/edit
   styleUrls: ['./user1.component.css'],
 })
 export class User1Component implements OnInit, AfterViewInit {
-  @ViewChild('deviceTabela', { static: true })
-  devicesStatus!: TabelaUredjajaComponent;
+  @ViewChild('tabelaUredjaja', { static: true })
+  tabelaUredjaja!: TabelaUredjajaComponent;
   
   @ViewChild('editProsumerProfileForm', {static:true}) editProsumerProfileForm! : EditProsumerFormComponent;
+
+  @ViewChild('prosumerHistory', {static : true}) prosumerHistory! : HistoryProsumerComponent;
+  @ViewChild('prosumerHistoryProduction', {static : true}) prosumerHistoryProduction! : RealizationChartProductionComponent;
+  @ViewChild('prosumerPrediction', {static : true}) prosumerPrediction! : PredictionProsumerComponent;
 
   currentConsumption: number = 0;
   currentProduction: number = 0;
@@ -39,6 +47,7 @@ export class User1Component implements OnInit, AfterViewInit {
   loader: boolean = true;
   resizeObservable$!: Observable<Event>;
   resizeSubscription$!: Subscription;
+
   constructor(
     private user1: EmployeesServiceService,
     private user: UsersServiceService,
@@ -52,8 +61,10 @@ export class User1Component implements OnInit, AfterViewInit {
     private deviceService: DeviceserviceService,
     private _sanitizer: DomSanitizer,
     private auth: AuthService,
-    private toast: ToastrService
+    private toast: ToastrService,
+    private profileVisitService : ProsumerProfileVisitService
   ) {}
+
   letValue: string = '';
   id: string = '';
   firstName: string = '';
@@ -90,10 +101,6 @@ export class User1Component implements OnInit, AfterViewInit {
 
   onCurrentValuesReceived(values: [number, number, number, number]) {
     const [consumption, production, deviceCount, realDeviceCount] = values;
-    // Do something with the received values
-    // console.log(
-    //   `Consumption: ${consumption}, Production: ${production}, Device count: ${deviceCount}`
-    // );
     this.deviceCount = deviceCount;
     this.currentConsumption = consumption;
     this.currentProduction = production;
@@ -140,6 +147,10 @@ export class User1Component implements OnInit, AfterViewInit {
         this.thresholds = {
           '0': { color: '#5875A1', bgOpacity: 0.2, fontSize: '16px' },
         };
+        this.prosumerHistory.prosumerUsername = this.username;
+        this.prosumerHistoryProduction.prosumerUsername = this.username;
+        this.prosumerPrediction.prosumerUsername = this.username;
+        this.tabelaUredjaja.setProsumer(this.id, this.firstName+ ' '+this.lastName, this.username);
       });
   }
 

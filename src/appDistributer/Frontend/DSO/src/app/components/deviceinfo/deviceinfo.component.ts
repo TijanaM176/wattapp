@@ -8,6 +8,7 @@ import { Device } from 'src/app/models/device';
 import Swal from 'sweetalert2';
 import { DeviceserviceService } from 'src/app/services/deviceservice.service';
 import { ScreenWidthService } from 'src/app/services/screen-width.service';
+import { ProsumerProfileVisitService } from 'src/app/services/prosumer-profile-visit.service';
 
 @Component({
   selector: 'app-deviceinfo',
@@ -42,6 +43,9 @@ export class DeviceinfoComponent implements OnInit {
   type: string = '';
   cat: number = 0;
 
+  prosumerName : string = '';
+  prosumerUsername : string = ''
+
   //battery
   maxCapacity: number = 0;
   currentCapacity: number = 0;
@@ -56,6 +60,7 @@ export class DeviceinfoComponent implements OnInit {
     private spiner: NgxSpinnerService,
     private router1: Router,
     private toastr: ToastrService,
+    private profileVisitService : ProsumerProfileVisitService,
     public widthService: ScreenWidthService
   ) {}
 
@@ -64,6 +69,8 @@ export class DeviceinfoComponent implements OnInit {
       document.getElementById('consumptionLimitCardBody')!.offsetWidth * 0.6;
     this.getInfo();
     this.spiner.show();
+    this.prosumerName = this.profileVisitService.nameProsumer;
+    this.prosumerUsername = this.profileVisitService.usernameProsumer;
   }
 
   turnDeviceoffOn() {
