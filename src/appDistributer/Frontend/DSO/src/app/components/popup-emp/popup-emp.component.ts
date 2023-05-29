@@ -146,36 +146,23 @@ export class PopupEmpComponent implements OnInit {
 
               this.auth.signUp(this.signupForm.value).subscribe({
                 next: (res) => {
-                  // this.toast.success('Success', 'New Prosumer Added!', {
-                  //   timeOut: 2500,
-                  // });
-                  
-                  this.getCoordinates(location, res.username);
-                  // console.log(res.username);
-                  this.signupForm.reset();
-                  // window.location.reload();
+                  // console.log(res);
+                  this.getCoordinates(location, res.username, res.id);
                 },
                 error: (err) => {
-                  this.toast.error('Error!', 'Unable to add new Prosumer.', {
+                  this.toast.error('Error!', 'Unable to add new Prosumer. Try again later.', {
                     timeOut: 2500,
                   });
+                  this.signupForm.reset();
+                  document.getElementById('closebttn')!.click();
                 },
               });
-              this.currentRoute=this.router.url;
-              if (this.router.url === '/DsoApp/users') {
-                this.router.navigate(['/DsoApp/employees'],{skipLocationChange:true}).then(()=>{
-                  // console.log(this.router.url);
-                  this.router.navigate(['/DsoApp/users']);
-                  //this.activateBtn('offcanvasUserDevices');
-                  //this.activateButton('sidebarUserDevices');
-                });
-              } 
-              const buttonRef = document.getElementById('closebttn');
-              buttonRef?.click();
             },
             error:(err)=>{
               if(err instanceof HttpErrorResponse && err.status == 401)
               {
+                this.signupForm.reset();
+                document.getElementById('closebttn')!.click();
                 this.auth.logout(localStorage.getItem('username')!, localStorage.getItem('role')!)
                 .subscribe({
                   next:(res)=>{
@@ -208,6 +195,8 @@ export class PopupEmpComponent implements OnInit {
               else
               {
                 this.toast.error('Unknown error occurred. Try again later.', 'Error!', {timeOut: 2500});
+                this.signupForm.reset();
+                document.getElementById('closebttn')!.click();
               }
             }
           });
@@ -232,7 +221,7 @@ export class PopupEmpComponent implements OnInit {
     });
   }
 
-  private getCoordinates(location : any, username: string) {
+  private getCoordinates(location : any, username: string, id :string) {
     let coordsDto = new SetCoordsDto();
     coordsDto.Username = username;
     coordsDto.Latitude = location[0].toString();
@@ -241,11 +230,16 @@ export class PopupEmpComponent implements OnInit {
       next: (res) => {
         // console.log(res.message);
         this.toast.success('Prosumer successfully added.', 'Success!', {timeOut:2500});
+        this.router.navigate(['/DsoApp/user/'+id]);
+        this.signupForm.reset();
+        document.getElementById('closebttn')!.click();
       },
       error: (err) => {
-      this.toast.error('Error!', 'Unable to get coordinates.', {
+      this.toast.error('Error!', 'Unable to save coordinates.', {
         timeOut: 2500,
             });
+        this.signupForm.reset();
+        document.getElementById('closebttn')!.click();
       },
     });
   }
