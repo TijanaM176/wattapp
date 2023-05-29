@@ -18,6 +18,9 @@ export class HistoryAllProsumersComponent implements OnInit {
   id: string = '';
   data: any[] = ['z'];
   showsp!: boolean;
+
+  tablePeriod : string = '';
+
   constructor(
     private servicetime: TimestampService,
     private spiner: NgxSpinnerService,
@@ -46,11 +49,12 @@ export class HistoryAllProsumersComponent implements OnInit {
     const worksheet: XLSX.WorkSheet = XLSX.utils.aoa_to_sheet(sheetData);
     const workbook: XLSX.WorkBook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(workbook, worksheet, 'Chart Data');
-    XLSX.writeFile(workbook, 'Consumption_Production_History_Table.xlsx');
+    XLSX.writeFile(workbook, 'Consumption_Production_History_Table_'+this.tablePeriod+'.xlsx');
   }
 
   ngOnInit() {
     this.HistoryWeek('realiz1');
+    this.tablePeriod = 'Week_';
     document.getElementById('modalFadeHistoryAllProsumers')!.style.maxHeight =
       this.widthService.height * 0.7 + 'px';
   }
@@ -151,6 +155,7 @@ export class HistoryAllProsumersComponent implements OnInit {
   }
 
   HistoryWeek(id: string) {
+    this.tablePeriod = 'Week_';
     this.HistoryData(
       'week',
       this.servicetime.HistoryAllProsumers7Days.bind(this.servicetime)
@@ -159,6 +164,7 @@ export class HistoryAllProsumersComponent implements OnInit {
   }
 
   HistoryMonth(id: string) {
+    this.tablePeriod = 'Month_';
     this.HistoryData(
       'month',
       this.servicetime.HistoryAllProsumers1Month.bind(this.servicetime)
@@ -167,6 +173,7 @@ export class HistoryAllProsumersComponent implements OnInit {
   }
 
   HistoryYear(id: string) {
+    this.tablePeriod = 'Year_';
     this.HistoryData(
       'year',
       this.servicetime.HistoryAllProsumers1Year.bind(this.servicetime)
