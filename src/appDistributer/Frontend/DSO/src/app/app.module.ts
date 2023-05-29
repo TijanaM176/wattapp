@@ -80,6 +80,7 @@ import { RealizationChartProductionComponent } from './components/Charts/realiza
 import { ChangeWorkerPasswordComponent } from './forms/change-worker-password/change-worker-password.component';
 import { ImageCropperModule } from 'ngx-image-cropper';
 import { Mininavbar2Component } from './components/mininavbar2/mininavbar2.component';
+import { EditProsumerFormComponent } from './forms/edit-prosumer-form/edit-prosumer-form.component';
 
 @NgModule({
   declarations: [
@@ -143,6 +144,7 @@ import { Mininavbar2Component } from './components/mininavbar2/mininavbar2.compo
     RealizationChartProductionComponent,
     ChangeWorkerPasswordComponent,
     Mininavbar2Component,
+    EditProsumerFormComponent,
   ],
   imports: [
     MatSlideToggleModule,

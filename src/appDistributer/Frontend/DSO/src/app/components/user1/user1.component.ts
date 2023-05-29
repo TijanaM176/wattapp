@@ -17,6 +17,9 @@ import { SendRefreshToken } from 'src/app/models/sendRefreshToken';
 import { ToastrService } from 'ngx-toastr';
 import Swal from 'sweetalert2';
 import jwt_decode from 'jwt-decode';
+import { City } from 'src/app/models/city';
+import { Neighborhood } from 'src/app/models/neighborhood';
+import { EditProsumerFormComponent } from 'src/app/forms/edit-prosumer-form/edit-prosumer-form.component';
 
 @Component({
   selector: 'app-user1',
@@ -26,6 +29,9 @@ import jwt_decode from 'jwt-decode';
 export class User1Component implements OnInit, AfterViewInit {
   @ViewChild('deviceTabela', { static: true })
   devicesStatus!: TabelaUredjajaComponent;
+  
+  @ViewChild('editProsumerProfileForm', {static:true}) editProsumerProfileForm! : EditProsumerFormComponent;
+
   currentConsumption: number = 0;
   currentProduction: number = 0;
   deviceCount: number = 0;
@@ -76,6 +82,12 @@ export class User1Component implements OnInit, AfterViewInit {
   thresholds: object = {};
   canDeleteEdit: boolean = false;
 
+  cities: City[] = [];
+  cityId: number = -1;
+  cityName: string = '';
+  neighborhoods: Neighborhood[] = [];
+  neighName: string = '';
+
   onCurrentValuesReceived(values: [number, number, number, number]) {
     const [consumption, production, deviceCount, realDeviceCount] = values;
     // Do something with the received values
@@ -91,9 +103,16 @@ export class User1Component implements OnInit, AfterViewInit {
   ngOnInit(): void {
     document.getElementById('userInfoDataContainer')!.style.height =
       this.widthService.height + 'px';
+
     this.letValue = localStorage.getItem('role')!;
     if (this.letValue === 'Admin') this.canDeleteEdit = true;
+
     this.spiner.show();
+
+    this.serviceData.getAllCities().subscribe((response) => {
+      this.cities = response;
+    });
+
     this.disableDelete(this.letValue);
     this.getInformations();
     this.resizeObservable$ = fromEvent(window, 'resize');
@@ -104,8 +123,9 @@ export class User1Component implements OnInit, AfterViewInit {
   }
 
   getInformations() {
+    this.id = this.router.snapshot.params['id']
     this.user
-      .detailsEmployee(this.router.snapshot.params['id'])
+      .detailsEmployee(this.id)
       .subscribe((data: any) => {
         // console.log(data);
         this.firstName = data.firstName;
@@ -115,7 +135,12 @@ export class User1Component implements OnInit, AfterViewInit {
         this.address = data.address;
         this.Image(data.image);
         this.id = this.router.snapshot.params['id'];
+
+        this.editProsumerProfileForm.setIdData(this.id, data);
+
         this.Region = localStorage.getItem('region')!;
+        this.cityId = data.cityId;
+        this.neighName = data.neigborghoodName;
         this.serviceData.getCityNameById(data.cityId).subscribe((dat) => {
           // console.log(dat)
           this.city = dat;
@@ -126,7 +151,7 @@ export class User1Component implements OnInit, AfterViewInit {
             Username: new FormControl(data['username']),
             Email: new FormControl(data['email']),
             Address: new FormControl(data['address']),
-            NeigborhoodName: new FormControl(data['regionId']),
+            NeigborhoodName: new FormControl(''),
             Latitude: new FormControl(''),
             Longitude: new FormControl(''),
             CityName: new FormControl(''),
@@ -141,84 +166,6 @@ export class User1Component implements OnInit, AfterViewInit {
   ngAfterViewInit(): void {
     document.getElementById('userInfoDataContainer')!.style.height =
       this.widthService.height + 'px';
-  }
-  UpdateData() {
-    let refreshDto = new SendRefreshToken(
-      this.cookie.get('refresh'),
-      localStorage.getItem('username')!,
-      localStorage.getItem('role')!
-    );
-    this.auth.refreshToken(refreshDto).subscribe({
-      next: (data) => {
-        this.cookie.delete('token', '/');
-        this.cookie.delete('refresh', '/');
-        this.cookie.set('token', data.token.toString().trim(), { path: '/' });
-        this.cookie.set('refresh', data.refreshToken.toString().trim(), {
-          path: '/',
-        });
-
-        //update podataka u localStorage
-        let decodedToken: any = jwt_decode(data.token);
-        localStorage.setItem('username', decodedToken[
-          'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name'
-        ].toString().trim());
-
-        localStorage.setItem('role', decodedToken[
-          'http://schemas.microsoft.com/ws/2008/06/identity/claims/role'
-        ].toString().trim());
-          
-        localStorage.setItem('id', decodedToken['sub'].toString().trim());
-
-        //izmena podataka korisnika
-        let dto: editUserDto = new editUserDto();
-        dto.id = this.router.snapshot.params['id'];
-        dto.firstName = this.editUser.value.FirstName!;
-        dto.lastName = this.editUser.value.LastName!;
-        if (this.userOldInfo.email != this.editUser.value.Email) {
-          dto.email = this.editUser.value.Email!;
-        }
-
-        this.user.updateUserData(dto.id, dto).subscribe((res) => {
-          this.getInformations();
-        });
-
-        const buttonRef = document.getElementById('closeBtn1');
-        buttonRef?.click();
-      },
-      error: (err) => {
-        this.auth
-          .logout(localStorage.getItem('username')!, localStorage.getItem('role')!)
-          .subscribe({
-            next: (res) => {
-              this.toast.error(err.error, 'Error!', { timeOut: 3000 });
-              this.cookie.delete('token', '/');
-              this.cookie.delete('refresh', '/');
-              localStorage.removeItem('region');
-              localStorage.removeItem('lat');
-              localStorage.removeItem('long');
-              localStorage.removeItem('username');
-              localStorage.removeItem('role');
-              localStorage.removeItem('id');
-              this.r.navigate(['login']);
-            },
-            error: (error) => {
-              console.log(error);
-              this.toast.error('Unknown error occurred', 'Error!', {
-                timeOut: 2500,
-              });
-              this.cookie.delete('token', '/');
-              this.cookie.delete('refresh', '/');
-              localStorage.removeItem('region');
-              localStorage.removeItem('lat');
-              localStorage.removeItem('long');
-              localStorage.removeItem('username');
-              localStorage.removeItem('role');
-              localStorage.removeItem('id');
-              this.r.navigate(['login']);
-            },
-          });
-      },
-    });
   }
 
   DeleteUser() {
@@ -332,5 +279,9 @@ export class User1Component implements OnInit, AfterViewInit {
         `data:image/png;base64, ${dataImage}`
       );
     }
+  }
+  resetData()
+  {
+    this.getInformations();
   }
 }
