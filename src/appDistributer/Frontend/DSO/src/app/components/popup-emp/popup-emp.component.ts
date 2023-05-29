@@ -179,7 +179,7 @@ export class PopupEmpComponent implements OnInit {
                   },
                   error:(error)=>{
                     console.log('logout', error);
-                    this.toast.error('Unknown error occurred.', 'Error!', {timeOut: 2500});
+                    this.toast.error('Unknown error occurred. Logging out..', 'Error!', {timeOut: 2500});
                     this.cookie.delete('token', '/');
                     this.cookie.delete('refresh', '/');
                     localStorage.removeItem('region');

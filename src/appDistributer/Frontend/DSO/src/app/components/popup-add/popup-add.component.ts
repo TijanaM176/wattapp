@@ -16,6 +16,7 @@ import { SendRefreshToken } from 'src/app/models/sendRefreshToken';
 import { AuthService } from 'src/app/services/auth.service';
 import { EmployeesServiceService } from 'src/app/services/employees-service.service';
 import jwt_decode from 'jwt-decode';
+import { NewEmployeeAddedService } from 'src/app/services/new-employee-added.service';
 
 @Component({
   selector: 'app-popup-add',
@@ -40,6 +41,7 @@ export class PopupAddComponent implements OnInit {
   file: boolean = false;
   imageSource!: any;
   imageSource1!: any;
+
   constructor(
     private fb: FormBuilder,
     private router: Router,
@@ -47,8 +49,10 @@ export class PopupAddComponent implements OnInit {
     public toast: ToastrService,
     public cookie: CookieService,
     private service: EmployeesServiceService,
-    private http: HttpClient
+    private http: HttpClient,
+    private newEmplSer : NewEmployeeAddedService
   ) {}
+
   ngOnInit(): void {
     this.signupWorkerForm = this.fb.group({
       salary: ['', Validators.required],
@@ -170,31 +174,31 @@ export class PopupAddComponent implements OnInit {
 
           this.auth.signupWorker(this.signupWorkerForm.value).subscribe({
             next: (res) => {
-              this.toast.success('Success', 'New Employee Added!', {
+              this.newEmplSer.add(res.id);
+              this.toast.success('New Employee Added!', 'Success', {
                 timeOut: 2500,
               });
               this.signupWorkerForm.reset();
               this.deleteselectimage();
+              this.currentRoute=this.router.url;
+              if (this.router.url === '/DsoApp/employees') {
+                this.router.navigate(['/DsoApp/users'],{skipLocationChange:true}).then(()=>{
+                  this.router.navigate(['/DsoApp/employees']);
+                });
+              }
+              else
+              {
+                this.router.navigate(['/DsoApp/employees']);
+              }
+              document.getElementById('closebutton')!.click();
             },
             error: (err) => {
-              this.toast.error('Error!', 'Unable to add new Employee.', {
+              this.toast.error(err.error, 'Error!', {
                 timeOut: 2500,
               });
               console.log(err);
             },
           });
-          this.currentRoute=this.router.url;
-          if (this.router.url === '/DsoApp/employees') {
-            this.router.navigate(['/DsoApp/users'],{skipLocationChange:true}).then(()=>{
-              // console.log(this.router.url);
-              this.router.navigate(['/DsoApp/employees']);
-              //this.activateBtn('offcanvasUserDevices');
-              //this.activateButton('sidebarUserDevices');
-            });
-          } 
-          const buttonRef = document.getElementById('closebutton');
-          buttonRef?.click();
-          
         },
         error:(err)=>{
           if(err instanceof HttpErrorResponse && err.status == 401)
@@ -215,7 +219,7 @@ export class PopupAddComponent implements OnInit {
               },
               error:(error)=>{
                 console.log('logout', error);
-                this.toast.error('Unknown error occurred.', 'Error!', {timeOut: 2500});
+                this.toast.error('Unknown error occurred. Logging out..', 'Error!', {timeOut: 2500});
                 this.cookie.delete('token', '/');
                 this.cookie.delete('refresh', '/');
                 localStorage.removeItem('region');
