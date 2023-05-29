@@ -109,12 +109,9 @@ export class User1Component implements OnInit, AfterViewInit {
 
     this.spiner.show();
 
-    this.serviceData.getAllCities().subscribe((response) => {
-      this.cities = response;
-    });
-
     this.disableDelete(this.letValue);
     this.getInformations();
+
     this.resizeObservable$ = fromEvent(window, 'resize');
     this.resizeSubscription$ = this.resizeObservable$.subscribe((evt) => {
       document.getElementById('userInfoDataContainer')!.style.height =
@@ -127,36 +124,19 @@ export class User1Component implements OnInit, AfterViewInit {
     this.user
       .detailsEmployee(this.id)
       .subscribe((data: any) => {
-        // console.log(data);
+        this.userOldInfo = data;
+        // console.log(this.userOldInfo);
+
         this.firstName = data.firstName;
         this.lastName = data.lastName;
         this.username = data.userName;
         this.email = data.email;
         this.address = data.address;
         this.Image(data.image);
-        this.id = this.router.snapshot.params['id'];
-
-        this.editProsumerProfileForm.setIdData(this.id, data);
-
         this.Region = localStorage.getItem('region')!;
         this.cityId = data.cityId;
+        this.city = data.cityName;
         this.neighName = data.neigborghoodName;
-        this.serviceData.getCityNameById(data.cityId).subscribe((dat) => {
-          // console.log(dat)
-          this.city = dat;
-          this.userOldInfo = data;
-          this.editUser = new FormGroup({
-            FirstName: new FormControl(data['firstName']),
-            LastName: new FormControl(data['lastName']),
-            Username: new FormControl(data['username']),
-            Email: new FormControl(data['email']),
-            Address: new FormControl(data['address']),
-            NeigborhoodName: new FormControl(''),
-            Latitude: new FormControl(''),
-            Longitude: new FormControl(''),
-            CityName: new FormControl(''),
-          });
-        });
         this.thresholds = {
           '0': { color: '#5875A1', bgOpacity: 0.2, fontSize: '16px' },
         };
@@ -283,5 +263,11 @@ export class User1Component implements OnInit, AfterViewInit {
   resetData()
   {
     this.getInformations();
+    document.getElementById('closeModalEditProsumerData')!.click();
+  }
+  openEdit()
+  {
+    this.editProsumerProfileForm.setIdData(this.id, this.userOldInfo);
+    document.getElementById('openEditFormProsumer')!.click();
   }
 }

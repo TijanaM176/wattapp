@@ -90,6 +90,7 @@ export class EditProsumerFormComponent implements OnInit {
   }
   getNeighId(e: any) {
     this.neighName = e.target.value;
+    // console.log(this.neighName);
   }
   setIdData(id : string, data : any)
   {
@@ -112,10 +113,10 @@ export class EditProsumerFormComponent implements OnInit {
       LastName: new FormControl(this.userOldInfo.lastName),
       Email: new FormControl(this.userOldInfo.email),
       Address: new FormControl(this.userOldInfo.address),
-      NeigborhoodName: new FormControl(this.neighName),
+      NeigborhoodName: new FormControl(this.userOldInfo.neigborghoodName),
       Latitude: new FormControl(''),
       Longitude: new FormControl(''),
-      CityName: new FormControl(this.cityName),
+      CityName: new FormControl(this.userOldInfo.cityName),
     });
     // console.log(this.editUser.value)
 
@@ -163,6 +164,7 @@ export class EditProsumerFormComponent implements OnInit {
         dto.id = this.router.snapshot.params['id'];
         dto.firstName = this.editUser.value.FirstName!;
         dto.lastName = this.editUser.value.LastName!;
+        dto.neigborhoodName = this.editUser.value.NeigborhoodName!;
         if (this.userOldInfo.email != this.editUser.value.Email) {
           dto.email = this.editUser.value.Email!;
         }
@@ -170,7 +172,7 @@ export class EditProsumerFormComponent implements OnInit {
         this.user.updateUserData(dto.id, dto).subscribe((res) => {
           this.toast.success('Data successfully updated.', 'Success!', {timeOut:2500});
 
-          document.getElementById('closeBtn1')!.click();
+          document.getElementById('resetDataInFormForEdit')!.click();
         });
       },
       error: (err) => {
@@ -275,7 +277,7 @@ export class EditProsumerFormComponent implements OnInit {
         this.user.updateUserData(dto.id, dto).subscribe((res) => {
           this.toast.success('Data successfully updated.', 'Success!', {timeOut:2500});
 
-          document.getElementById('closeBtn1')!.click();
+          document.getElementById('resetDataInFormForEdit')!.click();
         });
       },
       error: (err) => {

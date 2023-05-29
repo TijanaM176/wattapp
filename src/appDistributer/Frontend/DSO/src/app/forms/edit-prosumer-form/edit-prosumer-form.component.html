@@ -1,11 +1,11 @@
 <form [formGroup]="editUser">
-    <label class="mb-0 mt-3">First name:</label>
+    <label class="mb-0 mt-3">First name</label>
     <input
       type="text"
       name="firstName"
       formControlName="FirstName"
     />
-    <label class="mb-0 mt-4">Last name:</label>
+    <label class="mb-0 mt-4">Last name</label>
     <input
       type="text"
       name="lastName"
@@ -20,7 +20,7 @@
     />
     <label class="mb-0">City</label>
     <select (change)="getAllNeighborhoodById($event)">
-      <option *ngFor="let city of cities" [value]="city.id" [selected]="city.id == cityId.toString()">
+      <option *ngFor="let city of cities" [value]="city.id" [selected]="city.id === cityId.toString()">
         {{ city.cityName }}
       </option>
     </select>
@@ -31,9 +31,7 @@
         />
     <label class="mb-0 mt-4">Neighborhood</label>
     <select
-      formControlName="NeigborhoodName"
       (change)="getNeighId($event)"
-      [(ngModel)]="neighName"
     >
       <option value="">
         --Select Neighborhood --
@@ -41,10 +39,16 @@
       <option
         *ngFor="let neig of neighborhoods"
         [value]="neig.neigbName"
+        [selected]="neig.neigbName === neighName.toString()"
       >
         {{ neig.neigbName }}
       </option>
     </select>
+    <input
+        formControlName="NeigborhoodName"
+        type="hidden"
+        [(ngModel)]="neighName"
+        />
     <label class="mb-0 mt-4">Address</label>
     <input
       type="text"
