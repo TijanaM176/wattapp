@@ -146,7 +146,7 @@ export class TabelaUredjajaComponent implements OnInit {
   viewDevice(device : any)
   {
     this.profileVisitService.setData(this.prosumerUsername, this.prosumerName);
-    console.log(this.profileVisitService.nameProsumer, this.profileVisitService.usernameProsumer);
+    // console.log(this.profileVisitService.nameProsumer, this.profileVisitService.usernameProsumer);
     this.r.navigate(['/DsoApp/user/'+this.prosumerId+'/Devices/deviceinfo/'+device.Id]);
   }
 }
