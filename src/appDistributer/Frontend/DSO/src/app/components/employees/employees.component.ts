@@ -13,6 +13,7 @@ import { SendRefreshToken } from 'src/app/models/sendRefreshToken';
 import { AuthService } from 'src/app/services/auth.service';
 import Swal from 'sweetalert2';
 import jwt_decode from 'jwt-decode';
+import { NewEmployeeAddedService } from 'src/app/services/new-employee-added.service';
 
 @Component({
   selector: 'app-employees',
@@ -69,11 +70,17 @@ export class EmployeesComponent {
     private _sanitizer: DomSanitizer,
     public toast: ToastrService,
     private profilePhotoService: ProfilePictureServiceService,
-    private auth: AuthService
+    private auth: AuthService,
+    private newEmplSer : NewEmployeeAddedService
   ) {}
 
   ngOnInit(): void {
     this.Ucitaj();
+    if(this.newEmplSer.isAdded)
+    {
+      this.Details(this.newEmplSer.newEmplId);
+      this.newEmplSer.reset();
+    }
     this.Paging();
     this.regionName = localStorage.getItem('region');
     this.profilePhotoService.profilePhoto$.subscribe((picture: string) => {

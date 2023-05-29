@@ -104,101 +104,109 @@ export class PopupEmpComponent implements OnInit {
     if (this.signupForm.valid) {
       this.address =
         this.signupForm.value.address.trim() +',' +this.signupForm.value.city.trim() +',' +'Serbia';
-
+      
       this.address = this.address.replaceAll('dj', 'đ');
-      // console.log(this.address); //adresu lepo kupi
-      let refrestDto : SendRefreshToken = new SendRefreshToken(this.cookie.get('refresh'), localStorage.getItem('username')!, localStorage.getItem('role')!);
-      this.auth.refreshToken(refrestDto)
-      .subscribe({
-        next:(res)=>{
-          this.cookie.delete('token','/');
-          this.cookie.delete('refresh','/');
-          this.cookie.set('token', res.token.toString().trim(), {path: '/'});
-          this.cookie.set('refresh',res.refreshToken.toString().trim(), {path:'/'});
 
-          //update podataka u localStorage
-          let decodedToken: any = jwt_decode(res.token);
-          localStorage.setItem('username', decodedToken[
-            'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name'
-          ]
-            .toString()
-            .trim());
+      var key =
+        'Ag6ud46b-3wa0h7jHMiUPgiylN_ZXKQtL6OWJpl6eVTUR5CnuwbUF7BYjwSA4nZ_';
+      var url =
+        'https://dev.virtualearth.net/REST/v1/Locations?query=' +
+        encodeURIComponent(this.address) +
+        '&key=' + key;
 
-          localStorage.setItem('role', decodedToken[
-            'http://schemas.microsoft.com/ws/2008/06/identity/claims/role'
-          ]
-            .toString()
-            .trim());
-          
-          localStorage.setItem('id', decodedToken['sub'].toString().trim());
+      fetch(url)
+        .then((response) => response.json())
+        .then((data) => { //uspesno nadjena adresa
+          var location = data.resourceSets[0].resources[0].geocodePoints[0].coordinates;
 
-          this.auth.signUp(this.signupForm.value).subscribe({
-            next: (res) => {
-              this.toast.success('Success', 'New Prosumer Added!', {
-                timeOut: 2500,
-              });
+          let refrestDto : SendRefreshToken = new SendRefreshToken(this.cookie.get('refresh'), localStorage.getItem('username')!, localStorage.getItem('role')!);
+          this.auth.refreshToken(refrestDto)
+          .subscribe({
+            next:(res)=>{
+              this.cookie.delete('token','/');
+              this.cookie.delete('refresh','/');
+              this.cookie.set('token', res.token.toString().trim(), {path: '/'});
+              this.cookie.set('refresh',res.refreshToken.toString().trim(), {path:'/'});
+
+              //update podataka u localStorage
+              let decodedToken: any = jwt_decode(res.token);
+              localStorage.setItem('username', decodedToken[
+                'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name'
+              ]
+                .toString()
+                .trim());
+
+              localStorage.setItem('role', decodedToken[
+                'http://schemas.microsoft.com/ws/2008/06/identity/claims/role'
+              ]
+                .toString()
+                .trim());
               
-              this.getCoordinates(this.address, res.username);
-              // console.log(res.username);
-              this.signupForm.reset();
-              // window.location.reload();
-            },
-            error: (err) => {
-              this.toast.error('Error!', 'Unable to add new Prosumer.', {
-                timeOut: 2500,
+              localStorage.setItem('id', decodedToken['sub'].toString().trim());
+
+              this.auth.signUp(this.signupForm.value).subscribe({
+                next: (res) => {
+                  // console.log(res);
+                  this.getCoordinates(location, res.username, res.id);
+                },
+                error: (err) => {
+                  this.toast.error('Error!', 'Unable to add new Prosumer. Try again later.', {
+                    timeOut: 2500,
+                  });
+                  this.signupForm.reset();
+                  document.getElementById('closebttn')!.click();
+                },
               });
             },
-          });
-          this.currentRoute=this.router.url;
-          if (this.router.url === '/DsoApp/users') {
-            this.router.navigate(['/DsoApp/employees'],{skipLocationChange:true}).then(()=>{
-              // console.log(this.router.url);
-              this.router.navigate(['/DsoApp/users']);
-              //this.activateBtn('offcanvasUserDevices');
-              //this.activateButton('sidebarUserDevices');
-            });
-          } 
-          const buttonRef = document.getElementById('closebttn');
-          buttonRef?.click();
-        },
-        error:(err)=>{
-          if(err instanceof HttpErrorResponse && err.status == 401)
-          {
-            this.auth.logout(localStorage.getItem('username')!, localStorage.getItem('role')!)
-            .subscribe({
-              next:(res)=>{
-                this.toast.error(err.error, 'Error!', {timeOut: 3000});
-                this.cookie.delete('token', '/');
-                this.cookie.delete('refresh', '/');
-                localStorage.removeItem('region');
-                localStorage.removeItem('lat');
-                localStorage.removeItem('long');
-                localStorage.removeItem('username');
-                localStorage.removeItem('role');
-                localStorage.removeItem('id');
-                this.router.navigate(['login']);
-              },
-              error:(error)=>{
-                console.log('logout', error);
-                this.toast.error('Unknown error occurred.', 'Error!', {timeOut: 2500});
-                this.cookie.delete('token', '/');
-                this.cookie.delete('refresh', '/');
-                localStorage.removeItem('region');
-                localStorage.removeItem('lat');
-                localStorage.removeItem('long');
-                localStorage.removeItem('username');
-                localStorage.removeItem('role');
-                localStorage.removeItem('id');
-                this.router.navigate(['login']);
+            error:(err)=>{
+              if(err instanceof HttpErrorResponse && err.status == 401)
+              {
+                this.signupForm.reset();
+                document.getElementById('closebttn')!.click();
+                this.auth.logout(localStorage.getItem('username')!, localStorage.getItem('role')!)
+                .subscribe({
+                  next:(res)=>{
+                    this.toast.error(err.error, 'Error!', {timeOut: 3000});
+                    this.cookie.delete('token', '/');
+                    this.cookie.delete('refresh', '/');
+                    localStorage.removeItem('region');
+                    localStorage.removeItem('lat');
+                    localStorage.removeItem('long');
+                    localStorage.removeItem('username');
+                    localStorage.removeItem('role');
+                    localStorage.removeItem('id');
+                    this.router.navigate(['login']);
+                  },
+                  error:(error)=>{
+                    console.log('logout', error);
+                    this.toast.error('Unknown error occurred. Logging out..', 'Error!', {timeOut: 2500});
+                    this.cookie.delete('token', '/');
+                    this.cookie.delete('refresh', '/');
+                    localStorage.removeItem('region');
+                    localStorage.removeItem('lat');
+                    localStorage.removeItem('long');
+                    localStorage.removeItem('username');
+                    localStorage.removeItem('role');
+                    localStorage.removeItem('id');
+                    this.router.navigate(['login']);
+                  }
+                });
               }
-            });
-          }
-          else
-          {
-            this.toast.error('Unknown error occurred. Try again later.', 'Error!', {timeOut: 2500});
-          }
-        }
-      });
+              else
+              {
+                this.toast.error('Unknown error occurred. Try again later.', 'Error!', {timeOut: 2500});
+                this.signupForm.reset();
+                document.getElementById('closebttn')!.click();
+              }
+            }
+          });
+        })
+        .catch((error) => {
+          this.toast.error('This address does not exist. Make sure address input is correct.', 'Error!', {
+            timeOut: 2500,
+          });
+          console.error(`Error fetching location data: ${error}`);
+        });
     } else {
       this.validateAllFormFields(this.signupForm);
     }
@@ -213,39 +221,26 @@ export class PopupEmpComponent implements OnInit {
     });
   }
 
-  private getCoordinates(address: string, username: string) {
-    var key =
-      'Ag6ud46b-3wa0h7jHMiUPgiylN_ZXKQtL6OWJpl6eVTUR5CnuwbUF7BYjwSA4nZ_';
-    var url =
-      'https://dev.virtualearth.net/REST/v1/Locations?query=' +
-      encodeURIComponent(address) +
-      '&key=' +
-      key;
-    fetch(url)
-      .then((response) => response.json())
-      .then((data) => {
-        var location =
-          data.resourceSets[0].resources[0].geocodePoints[0].coordinates;
-        let coordsDto = new SetCoordsDto();
-        coordsDto.Username = username;
-        coordsDto.Latitude = location[0].toString();
-        coordsDto.Longitude = location[1].toString();
-        this.auth.setUserCoordinates(coordsDto).subscribe({
-          next: (res) => {
-            // console.log(res.message);
-          },
-          error: (err) => {
-            this.toast.error('Error!', 'Unable to get coordinates.', {
-              timeOut: 2500,
+  private getCoordinates(location : any, username: string, id :string) {
+    let coordsDto = new SetCoordsDto();
+    coordsDto.Username = username;
+    coordsDto.Latitude = location[0].toString();
+    coordsDto.Longitude = location[1].toString();
+    this.auth.setUserCoordinates(coordsDto).subscribe({
+      next: (res) => {
+        // console.log(res.message);
+        this.toast.success('Prosumer successfully added.', 'Success!', {timeOut:2500});
+        this.router.navigate(['/DsoApp/user/'+id]);
+        this.signupForm.reset();
+        document.getElementById('closebttn')!.click();
+      },
+      error: (err) => {
+      this.toast.error('Error!', 'Unable to save coordinates.', {
+        timeOut: 2500,
             });
-          },
-        });
-      })
-      .catch((error) => {
-        this.toast.error('Error!', 'Unable to fetch location data.', {
-          timeOut: 2500,
-        });
-        console.error(`Error fetching location data: ${error}`);
-      });
+        this.signupForm.reset();
+        document.getElementById('closebttn')!.click();
+      },
+    });
   }
 }
