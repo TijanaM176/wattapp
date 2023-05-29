@@ -22,6 +22,9 @@ export class PredictionDeviceComponent implements OnInit {
   show!: boolean;
   @Input() type: string = '';
 
+  tablePeriod : string = '';
+  deviceName : string = '';
+
   constructor(
     private deviceService: DevicesService,
     private widthService: DeviceWidthService,
@@ -50,7 +53,7 @@ export class PredictionDeviceComponent implements OnInit {
     const worksheet: XLSX.WorkSheet = XLSX.utils.aoa_to_sheet(sheetData);
     const workbook: XLSX.WorkBook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(workbook, worksheet, 'Chart Data');
-    XLSX.writeFile(workbook, 'Predicted_' + this.type + '.xlsx');
+    XLSX.writeFile(workbook, 'Predicted_' + this.type +'_'+this.tablePeriod + '_' + this.deviceName +'.xlsx');
   }
 
   ngOnInit(): void {
@@ -58,11 +61,13 @@ export class PredictionDeviceComponent implements OnInit {
     const grafik = document.getElementById('predikcija');
     grafik!.style!.height = this.widthService.height * 0.6 + 'px';
     this.Prediction1Day('predictionDev1');
+    this.tablePeriod = '_1Day';
     document.getElementById('PredictionDeviceTableModalBody')!.style.maxHeight =
       this.widthService.height * 0.6 + 'px';
   }
 
   PredictionWeek(id: string) {
+    this.tablePeriod = '_Week';
     this.show = true;
     this.spiner.show();
     this.deviceService
@@ -145,6 +150,7 @@ export class PredictionDeviceComponent implements OnInit {
   }
 
   Prediction3Days(id: string) {
+    this.tablePeriod = '_3Days';
     this.show = true;
     this.spiner.show();
     this.deviceService
@@ -225,6 +231,7 @@ export class PredictionDeviceComponent implements OnInit {
   }
 
   Prediction1Day(id: string) {
+    this.tablePeriod = '_1Day';
     this.show = true;
     this.spiner.show();
     this.deviceService

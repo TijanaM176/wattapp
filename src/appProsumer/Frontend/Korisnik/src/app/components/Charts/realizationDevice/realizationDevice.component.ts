@@ -22,6 +22,9 @@ export class RealizationDeviceComponent implements OnInit, AfterViewInit {
   cat: string = '';
   @Input() type: string = '';
 
+  tablePeriod : string = '';
+  deviceName : string = '';
+
   constructor(
     private deviceService: DevicesService,
     private widthService: DeviceWidthService,
@@ -52,7 +55,7 @@ export class RealizationDeviceComponent implements OnInit, AfterViewInit {
     const worksheet: XLSX.WorkSheet = XLSX.utils.aoa_to_sheet(sheetData);
     const workbook: XLSX.WorkBook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(workbook, worksheet, 'Chart Data');
-    XLSX.writeFile(workbook, this.type + '_and_Prediction_Table_History.xlsx');
+    XLSX.writeFile(workbook, this.type + '_and_Prediction_Table_History'+this.tablePeriod + '_' + this.deviceName +'.xlsx');
   }
 
   ngAfterViewInit(): void {
@@ -65,6 +68,7 @@ export class RealizationDeviceComponent implements OnInit, AfterViewInit {
   ngOnInit(): void {
     this.idDev = this.router1.snapshot.params['idDev'];
     this.HistoryWeek('realizDev1');
+    this.tablePeriod = '_Week';
     document.getElementById(
       'realizationDeviceTableModalBody'
     )!.style.maxHeight = this.widthService.height * 0.6 + 'px';
@@ -185,6 +189,7 @@ export class RealizationDeviceComponent implements OnInit, AfterViewInit {
   }
 
   HistoryWeek(id: string) {
+    this.tablePeriod = '_Week';
     this.HistoryData(
       'week',
       this.deviceService.historyDeviceWeek.bind(this.deviceService, this.idDev)
@@ -193,6 +198,7 @@ export class RealizationDeviceComponent implements OnInit, AfterViewInit {
   }
 
   HistoryMonth(id: string) {
+    this.tablePeriod = '_Month';
     this.HistoryData(
       'month',
       this.deviceService.historyDeviceMonth.bind(this.deviceService, this.idDev)
@@ -201,6 +207,7 @@ export class RealizationDeviceComponent implements OnInit, AfterViewInit {
   }
 
   HistoryYear(id: string) {
+    this.tablePeriod = '_Year';
     this.HistoryData(
       'year',
       this.deviceService.historyDeviceYear.bind(this.deviceService, this.idDev)
