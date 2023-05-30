@@ -91,7 +91,7 @@
         <table class="table table-bordered">
           <thead>
             <tr>
-              <th></th>
+              <!-- <th></th> -->
               <th (click)="sort('username')">Name<i class="fa fa-sort"></i></th>
               <th (click)="sort('address')">
                 Address<i class="fa fa-sort"></i>
@@ -126,13 +126,13 @@
                 let i = index
               "
             >
-              <td>
+              <!-- <td>
                 <img
                   [src]="Image(item.image)"
                   style="width: 30px; height: 30px"
                   class="rounded-circle"
                 />
-              </td>
+              </td> -->
               <td>{{ item.firstname }} {{ item.lastname }}</td>
               <td>
                 {{ item.address }}, {{ item.neigborhoodName }},

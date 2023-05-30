@@ -23,6 +23,8 @@ export class RealizationChartComponent implements OnInit, AfterViewInit {
   resizeSubscription$!: Subscription;
   coef: number = 0.6;
 
+  tablePeriod : string = '';
+
   constructor(
     private deviceService: DevicesService,
     private widthService: DeviceWidthService,
@@ -68,11 +70,12 @@ export class RealizationChartComponent implements OnInit, AfterViewInit {
     const worksheet: XLSX.WorkSheet = XLSX.utils.aoa_to_sheet(sheetData);
     const workbook: XLSX.WorkBook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(workbook, worksheet, 'Chart Data');
-    XLSX.writeFile(workbook, 'Consumption_History_Table.xlsx');
+    XLSX.writeFile(workbook, 'Consumption_History_Table'+this.tablePeriod+'.xlsx');
   }
 
   ngOnInit(): void {
     this.HistoryWeek('realiz1');
+    this.tablePeriod = '_Week';
     document.getElementById(
       'modalFadeConsumptionRealizationTableBody'
     )!.style.maxHeight = this.widthService.height * 0.6 + 'px';
@@ -193,6 +196,7 @@ export class RealizationChartComponent implements OnInit, AfterViewInit {
   }
 
   HistoryWeek(id: string) {
+    this.tablePeriod = '_Week';
     this.HistoryData(
       'week',
       this.deviceService.history7Days.bind(this.deviceService)
@@ -201,6 +205,7 @@ export class RealizationChartComponent implements OnInit, AfterViewInit {
   }
 
   HistoryMonth(id: string) {
+    this.tablePeriod = '_Month';
     this.HistoryData(
       'month',
       this.deviceService.history1Month.bind(this.deviceService)
@@ -209,6 +214,7 @@ export class RealizationChartComponent implements OnInit, AfterViewInit {
   }
 
   HistoryYear(id: string) {
+    this.tablePeriod = '_Year';
     this.HistoryData(
       'year',
       this.deviceService.history1Year.bind(this.deviceService)

@@ -28,6 +28,9 @@ export class RealizationChartProductionComponent
   id!: string;
   show!: boolean;
 
+  prosumerUsername : string = '';
+  tablePeriod : string = '';
+
   constructor(
     private widthService: ScreenWidthService,
     private serviceTime: TimestampService,
@@ -43,6 +46,7 @@ export class RealizationChartProductionComponent
   ngOnInit(): void {
     this.id = this.router.snapshot.params['id'];
     this.HistoryWeek('realizPrediction1');
+    this.tablePeriod = 'Week_';
     if (
       this.widthService.deviceWidth >= 576 ||
       this.widthService.height >= this.widthService.deviceWidth * 2
@@ -95,7 +99,7 @@ export class RealizationChartProductionComponent
     const worksheet: XLSX.WorkSheet = XLSX.utils.aoa_to_sheet(sheetData);
     const workbook: XLSX.WorkBook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(workbook, worksheet, 'Chart Data');
-    XLSX.writeFile(workbook, 'Production_History_Table.xlsx');
+    XLSX.writeFile(workbook, 'Production_History_Table_'+this.tablePeriod+this.prosumerUsername+'.xlsx');
   }
 
   HistoryData(period: string, serviceFunction: any) {
@@ -196,6 +200,7 @@ export class RealizationChartProductionComponent
   }
 
   HistoryWeek(id: string) {
+    this.tablePeriod = 'Week_';
     this.HistoryData(
       'week',
       this.serviceTime.HistoryProsumer7Days.bind(this.serviceTime, this.id)
@@ -204,6 +209,7 @@ export class RealizationChartProductionComponent
   }
 
   HistoryMonth(id: string) {
+    this.tablePeriod = 'Month_';
     this.HistoryData(
       'month',
       this.serviceTime.HistoryProsumer1Month.bind(this.serviceTime, this.id)
@@ -212,6 +218,7 @@ export class RealizationChartProductionComponent
   }
 
   HistoryYear(id: string) {
+    this.tablePeriod = 'Year_';
     this.HistoryData(
       'year',
       this.serviceTime.HistoryProsumer1Year.bind(this.serviceTime, this.id)

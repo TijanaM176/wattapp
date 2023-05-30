@@ -108,6 +108,8 @@ export class MapComponent implements AfterViewInit, OnInit {
 
   equalConsumpProduct : boolean = false;
 
+  disableFiltering : boolean = false;
+
   constructor(
     private mapService: UsersServiceService,
     private widthService: ScreenWidthService,
@@ -117,6 +119,7 @@ export class MapComponent implements AfterViewInit, OnInit {
   ) {}
 
   ChangeCity(e: any) {
+    this.disableFiltering = true;
     this.dropDownNeigh = 'all';
     this.neighborhood = 'all';
     if (this.city == -1) {
@@ -275,6 +278,7 @@ export class MapComponent implements AfterViewInit, OnInit {
   }
 
   ChangeNeighborhood(e: any) {
+    this.disableFiltering = true;
     this.dropDownNeigh = e.target.value;
     let c = this.city == -1 ? 'all' : this.city.toString();
     this.deviceServer.FilterRanges(c, this.dropDownNeigh).subscribe((res) => {
@@ -289,6 +293,7 @@ export class MapComponent implements AfterViewInit, OnInit {
   }
 
   ngOnInit(): void {
+    this.disableFiltering = false;
     setTimeout(() => {
       this.loader = false;
     }, 3000);
@@ -402,7 +407,6 @@ export class MapComponent implements AfterViewInit, OnInit {
       },
     };
 
-
     this.staticMinCons = Math.ceil(res.minCons);
     this.staticMaxCons = Math.ceil(res.maxCons);
     this.minValueC = Math.ceil(res.minCons);
@@ -422,7 +426,6 @@ export class MapComponent implements AfterViewInit, OnInit {
       },
     };
 
-
     this.staticMinDev = Math.ceil(res.minDevCount);
     this.staticMaxDev = Math.ceil(res.maxDevCount);
     this.minValue = Math.ceil(res.minDevCount);
@@ -441,6 +444,8 @@ export class MapComponent implements AfterViewInit, OnInit {
         }
       },
     };
+
+    this.disableFiltering = false;
   }
 
   private resetMaxMin() {

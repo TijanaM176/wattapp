@@ -23,6 +23,8 @@ export class PredictionChartComponent implements OnInit, AfterViewInit {
   resizeSubscription$!: Subscription;
   coef: number = 0.6;
 
+  tablePeriod : string = '';
+
   constructor(
     private deviceService: DevicesService,
     private widthService: DeviceWidthService,
@@ -70,7 +72,7 @@ export class PredictionChartComponent implements OnInit, AfterViewInit {
     const worksheet: XLSX.WorkSheet = XLSX.utils.aoa_to_sheet(sheetData);
     const workbook: XLSX.WorkBook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(workbook, worksheet, 'Chart Data');
-    XLSX.writeFile(workbook, 'Prediction_Table.xlsx');
+    XLSX.writeFile(workbook, 'Prediction_Table'+this.tablePeriod+'.xlsx');
   }
 
   ngOnInit(): void {
@@ -84,6 +86,7 @@ export class PredictionChartComponent implements OnInit, AfterViewInit {
       this.coef = 0.55;
 
     this.PredictionWeek('prediction3');
+    this.tablePeriod = '_Week';
 
     this.resizeObservable$ = fromEvent(window, 'resize');
     this.resizeSubscription$ = this.resizeObservable$.subscribe((evt) => {
@@ -196,6 +199,7 @@ export class PredictionChartComponent implements OnInit, AfterViewInit {
   }
 
   Prediction1Day(id: string) {
+    this.tablePeriod = '_1Day';
     this.HistoryData(
       'day',
       this.deviceService.prediction1Day.bind(this.deviceService)
@@ -204,6 +208,7 @@ export class PredictionChartComponent implements OnInit, AfterViewInit {
   }
 
   Prediction3Days(id: string) {
+    this.tablePeriod = '_3Days';
     this.HistoryData(
       'month',
       this.deviceService.prediction3Days.bind(this.deviceService)
@@ -211,6 +216,7 @@ export class PredictionChartComponent implements OnInit, AfterViewInit {
     this.activateButton(id);
   }
   PredictionWeek(id: string) {
+    this.tablePeriod = '_Week';
     this.HistoryData(
       'week',
       this.deviceService.prediction1Week.bind(this.deviceService, this.id)

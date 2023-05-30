@@ -235,6 +235,7 @@
               </div>
               <div class="card-body px-0 py-0 mx-0 my-0 pb-1">
                 <app-tabelaUredjaja
+                  #tabelaUredjaja
                   (current)="onCurrentValuesReceived($event)"
                 ></app-tabelaUredjaja>
               </div>
@@ -244,13 +245,13 @@
       </div>
       <div class="col-lg-5">
         <div class="card p-0 mb-4">
-          <app-history-Prosumer></app-history-Prosumer>
+          <app-history-Prosumer #prosumerHistory></app-history-Prosumer>
         </div>
         <div class="card p-0 mb-4">
-          <app-realization-chart-production></app-realization-chart-production>
+          <app-realization-chart-production #prosumerHistoryProduction ></app-realization-chart-production>
         </div>
         <div class="card p-0">
-          <app-prediction-prosumer></app-prediction-prosumer>
+          <app-prediction-prosumer #prosumerPrediction></app-prediction-prosumer>
         </div>
       </div>
     </div>

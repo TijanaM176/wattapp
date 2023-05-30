@@ -9,6 +9,8 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
 import Swal from 'sweetalert2';
 import { DeviceWidthService } from 'src/app/services/device-width.service';
+import { RealizationDeviceComponent } from '../Charts/realizationDevice/realizationDevice.component';
+import { PredictionDeviceComponent } from '../Charts/predictionDevice/predictionDevice.component';
 
 @Component({
   selector: 'app-deviceinfo',
@@ -61,6 +63,9 @@ export class DeviceinfoComponent {
   showBatteryError : boolean = false;
 
   @ViewChild('editData', { static: true }) editData!: EditDeviceFormComponent;
+
+  @ViewChild('realizationDevice', {static: true}) realizationDevice! : RealizationDeviceComponent;
+  @ViewChild('predictionDevice', {static: true}) predictionDevice! : PredictionDeviceComponent;
 
   constructor(
     private router: Router,
@@ -157,6 +162,8 @@ export class DeviceinfoComponent {
         this.TypeName = res.TypeName;
         this.ModelName = res.ModelName;
         this.Name = res.Name;
+        this.realizationDevice.deviceName = this.Name;
+        this.predictionDevice.deviceName = this.Name;
         this.DsoView = res.DsoView;
         this.DsoControl = res.DsoControl;
         this.TypeId = res.TypeId;

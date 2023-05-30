@@ -87,8 +87,8 @@
         <table class="table">
           <thead>
             <tr>
-              <th></th>
-              <th (click)="sort('firstName')">
+              <!-- <th></th> -->
+              <th (click)="sort('firstName')" style="white-space: nowrap;">
                 First Name<i class="fa fa-sort"></i>
               </th>
               <th (click)="sort('lastName')">
@@ -102,6 +102,7 @@
                 Assigned Role<i class="fa fa-sort"></i>
               </th>
               <th>Options</th>
+              <!-- <th></th> -->
             </tr>
           </thead>
           <tbody>
@@ -122,13 +123,14 @@
               (click)="Details(item.id)"
               style="cursor: pointer"
             >
-              <td>
+              <!-- <td>
                 <img
                   [src]="Image(item.image)"
                   class="rounded-circle"
                   style="width: 30px; height: 30px"
                 />
-              </td>
+              </td> -->
+              <!-- <td></td> -->
               <td>{{ item.firstName }}</td>
               <td>{{ item.lastName }}</td>
               <td>{{ item.userName }}</td>
@@ -139,6 +141,7 @@
                   ><i class="material-icons"></i></a
                 >
               </td>
+              <!-- <td></td> -->
             </tr>
           </tbody>
         </table>
@@ -227,8 +230,8 @@
           <table class="table">
             <thead>
               <tr>
-                <th></th>
-                <th (click)="sort('firstName')">
+                <!-- <th></th> -->
+                <th (click)="sort('firstName')" style="white-space: nowrap;">
                   First Name<i class="fa fa-sort"></i>
                 </th>
                 <th (click)="sort('lastName')">
@@ -264,13 +267,13 @@
                 (click)="Details(item.id)"
                 style="cursor: pointer"
               >
-                <td>
+                <!-- <td>
                   <img
                     [src]="Image(item.image)"
                     class="rounded-circle"
                     style="width: 30px; height: 30px"
                   />
-                </td>
+                </td> -->
                 <td>{{ item.firstName }}</td>
                 <td>{{ item.lastName }}</td>
                 <td>{{ item.userName }}</td>

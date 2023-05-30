@@ -185,6 +185,14 @@
                   class="text-danger ps-5"
                   >*Email is required</small
                 >
+                <small
+                *ngIf="
+                  signupForm.controls['email'].dirty &&
+                  signupForm.hasError('pattern', 'email')
+                "
+                class="text-danger ps-5"
+                >*E-mail should be formatted like <i>example@gmail.com</i></small
+              >
               </div>
               <div class="form-group pt-1 text-start mb-2">
                 <div

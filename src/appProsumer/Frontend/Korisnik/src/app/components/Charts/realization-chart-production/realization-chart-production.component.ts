@@ -25,6 +25,8 @@ export class RealizationChartProductionComponent
   resizeSubscription$!: Subscription;
   coef: number = 0.6;
 
+  tablePeriod : string = '';
+
   constructor(
     private deviceService: DevicesService,
     private widthService: DeviceWidthService,
@@ -61,7 +63,7 @@ export class RealizationChartProductionComponent
     const worksheet: XLSX.WorkSheet = XLSX.utils.aoa_to_sheet(sheetData);
     const workbook: XLSX.WorkBook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(workbook, worksheet, 'Chart Data');
-    XLSX.writeFile(workbook, 'Production_History_Table.xlsx');
+    XLSX.writeFile(workbook, 'Production_History_Table'+this.tablePeriod+'.xlsx');
   }
 
   ngAfterViewInit(): void {
@@ -75,6 +77,7 @@ export class RealizationChartProductionComponent
 
   ngOnInit(): void {
     this.HistoryWeek('realizPred1');
+    this.tablePeriod = '_Week';
     document.getElementById(
       'modalFadePredictionRealizationTableBody'
     )!.style.maxHeight = this.widthService.height * 0.6 + 'px';
@@ -194,6 +197,7 @@ export class RealizationChartProductionComponent
   }
 
   HistoryWeek(id: string) {
+    this.tablePeriod = '_Week';
     this.HistoryData(
       'week',
       this.deviceService.history7Days.bind(this.deviceService)
@@ -202,6 +206,7 @@ export class RealizationChartProductionComponent
   }
 
   HistoryMonth(id: string) {
+    this.tablePeriod = '_Month';
     this.HistoryData(
       'month',
       this.deviceService.history1Month.bind(this.deviceService)
@@ -210,6 +215,7 @@ export class RealizationChartProductionComponent
   }
 
   HistoryYear(id: string) {
+    this.tablePeriod = '_Year';
     this.HistoryData(
       'year',
       this.deviceService.history1Year.bind(this.deviceService)

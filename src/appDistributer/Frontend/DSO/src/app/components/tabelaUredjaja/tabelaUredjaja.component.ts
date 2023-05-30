@@ -11,8 +11,9 @@ import { UsersServiceService } from 'src/app/services/users-service.service';
 import { CookieService } from 'ngx-cookie-service';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { DeviceserviceService } from 'src/app/services/deviceservice.service';
+import { ProsumerProfileVisitService } from 'src/app/services/prosumer-profile-visit.service';
 
 @Component({
   selector: 'app-tabelaUredjaja',
@@ -41,14 +42,22 @@ export class TabelaUredjajaComponent implements OnInit {
   currentProduction: number = 0;
   deviceCount: number = 0;
   realDeviceCount: number = 0;
+
+  prosumerId : string = ''
+  prosumerName : string = '';
+  prosumerUsername : string = ''
+
   constructor(
     private userService: UsersServiceService,
     private cookie: CookieService,
     private router: ActivatedRoute,
-    private deviceService: DeviceserviceService
+    private deviceService: DeviceserviceService,
+    private profileVisitService : ProsumerProfileVisitService,
+    private r : Router
   ) {}
 
   ngOnInit(): void {
+    this.profileVisitService.deleteData();
     this.id = this.router.snapshot.params['id'];
     this.deviceService.getDevicesByProsumerId(this.id).subscribe((response) => {
       // console.log(response);
@@ -125,5 +134,19 @@ export class TabelaUredjajaComponent implements OnInit {
   sort(headerName: String) {
     this.isDescOrder = !this.isDescOrder;
     this.orderHeader = headerName;
+  }
+
+  setProsumer(id : string, name : string, userName : string)
+  {
+    this.prosumerId = id;
+    this.prosumerName = name;
+    this.prosumerUsername = userName;
+  }
+
+  viewDevice(device : any)
+  {
+    this.profileVisitService.setData(this.prosumerUsername, this.prosumerName);
+    // console.log(this.profileVisitService.nameProsumer, this.profileVisitService.usernameProsumer);
+    this.r.navigate(['/DsoApp/user/'+this.prosumerId+'/Devices/deviceinfo/'+device.Id]);
   }
 }

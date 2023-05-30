@@ -171,9 +171,7 @@
         >
           <tr
             *ngIf="device.DsoView == 1"
-            routerLink="/DsoApp/user/{{ id }}/Devices/deviceinfo/{{
-              device.Id
-            }}"
+            (click)="viewDevice(device)"
             style="cursor: pointer"
           >
             <td [ngSwitch]="device.TypeId">

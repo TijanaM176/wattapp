@@ -19,6 +19,9 @@ export class RealizationPredictionAllProsumersComponent implements OnInit {
   show!: boolean;
   activeChartType: ChartType = 'line';
   activePeriod: string = 'week';
+
+  tablePeriod : string = '';
+
   activeServiceFunction: any = this.servicetime.HistoryAllProsumers7Days.bind(
     this.servicetime
   );
@@ -30,6 +33,7 @@ export class RealizationPredictionAllProsumersComponent implements OnInit {
 
   ngOnInit() {
     this.HistoryWeek('realizpred1');
+    this.tablePeriod = 'Week_';
     document.getElementById(
       'modalFadeRealizationPredictionAllProsumers'
     )!.style.maxHeight = this.widthService.height * 0.7 + 'px';
@@ -162,6 +166,7 @@ export class RealizationPredictionAllProsumersComponent implements OnInit {
   }
 
   HistoryWeek(id: string) {
+    this.tablePeriod = 'Week_';
     this.activateButton(id);
     this.HistoryData(
       'week',
@@ -172,6 +177,7 @@ export class RealizationPredictionAllProsumersComponent implements OnInit {
   }
 
   HistoryMonth(id: string) {
+    this.tablePeriod = 'Month_';
     this.activateButton(id);
     this.HistoryData(
       'month',
@@ -182,6 +188,7 @@ export class RealizationPredictionAllProsumersComponent implements OnInit {
   }
 
   HistoryYear(id: string) {
+    this.tablePeriod = 'Year_';
     this.activateButton(id);
     this.HistoryData(
       'year',
@@ -228,7 +235,7 @@ export class RealizationPredictionAllProsumersComponent implements OnInit {
     const worksheet: XLSX.WorkSheet = XLSX.utils.aoa_to_sheet(sheetData);
     const workbook: XLSX.WorkBook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(workbook, worksheet, 'Chart Data');
-    XLSX.writeFile(workbook, 'Realization_and_Prediction_Table.xlsx');
+    XLSX.writeFile(workbook, 'Realization_and_Prediction_Table_'+this.tablePeriod+'.xlsx');
   }
   activateButton(buttonNumber: string) {
     const buttons = document.querySelectorAll('.realizationpredictionbtn');

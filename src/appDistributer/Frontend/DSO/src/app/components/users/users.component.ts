@@ -23,24 +23,26 @@ export class UsersComponent implements OnInit {
   tableSizes: any = [10, 15, 20];
   orderHeader: String = '';
   isDescOrder: boolean = true;
+
   constructor(
     public service: UsersServiceService,
     private router: Router,
     public serviceDevice: DeviceserviceService
   ) {}
+  
   ngOnInit(): void {
     this.serviceDevice.ProsumersInfo();
   }
   Details(id: string) {
     this.service.detailsEmployee(id).subscribe((res) => {
-      console.log(res);
+      // console.log(res);
       this.prosumer = res;
 
       console.log(this.prosumer);
       this.router.navigate(['/user'], {
         queryParams: { id: this.prosumer.id },
       });
-      console.log(id);
+      // console.log(id);
     });
   }
 
@@ -52,7 +54,7 @@ export class UsersComponent implements OnInit {
   }
   onTableDataChange(event: any) {
     this.page = event;
-    console.log(this.page);
+    // console.log(this.page);
     this.Paging();
   }
   sort(headerName: String) {

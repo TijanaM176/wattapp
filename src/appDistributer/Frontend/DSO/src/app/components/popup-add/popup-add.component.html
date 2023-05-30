@@ -185,7 +185,15 @@
                   signupWorkerForm.hasError('required', 'email')
                 "
                 class="text-danger"
-                >*Email is empty</small
+                >*E-mail is empty</small
+              >
+              <small
+                *ngIf="
+                  signupWorkerForm.controls['email'].dirty &&
+                  signupWorkerForm.hasError('pattern', 'email')
+                "
+                class="text-danger"
+                >*E-mail should be formatted like <i>example@gmail.com</i></small
               >
               <div class="form-group pt-3">
                 <div
@@ -370,7 +378,7 @@
           </div>
           <div class="col-12 pe-0 ps-2 text-center mt-3">
             <h6 class="text-success" *ngIf="updatedPhotoSuccess">
-              Photo succesful added... Please wait
+              Photo succesfully added... Please wait
             </h6>
             <h6 class="text-danger" *ngIf="updatedPhotoError">
               Error occurred! Try again later.

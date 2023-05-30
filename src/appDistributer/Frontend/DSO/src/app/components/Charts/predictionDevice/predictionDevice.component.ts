@@ -20,6 +20,10 @@ export class PredictionDeviceComponent implements OnInit, AfterViewInit {
   show!: boolean;
   @Input() type: string = '';
 
+  prosumerUsername : string = '';
+  deviceName : string = '';
+  tablePeriod : string = '';
+
   constructor(
     private widthService: ScreenWidthService,
     private timeService: TimestampService,
@@ -50,7 +54,7 @@ export class PredictionDeviceComponent implements OnInit, AfterViewInit {
     XLSX.utils.book_append_sheet(workbook, worksheet, 'Chart Data');
     XLSX.writeFile(
       workbook,
-      this.type + 'Prediction_for_' + this.type + '_Table.xlsx'
+      this.type + 'Prediction_for_' + this.type + '_Table_'+this.tablePeriod+this.deviceName+'_'+this.prosumerUsername+'.xlsx'
     );
   }
 
@@ -68,9 +72,11 @@ export class PredictionDeviceComponent implements OnInit, AfterViewInit {
     document.getElementById('modalFadePredictionDevice')!.style.maxHeight =
       this.widthService.height * 0.7 + 'px';
     this.Prediction1Day('predictionDevice1');
+    this.tablePeriod = '1Day_';
   }
 
   PredictionWeek(id: string) {
+    this.tablePeriod = 'Week_';
     this.show = true;
     this.spiner.show();
     this.activateButton(id);
@@ -157,6 +163,7 @@ export class PredictionDeviceComponent implements OnInit, AfterViewInit {
   }
 
   Prediction3Days(id: string) {
+    this.tablePeriod = '3Days_';
     this.show = true;
     this.spiner.show();
     this.timeService.predictionDevice(this.idDev).subscribe({
@@ -243,6 +250,7 @@ export class PredictionDeviceComponent implements OnInit, AfterViewInit {
   }
 
   Prediction1Day(id: string) {
+    this.tablePeriod = '1Day_';
     this.show = true;
     this.spiner.show();
     this.timeService.predictionDevice(this.idDev).subscribe({

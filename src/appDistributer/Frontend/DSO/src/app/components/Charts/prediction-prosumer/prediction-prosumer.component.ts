@@ -19,6 +19,9 @@ export class PredictionProsumerComponent implements OnInit {
   chart: any;
   show!: boolean;
 
+  prosumerUsername : string = '';
+  tablePeriod : string = '';
+
   constructor(
     private router: ActivatedRoute,
     private spiner: NgxSpinnerService,
@@ -31,6 +34,7 @@ export class PredictionProsumerComponent implements OnInit {
     document.getElementById('predictionUserInfoCardBody')!.style.height =
       this.widthService.height * 0.6 + 'px';
     this.PredictionDay('predictionUser1');
+    this.tablePeriod = '1Day_';
     document.getElementById('modalFadePredictionProsumer')!.style.maxHeight =
       this.widthService.height * 0.7 + 'px';
   }
@@ -134,6 +138,7 @@ export class PredictionProsumerComponent implements OnInit {
   }
 
   PredictionDay(id: string) {
+    this.tablePeriod = '1Day_'
     this.HistoryData(
       'day',
       this.serviceData.PredictionProsumer1Day.bind(this.serviceData, this.id)
@@ -142,6 +147,7 @@ export class PredictionProsumerComponent implements OnInit {
   }
 
   Prediction3Days(id: string) {
+    this.tablePeriod = '3Days_'
     this.HistoryData(
       'month',
       this.serviceData.PredictionProsumer3Days.bind(this.serviceData, this.id)
@@ -150,6 +156,7 @@ export class PredictionProsumerComponent implements OnInit {
   }
 
   PredictionWeek(id: string) {
+    this.tablePeriod = 'Week_'
     this.HistoryData(
       'week',
       this.serviceData.PredictionProsumer7Days.bind(this.serviceData, this.id)
@@ -186,7 +193,7 @@ export class PredictionProsumerComponent implements OnInit {
     const worksheet: XLSX.WorkSheet = XLSX.utils.aoa_to_sheet(sheetData);
     const workbook: XLSX.WorkBook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(workbook, worksheet, 'Chart Data');
-    XLSX.writeFile(workbook, 'Prediction_Table.xlsx');
+    XLSX.writeFile(workbook, 'Prediction_Table_'+this.tablePeriod+this.prosumerUsername+'.xlsx');
   }
   activateButton(buttonNumber: string) {
     const buttons = document.querySelectorAll('.prediction2btn');

@@ -18,6 +18,9 @@ export class PredictionAllUsersComponent implements OnInit {
   id: string = '';
   data: any[] = ['z'];
   show!: boolean;
+
+  tablePeriod : string = '';
+
   constructor(
     private servicetime: TimestampService,
     private spiner: NgxSpinnerService,
@@ -56,12 +59,13 @@ export class PredictionAllUsersComponent implements OnInit {
     XLSX.utils.book_append_sheet(workbook, worksheet, 'Chart Data');
     XLSX.writeFile(
       workbook,
-      'Predicted_Consumption_Production_Prediction_Table.xlsx'
+      'Predicted_Consumption_Production_Prediction_Table_'+this.tablePeriod+'.xlsx'
     );
   }
 
   ngOnInit() {
     this.PredictionDay('pred1');
+    this.tablePeriod = '1Day_';
     document.getElementById(
       'modalFadePredictionAllProsumers'
     )!.style.maxHeight = this.widthService.height * 0.7 + 'px';
@@ -164,6 +168,7 @@ export class PredictionAllUsersComponent implements OnInit {
   }
 
   PredictionDay(id: string) {
+    this.tablePeriod = '1Day_';
     this.HistoryData(
       'day',
       this.servicetime.PredictionNextDay.bind(this.servicetime, this.id)
@@ -172,6 +177,7 @@ export class PredictionAllUsersComponent implements OnInit {
   }
 
   Prediction3Days(id: string) {
+    this.tablePeriod = '3Days_';
     this.HistoryData(
       'week',
       this.servicetime.PredictionNext3Days.bind(this.servicetime, this.id)
@@ -180,6 +186,7 @@ export class PredictionAllUsersComponent implements OnInit {
   }
 
   PredictionWeek(id: string) {
+    this.tablePeriod = 'Week_';
     this.HistoryData(
       'week',
       this.servicetime.PredictionNextWeek.bind(this.servicetime, this.id)

@@ -67,7 +67,7 @@ export class PopupEmpComponent implements OnInit {
       lastName: ['', Validators.required],
       password: ['', Validators.required],
       passwordAgain:['',Validators.required],
-      email: ['', Validators.required],
+      email: ['', [Validators.required, Validators.pattern(/^([\w.-]+)@([\w-]+)((.(\w){2,3})+)(.com)$/)]],
       neigbName: [this.neighName],
       address: ['', Validators.required],
       city: [''],

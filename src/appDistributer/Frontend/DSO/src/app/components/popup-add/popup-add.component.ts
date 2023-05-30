@@ -60,8 +60,8 @@ export class PopupAddComponent implements OnInit {
       lastName: ['', Validators.required],
       password: ['', Validators.required],
       passwordAgain:['',Validators.required],
-      email: ['', Validators.required],
-      image64String: [''],
+      email: ['', [Validators.required, Validators.pattern(/^([\w.-]+)@([\w-]+)((.(\w){2,3})+)(.com)$/)]],
+      image64String: [this.croppedImage],
     });
   }
   get fields() {
@@ -88,10 +88,10 @@ export class PopupAddComponent implements OnInit {
   }
   openCrop() {
     document.getElementById('openCropImageBtn2')!.click();
+    this.resetAll();
   }
   closeChange() {
     document.getElementById('openAgain')!.click();
-    this.resetAll();
   }
 
   confirmNewPhoto() {
@@ -103,11 +103,11 @@ export class PopupAddComponent implements OnInit {
         'data:image/png;base64,',
         ''
       );
-      // console.log(this.croppedImage);
       this.file = true;
-      // let sp = new SendPhoto1(this.croppedImage);
-      // this.signupWorkerForm.value.image64String = sp.base64String;
-      this.signupWorkerForm.value.image64String = this.croppedImage.replace('data:image/png;base64,','');
+      this.signupWorkerForm.value.image64String = this.croppedImage.replace(
+        'data:image/png;base64,',
+        ''
+      );
 
       this.updatedPhotoSuccess = true;
       setTimeout(() => {
@@ -145,7 +145,10 @@ export class PopupAddComponent implements OnInit {
     }
   }
   onSubmit() {
-    this.signupWorkerForm.value.image64String = this.croppedImage.replace('data:image/png;base64,','');
+    this.signupWorkerForm.value.image64String = this.croppedImage.replace(
+      'data:image/png;base64,',
+      ''
+    );
     this.signupWorkerForm.value.salary = Number(
       this.signupWorkerForm.value.salary
     );
@@ -170,8 +173,7 @@ export class PopupAddComponent implements OnInit {
             'http://schemas.microsoft.com/ws/2008/06/identity/claims/role'
           ].toString().trim());
           
-        localStorage.setItem('id', decodedToken['sub'].toString().trim());
-
+          localStorage.setItem('id', decodedToken['sub'].toString().trim());
           this.auth.signupWorker(this.signupWorkerForm.value).subscribe({
             next: (res) => {
               this.newEmplSer.add(res.id);

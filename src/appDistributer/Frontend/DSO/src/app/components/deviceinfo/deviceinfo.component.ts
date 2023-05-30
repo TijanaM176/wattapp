@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { ThemePalette } from '@angular/material/core';
 import { ActivatedRoute, Router, RouterConfigOptions } from '@angular/router';
@@ -8,6 +8,9 @@ import { Device } from 'src/app/models/device';
 import Swal from 'sweetalert2';
 import { DeviceserviceService } from 'src/app/services/deviceservice.service';
 import { ScreenWidthService } from 'src/app/services/screen-width.service';
+import { ProsumerProfileVisitService } from 'src/app/services/prosumer-profile-visit.service';
+import { RealizationDeviceComponent } from '../Charts/realizationDevice/realizationDevice.component';
+import { PredictionDeviceComponent } from '../Charts/predictionDevice/predictionDevice.component';
 
 @Component({
   selector: 'app-deviceinfo',
@@ -42,6 +45,9 @@ export class DeviceinfoComponent implements OnInit {
   type: string = '';
   cat: number = 0;
 
+  prosumerName : string = '';
+  prosumerUsername : string = ''
+
   //battery
   maxCapacity: number = 0;
   currentCapacity: number = 0;
@@ -50,12 +56,16 @@ export class DeviceinfoComponent implements OnInit {
   maxFull: number = 0;
   state: number = 0; //iskljuceno
 
+  @ViewChild('realizationDevice', {static: true}) realizationDevice! : RealizationDeviceComponent;
+  @ViewChild('predictionDevice', {static: true}) predictionDevice! : PredictionDeviceComponent;
+
   constructor(
     private router: ActivatedRoute,
     private service: DeviceserviceService,
     private spiner: NgxSpinnerService,
     private router1: Router,
     private toastr: ToastrService,
+    private profileVisitService : ProsumerProfileVisitService,
     public widthService: ScreenWidthService
   ) {}
 
@@ -64,6 +74,8 @@ export class DeviceinfoComponent implements OnInit {
       document.getElementById('consumptionLimitCardBody')!.offsetWidth * 0.6;
     this.getInfo();
     this.spiner.show();
+    this.prosumerName = this.profileVisitService.nameProsumer;
+    this.prosumerUsername = this.profileVisitService.usernameProsumer;
   }
 
   turnDeviceoffOn() {
@@ -174,6 +186,11 @@ export class DeviceinfoComponent implements OnInit {
       this.maxUsageNumber = Number(this.MaxUsage + Number(this.AvgUsage) / 6);
       this.TypeId = res.TypeId;
       this.ModelId = res.ModelId;
+      
+      this.realizationDevice.prosumerUsername = this.prosumerUsername;
+      this.realizationDevice.deviceName = this.Name;
+      this.predictionDevice.prosumerUsername = this.prosumerUsername;
+      this.predictionDevice.deviceName = this.Name;
       this.markers = {
         '0': { color: 'black', label: '0kWh', fontSize: '16px' },
         [this.AvgUsage]: {

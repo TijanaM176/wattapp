@@ -77,6 +77,8 @@ export class SidebarComponent implements OnInit, AfterViewInit {
   cities: City[] = [];
   disableNeigh: boolean = true;
 
+  disableFiltering : boolean = false;
+
   constructor(
     private userService: UsersServiceService,
     private deviceService: DeviceserviceService
@@ -93,6 +95,7 @@ export class SidebarComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
+    this.disableFiltering = false;
     this.userService.getAllCitiesProsumers().subscribe((res) => {
       this.cities = res;
     });
@@ -224,6 +227,7 @@ export class SidebarComponent implements OnInit, AfterViewInit {
         }
       },
     };
+    this.disableFiltering = false;
   }
 
   resetMaxMin() {
@@ -238,6 +242,7 @@ export class SidebarComponent implements OnInit, AfterViewInit {
   }
 
   ChangeNeighborhood(e: any) {
+    this.disableFiltering = true;
     this.dropDownNeigh = e.target.value;
     this.deviceService
       .FilterRanges(this.city.toString(), this.dropDownNeigh)
@@ -248,6 +253,7 @@ export class SidebarComponent implements OnInit, AfterViewInit {
   }
 
   ChangeCity(e: any) {
+    this.disableFiltering = true;
     if (this.city == -1) {
       this.dropDownNeigh = 'all';
       this.neighborhood = 'all';

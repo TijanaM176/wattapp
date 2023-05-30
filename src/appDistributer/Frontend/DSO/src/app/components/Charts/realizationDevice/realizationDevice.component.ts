@@ -20,6 +20,10 @@ export class RealizationDeviceComponent implements OnInit, AfterViewInit {
   show!: boolean;
   @Input() type: string = '';
 
+  prosumerUsername : string = '';
+  deviceName : string = '';
+  tablePeriod : string = '';
+
   constructor(
     private widthService: ScreenWidthService,
     private timeService: TimestampService,
@@ -50,7 +54,7 @@ export class RealizationDeviceComponent implements OnInit, AfterViewInit {
     const worksheet: XLSX.WorkSheet = XLSX.utils.aoa_to_sheet(sheetData);
     const workbook: XLSX.WorkBook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(workbook, worksheet, 'Chart Data');
-    XLSX.writeFile(workbook, this.type + '_and_Prediction_History_Table.xlsx');
+    XLSX.writeFile(workbook, this.type + '_and_Prediction_History_Table_'+this.tablePeriod+this.deviceName+'_'+this.prosumerUsername+'.xlsx');
   }
 
   ngAfterViewInit(): void {
@@ -69,6 +73,7 @@ export class RealizationDeviceComponent implements OnInit, AfterViewInit {
     document.getElementById('modalFadeHistoryDevice')!.style.maxHeight =
       this.widthService.height * 0.7 + 'px';
     this.HistoryWeek('realiz1');
+    this.tablePeriod = 'Week_';
   }
 
   HistoryData(period: string, serviceFunction: any) {
@@ -183,6 +188,7 @@ export class RealizationDeviceComponent implements OnInit, AfterViewInit {
   }
 
   HistoryWeek(id: string) {
+    this.tablePeriod = 'Week_';
     this.HistoryData(
       'week',
       this.timeService.historyDeviceWeek.bind(this.timeService, this.idDev)
@@ -191,6 +197,7 @@ export class RealizationDeviceComponent implements OnInit, AfterViewInit {
   }
 
   HistoryMonth(id: string) {
+    this.tablePeriod = 'Month_';
     this.HistoryData(
       'month',
       this.timeService.historyDeviceMonth.bind(this.timeService, this.idDev)
@@ -199,6 +206,7 @@ export class RealizationDeviceComponent implements OnInit, AfterViewInit {
   }
 
   HistoryYear(id: string) {
+    this.tablePeriod = 'Year_';
     this.HistoryData(
       'year',
       this.timeService.historyDeviceYear.bind(this.timeService, this.idDev)
