@@ -20,7 +20,7 @@ export class RealizationPredictionAllProsumersComponent implements OnInit {
   activeChartType: ChartType = 'line';
   activePeriod: string = 'week';
 
-  tablePeriod : string = '';
+  tablePeriod: string = '';
 
   activeServiceFunction: any = this.servicetime.HistoryAllProsumers7Days.bind(
     this.servicetime
@@ -99,6 +99,7 @@ export class RealizationPredictionAllProsumersComponent implements OnInit {
         this.spinner.hide('spiner1');
         return;
       }
+      console.log(this.data);
 
       const chartData = {
         datasets: [
@@ -208,35 +209,40 @@ export class RealizationPredictionAllProsumersComponent implements OnInit {
     ];
     const sheetData = [headerRow];
 
-    const maxLength = Math.max(
-      data[0]?.values.length,
-      data[1]?.values.length,
-      data[2]?.values.length,
-      data[3]?.values.length
-    );
+    const consumptionPredictionValues = data[1]?.values;
+    if (consumptionPredictionValues) {
+      consumptionPredictionValues.forEach((value: any) => {
+        const consumption = data[0]?.values.find(
+          (item: any) => item.x === value.x
+        );
+        const production = data[2]?.values.find(
+          (item: any) => item.x === value.x
+        );
+        const productionPrediction = data[3]?.values.find(
+          (item: any) => item.x === value.x
+        );
 
-    for (let i = 0; i < maxLength; i++) {
-      const value = data[0]?.values[i];
-      const consumptionPrediction = data[1]?.values[i];
-      const production = data[2]?.values[i];
-      const productionPrediction = data[3]?.values[i];
+        const row = [
+          value.x,
+          consumption ? consumption.y.toFixed(2) : '0',
+          value.y.toFixed(2),
+          production ? production.y.toFixed(2) : '0',
+          productionPrediction ? productionPrediction.y.toFixed(2) : '0',
+        ];
 
-      const row = [
-        value ? value.x : '',
-        value ? value.y.toFixed(2) : '0',
-        consumptionPrediction ? consumptionPrediction.y.toFixed(2) : '0',
-        production ? production.y.toFixed(2) : '0',
-        productionPrediction ? productionPrediction.y.toFixed(2) : '0',
-      ];
-
-      sheetData.push(row);
+        sheetData.push(row);
+      });
     }
 
     const worksheet: XLSX.WorkSheet = XLSX.utils.aoa_to_sheet(sheetData);
     const workbook: XLSX.WorkBook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(workbook, worksheet, 'Chart Data');
-    XLSX.writeFile(workbook, 'Realization_and_Prediction_Table_'+this.tablePeriod+'.xlsx');
+    XLSX.writeFile(
+      workbook,
+      'Realization_and_Prediction_Table_' + this.tablePeriod + '.xlsx'
+    );
   }
+
   activateButton(buttonNumber: string) {
     const buttons = document.querySelectorAll('.realizationpredictionbtn');
     buttons.forEach((button) => {
